@@ -23,7 +23,6 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientProgram;
 import org.openmrs.Person;
 import org.openmrs.Program;
@@ -135,9 +134,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	public List<MdrtbPatientProgram> getAllMdrtbPatientProgramsInDateRange(Date startDate, Date endDate) {
 		// (program must have started before the end date of the period, and must not have ended before the start of the period)
 		List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(null, getMdrtbProgram(), null, endDate, startDate, null, false);
-    	//ADD BY ALI July 2nd 2017
-		MdrtbPatientProgram temp = null;
-		//
+    	
 	 	// sort the programs so oldest is first and most recent is last
     	Collections.sort(programs, new PatientProgramComparator());
     	
@@ -145,14 +142,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	
     	// convert to mdrtb patient programs
     	for (PatientProgram program : programs) {
-    		//mdrtbPrograms.add(new MdrtbPatientProgram(program));
-    		temp = new MdrtbPatientProgram(program);
-    		PatientIdentifier pid = getPatientProgramIdentifier(temp);
-    		
-    		if(pid!=null) {
-    			temp.setPatientIdentifier(pid);
-    		}
-    		mdrtbPrograms.add(temp);
+    		mdrtbPrograms.add(new MdrtbPatientProgram(program));
     	}
     	
     	return mdrtbPrograms;
@@ -161,9 +151,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	public List<MdrtbPatientProgram> getMdrtbPatientPrograms(Patient patient) {
     	
     	List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, getMdrtbProgram(), null, null, null, null, false);
-    	//ADD BY ALI July 2nd 2017
-    			MdrtbPatientProgram temp = null;
-    			//
+    	
     	// sort the programs so oldest is first and most recent is last
     	Collections.sort(programs, new PatientProgramComparator());
     	
@@ -171,14 +159,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	
     	// convert to mdrtb patient programs
     	for (PatientProgram program : programs) {
-    		//mdrtbPrograms.add(new MdrtbPatientProgram(program));
-    		temp = new MdrtbPatientProgram(program);
-    		PatientIdentifier pid = getPatientProgramIdentifier(temp);
-    		
-    		if(pid!=null) {
-    			temp.setPatientIdentifier(pid);
-    		}
-    		mdrtbPrograms.add(temp);
+    		mdrtbPrograms.add(new MdrtbPatientProgram(program));
     	}
     	
     	return mdrtbPrograms;
@@ -235,13 +216,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 			}
 			
 			else {
-				MdrtbPatientProgram mpp = new MdrtbPatientProgram(program);
-				PatientIdentifier pid = getPatientProgramIdentifier(mpp);
-				mpp.setPatientIdentifier(pid);
-				
-				return mpp;
-				
-				//return new MdrtbPatientProgram(program);
+				return new MdrtbPatientProgram(program);
 			}
 		}
 	}
@@ -720,9 +695,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	public List<MdrtbPatientProgram> getAllMdrtbPatientProgramsEnrolledInDateRange(Date startDate, Date endDate) {
 		// (program must have started before the end date of the period, and must not have ended before the start of the period)
 		List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(null, getMdrtbProgram(), startDate, endDate, null, null, false);
-		//ADD BY ALI July 2nd 2017
-				MdrtbPatientProgram temp = null;
-				//
+    	
 	 	// sort the programs so oldest is first and most recent is last
     	Collections.sort(programs, new PatientProgramComparator());
     	
@@ -730,14 +703,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	
     	// convert to mdrtb patient programs
     	for (PatientProgram program : programs) {
-    		//tbPrograms.add(new MdrtbPatientProgram(program));
-    		temp = new MdrtbPatientProgram(program);
-    		PatientIdentifier pid = getPatientProgramIdentifier(temp);
-    		
-    		if(pid!=null) {
-    			temp.setPatientIdentifier(pid);
-    		}
-    		tbPrograms.add(temp);
+    		tbPrograms.add(new MdrtbPatientProgram(program));
     	}
     	
     	return tbPrograms;
@@ -919,49 +885,5 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		
 		return enrollmentLocations;
     }
-    
-    public PatientIdentifier getPatientIdentifierById(Integer id) {
-    	
-    	return dao.getPatientIdentifierById(id);
-    }
-    
-    //ADDED BY ALI July 2nd 2017
-    
-    public PatientIdentifier getPatientProgramIdentifier(MdrtbPatientProgram mpp) {
-    
-    	Integer id = null;
-    	
-    	String query = "select patient_identifier_id from patient_program where patient_program_id = " + mpp.getPatientProgram().getPatientProgramId();
-    	List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
-    	
-		for (List<Object> temp : result) {
-			
-	        for (int i = 0; i < temp.size(); i++) {
-	        	Object value = temp.get(i);
-	            if (value != null) {
-	            	
-	            		id = (Integer) value;
-	            	
-	            }
-	        }
-	       
-	    }
-		PatientIdentifier pi =  null;
-		if(id!=null) {
-			
-			pi = getPatientIdentifierById(id);
-		}
 
-    	
-    	
-    	return pi;
-    	
-    	
-    }
-    
-    ///////////////////////
-    
-   
-    
-    	
 }

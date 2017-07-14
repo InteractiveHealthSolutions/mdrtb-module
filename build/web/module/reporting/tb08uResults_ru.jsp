@@ -16,8 +16,8 @@ response.setDateHeader ("Expires", -1);
 		<div style="font-size:smaller; width:980px;">
 			<table width="100%"><tr>
 				<td width="90%" align="left" style="font-size:14px; font-weight:bold;">
-					Квартальный отчет о результатах лечения больных ЛУ ТБ <br/>
-					(заполняется после 24 - 36 месяцев от последней даты квартала или года начала лечения)
+					Квартальный отчет о результатах лечени�? больных ЛУ ТБ <br/>
+					(заполн�?ет�?�? по�?ле 24 - 36 ме�?�?цев от по�?ледней даты квартала или года начала лечени�?)
 				</td>
 				<td width="10%" align="right" style="font-size:14px; font-weight:bold;">ТБ 08y</td>
 			</tr></table>
@@ -25,13 +25,13 @@ response.setDateHeader ("Expires", -1);
 			<center>
 			<table width="100%" border="1">
 				<tr>
-				    <td>Наименование учреждения: ________________  <br/>  
-				    Область/район:  ${location}<br/>
+				    <td>�?аименование учреждени�?: ________________  <br/>  
+				    Обла�?ть/район:  ${location}<br/>
 					ФИО координатора по ТБ:   _________________<br/>
 					
 				</td>
 				
-				<td valign="top">Случаи выявленные за ${quarter} квартал ${year} года<br/>
+				<td valign="top">Случаи вы�?вленные за ${quarter} квартал ${year} года<br/>
 					Дата отчета: ${reportDate}
 				</tr>
 			</table>
@@ -39,18 +39,18 @@ response.setDateHeader ("Expires", -1);
 			<br/><br/>
 			<table border="1" cellpadding="5" width="100%">
 				<tr>
-					<th rowspan="2" colspan="2" align="center">Регистрационная группа</th>
-					<th rowspan="2" align="center">Было<br/>зарегист-<br/>рировано</th>
+					<th rowspan="2" colspan="2" align="center">Реги�?трационна�? группа</th>
+					<th rowspan="2" align="center">Было<br/>зареги�?т-<br/>рировано</th>
 					<th rowspan="2" align="center">Излечен</th>
 					<th rowspan="2" align="center">Лечение<br/>завершено</th>
-					<th rowspan="2" align="center">Успешное<br/>лечение<br/>(излечен +<br/>лечение<br/>завершено)</th>
+					<th rowspan="2" align="center">У�?пешное<br/>лечение<br/>(излечен +<br/>лечение<br/>завершено)</th>
 					<th colspan="2" align="center">Умер</th>
-					<th rowspan="2" align="center">Неэффективное<br/>лечение</th>
-					<th rowspan="2" align="center">Потерян для<br/>последующего<br/>наблюдения</th>
+					<th rowspan="2" align="center">�?е�?ффективное<br/>лечение</th>
+					<th rowspan="2" align="center">Потер�?н дл�?<br/>по�?ледующего<br/>наблюдени�?</th>
 					
 					
 					<th rowspan="2" align="center">Результат не<br/>оценен<br/>(продолжают<br/>лечение и<br/>переведены)</th>
-					<th rowspan="2" align="center">Всего</th>
+					<th rowspan="2" align="center">В�?его</th>
 				</tr>
 				<tr>
 					<th align="center">от ТБ</th>
@@ -71,7 +71,7 @@ response.setDateHeader ("Expires", -1);
 				</tr>
 				
 				<tr>
-					<td colspan="2">Новый случай</td>
+					<td colspan="2">�?овый �?лучай</td>
 					<td>${table1.newRegistered }</td>
 					
 					<td>${table1.newCured }</td>
@@ -93,7 +93,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newTotal }</td>
 				</tr>
 				<tr>
-					<td rowspan="2" align="center">Рецидив после лечения по<br/>режиму</td>
+					<td rowspan="2" align="center">Рецидив по�?ле лечени�? по<br/>режиму</td>
 					<td align="center">I</td>
 					<td>${table1.relapse1Registered }</td>
 					
@@ -138,7 +138,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.relapse2Total }</td>
 				</tr>
 				<tr>
-					<td rowspan="2" align="center">После отрыва от режима</td>
+					<td rowspan="2" align="center">По�?ле отрыва от режима</td>
 					<td align="center">I</td>
 					<td>${table1.default1Registered }</td>
 					
@@ -183,7 +183,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.default2Total }</td>
 				</tr>
 				<tr>
-					<td rowspan="2" align="center">После неэффективного<br/>лечения по режиму</td>
+					<td rowspan="2" align="center">По�?ле не�?ффективного<br/>лечени�? по режиму</td>
 					<td align="center">I</td>
 					
 					<td>${table1.failure1Registered }</td>

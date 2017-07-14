@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 import org.openmrs.Location;
-import org.openmrs.PatientIdentifier;
 import org.openmrs.api.db.DAOException;
 
 public class HibernateMdrtbDAO implements MdrtbDAO {
@@ -39,12 +38,6 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 	public List<String> getAllRayonsTJK() throws DAOException {
 		String query = "select distinct name from address_hierarchy_entry where level_id=3";
 		return sessionFactory.getCurrentSession().createQuery(query).list();
-	}
-    
-    
-    public PatientIdentifier getPatientIdentifierById(Integer patientIdentifierId) {
-		return (PatientIdentifier) sessionFactory.getCurrentSession().createQuery(
-		    "from PatientIdentifier p where patientIdentifierId = :pid").setInteger("pid", patientIdentifierId.intValue()).uniqueResult();
 	}
     
 }

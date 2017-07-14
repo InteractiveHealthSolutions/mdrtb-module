@@ -12,7 +12,6 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
 import org.openmrs.Person;
@@ -31,9 +30,6 @@ import org.openmrs.module.mdrtb.specimen.Specimen;
 public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 
 	private org.openmrs.module.programlocation.PatientProgram program;
-	
-	//ADDED BY ALI July 2nd 2017
-	private PatientIdentifier patientIdentifier;
 	
 	public MdrtbPatientProgram() {
 		this.program = new org.openmrs.module.programlocation.PatientProgram();
@@ -519,13 +515,5 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 				state.setVoidReason("voided by mdr-tb module");
 			}
 		}
-	}
-
-	public PatientIdentifier getPatientIdentifier() {
-		return patientIdentifier;
-	}
-
-	public void setPatientIdentifier(PatientIdentifier patientIdentifier) {
-		this.patientIdentifier = patientIdentifier;
 	}
 }

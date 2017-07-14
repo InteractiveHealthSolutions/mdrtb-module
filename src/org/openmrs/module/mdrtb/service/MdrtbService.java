@@ -11,7 +11,6 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
 import org.openmrs.Person;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
@@ -476,8 +475,5 @@ public interface MdrtbService extends OpenmrsService {
     public List<Location> getLocationsFromOblastName(Oblast oblast);
     
     public List<Location> getEnrollmentLocations();
-    
-    public PatientIdentifier getPatientProgramIdentifier(MdrtbPatientProgram mpp);
 }
-
 
