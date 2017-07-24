@@ -118,11 +118,11 @@
 
 <tr height="5"><td colspan="2">&nbsp;</td></tr>
 
-<tr>
+<%--<tr>
 <th class="headerCell"><spring:message code="mdrtb.identifierNumbers"/></th>
 <td>
 <table>
-<%--<tr>
+<tr>
  <th><spring:message code="mdrtb.identifierType"/></th>
 <th><spring:message code="mdrtb.identifier"/></th>
 <c:if test="${showIdentifierLocationSelector}">
@@ -130,6 +130,9 @@
 </c:if>
 </tr>
 --%>
+
+
+<%--  COMMENTED BY ALI FOR UI REDESIGN - July 22nd -->
 <c:forEach var="type" items="${patientIdentifierTypesAutoAssigned}">
 <input name="identifierId" type="hidden" value="${! empty patientIdentifierMap[type.id] ? patientIdentifierMap[type.id].id : ''}"/>
 <input name="identifierType" type="hidden" value="${type.id}"/>
@@ -183,7 +186,9 @@
 </table>
 </td>
 </tr>
-
+ --%>
+ 
+ 
 <tr height="5"><td colspan="2">&nbsp;</td></tr>
 
 <tr>

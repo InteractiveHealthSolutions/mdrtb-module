@@ -274,10 +274,10 @@ public class MdrtbEditPatientController {
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView submitForm(@ModelAttribute("patient") Patient patient, BindingResult result,
-	                               @RequestParam("identifierValue") String [] identifierValue,
+	                               /*@RequestParam("identifierValue") String [] identifierValue,
 	                               @RequestParam("identifierId") String [] identifierId, 
 	                               @RequestParam(required = false, value = "identifierLocation") Location [] identifierLocation,
-	                               @RequestParam("identifierType") PatientIdentifierType [] identifierType,
+	                               @RequestParam("identifierType") PatientIdentifierType [] identifierType,*/
 	                               @RequestParam(required = false, value ="patientProgramId") Integer patientProgramId,
 	                               @RequestParam("successURL") String successUrl,
 	                               SessionStatus status, ModelMap map) {
@@ -297,7 +297,7 @@ public class MdrtbEditPatientController {
 			}
 		}
 		
-		// handle patient identifiers
+		/*// handle patient identifiers
 		for (Integer i=0; i<identifierValue.length; i++) {
 			
 			//  if this identifier is blank and the idgen module is installed, see if we need to auto-generate this identifier
@@ -338,7 +338,7 @@ public class MdrtbEditPatientController {
 				
 				patient.addIdentifier(identifier);	
 			}
-		}
+		}*/
 		
 		// perform validation
 		validator.validate(patient, result);
@@ -365,7 +365,7 @@ public class MdrtbEditPatientController {
 		}
 		
 		// save the patient
-		Context.getPatientService().savePatient(patient);
+		//Context.getPatientService().savePatient(patient);
 		
 		// if the patient has been set to dead, exit him/her from care
 		if (patient.getDead()) {

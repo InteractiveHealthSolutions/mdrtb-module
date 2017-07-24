@@ -145,7 +145,7 @@ public class MdrtbDashboardController {
     @SuppressWarnings("unchecked")
     @RequestMapping("/module/mdrtb/dashboard/dashboard.form")
 	public ModelAndView showStatus(@ModelAttribute("program") MdrtbPatientProgram program,
-	                               @RequestParam(required = false, value = "patientId") Integer patientId,
+	                               /*@RequestParam(required = false, value = "patientId") Integer patientId,*/
 	                               ModelMap map) {
 
     	if (program == null) {
