@@ -1,0 +1,312 @@
+<html>
+<head>
+<style>
+th.rotate {
+  /* Something you can count on */
+  height: 350px;
+  white-space: nowrap;
+  valign: middle;
+  
+  
+}
+
+th.rotate > div {
+  transform: 
+    /* Magic Numbers */
+    translate(0px, 100px)
+    /* 45 is really 360 - 45 */
+    rotate(270deg);
+  width: 30px;
+  align: centre;
+  
+}
+
+td.rotate {
+  /* Something you can count on */
+  height: 150px;
+  white-space: nowrap;
+  valign: middle;
+  
+  
+}
+
+td.rotate > div {
+  transform: 
+    /* Magic Numbers */
+    translate(0px, 100px)
+    /* 45 is really 360 - 45 */
+    rotate(270deg);
+  width: 30px;
+  align: centre;
+  
+}
+
+th.subrotate {
+  /* Something you can count on */
+  height: 200px;
+  white-space: nowrap;
+  valign: middle;
+  
+}
+
+th.subrotate > div {
+  transform: 
+    /* Magic Numbers */
+    translate(0px, 65px)
+    /* 45 is really 360 - 45 */
+    rotate(270deg);
+  width: 50px;
+  align: centre;
+}
+
+th.dst {
+  
+  valign: middle;
+  width: 200px;
+  
+}
+
+th.dst > div {
+  
+  
+  width: 30px;
+  
+}
+
+th.normal {
+  /* Something you can count on */
+  
+  white-space: nowrap;
+  valign: middle;
+  
+}
+
+th.reggroup {
+  /* Something you can count on */
+  height: 50px;
+  white-space: nowrap;
+  valign: middle;
+  
+}
+
+
+table.resultsTable {
+		border-collapse: collapse;
+}
+
+table.resultsTable td, table.resultsTable th {
+		border-top: 1px black solid;
+		border-bottom: 1px black solid;
+		border-right: 1px black solid;
+		border-left: 1px black solid;
+	}
+</style>
+
+</head>
+<body>
+<table id="tb03" border="1" bordercolor="black" border-style=solid border-width="1px">
+   <tr>
+     <th class="rotate" rowspan="3"><div><span>Registration Number</span></div></th>
+     <th class="rotate" rowspan="3"><div><span>Date of Registration</span></div></th>
+     <th class="rotate" rowspan="3"><div><span>Registration No. in TB 03</span></div></th>
+     <th class="rotate" rowspan="3"><div><span>Full Name</span></div></th>
+     <th class="rotate" rowspan="3"><div><span>Gender (M/F)</span></div></th>
+     <th class="rotate" rowspan="3"><div><span>Age/Date of Birth</span></div></th>
+     <th class="rotate" rowspan="3"><div><span>Residential Address</span></div></th>
+     <th class="rotate" rowspan="3"><div><span>Registration No. on regimen II<br/>in the National TBC Center</span></div></th>
+	 <th class="rotate" rowspan="3"><div><span>TB Localization (P/EP)</span></div></th>
+	
+	 <th class="reggroup" colspan="8" >Registration Group</th>
+	 <th class="rotate" rowspan="3"><div><span>Transferred from</span></div></th>
+	 <th class="normal" rowspan="1">Confirmed<br/>/Suspect</th>
+	 <th class="normal" rowspan="1">Treatment Regimen<br/>(StTR,ShTR,InTR)</th>
+	 <th class="rotate" rowspan="3"><div><span>Ambulatory<br/>/Hospitalization</span></div></th>
+	 <th class="normal" rowspan="1" rowspan="2">Date of Sample Collection for DST</th>
+	 <th class="reggroup" colspan="17" rowspan="2">DST (S/R))</th>
+	 <th class="normal" rowspan="1">Type of resistance<br/>on base of DST<br/>result (RR, MDR, PDR,<br/> 
+Pre-XDR, XDR)</th>
+    
+	 <th class="reggroup" rowspan="1" colspan="4">TB/HIV activities</th>
+	 <th class="normal" colspan="42">Results of bacterioscopy (M) and culture (C) tests during treatment </th>
+	  <th class="reggroup" rowspan="1" colspan="6">Treatment Outcome and Date of Treatment Completion</th> 
+	 <th class="rotate" rowspan="3"><div><span>Transferred out (left country)</span></div></th>
+	 <th class="normal" rowspan="1">Relapse<br/>(yes/no)</th>
+	 <th class="normal" rowspan="3">Notes</th>
+  </tr>
+   <tr>
+   	 
+   	  <th class="subrotate" rowspan="2"><div><span>New Case</span></div></th>
+   	 <th class="subrotate" rowspan="1"><div><span>Relapse After Treatment<br/>on Regimen</span></div></th>
+   	 <th class="subrotate" rowspan="1"><div><span>Relapse After Treatment<br/>on Regimen</span></div></th>
+   	
+   	 <th class="subrotate" rowspan="1"><div><span>Default After Treatment<br/>on Regimen</span></div></th>
+   	 <th class="subrotate" rowspan="1"><div><span>Default After Treatment<br/>on Regimen </span></div></th>
+   	 <th class="subrotate" rowspan="1"><div><span>Failure After Treatment<br/>on Regimen</span></div></th>
+   	 <th class="subrotate" rowspan="1"><div><span>Failure After Treatment<br/>on Regimen</span></div></th>
+   	 <th class="subrotate" rowspan="2"><div><span>Other</span></div></th>
+     <th class="normal" rowspan="2">Date of<br/>Confirmation</th>
+   	 <th class="normal" rowspan="2">Date of<br/>Treatment<br/>Start</th>
+   	 <th class="normal" rowspan="2">Date of DST Result</th>
+   	 <th class="normal" rowspan="2">Method of diagnostic</th>
+   	  <th class="normal" rowspan="1" colspan="2">HIV test</th>
+   	  <th class="normal" rowspan="2">ART (Yes/No)<br/>Date of Start</th>
+   	  <th class="normal" rowspan="2">PTC (Yes/No)<br/>Date of Start</th>
+   	  <th class="normal" rowspan="1" colspan="2">0 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">1 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">2 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">3 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">4 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">5 month /date</th>
+   	   <th class="normal" rowspan="1" colspan="2">6 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">7 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">8 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">9 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">10 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">11 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">12 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">15 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">18 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">21 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">24 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">27 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">30 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">33 month /date</th>
+   	  <th class="normal" rowspan="1" colspan="2">36 month /date</th>
+   	  <th class="normal" rowspan="3"><div><span>Cured</span></div></th>
+   	   <th class="normal" rowspan="3"><div><span>Treatment<br/>Completed</span></div></th>
+   	    <th class="normal" colspan="2">Died</th>
+   	   <th class="normal" rowspan="3"><div><span>Treatment<br/>Failure</span></div></th>
+   	
+   	  <th class="normal" rowspan="3"><div><span>Lost to<br/>follow-up</span></div></th>
+   	   <th class="normal" rowspan="3"><div><span>At which<br/>month<br/>after<br/>treatment<br/>completion</span></div></th>
+   	   
+   </tr>
+   
+   <tr>
+        <th class="normal" rowspan="1">I</th>
+   	 <th class="normal" rowspan="1">II</th>
+   	 <th class="normal" rowspan="1">I</th>
+   	 <th class="normal" rowspan="1">II</th>
+   	 <th class="normal" rowspan="1">I</th>
+   	 <th class="normal" rowspan="1">II</th>
+   	
+   	 
+   
+   	 
+   	 <th class="dst" rowspan="1"><div>R</div></th>
+   	 <th class="dst" rowspan="1"><div>H</div></th>
+   	 <th class="dst" rowspan="1"><div>E</div></th>
+   	 <th class="dst" rowspan="1"><div>S</div></th>
+   	 <th class="dst" rowspan="1"><div>Z</div></th>
+   	 <th class="dst" rowspan="1"><div>Km</div></th>
+   	 <th class="dst" rowspan="1"><div>Am</div></th>
+   	 <th class="dst" rowspan="1"><div>Cm</div></th>
+   	 <th class="dst" rowspan="1"><div>Ofx/<br/>Lfx</div></th>
+   	 <th class="dst" rowspan="1"><div>Mfx</div></th>
+   	 <th class="dst" rowspan="1"><div>Pto</div></th>
+   	 <th class="dst" rowspan="1"><div>Cs</div></th>
+   	 <th class="dst" rowspan="1"><div>PAS</div></th>
+   	 <th class="dst" rowspan="1"><div>Lzd</div></th>
+   	 <th class="dst" rowspan="1"><div>Cfz</div></th>
+   	 <th class="dst" rowspan="1"><div>Bdq</div></th>
+   	 <th class="dst" rowspan="1"><div>Dlm</div></th>
+   	 <th class="normal">Yes/No<br/>Date</th>
+   	 <th class="normal"> Result (pos/neg)</th>
+   	<th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal">M</th>
+        <th class="normal">C</th>
+        <th class="normal" rowspan="2"><div><span>of TB</span></div></th>
+   	   <th class="normal" rowspan="2"><div><span>of other<br/>reasons</span></div></th>
+   	<!--    -->
+   	   <!--  -->
+      
+      
+   	     	   
+   	    
+   	 
+   	   
+   	   
+   </tr>
+   <tr>
+    
+   	<!--  -->  
+       <!--  <th class="normal">Date</th> -->
+        <!--  -->
+         <!--   -->
+       <!-- <th class="normal">Date of<br/>Start</th>
+       <th class="normal">Date of<br/>Start</th>
+       
+        <th>Date</th>
+   		<th>Test No.</th>
+   		<th>Date</th>
+   		<th>Test No.</th>
+   		<th>Test No</th>
+   		<th>H (R/S/U)</th>
+   		<th>R (R/S/U)</th>
+   		<th>Date</th>
+   		<th>Test No.</th> -->
+   		   
+   	  <!--  <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	   <th class="normal">Date</th>
+   	    -->
+   		<!-- <th>Date</th>
+   		<th>Test No.</th>
+   		<th>Date</th>
+   		<th>Test No.</th>
+   		<th>Date</th>
+   		<th>Test No.</th> -->
+   </tr>
+</table>
+</body>
+</html>

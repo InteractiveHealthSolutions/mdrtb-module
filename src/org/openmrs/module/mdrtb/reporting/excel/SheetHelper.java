@@ -12,6 +12,7 @@ import org.openmrs.module.reporting.common.ObjectUtil;
 /**
  * Utility Class to assist with Excel manipulation
  */
+@SuppressWarnings("deprecation")
 public class SheetHelper {
 	short rowNum;
 	short colNum;

@@ -13,6 +13,46 @@ response.setDateHeader ("Expires", -1);
 			th {vertical-align:middle; text-align:center;}
 			th, td {font-size:smaller;}
 		</style>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/sprintf.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/jspdf.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/base64.js"></script>
+
+		<script type="text/javascript">
+			var tableToExcel = (function() {
+		  		var uri = 'data:application/vnd.ms-excel;base64,'
+				    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>TB08u</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
+				    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+				    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+		  			return function(table, name) { if (!table.nodeType) table = document.getElementById(table)
+		    			var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+		    			window.location.href = uri + base64(format(template, ctx))
+	  				}
+				}
+			)()
+			$(document).ready(function(){
+				$("#tableToPdf").click(function(){
+					$('#tb08u').tableExport({type:'pdf',escape:'false'});
+				    /* var table = document.getElementById("tb08u");
+				    var doc = new jsPDF('p', 'pt');
+				    var json = doc.autoTable(false, doc.autoTableHtmlToJson(table));
+				    console.log(JSON.stringify(json));
+				    var new_json = JSON.stringify(json);
+				    var cols = [], data = [];
+				 	//json.forEach(function(row, index) {
+				    [].forEach.call(new_json, function(row,index) {
+				    	var newRow = [];
+				        for (var key in row) { if (row.hasOwnProperty(key)) { if(index === 0) { cols.push(key); } newRow.push(row[key]); } }
+				        data.push(newRow);
+				    });
+				    doc.autoTable(cols, data, {startY: 60});
+				    doc.save("table.pdf"); */
+				});
+			});
+		</script>
 		<div style="font-size:smaller; width:980px;">
 			<table width="90%"><tr>
 				<td width="90" align="left" style="font-size:14px; font-weight:bold;">
@@ -37,7 +77,12 @@ response.setDateHeader ("Expires", -1);
 			</table>
 			</center>
 			<br/><br/>
-			<table border="1" cellpadding="5" width="100%">
+			
+			
+			
+			<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
+			<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
+			<table id="tb08u" cellpadding="5" width="100%" border="1" >
 				<tr>
 					<th rowspan="2" colspan="2" align="center">Registration group</th>
 					<th rowspan="2" align="center">Registered</th>

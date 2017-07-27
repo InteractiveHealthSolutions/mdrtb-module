@@ -79,7 +79,6 @@ public class MdrtbUtil {
   	 * Iterates through all the obs in the test obs group and
   	 * returns the first one that who concept matches the specified concept
   	 * Returns null if obs not found
-  	 * @param group TODO
   	 */
       public static Obs getObsFromObsGroup(Concept concept, Obs group) {
       	if (group.getGroupMembers() != null) {
@@ -267,7 +266,7 @@ public class MdrtbUtil {
     /**
 	 * Gets a specific ProgramWorkflowState, given the concept associated with the state
 	 */
-    public static ProgramWorkflowState getProgramWorkflowState(Concept programWorkflowStateConcept) {
+	public static ProgramWorkflowState getProgramWorkflowState(Concept programWorkflowStateConcept) {
 		for (ProgramWorkflowState state : Context.getProgramWorkflowService().getStates()) {
 			if (state.getConcept().equals(programWorkflowStateConcept)) {
 				return state;
@@ -280,7 +279,6 @@ public class MdrtbUtil {
      * Auto-assign a patient identifier for a specific identifier type, if required, if the idgen module is installed, using reflection
      * Auto generated method comment
      */
-	@SuppressWarnings("unchecked")
     public static String assignIdentifier(PatientIdentifierType type) {		
 		try {
 			Class identifierSourceServiceClass = Context.loadClass("org.openmrs.module.idgen.service.IdentifierSourceService");

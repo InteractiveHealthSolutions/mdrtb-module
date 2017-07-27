@@ -153,6 +153,8 @@
 					</b>
 				</td></tr>
 				<tr class="${rowClass}"><td>
+					<a href="../mdrtb/reporting/alltb08u.form"><spring:message code="mdrtb.alltb08" /></a><br/>
+					
 					<a href="../mdrtb/reporting/tb08u.form"><spring:message code="mdrtb.tb08Fast" /></a><br/>
 					<c:forEach var="entry" items="${reports}" varStatus="varStatus">
 						<c:set var="reportsFound" value="t"/>

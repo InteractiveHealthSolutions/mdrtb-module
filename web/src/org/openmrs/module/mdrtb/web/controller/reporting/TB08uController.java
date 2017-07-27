@@ -160,7 +160,13 @@ public class TB08uController {
     	//Cohort patients = TbUtil.getDOTSPatientsTJK(null, null, location, oblast, null, null, null, null,year,quarter,month);
     	
 		
+		System.out.println("baseCohort: "+ baseCohort);
+		System.out.println("patients: "+ patients);
+    	
+		
 		Form tb03Form = Context.getFormService().getForm(MdrtbConstants.TB03U_FORM_ID);
+    	System.out.println("tb03Form: "+ tb03Form);
+    	System.out.println("tb03Form_Name: "+ tb03Form.getName());
 		ArrayList<Form> formList = new ArrayList<Form>();
 		formList.add(tb03Form);
     	
