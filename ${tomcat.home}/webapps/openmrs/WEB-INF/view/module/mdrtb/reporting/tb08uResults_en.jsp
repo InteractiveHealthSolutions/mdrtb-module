@@ -13,40 +13,13 @@ response.setDateHeader ("Expires", -1);
 			th {vertical-align:middle; text-align:center;}
 			th, td {font-size:smaller;}
 		</style>
-
-
-<!-- <openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.js" />
-<openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.js" />
-<openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.js" />
-<openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.js" />
-<openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.js" /> -->
 		
-		<%-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jspdf/tableExport.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jspdf/jquery.base64.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jspdf/sprintf.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jspdf/jspdf.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jspdf/base64.js"></script>
-
-
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.js"></script>
-    <script type="text/javascript" src="js/jspdf.js"></script>
-    <script type="text/javascript" src="js/from_html.js"></script>
-    <script type="text/javascript" src="js/split_text_to_size.js"></script>
-    <script type="text/javascript" src="js/standard_fonts_metrics.js"></script>
-    <script type="text/javascript" src="js/cell.js"></script>
-    <script type="text/javascript" src="js/FileSaver.js"></script> --%>
-
-
-		<link rel="stylesheet" href="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/css/jquery-ui.css" />
-		<link rel="stylesheet" href="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/css/jquery.dataTables.min.css" />
-	
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery-1.12.4.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery-ui.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.dataTables.min.js"></script>
-
-
-
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/sprintf.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/jspdf.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/base64.js"></script>
 
 		<script type="text/javascript">
 			var tableToExcel = (function() {
@@ -61,8 +34,148 @@ response.setDateHeader ("Expires", -1);
 				}
 			)()
 			$(document).ready(function(){
+				$("#tableToSql").bind("click", function() {
+					var table = document.getElementById("tb08u");
+					var oblast = "${oblast}";
+					var district = "${location}";
+					var year = "${year}";
+					var quarter = "${quarter}";
+					var month = "${month}";
+					var reportDate = "${reportDate}";
+
+					/* console.log(oblast);
+					console.log(district);
+					console.log(year);
+					console.log(quarter);
+					console.log(month);
+					console.log(reportDate);
+					console.log(table.innerHTML.toString());
+					console.log((table.innerHTML.toString()).replace(/\s/g,'')); */
+					
+					var form = document.createElement("FORM");
+				    form.setAttribute("id", "closeReportForm");
+				    form.setAttribute("name", "closeReportForm");
+				    form.setAttribute("method", "post");
+				    form.setAttribute("action", "closeReport.form");
+				    document.body.appendChild(form);
+				    
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "text");
+				    input.setAttribute("id", "oblast");
+				    input.setAttribute("name", "oblast");
+				    input.setAttribute("value", oblast);
+				    form.appendChild(input);
+
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "text");
+				    input.setAttribute("id", "location");
+				    input.setAttribute("name", "location");
+				    input.setAttribute("value", district);
+				    form.appendChild(input);
+				    
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "text");
+				    input.setAttribute("id", "year");
+				    input.setAttribute("name", "year");
+				    input.setAttribute("value", year);
+				    form.appendChild(input);
+
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "text");
+				    input.setAttribute("id", "quarter");
+				    input.setAttribute("name", "quarter");
+				    input.setAttribute("value", quarter);
+				    form.appendChild(input);
+
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "text");
+				    input.setAttribute("id", "month");
+				    input.setAttribute("name", "month");
+				    input.setAttribute("value", month);
+				    form.appendChild(input);
+				    
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "text");
+				    input.setAttribute("id", "reportDate");
+				    input.setAttribute("name", "reportDate");
+				    input.setAttribute("value", reportDate);
+				    form.appendChild(input);
+
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "text");
+				    input.setAttribute("id", "table");
+				    input.setAttribute("name", "table");
+				    input.setAttribute("value", (table.innerHTML.toString()));//.replace(/\s/g,'')
+				    form.appendChild(input);
+				    
+				    form.submit();
+				});
 				$("#tableToPdf").click(function(){
-					$('#tb08u').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'});
+					//$('#tb08u').tableExport({type:'pdf',escape:'false'});
+				    /* var table = document.getElementById("tb08u");
+				    var doc = new jsPDF('p', 'pt');
+				    var json = doc.autoTable(false, doc.autoTableHtmlToJson(table));
+				    console.log(JSON.stringify(json));
+				    var new_json = JSON.stringify(json);
+				    var cols = [], data = [];
+				 	//json.forEach(function(row, index) {
+				    [].forEach.call(new_json, function(row,index) {
+				    	var newRow = [];
+				        for (var key in row) { if (row.hasOwnProperty(key)) { if(index === 0) { cols.push(key); } newRow.push(row[key]); } }
+				        data.push(newRow);
+				    });
+				    doc.autoTable(cols, data, {startY: 60});
+				    doc.save("table.pdf"); */
+				    
+				  //$('#tb08u').tableExport({type:'pdf',escape:'false'});
+					/* $('#tb08u').tableExport({
+						type:'pdf',
+				        theme: 'grid',
+						pdfFontSize:4,
+						escape:'false',
+                    	orientation: 'l',
+                    	drawHeaderRow: function (row, data) {
+                    		console.log(cell);
+                    		console.log(data);
+                    		return true;
+                    	},
+                    	drawHeaderCell: function(cell, data) {
+                    	}
+					}); */
+					
+					
+					//doc.setFontSize(0);
+				    //doc.setTextColor(0);
+					/* var doc = new jsPDF('p', 'pt');
+					var table = document.getElementById("tb08u");
+					var res = doc.autoTableHtmlToJson(table);
+					//(res.data).remove(0);
+					doc.autoTable(res.columns, res.data, {
+				        theme: 'plain',
+			            bodyStyles: {lineColor: [0, 0, 0]}
+					});
+					doc.save("download.pdf"); */
+					
+					/* var table = document.getElementById("tb08u");
+					var rowWithTh = [];
+					for(var i=0; i<table.rows.length; i++) {
+						var row = table.rows[i].getElementsByTagName("TH");
+						if(row.length < 1) {} else { rowWithTh.push(i); }
+					}
+					for(var i=0; i<rowWithTh.length; i++) {
+						for(var j=0; j<table.rows[i].cells.length; j++) {
+							var cell = table.rows[i].cells[j];
+							if(cell.colSpan > 1) {
+								if(cell.rowSpan === rowWithTh.length) {
+									console.log(cell.innerHTML);
+								}
+								else if(cell.colSpan > 1) {
+									console.log(cell.rowSpan);
+									console.log(cell.colSpan);
+								}
+							}
+						}
+					} */
 				});
 			});
 		</script>
@@ -95,7 +208,8 @@ response.setDateHeader ("Expires", -1);
 			
 			<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
 			<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
-			<table border="1" id="tb08u" cellpadding="5" width="100%">
+			<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
+			<table id="tb08u" cellpadding="5" width="100%" border="1" >
 				<tr>
 					<th rowspan="2" colspan="2" align="center">Registration group</th>
 					<th rowspan="2" align="center">Registered</th>

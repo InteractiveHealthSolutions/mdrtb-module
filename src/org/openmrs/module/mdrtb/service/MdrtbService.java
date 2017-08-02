@@ -478,6 +478,8 @@ public interface MdrtbService extends OpenmrsService {
     public List<Location> getEnrollmentLocations();
     
     public PatientIdentifier getPatientProgramIdentifier(MdrtbPatientProgram mpp);
+
+    public void savePDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData);
 }
 
 

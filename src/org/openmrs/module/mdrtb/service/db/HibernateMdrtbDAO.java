@@ -1,9 +1,13 @@
 package org.openmrs.module.mdrtb.service.db;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.openmrs.Location;
 import org.openmrs.PatientIdentifier;
@@ -45,6 +49,24 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     public PatientIdentifier getPatientIdentifierById(Integer patientIdentifierId) {
 		return (PatientIdentifier) sessionFactory.getCurrentSession().createQuery(
 		    "from PatientIdentifier p where patientIdentifierId = :pid").setInteger("pid", patientIdentifierId.intValue()).uniqueResult();
+	}
+    
+    public void savePDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData) {
+    	Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		String sql = "INSERT INTO report_data (oblast_id, location_id, year, quarter, month, report_date, table_data) VALUES ('"+oblast+"', '"+location+"', "+year+", "+quarter+", "+month+", '"+reportDate+"', '"+tableData+"');";
+		session.createSQLQuery(sql).executeUpdate();//has no effect. Query doesn't execute.
+		session.getTransaction().commit();
+		session.close();
+	}
+    
+    public void readPDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData) {
+    	Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		String sql = "INSERT INTO report (oblast_id, location_id, year, quarter, month, report_date, table_data) VALUES ('"+oblast+"', '"+location+"', "+year+", "+quarter+", "+month+", '"+reportDate+"', '"+tableData+"');";
+		session.createSQLQuery(sql).executeUpdate();//has no effect. Query doesn't execute.
+		session.getTransaction().commit();
+		session.close();
 	}
     
 }

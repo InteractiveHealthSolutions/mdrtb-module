@@ -34,8 +34,77 @@ response.setDateHeader ("Expires", -1);
 				}
 			)()
 			$(document).ready(function(){
+				$("#tableToSql").bind("click", function() {
+					var table = document.getElementById("tb08u");
+					var oblast = "${oblast}";
+					var district = "${location.locationId}";
+					var year = "${year}";
+					var quarter = "${quarter}";
+					var month = "${month}";
+					var reportDate = "${reportDate}";
+					
+					var form = document.createElement("FORM");
+				    form.setAttribute("id", "closeReportForm");
+				    form.setAttribute("name", "closeReportForm");
+				    form.setAttribute("method", "post");
+				    form.setAttribute("action", "closeReport.form");
+				    document.body.appendChild(form);
+				    
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "hidden");
+				    input.setAttribute("id", "oblast");
+				    input.setAttribute("name", "oblast");
+				    input.setAttribute("value", oblast);
+				    form.appendChild(input);
+
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "hidden");
+				    input.setAttribute("id", "location");
+				    input.setAttribute("name", "location");
+				    input.setAttribute("value", district);
+				    form.appendChild(input);
+				    
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "hidden");
+				    input.setAttribute("id", "year");
+				    input.setAttribute("name", "year");
+				    input.setAttribute("value", year);
+				    form.appendChild(input);
+
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "hidden");
+				    input.setAttribute("id", "quarter");
+				    input.setAttribute("name", "quarter");
+				    input.setAttribute("value", quarter);
+				    form.appendChild(input);
+
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "hidden");
+				    input.setAttribute("id", "month");
+				    input.setAttribute("name", "month");
+				    input.setAttribute("value", month);
+				    form.appendChild(input);
+				    
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "hidden");
+				    input.setAttribute("id", "reportDate");
+				    input.setAttribute("name", "reportDate");
+				    input.setAttribute("value", reportDate);
+				    form.appendChild(input);
+
+				    var input = document.createElement("INPUT");
+				    input.setAttribute("type", "hidden");
+				    input.setAttribute("id", "table");
+				    input.setAttribute("name", "table");
+				    input.setAttribute("value", table.innerHTML.toString());//.replace(/"/g, '\\\"'));
+				    form.appendChild(input);
+				    
+				    form.submit();
+				});
 				$("#tableToPdf").click(function(){
-					$('#tb08u').tableExport({type:'pdf',escape:'false'});
+					var table = document.getElementById("tb08u");
+					console.log(table.innerHTML.toString());
+					//$('#tb08u').tableExport({type:'pdf',escape:'false'});
 				    /* var table = document.getElementById("tb08u");
 				    var doc = new jsPDF('p', 'pt');
 				    var json = doc.autoTable(false, doc.autoTableHtmlToJson(table));
@@ -50,6 +119,56 @@ response.setDateHeader ("Expires", -1);
 				    });
 				    doc.autoTable(cols, data, {startY: 60});
 				    doc.save("table.pdf"); */
+				    
+				  //$('#tb08u').tableExport({type:'pdf',escape:'false'});
+					/* $('#tb08u').tableExport({
+						type:'pdf',
+				        theme: 'grid',
+						pdfFontSize:4,
+						escape:'false',
+                    	orientation: 'l',
+                    	drawHeaderRow: function (row, data) {
+                    		console.log(cell);
+                    		console.log(data);
+                    		return true;
+                    	},
+                    	drawHeaderCell: function(cell, data) {
+                    	}
+					}); */
+					
+					
+					//doc.setFontSize(0);
+				    //doc.setTextColor(0);
+					/* var doc = new jsPDF('p', 'pt');
+					var table = document.getElementById("tb08u");
+					var res = doc.autoTableHtmlToJson(table);
+					//(res.data).remove(0);
+					doc.autoTable(res.columns, res.data, {
+				        theme: 'plain',
+			            bodyStyles: {lineColor: [0, 0, 0]}
+					});
+					doc.save("download.pdf"); */
+					
+					/* var table = document.getElementById("tb08u");
+					var rowWithTh = [];
+					for(var i=0; i<table.rows.length; i++) {
+						var row = table.rows[i].getElementsByTagName("TH");
+						if(row.length < 1) {} else { rowWithTh.push(i); }
+					}
+					for(var i=0; i<rowWithTh.length; i++) {
+						for(var j=0; j<table.rows[i].cells.length; j++) {
+							var cell = table.rows[i].cells[j];
+							if(cell.colSpan > 1) {
+								if(cell.rowSpan === rowWithTh.length) {
+									console.log(cell.innerHTML);
+								}
+								else if(cell.colSpan > 1) {
+									console.log(cell.rowSpan);
+									console.log(cell.colSpan);
+								}
+							}
+						}
+					} */
 				});
 			});
 		</script>
@@ -82,6 +201,7 @@ response.setDateHeader ("Expires", -1);
 			
 			<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
 			<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
+			<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
 			<table id="tb08u" cellpadding="5" width="100%" border="1" >
 				<tr>
 					<th rowspan="2" colspan="2" align="center">Registration group</th>
@@ -318,11 +438,6 @@ response.setDateHeader ("Expires", -1);
 					
 					<td>${table1.totalRegistered }</td>
 				</tr>
-				
-				
-					
-				
-				
 			</table>
 		</div>
 	</body>

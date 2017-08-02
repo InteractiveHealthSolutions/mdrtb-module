@@ -910,8 +910,8 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		for(Location loc : allLocations){
 			
 			String locName = loc.getName();
-			if(!(locName.length() >= 2 && MdrtbUtil.areRussianStringsEqual(locName.substring(0, 2), "БЛ") && !(locName.length() >= 2 && 
-					MdrtbUtil.areRussianStringsEqual(locName.substring(0, 2),"ГЦ")) && !(locName.length() >= 4 && MdrtbUtil.areRussianStringsEqual(locName.substring(0, 4), "ОЦБТ")) && !MdrtbUtil.areRussianStringsEqual(locName,"РЦЗНТ Душанбе") && !MdrtbUtil.areRussianStringsEqual(locName,"НРЛ") && !MdrtbUtil.areRussianStringsEqual(locName,"НЛОЗ")))
+			if(!(locName.length() >= 2 && MdrtbUtil.areRussianStringsEqual(locName.substring(0, 2), "Ð‘Ð›") && !(locName.length() >= 2 && 
+					MdrtbUtil.areRussianStringsEqual(locName.substring(0, 2),"Ð“Ð¦")) && !(locName.length() >= 4 && MdrtbUtil.areRussianStringsEqual(locName.substring(0, 4), "ÐžÐ¦Ð‘Ð¢")) && !MdrtbUtil.areRussianStringsEqual(locName,"Ð Ð¦Ð—Ð�Ð¢ Ð”ÑƒÑˆÐ°Ð½Ð±Ðµ") && !MdrtbUtil.areRussianStringsEqual(locName,"Ð�Ð Ð›") && !MdrtbUtil.areRussianStringsEqual(locName,"Ð�Ð›ÐžÐ—")))
 				
 				enrollmentLocations.add(loc);
 		
@@ -961,7 +961,10 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     
     ///////////////////////
     
-   
+    public void savePDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData) {
+    	dao.savePDF(oblast, location, year, quarter, month, reportDate, tableData);
+    }
+
     
     	
 }

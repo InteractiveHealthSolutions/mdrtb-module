@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.service.db;
 
+import java.util.Date;
 import java.util.List;
 
 import org.openmrs.Location;
@@ -14,6 +15,5 @@ public interface MdrtbDAO {
     public List<Location> getLocationsWithAnyProgramEnrollments() throws DAOException;
     public List<String> getAllRayonsTJK();
     public PatientIdentifier getPatientIdentifierById(Integer patientIdentifierId);
-  
-    
+    public void savePDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData);
 }
