@@ -106,8 +106,16 @@ public class MdrtbDashboardController {
 	@ModelAttribute("program")
 	public MdrtbPatientProgram getMdrtbPatientProgram(@RequestParam(required = false, value = "patientProgramId") Integer patientProgramId,
 	                                                  @RequestParam(required = false, value = "patientId") Integer patientId) {
+		
+		System.out.println("MdrtbEditPatient:getMdrtbPatientProgram");
 		// if there is no patient program selected, we want to show the most recent program
-    	if (patientProgramId == null || patientProgramId == -1) {
+    	if(patientId==null || patientId==-1) {
+    		System.out.println("returning null");
+    		return null;
+    		
+    	}
+		
+		if (patientProgramId == null || patientProgramId == -1) {
 			Patient patient = Context.getPatientService().getPatient(patientId);
 			
 			if (patient == null) {
@@ -147,11 +155,13 @@ public class MdrtbDashboardController {
 	public ModelAndView showStatus(@ModelAttribute("program") MdrtbPatientProgram program,
 	                               /*@RequestParam(required = false, value = "patientId") Integer patientId,*/
 	                               ModelMap map) {
-
+    	System.out.println("MdrtbDashboard:showStatus");
+    	System.out.println("program:" + program);
     	if (program == null) {
     		// if the patient has no program, redirect to the enroll-in-program
-    		map.clear();
-    		return new ModelAndView("redirect:/module/mdrtb/program/showEnroll.form?patientId=" + patientId); 
+    		//map.clear();
+    		System.out.println("null program");
+    		return new ModelAndView("redirect:/module/mdrtb/program/showEnroll.form", map);//?patientId=" + patientId); 
     	}
 
     	// add the patient program ID
@@ -203,7 +213,7 @@ public class MdrtbDashboardController {
 		if (errors.hasErrors()) {	
 			map.put("programEditErrors", errors);
 			// call the show status method to redisplay the page with errors
-			return showStatus(program, null, map);
+			return showStatus(program, /*null,*/ map);
 		}
 		   
 		// save the actual update
@@ -238,7 +248,7 @@ public class MdrtbDashboardController {
 		if (errors.hasErrors()) {	
 			map.put("programCloseErrors", errors);
 			// call the show status method to redisplay the page with errors
-			return showStatus(program, null, map);
+			return showStatus(program, /* null, */ map);
 		}
 		   
 		// save the actual update
@@ -288,7 +298,7 @@ public class MdrtbDashboardController {
 			map.put("dischargeDate", dischargeDate);
 			map.put("hospitalizationStateId", (hospitalizationState != null ? hospitalizationState.getId() : ""));
 			// call the show status method to redisplay the page with errors
-			return showStatus(program, null, map);
+			return showStatus(program,/* null,*/ map);
 		}  
 
 		// save the actual update
