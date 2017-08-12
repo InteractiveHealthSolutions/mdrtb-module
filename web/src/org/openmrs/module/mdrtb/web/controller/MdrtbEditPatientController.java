@@ -14,7 +14,9 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.Session;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -268,7 +270,10 @@ public class MdrtbEditPatientController {
 		}
 		
 		// if no similar patients, show the edit page
-		
+		map.put("addName", addName);
+		map.put("addBirthdate", addBirthdate);
+		map.put("addAge", addAge);
+		map.put("addGender", addGender);
 		return new ModelAndView("/module/mdrtb/mdrtbEditPatient");
 	}
 
@@ -394,9 +399,11 @@ public class MdrtbEditPatientController {
 		}
 		
 		System.out.println("redir 2");
-		map.put("patient", patient);
-		returnUrl = "redirect:" + successUrl + (successUrl.contains("?") ? "&" : "?") +  
-			(patientProgramId != null ? "&patientProgramId=" + patientProgramId : "");
+		//map.put("patient", patient);
+		
+		
+		returnUrl = successUrl + (successUrl.contains("?") ? "&" : "?") +  
+			(patientProgramId != null ? "&patientProgramId=" + patientProgramId : "");// + "&patientName=" + "  "  + "&patientDob=" + "   " +  "&patientAge=" + "   " + "&patient"  );
 		System.out.println(returnUrl);
 		return new ModelAndView(returnUrl, map);
 	}
