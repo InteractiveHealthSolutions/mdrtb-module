@@ -10,7 +10,8 @@
 <openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.css" />
 <openmrs:htmlInclude file="/moduleResources/mdrtb/mdrtb.css"/>
 
-
+<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
+<openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${! empty patientId ? patientId : specimen.patient.patientId}" parameters="patientProgramId=${patientProgramId}"/>
 
 <!-- TODO: clean up above paths so they use dynamic reference -->
 <!-- TODO: add privileges? -->
@@ -40,19 +41,8 @@
 	<br/>
 </c:if>
 
-<form id="programEnroll" action="${pageContext.request.contextPath}/module/mdrtb/program/programEnroll.form?patientId=${patientId}&patientProgramId=-1" method="post" >
+<form id="enrollment" action="${pageContext.request.contextPath}/module/mdrtb/program/firstEnrollment.form?patientId=${patientId}&patientProgramId=-1&idId=${idId}" method="post" >
 <table cellspacing="2" cellpadding="2">
-
-<tr><td>
-<spring:message code="mdrtb.programs" text="Select Program"/>:</td>
-<td><select id="programId" name="programId" />
-<option value="">
-<c:forEach var="program" items="${programs}">
-<option value="${program.programId}">${program.concept.displayString}</option>
-</c:forEach>
-</td></tr>
-
-
 <tr><td>
 <spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${program.dateEnrolled}'/>" onFocus="showCalendar(this)"/>
 </td></tr>
@@ -68,31 +58,29 @@
 </td></tr>
 
 <tr><td colspan="2">
-<spring:message code="mdrtb.previousDrugClassification" text="Registration Group - Previous Drug Use"/>:<br/>
-<select name="classificationAccordingToPreviousDrugUse">
+<spring:message code="mdrtb.patientGroup" text="Registration Group"/>:<br/>
+<select name="classificationAccordingToPatientGroups">
 <option value=""/>
-<c:forEach var="classificationAccordingToPreviousDrugUse" items="${classificationsAccordingToPreviousDrugUse}">
-<option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == program.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>
+<c:forEach var="classificationAccordingToPatientGroups" items="${classificationsAccordingToPatientGroups}">
+<option value="${classificationAccordingToPatientGroups.id}" <c:if test="${classificationAccordingToPatientGroups == program.classificationAccordingToPatientGroups}">selected</c:if>>${classificationAccordingToPatientGroups.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
 
-<tr><td colspan="2">
-<spring:message code="mdrtb.previousTreatmentClassification" text="Registration Group - Previous Treatment"/>:<br/>
-<select name="classificationAccordingToPreviousTreatment">
+<c:if test="${hasActiveProgram}">
+<tr><td>
+<spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateCompleted" type="text" size="14" name="dateCompleted" value="<openmrs:formatDate date='${program.dateCompleted}'/>" onFocus="showCalendar(this)"/>
+</td></tr>
+<tr><td>
+<spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>
+<select name="outcome">
 <option value=""/>
-<c:forEach var="classificationAccordingToPreviousTreatment" items="${classificationsAccordingToPreviousTreatment}">
-<option value="${classificationAccordingToPreviousTreatment.id}" <c:if test="${classificationAccordingToPreviousTreatment == program.classificationAccordingToPreviousTreatment}">selected</c:if> >${classificationAccordingToPreviousTreatment.concept.displayString}</option>
+<c:forEach var="outcome" items="${outcomes}">
+<option value="${outcome.id}">${outcome.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
-
-<tr><td colspan="2">
-${patient.gender }<br/>
-${patient.birthdate }<br/>
-${patient.gender }<br/>
-${patient.personAddress }<br/>
-</td></tr>
+</c:if>
 
 </table>
 <button type="submit"><spring:message code="mdrtb.enrollment.enroll" text="Enroll in Program"/></button><button type="reset" onclick=window.location='${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${patientId}'><spring:message code="mdrtb.cancel" text="Cancel"/></button>

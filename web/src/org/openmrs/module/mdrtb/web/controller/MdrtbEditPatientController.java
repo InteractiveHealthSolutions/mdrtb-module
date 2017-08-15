@@ -3,6 +3,7 @@ package org.openmrs.module.mdrtb.web.controller;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -14,9 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.Session;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -165,7 +164,7 @@ public class MdrtbEditPatientController {
 	                          @RequestParam(required = false, value="addAge") String addAge,
 	                          @RequestParam(required = false, value="addGender") String addGender,
 	                          HttpServletRequest request){
-		System.out.println("MdrtbEditPatient:getPatient");
+		
 		Patient patient = null;
 		
 		// see if we have a patient id (-1 signifies that we are looking to add a new patient)
@@ -217,10 +216,11 @@ public class MdrtbEditPatientController {
 	                             @RequestParam(required = false, value="addBirthdate") Date addBirthdate,
 	                             @RequestParam(required = false, value="addAge") String addAge,
 	                             @RequestParam(required = false, value="addGender") String addGender,
+	                             @RequestParam(required = false, value="add") String add,
 	                             @RequestParam(required = false, value="skipSimilarCheck") Boolean skipSimilarCheck,
 	                             ModelMap map) throws ParseException {
 		
-		System.out.println("MdrtbEditPatient:showForm");
+		System.out.println("Edit:show:add:" + add);
 		// if we are dealing with a new patient (one with no id, or id=-1) we need to check for similar patients first
 		if ((skipSimilarCheck == null || !skipSimilarCheck) && (patientId == null || patientId == -1)) {
 			
@@ -264,38 +264,35 @@ public class MdrtbEditPatientController {
 				map.put("addBirthdate", addBirthdate);
 				map.put("addAge", addAge);
 				map.put("addGender", addGender);
+				map.put("add", add);
 				
 				return new ModelAndView("/module/mdrtb/similarPatients");
 			}
 		}
 		
 		// if no similar patients, show the edit page
-		map.put("addName", addName);
-		map.put("addBirthdate", addBirthdate);
-		map.put("addAge", addAge);
-		map.put("addGender", addGender);
+		map.put("add", add);
 		return new ModelAndView("/module/mdrtb/mdrtbEditPatient");
 	}
 
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView submitForm(@ModelAttribute("patient") Patient patient, BindingResult result,
-	                               /*@RequestParam("identifierValue") String [] identifierValue,
+	                               @RequestParam("identifierValue") String [] identifierValue,
 	                               @RequestParam("identifierId") String [] identifierId, 
 	                               @RequestParam(required = false, value = "identifierLocation") Location [] identifierLocation,
-	                               @RequestParam("identifierType") PatientIdentifierType [] identifierType,*/
+	                               @RequestParam("identifierType") PatientIdentifierType [] identifierType,
 	                               @RequestParam(required = false, value ="patientProgramId") Integer patientProgramId,
 	                               @RequestParam("successURL") String successUrl,
+	                               @RequestParam("add") String add,
 	                               SessionStatus status, ModelMap map) {
-		System.out.println("MdrtbEditPatient:submitForm");
-		// first, we need to set the patient id to null if it's been set to -1
-		if (patient.getId() != null && patient.getId().intValue() == -1) {
-			System.out.println("setting null");
-			patient.setId(null);
-			System.out.println(patient.getId());
-		}
 		
-		System.out.println("Patient: " + patient);
+		
+		System.out.println("Edit:submit:add:" + add);
+		// first, we need to set the patient id to null if it's been set to -1
+		if (patient.getId() != null && patient.getId() == -1) {
+			patient.setId(null);
+		}
 		
 		// if a fixed patient identifier location has been set, get it
 		Location fixedLocation = null;
@@ -307,7 +304,7 @@ public class MdrtbEditPatientController {
 			}
 		}
 		
-		/*// handle patient identifiers
+		// handle patient identifiers
 		for (Integer i=0; i<identifierValue.length; i++) {
 			
 			//  if this identifier is blank and the idgen module is installed, see if we need to auto-generate this identifier
@@ -348,64 +345,61 @@ public class MdrtbEditPatientController {
 				
 				patient.addIdentifier(identifier);	
 			}
-		}*/
-		System.out.println("2." + patient.getId());
+		}
+		
+		
+	
+		
+		
 		// perform validation
 		validator.validate(patient, result);
 		if (result.hasErrors()) {
 			map.put("errors", result);
 			return new ModelAndView("/module/mdrtb/mdrtbEditPatient", map);
 		}
-		System.out.println("3." + patient.getId());
+		
 		// sync up the patient and person voided attributes
 		// TODO: is this correct... do we ever want to void a patient but keep the person (for instance, if the person is also a treatment supporter?)
 		patient.setPersonVoided(patient.getVoided());
 		patient.setPersonVoidReason(patient.getVoidReason());
-		System.out.println("4." + patient.getId());
+		
 		// remove the address if it is blank
 		if (MdrtbUtil.isBlank(patient.getPersonAddress())) {
 			patient.removeAddress(patient.getPersonAddress());
 		}
-		System.out.println("5." + patient.getId());
+		
 		// remove any attributes that are blank
 		for (PersonAttributeType attr : Context.getPersonService().getPersonAttributeTypes(PERSON_TYPE.PATIENT, ATTR_VIEW_TYPE.VIEWING)) {
 			if (patient.getAttribute(attr) != null  && StringUtils.isBlank(patient.getAttribute(attr).getValue())) {
 				patient.removeAttribute(patient.getAttribute(attr));
 			}
 		}
-		System.out.println("6." + patient.getId());
+		
 		// save the patient
-		if(patient.getId()!=null) {
-			Context.getPatientService().savePatient(patient);
-		}
-		System.out.println("7." + patient.getId());
+		Context.getPatientService().savePatient(patient);
+		
 		// if the patient has been set to dead, exit him/her from care
 		if (patient.getDead()) {
 			Context.getService(MdrtbService.class).processDeath(patient, patient.getDeathDate(), 
 				patient.getCauseOfDeath());
 		}
-		System.out.println("8." + patient.getId());
-		// clears the command object from the session
 		
-		String returnUrl = null;
-		
-		if(patient.getId()!=null) {
-			System.out.println("redir 1");
-			map.clear();
-			status.setComplete();
-			returnUrl =  "redirect:" + successUrl + (successUrl.contains("?") ? "&" : "?") + "patientId=" + patient.getId() + 
-				(patientProgramId != null ? "&patientProgramId=" + patientProgramId : "");
-			return new ModelAndView(returnUrl);
+		Integer idId = null;
+		if(add!=null && add.equals("1"))
+		{
+			ArrayList<Patient> pats = new ArrayList<Patient>();
+			pats.add(patient);
+			idId = Context.getPatientService().getPatientIdentifiers(identifierValue[0], null, null, pats, new Boolean(false)).get(0).getId();
 		}
 		
-		System.out.println("redir 2");
-		//map.put("patient", patient);
+		// clears the command object from the session
+		status.setComplete();
+		map.clear();
 		
-		
-		returnUrl = successUrl + (successUrl.contains("?") ? "&" : "?") +  
-			(patientProgramId != null ? "&patientProgramId=" + patientProgramId : "");// + "&patientName=" + "  "  + "&patientDob=" + "   " +  "&patientAge=" + "   " + "&patient"  );
-		System.out.println(returnUrl);
-		return new ModelAndView(returnUrl, map);
+		String returnUrl = "redirect:" + successUrl + (successUrl.contains("?") ? "&" : "?") + "patientId=" + patient.getId() + 
+			(patientProgramId != null ? "&patientProgramId=" + patientProgramId : "") + (idId != null ? "&idId=" + idId : "");
+
+		return new ModelAndView(returnUrl);
 	}
 	
 	

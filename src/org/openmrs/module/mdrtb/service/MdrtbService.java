@@ -18,6 +18,7 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.HAIN;
@@ -62,6 +63,12 @@ public interface MdrtbService extends OpenmrsService {
      */
     @Transactional(readOnly=true)
     public List<Encounter> getMdrtbEncounters(Patient patient);
+    
+    /**
+     * Gets all TB specific encounters for the given patient
+     */
+    @Transactional(readOnly=true)
+    public List<Encounter> getTbEncounters(Patient patient);
     
     /**
      * Returns all the MDR-TB programs in the system
@@ -109,6 +116,55 @@ public interface MdrtbService extends OpenmrsService {
 	 */
     @Transactional(readOnly=true)
 	public MdrtbPatientProgram getMdrtbPatientProgram(Integer patientProgramId);   
+    
+    /**
+     * Returns all the DOTS programs in the system
+     */
+    @Transactional(readOnly=true)
+    public List<TbPatientProgram> getAllTbPatientPrograms();
+    
+   
+    /**
+     * Returns all the dots programs in the system that were active during a specific date range
+     */
+    @Transactional(readOnly=true)
+    public List<TbPatientProgram> getAllTbPatientProgramsInDateRange(Date startDate, Date endDate);
+    
+  	
+    /**
+  	 * Returns all the dots programs for a given patient
+  	 */
+    @Transactional(readOnly=true)
+	public List<TbPatientProgram> getTbPatientPrograms(Patient patient);
+	
+	/**
+	 * Returns the most recent mdrtb program for a given patient
+	 */
+    @Transactional(readOnly=true)
+	public TbPatientProgram getMostRecentTbPatientProgram(Patient patient);
+	
+    /**
+     * Returns all the patient programs for a given patient that fall within a specific date range
+     */
+    @Transactional(readOnly=true)
+    public List<TbPatientProgram> getTbPatientProgramsInDateRange(Patient patient, Date startDate, Date endDate);
+    
+    /**
+     * Return the specific MdrtbPatientProgram the patient was enrolled in on the specified date 
+     * (This assumes that a patient is only enrolled in one MDR-TB patient program at a time)
+     * 
+     * If the date is before any program enrollments, it returns the first program enrollment
+     * If the date is after all program enrollments, it returns the most recent program enrollment
+     * If the date is between two program enrollments, it returns the later of the two
+     */
+    @Transactional(readOnly=true)
+    public TbPatientProgram getTbPatientProgramOnDate(Patient patient, Date date);
+    
+	/**
+	 * Returns a specific MdrtbPatientProgram by id
+	 */
+    @Transactional(readOnly=true)
+	public TbPatientProgram getTbPatientProgram(Integer patientProgramId);
     
     /**
      * Creates a new specimen, associated with the given patient
@@ -281,6 +337,12 @@ public interface MdrtbService extends OpenmrsService {
     public Program getMdrtbProgram();
     
     /**
+     * Gets the DOTS program
+     */
+    @Transactional(readOnly=true)
+    public Program getTbProgram();
+    
+    /**
      * Gets the possible providers
      */
     @Transactional(readOnly=true)
@@ -370,6 +432,16 @@ public interface MdrtbService extends OpenmrsService {
      * Returns all possible outcomes for the MDR-TB program
      */
     public Set<ProgramWorkflowState> getPossibleMdrtbProgramOutcomes();
+    
+    /**
+     * Returns all possible outcomes for the MDR-TB program
+     */
+    public Set<ProgramWorkflowState> getPossibleTbProgramOutcomes();
+    
+    /**
+     * Returns all possible TB patient groups
+     */
+    public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPatientGroups();
     
     /**
      * Returns all possible MDR-TB previous drug use classifications
@@ -478,6 +550,18 @@ public interface MdrtbService extends OpenmrsService {
     public List<Location> getEnrollmentLocations();
     
     public PatientIdentifier getPatientProgramIdentifier(MdrtbPatientProgram mpp);
+    
+    @Transactional(readOnly=true)
+    public List<TbPatientProgram> getAllTbPatientProgramsEnrolledInDateRange(Date startDate,
+			Date endDate);
+    
+    public void addIdentifierToProgram(Integer patientIdenifierId, Integer patientProgramId);
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleIPTreatmentSites();
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleCPTreatmentSites();
 }
 
 

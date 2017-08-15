@@ -1,11 +1,16 @@
 package org.openmrs.module.mdrtb.status;
 
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 
 
 public class VisitStatus extends Status {
 
 	public VisitStatus(MdrtbPatientProgram program) {
+	    super(program);
+    }
+	
+	public VisitStatus(TbPatientProgram program) {
 	    super(program);
     }
 

@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 
 
 abstract public class Status {
 
 	MdrtbPatientProgram program;
+	TbPatientProgram tbProgram;
 	
 	Map<String,StatusItem> items = new HashMap<String,StatusItem>();
 	
@@ -23,12 +25,24 @@ abstract public class Status {
 		this.program = program;
 	}
 	
-    public MdrtbPatientProgram getPatientProgram() {
+	public MdrtbPatientProgram getPatientProgram() {
     	return program;
     }
 
     public void setPatientProgram(MdrtbPatientProgram program) {
     	this.program = program;
+    }
+    
+    public Status(TbPatientProgram program) {
+		this.tbProgram = program;
+	}
+	
+    public TbPatientProgram getPatientTbProgram() {
+    	return tbProgram;
+    }
+
+    public void setPatientTbProgram(TbPatientProgram program) {
+    	this.tbProgram = program;
     }
 	
     protected void addItem(String name, StatusItem item) {

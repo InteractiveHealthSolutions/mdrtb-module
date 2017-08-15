@@ -16,6 +16,8 @@ import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgramValidator;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgramValidator;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.status.VisitStatus;
 import org.openmrs.module.mdrtb.status.VisitStatusCalculator;
@@ -67,94 +69,35 @@ public class ProgramController {
 		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPreviousTreatment();
 	}
 	
+	@ModelAttribute("classificationsAccordingToPatientGroups")
+	public Collection<ProgramWorkflowState> getClassificationsAccordingToPatientGroups() {		
+		System.out.println("called");
+		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
+	}
+	
 	@ModelAttribute("outcomes")
 	Collection<ProgramWorkflowState> getOutcomes() {		
 		return Context.getService(MdrtbService.class).getPossibleMdrtbProgramOutcomes();
 	}
 	
 	@SuppressWarnings("unchecked")
-    @RequestMapping("/module/mdrtb/program/showFirstEnroll.form")
-	public ModelAndView showFirstEnrollInPrograms(ModelMap map) {
-		System.out.println("ProgramCont:showFirstEnrollInPrograms");
-		System.out.println("getting programs");
-		
-		List<Program> programs = Context.getService(ProgramWorkflowService.class).getAllPrograms();
-		map.put("programs", programs);
-		System.out.println("got programs");
-		
-		System.out.println(map.toString());
-		
-		return new ModelAndView("/module/mdrtb/program/showFirstEnroll", map);
-	}
-	
-	@SuppressWarnings("unchecked")
-    @RequestMapping(value = "/module/mdrtb/program/programFirstEnroll.form", method = RequestMethod.POST)
-	public ModelAndView processFirstEnroll(@ModelAttribute("program") MdrtbPatientProgram program, BindingResult errors, 
-	                                  @RequestParam(required = true, value = "patientId") Integer patientId,
-	                                  SessionStatus status, HttpServletRequest request, ModelMap map) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		System.out.println("ProgramCont:processFirstEnrollInPrograms");   
-		Patient patient = Context.getPatientService().getPatient(patientId);
-		
-		if (patient == null) {
-			throw new RuntimeException ("Process enroll called with invalid patient id " + patientId);
-		}
-		
-		// set the patient
-		program.setPatient(patient);
-		
-		// perform validation (validation needs to happen after patient is set since patient is used to pull up patient's previous programs)
-		if (program != null) {
-    		new MdrtbPatientProgramValidator().validate(program, errors);
-    	}
-		
-		if (errors.hasErrors()) {
-			MdrtbPatientProgram mostRecentProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
-			map.put("hasActiveProgram", mostRecentProgram != null && mostRecentProgram.getActive() ? true : false);
-			map.put("patientId", patientId);
-			map.put("errors", errors);
-			return new ModelAndView("/module/mdrtb/program/showEnroll", map);
-		}
-		
-		// save the actual update
-		Context.getProgramWorkflowService().savePatientProgram(program.getPatientProgram());
-
-		// clears the command object from the session
-		status.setComplete();
-		map.clear();
-			
-		// when we enroll in a program, we want to jump immediately to the intake for this patient
-		// TODO: hacky to have to create a whole new visit status here just to determine the proper link?
-		// TODO: modeling visit as a status probably wasn't the best way to go on my part
-		VisitStatus visitStatus = (VisitStatus) new VisitStatusCalculator(new DashboardVisitStatusRenderer()).calculate(program);
-		
-		return new ModelAndView("redirect:" + visitStatus.getNewIntakeVisit().getLink() + "&returnUrl=" + request.getContextPath() + "/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=" + program.getId());		
-	}
-	
-	
-	@SuppressWarnings("unchecked")
     @RequestMapping("/module/mdrtb/program/showEnroll.form")
 	public ModelAndView showEnrollInPrograms(@RequestParam(required = false, value = "patientId") Integer patientId,
 	                                         ModelMap map) {
 		
-		System.out.println("ProgramCont:showEnrollInPrograms");
-			if(patientId==null) {
-				System.out.println("HERE");
-				return new ModelAndView("redirect:/module/mdrtb/program/showFirstEnroll.form", map);
-			
-			}
-			
-			else {
+		
 			Patient patient = Context.getPatientService().getPatient(patientId);
 			if (patient == null) {
 				throw new RuntimeException ("Show enroll called with invalid patient id " + patientId);
 			}
 		
 			// we need to determine if this patient currently in active in an mdr-tb program to determine what fields to display
-			MdrtbPatientProgram mostRecentProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
-			map.put("hasActiveProgram", (mostRecentProgram != null && mostRecentProgram.getActive()) ? true : false);
+			MdrtbPatientProgram mostRecentMdrtbProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
+			TbPatientProgram mostRecentTbProgram = Context.getService(MdrtbService.class).getMostRecentTbPatientProgram(patient);
+			map.put("hasActiveProgram", ((mostRecentMdrtbProgram != null && mostRecentMdrtbProgram.getActive()) || (mostRecentTbProgram != null && mostRecentTbProgram.getActive())) ? true : false);
 			map.put("patientId", patientId);
 			return new ModelAndView("/module/mdrtb/program/showEnroll", map);
-			}
+			
 	}
 
 	@SuppressWarnings("unchecked")
@@ -217,5 +160,71 @@ public class ProgramController {
 		map.clear();
 		
 		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientId=" + patientId);
+	}
+	
+	@SuppressWarnings("unchecked")
+    @RequestMapping("/module/mdrtb/program/enrollment.form")
+	public ModelAndView showEnrollment(@RequestParam(required = false, value = "patientId") Integer patientId,
+	                                         ModelMap map) {
+		
+		
+			Patient patient = Context.getPatientService().getPatient(patientId);
+			if (patient == null) {
+				throw new RuntimeException ("Show enroll called with invalid patient id " + patientId);
+			}
+		
+			// we need to determine if this patient currently in active in an mdr-tb program to determine what fields to display
+			MdrtbPatientProgram mostRecentMdrtbProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
+			TbPatientProgram mostRecentTbProgram = Context.getService(MdrtbService.class).getMostRecentTbPatientProgram(patient);
+			map.put("hasActiveProgram", ((mostRecentMdrtbProgram != null && mostRecentMdrtbProgram.getActive()) || (mostRecentTbProgram != null && mostRecentTbProgram.getActive())) ? true : false);
+			map.put("patientId", patientId);
+			return new ModelAndView("/module/mdrtb/program/enrollment", map);
+			
+	}
+	
+	@SuppressWarnings("unchecked")
+    @RequestMapping(value = "/module/mdrtb/program/firstEnrollment.form", method = RequestMethod.POST)
+	public ModelAndView processFirstEnroll(@ModelAttribute("program") TbPatientProgram program, BindingResult errors, 
+	                                  @RequestParam(required = true, value = "patientId") Integer patientId,
+	                                  @RequestParam(required = false, value="idId") Integer idId,
+	                                  SessionStatus status, HttpServletRequest request, ModelMap map) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+		System.out.println("ProgramCont:processEnroll");
+		Patient patient = Context.getPatientService().getPatient(patientId);
+		
+		if (patient == null) {
+			throw new RuntimeException ("Process enroll called with invalid patient id " + patientId);
+		}
+		
+		// set the patient
+		program.setPatient(patient);
+		
+		// perform validation (validation needs to happen after patient is set since patient is used to pull up patient's previous programs)
+		if (program != null) {
+    		new TbPatientProgramValidator().validate(program, errors);
+    	}
+		
+		if (errors.hasErrors()) {
+			TbPatientProgram mostRecentProgram = Context.getService(MdrtbService.class).getMostRecentTbPatientProgram(patient);
+			map.put("hasActiveProgram", mostRecentProgram != null && mostRecentProgram.getActive() ? true : false);
+			map.put("patientId", patientId);
+			map.put("errors", errors);
+			return new ModelAndView("/module/mdrtb/program/enrollment", map);
+		}
+		
+		// save the actual update
+		Context.getProgramWorkflowService().savePatientProgram(program.getPatientProgram());
+		//Context.getService(MdrtbService.class).addIdentifierToProgram(idId, program.getPatientProgram().getPatientProgramId());
+		// clears the command object from the session
+		status.setComplete();
+		map.clear();
+			
+		// when we enroll in a program, we want to jump immediately to the intake for this patient
+		// TODO: hacky to have to create a whole new visit status here just to determine the proper link?
+		// TODO: modeling visit as a status probably wasn't the best way to go on my part
+	   /* VisitStatus visitStatus = (VisitStatus) new VisitStatusCalculator(new DashboardVisitStatusRenderer()).calculateTb(program);
+		
+		return new ModelAndView("redirect:" + visitStatus.getNewIntakeVisit().getLink() + "&returnUrl=" + request.getContextPath() + "/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=" + program.getId());*/
+		
+		return new ModelAndView("redirect:/module/mdrtb/form/tb03.form?patientProgramId=" + program.getId() + "&encounterId=-1");
 	}
 }

@@ -153,15 +153,16 @@ public class MdrtbDashboardController {
     @SuppressWarnings("unchecked")
     @RequestMapping("/module/mdrtb/dashboard/dashboard.form")
 	public ModelAndView showStatus(@ModelAttribute("program") MdrtbPatientProgram program,
-	                               /*@RequestParam(required = false, value = "patientId") Integer patientId,*/
+	                               @RequestParam(required = false, value = "patientId") Integer patientId,
+	                               @RequestParam(required = false, value = "idId") Integer idId,
 	                               ModelMap map) {
     	System.out.println("MdrtbDashboard:showStatus");
     	System.out.println("program:" + program);
     	if (program == null) {
     		// if the patient has no program, redirect to the enroll-in-program
-    		//map.clear();
+    		map.clear();
     		System.out.println("null program");
-    		return new ModelAndView("redirect:/module/mdrtb/program/showEnroll.form", map);//?patientId=" + patientId); 
+    		return new ModelAndView("redirect:/module/mdrtb/program/enrollment.form?patientId=" + patientId + (idId != null ? "&idId=" + idId : "")); 
     	}
 
     	// add the patient program ID
@@ -213,7 +214,7 @@ public class MdrtbDashboardController {
 		if (errors.hasErrors()) {	
 			map.put("programEditErrors", errors);
 			// call the show status method to redisplay the page with errors
-			return showStatus(program, /*null,*/ map);
+			return showStatus(program, null, null, map);
 		}
 		   
 		// save the actual update
@@ -248,7 +249,7 @@ public class MdrtbDashboardController {
 		if (errors.hasErrors()) {	
 			map.put("programCloseErrors", errors);
 			// call the show status method to redisplay the page with errors
-			return showStatus(program, /* null, */ map);
+			return showStatus(program, null, null, map);
 		}
 		   
 		// save the actual update
@@ -298,7 +299,7 @@ public class MdrtbDashboardController {
 			map.put("dischargeDate", dischargeDate);
 			map.put("hospitalizationStateId", (hospitalizationState != null ? hospitalizationState.getId() : ""));
 			// call the show status method to redisplay the page with errors
-			return showStatus(program,/* null,*/ map);
+			return showStatus(program, null, null,map);
 		}  
 
 		// save the actual update

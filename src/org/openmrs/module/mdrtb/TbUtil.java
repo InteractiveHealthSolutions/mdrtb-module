@@ -30,13 +30,13 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.mdrtb.Oblast;
-import org.openmrs.module.mdrtb.reporting.definition.AgeAtMDRRegistrationCohortDefinition;
-import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.regimen.Regimen;
 import org.openmrs.module.mdrtb.regimen.RegimenUtils;
+import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.reporting.data.Cohorts;
+
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.specimen.Specimen;
 import org.openmrs.module.mdrtb.specimen.Test;
@@ -45,13 +45,13 @@ import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionSe
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 
-public class MdrtbUtil {
+public class TbUtil {
     
-    protected static final Log log = LogFactory.getLog(MdrtbUtil.class);
+    protected static final Log log = LogFactory.getLog(TbUtil.class);
     
-    public static String getMdrtbPatientIdentifier(Patient p){
+    public static String getDOTSPatientIdentifier(Patient p){
         String ret = "";
-        String piList = Context.getAdministrationService().getGlobalProperty("mdrtb.patient_identifier_type");    
+        String piList = Context.getAdministrationService().getGlobalProperty("dotsreports.patient_identifier_type");    
         Set<PatientIdentifier> identifiers = p.getIdentifiers();
         for (PatientIdentifier pi : identifiers){
             if (pi.getIdentifierType().getName().equals(piList)){
@@ -124,7 +124,7 @@ public class MdrtbUtil {
 	/**
 	 * Returns a set of all encounter types associated with the MDR-TB Program
 	 */
-	public static Set<EncounterType> getMdrtbEncounterTypes() {
+	public static Set<EncounterType> getTbEncounterTypes() {
 
 		Set<EncounterType> types = new HashSet<EncounterType>();
 		types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type")));
@@ -143,11 +143,15 @@ public class MdrtbUtil {
     	
     	// create a list of all concepts that represent positive results
     	Set<Concept> positiveResults = new HashSet<Concept>();
-    	positiveResults.add(service.getConcept(MdrtbConcepts.STRONGLY_POSITIVE));
-    	positiveResults.add(service.getConcept(MdrtbConcepts.MODERATELY_POSITIVE));
-    	positiveResults.add(service.getConcept(MdrtbConcepts.WEAKLY_POSITIVE));
-    	positiveResults.add(service.getConcept(MdrtbConcepts.POSITIVE));
-    	positiveResults.add(service.getConcept(MdrtbConcepts.SCANTY));
+    	positiveResults.add(service.getConcept(TbConcepts.STRONGLY_POSITIVE));
+    	positiveResults.add(service.getConcept(TbConcepts.MODERATELY_POSITIVE));
+    	positiveResults.add(service.getConcept(TbConcepts.WEAKLY_POSITIVE));
+    	positiveResults.add(service.getConcept(TbConcepts.POSITIVE));
+    	positiveResults.add(service.getConcept(TbConcepts.SCANTY));
+    	
+    	//Xpert and HAIN
+    	positiveResults.add(service.getConcept(TbConcepts.DETECTED));
+    	
     	
     	return positiveResults;
     }
@@ -236,7 +240,7 @@ public class MdrtbUtil {
 	 */
     // returns by getMdrtbDrugs(); all non-MDR-TB drug are ignored
     public static List<Concept> sortMdrtbDrugs(List<Concept> drugs) {
-    	return MdrtbUtil.sortDrugs(drugs, Context.getService(MdrtbService.class).getMdrtbDrugs());
+    	return TbUtil.sortDrugs(drugs, Context.getService(MdrtbService.class).getMdrtbDrugs());
     }
 
     /**
@@ -244,7 +248,7 @@ public class MdrtbUtil {
      * (All non-antiretrovirals are ignored)
      */
 	public static List<Concept> sortAntiretrovirals(List<Concept> drugs) {
-    	return MdrtbUtil.sortDrugs(drugs, Context.getService(MdrtbService.class).getAntiretrovirals());
+    	return TbUtil.sortDrugs(drugs, Context.getService(MdrtbService.class).getAntiretrovirals());
     }
 
 	/**
@@ -372,23 +376,23 @@ public class MdrtbUtil {
 	 * Utility method to return patients matching passed criteria
 	 * @return Cohort
 	 */
-	public static Cohort getMdrPatients(String identifier, String name, String enrollment, Location location, List<ProgramWorkflowState> states) {
+	/*public static Cohort getDOTSPatients(String identifier, String name, String enrollment, Location location, List<ProgramWorkflowState> states) {
 		
 		Cohort cohort = Context.getPatientSetService().getAllPatients();
 		
-		MdrtbService ms = (MdrtbService) Context.getService(MdrtbService.class);
+		TbService ms = (TbService) Context.getService(TbService.class);
 		
 		Date now = new Date();
-		Program mdrtbProgram = ms.getMdrtbProgram();
+		Program tbProgram = ms.getTbProgram();
 		
 		if ("current".equals(enrollment)) {
-			Cohort current = Context.getPatientSetService().getPatientsInProgram(mdrtbProgram, now, now);
+			Cohort current = Context.getPatientSetService().getPatientsInProgram(tbProgram, now, now);
 			cohort = Cohort.intersect(cohort, current);
 		}
 		else {
-			Cohort ever = Context.getPatientSetService().getPatientsInProgram(mdrtbProgram, null, null);
+			Cohort ever = Context.getPatientSetService().getPatientsInProgram(tbProgram, null, null);
 			if ("previous".equals(enrollment)) {
-				Cohort current = Context.getPatientSetService().getPatientsInProgram(mdrtbProgram, now, now);
+				Cohort current = Context.getPatientSetService().getPatientsInProgram(tbProgram, now, now);
 				Cohort previous = Cohort.subtract(ever, current);
 				cohort = Cohort.intersect(cohort, previous);   			
 			}
@@ -409,7 +413,7 @@ public class MdrtbUtil {
 		
 		// If Location is specified, limit to patients at this Location
 		if (location != null) {
-			CohortDefinition lcd = Cohorts.getLocationFilter(location, now, now);
+			CohortDefinition lcd = Cohorts.getLocationFilter(location, now, now, false);
 			Cohort locationCohort;
             try {
 	            locationCohort = Context.getService(CohortDefinitionService.class).evaluate(lcd, new EvaluationContext());
@@ -426,7 +430,7 @@ public class MdrtbUtil {
 		}
 		
 		return cohort;
-	}
+	}*/
 	
 
 	/**
@@ -457,39 +461,40 @@ public class MdrtbUtil {
 	 * Utility method to return patients matching passed criteria. Difference between this and main method is that locations are matched by patient rayon
 	 * @return Cohort
 	 */
-	public static Cohort getMdrPatientsTJK(String identifier, String name, /*String enrollment,*/ Location location, String oblast, List<ProgramWorkflowState> states, Integer minage, Integer maxage, String gender, Integer year, String quarter, String month) {
+	/*public static Cohort getDOTSPatientsTJK(String identifier, String name, String enrollment, Location location, String oblast, List<ProgramWorkflowState> states, Integer minage, Integer maxage, String gender, Integer year, String quarter, String month) {
+		
 		
 		Cohort cohort = Context.getPatientSetService().getAllPatients();
 		
-		MdrtbService ms = (MdrtbService) Context.getService(MdrtbService.class);
+		TbService ms = (TbService) Context.getService(TbService.class);
 		
 		Date now = new Date();
-		Program mdrtbProgram = ms.getMdrtbProgram();
+		Program tbProgram = ms.getTbProgram();
 		
 		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
 		
 		Date startDate = (Date)(dateMap.get("startDate"));
 		Date endDate = (Date)(dateMap.get("endDate"));
 		
-		CohortDefinition drtb = Cohorts.getEnrolledInMDRProgramDuring(startDate, endDate);
+		CohortDefinition dstb = Cohorts.getEnrolledInDOTSProgramDuring(startDate, endDate);
 		
 		try {
-			Cohort enrollmentCohort = Context.getService(CohortDefinitionService.class).evaluate(drtb, new EvaluationContext());
+			Cohort enrollmentCohort = Context.getService(CohortDefinitionService.class).evaluate(dstb, new EvaluationContext());
 			cohort = Cohort.intersect(cohort, enrollmentCohort);
 		}
 		
 		 catch (EvaluationException e) {
        	  throw new MdrtbAPIException("Unable to evalute location cohort",e);
        }
-		
-		/*if ("current".equals(enrollment)) {
-			Cohort current = Context.getPatientSetService().getPatientsInProgram(mdrtbProgram, now, now);
+		if ("current".equals(enrollment)) {
+			Cohort current = Context.getPatientSetService().getPatientsInProgram(tbProgram, now, now);
 			cohort = Cohort.intersect(cohort, current);
+			
 		}
 		else {
-			Cohort ever = Context.getPatientSetService().getPatientsInProgram(mdrtbProgram, null, null);
+			Cohort ever = Context.getPatientSetService().getPatientsInProgram(tbProgram, null, null);
 			if ("previous".equals(enrollment)) {
-				Cohort current = Context.getPatientSetService().getPatientsInProgram(mdrtbProgram, now, now);
+				Cohort current = Context.getPatientSetService().getPatientsInProgram(tbProgram, now, now);
 				Cohort previous = Cohort.subtract(ever, current);
 				cohort = Cohort.intersect(cohort, previous);   			
 			}
@@ -499,7 +504,7 @@ public class MdrtbUtil {
 			else {
 				cohort = Cohort.intersect(cohort, ever);
 			}	
-		}*/
+		}
 		
 		if (StringUtils.isNotBlank(name) || StringUtils.isNotBlank(identifier)) {
 			name = "".equals(name) ? null : name;
@@ -515,13 +520,25 @@ public class MdrtbUtil {
 			cohort = Cohort.intersect(cohort, inStates);
 		}
 		
+		if (location != null) {
+			CohortDefinition lcd = Cohorts.getLocationFilter(location, null, null, false);
+			Cohort locationCohort;
+            try {
+	            locationCohort = Context.getService(CohortDefinitionService.class).evaluate(lcd, new EvaluationContext());
+            }
+            catch (EvaluationException e) {
+            	  throw new MdrtbAPIException("Unable to evalute location cohort",e);
+            }
+			cohort = Cohort.intersect(cohort, locationCohort);
+		}
+		
 		Oblast o = null;
 		if(!oblast.equals("") && location == null)
-			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+			o =  Context.getService(TbService.class).getOblast(Integer.parseInt(oblast));
 		
 		List<Location> locList = new ArrayList<Location>();
 		if(o != null && location == null)
-			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+			locList = Context.getService(TbService.class).getLocationsFromOblastName(o);
 		else if (location != null)
 			locList.add(location);
 		
@@ -529,7 +546,7 @@ public class MdrtbUtil {
 		CohortDefinition lcd = null;
 		
 		for(Location loc : locList) {
-			temp = Cohorts.getLocationFilter(loc, null,null);
+			temp = Cohorts.getLocationFilter(loc, null,null,true);
 			if(lcd == null)
 				lcd = temp;
 			
@@ -547,27 +564,35 @@ public class MdrtbUtil {
 		cohort = Cohort.intersect(cohort, locationCohort);
 		
 		// If Location is specified, limit to patients at this Location
-				/*if (location != null) {
-					CohortDefinition lcd = Cohorts.getLocationFilter(location, now, now);
-					Cohort locationCohort;
-		            try {
-			            locationCohort = Context.getService(CohortDefinitionService.class).evaluate(lcd, new EvaluationContext());
-		            }
-		            catch (EvaluationException e) {
-		            	  throw new MdrtbAPIException("Unable to evalute location cohort",e);
-		            }
-					cohort = Cohort.intersect(cohort, locationCohort);
-				}*/
-		
-		/*// If Location is specified, limit to patients at this Location
 		if (location != null) {
-			//System.out.println("ENTERED!!!!!!!!!");
-			//System.out.println("L:" + location.getCountyDistrict());
+			System.out.println("ENTERED!!!!!!!!!");
+			System.out.println("L:" + location.getId());
 			Cohort fc = new Cohort();
+			Patient patient = null;
 			Set<Integer> idSet = cohort.getMemberIds();
 	    	//System.out.println("SET SIZE:" + idSet.size());
 	    	Iterator<Integer> itr = idSet.iterator();
 	    	Integer idCheck = null;
+	    	
+	    	PatientService ps = Context.getService(PatientService.class);
+	    	boolean use = false;
+	    	while(itr.hasNext()) {
+	    		use = false;
+	    		idCheck = (Integer)itr.next();
+	    		patient = ps.getPatient(idCheck);
+	    		TbService svc = Context.getService(TbService.class);
+	    		
+	    		TbPatientProgram mpp = svc.getMostRecentTbPatientProgram(patient);
+	    		Location enrLoc = mpp.getLocation();
+	    		
+	    		while(itr.hasNext()) {
+		    		idCheck = (Integer)itr.next();
+		    		
+		    		if(location.getLocationId()==enrLoc.getId())
+		    			fc.addMember(idCheck);
+		    	}
+	    	}
+	    		
 	    	Patient patient = null;
 	    	PersonAddress addr = null;
 	    	PatientService ps = Context.getService(PatientService.class);
@@ -575,8 +600,6 @@ public class MdrtbUtil {
 	    		idCheck = (Integer)itr.next();
 	    		patient = ps.getPatient(idCheck);
 	    		addr = patient.getPersonAddress();
-	    		if(addr==null)
-	    			continue;
 	    		//System.out.println("A:"+ addr.getCountyDistrict());
 	    		
 	    		if(areRussianStringsEqual(addr.getCountyDistrict(),location.getCountyDistrict())==true)
@@ -585,17 +608,18 @@ public class MdrtbUtil {
 	    	}
 	    	
 	    	cohort  = fc;
-		}*/
+		}
 		
 		if(minage != null || maxage != null) {
+		
 			Cohort ageCohort = new Cohort();
-			AgeAtMDRRegistrationCohortDefinition ageatEnrollmentCohort = new AgeAtMDRRegistrationCohortDefinition();
+			AgeAtProgramRegistrationCohortDefinition ageatEnrollmentCohort = new AgeAtProgramRegistrationCohortDefinition();
 			ageatEnrollmentCohort.setMaxAge(maxage);
 			ageatEnrollmentCohort.setMinAge(minage);
 			ageatEnrollmentCohort.setStartDate(startDate);
 			ageatEnrollmentCohort.setEndDate(endDate);
 			
-			;
+			//AgeAtDotsProgramEnrollmentTJKCohortDefinitionEvaluator eval = new AgeAtDotsProgramEnrollmentTJKCohortDefinitionEvaluator();
 			
 			//eval.evaluate(ageatEnrollmentCohort, context)
 			 try {
@@ -605,7 +629,7 @@ public class MdrtbUtil {
 			 catch (EvaluationException e) {
            	  throw new MdrtbAPIException("Unable to evalute age cohort",e);
            }
-			/*Patient patient = null;
+			Patient patient = null;
 			Set<Integer> idSet = cohort.getMemberIds();
 			Iterator<Integer> itr = idSet.iterator();
 	    	Integer idCheck = null;
@@ -616,13 +640,13 @@ public class MdrtbUtil {
 	    		use = false;
 	    		idCheck = (Integer)itr.next();
 	    		patient = ps.getPatient(idCheck);
-	    		MdrtbService svc = Context.getService(MdrtbService.class);
+	    		TbService svc = Context.getService(TbService.class);
 	    		
-	    		MdrtbPatientProgram mpp = svc.getMostRecentMdrtbPatientProgram(patient);
+	    		TbPatientProgram mpp = svc.getMostRecentTbPatientProgram(patient);
 	    		
+	    		
+	    		//Date tsd = mpp.getTreatmentStartDateDuringProgram();
 	    		Date tsd = mpp.getDateEnrolled();
-	    		//mpp.getTreatmentStartDateDuringProgram();
-	    		
 	    		
 	    		if(minage != null && maxage !=null ) {
 	    			if(patient.getAge(tsd)>= minage.intValue() && patient.getAge(tsd)<= maxage.intValue() ) {
@@ -634,8 +658,7 @@ public class MdrtbUtil {
 	    			if(patient.getAge(tsd)>= minage.intValue()) {
 	    				use = true;
 	    			}
-	    			else
-	    				use = false;
+	    			
 	    				
 	    		}
 	    		
@@ -643,17 +666,16 @@ public class MdrtbUtil {
 	    			if(patient.getAge(tsd)<= maxage.intValue()) {
 	    				use = true;
 	    			}
-	    			else
-	    				use = false;
+	    				
 	    		} 
 	    		
 	    		if(use) {
 	    			ageCohort.addMember(patient.getPatientId());
 	    		}
 	    		
-	    	}*/
+	    	}
 	    	
-			 cohort = Cohort.intersect(cohort, ageCohort);
+	    	cohort = cohort = Cohort.intersect(cohort, ageCohort);
 			
 			
 		}
@@ -684,7 +706,7 @@ public class MdrtbUtil {
 		
 		
 		return cohort;
-	}
+	}*/
 	
 	public static boolean areRussianStringsEqual(String s1, String s2) {
 		boolean result = false;
@@ -703,10 +725,5 @@ public class MdrtbUtil {
 			return true;
 				
 		return result;
-	}
-	
-	public void updateProgramWithPatientIdentifier(Integer patientProgramId, Integer patId) {
-		
-		
 	}
 }

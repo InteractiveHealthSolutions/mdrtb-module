@@ -57,6 +57,7 @@
 				</table>
 				<input type="hidden" name="personType" value="${model.personType}"/>
 				<input type="hidden" name="viewType" value="${model.viewType}"/>
+				<input type="hidden" name="add" value="${model.add}"/>
 			</form>
 		</div>
 		
