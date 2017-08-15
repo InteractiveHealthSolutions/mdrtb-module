@@ -165,6 +165,7 @@ public class ProgramController {
 	@SuppressWarnings("unchecked")
     @RequestMapping("/module/mdrtb/program/enrollment.form")
 	public ModelAndView showEnrollment(@RequestParam(required = false, value = "patientId") Integer patientId,
+									   @RequestParam(required = false, value = "idId") Integer idId,
 	                                         ModelMap map) {
 		
 		
@@ -178,6 +179,7 @@ public class ProgramController {
 			TbPatientProgram mostRecentTbProgram = Context.getService(MdrtbService.class).getMostRecentTbPatientProgram(patient);
 			map.put("hasActiveProgram", ((mostRecentMdrtbProgram != null && mostRecentMdrtbProgram.getActive()) || (mostRecentTbProgram != null && mostRecentTbProgram.getActive())) ? true : false);
 			map.put("patientId", patientId);
+			map.put("idId", idId);
 			return new ModelAndView("/module/mdrtb/program/enrollment", map);
 			
 	}
@@ -213,7 +215,7 @@ public class ProgramController {
 		
 		// save the actual update
 		Context.getProgramWorkflowService().savePatientProgram(program.getPatientProgram());
-		//Context.getService(MdrtbService.class).addIdentifierToProgram(idId, program.getPatientProgram().getPatientProgramId());
+		Context.getService(MdrtbService.class).addIdentifierToProgram(idId, program.getPatientProgram().getPatientProgramId());
 		// clears the command object from the session
 		status.setComplete();
 		map.clear();

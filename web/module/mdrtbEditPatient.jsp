@@ -132,7 +132,28 @@
 </tr>
 --%>
 
-
+<c:choose>
+<c:when test="${add eq '1' }">
+<input name="identifierType" type="hidden" value="${dotsIdentifier.id}"/>
+<input name="identifierId" type="hidden" value=""/>
+<tr>
+<td>${dotsIdentifier.name}</td>
+<td><input name="identifierValue" type="text"></td>
+</tr>
+<tr>
+<td>
+<spring:message code="mdrtb.identifierLocation"/>
+</td>
+<td>
+<select name="identifierLocation">
+<option value=""/>
+	<c:forEach var="location" items="${locations}">
+		<option value="${location.id}">${location.displayString}</option>
+	</c:forEach>
+	</select>
+</td>
+</c:when>
+<c:otherwise>
 <c:forEach var="type" items="${patientIdentifierTypesAutoAssigned}">
 <input name="identifierId" type="hidden" value="${! empty patientIdentifierMap[type.id] ? patientIdentifierMap[type.id].id : ''}"/>
 <input name="identifierType" type="hidden" value="${type.id}"/>
@@ -161,6 +182,7 @@
 </tr>
 </c:forEach>	
 
+
 <c:forEach var="type" items="${patientIdentifierTypes}">
 <input name="identifierId" type="hidden" value="${! empty patientIdentifierMap[type.id] ? patientIdentifierMap[type.id].id : ''}"/>
 <input name="identifierType" type="hidden" value="${type.id}"/>
@@ -183,6 +205,8 @@
 </c:if>
 
 </c:forEach>	
+</c:otherwise>
+</c:choose>
 </table>
 </td>
 </tr>

@@ -128,6 +128,12 @@ public class MdrtbEditPatientController {
 		return map;
 	}	
 	
+	@ModelAttribute("dotsIdentifier")
+	public PatientIdentifierType getDotsIdentifier() {
+		
+		return Context.getPatientService().getPatientIdentifierTypeByName(Context.getAdministrationService().getGlobalProperty("mdrtb.primaryPatientIdentifierType"));
+	}
+	
 	@SuppressWarnings("unchecked")
     @ModelAttribute("patientIdentifierTypesAutoAssigned")
 	public List<PatientIdentifierType> getPatientIdentifierTypesAutoAssigned() {
@@ -286,8 +292,8 @@ public class MdrtbEditPatientController {
 	                               @RequestParam("successURL") String successUrl,
 	                               @RequestParam("add") String add,
 	                               SessionStatus status, ModelMap map) {
-		
-		
+		System.out.println(identifierValue.length);
+		System.out.println(identifierValue[0]);
 		System.out.println("Edit:submit:add:" + add);
 		// first, we need to set the patient id to null if it's been set to -1
 		if (patient.getId() != null && patient.getId() == -1) {
@@ -389,7 +395,7 @@ public class MdrtbEditPatientController {
 		{
 			ArrayList<Patient> pats = new ArrayList<Patient>();
 			pats.add(patient);
-			idId = Context.getPatientService().getPatientIdentifiers(identifierValue[0], null, null, pats, new Boolean(false)).get(0).getId();
+			idId = Context.getPatientService().getPatientIdentifiers(identifierValue[0], null, null, pats, null).get(0).getId();
 		}
 		
 		// clears the command object from the session
