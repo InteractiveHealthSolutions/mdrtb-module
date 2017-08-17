@@ -93,18 +93,38 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.siteOfDisease" text="Anatomical Type"/>:</td>
-<td>${tb03.anatomicalSite.displayString}</td>
-</tr>
- 
-<tr>
-<td><spring:message code="mdrtb.treatmentSiteIP" text="Tx Site IP"/>:</td>
+<td><spring:message code="mdrtb.tb03.treatmentSiteIP" text="Tx Site IP"/>:</td>
 <td>${tb03.treatmentSiteIP.displayString}</td>
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.treatmentSiteCP" text="Tx Site CP"/>:</td>
+<td><spring:message code="mdrtb.tb03.treatmentSiteCP" text="Tx Site CP"/>:</td>
 <td>${tb03.treatmentSiteCP.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.patientCategory" text="Tx Regimen"/>:</td>
+<td>${tb03.patientCategory.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.treatmentStartDate" text="Treatment Start Date"/>:</td>
+<td><openmrs:formatDate date="${tb03.treatmentStartDate}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.siteOfDisease" text="Anatomical Type"/>:</td>
+<td>${tb03.anatomicalSite.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:</td>
+<td>${tb03.registrationGroup.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.hivStatus" text="HIV Status"/>:</td>
+<td>${tb03.hivStatus.displayString}</td>
 </tr>
 
 </table>
@@ -183,18 +203,6 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.tb03.siteOfDisease" text="Anatomical Type"/>:</td>
-<td>
-<select name="anatomicalSite">
-<option value=""></option>
-<c:forEach var="site" items="${sites}">
-	<option value="${site.answerConcept.id}" <c:if test="${tb03.anatomicalSite == site.answerConcept}">selected</c:if> >${site.answerConcept.displayString}</option>
-</c:forEach>
-</select>
-</td>
-</tr>
-
-<tr>
 <td><spring:message code="mdrtb.tb03.treatmentSiteIP" text="Tx Site IP"/>:</td>
 <td>
 <select name="treatmentSiteIP">
@@ -213,6 +221,59 @@
 <option value=""></option>
 <c:forEach var="cptxsite" items="${cptxsites}">
 	<option value="${cptxsite.answerConcept.id}" <c:if test="${tb03.treatmentSiteCP == cptxsite.answerConcept}">selected</c:if> >${cptxsite.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.patientCategory" text="Regimen Type"/>:</td>
+<td>
+<select name="patientCategory">
+<option value=""></option>
+<c:forEach var="category" items="${categories}">
+	<option value="${category.answerConcept.id}" <c:if test="${tb03.patientCategory == category.answerConcept}">selected</c:if> >${category.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.treatmentStartDate" text="Tx Start Date"/>:</td>
+<td><openmrs_tag:dateField formFieldName="treatmentStartDate" startValue="${tb03.treatmentStartDate}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.siteOfDisease" text="Anatomical Type"/>:</td>
+<td>
+<select name="anatomicalSite">
+<option value=""></option>
+<c:forEach var="site" items="${sites}">
+	<option value="${site.answerConcept.id}" <c:if test="${tb03.anatomicalSite == site.answerConcept}">selected</c:if> >${site.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:</td>
+<td>
+<select name="registrationGroup">
+<option value=""></option>
+<c:forEach var="group" items="${groups}">
+	<option value="${group.concept.id}" <c:if test="${tb03.registrationGroup == group.concept}">selected</c:if> >${group.concept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.hivStatus" text="HIV Status"/>:</td>
+<td>
+<select name="hivStatus">
+<option value=""></option>
+<c:forEach var="status" items="${hivstatuses}">
+	<option value="${status.answerConcept.id}" <c:if test="${tb03.hivStatus == status.answerConcept}">selected</c:if> >${status.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>

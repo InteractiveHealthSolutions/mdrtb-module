@@ -1195,11 +1195,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 			pi = getPatientIdentifierById(id);
 		}
 
-    	
-    	
     	return pi;
-    	
-    	
+
     }
     
     
@@ -1215,6 +1212,16 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleCPTreatmentSites() {
     	return this.getConcept(TbConcepts.TREATMENT_CENTER_FOR_CP).getAnswers();
+    }
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleRegimens() {
+    	return this.getConcept(TbConcepts.TUBERCULOSIS_PATIENT_CATEGORY).getAnswers();
+    }
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleHIVStatuses() {
+    	return this.getConcept(TbConcepts.RESULT_OF_HIV_TEST).getAnswers();
     }
     
     	

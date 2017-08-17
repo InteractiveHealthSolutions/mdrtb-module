@@ -562,6 +562,12 @@ public interface MdrtbService extends OpenmrsService {
     
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleCPTreatmentSites();
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleRegimens();
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleHIVStatuses();
 }
 
 

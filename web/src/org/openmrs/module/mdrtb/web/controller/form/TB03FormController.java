@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.openmrs.ProgramWorkflowState;
 
 @Controller
 @RequestMapping("/module/mdrtb/form/tb03.form")
@@ -157,5 +159,21 @@ public class TB03FormController {
 		return Context.getService(MdrtbService.class).getPossibleCPTreatmentSites();
 	}
 	
+	
+	@ModelAttribute("categories")
+	public Collection<ConceptAnswer> getPossiblePatientCategories() {
+		return Context.getService(MdrtbService.class).getPossibleRegimens();
+	}
+	
+	@ModelAttribute("groups")
+	public Set<ProgramWorkflowState> getPossiblePatientGroups() {
+		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
+	}
+	
+	@ModelAttribute("hivstatuses")
+	public Collection<ConceptAnswer> getPossibleHIVStatuses() {
+		return Context.getService(MdrtbService.class).getPossibleHIVStatuses();
+	}
+
 		
 }
