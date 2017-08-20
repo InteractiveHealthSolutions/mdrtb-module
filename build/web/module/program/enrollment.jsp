@@ -11,7 +11,7 @@
 <openmrs:htmlInclude file="/moduleResources/mdrtb/mdrtb.css"/>
 
 <openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
-<openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${! empty patientId ? patientId : specimen.patient.patientId}" parameters="patientProgramId=${patientProgramId}"/>
+
 
 <!-- TODO: clean up above paths so they use dynamic reference -->
 <!-- TODO: add privileges? -->
@@ -29,9 +29,6 @@
 
 <div align="center"> <!-- start of page div -->
 
-<!-- PROGRAM ENROLLMENT BOX-->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.enrollMdrtb" text="Enroll in MDR-TB Program"/></b>
-<div class="box" style="margin:0px">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
 <c:if test="${fn:length(errors.allErrors) > 0}">
@@ -40,6 +37,67 @@
 	</c:forEach>
 	<br/>
 </c:if>
+
+<c:choose>
+<c:when test="${hasPrograms}">
+<c:if test="${not empty tbPrograms}">
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.tbPrograms" text="TB Programs"/></b>
+<div class="box" style="margin:0px">
+<table cellspacing="2" cellpadding="2">
+<tr>
+<th><spring:message code="mdrtb.tb03.dateOfRegistration" text="Date"/></th>
+<th><spring:message code="mdrtb.enrollment.location" text="Location"/></th>
+<th><spring:message code="mdrtb.tb03.registrationNumber" text="Location"/></th>
+<th><spring:message code="mdrtb.enrollment.completionDate" text="Completion Date"/></th>
+<th>&nbsp;</th>
+<th>&nbsp;</th>
+</tr>
+</c:if>
+<c:forEach var="tbProgram" items="${tbPrograms}">
+<tr>
+<td><openmrs:formatDate date="${tbProgram.dateEnrolled}" format="${_dateFormatDisplay}"/></td>
+<td>${tbProgram.location.name }</td>
+<td>${tbProgram.patientIdentifier.identifier }</td>
+<td>${tbProgram.dateCompleted }</td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${patientId}&patientProgramId=${tbProgram.id }"><spring:message code="mdrtb.edit" text="XXXX"/></a></td>
+<td>Delete</td>
+</tr>     
+</c:forEach>
+</table>
+</div>
+<c:if test="${not empty mdrtbPrograms}">
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.mdrtbPrograms" text="MDR-TB Programs"/></b>
+<div class="box" style="margin:0px">
+<table cellspacing="2" cellpadding="2">
+
+<tr>
+<th><spring:message code="mdrtb.tb03.dateOfRegistration" text="Date"/></th>
+<th><spring:message code="mdrtb.enrollment.location" text="Location"/></th>
+<th><spring:message code="mdrtb.tb03.registrationNumber" text="Location"/></th>
+<th><spring:message code="mdrtb.enrollment.completionDate" text="Completion Date"/></th>
+<th>&nbsp;</th>
+<th>&nbsp;</th>
+</tr>
+</c:if>
+<c:forEach var="mdrtbProgram" items="${mdrtbPrograms}">
+   <tr>
+<td><openmrs:formatDate date="${mdrtbProgram.dateEnrolled}" format="${_dateFormatDisplay}"/></td>
+<td>${mdrtbProgram.location.name }</td>
+<td>${mdrtbProgram.patientIdentifier.identifier }</td>
+<td>${mdrtbProgram.dateCompleted }</td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${patientId}&patientProgramId=${mdrtbProgram.id }"><spring:message code="mdrtb.edit" text="Edit"/></a></td>
+<td>Delete</td>
+</tr>    
+
+</c:forEach>
+</table>
+</div>
+</c:when>
+<c:otherwise>
+
+<!-- PROGRAM ENROLLMENT BOX-->
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.enrollInProgram" text="Enroll in MDR-TB Program"/></b>
+<div class="box" style="margin:0px">
 
 <form id="enrollment" action="${pageContext.request.contextPath}/module/mdrtb/program/firstEnrollment.form?patientId=${patientId}&patientProgramId=-1&idId=${idId}" method="post" >
 <table cellspacing="2" cellpadding="2">
@@ -67,25 +125,13 @@
 </select>	
 </td></tr>
 
-<c:if test="${hasActiveProgram}">
-<tr><td>
-<spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateCompleted" type="text" size="14" name="dateCompleted" value="<openmrs:formatDate date='${program.dateCompleted}'/>" onFocus="showCalendar(this)"/>
-</td></tr>
-<tr><td>
-<spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>
-<select name="outcome">
-<option value=""/>
-<c:forEach var="outcome" items="${outcomes}">
-<option value="${outcome.id}">${outcome.concept.displayString}</option>
-</c:forEach>
-</select>	
-</td></tr>
-</c:if>
-
 </table>
 <button type="submit"><spring:message code="mdrtb.enrollment.enroll" text="Enroll in Program"/></button><button type="reset" onclick=window.location='${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${patientId}'><spring:message code="mdrtb.cancel" text="Cancel"/></button>
 </form>
 </div>
+</c:otherwise>
+</c:choose>
+
 <!-- END PROGRAM ENROLLMENT BOX -->
 
 </div> <!-- end of page div -->

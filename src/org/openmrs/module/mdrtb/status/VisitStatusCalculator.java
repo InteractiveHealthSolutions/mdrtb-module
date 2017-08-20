@@ -122,7 +122,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	// hack to handle the situation if we don't have a patient program--create a "dummy" patient program with 
     	// just the patient information to pass on to the renderer
     	else {
-    		MdrtbPatientProgram dummyProgram = new MdrtbPatientProgram();
+    		TbPatientProgram dummyProgram = new TbPatientProgram();
     		dummyProgram.setPatient(patient);
     		status = new VisitStatus(dummyProgram);
     	}
@@ -144,7 +144,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     		encounters = tbProgram.getTbEncountersDuringProgram();
     	}
     	else {
-    		encounters = Context.getService(MdrtbService.class).getMdrtbEncounters(patient);
+    		encounters = Context.getService(MdrtbService.class).getTbEncounters(patient);
     	}
     	
     	if (encounters != null) {
@@ -153,7 +153,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     			StatusItem visit = new StatusItem();
     			visit.setValue(encounter);
     			visit.setDate(encounter.getEncounterDatetime());
-    			renderer.renderVisit(visit, status);
+    			renderer.renderTbVisit(visit, status);
     	
     			// now place the visit in the appropriate "bucket"
     			if (encounter.getEncounterType().equals(intakeType)) {
@@ -182,11 +182,11 @@ public class VisitStatusCalculator implements StatusCalculator {
     	// now handle adding the links that we should use for the new intake and follow-up visits
     	// (the logic to determine these links is basically delegated to the renderer
     	StatusItem newIntakeVisit = new StatusItem();
-    	renderer.renderNewIntakeVisit(newIntakeVisit, status);
+    	renderer.renderNewTbIntakeVisit(newIntakeVisit, status);
     	status.addItem("newIntakeVisit", newIntakeVisit);
     	
      	StatusItem newFollowUpVisit = new StatusItem();
-    	renderer.renderNewFollowUpVisit(newFollowUpVisit, status);
+    	renderer.renderNewTbFollowUpVisit(newFollowUpVisit, status);
     	status.addItem("newFollowUpVisit", newFollowUpVisit);
     	
     	return status;

@@ -20,9 +20,12 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
-import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
-import org.openmrs.module.mdrtb.program.MdrtbPatientProgramHospitalizationValidator;
-import org.openmrs.module.mdrtb.program.MdrtbPatientProgramValidator;
+
+/*import org.openmrs.module.mdrtb.program.MdrtbPatientProgramHospitalizationValidator;
+import org.openmrs.module.mdrtb.program.MdrtbPatientProgramValidator;*/
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgramHospitalizationValidator;
+import org.openmrs.module.mdrtb.program.TbPatientProgramValidator;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.status.HivStatusCalculator;
 import org.openmrs.module.mdrtb.status.LabResultsStatusCalculator;
@@ -51,7 +54,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class MdrtbDashboardController {
+public class MdrtbDOTSDashboardController {
 	
 	@InitBinder
 	public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
@@ -78,14 +81,9 @@ public class MdrtbDashboardController {
 		return Context.getService(MdrtbService.class).getPossibleMdrtbProgramOutcomes();
 	}
 	
-	@ModelAttribute("classificationsAccordingToPreviousDrugUse")
-	public Collection<ProgramWorkflowState> getClassificationsAccordingToPreviousDrugUse() {		
-		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPreviousDrugUse();
-	}
-	
-	@ModelAttribute("classificationsAccordingToPreviousTreatment")
-	public Collection<ProgramWorkflowState> getClassificationsAccordingToPreviousTreatment() {		
-		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPreviousTreatment();
+	@ModelAttribute("classificationsAccordingToPatientGroups")
+	public Collection<ProgramWorkflowState> getClassificationsAccordingToPatientGroups() {		
+		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
 	}
 	
 	@ModelAttribute("patientDied")
@@ -104,7 +102,7 @@ public class MdrtbDashboardController {
 	}
 	
 	@ModelAttribute("program")
-	public MdrtbPatientProgram getMdrtbPatientProgram(@RequestParam(required = false, value = "patientProgramId") Integer patientProgramId,
+	public TbPatientProgram getTbPatientProgram(@RequestParam(required = false, value = "patientProgramId") Integer patientProgramId,
 	                                                  @RequestParam(required = false, value = "patientId") Integer patientId) {
 		
 		System.out.println("MdrtbEditPatient:getMdrtbPatientProgram");
@@ -122,13 +120,13 @@ public class MdrtbDashboardController {
 				throw new MdrtbAPIException("Invalid patient id passed to dashboard controller");
 			}
 			else {
-				return Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
+				return Context.getService(MdrtbService.class).getMostRecentTbPatientProgram(patient);
 			}
 			
     	}
     	// fetch the program that is being requested
     	else {
-    		return Context.getService(MdrtbService.class).getMdrtbPatientProgram(patientProgramId);
+    		return Context.getService(MdrtbService.class).getTbPatientProgram(patientProgramId);
     	}
 	}
 	
@@ -151,8 +149,8 @@ public class MdrtbDashboardController {
 	}
 	
     @SuppressWarnings("unchecked")
-    @RequestMapping("/module/mdrtb/dashboard/dashboard.form")
-	public ModelAndView showStatus(@ModelAttribute("program") MdrtbPatientProgram program,
+    @RequestMapping("/module/mdrtb/dashboard/tbdashboard.form")
+	public ModelAndView showStatus(@ModelAttribute("program") TbPatientProgram program,
 	                               @RequestParam(required = false, value = "patientId") Integer patientId,
 	                               @RequestParam(required = false, value = "patientProgramId") Integer patientProgramId,
 	                               @RequestParam(required = false, value = "idId") Integer idId,
@@ -176,15 +174,15 @@ public class MdrtbDashboardController {
 		Map<String,Status> statusMap = new HashMap<String,Status>();
 	
 		// lab reports status
-		Status labReportsStatus = new LabResultsStatusCalculator(new DashboardLabResultsStatusRenderer()).calculate(program);
+		Status labReportsStatus = new LabResultsStatusCalculator(new DashboardLabResultsStatusRenderer()).calculateTb(program);
 		statusMap.put("labResultsStatus", labReportsStatus);
 		
 		// treatment status
-		Status treatmentStatus = new TreatmentStatusCalculator(new DashboardTreatmentStatusRenderer()).calculate(program);
+		Status treatmentStatus = new TreatmentStatusCalculator(new DashboardTreatmentStatusRenderer()).calculateTb(program);
 		statusMap.put("treatmentStatus", treatmentStatus);
 		
 		// visits status
-		Status visitStatus = new VisitStatusCalculator(new DashboardVisitStatusRenderer()).calculate(program);
+		Status visitStatus = new VisitStatusCalculator(new DashboardVisitStatusRenderer()).calculateTb(program);
 		statusMap.put("visitStatus", visitStatus);
 		
 		// hiv status
@@ -196,20 +194,20 @@ public class MdrtbDashboardController {
     	// add any flags
 		addFlags(statusMap, map);
 		
-		return new ModelAndView("/module/mdrtb/dashboard/dashboard", map);
+		return new ModelAndView("/module/mdrtb/dashboard/tbdashboard", map);
 
 	}
     
     
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/module/mdrtb/program/programEdit.form", method = RequestMethod.POST)
-	public ModelAndView processEditPopup(@ModelAttribute("program") MdrtbPatientProgram program, BindingResult errors, 
+    @RequestMapping(value = "/module/mdrtb/program/tbprogramEdit.form", method = RequestMethod.POST)
+	public ModelAndView processEditPopup(@ModelAttribute("program") TbPatientProgram program, BindingResult errors, 
 	                                     @RequestParam(required = false, value = "causeOfDeath") Concept causeOfDeath,
 	                                     SessionStatus status, HttpServletRequest request, ModelMap map) {
 		  
 		// perform validation 
 		if (program != null) {
-    		new MdrtbPatientProgramValidator().validate(program, errors);
+    		new TbPatientProgramValidator().validate(program, errors);
     	}
 		
 		if (errors.hasErrors()) {	
@@ -232,19 +230,19 @@ public class MdrtbDashboardController {
 		status.setComplete();
 		map.clear();
 			
-		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientProgramId=" + program.getId());
+		return new ModelAndView("redirect:/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=" + program.getId());
 			
 	}
 	
 	@SuppressWarnings("unchecked")
-    @RequestMapping(value = "/module/mdrtb/program/programClose.form", method = RequestMethod.POST)
-	public ModelAndView processClosePopup(@ModelAttribute("program") MdrtbPatientProgram program, BindingResult errors,
+    @RequestMapping(value = "/module/mdrtb/program/tbprogramClose.form", method = RequestMethod.POST)
+	public ModelAndView processClosePopup(@ModelAttribute("program") TbPatientProgram program, BindingResult errors,
 	                                      @RequestParam(required = false, value = "causeOfDeath") Concept causeOfDeath,
 	                                      SessionStatus status, HttpServletRequest request, ModelMap map) {
 		  
 		// perform validation 
 		if (program != null) {
-    		new MdrtbPatientProgramValidator().validate(program, errors);
+    		new TbPatientProgramValidator().validate(program, errors);
     	}
 		
 		if (errors.hasErrors()) {	
@@ -267,13 +265,13 @@ public class MdrtbDashboardController {
 		status.setComplete();
 		map.clear();
 			
-		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientProgramId=" + program.getId());
+		return new ModelAndView("redirect:/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=" + program.getId());
 			
 	}
 	
 	@SuppressWarnings("unchecked")
-    @RequestMapping(value = "/module/mdrtb/program/hospitalizationsEdit.form", method = RequestMethod.POST)
-	public ModelAndView editHospitalization(@ModelAttribute("program") MdrtbPatientProgram program, BindingResult errors,
+    @RequestMapping(value = "/module/mdrtb/program/tbhospitalizationsEdit.form", method = RequestMethod.POST)
+	public ModelAndView editHospitalization(@ModelAttribute("program") TbPatientProgram program, BindingResult errors,
 	                                        @ModelAttribute("hospitalizationState") PatientState hospitalizationState, BindingResult patientStateErrors,
 	                                        @RequestParam(required = false, value = "startDate") Date admissionDate,
 	                                        @RequestParam(required = false, value = "endDate") Date dischargeDate,
@@ -286,7 +284,7 @@ public class MdrtbDashboardController {
 		
 		// perform validation 
 		if (program != null) {
-			MdrtbPatientProgramHospitalizationValidator validator = new MdrtbPatientProgramHospitalizationValidator();
+			TbPatientProgramHospitalizationValidator validator = new TbPatientProgramHospitalizationValidator();
     		validator.validate(program, errors);
     		
     		// also validate that the new date is accurate
@@ -310,12 +308,12 @@ public class MdrtbDashboardController {
 		status.setComplete();
 		map.clear();
 		
-		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientProgramId=" + program.getId());
+		return new ModelAndView("redirect:/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=" + program.getId());
 		
 	}
 	
-	@RequestMapping(value = "/module/mdrtb/program/hospitalizationsDelete.form", method = RequestMethod.GET)
-	public ModelAndView deleteHospitalization(@ModelAttribute("program") MdrtbPatientProgram program, BindingResult programErrors,
+	@RequestMapping(value = "/module/mdrtb/program/tbhospitalizationsDelete.form", method = RequestMethod.GET)
+	public ModelAndView deleteHospitalization(@ModelAttribute("program") TbPatientProgram program, BindingResult programErrors,
 		                                      @ModelAttribute("hospitalizationState") PatientState hospitalizationState, BindingResult patientStateErrors,
 	                                          SessionStatus status, HttpServletRequest request, ModelMap map) {
 		
@@ -329,7 +327,7 @@ public class MdrtbDashboardController {
 		status.setComplete();
 		map.clear();
 		
-		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientProgramId=" + program.getId());
+		return new ModelAndView("redirect:/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=" + program.getId());
 		
 	}
 	

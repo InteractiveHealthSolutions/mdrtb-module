@@ -52,7 +52,7 @@
 		$j('#programEditCancelButton').click(function() {
 			if (${fn:length(programEditErrors.allErrors) > 0}) {
 				// if we are in the middle of a validation error, we need to do a page reload on cancel
-				window.location="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientProgramId=${patientProgramId}";
+				window.location="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=${patientProgramId}";
 			} 
 			else {
 				// otherwise, just close the popup
@@ -78,7 +78,7 @@
 		$j('#programCloseCancelButton').click(function() {
 			if (${fn:length(programCloseErrors.allErrors) > 0}) {
 				// if we are in the middle of a validation error, we need to do a page reload on cancel
-				window.location="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientProgramId=${patientProgramId}";
+				window.location="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=${patientProgramId}";
 			} 
 			else {
 				// otherwise, just close the popup
@@ -88,7 +88,7 @@
 
 		$j('#programDeleteButton').click(function() {
 			if (confirm('<spring:message code="mdrtb.confirmDeleteProgram" text="Are you sure you want to delete this program?"/>')) {
-				window.location="${pageContext.request.contextPath}/module/mdrtb/program/programDelete.form?patientProgramId=${patientProgramId}";
+				window.location="${pageContext.request.contextPath}/module/mdrtb/program/tbprogramDelete.form?patientProgramId=${patientProgramId}";
 			}
 		});
  		
@@ -121,7 +121,7 @@
 		$j('#hospitalizationsEditCancelButton').click(function() {
 			if (${fn:length(hospitalizationErrors.allErrors) > 0}) {
 				// if we are in the middle of a validation error, we need to do a page reload on cancel
-				window.location="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientProgramId=${patientProgramId}";
+				window.location="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=${patientProgramId}";
 			} 
 			else {
 				// otherwise, just close the popup
@@ -176,28 +176,18 @@
 <br/>
 
 <table cellpadding="0" cellspacing="0">
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.previousDrugClassification" text="Registration Group - Previous Drug Use"/>:</td>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.patientGroup" text="Registration Group - Previous Drug Use"/>:</td>
 <td>
 <c:choose>
-	<c:when test="${! empty program.classificationAccordingToPreviousDrugUse.concept.displayString}">
-		${program.classificationAccordingToPreviousDrugUse.concept.displayString}
+	<c:when test="${! empty program.classificationAccordingToPatientGroups.concept.displayString}">
+		${program.classificationAccordingToPatientGroups.concept.displayString}
 	</c:when>
 	<c:otherwise>
 		<spring:message code="mdrtb.unknown"/>
 	</c:otherwise>
 </c:choose>
 </td>
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.previousTreatmentClassification" text="Registration Group - Previous Treatment"/>:</td>
-<td>
-<c:choose>
-	<c:when test="${! empty program.classificationAccordingToPreviousTreatment.concept.displayString}">
-		${program.classificationAccordingToPreviousTreatment.concept.displayString}
-	</c:when>
-	<c:otherwise>
-		<spring:message code="mdrtb.unknown"/>
-	</c:otherwise>
-</c:choose>
-</td>
+
 </table>
 
 <br/>
@@ -222,7 +212,7 @@
 	</c:forEach>
 </c:if>
 
-<form id="programEdit" action="${pageContext.request.contextPath}/module/mdrtb/program/programEdit.form?patientProgramId=${program.id}" method="post" >
+<form id="programEdit" action="${pageContext.request.contextPath}/module/mdrtb/program/tbprogramEdit.form?patientProgramId=${program.id}" method="post" >
 <table cellspacing="2" cellpadding="2">
 <tr><td style="font-weight:bold">
 <spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${program.dateEnrolled}'/>" onFocus="showCalendar(this)"/>
@@ -238,24 +228,16 @@
 </td></tr>
 
 <tr><td colspan="2" style="font-weight:bold">
-<spring:message code="mdrtb.previousDrugClassification" text="Registration Group - Previous Drug Use"/>:<br/>
-<select name="classificationAccordingToPreviousDrugUse">
+<spring:message code="mdrtb.patientGroup" text="Registration Group"/>:<br/>
+<select name="classificationwAccordingToPatientGroups">
 <option value=""/>
-<c:forEach var="classificationAccordingToPreviousDrugUse" items="${classificationsAccordingToPreviousDrugUse}">
-<option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == program.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>
+<c:forEach var="classificationAccordingToPatientGroups" items="${classificationsAccordingToPatientGrousp}">
+<option value="${classificationAccordingToPatientGroups.id}" <c:if test="${classificationAccordingToPatientGroups == program.classificationAccordingToPatientGroups}">selected</c:if> >${classificationAccordingToPatientGroups.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
 
-<tr><td colspan="2" style="font-weight:bold">
-<spring:message code="mdrtb.previousTreatmentClassification" text="Registration Group - Previous Treatment"/>:<br/>
-<select name="classificationAccordingToPreviousTreatment">
-<option value=""/>
-<c:forEach var="classificationAccordingToPreviousTreatment" items="${classificationsAccordingToPreviousTreatment}">
-<option value="${classificationAccordingToPreviousTreatment.id}" <c:if test="${classificationAccordingToPreviousTreatment == program.classificationAccordingToPreviousTreatment}">selected</c:if> >${classificationAccordingToPreviousTreatment.concept.displayString}</option>
-</c:forEach>
-</select>	
-</td></tr>
+
 
 <c:if test="${!program.active}">
 	<tr><td style="font-weight:bold">
@@ -297,7 +279,7 @@
 	</c:forEach>
 </c:if>
 
-<form id="programClose" action="${pageContext.request.contextPath}/module/mdrtb/program/programClose.form?patientProgramId=${program.id}" method="post" >
+<form id="programClose" action="${pageContext.request.contextPath}/module/mdrtb/program/tbprogramClose.form?patientProgramId=${program.id}" method="post" >
 <table cellspacing="2" cellpadding="2">
 <tr><td style="font-weight:bold">
 <spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateToClose" type="text" size="14" tabindex="-1" name="dateCompleted"  value="<openmrs:formatDate date='${program.dateCompleted}'/>" onFocus="showCalendar(this)"/>
@@ -496,7 +478,7 @@ ${regimen.displayString}
 	</c:forEach>
 </c:if>
 
-<form id="hospitalizationsEdit" action="${pageContext.request.contextPath}/module/mdrtb/program/hospitalizationsEdit.form?patientProgramId=${program.id}" method="post" >
+<form id="hospitalizationsEdit" action="${pageContext.request.contextPath}/module/mdrtb/program/tbhospitalizationsEdit.form?patientProgramId=${program.id}" method="post" >
 <input type="hidden" id="hospitalizationStateId" name="hospitalizationStateId" value="${hospitalizationStateId}"/>
 <table cellspacing="2" cellpadding="2">
 <tr><td style="font-weight:bold">

@@ -137,21 +137,21 @@ public class TbPatientProgram implements Comparable<TbPatientProgram> {
 		}
 	}
 	
-	public ProgramWorkflowState getClassificationAccordingToPatientGroup() {		
+	public ProgramWorkflowState getClassificationAccordingToPatientGroups() {		
 		Concept patientGroup = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP);
 		return getPatientWorkflowState(patientGroup);
 		
 	}
 	
 	
-	public void setClassificationAccordingToPatientGroup (ProgramWorkflowState classification) {
+	public void setClassificationAccordingToPatientGroups (ProgramWorkflowState classification) {
 		// first make sure that this program workflow state is valid
 		if (classification != null && !Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups().contains(classification)) {
 			throw new MdrtbAPIException(classification.toString() + " is not a valid state for Classification According To Patient Groups workflow");
 		}
 		
 		// if the state hasn't changed, we don't need to bother doing the update
-		ProgramWorkflowState currentClassification = getClassificationAccordingToPatientGroup();
+		ProgramWorkflowState currentClassification = getClassificationAccordingToPatientGroups();
 		if ( (currentClassification == null && classification == null) || (currentClassification != null && currentClassification.equals(classification)) ){
 			return;
 		}

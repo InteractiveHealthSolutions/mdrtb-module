@@ -92,10 +92,20 @@ public class ProgramController {
 			}
 		
 			// we need to determine if this patient currently in active in an mdr-tb program to determine what fields to display
-			MdrtbPatientProgram mostRecentMdrtbProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
-			TbPatientProgram mostRecentTbProgram = Context.getService(MdrtbService.class).getMostRecentTbPatientProgram(patient);
-			map.put("hasActiveProgram", ((mostRecentMdrtbProgram != null && mostRecentMdrtbProgram.getActive()) || (mostRecentTbProgram != null && mostRecentTbProgram.getActive())) ? true : false);
+			//MdrtbPatientProgram mostRecentMdrtbProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
+			//TbPatientProgram mostRecentTbProgram = Context.getService(MdrtbService.class).getMostRecentTbPatientProgram(patient);
+			//map.put("hasActiveProgram", ((mostRecentMdrtbProgram != null && mostRecentMdrtbProgram.getActive()) || (mostRecentTbProgram != null && mostRecentTbProgram.getActive())) ? true : false);
 			map.put("patientId", patientId);
+			
+			List<MdrtbPatientProgram> mdrtbPrograms = Context.getService(MdrtbService.class).getMdrtbPatientPrograms(patient);
+			List<TbPatientProgram> tbPrograms = Context.getService(MdrtbService.class).getTbPatientPrograms(patient);
+			
+			map.put("hasPrograms", ((mdrtbPrograms != null && mdrtbPrograms.size()!=0) || (tbPrograms != null && tbPrograms.size() != 0)) ? true : false);
+			System.out.println("Prog:"+ map.get("hasPrograms"));
+			
+			map.put("mdrtbPrograms", mdrtbPrograms);
+			map.put("tbPrograms", tbPrograms);
+			
 			return new ModelAndView("/module/mdrtb/program/showEnroll", map);
 			
 	}
@@ -175,11 +185,22 @@ public class ProgramController {
 			}
 		
 			// we need to determine if this patient currently in active in an mdr-tb program to determine what fields to display
-			MdrtbPatientProgram mostRecentMdrtbProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
+			/*MdrtbPatientProgram mostRecentMdrtbProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
 			TbPatientProgram mostRecentTbProgram = Context.getService(MdrtbService.class).getMostRecentTbPatientProgram(patient);
 			map.put("hasActiveProgram", ((mostRecentMdrtbProgram != null && mostRecentMdrtbProgram.getActive()) || (mostRecentTbProgram != null && mostRecentTbProgram.getActive())) ? true : false);
 			map.put("patientId", patientId);
 			map.put("idId", idId);
+			return new ModelAndView("/module/mdrtb/program/enrollment", map);*/
+			
+			List<MdrtbPatientProgram> mdrtbPrograms = Context.getService(MdrtbService.class).getMdrtbPatientPrograms(patient);
+			List<TbPatientProgram> tbPrograms = Context.getService(MdrtbService.class).getTbPatientPrograms(patient);
+			map.put("patientId", patientId);
+			map.put("hasPrograms", ((mdrtbPrograms != null && mdrtbPrograms.size()!=0) || (tbPrograms != null && tbPrograms.size() != 0)) ? true : false);
+			System.out.println("Prog:"+ map.get("hasPrograms"));
+			
+			map.put("mdrtbPrograms", mdrtbPrograms);
+			map.put("tbPrograms", tbPrograms);
+			
 			return new ModelAndView("/module/mdrtb/program/enrollment", map);
 			
 	}

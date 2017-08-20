@@ -15,6 +15,7 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.MdrtbConstants.TbClassification;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.specimen.Bacteriology;
 import org.openmrs.module.mdrtb.specimen.Culture;
@@ -37,6 +38,59 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 	
 	public LabResultsStatusCalculator(LabResultsStatusRenderer renderer) {
 		this.renderer = renderer;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Status calculateTb(TbPatientProgram mdrtbProgram) {
+		
+		// create the Status
+		LabResultsStatus status = new LabResultsStatus(mdrtbProgram);
+		
+		// get the specimens for this patient program, because these will be used for multiple calculations
+		List<Specimen> specimens = mdrtbProgram.getSpecimensDuringProgram();
+		
+		// just create an empty list of specimens if no specimens during the program
+		if (specimens == null) {
+			specimens = new LinkedList<Specimen>();
+		}
+		
+		// get the control smear and diagnostic culture
+		//findDiagnosticSmearAndCulture(specimens, status);
+		findDiagnosticTests(specimens, status);
+		
+		
+		
+		// determine any pending lab results
+		findPendingLabResults(specimens, status);
+		
+		// determine the resistance profile
+		StatusItem resistanceProfile = calculateResistanceProfile(specimens);
+		status.addItem("drugResistanceProfile", resistanceProfile);
+		
+		// now use the resistance profile to determine the mdr-tb classification
+		status.addItem("tbClassification", calculateTbClassication((List<Concept>) resistanceProfile.getValue()));
+		
+		// we want to to reverse the order of the specimens here so that first=most recent
+		// NOTE: the find most recent smear/culture and the calculate conversions methods
+		// both rely on the specimens being in reverse order
+		Collections.reverse(specimens);
+		
+		// find the most recent smear and culture
+		findMostRecentSmear(specimens, status);
+		findMostRecentCulture(specimens, status);
+		findMostRecentXpert(specimens, status);
+		findMostRecentHAIN(specimens, status);
+		
+		// calculate whether or not the culture has been converted
+		status.addItem("smearConversion", calculateConversion(specimens, "smear"));
+		status.addItem("cultureConversion", calculateConversion(specimens, "culture"));
+		
+		// figure out the anatomical site, if know
+		status.addItem("anatomicalSite", findAnatomicalSiteTb(mdrtbProgram));
+		
+		
+		return status;
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -293,6 +347,15 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 	
 	
 	private StatusItem findAnatomicalSite(MdrtbPatientProgram program) {
+		StatusItem anatomicalSite = new StatusItem();
+		
+		anatomicalSite.setValue(program.getCurrentAnatomicalSiteDuringProgram());
+		anatomicalSite.setDisplayString(renderer.renderAnatomicalSite(anatomicalSite));
+		
+		return anatomicalSite;
+	}
+	
+	private StatusItem findAnatomicalSiteTb(TbPatientProgram program) {
 		StatusItem anatomicalSite = new StatusItem();
 		
 		anatomicalSite.setValue(program.getCurrentAnatomicalSiteDuringProgram());

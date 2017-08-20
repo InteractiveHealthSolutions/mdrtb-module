@@ -69,8 +69,8 @@
 	   			$j('#searchBox').val('');
 	   		</c:when>
 	   		<c:otherwise>
-	   			//window.location='${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=' + input;
-	   			window.location='${pageContext.request.contextPath}/patientDashboard.form?patientId=' + input;
+	   			window.location='${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=' + input;
+	   			//window.location='${pageContext.request.contextPath}/patientDashboard.form?patientId=' + input;
 	   		</c:otherwise>
 	   	</c:choose>
 	}
