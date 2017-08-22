@@ -1,20 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%
-response.setHeader("Cache-Control","no-cache"); 
-response.setHeader("Pragma","no-cache"); 
-response.setDateHeader ("Expires", -1); 
-%>
+<%@page import="org.openmrs.module.mdrtb.service.MdrtbService"%>
+<%@page import="org.openmrs.api.context.Context"%>
 <html>
 	<head>
 		<title>TB-08u</title>
 	</head>
 	<body>
-		<style>
+<!-- 		<style>
 			th {vertical-align:middle; text-align:center;}
 			th, td {font-size:smaller;}
 		</style>
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ -->		
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/sprintf.js"></script>
@@ -33,146 +30,105 @@ response.setDateHeader ("Expires", -1);
 	  				}
 				}
 			)()
+			function savePdf(action, reportName, formPath) {
+				var tableData = (document.getElementById("tb08u")).innerHTML.toString();
+				var oblast = "${oblast}";
+				var district = "${location.locationId}";
+				var year = "${year}";
+				var quarter = "${quarter}";
+				var month = "${month}";
+				var reportDate = "${reportDate}";
+				
+				var form = document.createElement("FORM");
+
+				form.setAttribute("id", "closeReportForm");
+			    form.setAttribute("name", "closeReportForm");
+			    form.setAttribute("method", "post");
+			    form.setAttribute("action", action);
+			    
+			    document.body.appendChild(form);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "oblast");
+			    input.setAttribute("name", "oblast");
+			    input.setAttribute("value", oblast);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "location");
+			    input.setAttribute("name", "location");
+			    input.setAttribute("value", district);
+			    form.appendChild(input);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "year");
+			    input.setAttribute("name", "year");
+			    input.setAttribute("value", year);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "quarter");
+			    input.setAttribute("name", "quarter");
+			    input.setAttribute("value", quarter);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "month");
+			    input.setAttribute("name", "month");
+			    input.setAttribute("value", month);
+			    form.appendChild(input);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "reportDate");
+			    input.setAttribute("name", "reportDate");
+			    input.setAttribute("value", reportDate);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "table");
+			    input.setAttribute("name", "table");
+			    input.setAttribute("value", tableData);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "formPath");
+			    input.setAttribute("name", "formPath");
+			    input.setAttribute("value", formPath);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "reportName");
+			    input.setAttribute("name", "reportName");
+			    input.setAttribute("value", reportName);
+			    form.appendChild(input);
+			    
+			    form.submit();
+			}
 			$(document).ready(function(){
 				$("#tableToSql").bind("click", function() {
-					var table = document.getElementById("tb08u");
-					var oblast = "${oblast}";
-					var district = "${location.locationId}";
-					var year = "${year}";
-					var quarter = "${quarter}";
-					var month = "${month}";
-					var reportDate = "${reportDate}";
 					
-					var form = document.createElement("FORM");
-				    form.setAttribute("id", "closeReportForm");
-				    form.setAttribute("name", "closeReportForm");
-				    form.setAttribute("method", "post");
-				    form.setAttribute("action", "closeReport.form");
-				    document.body.appendChild(form);
-				    
-				    var input = document.createElement("INPUT");
-				    input.setAttribute("type", "hidden");
-				    input.setAttribute("id", "oblast");
-				    input.setAttribute("name", "oblast");
-				    input.setAttribute("value", oblast);
-				    form.appendChild(input);
-
-				    var input = document.createElement("INPUT");
-				    input.setAttribute("type", "hidden");
-				    input.setAttribute("id", "location");
-				    input.setAttribute("name", "location");
-				    input.setAttribute("value", district);
-				    form.appendChild(input);
-				    
-				    var input = document.createElement("INPUT");
-				    input.setAttribute("type", "hidden");
-				    input.setAttribute("id", "year");
-				    input.setAttribute("name", "year");
-				    input.setAttribute("value", year);
-				    form.appendChild(input);
-
-				    var input = document.createElement("INPUT");
-				    input.setAttribute("type", "hidden");
-				    input.setAttribute("id", "quarter");
-				    input.setAttribute("name", "quarter");
-				    input.setAttribute("value", quarter);
-				    form.appendChild(input);
-
-				    var input = document.createElement("INPUT");
-				    input.setAttribute("type", "hidden");
-				    input.setAttribute("id", "month");
-				    input.setAttribute("name", "month");
-				    input.setAttribute("value", month);
-				    form.appendChild(input);
-				    
-				    var input = document.createElement("INPUT");
-				    input.setAttribute("type", "hidden");
-				    input.setAttribute("id", "reportDate");
-				    input.setAttribute("name", "reportDate");
-				    input.setAttribute("value", reportDate);
-				    form.appendChild(input);
-
-				    var input = document.createElement("INPUT");
-				    input.setAttribute("type", "hidden");
-				    input.setAttribute("id", "table");
-				    input.setAttribute("name", "table");
-				    input.setAttribute("value", table.innerHTML.toString());//.replace(/"/g, '\\\"'));
-				    form.appendChild(input);
-				    
-				    form.submit();
+					savePdf("closeReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults_en");
 				});
 				$("#tableToPdf").click(function(){
-					var table = document.getElementById("tb08u");
-					console.log(table.innerHTML.toString());
-					//$('#tb08u').tableExport({type:'pdf',escape:'false'});
-				    /* var table = document.getElementById("tb08u");
-				    var doc = new jsPDF('p', 'pt');
-				    var json = doc.autoTable(false, doc.autoTableHtmlToJson(table));
-				    console.log(JSON.stringify(json));
-				    var new_json = JSON.stringify(json);
-				    var cols = [], data = [];
-				 	//json.forEach(function(row, index) {
-				    [].forEach.call(new_json, function(row,index) {
-				    	var newRow = [];
-				        for (var key in row) { if (row.hasOwnProperty(key)) { if(index === 0) { cols.push(key); } newRow.push(row[key]); } }
-				        data.push(newRow);
-				    });
-				    doc.autoTable(cols, data, {startY: 60});
-				    doc.save("table.pdf"); */
-				    
-				  //$('#tb08u').tableExport({type:'pdf',escape:'false'});
-					/* $('#tb08u').tableExport({
-						type:'pdf',
-				        theme: 'grid',
-						pdfFontSize:4,
-						escape:'false',
-                    	orientation: 'l',
-                    	drawHeaderRow: function (row, data) {
-                    		console.log(cell);
-                    		console.log(data);
-                    		return true;
-                    	},
-                    	drawHeaderCell: function(cell, data) {
-                    	}
-					}); */
-					
-					
-					//doc.setFontSize(0);
-				    //doc.setTextColor(0);
-					/* var doc = new jsPDF('p', 'pt');
-					var table = document.getElementById("tb08u");
-					var res = doc.autoTableHtmlToJson(table);
-					//(res.data).remove(0);
-					doc.autoTable(res.columns, res.data, {
-				        theme: 'plain',
-			            bodyStyles: {lineColor: [0, 0, 0]}
-					});
-					doc.save("download.pdf"); */
-					
-					/* var table = document.getElementById("tb08u");
-					var rowWithTh = [];
-					for(var i=0; i<table.rows.length; i++) {
-						var row = table.rows[i].getElementsByTagName("TH");
-						if(row.length < 1) {} else { rowWithTh.push(i); }
-					}
-					for(var i=0; i<rowWithTh.length; i++) {
-						for(var j=0; j<table.rows[i].cells.length; j++) {
-							var cell = table.rows[i].cells[j];
-							if(cell.colSpan > 1) {
-								if(cell.rowSpan === rowWithTh.length) {
-									console.log(cell.innerHTML);
-								}
-								else if(cell.colSpan > 1) {
-									console.log(cell.rowSpan);
-									console.log(cell.colSpan);
-								}
-							}
-						}
-					} */
+					savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults_en");
 				});
 			});
 		</script>
-		<div style="font-size:smaller; width:980px;">
+		
+		<div id="tb08u" style="font-size:smaller; width:980px;">
+			<style>
+				th {vertical-align:middle; text-align:center;}
+				th, td {font-size:smaller;}
+			</style>
 			<table width="90%"><tr>
 				<td width="90" align="left" style="font-size:14px; font-weight:bold;">
 					Quarterly report on DR TB cases treatment outcomes<br/>
@@ -198,11 +154,7 @@ response.setDateHeader ("Expires", -1);
 			<br/><br/>
 			
 			
-			
-			<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
-			<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
-			<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
-			<table id="tb08u" cellpadding="5" width="100%" border="1" >
+			<table cellpadding="5" width="100%" border="1" >
 				<tr>
 					<th rowspan="2" colspan="2" align="center">Registration group</th>
 					<th rowspan="2" align="center">Registered</th>
@@ -440,5 +392,17 @@ response.setDateHeader ("Expires", -1);
 				</tr>
 			</table>
 		</div>
+		<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
+		<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
+		<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
+		
+		<script> 
+			console.log("${reportStatus}"); 
+			if("${reportStatus}" === "true") { 
+				document.getElementById("tableToSql").disabled = true; 
+			} else { 
+				document.getElementById("tableToSql").disabled = false; 
+			}
+		</script>
 	</body>
 </html>

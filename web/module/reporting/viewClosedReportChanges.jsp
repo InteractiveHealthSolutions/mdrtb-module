@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<title>
+			${reportName}
+		</title>
+	</head>
+	<body>
+		<div>
+			${html}
+		</div>
+	</body>
+</html>

@@ -961,10 +961,31 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     
     ///////////////////////
     
-    public void savePDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData) {
-    	dao.savePDF(oblast, location, year, quarter, month, reportDate, tableData);
+    public int countPDFRows() {
+    	return dao.countPDFRows();
     }
-
-    
-    	
+    public int countPDFColumns() {
+    	return dao.countPDFColumns();
+    }
+    public List<List<Integer>> PDFRows() {
+    	return dao.PDFRows();
+    }
+    public ArrayList<String> PDFColumns() {
+    	return dao.PDFColumns();
+    }
+    public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName) {
+    	dao.savePDF(oblast, location, year, quarter, month, reportDate, tableData, reportStatus, reportName);
+    }
+    public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
+    	dao.unlockReport(oblast, location, year, quarter, month, name, date);
+    }
+    public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name) {
+    	return dao.readReportStatus(oblast, location, year, quarter, month, name);
+    }
+    public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
+    	return dao.readTableData(oblast, location, year, quarter, month, name, date);
+    }
+    public List<Patient> getEncounterByEncounterType(EncounterType encounterType) {
+    	return dao.getEncounterByEncounterType(encounterType);
+    }
 }

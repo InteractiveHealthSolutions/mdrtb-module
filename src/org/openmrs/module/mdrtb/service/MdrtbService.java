@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Set;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -479,7 +481,23 @@ public interface MdrtbService extends OpenmrsService {
     
     public PatientIdentifier getPatientProgramIdentifier(MdrtbPatientProgram mpp);
 
-    public void savePDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData);
+    public int countPDFRows();
+
+    public int countPDFColumns();
+    
+    public List<List<Integer>> PDFRows();
+    
+    public ArrayList<String> PDFColumns();
+    
+    public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
+    
+    public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName);
+
+    public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name);
+
+    public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
+
+    public List<Patient> getEncounterByEncounterType(EncounterType encounterType);
 }
 
 

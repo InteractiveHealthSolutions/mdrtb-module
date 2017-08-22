@@ -1,17 +1,23 @@
 package org.openmrs.module.mdrtb.service.db;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
+import org.openmrs.module.mdrtb.reporting.PDFHelper;
+
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 public class HibernateMdrtbDAO implements MdrtbDAO {
 
@@ -51,22 +57,180 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		    "from PatientIdentifier p where patientIdentifierId = :pid").setInteger("pid", patientIdentifierId.intValue()).uniqueResult();
 	}
     
-    public void savePDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData) {
-    	Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		String sql = "INSERT INTO report_data (oblast_id, location_id, year, quarter, month, report_date, table_data) VALUES ('"+oblast+"', '"+location+"', "+year+", "+quarter+", "+month+", '"+reportDate+"', '"+tableData+"');";
-		session.createSQLQuery(sql).executeUpdate();//has no effect. Query doesn't execute.
+    public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName) {
+		Integer status = 0; 
+		if(reportStatus == true) { 
+			status = 1; 
+		}
+    	String sql = "INSERT INTO report_data (oblast_id, location_id, year, quarter, month, report_date, table_data, report_status, report_name) VALUES ("+oblast+", "+location+", "+year+", "+quarter+", "+month+", '"+reportDate+"', '"+tableData+"', "+status+", '"+reportName.toUpperCase()+"');";
+    	System.out.println(sql);
+    	Session session = sessionFactory.getCurrentSession();
+    	session.beginTransaction();
+		session.createSQLQuery(sql).executeUpdate();
 		session.getTransaction().commit();
-		session.close();
 	}
-    
-    public void readPDF(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String reportDate, byte[] tableData) {
-    	Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		String sql = "INSERT INTO report (oblast_id, location_id, year, quarter, month, report_date, table_data) VALUES ('"+oblast+"', '"+location+"', "+year+", "+quarter+", "+month+", '"+reportDate+"', '"+tableData+"');";
-		session.createSQLQuery(sql).executeUpdate();//has no effect. Query doesn't execute.
+   
+	@SuppressWarnings("unchecked")
+	public int countPDFRows() {
+    	Session session = sessionFactory.getCurrentSession(); 
+    	session.beginTransaction();
+    	List<String> list = (List<String>) session.createSQLQuery("select count(*) from report_data").list();
+    	return list.size();
+	}
+
+	public int countPDFColumns() {
+		return PDFColumns().size();
+	}
+
+	public ArrayList<String> PDFColumns() {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("report_id");
+		list.add("oblast_id");
+		list.add("location_id");
+		list.add("year");
+		list.add("quarter");
+		list.add("month");
+		list.add("report_date");
+		//list.add("table_data");
+		list.add("report_status");
+		list.add("report_name");
+    	return list;
+	}
+	
+	@SuppressWarnings({"unchecked"})
+	public List<List<Integer>> PDFRows() {
+		Session session = sessionFactory.getCurrentSession(); 
+    	session.beginTransaction();
+    	List<List<Integer>> list = new ArrayList<List<Integer>>();
+		list.add((List<Integer>) session.createSQLQuery("select report_id from report_data").list());
+		list.add((List<Integer>) session.createSQLQuery("select oblast_id from report_data").list());
+		list.add((List<Integer>) session.createSQLQuery("select location_id from report_data").list());
+		list.add((List<Integer>) session.createSQLQuery("select year from report_data").list());
+		list.add((List<Integer>) session.createSQLQuery("select quarter from report_data").list());
+		list.add((List<Integer>) session.createSQLQuery("select month from report_data").list());
+		list.add((List<Integer>) session.createSQLQuery("select report_date from report_data").list());
+		list.add((List<Integer>) session.createSQLQuery("select report_status from report_data").list());
+		list.add((List<Integer>) session.createSQLQuery("select report_name from report_data").list());
+    	return list;
+	}
+	
+	@SuppressWarnings({"unchecked"})
+	public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
+    	String sql = "select table_data from report_data"; 
+    	if(name != null && !name.equals("")) { 
+    		sql += " where report_name='" + name + "'"; 
+		} 
+    	if(date != null && !date.equals("")) { 
+    		sql += " and report_date='" + date + "'"; 
+		} 
+    	if(oblast != null) { 
+    		sql += " and oblast_id=" + oblast; 
+		} 
+    	if(location != null) { 
+    		sql += " and location_id=" + location; 
+		} 
+    	if(year != null) { 
+    		sql += " and year=" + year; 
+		} 
+    	if(quarter != null) { 
+    		sql += " and quarter=" + quarter; 
+		} 
+    	if(month != null) { 
+    		sql += " and month=" + month; 
+		}
+    	System.out.println(sql);
+    	Session session = sessionFactory.getCurrentSession(); 
+    	session.beginTransaction();
+    	List<String> list = (List<String>) session.createSQLQuery(sql).list();
+    	return list;
+	}
+		
+	public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
+    	String sql = "delete from report_data"; 
+    	if(name != null && !name.equals("")) { 
+    		sql += " where report_name='" + name.toUpperCase() + "'"; 
+		} 
+    	if(date != null && !date.equals("")) { 
+    		sql += " and report_date='" + date + "'"; 
+		} 
+    	if(oblast != null) { 
+    		sql += " and oblast_id=" + oblast; 
+		} 
+    	if(location != null) { 
+    		sql += " and location_id=" + location; 
+		} 
+    	if(year != null) { 
+    		sql += " and year=" + year; 
+		} 
+    	if(quarter != null) { 
+    		sql += " and quarter=" + quarter; 
+		} 
+    	if(month != null) { 
+    		sql += " and month=" + month; 
+		}
+    	System.out.println(sql);
+    	Session session = sessionFactory.getCurrentSession(); 
+    	session.beginTransaction();
+    	session.createSQLQuery(sql).executeUpdate();
 		session.getTransaction().commit();
-		session.close();
 	}
-    
+
+	@SuppressWarnings("unchecked")
+	public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name) {
+    	String sql = "select report_status from report_data";
+    	if(name != null && !name.equals("")) { 
+    		sql += " where report_name='" + name + "'"; 
+		} 
+    	if(oblast != null) { 
+    		sql += " and oblast_id=" + oblast; 
+		} 
+    	if(location != null) { 
+    		sql += " and location_id=" + location; 
+		} 
+    	if(year != null) { 
+    		sql += " and year=" + year; 
+		} 
+    	if(quarter != null) { 
+    		sql += " and quarter=" + quarter; 
+		} 
+    	if(month != null) { 
+    		sql += " and month=" + month; 
+		}
+    	System.out.println(sql);
+    	Session session = sessionFactory.getCurrentSession(); 
+    	session.beginTransaction();
+    	List<String> statusList = (List<String>) session.createSQLQuery(sql).list(); 
+    	List<String> list = new PDFHelper().byteToStrArray(statusList.toString());
+    	boolean reportStatus = false; 
+    	if(list.size() > 0) { 
+    		if(new PDFHelper().isInt(list.get(0))) { 
+    			Integer status = Integer.parseInt(list.get(0)); 
+    			if(status == 0) { 
+    				reportStatus = false; 
+    			} else if(status == 1) { 
+    				reportStatus = true; 
+    			}
+    		}
+    	} else { 
+    		reportStatus = false; 
+    	}
+		session.getTransaction().commit(); 
+		return reportStatus;
+    }
+	
+	@SuppressWarnings("unchecked")
+	public List<Patient> getEncounterByEncounterType(EncounterType encounterType) {
+    	Session session = sessionFactory.getCurrentSession();
+    	session.beginTransaction();
+    	List<Integer> patientIds = (List<Integer>) session.createSQLQuery("select patient_id from encounter where encounter_type="+encounterType.getId()).list(); 
+		session.getTransaction().commit(); 
+		
+		List<Patient> encounterPatients = new ArrayList<Patient>();
+
+		for (int i = 0; i < patientIds.size(); i++) {
+			Patient p = Context.getPatientService().getPatient(patientIds.get(i));
+			encounterPatients.add(p);
+		}
+		return encounterPatients; 
+	}
 }

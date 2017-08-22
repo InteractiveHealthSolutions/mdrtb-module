@@ -64,6 +64,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+@SuppressWarnings({ "deprecation" })
 @Controller
 public class SpecimenMigrationController {
 	
@@ -1089,7 +1090,7 @@ public class SpecimenMigrationController {
     	return new ModelAndView("/module/mdrtb/migration/migration");
     }
     
-    @RequestMapping("/module/mdrtb/migration/resetOrdersWithDiscontinuedDateInFuture.form")
+	@RequestMapping("/module/mdrtb/migration/resetOrdersWithDiscontinuedDateInFuture.form")
     public ModelAndView setFutureDiscontinuedDateToNull() {
     	
     	// this migration is PIH Haiti specific--fixes a bug that occurred in the previous migration

@@ -5,10 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -24,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.itextpdf.text.DocumentException;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 @Controller
 public class CloseReportController {
@@ -38,7 +41,7 @@ public class CloseReportController {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/module/mdrtb/reporting/closeReport")
     public void closeReportGet(ModelMap model) {
-        System.out.println("-----Close Report-----");
+        System.out.println("-----Close Report GET-----");
         List<Location> locations = Context.getLocationService().getAllLocations(false);
         List<Oblast> oblasts = Context.getService(MdrtbService.class).getOblasts();
         model.addAttribute("locations", locations);
@@ -46,7 +49,8 @@ public class CloseReportController {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)//, value="/module/mdrtb/reporting/closeReport"
-    public void closeReportPost(
+    public String closeReportPost(
+    		HttpServletRequest request, HttpServletResponse response,
     		@RequestParam("oblast") String oblastId, 
     		@RequestParam("location") String locationId, 
     		@RequestParam("year") Integer year, 
@@ -54,46 +58,71 @@ public class CloseReportController {
     		@RequestParam("month") Integer month, 
     		@RequestParam("reportDate") String reportDate, 
     		@RequestParam("table") String table, 
-    		ModelMap model) throws EvaluationException {
-
-		try {
-
-			Integer oblast = null;
-			Integer location = null;
-			byte[] tableData = null;
-			
-			if(isInt(locationId)) { location = (Context.getLocationService().getLocation(Integer.parseInt(locationId))).getId(); }
-			if(isInt(oblastId)) { oblast = (Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId))).getId(); }
-			if(!(reportDate.equals(""))) { reportDate = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new SimpleDateFormat("dd.MM.yyyy").parse(reportDate)); }
-			if(!(table.equals(""))) {
-				table = table.replaceAll("<br>", " ");
-		    	table = table.replaceAll("<br/>", " ");
-		    	table = table.replaceAll("\"", "'");
-		    	String html = "<html><body><table>" + table + "</table></body></html>"; 
-		    	PDFHelper pdf = new PDFHelper();
-		    	//pdf.createPdf(html);
-		    	tableData = pdf.createAndSavePdf(html);
+    		@RequestParam("reportName") String reportName, 
+    		@RequestParam("formPath") String formPath, 
+    		ModelMap model) throws EvaluationException, IOException, ServletException {
+        System.out.println("-----Close Report POST-----");
+		
+		Integer oblast = null;
+		Integer location = null;
+		String date = reportDate;
+		String tableData = null;
+		boolean reportStatus = false;
+		
+		Location tb08u_location = null;
+    	String tb08u_oblast = oblastId;
+        Integer tb08u_year = year;
+        String tb08u_quarter = "";
+        String tb08u_month = "";
+		
+        try {
+			if(new PDFHelper().isString(quarter)) { 
+				tb08u_quarter = Integer.toString(quarter); 
 			}
-
+			if(new PDFHelper().isString(month)) { 
+				tb08u_month = Integer.toString(month); 
+			}
+			if(new PDFHelper().isInt(locationId)) { 
+				tb08u_location = Context.getLocationService().getLocation(Integer.parseInt(locationId));
+				location = tb08u_location.getId(); 
+			}
+			if(new PDFHelper().isInt(oblastId)) { 
+				oblast = (Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId))).getId(); 
+			}
+			if(!(reportDate.equals(""))) {
+				date = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new SimpleDateFormat("dd.MM.yyyy").parse(reportDate)); 
+			}
+			if(!(table.equals(""))) {
+		    	tableData = new PDFHelper().compressCode(table);
+			}
+			reportStatus = true;
+			
 			System.out.println("---POST CLOSE-----");
-	    	System.out.println("oblast:" + oblast);
-	    	System.out.println("location:" + location);
-			System.out.println("year" + year);
-			System.out.println("quarter" + quarter);
-			System.out.println("month" + month);
-			System.out.println("tableData" + tableData);
-	    	System.out.println("reportDate:" + reportDate);
+	    	System.out.println("oblast: " + oblast);
+	    	System.out.println("location: " + location);
+			System.out.println("year: " + year);
+			System.out.println("quarter: " + quarter);
+			System.out.println("month: " + month);
+			System.out.println("tableData: " + tableData);
+	    	System.out.println("reportDate: " + date);
+	    	System.out.println("formPath: " + formPath);
+	    	System.out.println("reportStatus: " + reportStatus);
+	    	System.out.println("reportName: " + reportName);
 			System.out.println("\n\n\n");
-
-			Context.getService(MdrtbService.class).savePDF(oblast, location, year, quarter, month, reportDate, tableData);
-
+			
+			Context.getService(MdrtbService.class).savePDF(oblast, location.toString(), year, quarter, month, date, tableData, reportStatus, reportName);
+			model.addAttribute("reportStatus", reportStatus);
+			request.getSession().setAttribute("reportStatus", reportStatus);
+			
+			System.out.println("---POST CLOSE-----");
 		} catch (Exception e) {
+			reportStatus = false;
 			e.printStackTrace();
-		}
-    	
-        //return "/module/mdrtb/reporting/alltb08u";
-    
-    }
 
-	private static boolean isInt(String str) { try { Integer.parseInt(str); } catch(NumberFormatException e) { return false; } catch(NullPointerException e) { return false; } return true; }
+			model.addAttribute("ex", e); 
+			model.addAttribute("reportStatus", reportStatus);
+		} 
+		return TB08uController.doTB08(tb08u_location, tb08u_oblast, tb08u_year, tb08u_quarter, tb08u_month, model);
+    }
+	
 }
