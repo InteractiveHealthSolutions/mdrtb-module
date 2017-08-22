@@ -127,6 +127,61 @@
 <td>${tb03.hivStatus.displayString}</td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.tb03.artStartDate" text="ART Start Date"/>:</td>
+<td><openmrs:formatDate date="${tb03.artStartDate}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.cptStartDate" text="PCT Start Date"/>:</td>
+<td><openmrs:formatDate date="${tb03.pctStartDate}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.resistanceType" text="Type of Resistance"/>:</td>
+<td>${tb03.resistanceType.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.treatmentOutcome" text="Tx Outcome"/>:</td>
+<td>${tb03.treatmentOutcome.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.treatmentOutcomeDateOnly" text="Outcome Date"/>:</td>
+<td><openmrs:formatDate date="${tb03.treatmentOutcomeDate}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.afterOutcomeDeathDate" text="Date of Death after Outcome"/>:</td>
+<td><openmrs:formatDate date="${tb03.dateOfDeathAfterOutcome}"  format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.clinicalNotes" text="Clinical Notes"/>:</td>
+<td>${tb03.cliniciansNotes}</td>
+</tr>
+
+<%-- <tr>
+<td><spring:message code="mdrtb.tb03.doseTakenIP" text="Dose taken for IP"/>:</td>
+<td>${tb03.doseTakenIP}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.doseMissedIP" text="Dose missed for IP"/>:</td>
+<td>${tb03.doseMissedIP}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.doseTakenCP" text="Dose taken for CP"/>:</td>
+<td>${tb03.doseTakenCP}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.doseMissedCP" text="Dose missed for CP"/>:</td>
+<td>${tb03.doseMissedCP}</td>
+</tr> --%>
+
 </table>
 
 </div>
@@ -278,6 +333,76 @@
 </select>
 </td>
 </tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.artStartDate" text="ART Start Date"/>:</td>
+<td><openmrs_tag:dateField formFieldName="artStartDate" startValue="${tb03.artStartDate}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.cptStartDate" text="PCT Start Date"/>:</td>
+<td><openmrs_tag:dateField formFieldName="pctStartDate" startValue="${tb03.pctStartDate}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.resistanceType" text="Type of Resistance"/>:</td>
+<td>
+<select name="resistanceType">
+<option value=""></option>
+<c:forEach var="type" items="${resistancetypes}">
+	<option value="${type.answerConcept.id}" <c:if test="${tb03.resistanceType == type.answerConcept}">selected</c:if> >${type.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.treatmentOutcome" text="Tx Outcome"/>:</td>
+<td>
+<select name="treatmentOutcome">
+<option value=""></option>
+<c:forEach var="outcome" items="${outcomes}">
+	<option value="${outcome.concept.id}" <c:if test="${tb03.treatmentOutcome == outcome.concept}">selected</c:if> >${outcome.concept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.treatmentOutcomeDateOnly" text="Outcome Dates"/>:</td>
+<td><openmrs_tag:dateField formFieldName="treatmentOutcomeDate" startValue="${tb03.treatmentOutcomeDate}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.afterOutcomeDeathDate" text="Date of Death after Outcome"/>:</td>
+<td><openmrs_tag:dateField formFieldName="afterOutcomeDeathDate" startValue="${tb03.dateOfDeathAfterOutcome}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.clinicalNotes" text="Clinical Notes"/>:</td>
+<td><textarea rows="4" cols="50" name="cliniciansNotes">${tb03.cliniciansNotes}</textarea></td>
+</tr>
+
+<%-- <tr>
+<td><spring:message code="mdrtb.tb03.doseTakenIP" text="Dose taken for IP"/>:</td>
+<td><input name="doseTakenIP" size="8" value="${tb03.doseTakenIP}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.doseMissedIP" text="Dose missed for IP"/>:</td>
+<td><input name="doseMissedIP" size="8" value="${tb03.doseMissedIP}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.doseTakenCP" text="Dose taken for CP"/>:</td>
+<td><input name="doseTakenCP" size="8" value="${tb03.doseTakenCP}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.doseMissedCP" text="Dose missed for CP"/>:</td>
+<td><input name="doseMissedCP" size="8" value="${tb03.doseMissedCP}"/></td>
+</tr> --%>
+
 
 </table>
 

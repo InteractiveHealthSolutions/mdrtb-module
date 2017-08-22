@@ -14,6 +14,7 @@ import org.openmrs.ConceptAnswer;
 import org.openmrs.Location;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 import org.openmrs.module.mdrtb.form.TB03Form;
@@ -173,6 +174,17 @@ public class TB03FormController {
 	@ModelAttribute("hivstatuses")
 	public Collection<ConceptAnswer> getPossibleHIVStatuses() {
 		return Context.getService(MdrtbService.class).getPossibleHIVStatuses();
+	}
+	
+	@ModelAttribute("resistancetypes")
+	public Collection<ConceptAnswer> getPossibleResistanceTypes() {
+		//return Context.getService(MdrtbService.class).getPossibleResistanceTypes();
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.RESISTANCE_TYPE);
+	}
+	
+	@ModelAttribute("outcomes")
+	public Set<ProgramWorkflowState> getPossibleTreatmentOutcomes() {
+		return Context.getService(MdrtbService.class).getPossibleTbProgramOutcomes();
 	}
 
 		

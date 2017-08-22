@@ -362,5 +362,425 @@ public class TB03Form extends AbstractSimpleForm {
 		} 
 	}
 	
+	public Date getArtStartDate() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_ART_TREATMENT_START), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueDatetime();
+		}
+	}
+	
+	public void setArtStartDate(Date date) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_ART_TREATMENT_START), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && date == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueDatetime() == null || !obs.getValueDatetime().equals(date)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(date != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_ART_TREATMENT_START), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueDatetime(date);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public Date getPctStartDate() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_PCT_TREATMENT_START), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueDatetime();
+		}
+	}
+	
+	public void setPctStartDate(Date date) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_PCT_TREATMENT_START), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && date == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueDatetime() == null || !obs.getValueDatetime().equals(date)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(date != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_PCT_TREATMENT_START), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueDatetime(date);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public Concept getResistanceType() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.RESISTANCE_TYPE), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueCoded();
+		}
+	}
+	
+	public void setResistanceType(Concept type) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.RESISTANCE_TYPE), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && type == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueCoded() == null || !obs.getValueCoded().equals(type)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(type != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.RESISTANCE_TYPE), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueCoded(type);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public Concept getTreatmentOutcome() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueCoded();
+		}
+	}
+	
+	public void setTreatmentOutcome(Concept outcome) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && outcome == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueCoded() == null || !obs.getValueCoded().equals(outcome)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(outcome != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueCoded(outcome);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public Date getTreatmentOutcomeDate() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TX_OUTCOME_DATE), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueDatetime();
+		}
+	}
+	
+	public void setTreatmentOutcomeDate(Date date) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TX_OUTCOME_DATE), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && date == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueDatetime() == null || !obs.getValueDatetime().equals(date)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(date != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.TX_OUTCOME_DATE), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueDatetime(date);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public Date getDateOfDeathAfterOutcome() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueDatetime();
+		}
+	}
+	
+	public void setDateOfDeathAfterOutcome(Date date) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && date == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueDatetime() == null || !obs.getValueDatetime().equals(date)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(date != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueDatetime(date);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public String getCliniciansNotes() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.CLINICIAN_NOTES), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueText();
+		}
+	}
+	
+	public void setCliniciansNotes(String notes) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.CLINICIAN_NOTES), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && notes == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueText() == null || obs.getValueText() != notes) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(notes != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.CLINICIAN_NOTES), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueText(notes);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	/*
+	public Integer getDoseTakenIP() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_TAKEN_IP), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueNumeric().intValue();
+		}
+	}
+	
+	public void setDoseTakenIP(Integer dose) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_TAKEN_IP), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && dose == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueNumeric() == null || obs.getValueNumeric().intValue() != dose.intValue()) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(dose != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_TAKEN_IP), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueNumeric(new Double(dose));
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public Integer getDoseMissedIP() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_MISSED_IP), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueNumeric().intValue();
+		}
+	}
+	
+	public void setDoseMissedIP(Integer dose) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_MISSED_IP), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && dose == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueNumeric() == null || obs.getValueNumeric().intValue() != dose.intValue()) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(dose != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_MISSED_IP), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueNumeric(new Double(dose));
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public Integer getDoseTakenCP() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_TAKEN_CP), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueNumeric().intValue();
+		}
+	}
+	
+	public void setDoseTakenCP(Integer dose) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_TAKEN_CP), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && dose == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueNumeric() == null || obs.getValueNumeric().intValue() != dose.intValue()) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(dose != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_TAKEN_CP), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueNumeric(new Double(dose));
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public Integer getDoseMissedCP() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_MISSED_CP), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueNumeric().intValue();
+		}
+	}
+	
+	public void setDoseMissedCP(Integer dose) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_MISSED_CP), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && dose == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueNumeric() == null || obs.getValueNumeric().intValue() != dose.intValue()) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(dose != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DOSE_MISSED_CP), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueNumeric(new Double(dose));
+				encounter.addObs(obs);
+			}
+		} 
+	}*/
+	
+	
 	
 }

@@ -1224,5 +1224,15 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	return this.getConcept(TbConcepts.RESULT_OF_HIV_TEST).getAnswers();
     }
     
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleResistanceTypes() {
+    	return this.getConcept(TbConcepts.RESISTANCE_TYPE).getAnswers();
+    }
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleConceptAnswers(String [] conceptQuestion) {
+    	return this.getConcept(conceptQuestion).getAnswers();
+    }
+    
     	
 }
