@@ -1,6 +1,7 @@
 package org.openmrs.module.mdrtb.service.db;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.openmrs.Encounter;
@@ -28,5 +29,5 @@ public interface MdrtbDAO {
     public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name);
     public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
     public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
-    public List<Patient> getEncounterByEncounterType(EncounterType encounterType);
+	public List<Encounter> getEncounterByEncounterType(EncounterType encounterType);
 }

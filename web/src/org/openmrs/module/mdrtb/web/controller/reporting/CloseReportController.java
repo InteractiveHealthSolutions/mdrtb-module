@@ -97,18 +97,18 @@ public class CloseReportController {
 			}
 			reportStatus = true;
 			
-			System.out.println("---POST CLOSE-----");
-	    	System.out.println("oblast: " + oblast);
-	    	System.out.println("location: " + location);
-			System.out.println("year: " + year);
-			System.out.println("quarter: " + quarter);
-			System.out.println("month: " + month);
-			System.out.println("tableData: " + tableData);
-	    	System.out.println("reportDate: " + date);
-	    	System.out.println("formPath: " + formPath);
-	    	System.out.println("reportStatus: " + reportStatus);
-	    	System.out.println("reportName: " + reportName);
-			System.out.println("\n\n\n");
+//			System.out.println("---POST CLOSE-----");
+//	    	System.out.println("oblast: " + oblast);
+//	    	System.out.println("location: " + location);
+//			System.out.println("year: " + year);
+//			System.out.println("quarter: " + quarter);
+//			System.out.println("month: " + month);
+//			System.out.println("tableData: " + tableData);
+//	    	System.out.println("reportDate: " + date);
+//	    	System.out.println("formPath: " + formPath);
+//	    	System.out.println("reportStatus: " + reportStatus);
+//	    	System.out.println("reportName: " + reportName);
+//			System.out.println("\n\n\n");
 			
 			Context.getService(MdrtbService.class).savePDF(oblast, location.toString(), year, quarter, month, date, tableData, reportStatus, reportName);
 			model.addAttribute("reportStatus", reportStatus);

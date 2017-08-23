@@ -1,7 +1,7 @@
 package org.openmrs.module.mdrtb.service.db;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -11,13 +11,10 @@ import org.hibernate.SessionFactory;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
-import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
-
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 public class HibernateMdrtbDAO implements MdrtbDAO {
 
@@ -217,20 +214,21 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		session.getTransaction().commit(); 
 		return reportStatus;
     }
-	
-	@SuppressWarnings("unchecked")
-	public List<Patient> getEncounterByEncounterType(EncounterType encounterType) {
-    	Session session = sessionFactory.getCurrentSession();
-    	session.beginTransaction();
-    	List<Integer> patientIds = (List<Integer>) session.createSQLQuery("select patient_id from encounter where encounter_type="+encounterType.getId()).list(); 
-		session.getTransaction().commit(); 
-		
-		List<Patient> encounterPatients = new ArrayList<Patient>();
 
-		for (int i = 0; i < patientIds.size(); i++) {
-			Patient p = Context.getPatientService().getPatient(patientIds.get(i));
-			encounterPatients.add(p);
+	@SuppressWarnings("unchecked")
+	public List<Encounter> getEncounterByEncounterType(EncounterType encounterType) {
+    	String sql = "select distinct encounter_id from encounter where encounter_type="+encounterType.getId();
+		Session session = sessionFactory.getCurrentSession();
+    	session.beginTransaction();
+    	List<Integer> encounterIds = (List<Integer>) session.createSQLQuery(sql).list(); 
+		System.out.println(sql);
+    	session.getTransaction().commit(); 
+    	List<Encounter> encounters = new ArrayList<Encounter>();
+		Encounter encounter = new Encounter();
+		for (int i=0; i<encounterIds.size(); i++) {
+			encounter = Context.getEncounterService().getEncounter(encounterIds.get(i));
+			encounters.add(encounter);
 		}
-		return encounterPatients; 
+		return encounters; 
 	}
 }

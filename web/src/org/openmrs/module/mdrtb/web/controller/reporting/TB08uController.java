@@ -71,7 +71,7 @@ public class TB08uController {
   
     
     
-    @RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb08u")
+	@RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb08u")
     public static String doTB08(
     		@RequestParam("location") Location location,
     		@RequestParam("oblast") String oblast,

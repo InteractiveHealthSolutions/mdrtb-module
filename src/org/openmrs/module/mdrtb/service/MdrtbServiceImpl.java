@@ -985,7 +985,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
     	return dao.readTableData(oblast, location, year, quarter, month, name, date);
     }
-    public List<Patient> getEncounterByEncounterType(EncounterType encounterType) {
+    public List<Encounter> getEncounterByEncounterType(EncounterType encounterType) {
     	return dao.getEncounterByEncounterType(encounterType);
     }
 }
