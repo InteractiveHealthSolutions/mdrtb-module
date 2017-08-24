@@ -1,8 +1,20 @@
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+
+<%
+response.setHeader("Cache-Control","no-cache"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader ("Expires", -1); 
+%>
+
 <html>
 	<head>
 		<title>
 			${reportName}
 		</title>
+		<style>
+			th {vertical-align:middle; text-align:center;}
+			th, td {font-size:smaller;}
+		</style>
 	</head>
 	<body>
 		<div>

@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.service.db;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -215,18 +216,42 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		return reportStatus;
     }
 
+	public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames) {
+		return getEncountersByEncounterTypes(encounterTypeNames, null, null, null); 
+	}
+	
 	@SuppressWarnings("unchecked")
-	public List<Encounter> getEncounterByEncounterType(EncounterType encounterType) {
-    	String sql = "select distinct encounter_id from encounter where encounter_type="+encounterType.getId();
+	public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames, Date startDate, Date endDate, Date closeDate) {
+		SimpleDateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		List<Integer> encounterIds = new ArrayList<Integer>();
+		List<Integer> tempList = new ArrayList<Integer>();
+		String sql = "";
 		Session session = sessionFactory.getCurrentSession();
     	session.beginTransaction();
-    	List<Integer> encounterIds = (List<Integer>) session.createSQLQuery(sql).list(); 
-		System.out.println(sql);
+		for (String encounterTypeName : encounterTypeNames) {
+	    	sql = "select e.encounter_id from encounter e inner join encounter_type et where e.encounter_type=et.encounter_type_id and et.name='" + encounterTypeName + "'";
+			if(startDate != null && endDate != null) {
+				sql += " and e.encounter_datetime between '" + dbDateFormat.format(startDate) + "' and '" + dbDateFormat.format(startDate) + "'";
+			}
+	    	if(closeDate != null) {
+				sql += " and (e.date_changed >= '" + dbDateFormat.format(closeDate) + "' or e.date_created >= '" + dbDateFormat.format(closeDate) + "')";
+	    	}
+	    	System.out.println(sql);
+	    	tempList = (List<Integer>) session.createSQLQuery(sql).list();
+//			System.out.println(tempList);
+	    	for (Integer encounterId : tempList) {
+		    	if (!(encounterIds.contains(encounterId))) {
+			    	encounterIds.add(encounterId); 
+				}
+			}
+		}
+//		System.out.println(encounterIds.size());
+//		System.out.println(encounterIds);
     	session.getTransaction().commit(); 
     	List<Encounter> encounters = new ArrayList<Encounter>();
 		Encounter encounter = new Encounter();
-		for (int i=0; i<encounterIds.size(); i++) {
-			encounter = Context.getEncounterService().getEncounter(encounterIds.get(i));
+    	for (Integer encounterId : encounterIds) {
+			encounter = Context.getEncounterService().getEncounter(encounterId);
 			encounters.add(encounter);
 		}
 		return encounters; 

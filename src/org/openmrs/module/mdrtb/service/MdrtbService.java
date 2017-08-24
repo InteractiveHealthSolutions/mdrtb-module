@@ -497,7 +497,9 @@ public interface MdrtbService extends OpenmrsService {
 
     public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
 
-    public List<Encounter> getEncounterByEncounterType(EncounterType encounterType);
+    public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames);
+
+	public List<Encounter> getEncountersByEncounterTypes(List<String> reportEncounterTypes, Date startDate, Date endDate, Date closeDate);
 }
 
 

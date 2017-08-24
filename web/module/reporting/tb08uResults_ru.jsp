@@ -8,20 +8,12 @@ response.setDateHeader ("Expires", -1);
 <html>
 	<head>
 		<title>TB-08u</title>
-	</head>
-	<body>
 		<style>
 			th {vertical-align:middle; text-align:center;}
 			th, td {font-size:smaller;}
 		</style>
-		
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/sprintf.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/jspdf.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/base64.js"></script>
-
+	</head>
+	<body>
 		<script type="text/javascript">
 			var tableToExcel = (function() {
 			  var uri = 'data:application/vnd.ms-excel;base64,'
@@ -130,6 +122,11 @@ response.setDateHeader ("Expires", -1);
 		</script>
 
 		<div id="tb08u" style="font-size:smaller; width:980px;">
+			<style>
+				th {vertical-align:middle; text-align:center;}
+				th, td {font-size:smaller;}
+			</style>
+
 			<table width="100%"><tr>
 				<td width="90%" align="left" style="font-size:14px; font-weight:bold;">
 					Квартальный отчет о результатах лечения больных ЛУ ТБ <br/>
@@ -397,12 +394,12 @@ response.setDateHeader ("Expires", -1);
 				
 			</table>
 		</div>
+		
 		<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
 		<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
 		<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
 		
 		<script> 
-			console.log("${reportStatus}"); 
 			if("${reportStatus}" === "true") { 
 				document.getElementById("tableToSql").disabled = true; 
 			} else { 

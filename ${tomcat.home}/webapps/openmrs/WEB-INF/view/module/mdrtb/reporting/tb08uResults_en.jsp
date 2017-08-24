@@ -116,7 +116,7 @@
 			$(document).ready(function(){
 				$("#tableToSql").bind("click", function() {
 					
-					savePdf("closeReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults_en");
+					savePdf("closeReport.form", "TB08U_FAST"z, "tb08uResults_en");
 				});
 				$("#tableToPdf").click(function(){
 					savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults_en");
