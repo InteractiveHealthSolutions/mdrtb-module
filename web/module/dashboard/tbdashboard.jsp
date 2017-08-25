@@ -650,6 +650,37 @@ ${regimen.displayString}
 	</c:otherwise>
 </c:choose>
 </tr>
+
+<tr>
+<td style="font-weight:bold"><spring:message code="mdrtb.mostRecentXpert" text="Most Recent Xpert"/></td>
+<c:choose>
+	<c:when test="${! empty status.labResultsStatus.mostRecentXpert.value}">
+		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentXpert.link}">${status.labResultsStatus.mostRecentXpert.value.result.displayString}</mdrtb:a></td>
+		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentXpert.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
+		<td>${status.labResultsStatus.mostRecentXpert.value.lab.displayString}</td>
+		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentXpert.value.resultDate}" format="${_dateFormatDisplay}"/></td>
+	</c:when>
+	<c:otherwise>
+		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+	</c:otherwise>
+</c:choose>
+</tr>
+
+<tr>
+<td style="font-weight:bold"><spring:message code="mdrtb.mostRecentHAIN" text="Most Recent HAIN"/></td>
+<c:choose>
+	<c:when test="${! empty status.labResultsStatus.mostRecentHAIN.value}">
+		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentHAIN.link}">${status.labResultsStatus.mostRecentHAIN.value.result.displayString}</mdrtb:a></td>
+		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
+		<td>${status.labResultsStatus.mostRecentHAIN.value.lab.displayString}</td>
+		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN.value.resultDate}" format="${_dateFormatDisplay}"/></td>
+	</c:when>
+	<c:otherwise>
+		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+	</c:otherwise>
+</c:choose>
+</tr>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.resistanceProfile" text="Resistance Profile"/>:</td><td colspan="4">${status.labResultsStatus.drugResistanceProfile.displayString}</td></tr>
 </table>
 
 <br/>
