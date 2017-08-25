@@ -45,7 +45,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     	
     		if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type")))) {
     			
-    			visit.setLink("/module/mdrtb/form/intake.form?patientId="
+    			visit.setLink("/module/mdrtb/form/tb03.form?patientId="
         			+ status.getPatientProgram().getPatient().getPatientId()
         			+ "&patientProgramId=" + status.getPatientProgram().getId() 
         			+ "&encounterId=" + encounter.getId());
@@ -93,7 +93,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     	
     		if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type")))) {
     			
-    			visit.setLink("/module/mdrtb/form/intake.form?patientId="
+    			visit.setLink("/module/mdrtb/form/tb03.form?patientId="
         			+ status.getPatientTbProgram().getPatient().getPatientId()
         			+ "&patientProgramId=" + status.getPatientTbProgram().getId() 
         			+ "&encounterId=" + encounter.getId());

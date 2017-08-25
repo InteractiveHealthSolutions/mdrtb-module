@@ -230,6 +230,8 @@ public class TbConcepts {
  	
  	public final static String[] DATE_OF_DEATH_AFTER_OUTCOME = {"DATE OF DEATH AFTER TX OUTCOME"};
  	
+ 	
+ 	public final static String[] PATIENT_PROGRAM_ID = {"PATIENT PROGRAM ID"};
  	/*public final static String[] DOSE_TAKEN_IP = {"DOSE TAKEN IP"};
  	public final static String[] DOSE_MISSED_IP = {"DOSE MISSED IP"};
  	public final static String[] DOSE_TAKEN_CP = {"DOSE TAKEN CP"};

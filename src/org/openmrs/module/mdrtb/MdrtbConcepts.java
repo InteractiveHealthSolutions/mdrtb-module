@@ -234,5 +234,7 @@ public class MdrtbConcepts {
     
     public final static String [] REGIMEN_2_REG_NUMBER = {"REGIMEN 2 REG NUMBER"};
     
+    public final static String[] PATIENT_PROGRAM_ID = {"PATIENT PROGRAM ID"};
+    
     
 }

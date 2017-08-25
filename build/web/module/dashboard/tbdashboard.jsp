@@ -176,7 +176,7 @@
 <br/>
 
 <table cellpadding="0" cellspacing="0">
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.patientGroup" text="Registration Group - Previous Drug Use"/>:</td>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03.patientGroup" text="Registration Group - Previous Drug Use"/>:</td>
 <td>
 <c:choose>
 	<c:when test="${! empty program.classificationAccordingToPatientGroups.concept.displayString}">
@@ -199,11 +199,11 @@
 </c:if>
 </table>
 
-<button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${program.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>
-</div>
+<%-- <button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${program.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>
+</div> --%>
 
 <!--  EDIT PROGRAM POPUP -->
-<div id="programEditPopup" style="display:none">
+<%--<div id="programEditPopup" style="display:none">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
 <c:if test="${fn:length(programEditErrors.allErrors) > 0}">
@@ -212,7 +212,7 @@
 	</c:forEach>
 </c:if>
 
-<form id="programEdit" action="${pageContext.request.contextPath}/module/mdrtb/program/tbprogramEdit.form?patientProgramId=${program.id}" method="post" >
+ <form id="programEdit" action="${pageContext.request.contextPath}/module/mdrtb/program/tbprogramEdit.form?patientProgramId=${program.id}" method="post" >
 <table cellspacing="2" cellpadding="2">
 <tr><td style="font-weight:bold">
 <spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${program.dateEnrolled}'/>" onFocus="showCalendar(this)"/>
@@ -303,7 +303,7 @@
 </table>
 <button type="submit"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button> <button type="reset" id="programCloseCancelButton"><spring:message code="mdrtb.cancel" text="Cancel"/></button>
 
-</form>
+</form> --%>
 </div>
 
 <!-- END CLOSE PROGRAM POPUP -->
@@ -340,15 +340,15 @@ ${regimen.displayString}
 <br/>
 
 <!--  VISIT STATUS BOX -->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.visitStatus" text="Visit Status"/></b>
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.forms" text="Forms"/></b>
 <div class="box" style="margin:0px">
 
 <table cellspacing="0" cellpadding="0">
 
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.intake" text="Intake"/>:</td><td>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03" text="TB03"/>:</td><td>
 <c:choose> 
 	<c:when test="${! empty status.visitStatus.intakeVisits.value}">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
 	</c:when>
 	<c:otherwise>
 		<spring:message code="mdrtb.none" text="None"/>
@@ -364,7 +364,7 @@ ${regimen.displayString}
 
 
 
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.mostRecentFollowUp" text="Most Recent Follow-up"/>:</td><td> 
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.form89" text="Form89"/>:</td><td> 
 <c:choose>
 	<c:when test="${! empty status.visitStatus.followUpVisits.value}">
 		<a href="${pageContext.request.contextPath}${status.visitStatus.followUpVisits.value[fn:length(status.visitStatus.followUpVisits.value) - 1].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}">${status.visitStatus.followUpVisits.value[fn:length(status.visitStatus.followUpVisits.value) - 1].displayString}</a>
@@ -387,7 +387,7 @@ ${regimen.displayString}
 </c:choose>
 </td></tr>
 -->
-
+<%-- 
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.nextScheduledFollowUp" text="Next Scheduled Follow-up"/>:</td><td> 
 <c:choose>
 	<c:when test="${! empty status.visitStatus.scheduledFollowUpVisits.value}">
@@ -401,7 +401,7 @@ ${regimen.displayString}
 
 <tr><td colspan="2">
 	<button onclick="window.location='${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}'"><spring:message code="mdrtb.addFollowUpVisit" text="Add Follow-up Visit"/></button>
-</td></tr>
+</td></tr> --%>
 
 </table>
 
@@ -412,7 +412,7 @@ ${regimen.displayString}
 <br/>
 
 <!--  START HOSPITALIZATIONS STATUS BOX -->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hospitalizations" text="Hospitalizations"/>: 
+<%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hospitalizations" text="Hospitalizations"/>: 
 <c:choose>
 	<c:when test="${program.currentlyHospitalized}">
 		<spring:message code="mdrtb.currentlyHospitalized" text="Currently hospitalized"/>
@@ -463,13 +463,13 @@ ${regimen.displayString}
 <br/>
 <button id="hospitalizationsAddButton"><spring:message code="mdrtb.addHospitalization" text="Add Hospitalization"/></button> 
 
-</div>
+</div> --%>
 
 <!-- END HOSPITALIZATIONS STATUS BOX -->
 
 
 <!--  EDIT HOSPITALIZATIONS POPUP -->
-<div id="hospitalizationsEditPopup">
+<%-- <div id="hospitalizationsEditPopup">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
 <c:if test="${fn:length(hospitalizationErrors.allErrors) > 0}">
@@ -491,7 +491,7 @@ ${regimen.displayString}
 <button type="submit"><spring:message code="mdrtb.save" text="Save"/></button> <button type="reset" id="hospitalizationsEditCancelButton"><spring:message code="mdrtb.cancel" text="Cancel"/></button>
 	
 </form>
-</div>
+</div> --%>
 <!-- END EDIT HOSPITALIZATION POPUP-->
 
 </div>
@@ -503,7 +503,7 @@ ${regimen.displayString}
 <div id="rightColumn" style="float:right; width:49%; padding:0px 4px 4px 4px">
 
 <!-- MDR-TB DIAGNOSIS BOX -->
-
+<%-- 
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.mdrtbDiagnosis" text="MDR-TB Diagnosis"/></b>
 <div class="box" style="margin:0px">
 
@@ -594,10 +594,10 @@ ${regimen.displayString}
 </c:if>
 
 </div>
-
+ --%>
 <!-- END MDR-TB DIAGNOSIS BOX -->
 
-<br/>
+<!-- <br/> -->
 
 <!-- LAB RESULTS STATUS BOX -->
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.labResultsStatus" text="Bacteriology Status"/></b>
@@ -605,12 +605,12 @@ ${regimen.displayString}
 
 <!--  TODO: get rid of these flags if they aren't being used -->
 
-<table cellspacing="0" cellpadding="0">
+<%-- <table cellspacing="0" cellpadding="0">
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.smearStatus" text="Smear Status"/>:</td><td>${status.labResultsStatus.smearConversion.displayString}</td></tr>
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.culturestatus" text="Culture Status"/>:</td><td>${status.labResultsStatus.cultureConversion.displayString}</td></tr>
 </table>
 
-<br/>
+<br/> --%>
 
 <table cellspacing="0" cellpadding="0" border="2px" width="100%">
 <tr>
@@ -656,7 +656,7 @@ ${regimen.displayString}
 <button onclick="window.location='${pageContext.request.contextPath}/module/mdrtb/specimen/specimen.form?patientId=${patientId}&patientProgramId=${patientProgramId}'"><spring:message code="mdrtb.addTestResults" text="Add Test Results"/></button>
 <br/>
 
-<c:if test="${fn:length(status.labResultsStatus.pendingLabResults.value) > 0}"> 
+<%-- <c:if test="${fn:length(status.labResultsStatus.pendingLabResults.value) > 0}"> 
 <br/>
 <table cellspacing="0" cellpadding="0">
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.pendingLabResults" text="Pending Lab Results"/></td></tr>
@@ -664,7 +664,7 @@ ${regimen.displayString}
 <tr><td><a href="${pageContext.request.contextPath}${pendingLabResult.link}">${pendingLabResult.displayString}</a></td></tr>
 </c:forEach>
 </table>
-</c:if>
+</c:if> --%>
 </div>
 
 <!-- END LAB RESULTS STATUS BOX -->
@@ -672,7 +672,7 @@ ${regimen.displayString}
 <br/>
 
 <!-- HIV STATUS BOX -->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hivStatus" text="HIV Status"/>: ${status.hivStatus.hivStatus.displayString}</b>
+<%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hivStatus" text="HIV Status"/>: ${status.hivStatus.hivStatus.displayString}</b>
 <div class="box" style="margin:0px">
 
 <table cellspacing cellpadding="0">
@@ -682,7 +682,7 @@ ${regimen.displayString}
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.mostRecentCd4Count" text="Most Recent CD4 Count"/>:</td><td>${status.hivStatus.mostRecentCd4Count.displayString}</td></tr>
 </table>
 
-</div>
+</div> --%>
 <!-- END HIV STATUS BOX -->
 
 </div>
