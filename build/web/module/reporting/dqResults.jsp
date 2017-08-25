@@ -130,6 +130,14 @@ table.resultsTable td, table.resultsTable th {
 	}
 </style>
 <meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
+<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/sprintf.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/jspdf.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/base64.js"></script>
+
+	
 <script type="text/javascript">
 var tableToExcel = (function() {
   var uri = 'data:application/vnd.ms-excel;base64,'
@@ -142,203 +150,305 @@ var tableToExcel = (function() {
     window.location.href = uri + base64(format(template, ctx))
   }
 })()
+function savePdf(action, reportName, formPath) {
+	var tableData = (document.getElementById("dq")).innerHTML.toString();
+	var oblast = "${oblast}";
+	var district = "${location.locationId}";
+	var year = "${year}";
+	var quarter = "${quarter}";
+	var month = "${month}";
+	var reportDate = "${reportDate}";
+	
+	var form = document.createElement("FORM");
+
+	form.setAttribute("id", "closeReportForm");
+    form.setAttribute("name", "closeReportForm");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", action);
+    
+    document.body.appendChild(form);
+    
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "oblast");
+    input.setAttribute("name", "oblast");
+    input.setAttribute("value", oblast);
+    form.appendChild(input);
+
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "location");
+    input.setAttribute("name", "location");
+    input.setAttribute("value", district);
+    form.appendChild(input);
+    
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "year");
+    input.setAttribute("name", "year");
+    input.setAttribute("value", year);
+    form.appendChild(input);
+
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "quarter");
+    input.setAttribute("name", "quarter");
+    input.setAttribute("value", quarter);
+    form.appendChild(input);
+
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "month");
+    input.setAttribute("name", "month");
+    input.setAttribute("value", month);
+    form.appendChild(input);
+    
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "reportDate");
+    input.setAttribute("name", "reportDate");
+    input.setAttribute("value", reportDate);
+    form.appendChild(input);
+
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "table");
+    input.setAttribute("name", "table");
+    input.setAttribute("value", tableData);
+    form.appendChild(input);
+
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "formPath");
+    input.setAttribute("name", "formPath");
+    input.setAttribute("value", formPath);
+    form.appendChild(input);
+
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "reportName");
+    input.setAttribute("name", "reportName");
+    input.setAttribute("value", reportName);
+    form.appendChild(input);
+    
+    form.submit();
+}
+$(document).ready(function(){
+	$("#tableToSql").bind("click", function() {
+		savePdf("closeReport.form", "DQ".toUpperCase(), "dqResults");
+	});
+	/* $("#tableToPdf").click(function(){
+		savePdf("exportReport.form", "DQ".toUpperCase(), "dqResults");
+	}); */
+});
 </script>
-</head>
-<body>
+<!-- </head>
+<body> -->
 
-
+<div id="dq">
+	<table class="resultsTable">
+	   <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.title" /></th>
+	  </tr>
+	  <tr>
+	     <th colspan="2"><spring:message code="mdrtb.oblast" /></td>
+	     <td>${oblast}</td>
+	 
+	  </tr>
+	  <tr>
+	     <th colspan="2"><spring:message code="mdrtb.district" /></td>
+	     <td>${location}</td>
+	  </tr>
+	  <tr>
+	     <th colspan="2"><spring:message code="mdrtb.year" /></td>
+	     <td align="center">${year}</td>
+	  </tr>
+	  <tr>
+	     <th colspan="2"><spring:message code="mdrtb.quarter" /></td>
+	     <td align="center">${quarter}</td>
+	  </tr>
+	   <tr>
+	     <th colspan="2"><spring:message code="mdrtb.month" /></td>
+	     <td align="center">${month}</td>
+	  </tr>
+	  <tr>
+	     <th colspan="2"><spring:message code="mdrtb.dq.numberOfPatients" /></td>
+	     <td align="right">${num}</td>
+	  </tr>
+	  <tr>
+	     <th colspan="2"><spring:message code="mdrtb.dq.numberWithErrors" /></td>
+	     <td align="right">${errorCount}</td>
+	  </tr>
+	  <tr>
+	     <th colspan="2"><spring:message code="mdrtb.dq.errorPercentage" /></td>
+	     <td align="right">${errorPercentage}</td>
+	  </tr>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	    <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingtb03" /></th>
+	  </tr>
+	  <tr>
+	     <td><spring:message code="mdrtb.dq.fullName" /></td>
+	     <td><spring:message code="mdrtb.dq.dob" /></td>
+	     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
+	  </tr>
+	  <c:forEach var="row" items="${missingTB03}">
+	    <tr>
+	        
+	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td>${row.dateOfBirth}</td>
+	         <td align="center">${row.patient.gender}</td>
+	    </tr>  
+	   </c:forEach>
+	    <tr><td colspan="3">&nbsp;</td></tr>
+	    <tr><td colspan="3">&nbsp;</td></tr>
+	    <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingAge" /></th>
+	  </tr>
+	  <tr>
+	     <td><spring:message code="mdrtb.dq.fullName" /></td>
+	     <td><spring:message code="mdrtb.dq.dob" /></td>
+	     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
+	  </tr>
+	  <c:forEach var="row" items="${missingAge}">
+	    <tr>
+	        
+	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td>${row.dateOfBirth}</td>
+	        <td align="center">${row.patient.gender}</td>
+	    </tr>  
+	  
+	  </c:forEach>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingPatientGroup" /></th>
+	  </tr>
+	  <tr>
+	     <td><spring:message code="mdrtb.dq.fullName" /></td>
+	     <td><spring:message code="mdrtb.dq.dob" /></td>
+	     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
+	  </tr>
+	  <c:forEach var="row" items="${missingPatientGroup}">
+	    <tr>
+	        
+	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td>${row.dateOfBirth}</td>
+	         <td align="center">${row.patient.gender}</td>
+	    </tr>  
+	  
+	  </c:forEach>
+	   <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingDST" /></th>
+	  </tr>
+	  <tr>
+	     <td><spring:message code="mdrtb.dq.fullName" /></td>
+	     <td><spring:message code="mdrtb.dq.dob" /></td>
+	     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
+	  </tr>
+	  <c:forEach var="row" items="${missingDST}">
+	    <tr>
+	        
+	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td>${row.dateOfBirth}</td>
+	        <td>${row.patient.gender}</td>
+	    </tr>  
+	  
+	  </c:forEach>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.notStartedTreatment" /></th>
+	  </tr>
+	  <tr>
+	     <td><spring:message code="mdrtb.dq.fullName" /></td>
+	     <td><spring:message code="mdrtb.dq.dob" /></td>
+	     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
+	  </tr>
+	  <c:forEach var="row" items="${notStartedTreatment}">
+	    <tr>
+	        
+	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td>${row.dateOfBirth}</td>
+	         <td align="center">${row.patient.gender}</td>
+	    </tr>  
+	  
+	  </c:forEach>
+	   <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingOutcomes" /></th>
+	  </tr>
+	  <tr>
+	     <td><spring:message code="mdrtb.dq.fullName" /></td>
+	     <td><spring:message code="mdrtb.dq.dob" /></td>
+	     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
+	  </tr>
+	  <c:forEach var="row" items="${missingOutcomes}">
+	    <tr>
+	        
+	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td>${row.dateOfBirth}</td>
+	         <td align="center">${row.patient.gender}</td>
+	    </tr>  
+	  
+	  </c:forEach>
+	   <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.noMDRId" /></th>
+	  </tr>
+	  <tr>
+	     <td><spring:message code="mdrtb.dq.fullName" /></td>
+	     <td><spring:message code="mdrtb.dq.dob" /></td>
+	     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
+	  </tr>
+	  <c:forEach var="row" items="${noMDRId}">
+	    <tr>
+	        
+	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td>${row.dateOfBirth}</td>
+	         <td align="center">${row.patient.gender}</td>
+	    </tr>  
+	  
+	  </c:forEach>
+	   <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr><td colspan="3">&nbsp;</td></tr>
+	  <tr>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.noSite" /></th>
+	  </tr>
+	  <tr>
+	     <td><spring:message code="mdrtb.dq.fullName" /></td>
+	     <td><spring:message code="mdrtb.dq.dob" /></td>
+	     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
+	  </tr>
+	  <c:forEach var="row" items="${noSite}">
+	    <tr>
+	        
+	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td>${row.dateOfBirth}</td>
+	        <td align="center">${row.patient.gender}</td>
+	    </tr>  
+	  
+	  </c:forEach>
+	  
+	</table>
+</div>
 <input type="button" onclick="tableToExcel('dq', 'DQ')" value="Export to Excel" />
-<table class="resultsTable" id="dq">
-   <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.title" /></th>
-  </tr>
-  <tr>
-     <th colspan="2"><spring:message code="mdrtb.oblast" /></td>
-     <td>${oblast}</td>
- 
-  </tr>
-  <tr>
-     <th colspan="2"><spring:message code="mdrtb.district" /></td>
-     <td>${location}</td>
-  </tr>
-  <tr>
-     <th colspan="2"><spring:message code="mdrtb.year" /></td>
-     <td align="center">${year}</td>
-  </tr>
-  <tr>
-     <th colspan="2"><spring:message code="mdrtb.quarter" /></td>
-     <td align="center">${quarter}</td>
-  </tr>
-   <tr>
-     <th colspan="2"><spring:message code="mdrtb.month" /></td>
-     <td align="center">${month}</td>
-  </tr>
-  <tr>
-     <th colspan="2"><spring:message code="mdrtb.dq.numberOfPatients" /></td>
-     <td align="right">${num}</td>
-  </tr>
-  <tr>
-     <th colspan="2"><spring:message code="mdrtb.dq.numberWithErrors" /></td>
-     <td align="right">${errorCount}</td>
-  </tr>
-  <tr>
-     <th colspan="2"><spring:message code="mdrtb.dq.errorPercentage" /></td>
-     <td align="right">${errorPercentage}</td>
-  </tr>
-  <tr><td colspan="3">&nbsp;</td></tr>
-    <tr><td colspan="3">&nbsp;</td></tr>
-  <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingtb03" /></th>
-  </tr>
-  <tr>
-     <td><spring:message code="mdrtb.dq.fullName" /></td>
-     <td><spring:message code="mdrtb.dq.dob" /></td>
-     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
-  </tr>
-  <c:forEach var="row" items="${missingTB03}">
-    <tr>
-        
-        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
-        <td>${row.dateOfBirth}</td>
-         <td align="center">${row.patient.gender}</td>
-    </tr>  
-   </c:forEach>
-    <tr><td colspan="3">&nbsp;</td></tr>
-    <tr><td colspan="3">&nbsp;</td></tr>
-    <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingAge" /></th>
-  </tr>
-  <tr>
-     <td><spring:message code="mdrtb.dq.fullName" /></td>
-     <td><spring:message code="mdrtb.dq.dob" /></td>
-     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
-  </tr>
-  <c:forEach var="row" items="${missingAge}">
-    <tr>
-        
-        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
-        <td>${row.dateOfBirth}</td>
-        <td align="center">${row.patient.gender}</td>
-    </tr>  
-  
-  </c:forEach>
-  <tr><td colspan="3">&nbsp;</td></tr>
-  <tr><td colspan="3">&nbsp;</td></tr>
-  <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingPatientGroup" /></th>
-  </tr>
-  <tr>
-     <td><spring:message code="mdrtb.dq.fullName" /></td>
-     <td><spring:message code="mdrtb.dq.dob" /></td>
-     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
-  </tr>
-  <c:forEach var="row" items="${missingPatientGroup}">
-    <tr>
-        
-        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
-        <td>${row.dateOfBirth}</td>
-         <td align="center">${row.patient.gender}</td>
-    </tr>  
-  
-  </c:forEach>
-   <tr><td colspan="3">&nbsp;</td></tr>
-  <tr><td colspan="3">&nbsp;</td></tr>
-  <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingDST" /></th>
-  </tr>
-  <tr>
-     <td><spring:message code="mdrtb.dq.fullName" /></td>
-     <td><spring:message code="mdrtb.dq.dob" /></td>
-     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
-  </tr>
-  <c:forEach var="row" items="${missingDST}">
-    <tr>
-        
-        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
-        <td>${row.dateOfBirth}</td>
-        <td>${row.patient.gender}</td>
-    </tr>  
-  
-  </c:forEach>
-  <tr><td colspan="3">&nbsp;</td></tr>
-  <tr><td colspan="3">&nbsp;</td></tr>
-  <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.notStartedTreatment" /></th>
-  </tr>
-  <tr>
-     <td><spring:message code="mdrtb.dq.fullName" /></td>
-     <td><spring:message code="mdrtb.dq.dob" /></td>
-     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
-  </tr>
-  <c:forEach var="row" items="${notStartedTreatment}">
-    <tr>
-        
-        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
-        <td>${row.dateOfBirth}</td>
-         <td align="center">${row.patient.gender}</td>
-    </tr>  
-  
-  </c:forEach>
-   <tr><td colspan="3">&nbsp;</td></tr>
-  <tr><td colspan="3">&nbsp;</td></tr>
-  <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingOutcomes" /></th>
-  </tr>
-  <tr>
-     <td><spring:message code="mdrtb.dq.fullName" /></td>
-     <td><spring:message code="mdrtb.dq.dob" /></td>
-     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
-  </tr>
-  <c:forEach var="row" items="${missingOutcomes}">
-    <tr>
-        
-        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
-        <td>${row.dateOfBirth}</td>
-         <td align="center">${row.patient.gender}</td>
-    </tr>  
-  
-  </c:forEach>
-   <tr><td colspan="3">&nbsp;</td></tr>
-  <tr><td colspan="3">&nbsp;</td></tr>
-  <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.noMDRId" /></th>
-  </tr>
-  <tr>
-     <td><spring:message code="mdrtb.dq.fullName" /></td>
-     <td><spring:message code="mdrtb.dq.dob" /></td>
-     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
-  </tr>
-  <c:forEach var="row" items="${noMDRId}">
-    <tr>
-        
-        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
-        <td>${row.dateOfBirth}</td>
-         <td align="center">${row.patient.gender}</td>
-    </tr>  
-  
-  </c:forEach>
-   <tr><td colspan="3">&nbsp;</td></tr>
-  <tr><td colspan="3">&nbsp;</td></tr>
-  <tr>
-   <th class=normal colspan="3"><spring:message code="mdrtb.dq.noSite" /></th>
-  </tr>
-  <tr>
-     <td><spring:message code="mdrtb.dq.fullName" /></td>
-     <td><spring:message code="mdrtb.dq.dob" /></td>
-     <td align="center"><spring:message code="mdrtb.dq.gender" /></td>
-  </tr>
-  <c:forEach var="row" items="${noSite}">
-    <tr>
-        
-        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
-        <td>${row.dateOfBirth}</td>
-        <td align="center">${row.patient.gender}</td>
-    </tr>  
-  
-  </c:forEach>
-  
-</table>
-<c:if test="${locale == 'tj' }"></font></c:if>
+<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" /> -->
+<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
 
+<script> 
+	if("${reportStatus}" === "true") { 
+		document.getElementById("tableToSql").disabled = true; 
+	} else { 
+		document.getElementById("tableToSql").disabled = false; 
+	}
+</script>
+
+<c:if test="${locale == 'tj' }"></font></c:if>
 
 <%@ include file="../mdrtbFooter.jsp"%>

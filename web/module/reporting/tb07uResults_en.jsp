@@ -1,8 +1,6 @@
 <html>
 	<head>
 		<title>TB-07y</title>
-	</head>
-	<body>
 		<style>
 			th {vertical-align:top; text-align:left;}
 			th, td {font-size:smaller;}
@@ -12,6 +10,15 @@
 			float: left;
 		}
 		</style>
+	</head>
+	<body>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/sprintf.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/jspdf.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/base64.js"></script>
+
 		<script type="text/javascript">
 		var tableToExcel = (function() {
 		  var uri = 'data:application/vnd.ms-excel;base64,'
@@ -24,8 +31,99 @@
 		    window.location.href = uri + base64(format(template, ctx))
 		  }
 		})()
+		function savePdf(action, reportName, formPath) {
+			var tableData = (document.getElementById("tb07u")).innerHTML.toString();
+			var oblast = "${oblast}";
+			var district = "${location.locationId}";
+			var year = "${year}";
+			var quarter = "${quarter}";
+			var month = "${month}";
+			var reportDate = "${reportDate}";
+			
+			var form = document.createElement("FORM");
+
+			form.setAttribute("id", "closeReportForm");
+		    form.setAttribute("name", "closeReportForm");
+		    form.setAttribute("method", "post");
+		    form.setAttribute("action", action);
+		    
+		    document.body.appendChild(form);
+		    
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "oblast");
+		    input.setAttribute("name", "oblast");
+		    input.setAttribute("value", oblast);
+		    form.appendChild(input);
+
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "location");
+		    input.setAttribute("name", "location");
+		    input.setAttribute("value", district);
+		    form.appendChild(input);
+		    
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "year");
+		    input.setAttribute("name", "year");
+		    input.setAttribute("value", year);
+		    form.appendChild(input);
+
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "quarter");
+		    input.setAttribute("name", "quarter");
+		    input.setAttribute("value", quarter);
+		    form.appendChild(input);
+
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "month");
+		    input.setAttribute("name", "month");
+		    input.setAttribute("value", month);
+		    form.appendChild(input);
+		    
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "reportDate");
+		    input.setAttribute("name", "reportDate");
+		    input.setAttribute("value", reportDate);
+		    form.appendChild(input);
+
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "table");
+		    input.setAttribute("name", "table");
+		    input.setAttribute("value", tableData);
+		    form.appendChild(input);
+
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "formPath");
+		    input.setAttribute("name", "formPath");
+		    input.setAttribute("value", formPath);
+		    form.appendChild(input);
+
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "reportName");
+		    input.setAttribute("name", "reportName");
+		    input.setAttribute("value", reportName);
+		    form.appendChild(input);
+		    
+		    form.submit();
+		}
+		$(document).ready(function(){
+			$("#tableToSql").bind("click", function() {
+				savePdf("closeReport.form", "TB08U_FAST".toUpperCase(), "tb07uResults");
+			});
+			/* $("#tableToPdf").click(function(){
+				savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb07uResults");
+			}); */
+		});
 		</script>
-		<div style="font-size:smaller; width:980px;">
+		<div id="tb07u" style="font-size:smaller; width:980px;">
 			<table width="100%"><tr>
 				<td width="10%">&nbsp;</td>
 				<td width="50%" align="center" style="font-size:14px; font-weight:bold;">Quarterly report on DR TB cases detection and initiation of treatment</td>
@@ -90,8 +188,8 @@
 				Table 2. Number of DR TB cases, started treatment during the quarter 
 			</span>
 			<br/><br/>
-			<input type="button" onclick="tableToExcel('tb07u', 'TB07u')" value="Export to Excel" />
-			<table border="1" id="tb07u" cellpadding="5" width="100%">
+			
+			<table border="1" cellpadding="5" width="100%">
 				<tr align="center">
 				 	<td colspan="2" rowspan="3">&nbsp;</td>
 					<td colspan="7">Registration Group</td>
@@ -826,230 +924,21 @@
 					 <td>#startedTreatment.xdrtotalhiv.newTotal#</td>
 				</tr>
 				
-				</table>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<!-- <table>
-				<tr>
-				    <td rowspan="3">RR/MDR-TB</td>
-				    <td>M</td>
-					<td>#startedTreatment.mdrmale.New#</td>
-					<td>#startedTreatment.mdrmale.Relapse1#</td>
-					<td>#startedTreatment.mdrmale.Relapse2#</td>
-					<td>#startedTreatment.mdrmale.AfterDefault1#</td>
-					<td>#startedTreatment.mdrmale.AfterDefault2#</td>
-					<td>#startedTreatment.mdrmale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.mdrmale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.mdrmale.Other#</td>
-					<td>#startedTreatment.mdrmale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>F</td>
-					<td>#startedTreatment.mdrfemale.New#</td>
-					<td>#startedTreatment.mdrfemale.Relapse1#</td>
-					<td>#startedTreatment.mdrfemale.Relapse2#</td>
-					<td>#startedTreatment.mdrfemale.AfterDefault1#</td>
-					<td>#startedTreatment.mdrfemale.AfterDefault2#</td>
-					<td>#startedTreatment.mdrfemale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.mdrfemale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.mdrfemale.Other#</td>
-					<td>#startedTreatment.mdrfemale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>Total</td>
-					<td>#startedTreatment.mdr.New#</td>
-					<td>#startedTreatment.mdr.Relapse1#</td>
-					<td>#startedTreatment.mdr.Relapse2#</td>
-					<td>#startedTreatment.mdr.AfterDefault1#</td>
-					<td>#startedTreatment.mdr.AfterDefault2#</td>
-					<td>#startedTreatment.mdr.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.mdr.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.mdr.Other#</td>
-					<td>#startedTreatment.mdr.newTotal#</td>
-				</tr>
-				<tr>
-				    <td rowspan="3">PDR-TB</td>
-				    <td>M</td>
-				    <td>#startedTreatment.pdrmale.New#</td>
-					<td>#startedTreatment.pdrmale.Relapse1#</td>
-					<td>#startedTreatment.pdrmale.Relapse2#</td>
-					<td>#startedTreatment.pdrmale.AfterDefault1#</td>
-					<td>#startedTreatment.pdrmale.AfterDefault2#</td>
-					<td>#startedTreatment.pdrmale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.pdrmale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.pdrmale.Other#</td>
-					<td>#startedTreatment.pdrmale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>F</td>
-				    <td>#startedTreatment.pdrfemale.New#</td>
-					<td>#startedTreatment.pdrfemale.Relapse1#</td>
-					<td>#startedTreatment.pdrfemale.Relapse2#</td>
-					<td>#startedTreatment.pdrfemale.AfterDefault1#</td>
-					<td>#startedTreatment.pdrfemale.AfterDefault2#</td>
-					<td>#startedTreatment.pdrfemale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.pdrfemale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.pdrfemale.Other#</td>
-					<td>#startedTreatment.pdrfemale.newTotal#</td>
-				</tr>
-				    
-				 <tr>
-				    <td>Total</td>
-					<td>#startedTreatment.pdr.New#</td>
-					<td>#startedTreatment.pdr.Relapse1#</td>
-					<td>#startedTreatment.pdr.Relapse2#</td>
-					<td>#startedTreatment.pdr.AfterDefault1#</td>
-					<td>#startedTreatment.pdr.AfterDefault2#</td>
-					<td>#startedTreatment.pdr.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.pdr.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.pdr.Other#</td>
-					<td>#startedTreatment.pdr.newTotal#</td>
-				</tr>
-				<tr>
-					<td rowspan="3">XDR-TB</td>
-					<td>M</td>
-				    <td>#startedTreatment.xdrmale.New#</td>
-					<td>#startedTreatment.xdrmale.Relapse1#</td>
-					<td>#startedTreatment.xdrmale.Relapse2#</td>
-					<td>#startedTreatment.xdrmale.AfterDefault1#</td>
-					<td>#startedTreatment.xdrmale.AfterDefault2#</td>
-					<td>#startedTreatment.xdrmale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.xdrmale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.xdrmale.Other#</td>
-					<td>#startedTreatment.xdrmale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>F</td>
-				    <td>#startedTreatment.xdrfemale.New#</td>
-					<td>#startedTreatment.xdrfemale.Relapse1#</td>
-					<td>#startedTreatment.xdrfemale.Relapse2#</td>
-					<td>#startedTreatment.xdrfemale.AfterDefault1#</td>
-					<td>#startedTreatment.xdrfemale.AfterDefault2#</td>
-					<td>#startedTreatment.xdrfemale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.xdrfemale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.xdrfemale.Other#</td>
-					<td>#startedTreatment.xdrfemale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>Total</td>
-				    <td>#startedTreatment.xdr.New#</td>
-					<td>#startedTreatment.xdr.Relapse1#</td>
-					<td>#startedTreatment.xdr.Relapse2#</td>
-					<td>#startedTreatment.xdr.AfterDefault1#</td>
-					<td>#startedTreatment.xdr.AfterDefault2#</td>
-					<td>#startedTreatment.xdr.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.xdr.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.xdr.Other#</td>
-					<td>#startedTreatment.xdr.newTotal#</td>
-				
-				</tr>
-				<tr>
-					<td colspan="2">Total</td>
-				    <td>#startedTreatment.total.New#</td>
-					<td>#startedTreatment.total.Relapse1#</td>
-					<td>#startedTreatment.total.Relapse2#</td>
-					<td>#startedTreatment.total.AfterDefault1#</td>
-					<td>#startedTreatment.total.AfterDefault2#</td>
-					<td>#startedTreatment.total.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.total.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.total.Other#</td>
-					<td>#startedTreatment.total.newTotal#</td>
-				</tr>
-				<tr>
-				    <td rowspan="3">TB/HIV</td>
-				    <td>M</td>
-					<td>#startedTreatment.tbhivmale.New#</td>
-					<td>#startedTreatment.tbhivmale.Relapse1#</td>
-					<td>#startedTreatment.tbhivmale.Relapse2#</td>
-					<td>#startedTreatment.tbhivmale.AfterDefault1#</td>
-					<td>#startedTreatment.tbhivmale.AfterDefault2#</td>
-					<td>#startedTreatment.tbhivmale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.tbhivmale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.tbhivmale.Other#</td>
-					<td>#startedTreatment.tbhivmale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>F</td>
-					<td>#startedTreatment.tbhivfemale.New#</td>
-					<td>#startedTreatment.tbhivfemale.Relapse1#</td>
-					<td>#startedTreatment.tbhivfemale.Relapse2#</td>
-					<td>#startedTreatment.tbhivfemale.AfterDefault1#</td>
-					<td>#startedTreatment.tbhivfemale.AfterDefault2#</td>
-					<td>#startedTreatment.tbhivfemale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.tbhivfemale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.tbhivfemale.Other#</td>
-					<td>#startedTreatment.tbhivfemale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>Total</td>
-					<td>#startedTreatment.tbhiv.New#</td>
-					<td>#startedTreatment.tbhiv.Relapse1#</td>
-					<td>#startedTreatment.tbhiv.Relapse2#</td>
-					<td>#startedTreatment.tbhiv.AfterDefault1#</td>
-					<td>#startedTreatment.tbhiv.AfterDefault2#</td>
-					<td>#startedTreatment.tbhiv.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.tbhiv.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.tbhiv.Other#</td>
-					<td>#startedTreatment.tbhiv.newTotal#</td>
-				</tr>
-				
-				
-				<tr>
-				    <td rowspan="3">Children</td>
-				    <td>M</td>
-					<td>#startedTreatment.childrenmale.New#</td>
-					<td>#startedTreatment.childrenmale.Relapse1#</td>
-					<td>#startedTreatment.childrenmale.Relapse2#</td>
-					<td>#startedTreatment.childrenmale.AfterDefault1#</td>
-					<td>#startedTreatment.childrenmale.AfterDefault2#</td>
-					<td>#startedTreatment.childrenmale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.childrenmale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.childrenmale.Other#</td>
-					<td>#startedTreatment.childrenmale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>F</td>
-					<td>#startedTreatment.childrenfemale.New#</td>
-					<td>#startedTreatment.childrenfemale.Relapse1#</td>
-					<td>#startedTreatment.childrenfemale.Relapse2#</td>
-					<td>#startedTreatment.childrenfemale.AfterDefault1#</td>
-					<td>#startedTreatment.childrenfemale.AfterDefault2#</td>
-					<td>#startedTreatment.childrenfemale.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.childrenfemale.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.childrenfemale.Other#</td>
-					<td>#startedTreatment.childrenfemale.newTotal#</td>
-				</tr>
-				<tr>
-					<td>Total</td>
-					<td>#startedTreatment.children.New#</td>
-					<td>#startedTreatment.children.Relapse1#</td>
-					<td>#startedTreatment.children.Relapse2#</td>
-					<td>#startedTreatment.children.AfterDefault1#</td>
-					<td>#startedTreatment.children.AfterDefault2#</td>
-					<td>#startedTreatment.children.AfterFailureCategoryI#</td>
-					<td>#startedTreatment.children.AfterFailureCategoryII#</td>
-					<td>#startedTreatment.children.Other#</td>
-					<td>#startedTreatment.children.newTotal#</td>
-				</tr>
-			</table> -->
-			
-			
-			
-			
+			</table>
 		</div>
+		
+		<input type="button" onclick="tableToExcel('tb07u', 'TB07u')" value="Export to Excel" />
+		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" /> -->
+		<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
+		
+		<script> 
+			console.log("${reportStatus}");
+			if("${reportStatus}" === "true") { 
+				document.getElementById("tableToSql").disabled = true; 
+			} else { 
+				document.getElementById("tableToSql").disabled = false; 
+			}
+		</script>
+		
 	</body>
 </html>

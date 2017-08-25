@@ -29,6 +29,7 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.reporting.DQItem;
 import org.openmrs.module.mdrtb.reporting.DQUtil;
+import org.openmrs.module.mdrtb.reporting.PDFHelper;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.reporting.TB03uUtil;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -90,7 +91,7 @@ public class MDRDQController {
     
     
     @RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/dq")
-    public String doDQ(
+    public static String doDQ(
     		@RequestParam("location") Location location,
     		@RequestParam("oblast") String oblast,
             @RequestParam(value="year", required=true) Integer year,
@@ -317,6 +318,24 @@ public class MDRDQController {
     	
     	
     	model.addAttribute("locale", Context.getLocale().toString());
+    	
+    	
+    	
+    	// TO CHECK WHETHER REPORT IS CLOSED OR NOT
+    	Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
+		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
+		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
+		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
+		
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "dq");
+		System.out.println(reportStatus);
+		
+    	model.addAttribute("oblast", oblast);
+    	model.addAttribute("location", location);
+    	model.addAttribute("year", year);
+    	model.addAttribute("quarter", quarter);
+    	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportStatus", reportStatus);
         return "/module/mdrtb/reporting/dqResults";
     }
     

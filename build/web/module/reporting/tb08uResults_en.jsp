@@ -1,4 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="org.openmrs.module.mdrtb.service.MdrtbService"%>
 <%@page import="org.openmrs.api.context.Context"%>
 <html>
@@ -114,12 +113,11 @@
 			}
 			$(document).ready(function(){
 				$("#tableToSql").bind("click", function() {
-					
-					savePdf("closeReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults_en");
+					savePdf("closeReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults");
 				});
-				$("#tableToPdf").click(function(){
-					savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults_en");
-				});
+				/* $("#tableToPdf").click(function(){
+					savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults");
+				}); */
 			});
 		</script>
 		
@@ -389,10 +387,11 @@
 		</div>
 
 		<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
-		<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
+		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" /> -->
 		<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
 		
 		<script> 
+			console.log("${reportStatus}");
 			if("${reportStatus}" === "true") { 
 				document.getElementById("tableToSql").disabled = true; 
 			} else { 

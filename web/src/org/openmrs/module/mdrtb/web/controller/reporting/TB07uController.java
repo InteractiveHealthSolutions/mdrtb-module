@@ -33,6 +33,7 @@ import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.reporting.PDFHelper;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.reporting.TB03uData;
 import org.openmrs.module.mdrtb.reporting.TB03uUtil;
@@ -112,7 +113,7 @@ public class TB07uController {
     
     
     @RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb07u")
-    public String doTB08(
+    public static String doTB08(
     		@RequestParam("location") Location location,
     		@RequestParam("oblast") String oblast,
             @RequestParam(value="year", required=true) Integer year,
@@ -649,12 +650,22 @@ public class TB07uController {
     	}
     	
     	
-    	
-    	model.addAttribute("table1", table1);
+    	// TO CHECK WHETHER REPORT IS CLOSED OR NOT
+    	Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
+		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
+		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
+		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
+		
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "tb07u");
+		System.out.println(reportStatus);
+		
+		model.addAttribute("table1", table1);
+    	model.addAttribute("oblast", oblast);
     	model.addAttribute("location", location);
     	model.addAttribute("year", year);
     	model.addAttribute("quarter", quarter);
     	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportStatus", reportStatus);
         return "/module/mdrtb/reporting/tb08uResults_" + Context.getLocale().toString().substring(0, 2);
     }
     

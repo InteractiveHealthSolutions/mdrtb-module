@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.thoughtworks.xstream.core.util.Base64Encoder;
-
 @Controller
 public class CloseReportController {
 
@@ -69,22 +67,22 @@ public class CloseReportController {
 		String tableData = null;
 		boolean reportStatus = false;
 		
-		Location tb08u_location = null;
-    	String tb08u_oblast = oblastId;
-        Integer tb08u_year = year;
-        String tb08u_quarter = "";
-        String tb08u_month = "";
+		Location report_location = null;
+    	String report_oblast = oblastId;
+        Integer report_year = year;
+        String report_quarter = "";
+        String report_month = "";
 		
         try {
 			if(new PDFHelper().isString(quarter)) { 
-				tb08u_quarter = Integer.toString(quarter); 
+				report_quarter = Integer.toString(quarter); 
 			}
 			if(new PDFHelper().isString(month)) { 
-				tb08u_month = Integer.toString(month); 
+				report_month = Integer.toString(month); 
 			}
 			if(new PDFHelper().isInt(locationId)) { 
-				tb08u_location = Context.getLocationService().getLocation(Integer.parseInt(locationId));
-				location = tb08u_location.getId(); 
+				report_location = Context.getLocationService().getLocation(Integer.parseInt(locationId));
+				location = report_location.getId(); 
 			}
 			if(new PDFHelper().isInt(oblastId)) { 
 				oblast = (Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId))).getId(); 
@@ -122,7 +120,24 @@ public class CloseReportController {
 			model.addAttribute("ex", e); 
 			model.addAttribute("reportStatus", reportStatus);
 		} 
-		return TB08uController.doTB08(tb08u_location, tb08u_oblast, tb08u_year, tb08u_quarter, tb08u_month, model);
-    }
+        
+        
+        String url = "";
+        if(formPath.equals("treportesults")) {
+        	url = TB08uController.doTB08(report_location, report_oblast, report_year, report_quarter, report_month, model);
+	    }
+        else if(formPath.equals("tb08uResults_en")) {
+        	url = TB07uController.doTB08(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        }
+        else if(formPath.equals("tb03uResults")) {
+        	url = TB03uController.doTB03(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        }
+        else if(formPath.equals("dqResults")) {
+        	url = MDRDQController.doDQ(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        }
+        
+        System.out.println("url: " + url);
+		return url;
+	}
 	
 }

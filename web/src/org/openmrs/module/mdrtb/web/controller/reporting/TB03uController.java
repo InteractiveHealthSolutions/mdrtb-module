@@ -22,6 +22,7 @@ import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
+import org.openmrs.module.mdrtb.reporting.PDFHelper;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.reporting.TB03uData;
 import org.openmrs.module.mdrtb.reporting.TB03uUtil;
@@ -56,7 +57,8 @@ public class TB03uController {
     
     @RequestMapping(method=RequestMethod.GET, value="/module/mdrtb/reporting/tb03u")
     public void showRegimenOptions(ModelMap model) {
-    	
+		System.out.println("---GET-----");
+
     	
     
        
@@ -76,14 +78,16 @@ public class TB03uController {
     
     
 	@RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb03u")
-    public String doTB03(
+    public static String doTB03(
     		@RequestParam("location") Location location,
     		@RequestParam("oblast") String oblast,
             @RequestParam(value="year", required=true) Integer year,
             @RequestParam(value="quarter", required=false) String quarter,
             @RequestParam(value="month", required=false) String month,
             ModelMap model) throws EvaluationException {
-    	
+		System.out.println("---POST-----");
+    	System.out.println("PARAMS:" + location + " " + oblast + " " + year + " " + quarter + " " + month);
+    	  	
     	Cohort patients = MdrtbUtil.getMdrPatientsTJK(null, null, location, oblast, null, null, null, null,year,quarter,month);
     	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
 		
@@ -774,10 +778,26 @@ public class TB03uController {
     	}
     	
     	Collections.sort(patientSet);
-    	
     	Integer num = patients.getSize();
     	model.addAttribute("num", num);
     	model.addAttribute("patientSet", patientSet);
+    	
+    	// TO CHECK WHETHER REPORT IS CLOSED OR NOT
+    	Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
+		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
+		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
+		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
+		
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "tb03u");
+		System.out.println(reportStatus);
+    	model.addAttribute("oblast", oblast);
+    	model.addAttribute("location", location);
+    	model.addAttribute("year", year);
+    	model.addAttribute("quarter", quarter);
+    	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportStatus", reportStatus);
+    	
+    	
         return "/module/mdrtb/reporting/tb03uResults";
     }
     
