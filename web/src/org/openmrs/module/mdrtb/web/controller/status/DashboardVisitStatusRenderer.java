@@ -106,7 +106,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     		}
     		else if(type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")))) {
     			visit.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + encounter.getId()
-    							+ "&patientProgramId=" + status.getPatientProgram().getId());
+    							+ "&patientProgramId=" + status.getPatientTbProgram().getId());
     		}
     		else {
     			throw new MdrtbAPIException("Invalid encounter type passed to Dashboard visit status renderer.");

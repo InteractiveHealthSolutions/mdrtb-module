@@ -600,7 +600,7 @@ ${regimen.displayString}
 <!-- <br/> -->
 
 <!-- LAB RESULTS STATUS BOX -->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.labResultsStatus" text="Bacteriology Status"/></b>
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.labResults" text="Bacteriology Status"/></b>
 <div class="box" style="margin:0px">
 
 <!--  TODO: get rid of these flags if they aren't being used -->
@@ -618,7 +618,9 @@ ${regimen.displayString}
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
-<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCompleted"/></td>
+<!-- <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCompleted"/> </td>-->
+<td style="font-weight:bold" colspan="2"><nobr>&nbsp;</nobr></td>
+
 </tr>
 
 <tr>
@@ -628,10 +630,12 @@ ${regimen.displayString}
 		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentSmear.link}">${status.labResultsStatus.mostRecentSmear.value.result.displayString}</mdrtb:a></td>
 		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentSmear.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
 		<td>${status.labResultsStatus.mostRecentSmear.value.lab.displayString}</td>
-		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentSmear.value.resultDate}" format="${_dateFormatDisplay}"/></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/smear.form?encounterId=${status.labResultsStatus.mostRecentSmear.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/smear.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a></td>
 	</c:when>
 	<c:otherwise>
 		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/smear.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a></td>
 	</c:otherwise>
 </c:choose>
 </tr>
@@ -643,10 +647,13 @@ ${regimen.displayString}
 		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentCulture.link}">${status.labResultsStatus.mostRecentCulture.value.result.displayString}</mdrtb:a></td>
 		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentCulture.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
 		<td>${status.labResultsStatus.mostRecentCulture.value.lab.displayString}</td>
-		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentCulture.value.resultDate}" format="${_dateFormatDisplay}"/></td>
+		<%-- <td><openmrs:formatDate date="${status.labResultsStatus.mostRecentCulture.value.resultDate}" format="${_dateFormatDisplay}"/></td> --%>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/culture.form?encounterId=${status.labResultsStatus.mostRecentCulture.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/culture.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a></td>
 	</c:when>
 	<c:otherwise>
 		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/culture.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a></td>
 	</c:otherwise>
 </c:choose>
 </tr>
@@ -658,10 +665,13 @@ ${regimen.displayString}
 		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentXpert.link}">${status.labResultsStatus.mostRecentXpert.value.result.displayString}</mdrtb:a></td>
 		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentXpert.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
 		<td>${status.labResultsStatus.mostRecentXpert.value.lab.displayString}</td>
-		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentXpert.value.resultDate}" format="${_dateFormatDisplay}"/></td>
+		<%-- <td><openmrs:formatDate date="${status.labResultsStatus.mostRecentXpert.value.resultDate}" format="${_dateFormatDisplay}"/></td> --%>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?encounterId=${status.labResultsStatus.mostRecentXpert.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a></td>
 	</c:when>
 	<c:otherwise>
 		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/genexpert.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a></td>
 	</c:otherwise>
 </c:choose>
 </tr>
@@ -673,19 +683,22 @@ ${regimen.displayString}
 		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentHAIN.link}">${status.labResultsStatus.mostRecentHAIN.value.result.displayString}</mdrtb:a></td>
 		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
 		<td>${status.labResultsStatus.mostRecentHAIN.value.lab.displayString}</td>
-		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN.value.resultDate}" format="${_dateFormatDisplay}"/></td>
+		<%-- <td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN.value.resultDate}" format="${_dateFormatDisplay}"/></td> --%>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain.form?encounterId=${status.labResultsStatus.mostRecentHAIN.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a></td>
 	</c:when>
 	<c:otherwise>
 		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a></td>
 	</c:otherwise>
 </c:choose>
 </tr>
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.resistanceProfile" text="Resistance Profile"/>:</td><td colspan="4">${status.labResultsStatus.drugResistanceProfile.displayString}</td></tr>
 </table>
-
+<%-- 
 <br/>
 <button onclick="window.location='${pageContext.request.contextPath}/module/mdrtb/specimen/specimen.form?patientId=${patientId}&patientProgramId=${patientProgramId}'"><spring:message code="mdrtb.addTestResults" text="Add Test Results"/></button>
-<br/>
+<br/> --%>
 
 <%-- <c:if test="${fn:length(status.labResultsStatus.pendingLabResults.value) > 0}"> 
 <br/>

@@ -35,8 +35,14 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 			        smear.getDateCollected() != null ? df.format(smear.getDateCollected()) : "(N/A)",
 			        smear.getLab() != null ? smear.getLab().getDisplayString() : "(N/A)" };
 			
-			item.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + smear.getSpecimenId() + "&testId="
-			        + smear.getId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			if(status.getPatientProgram()!=null) {
+			
+				item.setLink("/module/mdrtb/form/smear.form?encounterId=" + smear.getSpecimenId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			}
+			
+			else {
+				item.setLink("/module/mdrtb/form/smear.form?encounterId=" + smear.getSpecimenId() + "&patientProgramId=" + status.getPatientTbProgram().getId());
+			}
 			
 			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.smearFormatter", params, "{0} on {1}, tested at {2}", Context.getLocale()));
 			
@@ -56,10 +62,13 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 			        culture.getResult().getBestShortName(Context.getLocale()).toString(),
 			        culture.getDateCollected() != null ? df.format(culture.getDateCollected()) : "(N/A)",
 			        culture.getLab() != null ? culture.getLab().getDisplayString() : "(N/A)" };
+			if(status.getPatientProgram()!=null) {
+				item.setLink("/module/mdrtb/specimen/culture.form?encounterId=" + culture.getSpecimenId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			}
 			
-			item.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + culture.getSpecimenId() + "&testId=" 
-				+ culture.getId() + "&patientProgramId=" + status.getPatientProgram().getId());
-			     
+			else {
+				item.setLink("/module/mdrtb/specimen/culture.form?encounterId=" + culture.getSpecimenId() + "&patientProgramId=" + status.getPatientTbProgram().getId());
+			}
 			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.cultureFormatter", params, "{0} on {1}, tested at {2}", Context.getLocale()));
 		} else {
 			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.none"));
@@ -77,8 +86,13 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 			        xpert.getDateCollected() != null ? df.format(xpert.getDateCollected()) : "(N/A)",
 			        xpert.getLab() != null ? xpert.getLab().getDisplayString() : "(N/A)" };
 			
-			item.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + xpert.getSpecimenId() + "&testId=" 
-				+ xpert.getId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			if(status.getPatientProgram()!=null) {
+				item.setLink("/module/mdrtb/form/xpert.form?encounterId=" + xpert.getSpecimenId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			}
+			
+			else {
+				item.setLink("/module/mdrtb/form/xpert.form?encounterId=" + xpert.getSpecimenId() + "&patientProgramId=" + status.getPatientTbProgram().getId());
+			}
 			     
 			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.xpertFormatter", params, "{0} on {1}, tested at {2}", Context.getLocale()));
 		} else {
@@ -96,9 +110,13 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 					hain.getResult().getBestShortName(Context.getLocale()).toString(),
 					hain.getDateCollected() != null ? df.format(hain.getDateCollected()) : "(N/A)",
 							hain.getLab() != null ? hain.getLab().getDisplayString() : "(N/A)" };
+			if(status.getPatientProgram()!=null) {
+				item.setLink("/module/mdrtb/form/hain.form?encounterId=" + hain.getSpecimenId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			}
 			
-			item.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + hain.getSpecimenId() + "&testId=" 
-				+ hain.getId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			else {
+				item.setLink("/module/mdrtb/form/hain.form?encounterId=" + hain.getSpecimenId() + "&patientProgramId=" + status.getPatientTbProgram().getId());
+			}
 			     
 			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.hainFormatter", params, "{0} on {1}, tested at {2}", Context.getLocale()));
 		} else {
@@ -107,6 +125,9 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 		}
 	
 	}
+	
+	
+	
 	
     public String renderDrugResistanceProfile(List<Concept> drugs) {
     	String drugList = DashboardStatusRendererUtil.renderDrugList(drugs);
@@ -118,7 +139,7 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
     	return drugList;
     }
 	
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
     public void renderPendingLabResults(StatusItem pendingLabResults, LabResultsStatus status) {		
 		List<StatusItem> tests = (List<StatusItem>) pendingLabResults.getValue();
 		
@@ -150,7 +171,7 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 				    "{0} with status unknown", Context.getLocale()));
 			}
 		}
-	}
+	}*/
 
     public String renderTbClassification(TbClassification classification) {
 	   

@@ -58,9 +58,9 @@ public class LabResultsStatus extends Status {
 		return getItem("drugResistanceProfile");
 	}
 	
-	public StatusItem getPendingLabResults() {
+	/*public StatusItem getPendingLabResults() {
 		return getItem("pendingLabResults");
-	}
+	}*/
 	
 	public StatusItem getTbClassification() {
 		return getItem("tbClassification");

@@ -56,7 +56,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		
 		// get the control smear and diagnostic culture
 		//findDiagnosticSmearAndCulture(specimens, status);
-		findDiagnosticTests(specimens, status);
+		//findDiagnosticTests(specimens, status);
 		
 		
 		
@@ -384,7 +384,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		}
 		
 		pendingLabResults.setValue(tests);
-		renderer.renderPendingLabResults(pendingLabResults, status);
+		//renderer.renderPendingLabResults(pendingLabResults, status);
 		
 		status.addItem("pendingLabResults", pendingLabResults);
 	}

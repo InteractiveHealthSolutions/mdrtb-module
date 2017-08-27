@@ -15,7 +15,7 @@ public interface LabResultsStatusRenderer {
 	
 	public void renderHAIN(StatusItem diagnosticHAIN, LabResultsStatus status);
 
-	public void renderPendingLabResults(StatusItem pendingLabResults, LabResultsStatus status);
+	//public void renderPendingLabResults(StatusItem pendingLabResults, LabResultsStatus status);
 	
 	public String renderDrugResistanceProfile(List<Concept> drugs);
 	
