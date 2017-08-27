@@ -89,28 +89,15 @@ public class TB07uController {
         binder.registerCustomEditor(Concept.class, new ConceptEditor());
         binder.registerCustomEditor(Location.class, new LocationEditor());
     }
-        
     
     @RequestMapping(method=RequestMethod.GET, value="/module/mdrtb/reporting/tb07u")
     public void showRegimenOptions(ModelMap model) {
-    	
-    	
-    
-       
         List<Location> locations = Context.getLocationService().getAllLocations(false);//ms = (MdrtbDrugForecastService) Context.getService(MdrtbDrugForecastService.class);
         List<Oblast> oblasts = Context.getService(MdrtbService.class).getOblasts();
         //drugSets =  ms.getMdrtbDrugs();
-        
-       
-
         model.addAttribute("locations", locations);
         model.addAttribute("oblasts", oblasts);
-      
-    	
     }
-    
-  
-    
     
     @RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb07u")
     public static String doTB08(
@@ -167,8 +154,6 @@ public class TB07uController {
     	
     	
     	Set<Integer> idSet = patients.getMemberIds();
-    	
-    	System.out.println("PATIENTS: " + idSet.size());
     	
     	ArrayList<Person> patientList = new ArrayList<Person>();
     	ArrayList<Concept> conceptQuestionList = new ArrayList<Concept>();

@@ -1,122 +1,5 @@
 <%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%>
 <%@ include file="../mdrtbHeader.jsp"%>
-
-
-<style>
-th.rotate {
-  /* Something you can count on */
-  height: 350px;
-  white-space: nowrap;
-  valign: middle;
-  
-  
-}
-
-th.rotate > div {
-  transform: 
-    /* Magic Numbers */
-    translate(0px, 100px)
-    /* 45 is really 360 - 45 */
-    rotate(270deg);
-  width: 30px;
-  align: centre;
-  
-}
-
-td.rotate {
-  /* Something you can count on */
-  height: 150px;
-  white-space: nowrap;
-  valign: middle;
-  
-  
-}
-
-td.rotate > div {
-  transform: 
-    /* Magic Numbers */
-    translate(0px, 100px)
-    /* 45 is really 360 - 45 */
-    rotate(270deg);
-  width: 30px;
-  align: centre;
-  
-}
-
-th.subrotate {
-  /* Something you can count on */
-  height: 200px;
-  white-space: nowrap;
-  valign: middle;
-  
-}
-
-th.subrotate > div {
-  transform: 
-    /* Magic Numbers */
-    translate(0px, 65px)
-    /* 45 is really 360 - 45 */
-    rotate(270deg);
-  width: 50px;
-  align: centre;
-}
-
-th.dst {
-  
-  valign: middle;
- 
-  
-}
-
-th.dst > div {
-  
-  
-  width: 30px;
-  
-}
-
-th.widedst {
-  
-  valign: middle;
- 
-  
-}
-
-th.widedst > div {
-  
-  
-  width: 55px;
-  
-}
-
-th.normal {
-  /* Something you can count on */
-  
-  white-space: nowrap;
-  valign: middle;
-  
-}
-
-th.reggroup {
-  /* Something you can count on */
-  height: 50px;
-  white-space: nowrap;
-  valign: middle;
-  
-}
-
-
-table.resultsTable {
-		border-collapse: collapse;
-}
-
-table.resultsTable td, table.resultsTable th {
-		border-top: 1px black solid;
-		border-bottom: 1px black solid;
-		border-right: 1px black solid;
-		border-left: 1px black solid;
-	}
-</style>
 <meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
 <script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
@@ -223,16 +106,113 @@ function savePdf(action, reportName, formPath) {
 }
 $(document).ready(function(){
 	$("#tableToSql").bind("click", function() {
-		savePdf("closeReport.form", "TB03u".toUpperCase(), "tb03uResults");
+		if(confirm('<spring:message code="mdrtb.closeReportMessage" />') ) {
+			savePdf("closeReport.form", "TB-03u", "tb03uResults");
+		}
 	});
 	/* $("#tableToPdf").click(function(){
-		savePdf("exportReport.form", "TB03u".toUpperCase(), "tb03uResults");
+		savePdf("exportReport.form", "TB-03u", "tb03uResults");
 	}); */
 });
 </script>
 </head>
 <body>
 <div id="tb03u">
+	<style>
+		th.rotate {
+		  /* Something you can count on */
+		  height: 350px;
+		  white-space: nowrap;
+		  valign: middle;
+		}
+		
+		th.rotate > div {
+		  transform: 
+		    /* Magic Numbers */
+		    translate(0px, 100px)
+		    /* 45 is really 360 - 45 */
+		    rotate(270deg);
+		  width: 30px;
+		  align: centre;
+		  
+		}
+		
+		td.rotate {
+		  /* Something you can count on */
+		  height: 150px;
+		  white-space: nowrap;
+		  valign: middle;
+		}
+		
+		td.rotate > div {
+		  transform: 
+		    /* Magic Numbers */
+		    translate(0px, 100px)
+		    /* 45 is really 360 - 45 */
+		    rotate(270deg);
+		  width: 30px;
+		  align: centre;
+		  
+		}
+		
+		th.subrotate {
+		  /* Something you can count on */
+		  height: 200px;
+		  white-space: nowrap;
+		  valign: middle;
+		}
+		
+		th.subrotate > div {
+		  transform: 
+		    /* Magic Numbers */
+		    translate(0px, 65px)
+		    /* 45 is really 360 - 45 */
+		    rotate(270deg);
+		  width: 50px;
+		  align: centre;
+		}
+		
+		th.dst {
+		  valign: middle;
+		}
+		
+		th.dst > div {
+		  width: 30px;
+		}
+		
+		th.widedst {
+		  valign: middle;  
+		}
+		
+		th.widedst > div {  
+		  width: 55px;
+		}
+		
+		th.normal {
+		  /* Something you can count on */
+		  white-space: nowrap;
+		  valign: middle;
+		}
+		
+		th.reggroup {
+		  /* Something you can count on */
+		  height: 50px;
+		  white-space: nowrap;
+		  valign: middle;
+		}
+		
+		
+		table.resultsTable {
+			border-collapse: collapse;
+		}
+		
+		table.resultsTable td, table.resultsTable th {
+			border-top: 1px black solid;
+			border-bottom: 1px black solid;
+			border-right: 1px black solid;
+			border-left: 1px black solid;
+		}
+	</style>
 	<table class="resultsTable" >
 	   <tr>
 	     <th class="rotate" rowspan="3"><div><span><spring:message code="mdrtb.tb03.registrationNumber"/></span></div></th>

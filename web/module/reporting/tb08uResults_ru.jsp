@@ -1,4 +1,5 @@
 ﻿<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%>
 
 <%
 response.setHeader("Cache-Control","no-cache"); 
@@ -8,10 +9,6 @@ response.setDateHeader ("Expires", -1);
 <html>
 	<head>
 		<title>TB-08u</title>
-		<style>
-			th {vertical-align:middle; text-align:center;}
-			th, td {font-size:smaller;}
-		</style>
 	</head>
 	<body>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
@@ -118,15 +115,21 @@ response.setDateHeader ("Expires", -1);
 			}
 			$(document).ready(function(){
 				$("#tableToSql").bind("click", function() {
-					savePdf("closeReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults");
+					if(confirm('<spring:message code="mdrtb.closeReportMessage" />') ) {
+						savePdf("closeReport.form", "TB-08u", "tb08uResults");
+					}
 				});
 				/* $("#tableToPdf").click(function(){
-					savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults");
+					savePdf("exportReport.form", "TB-08u", "tb08uResults");
 				}); */
 			});
 		</script>
 
 		<div id="tb08u" style="font-size:smaller; width:980px;">
+			<style>
+				th {vertical-align:middle; text-align:center;}
+				th, td {font-size:smaller;}
+			</style>
 			<table width="100%"><tr>
 				<td width="90%" align="left" style="font-size:14px; font-weight:bold;">
 					Квартальный отчет о результатах лечения больных ЛУ ТБ <br/>

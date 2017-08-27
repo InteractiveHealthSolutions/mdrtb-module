@@ -1,15 +1,9 @@
-﻿<html>
+﻿<%@page import="org.openmrs.module.mdrtb.service.MdrtbService"%>
+<%@page import="org.openmrs.api.context.Context"%>
+<%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%>
+<html>
 	<head>
 		<title>TB-07y</title>
-		<style>
-			th {vertical-align:top; text-align:left;}
-			th, td {font-size:smaller;}
-			.vertical-text {
-			transform: rotate(270deg);
-			transform-origin: left top 0;
-			float: left;
-		}
-		</style>
 	</head>
 	<body>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
@@ -116,14 +110,25 @@
 		}
 		$(document).ready(function(){
 			$("#tableToSql").bind("click", function() {
-				savePdf("closeReport.form", "TB08U_FAST".toUpperCase(), "tb07uResults");
+				if(confirm('<spring:message code="mdrtb.closeReportMessage" />') ) {
+					savePdf("closeReport.form", "TB-07u", "tb07uResults");
+				}
 			});
 			/* $("#tableToPdf").click(function(){
-				savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb07uResults");
+				savePdf("exportReport.form", "TB-07u", "tb07uResults");
 			}); */
 		});
 		</script>
 		<div id="tb07u" style="font-size:smaller; width:980px;">
+			<style>
+				th {vertical-align:top; text-align:left;}
+				th, td {font-size:smaller;}
+				.vertical-text {
+				transform: rotate(270deg);
+				transform-origin: left top 0;
+				float: left;
+			}
+			</style>
 			<table width="100%"><tr>
 				<td width="10%">&nbsp;</td>
 				<td width="50%" align="center" style="font-size:14px; font-weight:bold;">Квартальный отчет о выявлении и начале лечения случаев ЛУ ТБ </td>

@@ -1,12 +1,9 @@
 <%@page import="org.openmrs.module.mdrtb.service.MdrtbService"%>
 <%@page import="org.openmrs.api.context.Context"%>
+<%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%>
 <html>
 	<head>
 		<title>TB-08u</title>
-		<style>
-			th {vertical-align:middle; text-align:center;}
-			th, td {font-size:smaller;}
-		</style>
 	</head>
 	<body>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
@@ -113,15 +110,21 @@
 			}
 			$(document).ready(function(){
 				$("#tableToSql").bind("click", function() {
-					savePdf("closeReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults");
+					if(confirm('<spring:message code="mdrtb.closeReportMessage" />') ) {
+						savePdf("closeReport.form", "TB-08u", "tb08uResults");
+					}
 				});
 				/* $("#tableToPdf").click(function(){
-					savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults");
+					savePdf("exportReport.form", "TB-08u", "tb08uResults");
 				}); */
 			});
 		</script>
 		
 		<div id="tb08u" style="font-size:smaller; width:980px;">
+			<style>
+				th {vertical-align:middle; text-align:center;}
+				th, td {font-size:smaller;}
+			</style>
 			<table width="90%"><tr>
 				<td width="90" align="left" style="font-size:14px; font-weight:bold;">
 					Quarterly report on DR TB cases treatment outcomes<br/>

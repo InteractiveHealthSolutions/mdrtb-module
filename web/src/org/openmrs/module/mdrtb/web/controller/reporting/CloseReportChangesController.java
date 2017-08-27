@@ -47,7 +47,6 @@ public class CloseReportChangesController {
 		System.out.println("-----View Closed Report Changes GET-----");
 	}
 
-
 	@RequestMapping(method=RequestMethod.POST)//, value="/module/mdrtb/reporting/viewClosedReportChanges"
     public ModelAndView viewClosedReportsPost(
     		HttpServletRequest request, HttpServletResponse response,

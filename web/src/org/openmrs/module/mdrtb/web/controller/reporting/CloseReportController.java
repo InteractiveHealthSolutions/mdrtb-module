@@ -123,10 +123,10 @@ public class CloseReportController {
         
         
         String url = "";
-        if(formPath.equals("treportesults")) {
+        if(formPath.equals("tb08uResults")) {
         	url = TB08uController.doTB08(report_location, report_oblast, report_year, report_quarter, report_month, model);
 	    }
-        else if(formPath.equals("tb08uResults_en")) {
+        else if(formPath.equals("tb07uResults")) {
         	url = TB07uController.doTB08(report_location, report_oblast, report_year, report_quarter, report_month, model);
         }
         else if(formPath.equals("tb03uResults")) {

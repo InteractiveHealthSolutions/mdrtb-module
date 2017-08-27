@@ -115,12 +115,13 @@
 			}
 			$(document).ready(function(){
 				$("#tableToSql").bind("click", function() {
-					
-					savePdf("closeReport.form", "TB08U_FAST"z, "tb08uResults_en");
+					if(confirm('<spring:message code="mdrtb.closeReportMessage" />') ) {
+						savePdf("closeReport.form", "TB-08u", "tb08uResults");
+					}
 				});
-				$("#tableToPdf").click(function(){
-					savePdf("exportReport.form", "TB08U_FAST".toUpperCase(), "tb08uResults_en");
-				});
+				/* $("#tableToPdf").click(function(){
+					savePdf("exportReport.form", "TB-08u", "tb08uResults");
+				}); */
 			});
 		</script>
 		

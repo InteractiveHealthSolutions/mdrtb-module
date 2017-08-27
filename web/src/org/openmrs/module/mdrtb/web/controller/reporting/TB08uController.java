@@ -49,27 +49,14 @@ public class TB08uController {
         binder.registerCustomEditor(Location.class, new LocationEditor());
     }
         
-    
     @RequestMapping(method=RequestMethod.GET, value="/module/mdrtb/reporting/tb08u")
     public void showRegimenOptions(ModelMap model) {
-    	
-    	
-    
-       
         List<Location> locations = Context.getLocationService().getAllLocations(false);//ms = (MdrtbDrugForecastService) Context.getService(MdrtbDrugForecastService.class);
         List<Oblast> oblasts = Context.getService(MdrtbService.class).getOblasts();
         //drugSets =  ms.getMdrtbDrugs();
-        
-       
-
         model.addAttribute("locations", locations);
         model.addAttribute("oblasts", oblasts);
-      
-    	
     }
-    
-  
-    
     
 	@RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb08u")
     public static String doTB08(
@@ -95,7 +82,6 @@ public class TB08uController {
 		else if (location != null)
 			locList.add(location);
 		
-		System.out.println(o);
 		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
 		
 		Date startDate = (Date)(dateMap.get("startDate"));
@@ -104,7 +90,6 @@ public class TB08uController {
 		CohortDefinition baseCohort = null;
 		
 		//OBLAST
-    	System.out.println("---POST-----");
 		if (!locList.isEmpty()){
 			List<CohortDefinition> cohortDefinitions = new ArrayList<CohortDefinition>();
 			for(Location loc : locList)
@@ -121,21 +106,11 @@ public class TB08uController {
     	Cohort patients = Context.getService(CohortDefinitionService.class).evaluate(baseCohort, new EvaluationContext());
     	//Cohort patients = TbUtil.getDOTSPatientsTJK(null, null, location, oblast, null, null, null, null,year,quarter,month);
     	
-		
-		System.out.println("baseCohort: "+ baseCohort);
-		System.out.println("patients: "+ patients);
-    	
-		
 		Form tb03Form = Context.getFormService().getForm(MdrtbConstants.TB03U_FORM_ID);
-    	System.out.println("tb03Form: "+ tb03Form);
-    	System.out.println("tb03Form_Name: "+ tb03Form.getName());
 		ArrayList<Form> formList = new ArrayList<Form>();
 		formList.add(tb03Form);
     	
-    	
     	Set<Integer> idSet = patients.getMemberIds();
-    	
-    	System.out.println("PATIENTS: " + idSet.size());
     	
     	ArrayList<Person> patientList = new ArrayList<Person>();
     	ArrayList<Concept> conceptQuestionList = new ArrayList<Concept>();
@@ -176,11 +151,9 @@ public class TB08uController {
     		Patient patient = Context.getPatientService().getPatient(i);
     	    if(patient==null) {
     	    	continue;
-    	    	
     	    }
     	      
     	    patientList.add(patient);
-    	    
     	    
     	    //DATE OF MDR TREATMENT START
     	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TREATMENT_START_DATE);
@@ -622,7 +595,7 @@ public class TB08uController {
 		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
 		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
 		
-    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "tb08u_FAST");
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB-08u");
 		System.out.println(reportStatus);
 		
 		model.addAttribute("table1", table1);

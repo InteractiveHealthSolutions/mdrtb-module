@@ -60,7 +60,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		if(reportStatus == true) { 
 			status = 1; 
 		}
-    	String sql = "INSERT INTO report_data (oblast_id, location_id, year, quarter, month, report_date, table_data, report_status, report_name) VALUES ("+oblast+", "+location+", "+year+", "+quarter+", "+month+", '"+reportDate+"', '"+tableData+"', "+status+", '"+reportName.toUpperCase()+"');";
+    	String sql = "INSERT INTO report_data (oblast_id, location_id, year, quarter, month, report_date, table_data, report_status, report_name) VALUES ("+oblast+", "+location+", "+year+", "+quarter+", "+month+", '"+reportDate+"', '"+tableData+"', "+status+", '"+reportName+"');";
     	System.out.println(sql);
     	Session session = sessionFactory.getCurrentSession();
     	session.beginTransaction();
@@ -146,7 +146,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 	public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
     	String sql = "delete from report_data"; 
     	if(name != null && !name.equals("")) { 
-    		sql += " where report_name='" + name.toUpperCase() + "'"; 
+    		sql += " where report_name='" + name + "'"; 
 		} 
     	if(date != null && !date.equals("")) { 
     		sql += " and report_date='" + date + "'"; 
@@ -229,31 +229,36 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		Session session = sessionFactory.getCurrentSession();
     	session.beginTransaction();
 		for (String encounterTypeName : encounterTypeNames) {
-	    	sql = "select e.encounter_id from encounter e inner join encounter_type et where e.encounter_type=et.encounter_type_id and et.name='" + encounterTypeName + "'";
-			if(startDate != null && endDate != null) {
+	    	sql = "select e.encounter_id from encounter e inner join encounter_type et where e.encounter_type=et.encounter_type_id and et.name='" + encounterTypeName + "' and e.voided=0";
+			
+	    	if(startDate != null && endDate != null) {
 				sql += " and e.encounter_datetime between '" + dbDateFormat.format(startDate) + "' and '" + dbDateFormat.format(startDate) + "'";
 			}
 	    	if(closeDate != null) {
 				sql += " and (e.date_changed >= '" + dbDateFormat.format(closeDate) + "' or e.date_created >= '" + dbDateFormat.format(closeDate) + "')";
 	    	}
+	    	sql += ";";
 	    	System.out.println(sql);
+	    	
 	    	tempList = (List<Integer>) session.createSQLQuery(sql).list();
-//			System.out.println(tempList);
-	    	for (Integer encounterId : tempList) {
+			System.out.println("tempList: " + tempList.size());
+	    	
+			for (Integer encounterId : tempList) {
 		    	if (!(encounterIds.contains(encounterId))) {
 			    	encounterIds.add(encounterId); 
 				}
 			}
 		}
-//		System.out.println(encounterIds.size());
-//		System.out.println(encounterIds);
+		System.out.println("encounterIds: " + encounterIds.size());
     	session.getTransaction().commit(); 
+    	
     	List<Encounter> encounters = new ArrayList<Encounter>();
 		Encounter encounter = new Encounter();
     	for (Integer encounterId : encounterIds) {
 			encounter = Context.getEncounterService().getEncounter(encounterId);
 			encounters.add(encounter);
 		}
+    	System.out.println(encounters.size());
 		return encounters; 
 	}
 }

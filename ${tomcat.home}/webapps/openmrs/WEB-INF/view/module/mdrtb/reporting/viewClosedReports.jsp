@@ -57,8 +57,6 @@
 				});
 			});
 			
-			var viewBtnTxt = '<spring:message code="mdrtb.viewClosedReports.viewBtn" />';
-			var unlockBtnTxt = '<spring:message code="mdrtb.viewClosedReports.unlockBtn" />';
 			var tbody = document.getElementById("tbody");
 			var oblastIds = []; var oblastNames = [];
 			var locationIds = []; var locationNames = [];
@@ -113,15 +111,19 @@
 					cell.id="reportDate_${reportIdLoop.index}";
 					cell.innerHTML = "${reportDates[reportIdLoop.index]}";
 					
+					var viewBtnTxt = "<spring:message code='mdrtb.viewClosedReports.viewBtn' />";
+					var unlockBtnTxt = "<spring:message code='mdrtb.viewClosedReports.unlockBtn' />";
+					
+					
 					//VIEW
 					var cell = row.insertCell(-1);
 					cell.id="view_${reportIdLoop.index}";
-					cell.innerHTML = "<button id='viewBtn_${reportIdLoop.index}' name='viewBtn_${reportIdLoop.index}' onclick='view(\"${reportIdLoop.index}\");'>"+viewBtnTxt+"</button>";
+					cell.innerHTML = "<button id='viewBtn_${reportIdLoop.index}' name='viewBtn_${reportIdLoop.index}' onclick='view(\"${reportIdLoop.index}\");' style='width: 100%'>"+viewBtnTxt+"</button>";
 	
 					//UNLOCK
 					var cell = row.insertCell(-1);
 					cell.id="unlock_${reportIdLoop.index}";
-					cell.innerHTML = "<button id='unlockBtn_${reportIdLoop.index}' name='unlockBtn_${reportIdLoop.index}' onclick='unlock(\"${reportIdLoop.index}\");'>"+unlockBtnTxt+"</button>";
+					cell.innerHTML = "<button id='unlockBtn_${reportIdLoop.index}' name='unlockBtn_${reportIdLoop.index}' onclick='unlock(\"${reportIdLoop.index}\");' style='width: 100%'>"+unlockBtnTxt+"</button>";
 				</c:forEach>
 			}
 
@@ -144,8 +146,7 @@
 				submitForm(id, "view");
 			}
 			function unlock(id) { 
-				var confirm = confirm('<spring:message code="mdrtb.unlockClosedReportMessage" />'); 
-				if(confirm) {
+				if(confirm('<spring:message code="mdrtb.unlockClosedReportMessage" />')) {
 					submitForm(id, "unlock");
 				}
 			}

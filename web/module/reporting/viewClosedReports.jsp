@@ -146,8 +146,7 @@
 				submitForm(id, "view");
 			}
 			function unlock(id) { 
-				var confirm = confirm('<spring:message code="mdrtb.unlockClosedReportMessage" />'); 
-				if(confirm) {
+				if(confirm('<spring:message code="mdrtb.unlockClosedReportMessage" />')) {
 					submitForm(id, "unlock");
 				}
 			}

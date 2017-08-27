@@ -1,4 +1,5 @@
 ﻿<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%>
 
 <%
 response.setHeader("Cache-Control","no-cache"); 
@@ -10,11 +11,6 @@ response.setDateHeader ("Expires", -1);
 		<title>TB-08u</title>
 	</head>
 	<body>
-		<style>
-			th {vertical-align:middle; text-align:center;}
-			th, td {font-size:smaller;}
-		</style>
-		
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
@@ -35,7 +31,6 @@ response.setDateHeader ("Expires", -1);
 			  }
 			})()
 			function savePdf(action, reportName, formPath) {
-				//var tableData = "Квартальный отчет о результатах лечения больных ЛУ ТБ (заполняется после 24 - 36 месяцев от последней даты квартала или года начала лечения)";
 				var tableData = (document.getElementById("tb08u")).innerHTML.toString();
 				var oblast = "${oblast}";
 				var district = "${location.locationId}";
@@ -120,16 +115,21 @@ response.setDateHeader ("Expires", -1);
 			}
 			$(document).ready(function(){
 				$("#tableToSql").bind("click", function() {
-				//	document.getElementById("tableToSql").disabled = true; 
-					savePdf("closeReport.form", "tb08u_FAST", "tb08uResults_en");
+					if(confirm('<spring:message code="mdrtb.closeReportMessage" />') ) {
+						savePdf("closeReport.form", "TB-08u", "tb08uResults");
+					}
 				});
-				$("#tableToPdf").click(function(){
-					savePdf("exportReport.form", "tb08u_FAST", "tb08uResults_en");
-				});
+				/* $("#tableToPdf").click(function(){
+					savePdf("exportReport.form", "TB-08u", "tb08uResults");
+				}); */
 			});
 		</script>
 
 		<div id="tb08u" style="font-size:smaller; width:980px;">
+			<style>
+				th {vertical-align:middle; text-align:center;}
+				th, td {font-size:smaller;}
+			</style>
 			<table width="100%"><tr>
 				<td width="90%" align="left" style="font-size:14px; font-weight:bold;">
 					Квартальный отчет о результатах лечения больных ЛУ ТБ <br/>
@@ -397,12 +397,13 @@ response.setDateHeader ("Expires", -1);
 				
 			</table>
 		</div>
+		
 		<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
-		<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
+		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" /> -->
 		<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
 		
 		<script> 
-			console.log("${reportStatus}"); 
+			console.log("${reportStatus}");
 			if("${reportStatus}" === "true") { 
 				document.getElementById("tableToSql").disabled = true; 
 			} else { 
