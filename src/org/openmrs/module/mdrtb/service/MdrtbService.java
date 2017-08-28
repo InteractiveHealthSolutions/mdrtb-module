@@ -186,6 +186,11 @@ public interface MdrtbService extends OpenmrsService {
      */
     public List<Specimen> getSpecimens(Patient patient);
     
+    /** 
+	* Fetches all specimens for a patient (i.e., all Specimen Collection encounters) in a given program
+    */
+   public List<Specimen> getSpecimens(Patient patient, Integer programId);
+    
     /**
      * Fetches all specimens within a certain data range
      * 

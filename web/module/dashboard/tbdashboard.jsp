@@ -165,7 +165,9 @@
 
 <!--  MDR-TB PROGRAM STATUS BOX -->
 
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.programStatus" text="Program Status"/></b>
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.programStatus" text="Program Status"/>
+<span style="position: absolute; left:575px;"><a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=mdr" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmMove" text="Are you sure you want to move this patient to MDR-TB program? The patient's current program will be automatically closed with outcome Moved to SLD Treatment"/>')"><spring:message code="mdrtb.moveToMDR" text="Enroll in MDR Program"/></a></span>
+</b>
 <div class="box" style="margin:0px;">
 
 <table cellpadding="0" cellspacing="0">
@@ -197,6 +199,8 @@
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><openmrs:formatDate date="${program.dateCompleted}" format="${_dateFormatDisplay}"/></td></tr>
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>${program.outcome.concept.displayString}</td></tr>
 </c:if>
+
+
 </table>
 
 <%-- <button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${program.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>

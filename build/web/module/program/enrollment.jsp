@@ -41,7 +41,9 @@
 <c:choose>
 <c:when test="${hasPrograms}">
 <c:if test="${not empty tbPrograms}">
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.tbPrograms" text="TB Programs"/></b>
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.tbPrograms" text="TB Programs"/>
+<span style="position: absolute; right:30px;"><a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=tb"><spring:message code="mdrtb.add" text="Addz"/></a></span>
+</b>
 <div class="box" style="margin:0px">
 <table cellspacing="2" cellpadding="2">
 <tr>
@@ -58,7 +60,7 @@
 <td><openmrs:formatDate date="${tbProgram.dateEnrolled}" format="${_dateFormatDisplay}"/></td>
 <td>${tbProgram.location.name }</td>
 <td>${tbProgram.patientIdentifier.identifier }</td>
-<td>${tbProgram.dateCompleted }</td>
+<td><openmrs:formatDate date="${tbProgram.dateCompleted}" format="${_dateFormatDisplay}"/></td>
 <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${patientId}&patientProgramId=${tbProgram.id }"><spring:message code="mdrtb.edit" text="XXXX"/></a></td>
 <td>Delete</td>
 </tr>     
@@ -84,7 +86,7 @@
 <td><openmrs:formatDate date="${mdrtbProgram.dateEnrolled}" format="${_dateFormatDisplay}"/></td>
 <td>${mdrtbProgram.location.name }</td>
 <td>${mdrtbProgram.patientIdentifier.identifier }</td>
-<td>${mdrtbProgram.dateCompleted }</td>
+<td><openmrs:formatDate date="${mdrtbProgram.dateCompleted}"format="${_dateFormatDisplay}"/></td>
 <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${patientId}&patientProgramId=${mdrtbProgram.id }"><spring:message code="mdrtb.edit" text="Edit"/></a></td>
 <td>Delete</td>
 </tr>    

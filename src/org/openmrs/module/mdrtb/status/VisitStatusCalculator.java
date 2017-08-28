@@ -42,7 +42,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     		status = new VisitStatus(dummyProgram);
     	}
     		
-    	EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+    	EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
     	EncounterType followUpType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
     	EncounterType specimenType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
     	
@@ -56,7 +56,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	
     	// get all the encounters during the program, or, if no program specified, get all MDR-TB encouters
     	if (mdrtbProgram != null) {
-    		encounters = mdrtbProgram.getMdrtbEncountersDuringProgram();
+    		encounters = mdrtbProgram.getMdrtbEncountersDuringProgramObs();
     	}
     	else {
     		encounters = Context.getService(MdrtbService.class).getMdrtbEncounters(patient);
@@ -141,7 +141,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	
     	// get all the encounters during the program, or, if no program specified, get all MDR-TB encouters
     	if (tbProgram != null) {
-    		encounters = tbProgram.getTbEncountersDuringProgram();
+    		encounters = tbProgram.getTbEncountersDuringProgramObs();
     	}
     	else {
     		encounters = Context.getService(MdrtbService.class).getTbEncounters(patient);

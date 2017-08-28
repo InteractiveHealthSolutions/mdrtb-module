@@ -452,6 +452,28 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		return getSpecimens(patient, null, null, null);
 	}
 	
+	public List<Specimen> getSpecimens(Patient patient, Integer programId) {
+		List<Specimen> specimens = new LinkedList<Specimen>();
+		List<Encounter> specimenEncounters = new LinkedList<Encounter>();
+		
+		// create the specific specimen encounter types
+		EncounterType specimenEncounterType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
+		List<EncounterType> specimenEncounterTypes = new LinkedList<EncounterType>();
+		specimenEncounterTypes.add(specimenEncounterType);
+		
+		specimenEncounters = Context.getEncounterService().getEncounters(patient, null, null, null, null, specimenEncounterTypes, null, false);
+		Obs temp = null;
+		for(Encounter encounter : specimenEncounters) {	
+			temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), encounter);
+			if(temp!=null && temp.getValueNumeric()!=null && temp.getValueNumeric().intValue()==programId.intValue())
+				specimens.add(new SpecimenImpl(encounter));
+		}
+		
+		Collections.sort(specimens);
+		return specimens;
+		
+	}
+	
 	public List<Specimen> getSpecimens(Patient patient, Date startDate, Date endDate) {	
 		return getSpecimens(patient, startDate, endDate, null);
 	}

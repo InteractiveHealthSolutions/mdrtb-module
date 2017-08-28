@@ -69,4 +69,5 @@ public class LabResultsStatus extends Status {
 	public StatusItem getAnatomicalSite() {
 		return getItem("anatomicalSite");
 	}
+	
 }

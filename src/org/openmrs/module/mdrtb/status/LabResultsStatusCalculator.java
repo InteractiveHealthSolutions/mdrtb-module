@@ -41,13 +41,13 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Status calculateTb(TbPatientProgram mdrtbProgram) {
+	public Status calculateTb(TbPatientProgram tbProgram) {
 		
 		// create the Status
-		LabResultsStatus status = new LabResultsStatus(mdrtbProgram);
+		LabResultsStatus status = new LabResultsStatus(tbProgram);
 		
 		// get the specimens for this patient program, because these will be used for multiple calculations
-		List<Specimen> specimens = mdrtbProgram.getSpecimensDuringProgram();
+		List<Specimen> specimens = tbProgram.getSpecimensDuringProgramObs();
 		
 		// just create an empty list of specimens if no specimens during the program
 		if (specimens == null) {
@@ -86,7 +86,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		status.addItem("cultureConversion", calculateConversion(specimens, "culture"));
 		
 		// figure out the anatomical site, if know
-		status.addItem("anatomicalSite", findAnatomicalSiteTb(mdrtbProgram));
+		status.addItem("anatomicalSite", findAnatomicalSiteTb(tbProgram));
 		
 		
 		return status;
@@ -100,7 +100,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		LabResultsStatus status = new LabResultsStatus(mdrtbProgram);
 		
 		// get the specimens for this patient program, because these will be used for multiple calculations
-		List<Specimen> specimens = mdrtbProgram.getSpecimensDuringProgram();
+		List<Specimen> specimens = mdrtbProgram.getSpecimensDuringProgramObs();
 		
 		// just create an empty list of specimens if no specimens during the program
 		if (specimens == null) {

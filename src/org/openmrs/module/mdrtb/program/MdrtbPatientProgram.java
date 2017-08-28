@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.program;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -20,6 +21,8 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.TbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientStateComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.regimen.Regimen;
@@ -283,6 +286,15 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 			(!isMostRecentProgram() ?  program.getDateCompleted(): new Date()));
     }
 	
+	public List<Specimen> getSpecimensDuringProgramObs() {
+		
+		if (program.getId() == null) {
+			return null;
+		}
+		
+		return Context.getService(MdrtbService.class).getSpecimens(program.getPatient(), program.getId());
+    }
+	
 	public List<Regimen> getMdrtbRegimensDuringProgram() {
 		
 		if (program.getDateEnrolled() == null) {
@@ -301,6 +313,27 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 		
 		return Context.getEncounterService().getEncounters(program.getPatient(), null, getPreviousProgramDateCompleted(), 
 			(!isMostRecentProgram() ?  program.getDateCompleted(): new Date()), null, MdrtbUtil.getMdrtbEncounterTypes(), null, false);
+	}
+	
+	public List<Encounter> getMdrtbEncountersDuringProgramObs() {
+		
+		if (program.getDateEnrolled() == null) {
+			return null;
+		}
+		
+		List<Encounter> encs =  Context.getEncounterService().getEncounters(program.getPatient(), null, null, 
+			null, null, MdrtbUtil.getMdrtbEncounterTypes(), null, false);
+		
+		ArrayList<Encounter> ret = new ArrayList<Encounter>();
+		
+		Obs temp = null;
+		for(Encounter encounter : encs) {	
+			temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), encounter);
+			if(temp!=null && temp.getValueNumeric()!=null && temp.getValueNumeric().intValue()==getId().intValue())
+				ret.add(encounter);
+		}
+		
+		return ret;
 	}
 	
 	public Concept getCurrentAnatomicalSiteDuringProgram() {

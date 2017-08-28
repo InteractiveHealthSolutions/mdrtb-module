@@ -43,9 +43,9 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     	
     		EncounterType type = encounter.getEncounterType();
     	
-    		if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type")))) {
+    		if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type")))) {
     			
-    			visit.setLink("/module/mdrtb/form/tb03.form?patientId="
+    			visit.setLink("/module/mdrtb/form/tb03u.form?patientId="
         			+ status.getPatientProgram().getPatient().getPatientId()
         			+ "&patientProgramId=" + status.getPatientProgram().getId() 
         			+ "&encounterId=" + encounter.getId());
@@ -60,6 +60,15 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     			visit.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + encounter.getId()
     							+ "&patientProgramId=" + status.getPatientProgram().getId());
     		}
+    		
+    		/*else if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type")))) {
+    			
+    			visit.setLink("/module/mdrtb/form/tb03u.form?patientId="
+        			+ status.getPatientProgram().getPatient().getPatientId()
+        			+ "&patientProgramId=" + status.getPatientProgram().getId() 
+        			+ "&encounterId=" + encounter.getId());
+    		}*/
+    		
     		else {
     			throw new MdrtbAPIException("Invalid encounter type passed to Dashboard visit status renderer.");
     		}
@@ -98,6 +107,8 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
         			+ "&patientProgramId=" + status.getPatientTbProgram().getId() 
         			+ "&encounterId=" + encounter.getId());
     		}
+    		
+    		
     		else if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type")))) {
     			visit.setLink("/module/mdrtb/form/followup.form?patientId="
         			+ status.getPatientTbProgram().getPatient().getPatientId()

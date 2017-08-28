@@ -96,5 +96,7 @@ public interface Specimen extends Comparable<Specimen>{
 	public void removeScannedLabReport(ScannedLabReport report);
 	
 	public Double getMonthOfTreatment();
+	
+	public Integer getPatProgId();
 		
 }

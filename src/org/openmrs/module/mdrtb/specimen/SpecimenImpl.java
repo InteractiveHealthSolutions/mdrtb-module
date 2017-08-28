@@ -312,6 +312,17 @@ public class SpecimenImpl implements Specimen {
 			return obs.getValueNumeric();
 	}
 	
+	public Integer getPatProgId() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PATIENT_PROGRAM_ID), encounter);
+		
+		if(obs == null) {
+			return null;
+		}
+		
+		else
+			return obs.getValueNumeric().intValue();
+	}
+	
 	
 	public void removeScannedLabReport(ScannedLabReport report) {
 		((ScannedLabReportImpl) report).voidScannedLabReport();
@@ -571,4 +582,6 @@ public class SpecimenImpl implements Specimen {
 	public int compareTo(Specimen specimenToCompare) {
 		return this.getDateCollected().compareTo(specimenToCompare.getDateCollected());
 	}
+	
+	
 }
