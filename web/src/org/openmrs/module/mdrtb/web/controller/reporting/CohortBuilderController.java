@@ -45,6 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.view.RedirectView;
 
+@SuppressWarnings({ "deprecation", "unused", "rawtypes" })
 public class CohortBuilderController implements Controller {
 	
 	protected final Log log = LogFactory.getLog(getClass());

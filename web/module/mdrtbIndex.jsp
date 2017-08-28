@@ -35,7 +35,7 @@
 <table class="indexTable">
 	<tr>
 		<td width=60% valign='top'>
-			<openmrs:portlet id="mdrtbFindPatient" url="mdrtbFindPatient" parameters="size=full|postURL=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form|showIncludeVoided=false|viewType=shortEdit" moduleId="mdrtb"/>
+			<openmrs:portlet id="mdrtbFindPatient" url="mdrtbFindPatient" parameters="size=full|postURL=${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form|showIncludeVoided=false|viewType=shortEdit" moduleId="mdrtb"/>
 			<openmrs:hasPrivilege privilege="Add Patients">
 				<br/><br/>
 				<openmrs:portlet id="mdrtbAddPatient" url="mdrtbAddPatient" parameters="personType=patient|postURL=mdrtbEditPatient.form|successURL=/module/mdrtb/dashboard/dashboard.form|viewType=shortEdit|add=1" moduleId="mdrtb" />
@@ -153,6 +153,7 @@
 					</b>
 				</td></tr>
 				<tr class="${rowClass}"><td>
+					<a href="../mdrtb/reporting/viewClosedReports.form"><spring:message code="mdrtb.viewClosedReports" /></a><br/>
 					<a href="../mdrtb/reporting/tb08u.form"><spring:message code="mdrtb.tb08Fast" /></a><br/>
 					<c:forEach var="entry" items="${reports}" varStatus="varStatus">
 						<c:set var="reportsFound" value="t"/>
