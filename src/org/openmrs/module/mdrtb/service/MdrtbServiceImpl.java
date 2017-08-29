@@ -44,6 +44,10 @@ import org.openmrs.module.mdrtb.TbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientProgramComparator;
 import org.openmrs.module.mdrtb.comparator.PersonByNameComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
+import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.db.MdrtbDAO;
@@ -1287,6 +1291,95 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     
     public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames, Date startDate, Date endDate, Date closeDate) {
     	return dao.getEncountersByEncounterTypes(encounterTypeNames, startDate, endDate, closeDate);
+    }
+    /////
+    
+    public List<SmearForm> getSmearForms (Integer patientProgramId) {
+    	TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	ArrayList<SmearForm> smears = new ArrayList<SmearForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.SMEAR_CONSTRUCT), e)!=null) {
+    			System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				SmearForm sf = new SmearForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				smears.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(smears);
+    	return smears;
+    }
+    
+    public List<CultureForm> getCultureForms (Integer patientProgramId) {
+    	TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	ArrayList<CultureForm> cultures = new ArrayList<CultureForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.CULTURE_CONSTRUCT), e)!=null) {
+    			System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				CultureForm sf = new CultureForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				cultures.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(cultures);
+    	return cultures;
+    }
+    
+    public List<XpertForm> getXpertForms (Integer patientProgramId) {
+    	TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	ArrayList<XpertForm> xperts = new ArrayList<XpertForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT), e)!=null) {
+    			System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				XpertForm sf = new XpertForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				xperts.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(xperts);
+    	return xperts;
+    }
+    
+    public List<HAINForm> getHAINForms (Integer patientProgramId) {
+    	TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	ArrayList<HAINForm> hains = new ArrayList<HAINForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), e)!=null) {
+    			System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				HAINForm sf = new HAINForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				hains.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(hains);
+    	return hains;
     }
     
     	

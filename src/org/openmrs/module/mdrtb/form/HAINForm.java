@@ -14,7 +14,7 @@ import org.openmrs.module.mdrtb.specimen.HAIN;
 import org.openmrs.module.mdrtb.specimen.HAINImpl;
 
 
-public class HAINForm extends AbstractSimpleForm {
+public class HAINForm extends AbstractSimpleForm implements Comparable<HAINForm> {
 
 	private HAIN hain;
 	
@@ -350,5 +350,9 @@ public class HAINForm extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		} 
+	}
+	
+	public int compareTo(HAINForm form) {
+		return this.getEncounterDatetime().compareTo(form.getEncounterDatetime());
 	}
 }

@@ -15,9 +15,10 @@ import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.SmearImpl;
+import org.openmrs.module.mdrtb.specimen.Specimen;
 
 
-public class SmearForm extends AbstractSimpleForm {
+public class SmearForm extends AbstractSimpleForm implements Comparable<SmearForm> {
 
 	private Smear smear;
 	
@@ -218,4 +219,9 @@ public class SmearForm extends AbstractSimpleForm {
 			}
 		} 
 	}
+	
+	public int compareTo(SmearForm form) {
+			return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
+	}
+	
 }

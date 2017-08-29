@@ -18,6 +18,10 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.mdrtb.Oblast;
+import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
+import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.specimen.Culture;
@@ -601,6 +605,12 @@ public interface MdrtbService extends OpenmrsService {
     public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames);
 
 	public List<Encounter> getEncountersByEncounterTypes(List<String> reportEncounterTypes, Date startDate, Date endDate, Date closeDate);
+	
+	///
+	public List<SmearForm> getSmearForms(Integer patientProgramId);
+	public List<CultureForm> getCultureForms(Integer patientProgramId);
+	public List<XpertForm> getXpertForms(Integer patientProgramId);
+	public List<HAINForm> getHAINForms(Integer patientProgramId);
     
 }
 

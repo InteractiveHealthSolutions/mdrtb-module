@@ -14,7 +14,7 @@ import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.CultureImpl;
 
 
-public class CultureForm extends AbstractSimpleForm {
+public class CultureForm extends AbstractSimpleForm implements Comparable<CultureForm>{
 
 	private Culture culture;
 	
@@ -215,4 +215,8 @@ public class CultureForm extends AbstractSimpleForm {
 			}
 		} 
 	}
+	
+	public int compareTo(CultureForm form) {
+		return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
+}
 }

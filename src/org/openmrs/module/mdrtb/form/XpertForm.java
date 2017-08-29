@@ -14,7 +14,7 @@ import org.openmrs.module.mdrtb.specimen.Xpert;
 import org.openmrs.module.mdrtb.specimen.XpertImpl;
 
 
-public class XpertForm extends AbstractSimpleForm {
+public class XpertForm extends AbstractSimpleForm implements Comparable<XpertForm>{
 
 	private Xpert xpert;
 	
@@ -282,5 +282,10 @@ public class XpertForm extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		} 
+	}
+	
+
+	public int compareTo(XpertForm form) {
+		return this.getEncounterDatetime().compareTo(form.getEncounterDatetime());
 	}
 }

@@ -137,6 +137,88 @@
 <td><openmrs:formatDate date="${tb03.pctStartDate}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
+</table>
+
+<br/>
+
+<spring:message code="mdrtb.smears" text="Smearz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+</tr>
+<c:forEach var="smear" items="${tb03.smears}">
+<tr>
+<td>${smear.monthOfTreatment }</td>
+<td>${smear.smearResult.displayString }</td>
+<td><openmrs:formatDate date="${smear.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${smear.location.displayString}
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
+<spring:message code="mdrtb.xperts" text="Xpertz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+</tr>
+
+<c:forEach var="xpert" items="${tb03.xperts}">
+<tr>
+<td>${xpert.mtbResult.displayString }/RIF: ${xpert.rifResult.displayString }</td>
+<td><openmrs:formatDate date="${xpert.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${xpert.location.displayString}
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
+<spring:message code="mdrtb.hains" text="Hainz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+</tr>
+
+<c:forEach var="hain" items="${tb03.hains}">
+<tr>
+<td>${hain.mtbResult.displayString }/RIF: ${hain.rifResult.displayString }/ INH: ${hain.inhResult.displayString }</td>
+<td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${hain.location.displayString}
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
+<spring:message code="mdrtb.cultures" text="Culturez"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+</tr>
+
+<c:forEach var="culture" items="${tb03.cultures}">
+<tr>
+<td>${culture.monthOfTreatment }</td>
+<td>${culture.cultureResult.displayString }</td>
+<td><openmrs:formatDate date="${culture.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${culture.location.displayString}
+</c:forEach>
+</tr>
+</table>
+
+<table>
 <tr>
 <td><spring:message code="mdrtb.tb03.resistanceType" text="Type of Resistance"/>:</td>
 <td>${tb03.resistanceType.displayString}</td>

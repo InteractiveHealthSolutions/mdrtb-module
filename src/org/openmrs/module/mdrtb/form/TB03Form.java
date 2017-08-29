@@ -1,6 +1,9 @@
 package org.openmrs.module.mdrtb.form;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
@@ -11,11 +14,25 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
+
 import org.openmrs.module.mdrtb.service.MdrtbService;
+import org.openmrs.module.mdrtb.specimen.Culture;
+import org.openmrs.module.mdrtb.specimen.Dst;
+import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.Smear;
+
+import org.openmrs.module.mdrtb.specimen.Xpert;
+
 
 
 public class TB03Form extends AbstractSimpleForm {
 
+	private ArrayList<Smear> smears;
+	private ArrayList<Culture> cultures;
+	private ArrayList<Xpert> xperts;
+	private ArrayList<HAIN> hains;
+	private ArrayList<Dst> dsts;
+	
 	public TB03Form() {
 		super();
 		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType("TB03"));		
@@ -29,6 +46,42 @@ public class TB03Form extends AbstractSimpleForm {
 	
 	public TB03Form(Encounter encounter) {
 		super(encounter);
+	}
+	
+	public List<SmearForm> getSmears() {
+			if(getPatProgId()==null) {
+				System.out.println("GM: null program");
+				return new ArrayList<SmearForm>();
+			}
+			return Context.getService(MdrtbService.class).getSmearForms(getPatProgId());
+			
+	}
+	
+	public List<CultureForm> getCultures() {
+		if(getPatProgId()==null) {
+			System.out.println("GM: null program");
+			return new ArrayList<CultureForm>();
+		}
+		return Context.getService(MdrtbService.class).getCultureForms(getPatProgId());
+		
+	}
+	
+	public List<XpertForm> getXperts() {
+		if(getPatProgId()==null) {
+			System.out.println("GM: null program");
+			return new ArrayList<XpertForm>();
+		}
+		return Context.getService(MdrtbService.class).getXpertForms(getPatProgId());
+		
+	}
+	
+	public List<HAINForm> getHains() {
+		if(getPatProgId()==null) {
+			System.out.println("GM: null program");
+			return new ArrayList<HAINForm>();
+		}
+		return Context.getService(MdrtbService.class).getHAINForms(getPatProgId());
+		
 	}
 	
 	public Concept getAnatomicalSite() {
@@ -665,6 +718,8 @@ public class TB03Form extends AbstractSimpleForm {
 			}
 		} 
 	}
+	
+	
 	
 	/*
 	public Integer getDoseTakenIP() {

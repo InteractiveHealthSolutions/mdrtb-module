@@ -14,6 +14,7 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.Location;
 import org.openmrs.Obs;
+import org.openmrs.Patient;
 import org.openmrs.PatientState;
 import org.openmrs.Person;
 import org.openmrs.ProgramWorkflow;
@@ -21,10 +22,13 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
+import org.openmrs.module.mdrtb.status.LabResultsStatusCalculator;
+import org.openmrs.module.mdrtb.status.Status;
 
 import org.openmrs.module.mdrtb.form.TB03Form;
 
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
+import org.openmrs.module.mdrtb.web.controller.status.DashboardLabResultsStatusRenderer;
 import org.openmrs.module.mdrtb.web.util.MdrtbWebUtil;
 import org.openmrs.PatientProgram;
 import org.openmrs.propertyeditor.ConceptEditor;
@@ -77,7 +81,7 @@ public class TB03FormController {
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
-				
+			
 			return form;
 		}
 		else {
@@ -112,55 +116,44 @@ public class TB03FormController {
 		// save the actual update
 		Context.getEncounterService().saveEncounter(tb03.getEncounter());
 		
-		boolean programModified = false;
+		
 		//handle changes in workflows
-		/*Concept outcome = tb03.getTreatmentOutcome();
+		Concept outcome = tb03.getTreatmentOutcome();
 		Concept group = tb03.getRegistrationGroup();
 		
-		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+		TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
 		
-		ProgramWorkflow outcomeFlow = new ProgramWorkflow();
-		outcomeFlow.setConcept(outcome);
-		PatientState outcomePatientState = pp.getCurrentState(outcomeFlow);
-		//ProgramWorkflowState pwfs = null;
-		Concept currentOutcomeConcept = null;
-		//outcome entered previously but now removed
-		if(outcomePatientState != null && outcome == null) {
-			System.out.println("outcome removed");
-			HashSet<PatientState> states = new HashSet<PatientState>();
-			outcomePatientState = null;
-			states.add(outcomePatientState);
-		
-			pp.setStates(states);	
-			programModified = true;
+		if(outcome!=null) {
+			ProgramWorkflow outcomeFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME).getName().toString()); 
+			ProgramWorkflowState outcomeState = Context.getProgramWorkflowService().getState(outcomeFlow, outcome.getName().toString());
+			tpp.setOutcome(outcomeState);
+			tpp.setDateCompleted(tb03.getTreatmentOutcomeDate());
 		}
+		
+		else {
+			tpp.setDateCompleted(null);
+		}
+		
+		
+		ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP).getName().toString()); 
+		ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().toString());
+		tpp.setClassificationAccordingToPatientGroups(groupState);
+		
+		Context.getProgramWorkflowService().savePatientProgram(tpp.getPatientProgram());
 
-		//outcome has been added	
-		else if(outcomePatientState == null && outcome != null) {
-			System.out.println("outcome added");
-			HashSet<PatientState> states = new HashSet<PatientState>();
-			PatientState newState = new PatientState();
-			ProgramWorkflowState pwfs = new ProgramWorkflowState();
-			pwfs.setConcept(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME));
-			newState.setState(pwfs);
-			states.add(newState);
-			pp.setStates(states);	
-			programModified = true;
-		}
-		
-		//outcome entered previously and may have been modified now
-		else if(outcomePatientState!=null && outcome !=null) {
-			
-		
-		}
-		
-		
-		
-		
 		//TX OUTCOME
 		//PATIENT GROUP
 		//PATIENT DEATH AND CAUSE OF DEATH
-*/
+		if(outcome!=null && outcome.getId()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")));
+		{
+			Patient patient = tpp.getPatient();
+			if(!patient.getDead())
+				patient.setDead(new Boolean(true));
+			
+			Context.getPatientService().savePatient(patient);
+			//	patient.setC
+			
+		}
 		// clears the command object from the session
 		status.setComplete();
 		
@@ -248,6 +241,10 @@ public class TB03FormController {
 	public Set<ProgramWorkflowState> getPossibleTreatmentOutcomes() {
 		return Context.getService(MdrtbService.class).getPossibleTbProgramOutcomes();
 	}
+	
+	
+	
+	
 
 		
 }
