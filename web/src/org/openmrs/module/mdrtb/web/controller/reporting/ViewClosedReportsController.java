@@ -115,13 +115,13 @@ public class ViewClosedReportsController {
 			
 			if(formAction.equals("unlock")) {
 				System.out.println("-----UNLOCK-----");
-				Context.getService(MdrtbService.class).unlockReport(oblast, location, year, quarter, month, reportName.replaceAll(" ", "_").toUpperCase(), reportDate);
+				Context.getService(MdrtbService.class).unlockReport(oblast, location, year, quarter, month, reportName, reportDate);
 				viewClosedReportsGet(model);
 				returnStr = "/module/mdrtb/reporting/viewClosedReports";
 			}
 			else if(formAction.equals("view")) {
 				System.out.println("-----VIEW-----");
-				List<String> allReports = (List<String>) Context.getService(MdrtbService.class).readTableData(oblast, location, year, quarter, month, reportName.replaceAll(" ", "_").toUpperCase(), reportDate);
+				List<String> allReports = (List<String>) Context.getService(MdrtbService.class).readTableData(oblast, location, year, quarter, month, reportName, reportDate);
 
 				System.out.println(allReports);
 		    	
@@ -138,7 +138,7 @@ public class ViewClosedReportsController {
 				model.addAttribute("year", year); 
 				model.addAttribute("quarter", quarter); 
 				model.addAttribute("month", month); 
-				model.addAttribute("reportName", reportName.replaceAll("_", " ").toUpperCase()); 
+				model.addAttribute("reportName", reportName); 
 				model.addAttribute("reportDate", reportDate); 
 				model.addAttribute("formAction", formAction); 
 				returnStr = "/module/mdrtb/reporting/viewClosedReportContent";

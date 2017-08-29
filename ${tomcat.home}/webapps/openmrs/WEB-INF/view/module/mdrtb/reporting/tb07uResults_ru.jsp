@@ -930,9 +930,9 @@
 				
 			</table>
 		</div>
-		<input type="button" onclick="tableToExcel('tb07u', 'TB07u')" value="Export to Excel" />
-		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" /> -->
-		<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
+		<input type="button" onclick="tableToExcel('tb07u', 'TB07u')" value="<spring:message code='mdrtb.exportToExcelBtn' />" />
+		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="<spring:message code='mdrtb.exportToPdfBtn' />" /> -->
+		<input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='mdrtb.closeReportBtn' />" />
 		
 		<script> 
 			console.log("${reportStatus}");

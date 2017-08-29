@@ -935,6 +935,7 @@
 		<input type="button" onclick="tableToExcel('tb07u', 'TB07u')" value="<spring:message code='mdrtb.exportToExcelBtn' />" />
 		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="<spring:message code='mdrtb.exportToPdfBtn' />" /> -->
 		<input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='mdrtb.closeReportBtn' />" />
+		<input type="button" id="back" name="back" value="<spring:message code='mdrtb.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
 		
 		<script> 
 			console.log("${reportStatus}");

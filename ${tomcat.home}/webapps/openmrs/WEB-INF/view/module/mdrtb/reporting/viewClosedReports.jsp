@@ -4,9 +4,7 @@
 
 <html>
 	<head>
-		<title>
-			Closed Reports
-		</title>
+		<title>Closed Reports</title>
 
 		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/moduleResources/mdrtb/css/datatables.min.css"/>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.dataTables.min.js"></script>

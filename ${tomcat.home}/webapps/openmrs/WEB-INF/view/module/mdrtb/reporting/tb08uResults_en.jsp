@@ -1,16 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="org.openmrs.module.mdrtb.service.MdrtbService"%>
 <%@page import="org.openmrs.api.context.Context"%>
+<%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%>
 <html>
 	<head>
 		<title>TB-08u</title>
 	</head>
 	<body>
-		<style>
-			th {vertical-align:middle; text-align:center;}
-			th, td {font-size:smaller;}
-		</style>
-		
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
@@ -126,6 +121,10 @@
 		</script>
 		
 		<div id="tb08u" style="font-size:smaller; width:980px;">
+			<style>
+				th {vertical-align:middle; text-align:center;}
+				th, td {font-size:smaller;}
+			</style>
 			<table width="90%"><tr>
 				<td width="90" align="left" style="font-size:14px; font-weight:bold;">
 					Quarterly report on DR TB cases treatment outcomes<br/>
@@ -389,12 +388,14 @@
 				</tr>
 			</table>
 		</div>
-		<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="Export to Excel" />
-		<input type="button" id="tableToPdf" name="tableToPdf" value="Export to Pdf" />
-		<input type="button" id="tableToSql" name="tableToSql" value="Close Report" />
-		
+
+		<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="<spring:message code='mdrtb.exportToExcelBtn' />" />
+		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="<spring:message code='mdrtb.exportToPdfBtn' />" /> -->
+		<input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='mdrtb.closeReportBtn' />" />		
+		<input type="button" id="back" name="back" value="<spring:message code='mdrtb.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
+
 		<script> 
-			console.log("${reportStatus}"); 
+			console.log("${reportStatus}");
 			if("${reportStatus}" === "true") { 
 				document.getElementById("tableToSql").disabled = true; 
 			} else { 

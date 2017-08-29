@@ -232,11 +232,11 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 	    	sql = "select e.encounter_id from encounter e inner join encounter_type et where e.encounter_type=et.encounter_type_id and et.name='" + encounterTypeName + "' and e.voided=0";
 			
 	    	if(startDate != null && endDate != null) {
-				sql += " and e.encounter_datetime between '" + dbDateFormat.format(startDate) + "' and '" + dbDateFormat.format(startDate) + "'";
+				sql += " and e.encounter_datetime between '" + dbDateFormat.format(startDate) + "' and '" + dbDateFormat.format(endDate) + "'";
 			}
-	    	if(closeDate != null) {
+	    	/*if(closeDate != null) {
 				sql += " and (e.date_changed >= '" + dbDateFormat.format(closeDate) + "' or e.date_created >= '" + dbDateFormat.format(closeDate) + "')";
-	    	}
+	    	}*/
 	    	sql += ";";
 	    	System.out.println(sql);
 	    	
@@ -258,7 +258,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 			encounter = Context.getEncounterService().getEncounter(encounterId);
 			encounters.add(encounter);
 		}
-    	System.out.println(encounters.size());
+		System.out.println("encounters: " + encounters.size());
 		return encounters; 
 	}
 }
