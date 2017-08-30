@@ -235,7 +235,7 @@ public class MdrtbConcepts {
     public final static String [] REGIMEN_2_REG_NUMBER = {"REGIMEN 2 REG NUMBER"};
     
     public final static String[] PATIENT_PROGRAM_ID = {"PATIENT PROGRAM ID"};
-    public final static String[] MDRTB_STATUS = {"MDRTB STATUS"};
-    public final static String[] MDTRB_CONFIRMATION_DATE = {"MDRTB CONFIRMATION DATE"};
+    
+    public final static String[] MDTRB_CONFIRMATION_DATE = {"DATE OF MDR CONFIRMATION"};
     
 }

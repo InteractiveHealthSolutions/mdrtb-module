@@ -1295,7 +1295,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     /////
     
     public List<SmearForm> getSmearForms (Integer patientProgramId) {
-    	TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
     	ArrayList<SmearForm> smears = new ArrayList<SmearForm>();
     	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
     	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
@@ -1317,7 +1318,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     }
     
     public List<CultureForm> getCultureForms (Integer patientProgramId) {
-    	TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
     	ArrayList<CultureForm> cultures = new ArrayList<CultureForm>();
     	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
     	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
@@ -1339,7 +1341,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     }
     
     public List<XpertForm> getXpertForms (Integer patientProgramId) {
-    	TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
     	ArrayList<XpertForm> xperts = new ArrayList<XpertForm>();
     	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
     	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
@@ -1361,7 +1364,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     }
     
     public List<HAINForm> getHAINForms (Integer patientProgramId) {
-    	TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
     	ArrayList<HAINForm> hains = new ArrayList<HAINForm>();
     	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
     	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));

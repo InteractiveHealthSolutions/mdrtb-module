@@ -237,12 +237,11 @@ public class TbConcepts {
  	public final static String[] DOSE_TAKEN_CP = {"DOSE TAKEN CP"};
  	public final static String[] DOSE_MISSED_CP = {"DOSE MISSED CP"};*/
  	public final static String[] TB03_REGISTRATION_NUMBER = {"TB03 REGISTRATION NUMBER"};
- 	public final static String[] TB03_REGISTRATION_YEAR = {"TB03 REGISTRATION YEAR"};
- 	public final static String[] SLD_REGISTRATION_NUMBER = {"SLD REGISTRATION NUMBER"};
- 	public final static String[] CONFIRMATION_DATE = {"CONFIRMATION_DATE"};
+ 	public final static String[] TB03_REGISTRATION_YEAR = {"TB03 REG YEAR"};
+ 	
  	public final static String[] TX_LOCATION = {"TREATMENT LOCATION"};
- 	public final static String[] RELAPSED = {"RELAPASED"};
- 	public final static String[] RELAPSE_MONTH = {"RELAPASE MONTH"};
+ 	public final static String[] RELAPSED = {"RELAPSED"};
+ 	public final static String[] RELAPSE_MONTH = {"RELAPSE MONTH"};
     
 
 }

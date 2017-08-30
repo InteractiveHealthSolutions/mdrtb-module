@@ -14,16 +14,20 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.Location;
 import org.openmrs.Obs;
+import org.openmrs.Patient;
 import org.openmrs.PatientState;
 import org.openmrs.Person;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TB03uForm;
 
+import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.web.util.MdrtbWebUtil;
 import org.openmrs.PatientProgram;
@@ -64,15 +68,15 @@ public class TB03uFormController {
 		
 	}
 	
-	@ModelAttribute("tb03")
-	public TB03Form getTB03Form(@RequestParam(required = true, value = "encounterId") Integer encounterId,
+	@ModelAttribute("tb03u")
+	public TB03uForm getTB03uForm(@RequestParam(required = true, value = "encounterId") Integer encounterId,
 	                            @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
 		// if no form is specified, create a new one
 		if (encounterId == -1) {
-			TbPatientProgram tbProgram = Context.getService(MdrtbService.class).getTbPatientProgram(patientProgramId);
+			MdrtbPatientProgram tbProgram = Context.getService(MdrtbService.class).getMdrtbPatientProgram(patientProgramId);
 			
-			TB03Form form = new TB03Form(tbProgram.getPatient());
+			TB03uForm form = new TB03uForm(tbProgram.getPatient());
 			
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
@@ -81,19 +85,19 @@ public class TB03uFormController {
 			return form;
 		}
 		else {
-			return new TB03Form(Context.getEncounterService().getEncounter(encounterId));
+			return new TB03uForm(Context.getEncounterService().getEncounter(encounterId));
 		}
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showTB03Form() {
+	public ModelAndView showTB03uForm() {
 		ModelMap map = new ModelMap();
-		return new ModelAndView("/module/mdrtb/form/tb03", map);	
+		return new ModelAndView("/module/mdrtb/form/tb03u", map);	
 	}
 	
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
-	public ModelAndView processTB03Form (@ModelAttribute("tb03") TB03Form tb03, BindingResult errors, 
+	public ModelAndView processTB03Form (@ModelAttribute("tb03u") TB03uForm tb03u, BindingResult errors, 
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
 	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
@@ -110,58 +114,45 @@ public class TB03uFormController {
 		}*/
 		
 		// save the actual update
-		Context.getEncounterService().saveEncounter(tb03.getEncounter());
+		Context.getEncounterService().saveEncounter(tb03u.getEncounter());
 		
-		boolean programModified = false;
 		//handle changes in workflows
-		/*Concept outcome = tb03.getTreatmentOutcome();
-		Concept group = tb03.getRegistrationGroup();
-		
-		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
-		
-		ProgramWorkflow outcomeFlow = new ProgramWorkflow();
-		outcomeFlow.setConcept(outcome);
-		PatientState outcomePatientState = pp.getCurrentState(outcomeFlow);
-		//ProgramWorkflowState pwfs = null;
-		Concept currentOutcomeConcept = null;
-		//outcome entered previously but now removed
-		if(outcomePatientState != null && outcome == null) {
-			System.out.println("outcome removed");
-			HashSet<PatientState> states = new HashSet<PatientState>();
-			outcomePatientState = null;
-			states.add(outcomePatientState);
-		
-			pp.setStates(states);	
-			programModified = true;
-		}
+				Concept outcome = tb03u.getTreatmentOutcome();
+				Concept group = tb03u.getRegistrationGroup();
+				
+				MdrtbPatientProgram tpp = getMdrtbPatientProgram(patientProgramId);
+				
+				if(outcome!=null) {
+					ProgramWorkflow outcomeFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_TX_OUTCOME).getName().toString()); 
+					ProgramWorkflowState outcomeState = Context.getProgramWorkflowService().getState(outcomeFlow, outcome.getName().toString());
+					tpp.setOutcome(outcomeState);
+					tpp.setDateCompleted(tb03u.getTreatmentOutcomeDate());
+				}
+				
+				else {
+					tpp.setDateCompleted(null);
+				}
+				
+				
+				ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX).getName().toString()); 
+				ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().toString());
+				tpp.setClassificationAccordingToPreviousTreatment(groupState);
+				
+				Context.getProgramWorkflowService().savePatientProgram(tpp.getPatientProgram());
 
-		//outcome has been added	
-		else if(outcomePatientState == null && outcome != null) {
-			System.out.println("outcome added");
-			HashSet<PatientState> states = new HashSet<PatientState>();
-			PatientState newState = new PatientState();
-			ProgramWorkflowState pwfs = new ProgramWorkflowState();
-			pwfs.setConcept(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME));
-			newState.setState(pwfs);
-			states.add(newState);
-			pp.setStates(states);	
-			programModified = true;
-		}
-		
-		//outcome entered previously and may have been modified now
-		else if(outcomePatientState!=null && outcome !=null) {
-			
-		
-		}
-		
-		
-		
-		
-		//TX OUTCOME
-		//PATIENT GROUP
-		//PATIENT DEATH AND CAUSE OF DEATH
-*/
-		// clears the command object from the session
+				//TX OUTCOME
+				//PATIENT GROUP
+				//PATIENT DEATH AND CAUSE OF DEATH
+				if(outcome!=null && outcome.getId()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")));
+				{
+					Patient patient = tpp.getPatient();
+					if(!patient.getDead())
+						patient.setDead(new Boolean(true));
+					
+					Context.getPatientService().savePatient(patient);
+					//	patient.setC
+					
+				}		// clears the command object from the session
 		status.setComplete();
 		
 		/*if(programModified) {
@@ -173,10 +164,10 @@ public class TB03uFormController {
 
 		// if there is no return URL, default to the patient dashboard
 		if (returnUrl == null || StringUtils.isEmpty(returnUrl)) {
-			returnUrl = request.getContextPath() + "/module/mdrtb/dashboard/tbdashboard.form";
+			returnUrl = request.getContextPath() + "/module/mdrtb/dashboard/dashboard.form";
 		}
 		
-		returnUrl = MdrtbWebUtil.appendParameters(returnUrl, Context.getService(MdrtbService.class).getTbPatientProgram(patientProgramId).getPatient().getId(), patientProgramId);
+		returnUrl = MdrtbWebUtil.appendParameters(returnUrl, Context.getService(MdrtbService.class).getMdrtbPatientProgram(patientProgramId).getPatient().getId(), patientProgramId);
 		
 		return new ModelAndView(new RedirectView(returnUrl));
 	}
@@ -188,8 +179,8 @@ public class TB03uFormController {
 	
 	
 	@ModelAttribute("tbProgram")
-	public TbPatientProgram getTbPatientProgram(@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId) {
-		return Context.getService(MdrtbService.class).getTbPatientProgram(patientProgramId);
+	public MdrtbPatientProgram getMdrtbPatientProgram(@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId) {
+		return Context.getService(MdrtbService.class).getMdrtbPatientProgram(patientProgramId);
 	}
 	
 	@ModelAttribute("returnUrl")
@@ -240,14 +231,41 @@ public class TB03uFormController {
 	
 	@ModelAttribute("resistancetypes")
 	public Collection<ConceptAnswer> getPossibleResistanceTypes() {
-		//return Context.getService(MdrtbService.class).getPossibleResistanceTypes();
+		
 		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.RESISTANCE_TYPE);
 	}
 	
 	@ModelAttribute("outcomes")
 	public Set<ProgramWorkflowState> getPossibleTreatmentOutcomes() {
-		return Context.getService(MdrtbService.class).getPossibleTbProgramOutcomes();
+		return Context.getService(MdrtbService.class).getPossibleMdrtbProgramOutcomes();
+	}
+	
+	@ModelAttribute("mdrstatuses")
+	public Collection<ConceptAnswer> getPossibleMDRStatuses() {
+		
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.MDR_STATUS);
+	}
+	
+	@ModelAttribute("txlocations")
+	public Collection<ConceptAnswer> getPossibleTxLocations() {
+		
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.TX_LOCATION);
+	}
+	
+	@ModelAttribute("basesfordiagnosis")
+	public Collection<ConceptAnswer> getPossibleBasesForDiagnosis() {
+	
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.BASIS_FOR_TB_DIAGNOSIS);
 	}
 
+	@ModelAttribute("hivstatuses")
+	public Collection<ConceptAnswer> getPossibleHivStatuses() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.RESULT_OF_HIV_TEST);
+	}
+	
+	@ModelAttribute("relapses")
+	public Collection<ConceptAnswer> getPossibleRelapses() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.RELAPSED);
+	}
 		
 }

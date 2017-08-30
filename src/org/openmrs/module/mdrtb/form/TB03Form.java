@@ -27,11 +27,7 @@ import org.openmrs.module.mdrtb.specimen.Xpert;
 
 public class TB03Form extends AbstractSimpleForm {
 
-	private ArrayList<Smear> smears;
-	private ArrayList<Culture> cultures;
-	private ArrayList<Xpert> xperts;
-	private ArrayList<HAIN> hains;
-	private ArrayList<Dst> dsts;
+	
 	
 	public TB03Form() {
 		super();
