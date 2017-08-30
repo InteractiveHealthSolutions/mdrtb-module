@@ -641,7 +641,7 @@ public class TB07uController {
 		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
 		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
 		
-    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "tb07u");
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB-07u");
 		System.out.println(reportStatus);
 		
 		model.addAttribute("table1", table1);

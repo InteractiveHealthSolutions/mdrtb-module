@@ -48,7 +48,8 @@ public class ViewClosedReportsController {
     	List<Integer> reportDates = closedReports.get(6);
     	List<Integer> reportStatuses = closedReports.get(7);
     	List<Integer> reportNames = closedReports.get(8);
-    	
+    	List<Integer> reportTypes = closedReports.get(9);
+
 		List<Oblast> oblasts = new ArrayList<Oblast>();
 		List<Location> locations = new ArrayList<Location>();
 
@@ -79,7 +80,8 @@ public class ViewClosedReportsController {
     	model.addAttribute("reportDates", reportDates);
     	model.addAttribute("reportStatuses", reportStatuses);
     	model.addAttribute("reportNames", reportNames);
-        
+    	model.addAttribute("reportTypes", reportTypes);
+
         model.addAttribute("reportOblasts", oblasts);
     	model.addAttribute("reportLocations", locations);
         model.addAttribute("oblasts", o);
@@ -115,13 +117,13 @@ public class ViewClosedReportsController {
 			
 			if(formAction.equals("unlock")) {
 				System.out.println("-----UNLOCK-----");
-				Context.getService(MdrtbService.class).unlockReport(oblast, location, year, quarter, month, reportName.replaceAll(" ", "_").toUpperCase(), reportDate);
+				Context.getService(MdrtbService.class).unlockReport(oblast, location, year, quarter, month, reportName, reportDate);
 				viewClosedReportsGet(model);
 				returnStr = "/module/mdrtb/reporting/viewClosedReports";
 			}
 			else if(formAction.equals("view")) {
 				System.out.println("-----VIEW-----");
-				List<String> allReports = (List<String>) Context.getService(MdrtbService.class).readTableData(oblast, location, year, quarter, month, reportName.replaceAll(" ", "_").toUpperCase(), reportDate);
+				List<String> allReports = (List<String>) Context.getService(MdrtbService.class).readTableData(oblast, location, year, quarter, month, reportName, reportDate);
 
 				System.out.println(allReports);
 		    	
@@ -138,7 +140,7 @@ public class ViewClosedReportsController {
 				model.addAttribute("year", year); 
 				model.addAttribute("quarter", quarter); 
 				model.addAttribute("month", month); 
-				model.addAttribute("reportName", reportName.replaceAll("_", " ").toUpperCase()); 
+				model.addAttribute("reportName", reportName); 
 				model.addAttribute("reportDate", reportDate); 
 				model.addAttribute("formAction", formAction); 
 				returnStr = "/module/mdrtb/reporting/viewClosedReportContent";

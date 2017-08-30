@@ -135,6 +135,7 @@
 				</td></tr>
 				
 				<tr><td>
+					<a href="../dotsreports/reporting/viewClosedReports.form"><spring:message code="mdrtb.viewClosedReports" /></a><br/>
 					<!-- <a href="drugforecast/simpleUsage.list"><spring:message code="mdrtb.simpleDrugUsage"/></a><br/>
 					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/> -->
 					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS07TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport07" /></a><br/>
