@@ -401,7 +401,6 @@ response.setDateHeader ("Expires", -1);
 		<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="<spring:message code='mdrtb.exportToExcelBtn' />" />
 		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="<spring:message code='mdrtb.exportToPdfBtn' />" /> -->
 		<input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='mdrtb.closeReportBtn' />" />
-		<input type="button" id="changes" name="changes" value="<spring:message code='mdrtb.viewChange' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
 		<input type="button" id="back" name="back" value="<spring:message code='mdrtb.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
 
 		<script> 

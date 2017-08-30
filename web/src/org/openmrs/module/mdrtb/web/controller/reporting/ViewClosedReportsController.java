@@ -48,7 +48,8 @@ public class ViewClosedReportsController {
     	List<Integer> reportDates = closedReports.get(6);
     	List<Integer> reportStatuses = closedReports.get(7);
     	List<Integer> reportNames = closedReports.get(8);
-    	
+    	List<Integer> reportTypes = closedReports.get(9);
+
 		List<Oblast> oblasts = new ArrayList<Oblast>();
 		List<Location> locations = new ArrayList<Location>();
 
@@ -79,7 +80,8 @@ public class ViewClosedReportsController {
     	model.addAttribute("reportDates", reportDates);
     	model.addAttribute("reportStatuses", reportStatuses);
     	model.addAttribute("reportNames", reportNames);
-        
+    	model.addAttribute("reportTypes", reportTypes);
+
         model.addAttribute("reportOblasts", oblasts);
     	model.addAttribute("reportLocations", locations);
         model.addAttribute("oblasts", o);
