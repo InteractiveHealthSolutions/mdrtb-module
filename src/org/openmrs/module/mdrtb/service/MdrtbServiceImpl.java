@@ -1386,5 +1386,32 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	return hains;
     }
     
+    public List<Encounter> getEncountersWithNoProgramId(EncounterType et, Patient p) {
     	
+    	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+    	typeList.add(et);
+    	
+    	ArrayList<Encounter> encs = new ArrayList<Encounter>();
+    	List<Encounter> all = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+    	
+    	for(Encounter e : all) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e)==null) {
+    			encs.add(e);
+    		}
+    	}
+
+    	return encs;
+    }
+    
+    public void addProgramIdToEncounter(Integer encounterId, Integer programId) {
+    	PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(programId);
+    	Encounter e = Context.getEncounterService().getEncounter(encounterId);
+    	Obs idObs = new Obs(pp.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e.getEncounterDatetime(), e.getLocation());
+    	idObs.setEncounter(e);
+    	idObs.setObsDatetime(e.getEncounterDatetime());
+    	idObs.setLocation(e.getLocation());
+    	idObs.setValueNumeric(programId.doubleValue());
+    	e.addObs(idObs);
+    	Context.getEncounterService().saveEncounter(e);
+    }
 }

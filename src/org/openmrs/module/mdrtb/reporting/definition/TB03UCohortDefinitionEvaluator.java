@@ -21,6 +21,7 @@ import java.util.List;
 import org.openmrs.Cohort;
 
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Form;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
@@ -51,17 +52,21 @@ public class TB03UCohortDefinitionEvaluator implements CohortDefinitionEvaluator
     	TB03UCohortDefinition tcd = (TB03UCohortDefinition) cohortDefinition;
     	Cohort c = new Cohort();
     	
-    	Form tb03Form = Context.getFormService().getForm(MdrtbConstants.TB03U_FORM_ID);
+    	/*Form tb03Form = Context.getFormService().getForm(MdrtbConstants.TB03U_FORM_ID);
 		ArrayList<Form> formList = new ArrayList<Form>();
-		formList.add(tb03Form);
-		
+		formList.add(tb03Form);*/
+    	
+    	EncounterType encType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+    	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(encType);
+    	
 		Date startDate = tcd.getOnOrAfter();
 		Date tcdEnd  = tcd.getOnOrBefore();
 		GregorianCalendar gc = new GregorianCalendar();
 		gc.setTimeInMillis(tcdEnd.getTime());
 		gc.add(gc.DATE, 1);
 		Date endDate = gc.getTime();
-    	List<Encounter> tb03EncList = Context.getEncounterService().getEncounters(null, tcd.getLocation(), startDate, endDate, formList, null, null, false);
+    	List<Encounter> tb03EncList = Context.getEncounterService().getEncounters(null, tcd.getLocation(), startDate, endDate, null, typeList, null, false);
     	System.out.println("Finding patients for Location:  " +  tcd.getLocation());
     	for(int i=0;i<tb03EncList.size(); i++) {
     		if(!Context.getPatientService().getPatient(tb03EncList.get(i).getPatientId()).isVoided())

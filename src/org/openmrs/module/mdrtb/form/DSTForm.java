@@ -2,37 +2,83 @@ package org.openmrs.module.mdrtb.form;
 
 
 
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
+import org.openmrs.module.mdrtb.specimen.Dst;
+import org.openmrs.module.mdrtb.specimen.DstImpl;
+import org.openmrs.module.mdrtb.specimen.DstResult;
+import org.openmrs.module.mdrtb.specimen.DstResultImpl;
 import org.openmrs.module.mdrtb.specimen.HAIN;
 import org.openmrs.module.mdrtb.specimen.HAINImpl;
 
 
 public class DSTForm extends AbstractSimpleForm {
 
-	private HAIN hain;
+	/*Map<Integer,List<DstResult>> resultsMap = null;
+	Obs dstResult;
+	Concept drug; // a secondary location to store drug-type; used as a workaround for the odd way that the result and the drug are stored in a single obs
+	
+	Set<Concept> resultSet; // stores all the possible values for the results
+*/	
+	public DstImpl di;
 	
 	public DSTForm() {
 		super();
-		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType("Specimen Collection"));		
+		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType("Specimen Collection"));
+		di = new DstImpl(this.encounter);
+		
+		/*dstResult = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT), encounter);
+		if(dstResult==null) {
+			dstResult = new Obs();
+			dstResult.setConcept(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT));
+			dstResult.setEncounter(this.encounter);
+		}
+		getResultsMap();*/
 		
 	}
 	
 	public DSTForm(Patient patient) {
 		super(patient);
-		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType("Specimen Collection"));		
+		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType("Specimen Collection"));
+		di = new DstImpl(this.encounter);
+		/*dstResult = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT), encounter);
+		if(dstResult==null) {
+			dstResult = new Obs();
+			dstResult.setConcept(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT));
+			dstResult.setEncounter(this.encounter);
+		}
+		getResultsMap();*/
 	}
 	
 	public DSTForm(Encounter encounter) {
 		super(encounter);
-		hain = new HAINImpl(encounter);
+		di = new DstImpl(this.encounter);
+		/*dstResult = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT), encounter);
+		if(dstResult==null) {
+			dstResult = new Obs();
+			dstResult.setConcept(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT));
+			dstResult.setEncounter(this.encounter);
+		}
+		getResultsMap();*/
+		
 	}
+	
+	//public Map<Integer, List<DstResult>> getResultsMap
 
 	/*public Integer getMonthOfTreatment() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.MONTH_OF_TREATMENT), encounter);
@@ -72,6 +118,30 @@ public class DSTForm extends AbstractSimpleForm {
 		} 
 	}*/
 	
+	public DstResult addResult() {
+		return di.addResult();
+	}
+	
+	 public List<DstResult> getResults() {
+		 return di.getResults();
+	 }
+	 
+	 public Map<Integer,List<DstResult>> getResultsMap() {
+		 return di.getResultsMap();
+	 }
+	 
+	 public void removeResult(DstResult result) {
+		 di.removeResult(result);
+	 }
+	 
+	 public DstImpl getDi() {
+		 return di;
+	 }
+	 
+	 public void setDi(DstImpl di) {
+		 this.di = di;
+	 }
+	
 	public String getSpecimenId() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.SPECIMEN_ID), encounter);
 		
@@ -110,209 +180,7 @@ public class DSTForm extends AbstractSimpleForm {
 		} 
 	}
 	
-	public Concept getMtbResult() {
-		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter);
-		Obs obs = null;
-		
-		if(obsgroup!=null)
-			obs = MdrtbUtil.getObsFromObsGroup(Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT), obsgroup);
-		
-		if (obs == null) {
-			System.out.println("Null result");
-			return null;
-		}
-		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
-			return obs.getValueCoded();
-		}
-	}
 	
-	public void setMtbResult(Concept result) {
-		System.out.println("result" + result);
-		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter);
-		Obs obs = null;
-		
-		if(obsgroup!=null)
-		{
-			obs = MdrtbUtil.getObsFromObsGroup(Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT), obsgroup);
-			
-		}
-		
-		else {
-			obsgroup = new Obs(encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter.getEncounterDatetime(), encounter.getLocation());
-		}
-		
-		// if this obs have not been created, and there is no data to add, do nothing
-		System.out.println("OG:" + obsgroup);
-		System.out.println("O:" + obs);
-		if (obs == null && result == null) {
-			System.out.println("no hain result hcange");
-			return;
-		}
-		
-		// we only need to update this if this is a new obs or if the value has changed.
-		if (obs == null || obs.getValueCoded() == null || !obs.getValueCoded().equals(result)) {
-			System.out.println("new obs or value change");
-			// void the existing obs if it exists
-			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
-			if (obs != null) {
-				System.out.println("not null obs");
-//				obsgroup.setVoided(true);
-//				obsgroup.setVoidReason("voided by Mdr-tb module specimen tracking UI");
-				obs.setVoided(true);
-				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
-			}
-				
-			// now create the new Obs and add it to the encounter	
-			if(result != null) {
-				System.out.println("creating new obs");
-				//obsgroup = new Obs(encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter.getEncounterDatetime(), encounter.getLocation());
-				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT), encounter.getEncounterDatetime(), encounter.getLocation());
-				obs.setValueCoded(result);
-				obs.setObsGroup(obsgroup);
-				obsgroup.addGroupMember(obs);
-				encounter.addObs(obs);
-				encounter.addObs(obsgroup);
-				//encounter.
-			}
-		} 
-	}
-	
-	public Concept getRifResult() {
-		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter);
-		Obs obs = null;
-		
-		if(obsgroup!=null)
-			obs = MdrtbUtil.getObsFromObsGroup(Context.getService(MdrtbService.class).getConcept(TbConcepts.RIFAMPICIN_RESISTANCE), obsgroup);
-		
-		if (obs == null) {
-			System.out.println("Null result");
-			return null;
-		}
-		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
-			return obs.getValueCoded();
-		}
-	}
-	
-	public void setRifResult(Concept result) {
-		System.out.println("result" + result);
-		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter);
-		Obs obs = null;
-		
-		if(obsgroup!=null)
-		{
-			obs = MdrtbUtil.getObsFromObsGroup(Context.getService(MdrtbService.class).getConcept(TbConcepts.RIFAMPICIN_RESISTANCE), obsgroup);
-			
-		}
-		
-		else {
-			obsgroup = new Obs(encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter.getEncounterDatetime(), encounter.getLocation());
-		}
-		
-		// if this obs have not been created, and there is no data to add, do nothing
-		System.out.println("OG:" + obsgroup);
-		System.out.println("O:" + obs);
-		if (obs == null && result == null) {
-			System.out.println("no hain result hcange");
-			return;
-		}
-		
-		// we only need to update this if this is a new obs or if the value has changed.
-		if (obs == null || obs.getValueCoded() == null || !obs.getValueCoded().equals(result)) {
-			System.out.println("new obs or value change");
-			// void the existing obs if it exists
-			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
-			if (obs != null) {
-				System.out.println("not null obs");
-//				obsgroup.setVoided(true);
-//				obsgroup.setVoidReason("voided by Mdr-tb module specimen tracking UI");
-				obs.setVoided(true);
-				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
-			}
-				
-			// now create the new Obs and add it to the encounter	
-			if(result != null) {
-				System.out.println("creating new obs");
-				//obsgroup = new Obs(encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter.getEncounterDatetime(), encounter.getLocation());
-				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.RIFAMPICIN_RESISTANCE), encounter.getEncounterDatetime(), encounter.getLocation());
-				obs.setValueCoded(result);
-				obs.setObsGroup(obsgroup);
-				obsgroup.addGroupMember(obs);
-				encounter.addObs(obs);
-				encounter.addObs(obsgroup);
-				//encounter.
-			}
-		} 
-	}
-	
-	public Concept getInhResult() {
-		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter);
-		Obs obs = null;
-		
-		if(obsgroup!=null)
-			obs = MdrtbUtil.getObsFromObsGroup(Context.getService(MdrtbService.class).getConcept(TbConcepts.ISONIAZID_RESISTANCE), obsgroup);
-		
-		if (obs == null) {
-			System.out.println("Null result");
-			return null;
-		}
-		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
-			return obs.getValueCoded();
-		}
-	}
-	
-	public void setInhResult(Concept result) {
-		System.out.println("result" + result);
-		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter);
-		Obs obs = null;
-		
-		if(obsgroup!=null)
-		{
-			obs = MdrtbUtil.getObsFromObsGroup(Context.getService(MdrtbService.class).getConcept(TbConcepts.ISONIAZID_RESISTANCE), obsgroup);
-			
-		}
-		
-		else {
-			obsgroup = new Obs(encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter.getEncounterDatetime(), encounter.getLocation());
-		}
-		
-		// if this obs have not been created, and there is no data to add, do nothing
-		System.out.println("OG:" + obsgroup);
-		System.out.println("O:" + obs);
-		if (obs == null && result == null) {
-			System.out.println("no hain result hcange");
-			return;
-		}
-		
-		// we only need to update this if this is a new obs or if the value has changed.
-		if (obs == null || obs.getValueCoded() == null || !obs.getValueCoded().equals(result)) {
-			System.out.println("new obs or value change");
-			// void the existing obs if it exists
-			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
-			if (obs != null) {
-				System.out.println("not null obs");
-//				obsgroup.setVoided(true);
-//				obsgroup.setVoidReason("voided by Mdr-tb module specimen tracking UI");
-				obs.setVoided(true);
-				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
-			}
-				
-			// now create the new Obs and add it to the encounter	
-			if(result != null) {
-				System.out.println("creating new obs");
-				//obsgroup = new Obs(encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), encounter.getEncounterDatetime(), encounter.getLocation());
-				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.ISONIAZID_RESISTANCE), encounter.getEncounterDatetime(), encounter.getLocation());
-				obs.setValueCoded(result);
-				obs.setObsGroup(obsgroup);
-				obsgroup.addGroupMember(obs);
-				encounter.addObs(obs);
-				encounter.addObs(obsgroup);
-				//encounter.
-			}
-		} 
-	}
 	
 	public Integer getPatProgId() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), encounter);
@@ -351,4 +219,79 @@ public class DSTForm extends AbstractSimpleForm {
 			}
 		} 
 	}
+	
+	/*public DstResult addResult() {
+		// create a new obs for the result, set to the proper values
+		Obs resultObs = new Obs(getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_RESULT), dstResult.getObsDatetime(), dstResult.getLocation());
+		resultObs.setEncounter(getEncounter());
+		
+		// add the result to this obs group
+		dstResult.addGroupMember(resultObs);
+		
+		// now create and return a new DstResult
+		return new DstResultImpl(resultObs);
+	}
+	
+	 public List<DstResult> getResults() {
+	    	List<DstResult> results = new LinkedList<DstResult>();
+			
+			// iterate through all the obs groups, create dst results from them, and add them to the list
+			if(dstResult.getGroupMembers() != null) {
+				for(Obs obs : dstResult.getGroupMembers()) {
+					// need to filter for voided obs, since get group members returns voided and non-voided
+					if (!obs.isVoided() && obs.getConcept().equals(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_RESULT))) {
+						results.add(new DstResultImpl(obs));
+					}
+				}
+			}
+			return results;
+	    }
+	    
+	    // Note this is created ONCE per instantiation, for performance reasons, so if underlying drugs change, this will be inaccurate
+	    public Map<Integer,List<DstResult>> getResultsMap() {  
+	    
+	    	if (resultsMap == null) {   		
+	    		resultsMap = new HashMap<Integer,List<DstResult>>();
+	    	
+	    		// map the results based on a key created by concatenating the string representation of the drug concept id and the
+	    		// string representation of the concentration
+	    		for(DstResult result : getResults()) {
+	    			
+	    			Integer drug = result.getDrug().getId();
+	    			
+	    			// if a result for this drug already exists in the map, attach this result to that list
+	    			if(resultsMap.containsKey(drug)) {
+	    				resultsMap.get(drug).add(result);
+	    				// re-sort, so that the concentrations are in order
+	    				Collections.sort(resultsMap.get(drug));
+	    			}
+	    			// otherwise, create a new entry for this drug
+	    			else {
+	    				List<DstResult> drugResults = new LinkedList<DstResult>();
+	    				drugResults.add(result);
+	    				resultsMap.put(drug, drugResults);
+	    			}
+	    			
+	    			// TODO: remove this when we are sure we don't need it
+	    			*//**
+	    			if(result.getConcentration() != null) {
+	    				resultsMap.put((result.getDrug().getId()).toString() + "|" + result.getConcentration().toString(), result);
+	    			}
+	    			else {
+	    				resultsMap.put((result.getDrug().getId()).toString(), result);
+	    			}
+	    			*//*
+	    		}
+	    	}
+	    	
+	    	return resultsMap;
+	    }
+	    
+	    public void removeResult(DstResult result) {
+	    	((DstResultImpl) result).voidResult();
+	    }
+	    
+	    public Obs getDstResult() {
+	    	return dstResult;
+	    }*/
 }

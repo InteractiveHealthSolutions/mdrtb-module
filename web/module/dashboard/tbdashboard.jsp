@@ -534,7 +534,7 @@ ${regimen.displayString}
 <c:choose>
 	<c:when test="${! empty status.labResultsStatus.diagnosticSmear.value}">
 		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.diagnosticSmear.link}">${status.labResultsStatus.diagnosticSmear.value.result.displayString}</mdrtb:a></td>
-		<td><openmrs:formatDate date="${status.labResultsStatus.diagnosticSmear.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
+		<spring:message code="mdrtb.formType" text="FormType"/><td><openmrs:formatDate date="${status.labResultsStatus.diagnosticSmear.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
 		<td>${status.labResultsStatus.diagnosticSmear.value.lab.displayString}</td>
 		<td><openmrs:formatDate date="${status.labResultsStatus.diagnosticSmear.value.resultDate}" format="${_dateFormatDisplay}"/></td>
 	</c:when>
@@ -733,10 +733,54 @@ ${regimen.displayString}
 </div> --%>
 <!-- END HIV STATUS BOX -->
 
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.Unlinked Forms" text="Unlinked Forms"/>
+</b>
+
+<div class="box" style="margin:0px;">
+<c:if test="${! empty unlinkedtb03s}">
+  <table>
+  <tr>
+  	<td><spring:message code="mdrtb.formType" text="FormType"/></td>
+  	<td><spring:message code="mdrtb.date" text="Datez"/></td>
+  	<td><spring:message code="mdrtb.location" text="Location"/></td>
+  	<td>&nbsp;</td>
+  </tr>
+<c:forEach var="form" items="${unlinkedtb03s}">
+ <tr>
+ <td><spring:message code="mdrtb.tb03" text="TB03"/></td>
+ <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+ <td>${form.location}</td>
+ <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterTb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
+ </tr>
+  
+</c:forEach>
+
+
+</table>
+</c:if>
+<c:if test="${! empty unlinkedlabs}">
+  <table>
+  <tr>
+  	<td><spring:message code="mdrtb.formType" text="FormType"/></td>
+  	<td><spring:message code="mdrtb.date" text="Datez"/></td>
+  	<td><spring:message code="mdrtb.location" text="Location"/></td>
+  	<td>&nbsp;</td>
+  </tr>
+<c:forEach var="form" items="${unlinkedlabs}">
+ <tr>
+ <td><spring:message code="mdrtb.specimenCollection" text="SpecColl"/></td>
+ <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+ <td>${form.location}</td>
+ <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterTb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
+ </tr>
+  
+</c:forEach>
+
+
+</table>
+</c:if>
 </div>
-
-<!-- END OF RIGHT COLUMN -->
-
+</div>
 </div> <!-- end of page div -->
 
 <%@ include file="/WEB-INF/view/module/mdrtb/mdrtbFooter.jsp"%>

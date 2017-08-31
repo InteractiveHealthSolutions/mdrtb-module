@@ -124,29 +124,7 @@ function showAddDstResultsWithData() {
 			// all the obs get voided and recreated;
 			$j('#details_${testId}').show();
 		}
-		
-		// event handlers to hide and show specimen edit box
-		$j('#editSpecimen').click(function(){
-			hideLinks();
-			$j('#details_specimen').hide();  // hide the specimen details box
-			$j('#edit_specimen').show();  // show the edit speciment box
-		});
-
-		$j('#cancelSpecimen').click(function(){
-			// if this a cancel during a reload due to validation error, we need to reload
-			// the entire page to "reset" the specimen model attribute, which is in a transient state
-			if (${fn:length(specimenErrors.allErrors) > 0}) {
-				window.location="specimen.form?patientId=${specimen.patient.patientId}&patientProgramId=${patientProgramId}";
-			}
-			else {
-				// otherwise, just do a standard "cancel"		
-				showLinks();
-				$j('#edit_specimen').hide();  // hide the edit specimen box
-				$j('#details_specimen').show();  // show the specimen details box
-				$j('.scannedLabReport').show(); // show any scanned lab reports that may have been deleted
-			}
-		});
-
+	
 		// event handlers to display add boxes
 		$j('#addButton').click(function(){
 			hideDisplayBoxes();
@@ -154,46 +132,6 @@ function showAddDstResultsWithData() {
 			addDstResultCounter = ${fn:length(defaultDstDrugs)} + 1;   // set the dst counter based on how many default drugs we have 
 			$j('#add_' + $j('#addSelect').attr('value')).show(); // show the proper add a test box
 		});
-
-		// event handler to handle the "quick test entry" add button at the top of the page
-		$j('#quickEntryAddButton').click(function(){
-			if($j('#quickEntryAddSelect').attr('value').indexOf("Set") != -1) {
-				window.location='quickEntry.form?patientId=${! empty patientId ? patientId : specimen.patient.patientId}&patientProgramId=${patientProgramId}&testType=' + $j('#quickEntryAddSelect').attr('value') + "&numberOfTests=3";
-			}
-			else {
-				window.location='quickEntry.form?patientId=${! empty patientId ? patientId : specimen.patient.patientId}&patientProgramId=${patientProgramId}&testType=' + $j('#quickEntryAddSelect').attr('value') + "&numberOfTests=1";
-			}
-		});
-	
-		// event handler to display edit detail boxes
-		$j('.edit').click(function(){
-			hideLinks();
-			$j('#details_' + this.id).hide();  // hide the selected details box
-			$j('#edit_' + this.id).show();  // show the selected edit box
-		});
-
-		// event handler to cancel an edit or add
-		$j('.cancel').click(function(){	
-			// if this a cancel during a reload due to validation error, we need to reload
-			// the entire page to "reset" the specimen model attribute, which is in a transient state
-			if (${fn:length(testErrors.allErrors) > 0}) {
-				window.location="dst.form?patientId=${specimen.patient.patientId}&patientProgramId=${patientProgramId}";
-			}
-			else {			
-				hideDisplayBoxes();
-				$j('.detailBox').show();  // show all the detail boxes
-				showLinks();
-				$j('.dstResult').show(); // show any dst results that may have been deleted
-				resetAddDstResults();
-			}
-		});
-
-		
-		
-		
-		
-
-		
 
 		//event handler to handle removing dst results
 		$j('.removeDstResult').click(function() {
@@ -230,61 +168,61 @@ function showAddDstResultsWithData() {
 <br/><br/>
 
 <!-- VIEW BOX -->
-<div id="viewVisit" <c:if test="${(empty hain.id) || (hain.id == -1) || fn:length(errors.allErrors) > 0}"> style="display:none" </c:if>>
-<b class="boxHeader"><spring:message code="mdrtb.hain" text="HAIN Form"/>
-<span style="position: absolute; right:30px;"><a id="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/module/mdrtb/visits/delete.form?visitId=${hain.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteVisit" text="Are you sure you want to delete this visit?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span>
+<div id="viewVisit" <c:if test="${(empty dst.id) || (dst.id == -1) || fn:length(errors.allErrors) > 0}"> style="display:none" </c:if>>
+<b class="boxHeader"><spring:message code="mdrtb.dst" text="DST Form"/>
+<span style="position: absolute; right:30px;"><a id="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/module/mdrtb/visits/delete.form?visitId=${dst.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteVisit" text="Are you sure you want to delete this visit?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span>
 </b>
 <div class="box">
 
-<table>
+<%-- <table>
  
 <tr>
 <td><spring:message code="mdrtb.dateCollected" text="Date"/>:</td>
-<td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td><openmrs:formatDate date="${dst.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
 <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
-<td>${hain.provider.personName}</td>
+<td>${dst.provider.personName}</td>
 </tr>
  
 <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
-<td>${hain.location.displayString}</td>
+<td>${dst.location.displayString}</td>
 </tr>
 
 
 
 <tr>
 <td><spring:message code="mdrtb.specimenId" text="SpecimenId"/>:</td>
-<td>${hain.specimenId }</td>
+<td>${dst.specimenId }</td>
 </tr>
 
 <tr>
 <td><spring:message code="mdrtb.mtbResult" text="MtbResult"/>:</td>
-<td>${hain.mtbResult.displayString}</td>
+<td>${dst.mtbResult.displayString}</td>
 </tr>
 
 <tr>
 <td><spring:message code="mdrtb.inhResult" text="inhResult"/>:</td>
-<td>${hain.inhResult.displayString}</td>
+<td>${dst.inhResult.displayString}</td>
 </tr>
 
 <tr>
 <td><spring:message code="mdrtb.rifResult" text="rifResult"/>:</td>
-<td>${hain.rifResult.displayString}</td>
+<td>${dst.rifResult.displayString}</td>
 </tr>
 
 
-</table>
+</table> --%>
 
 </div>
 </div>
 <!-- END VIEW BOX -->
 
 <!-- EDIT BOX -->
-<div id="editVisit" <c:if test="${(!empty hain.id) && (hain.id != -1) && fn:length(errors.allErrors) == 0}"> style="display:none" </c:if>>
-<b class="boxHeader"><spring:message code="mdrtb.hain" text="HAIN"/></b>
+<div id="editVisit" <c:if test="${(!empty dst.id) && (dst.id != -1) && fn:length(errors.allErrors) == 0}"> style="display:none" </c:if>>
+<b class="boxHeader"><spring:message code="mdrtb.dst" text="DST"/></b>
 <div class="box">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
@@ -297,7 +235,7 @@ function showAddDstResultsWithData() {
 	<br/>
 </c:if>
 
-<form name="hain" action="hain.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty hain.id ? hain.id : -1}" method="post">
+<form name="dst" action="dst.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty dst.id ? dst.id : -1}" method="post">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 
@@ -305,7 +243,7 @@ function showAddDstResultsWithData() {
  
 <tr>
 <td><spring:message code="mdrtb.dateCollected" text="Date"/>:</td>
-<td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${hain.encounterDatetime}"/></td>
+<td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${dst.encounterDatetime}"/></td>
 </tr>
 
 <tr>
@@ -314,7 +252,7 @@ function showAddDstResultsWithData() {
 <select name="provider">
 <option value=""></option>
 <c:forEach var="provider" items="${providers}">
-	<option value="${provider.id}" <c:if test="${hain.provider == provider}">selected</c:if>>${provider.personName}</option>
+	<option value="${provider.id}" <c:if test="${dst.provider == provider}">selected</c:if>>${provider.personName}</option>
 </c:forEach>
 </select>
 </td>
@@ -326,7 +264,7 @@ function showAddDstResultsWithData() {
 <select name="location">
 <option value=""></option>
 <c:forEach var="location" items="${locations}">
-	<option value="${location.id}" <c:if test="${hain.location == location}">selected</c:if>>${location.displayString}</option>
+	<option value="${location.id}" <c:if test="${dst.location == location}">selected</c:if>>${location.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -335,50 +273,67 @@ function showAddDstResultsWithData() {
 
 <tr>
 <td><spring:message code="mdrtb.specimenId" text="SpecimenId"/>:</td>
-<td><input type="text" size="10" name="specimenId" value="${hain.specimenId}"/></td>
+<td><input type="text" size="10" name="specimenId" value="${dst.specimenId}"/></td>
 </tr>
-
-
-<tr>
-<td><spring:message code="mdrtb.mtbResult" text="mtbResult"/>:</td>
-<td>
-<select name="mtbResult">
-<option value=""></option>
-<c:forEach var="result" items="${mtbresults}">
-	<option value="${result.answerConcept.id}" <c:if test="${hain.mtbResult == result.answerConcept}">selected</c:if> >${result.answerConcept.displayString}</option>
-</c:forEach>
-</select>
-</td>
-</tr>
-
-<tr>
-<td><spring:message code="mdrtb.inhResult" text="inhResult"/>:</td>
-<td>
-<select name="inhResult">
-<option value=""></option>
-<c:forEach var="result" items="${inhresults}">
-	<option value="${result.answerConcept.id}" <c:if test="${hain.inhResult == result.answerConcept}">selected</c:if> >${result.answerConcept.displayString}</option>
-</c:forEach>
-</select>
-</td>
-</tr>
-
-
-<tr>
-<td><spring:message code="mdrtb.rifResult" text="rifResult"/>:</td>
-<td>
-<select name="rifResult">
-<option value=""></option>
-<c:forEach var="result" items="${rifresults}">
-	<option value="${result.answerConcept.id}" <c:if test="${hain.rifResult == result.answerConcept}">selected</c:if> >${result.answerConcept.displayString}</option>
-</c:forEach>
-</select>
-</td>
-</tr>
-
-
 
 </table>
+
+
+<br/>
+<table cellpadding="0">
+
+<tr>
+<td style="font-weight:bold"><u><spring:message code="mdrtb.drug" text="Drug"/></u></td>
+<%-- <td style="font-weight:bold"><u><spring:message code="mdrtb.concentration" text="Concentration"/></u></td> --%>
+<td style="font-weight:bold"><u><spring:message code="mdrtb.result" text="Result"/></u></td>
+<%-- <td style="font-weight:bold"><u><spring:message code="mdrtb.colonies" text="Colonies"/></u></td> --%>
+</tr>
+<c:forEach var="drugType" items="${drugTypes}">
+	<c:if test="${!empty resultsMap[drugType.id]}">
+		<c:forEach var="dstResult" items="${resultsMap[drugType.id]}">
+			<tr class="dstResult">
+			<td><nobr>${dstResult.drug.displayString}</nobr></td>
+			<!-- <td><nobr>${dstResult.concentration}</nobr></td> -->
+			<td><nobr>${dstResult.result.displayString}</nobr></td>
+			<!-- <td><nobr>${dstResult.colonies}</nobr></td> -->
+			<td><button class="removeDstResult" value="${dstResult.id}" type="button"><spring:message code="mdrtb.remove" text="Remove"/></button>
+				<input type="hidden" id="removeDstResult${dstResult.id}" name="removeDstResult" value=""/></td>
+			</tr>
+		</c:forEach>
+	</c:if>
+</c:forEach>
+<c:forEach begin="1" end="30" varStatus="i">
+	<tr id="addDstResult${test.id}_${i.count}" class="addDstResult" style="display:none">
+	<td><select name="addDstResult${i.count}.drug">
+		<option value=""></option>
+		<c:forEach var="drug" items="${drugTypes}">
+			<option value="${drug.id}" <c:if test="${! empty addDstResultDrug && addDstResultDrug[i.count - 1] == drug.id}">selected</c:if>>${drug.displayString}</option>
+		</c:forEach>
+		</select>
+	</td>
+	
+	<td><select name="addDstResult${i.count}.result" class="dstResult">
+		<option value=""></option>
+		<c:forEach var="possibleResult" items="${dstResults}">
+			<option value="${possibleResult.id}" <c:if test="${! empty addDstResultResult && addDstResultResult[i.count - 1] == possibleResult.id}">selected</c:if>>${possibleResult.displayString}</option>
+		</c:forEach></td>
+		</select>
+	</td>
+	<td><input type="text" size="6" name="addDstResult${i.count}.colonies" value="${! empty addDstResultColonies ? addDstResultColonies[i.count - 1] : ''}" class="dstColonies" style="display:none"/></td>
+	<td><button class="removeDstResultRow" value="${i.count}" type="button"><spring:message code="mdrtb.remove" text="Remove"/></button></td>	
+	</tr>
+</c:forEach>
+
+	<tr>
+	<td><button class="addDstResultRow" value="${test.id}" type="button"><spring:message code="mdrtb.addDSTResult" text="Add DST result"/></button></td>
+	<!--  set to 2 for TJK. Change to 4 if showing conc and colonies -->
+	<td colspan="2"/>
+	</tr>
+	
+</table>
+<br/>
+
+<!-- end of the DST table -->
 
 <button type="submit"><spring:message code="mdrtb.save" text="Save"/></button> <button id="cancel" type="reset"><spring:message code="mdrtb.cancel" text="Cancel"/></button>
 	

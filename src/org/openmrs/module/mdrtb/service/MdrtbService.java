@@ -9,6 +9,7 @@ import java.util.Set;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -611,6 +612,9 @@ public interface MdrtbService extends OpenmrsService {
 	public List<CultureForm> getCultureForms(Integer patientProgramId);
 	public List<XpertForm> getXpertForms(Integer patientProgramId);
 	public List<HAINForm> getHAINForms(Integer patientProgramId);
+	
+	public List<Encounter> getEncountersWithNoProgramId(EncounterType ec, Patient p);
+	public void addProgramIdToEncounter(Integer encounterId, Integer programId);
     
 }
 

@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientState;
@@ -23,6 +25,7 @@ import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgramHospitalizationValidator;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgramValidator;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.status.HivStatusCalculator;
 import org.openmrs.module.mdrtb.status.LabResultsStatusCalculator;
@@ -157,14 +160,14 @@ public class MdrtbDashboardController {
 	                               @RequestParam(required = false, value = "patientProgramId") Integer patientProgramId,
 	                               @RequestParam(required = false, value = "idId") Integer idId,
 	                               ModelMap map) {
-    	System.out.println("MdrtbDashboard:showStatus");
+    /*	System.out.println("MdrtbDashboard:showStatus");
     	System.out.println("program:" + program);
     	if (program == null) {
     		// if the patient has no program, redirect to the enroll-in-program
     		map.clear();
     		System.out.println("null program");
     		return new ModelAndView("redirect:/module/mdrtb/program/enrollment.form?patientId=" + patientId + (idId != null ? "&idId=" + idId : "")); 
-    	}
+    	}*/
 
     	// add the patient program ID
     	map.put("patientProgramId", program.getId());
@@ -195,6 +198,14 @@ public class MdrtbDashboardController {
     	
     	// add any flags
 		addFlags(statusMap, map);
+		
+		EncounterType tb03uType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		List<Encounter> tb03uList = Context.getService(MdrtbService.class).getEncountersWithNoProgramId(tb03uType, program.getPatient());
+		map.put("unlinkedtb03us", tb03uList);
+		
+		EncounterType labType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
+		List<Encounter> labList = Context.getService(MdrtbService.class).getEncountersWithNoProgramId(labType, program.getPatient());
+		map.put("unlinkedlabs", labList);
 		
 		return new ModelAndView("/module/mdrtb/dashboard/dashboard", map);
 
@@ -333,7 +344,6 @@ public class MdrtbDashboardController {
 		
 	}
 	
-    
 	@SuppressWarnings("unchecked")
     private void addFlags(Map<String,Status> statusMap, ModelMap map) {
 		
@@ -348,5 +358,18 @@ public class MdrtbDashboardController {
 		
 		map.put("flags", flags);
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+    @RequestMapping(value = "/module/mdrtb/program/addEncounterMdrtb.form", method = RequestMethod.GET)
+	public ModelAndView processAddEncounter(@ModelAttribute("program") MdrtbPatientProgram program, BindingResult errors,
+											@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
+											@RequestParam(required = true, value = "encounterId") Integer encounterId,
+	                                      SessionStatus status, HttpServletRequest request, ModelMap map) {
+		  
+		Context.getService(MdrtbService.class).addProgramIdToEncounter(encounterId, patientProgramId);
+			
+		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientProgramId=" + patientProgramId);
+			
 	}
 }
