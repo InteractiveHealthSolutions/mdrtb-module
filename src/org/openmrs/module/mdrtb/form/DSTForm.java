@@ -27,7 +27,7 @@ import org.openmrs.module.mdrtb.specimen.HAIN;
 import org.openmrs.module.mdrtb.specimen.HAINImpl;
 
 
-public class DSTForm extends AbstractSimpleForm {
+public class DSTForm extends AbstractSimpleForm implements Comparable<DSTForm> {
 
 	/*Map<Integer,List<DstResult>> resultsMap = null;
 	Obs dstResult;
@@ -68,6 +68,8 @@ public class DSTForm extends AbstractSimpleForm {
 	public DSTForm(Encounter encounter) {
 		super(encounter);
 		di = new DstImpl(this.encounter);
+		
+		
 		/*dstResult = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT), encounter);
 		if(dstResult==null) {
 			dstResult = new Obs();
@@ -220,78 +222,8 @@ public class DSTForm extends AbstractSimpleForm {
 		} 
 	}
 	
-	/*public DstResult addResult() {
-		// create a new obs for the result, set to the proper values
-		Obs resultObs = new Obs(getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_RESULT), dstResult.getObsDatetime(), dstResult.getLocation());
-		resultObs.setEncounter(getEncounter());
-		
-		// add the result to this obs group
-		dstResult.addGroupMember(resultObs);
-		
-		// now create and return a new DstResult
-		return new DstResultImpl(resultObs);
+	public int compareTo(DSTForm form) {
+		return this.di.getDateCollected().compareTo(form.di.getDateCollected());
 	}
-	
-	 public List<DstResult> getResults() {
-	    	List<DstResult> results = new LinkedList<DstResult>();
-			
-			// iterate through all the obs groups, create dst results from them, and add them to the list
-			if(dstResult.getGroupMembers() != null) {
-				for(Obs obs : dstResult.getGroupMembers()) {
-					// need to filter for voided obs, since get group members returns voided and non-voided
-					if (!obs.isVoided() && obs.getConcept().equals(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_RESULT))) {
-						results.add(new DstResultImpl(obs));
-					}
-				}
-			}
-			return results;
-	    }
-	    
-	    // Note this is created ONCE per instantiation, for performance reasons, so if underlying drugs change, this will be inaccurate
-	    public Map<Integer,List<DstResult>> getResultsMap() {  
-	    
-	    	if (resultsMap == null) {   		
-	    		resultsMap = new HashMap<Integer,List<DstResult>>();
-	    	
-	    		// map the results based on a key created by concatenating the string representation of the drug concept id and the
-	    		// string representation of the concentration
-	    		for(DstResult result : getResults()) {
-	    			
-	    			Integer drug = result.getDrug().getId();
-	    			
-	    			// if a result for this drug already exists in the map, attach this result to that list
-	    			if(resultsMap.containsKey(drug)) {
-	    				resultsMap.get(drug).add(result);
-	    				// re-sort, so that the concentrations are in order
-	    				Collections.sort(resultsMap.get(drug));
-	    			}
-	    			// otherwise, create a new entry for this drug
-	    			else {
-	    				List<DstResult> drugResults = new LinkedList<DstResult>();
-	    				drugResults.add(result);
-	    				resultsMap.put(drug, drugResults);
-	    			}
-	    			
-	    			// TODO: remove this when we are sure we don't need it
-	    			*//**
-	    			if(result.getConcentration() != null) {
-	    				resultsMap.put((result.getDrug().getId()).toString() + "|" + result.getConcentration().toString(), result);
-	    			}
-	    			else {
-	    				resultsMap.put((result.getDrug().getId()).toString(), result);
-	    			}
-	    			*//*
-	    		}
-	    	}
-	    	
-	    	return resultsMap;
-	    }
-	    
-	    public void removeResult(DstResult result) {
-	    	((DstResultImpl) result).voidResult();
-	    }
-	    
-	    public Obs getDstResult() {
-	    	return dstResult;
-	    }*/
 }
+

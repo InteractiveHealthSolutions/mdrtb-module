@@ -242,6 +242,35 @@ public class TbConcepts {
  	public final static String[] TX_LOCATION = {"TREATMENT LOCATION"};
  	public final static String[] RELAPSED = {"RELAPSED"};
  	public final static String[] RELAPSE_MONTH = {"RELAPSE MONTH"};
-    
+ 	
+ 	public final static String[] LOCATION_TYPE = {"LOCATION TYPE"};
+ 	public final static String[] PROFESSION = {"PROFESSION"};
+ 	public final static String[] POPULATION_CATEGORY = {"POPULATION CATEGORY "};
+ 	public final static String[] PLACE_OF_DETECTION  = {"PLACE OF DETECTION"};
+ 	public final static String[] DATE_FIRST_SEEKING_HELP = {"DATE FIRST SEEKING HELP"};
+ 	public final static String[] CIRCUMSTANCES_OF_DETECTION = {"CIRCUMSTANCES OF DETECTION"};
+ 	public final static String[] METHOD_OF_DETECTION = {"BASIS FOR TB DIAGNOSIS"};
+ 	public final static String[] SITE_OF_EPTB = {"SITE OF EPTB"};
+ 	public final static String[] PTB_SITE = {"PTB SITE"};
+ 	public final static String[] EPTB_SITE = {"EPTB SITE"};
+ 	public final static String[] PRESENCE_OF_DECAY = {"PRESENCE OF DECAY"};
+ 	public final static String[] DATE_OF_DECAY_SURVEY = {"DATE OF DECAY SURVEY "};
+ 	public final static String[] DIABETES = {"DIABETES"};
+ 	public final static String[] CNSDL = {"CNSDL"};
+ 	public final static String[] HYPERTENSION_OR_HEART_DISEASE = {"HYPERTENSION OR HEART DISEASE"};
+ 	public final static String[] ULCER = {"ULCER OF STOMACH OR DUODENUM"};
+ 	public final static String[] MENTAL_DISORDER = {"MENTAL DISEASE"};
+ 	public final static String[] ICD20 = {"IBC 20.0"};
+ 	public final static String[] CANCER = {"CANCER"};
+ 	public final static String[] NO_DISEASE = {"NO COMORBIDITY"};
+ 	public final static String[] OTHER_DISEASE = {"OTHER CONCOMITANT DISEASE"};
+ 	public final static String[] CMAC_DATE = {"CMAC DATE"};
+ 	public final static String[] CMAC_NUMBER = {"CMAC Number"};
+ 	public final static String[] GPT = {"GPT"};
+ 	public final static String[] FORM89_DATE = {"FORM89 DATE"};
+ 	public final static String [] AGE_AT_FORM89_REGISTRATION = {"FORM89 AGE"};
+ 	
+ 	
+     
 
 }

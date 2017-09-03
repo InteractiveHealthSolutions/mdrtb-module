@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.specimen;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -46,7 +47,17 @@ public class DstImpl extends TestImpl implements Dst {
 			throw new RuntimeException ("Cannot create culture: encounter can not be null.");
 		}
 		
-		test = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_CONSTRUCT), encounter.getEncounterDatetime(), null);
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_CONSTRUCT), encounter);
+		if(obs==null) {
+			test = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_CONSTRUCT), encounter.getEncounterDatetime(), encounter.getLocation());
+			test.setEncounter(encounter);
+		}
+		
+		else {
+			test = obs;
+		}
+		
+		System.out.println("<<<<>>>>>" + test.getEncounter().getId() + "," + test.getPatient()+","+test.getConcept()+","+test.getObsDatetime()+","+test.getLocation());
 	}
 	
 	@Override
@@ -58,7 +69,7 @@ public class DstImpl extends TestImpl implements Dst {
 		// create a new obs for the result, set to the proper values
 		Obs resultObs = new Obs(this.test.getPerson(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_RESULT), this.test.getObsDatetime(), this.test.getLocation());
 		resultObs.setEncounter(this.test.getEncounter());
-		
+		System.out.println("DstResult->addResult->" + resultObs.getEncounter()+","+resultObs.getObsDatetime()+resultObs.getLocation() + resultObs.getConcept());
 		// add the result to this obs group
 		this.test.addGroupMember(resultObs);
 		
@@ -127,7 +138,7 @@ public class DstImpl extends TestImpl implements Dst {
 
     public List<DstResult> getResults() {
     	List<DstResult> results = new LinkedList<DstResult>();
-		
+		System.out.println("getResults:" + test.getId());
 		// iterate through all the obs groups, create dst results from them, and add them to the list
 		if(test.getGroupMembers() != null) {
 			for(Obs obs : test.getGroupMembers()) {
@@ -137,6 +148,7 @@ public class DstImpl extends TestImpl implements Dst {
 				}
 			}
 		}
+		System.out.println("GR:" + results.size());
 		return results;
     }
     
@@ -318,6 +330,33 @@ public class DstImpl extends TestImpl implements Dst {
 		
 		// now save the value
 		obs.setValueText(organismType);
+    }
+    
+    public String getResultsString() {
+    	String results = "";
+		Map<Integer, List<DstResult>> dstResultsMap = getResultsMap();
+		System.out.println("MAP SIZE=" + dstResultsMap.size());
+		Collection<Concept> drugs = getPossibleDrugTypes();
+		System.out.println("DRUG SIZE=" + drugs.size());
+		
+		for(Concept drug : drugs) {
+			if(dstResultsMap.get(drug.getId())!=null) {
+				
+				for(DstResult result : dstResultsMap.get(drug.getId())) {
+					results += result.getDrug().getDisplayString() + ": " + result.getResult().getShortNameInLocale(Context.getLocale()) + "<br/>";
+				}
+			}
+		}
+		
+		if(results.length()==0) {
+			results = "N/A";
+		}
+		
+		return results;
+	}
+
+    public Collection<Concept> getPossibleDrugTypes() {
+    	return Context.getService(MdrtbService.class).getMdrtbDrugs();
     }
     
 }

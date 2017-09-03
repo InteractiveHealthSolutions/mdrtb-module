@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +18,12 @@ import org.openmrs.Person;
 
 import org.openmrs.api.context.Context;
 
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
+import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
+import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.SmearForm;
 
 
@@ -129,19 +134,101 @@ public class SmearFormController {
 	}*/
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showSmearForm() {
-		ModelMap map = new ModelMap();
+	public ModelAndView showSmearForm(/*@RequestParam(value="loc", required=false) String district,
+    								  @RequestParam(value="ob", required=false) String oblast,*/
+    								  @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
+    								  @RequestParam(required = false, value = "encounterId") Integer encounterId,
+    								  ModelMap model){
+		//ModelMap map = new ModelMap();
 		
-		
-		return new ModelAndView("/module/mdrtb/form/smear", map);	
+		/*List<Oblast> oblasts;
+        List<Facility> facilities;
+        List<District> districts;
+        
+        if(oblast==null && encounterId!=-1) //we are editing an existing encounter
+        {
+        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+        	model.addAttribute("oblasts", oblasts);
+        	districts = Context.getService(MdrtbService.class).getDistricts();
+        	model.addAttribute("districts", districts);
+        	facilities = Context.getService(MdrtbService.class).getFacilities();
+        	model.addAttribute("facilities", facilities);
+        }
+        else if(oblast==null) {
+        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+        	model.addAttribute("oblasts", oblasts);
+        	
+        }
+        else if(district==null)
+        { 
+        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+        	model.addAttribute("oblastSelected", oblast);
+            model.addAttribute("oblasts", oblasts);
+            model.addAttribute("districts", districts);
+        }
+        else
+        {
+        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+        	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+            model.addAttribute("oblastSelected", oblast);
+            model.addAttribute("oblasts", oblasts);
+            model.addAttribute("districts", districts);
+            model.addAttribute("districtSelected", district);
+            model.addAttribute("facilities", facilities);
+        }
+        model.addAttribute("encounterId", encounterId);*/
+		return new ModelAndView("/module/mdrtb/form/smear", model);	
 	}
 	
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView processSmearForm (@ModelAttribute("smear") SmearForm smear, BindingResult errors, 
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
+	                                       /*@RequestParam(required = true, value = "oblast") String oblastId,
+	                                       @RequestParam(required = true, value = "district") String districtId,
+	                                       @RequestParam(required = false, value = "facility") String facilityId,*/
 	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
+		
+	/*	Location location=null;
+    	List<Location> locations = null;// new ArrayList<Location>();
+    	
+    	
+    	if(facilityId!=null && facilityId.length()!=0) {
+    		//all fields selected
+    		Facility fac = Context.getService(MdrtbService.class).getFacility(Integer.parseInt(facilityId));
+    		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
+    		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
+    		location = Context.getService(MdrtbService.class).getLocation(obl,dist,fac);
+    		
+    	}
+    	
+    	else if(districtId!=null && districtId.length()!=0) {
+    		//district and oblast selected
+    		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
+    		locations = Context.getService(MdrtbService.class).getLocationsFromDistrictName(dist);
+    		
+    	}
+    	
+    	else if(oblastId!=null && oblastId.length()!=0) {
+    		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
+    		locations = Context.getService(MdrtbService.class).getLocationsFromOblastName(obl);
+    	}
+    	
+    	if(location == null && locations!=null && (locations.size()==0 || locations.size()>1)) {
+    		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
+    	}
+    	
+    	else if(location==null && locations!=null && locations.size()==1) {
+    		location = locations.get(0);
+    	}
+		if(smear.getLocation()==null || !location.equals(smear.getLocation())) {
+			System.out.println("setting loc");
+			smear.setLocation(location);
+		}*/
+    	//smear.getEncounter().setLocation(location);
 		
 		boolean mdr = false;
 		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
@@ -167,54 +254,8 @@ public class SmearFormController {
 		Context.getEncounterService().saveEncounter(smear.getEncounter());
 		
 		boolean programModified = false;
-		//handle changes in workflows
-		/*Concept outcome = tb03.getTreatmentOutcome();
-		Concept group = tb03.getRegistrationGroup();
 		
-		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
-		
-		ProgramWorkflow outcomeFlow = new ProgramWorkflow();
-		outcomeFlow.setConcept(outcome);
-		PatientState outcomePatientState = pp.getCurrentState(outcomeFlow);
-		//ProgramWorkflowState pwfs = null;
-		Concept currentOutcomeConcept = null;
-		//outcome entered previously but now removed
-		if(outcomePatientState != null && outcome == null) {
-			System.out.println("outcome removed");
-			HashSet<PatientState> states = new HashSet<PatientState>();
-			outcomePatientState = null;
-			states.add(outcomePatientState);
-		
-			pp.setStates(states);	
-			programModified = true;
-		}
 
-		//outcome has been added	
-		else if(outcomePatientState == null && outcome != null) {
-			System.out.println("outcome added");
-			HashSet<PatientState> states = new HashSet<PatientState>();
-			PatientState newState = new PatientState();
-			ProgramWorkflowState pwfs = new ProgramWorkflowState();
-			pwfs.setConcept(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME));
-			newState.setState(pwfs);
-			states.add(newState);
-			pp.setStates(states);	
-			programModified = true;
-		}
-		
-		//outcome entered previously and may have been modified now
-		else if(outcomePatientState!=null && outcome !=null) {
-			
-		
-		}
-		
-		
-		
-		
-		//TX OUTCOME
-		//PATIENT GROUP
-		//PATIENT DEATH AND CAUSE OF DEATH
-*/
 		// clears the command object from the session
 		status.setComplete();
 		

@@ -142,6 +142,32 @@
 <td>${tb03u.txLocation.displayString}</td>
 </tr>
 
+</table>
+
+<br/>
+
+<spring:message code="mdrtb.dsts" text="DSTz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+</tr>
+
+<c:forEach var="dst" items="${tb03u.dsts}">
+<tr>
+<td>${dst.di.resultsString }</td>
+<td><openmrs:formatDate date="${dst.encounter.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${dst.encounter.location.displayString}
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
+
+<table
+
 <tr>
 <td><spring:message code="mdrtb.tb03.resistanceType" text="Type of Resistance"/>:</td>
 <td>${tb03u.resistanceType.displayString}</td>
@@ -462,7 +488,7 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.tb03.cptStartDate" text="PCT Start Date"/>:</td>
+<td><spring:message code="mdrtb.tb03.pctStartDate" text="PCT Start Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="pctStartDate" startValue="${tb03u.pctStartDate}"/></td>
 </tr>
 

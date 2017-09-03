@@ -32,14 +32,14 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     	// now determine where to link to
     	// if there is a form linked to this encounter, assume it is an HTML Form Entry form
     	// (note, however, that we exclude specimen collection encounters--they can't have forms linked to them)
-    	if(encounter.getForm() != null 
+    	/*if(encounter.getForm() != null 
     			&& !encounter.getEncounterType().equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")))) {
     		visit.setLink("/module/htmlformentry/htmlFormEntry.form?personId=" + encounter.getPatientId() 
     			+ "&formId=" + encounter.getForm().getId() + "&encounterId=" + encounter.getId() + 
     			"&mode=VIEW");
     	}
     	// otherwise, create the link based on the encounter type of the visit
-    	else {
+    	else {*/
     	
     		EncounterType type = encounter.getEncounterType();
     	
@@ -51,14 +51,14 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
         			+ "&encounterId=" + encounter.getId());
     		}
     		else if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type")))) {
-    			visit.setLink("/module/mdrtb/form/followup.form?patientId="
+    			/*visit.setLink("/module/mdrtb/form/followup.form?patientId="
         			+ status.getPatientProgram().getPatient().getPatientId()
         			+ "&patientProgramId=" + status.getPatientProgram().getId() 
-        			+ "&encounterId=" + encounter.getId());
+        			+ "&encounterId=" + encounter.getId());*/
     		}
     		else if(type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")))) {
-    			visit.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + encounter.getId()
-    							+ "&patientProgramId=" + status.getPatientProgram().getId());
+    			/*visit.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + encounter.getId()
+    							+ "&patientProgramId=" + status.getPatientProgram().getId());*/
     		}
     		
     		/*else if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type")))) {
@@ -72,7 +72,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     		else {
     			throw new MdrtbAPIException("Invalid encounter type passed to Dashboard visit status renderer.");
     		}
-    	}
+    	//}
     }
     
     public void renderTbVisit(StatusItem visit, VisitStatus status) {
@@ -89,7 +89,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     	// now determine where to link to
     	// if there is a form linked to this encounter, assume it is an HTML Form Entry form
     	// (note, however, that we exclude specimen collection encounters--they can't have forms linked to them)
-    	if(encounter.getForm() != null 
+    	/*if(encounter.getForm() != null 
     			&& !encounter.getEncounterType().equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")))) {
     		visit.setLink("/module/htmlformentry/htmlFormEntry.form?personId=" + encounter.getPatientId() 
     			+ "&formId=" + encounter.getForm().getId() + "&encounterId=" + encounter.getId() + 
@@ -97,7 +97,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     	}
     	// otherwise, create the link based on the encounter type of the visit
     	else {
-    	
+    	*/
     		EncounterType type = encounter.getEncounterType();
     	
     		if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type")))) {
@@ -110,25 +110,25 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     		
     		
     		else if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type")))) {
-    			visit.setLink("/module/mdrtb/form/followup.form?patientId="
+    			visit.setLink("/module/mdrtb/form/form89.form?patientId="
         			+ status.getPatientTbProgram().getPatient().getPatientId()
         			+ "&patientProgramId=" + status.getPatientTbProgram().getId() 
         			+ "&encounterId=" + encounter.getId());
     		}
     		else if(type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")))) {
-    			visit.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + encounter.getId()
-    							+ "&patientProgramId=" + status.getPatientTbProgram().getId());
+    			/*visit.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + encounter.getId()
+    							+ "&patientProgramId=" + status.getPatientTbProgram().getId());*/
     		}
     		else {
     			throw new MdrtbAPIException("Invalid encounter type passed to Dashboard visit status renderer.");
     		}
-    	}
+    	
     }
 
     public void renderNewIntakeVisit(StatusItem newIntakeVisit, VisitStatus status) {
     
     	// we've changed this so that we link to the select form page instead of determining what form to use here
-     	newIntakeVisit.setLink("/module/mdrtb/form/select.form?formType=intake&patientId=" 
+     	newIntakeVisit.setLink("/module/mdrtb/form/tb03u.form?encounterId=-1&formType=intake&patientId=" 
      		+ status.getPatientProgram().getPatient().getPatientId() 
      		+ "&patientProgramId=" + status.getPatientProgram().getId());
     	
@@ -162,7 +162,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     public void renderNewTbIntakeVisit(StatusItem newIntakeVisit, VisitStatus status) {
         
     	// we've changed this so that we link to the select form page instead of determining what form to use here
-     	newIntakeVisit.setLink("/module/mdrtb/form/select.form?formType=intake&patientId=" 
+     	newIntakeVisit.setLink("/module/mdrtb/form/tb03.form?formType=intake&encounterId=-1&patientId=" 
      		+ status.getPatientTbProgram().getPatient().getPatientId() 
      		+ "&patientProgramId=" + status.getPatientTbProgram().getId());
     	
@@ -196,7 +196,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     public void renderNewFollowUpVisit(StatusItem newFollowUpVisit, VisitStatus status) {
     
     	// we've changed this so that we link to the select form page instead of determining what form to use here
-    	newFollowUpVisit.setLink("/module/mdrtb/form/select.form?formType=followUp&patientId=" 
+    	newFollowUpVisit.setLink("/module/mdrtb/form/form89.form?formType=followUp&encounterId=-1&patientId=" 
      		+ status.getPatientProgram().getPatient().getPatientId() 
      		+ "&patientProgramId=" + status.getPatientProgram().getId());
     	
@@ -228,7 +228,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     public void renderNewTbFollowUpVisit(StatusItem newFollowUpVisit, VisitStatus status) {
         
     	// we've changed this so that we link to the select form page instead of determining what form to use here
-    	newFollowUpVisit.setLink("/module/mdrtb/form/select.form?formType=followUp&patientId=" 
+    	newFollowUpVisit.setLink("/module/mdrtb/form/form89.form?formType=followUp&encounterId=-1&patientId=" 
      		+ status.getPatientTbProgram().getPatient().getPatientId() 
      		+ "&patientProgramId=" + status.getPatientTbProgram().getId());
     	

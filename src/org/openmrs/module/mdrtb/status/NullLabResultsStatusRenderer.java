@@ -43,6 +43,10 @@ public class NullLabResultsStatusRenderer implements LabResultsStatusRenderer {
     public void renderHAIN(StatusItem diagnosticHAIN, LabResultsStatus status) {
     }
 
+    public void renderDst(StatusItem dst, LabResultsStatus status) {
+    }
+
+    
     public String renderTbClassification(TbClassification classification) {
 	    return null;
     }

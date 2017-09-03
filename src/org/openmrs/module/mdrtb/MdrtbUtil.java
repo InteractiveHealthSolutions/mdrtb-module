@@ -709,4 +709,251 @@ public class MdrtbUtil {
 		
 		
 	}
+	
+	public static Cohort getMdrPatientsTJKFacility(String identifier, String name, /*String enrollment,*/ String districtId, String oblastId,String facilityId, List<ProgramWorkflowState> states, Integer minage, Integer maxage, String gender, Integer year, String quarter, String month) {
+		
+		Location location=null;
+		List<Location> locList = null;
+		/*if(districtId!=null)
+		{
+			District district= Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
+		
+			List<Location> locations = Context.getLocationService().getAllLocations(false);// Context.getService(MdrtbService.class).getEnrollmentLocations();//ms = (MdrtbDrugForecastService) Context.getService(MdrtbDrugForecastService.class);
+			for (Location l : locations) {
+				if(MdrtbUtil.areRussianStringsEqual(l.getName(), district.getName()))
+	    		{
+					location=l;
+	    		}
+			}
+		}*/
+		
+		if(facilityId!=null && facilityId.length()!=0) {
+    		//all fields selected
+    		Facility fac = Context.getService(MdrtbService.class).getFacility(Integer.parseInt(facilityId));
+    		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
+    		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
+    		//List<Location> facList = Context.getService(MdrtbService.class).getLocationsFromFacilityName(fac);
+    		location = Context.getService(MdrtbService.class).getLocation(obl,dist,fac);
+    		
+    	}
+    	
+    	else if(districtId!=null && districtId.length()!=0) {
+    		//district and oblast selected
+    		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
+    		
+    		
+    		locList = Context.getService(MdrtbService.class).getLocationsFromDistrictName(dist);
+    		
+    	}
+    	
+    	else if(oblastId!=null && oblastId.length()!=0) {
+    		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
+    		locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(obl);
+    	}
+		
+		
+			Cohort cohort = Context.getPatientSetService().getAllPatients();
+			
+			MdrtbService ms = (MdrtbService) Context.getService(MdrtbService.class);
+			
+			Date now = new Date();
+			Program mdrtbProgram = ms.getMdrtbProgram();
+			
+			Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+			
+			Date startDate = (Date)(dateMap.get("startDate"));
+			Date endDate = (Date)(dateMap.get("endDate"));
+			
+			CohortDefinition drtb = Cohorts.getEnrolledInMDRProgramDuring(startDate, endDate);
+			
+			try {
+				Cohort enrollmentCohort = Context.getService(CohortDefinitionService.class).evaluate(drtb, new EvaluationContext());
+				cohort = Cohort.intersect(cohort, enrollmentCohort);
+			}
+			
+			 catch (EvaluationException e) {
+	       	  throw new MdrtbAPIException("Unable to evalute location cohort",e);
+	       }
+			
+			if (StringUtils.isNotBlank(name) || StringUtils.isNotBlank(identifier)) {
+				name = "".equals(name) ? null : name;
+				identifier = "".equals(identifier) ? null : identifier;
+				Cohort nameIdMatches = new Cohort(Context.getPatientService().getPatients(name, identifier, null, false));
+				cohort = Cohort.intersect(cohort, nameIdMatches);
+			}
+			
+			if (states != null) {
+				Cohort inStates = Context.getPatientSetService().getPatientsByProgramAndState(null, states, now, now);
+				cohort = Cohort.intersect(cohort, inStates);
+			}
+			
+			/*Oblast o = null;
+			Facility f = null;
+			if(!oblastId.equals("") && location == null)
+				o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
+			
+			List<Location> locList = new ArrayList<Location>();
+			if(o != null && location == null)
+				locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+			else if (location != null)
+			{
+				if(facilityId != null && facilityId.length()!=0)
+				{
+					f= Context.getService(MdrtbService.class).getFacility(Integer.parseInt(facilityId));
+					if(f!=null)
+					locList = Context.getService(MdrtbService.class).getLocationsFromFacilityName(f);
+				}
+				else
+				{
+					locList.add(location);
+					List<Facility> fs = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(districtId));
+					if(fs!=null)
+					{
+						for (Facility f1 : fs) {
+							locList.addAll(Context.getService(MdrtbService.class).getLocationsFromFacilityName(f1));
+						}
+					}
+				}
+			}*/
+			
+			//if facility is selected
+			if(location!=null && locList==null) {
+				locList = new ArrayList<Location>();
+				locList.add(location);
+			}
+			
+			System.out.println("Location>>" + location);
+			if(locList==null) {
+				System.out.println("Location List >>" + null);
+			}
+			
+			else {
+				System.out.println("Location List >>" + locList.size());
+			}
+			
+			CohortDefinition temp = null;
+			CohortDefinition lcd = null;
+			
+			if(locList!=null) {
+			for(Location loc : locList) {
+				temp = Cohorts.getLocationFilter(loc, null,null);
+				if(lcd == null)
+					lcd = temp;
+				
+				else 
+					lcd = ReportUtil.getCompositionCohort("OR", lcd, temp);
+			}
+			}
+			
+			else 
+				lcd = Cohorts.getLocationFilter(location, null,null);
+			
+			Cohort locationCohort;
+	        try {
+	            locationCohort = Context.getService(CohortDefinitionService.class).evaluate(lcd, new EvaluationContext());
+	        }
+	        catch (EvaluationException e) {
+	        	  throw new MdrtbAPIException("Unable to evalute location cohort",e);
+	        }
+			cohort = Cohort.intersect(cohort, locationCohort);
+			
+			if(minage != null || maxage != null) {
+				Cohort ageCohort = new Cohort();
+				AgeAtMDRRegistrationCohortDefinition ageatEnrollmentCohort = new AgeAtMDRRegistrationCohortDefinition();
+				ageatEnrollmentCohort.setMaxAge(maxage);
+				ageatEnrollmentCohort.setMinAge(minage);
+				ageatEnrollmentCohort.setStartDate(startDate);
+				ageatEnrollmentCohort.setEndDate(endDate);
+				
+				;
+				
+				//eval.evaluate(ageatEnrollmentCohort, context)
+				 try {
+					 ageCohort = Context.getService(CohortDefinitionService.class).evaluate(ageatEnrollmentCohort, new EvaluationContext());
+				 }
+				 
+				 catch (EvaluationException e) {
+	           	  throw new MdrtbAPIException("Unable to evalute age cohort",e);
+	           }
+				/*Patient patient = null;
+				Set<Integer> idSet = cohort.getMemberIds();
+				Iterator<Integer> itr = idSet.iterator();
+		    	Integer idCheck = null;
+		   
+		    	PatientService ps = Context.getService(PatientService.class);
+		    	boolean use = false;
+		    	while(itr.hasNext()) {
+		    		use = false;
+		    		idCheck = (Integer)itr.next();
+		    		patient = ps.getPatient(idCheck);
+		    		MdrtbService svc = Context.getService(MdrtbService.class);
+		    		
+		    		MdrtbPatientProgram mpp = svc.getMostRecentMdrtbPatientProgram(patient);
+		    		
+		    		Date tsd = mpp.getDateEnrolled();
+		    		//mpp.getTreatmentStartDateDuringProgram();
+		    		
+		    		
+		    		if(minage != null && maxage !=null ) {
+		    			if(patient.getAge(tsd)>= minage.intValue() && patient.getAge(tsd)<= maxage.intValue() ) {
+		    				use = true;
+		    			}
+		    		}
+		    		
+		    		else if(minage!=null) {
+		    			if(patient.getAge(tsd)>= minage.intValue()) {
+		    				use = true;
+		    			}
+		    			else
+		    				use = false;
+		    				
+		    		}
+		    		
+		    		else if(maxage!=null) {
+		    			if(patient.getAge(tsd)<= maxage.intValue()) {
+		    				use = true;
+		    			}
+		    			else
+		    				use = false;
+		    		} 
+		    		
+		    		if(use) {
+		    			ageCohort.addMember(patient.getPatientId());
+		    		}
+		    		
+		    	}*/
+		    	
+				 cohort = Cohort.intersect(cohort, ageCohort);
+				
+				
+			}
+			
+			if(gender!=null && gender.length()!=0) {
+				Cohort genderCohort = new Cohort();
+				Patient patient = null;
+				Set<Integer> idSet = cohort.getMemberIds();
+				Iterator<Integer> itr = idSet.iterator();
+		    	Integer idCheck = null;
+		   
+		    	PatientService ps = Context.getService(PatientService.class);
+		    	boolean use = false;
+		    	while(itr.hasNext()) {
+		    		use = false;
+		    		idCheck = (Integer)itr.next();
+		    		patient = ps.getPatient(idCheck);
+		    		
+		    		
+		    		if(patient.getGender().equalsIgnoreCase(gender)) {
+		    			genderCohort.addMember(patient.getPatientId());
+		    		}
+		    		
+		    	}
+		    	
+		    	cohort = Cohort.intersect(cohort, genderCohort);
+			}
+			
+			
+			return cohort;
+		}
+	
 }

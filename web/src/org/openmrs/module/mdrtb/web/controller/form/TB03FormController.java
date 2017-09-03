@@ -147,8 +147,11 @@ public class TB03FormController {
 		if(outcome!=null && outcome.getId()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")));
 		{
 			Patient patient = tpp.getPatient();
-			if(!patient.getDead())
+			if(!patient.getDead()) {
 				patient.setDead(new Boolean(true));
+				patient.setCauseOfDeath(tb03.getCauseOfDeath());
+			}
+				
 			
 			Context.getPatientService().savePatient(patient);
 			//	patient.setC
@@ -240,6 +243,11 @@ public class TB03FormController {
 	@ModelAttribute("outcomes")
 	public Set<ProgramWorkflowState> getPossibleTreatmentOutcomes() {
 		return Context.getService(MdrtbService.class).getPossibleTbProgramOutcomes();
+	}
+	
+	@ModelAttribute("causes")
+	public Collection<ConceptAnswer> getPossibleCausesOfDeath() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.CAUSE_OF_DEATH);
 	}
 	
 	

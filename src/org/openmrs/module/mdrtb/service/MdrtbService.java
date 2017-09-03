@@ -18,8 +18,11 @@ import org.openmrs.Person;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.DSTForm;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
@@ -32,6 +35,7 @@ import org.openmrs.module.mdrtb.specimen.ScannedLabReport;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Specimen;
 import org.openmrs.module.mdrtb.specimen.Xpert;
+import org.openmrs.PatientProgram;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -558,9 +562,32 @@ public interface MdrtbService extends OpenmrsService {
     
     public List<Location> getLocationsFromOblastName(Oblast oblast);
     
+    //FOR LOCATIONS
+    public List<Facility> getFacilities();
+    
+    public Location getLocation(Oblast o, District d, Facility f);
+
+    public List<Facility> getFacilities(int parentId);
+
+    public Facility getFacility(Integer facilityId);
+    
+    public List<Location> getLocationsFromFacilityName(Facility facility);
+    
+    public List<District> getDistricts(int parentId);
+
+    public District getDistrict(Integer districtId);
+    
+    public District getDistrict(String name);
+    
+    List<District> getDistricts();
+    
+    public List<Location> getLocationsFromDistrictName(District district);
+    
     public List<Location> getEnrollmentLocations();
     
     public PatientIdentifier getPatientProgramIdentifier(MdrtbPatientProgram mpp);
+    
+    public PatientIdentifier getGenPatientProgramIdentifier(PatientProgram mpp);
     
     @Transactional(readOnly=true)
     public List<TbPatientProgram> getAllTbPatientProgramsEnrolledInDateRange(Date startDate,
@@ -612,6 +639,7 @@ public interface MdrtbService extends OpenmrsService {
 	public List<CultureForm> getCultureForms(Integer patientProgramId);
 	public List<XpertForm> getXpertForms(Integer patientProgramId);
 	public List<HAINForm> getHAINForms(Integer patientProgramId);
+	public List<DSTForm> getDstForms (Integer patientProgramId);
 	
 	public List<Encounter> getEncountersWithNoProgramId(EncounterType ec, Patient p);
 	public void addProgramIdToEncounter(Integer encounterId, Integer programId);

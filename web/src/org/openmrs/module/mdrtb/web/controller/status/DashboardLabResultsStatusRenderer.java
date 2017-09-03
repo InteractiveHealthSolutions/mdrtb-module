@@ -2,7 +2,9 @@ package org.openmrs.module.mdrtb.web.controller.status;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
@@ -12,6 +14,8 @@ import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.MdrtbConstants.TbClassification;
 import org.openmrs.module.mdrtb.specimen.Culture;
+import org.openmrs.module.mdrtb.specimen.Dst;
+import org.openmrs.module.mdrtb.specimen.DstResult;
 import org.openmrs.module.mdrtb.specimen.HAIN;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Test;
@@ -126,7 +130,30 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 	
 	}
 	
+	public void renderDst(StatusItem item, LabResultsStatus status) {
+		
+		Dst dst = (Dst) item.getValue();
+		System.out.println("DST String:" + getDstResultString(dst));
+		if (dst != null) {
+			String[] params = {
+					getDstResultString(dst),
+					dst.getDateCollected() != null ? df.format(dst.getDateCollected()) : "(N/A)",
+							dst.getLab() != null ? dst.getLab().getDisplayString() : "(N/A)" };
+			if(status.getPatientProgram()!=null) {
+				item.setLink("/module/mdrtb/form/dst.form?encounterId=" + dst.getSpecimenId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			}
+			
+			else {
+				item.setLink("/module/mdrtb/form/dst.form?encounterId=" + dst.getSpecimenId() + "&patientProgramId=" + status.getPatientTbProgram().getId());
+			}
+			     
+			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.dstFormatter", params, "{0} on {1}, tested at {2}", Context.getLocale()));
+		} else {
+			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.none"));
+			item.setLink(null);
+		}
 	
+	}
 	
 	
     public String renderDrugResistanceProfile(List<Concept> drugs) {
@@ -138,6 +165,9 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
     	
     	return drugList;
     }
+   
+    
+    
 	
 	/*@SuppressWarnings("unchecked")
     public void renderPendingLabResults(StatusItem pendingLabResults, LabResultsStatus status) {		
@@ -236,6 +266,31 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 		StatusFlag flag = new StatusFlag();
 		flag.setMessage(Context.getMessageSourceService().getMessage("mdrtb.noCultureResults"));
 		return flag;
+	}
+	
+	public String getDstResultString(Dst dst) {
+		String results = "";
+		Map<Integer, List<DstResult>> dstResultsMap = dst.getResultsMap();
+		Collection<Concept> drugs = getPossibleDrugTypes();
+		
+		for(Concept drug : drugs) {
+			if(dstResultsMap.get(drug.getId())!=null) {
+				for(DstResult result : dstResultsMap.get(drug.getId())) {
+					results += result.getDrug().getDisplayString() + ": " + result.getResult().getShortNameInLocale(Context.getLocale()) + "<br/>";
+					
+				}
+			}
+		}
+		
+		if(results.length()==0) {
+			results = "N/A";
+		}
+		
+		return results;
+	}
+	
+	public Collection<Concept> getPossibleDrugTypes() {
+		return Context.getService(MdrtbService.class).getMdrtbDrugs();
 	}
 
 }

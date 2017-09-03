@@ -35,7 +35,8 @@
 		});
 		
 	});
-
+    
+	
 
 -->
 
@@ -220,6 +221,23 @@
 
 <br/>
 
+<spring:message code="mdrtb.dsts" text="DSTz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+</tr>
+
+<c:forEach var="dst" items="${tb03.dsts}">
+<tr>
+<td>${dst.di.resultsString }</td>
+<td><openmrs:formatDate date="${dst.encounter.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${dst.encounter.location.displayString}
+</c:forEach>
+</tr>
+</table>
+
 <table>
 <tr>
 <td><spring:message code="mdrtb.tb03.resistanceType" text="Type of Resistance"/>:</td>
@@ -234,6 +252,11 @@
 <tr>
 <td><spring:message code="mdrtb.tb03.treatmentOutcomeDateOnly" text="Outcome Date"/>:</td>
 <td><openmrs:formatDate date="${tb03.treatmentOutcomeDate}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.causeOfDeath" text="Cause of Death"/>:</td>
+<td>${tb03.causeOfDeath.displayString}</td>
 </tr>
 
 <tr>
@@ -455,7 +478,20 @@
 
 <tr>
 <td><spring:message code="mdrtb.tb03.treatmentOutcomeDateOnly" text="Outcome Dates"/>:</td>
-<td><openmrs_tag:dateField formFieldName="treatmentOutcomeDate" startValue="${tb03.treatmentOutcomeDate}"/></td>
+<td> <openmrs_tag:dateField  formFieldName="treatmentOutcomeDate" startValue="${tb03.treatmentOutcomeDate}"/></td>
+<td>&nbsp;</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.causeOfDeath" text="Cause of Death"/>:</td>
+<td>
+<select name="causeOfDeath">
+<option value=""></option>
+<c:forEach var="type" items="${causes}">
+	<option value="${type.answerConcept.id}" <c:if test="${tb03.causeOfDeath == type.answerConcept}">selected</c:if> >${type.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
 </tr>
 
 <tr>

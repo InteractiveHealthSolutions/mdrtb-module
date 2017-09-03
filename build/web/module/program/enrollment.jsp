@@ -23,7 +23,17 @@
 </style>
 
 <!-- CUSTOM JQUERY  -->
+<script>
+function addId(ppid)
+{
+	var e = document.getElementById("id_" + ppid);
+	var idToAdd = e.options[e.selectedIndex].value;
+	
+	window.location.replace("/openmrs/module/mdrtb/program/addId.form?ppid="+ppid+"&idToAdd="+idToAdd)
+}
 
+
+</script>
 
 <br/><br/>
 
@@ -54,7 +64,7 @@
 <th>&nbsp;</th>
 <th>&nbsp;</th>
 </tr>
-</c:if>
+
 <c:forEach var="tbProgram" items="${tbPrograms}">
 <tr>
 <td><openmrs:formatDate date="${tbProgram.dateEnrolled}" format="${_dateFormatDisplay}"/></td>
@@ -62,11 +72,23 @@
 <td>${tbProgram.patientIdentifier.identifier }</td>
 <td><openmrs:formatDate date="${tbProgram.dateCompleted}" format="${_dateFormatDisplay}"/></td>
 <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${patientId}&patientProgramId=${tbProgram.id }"><spring:message code="mdrtb.edit" text="XXXX"/></a></td>
-<td>Delete</td>
+<td>
+<c:if test="${empty tbProgram.patientIdentifier}">
+    <c:if test="${!empty unassignedDotsIdentifiers}">
+    	<select id="id_${tbProgram.id}">
+    		<c:forEach var="pi" items="${unassignedDotsIdentifiers}">
+    			<option value="${pi.id}">${pi.identifier}</option>
+    		</c:forEach>
+    	</select>
+    	<button onclick="addId(${tbProgram.id})" text="Link">Add</button>
+    </c:if>
+</c:if>
+</td>
 </tr>     
 </c:forEach>
 </table>
 </div>
+</c:if>
 <c:if test="${not empty mdrtbPrograms}">
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.mdrtbPrograms" text="MDR-TB Programs"/></b>
 <div class="box" style="margin:0px">
@@ -80,7 +102,6 @@
 <th>&nbsp;</th>
 <th>&nbsp;</th>
 </tr>
-</c:if>
 <c:forEach var="mdrtbProgram" items="${mdrtbPrograms}">
    <tr>
 <td><openmrs:formatDate date="${mdrtbProgram.dateEnrolled}" format="${_dateFormatDisplay}"/></td>
@@ -88,12 +109,24 @@
 <td>${mdrtbProgram.patientIdentifier.identifier }</td>
 <td><openmrs:formatDate date="${mdrtbProgram.dateCompleted}"format="${_dateFormatDisplay}"/></td>
 <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${patientId}&patientProgramId=${mdrtbProgram.id }"><spring:message code="mdrtb.edit" text="Edit"/></a></td>
-<td>Delete</td>
+<td>
+<c:if test="${empty mdrtbProgram.patientIdentifier}">
+    <c:if test="${!empty unassignedMdrIdentifiers}">
+    	<select id="id_${mdrtbProgram.id}">
+    		<c:forEach var="pi" items="${unassignedMdrIdentifiers}">
+    			<option value="${pi.id}">${pi.identifier}</option>
+    		</c:forEach>
+    	</select>
+    	<button onclick="addId(${mdrtbProgram.id})" text="Link">Add</button>
+    </c:if>
+</c:if>
+</td>
 </tr>    
 
 </c:forEach>
 </table>
 </div>
+</c:if>
 </c:when>
 <c:otherwise>
 

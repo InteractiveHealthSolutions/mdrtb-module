@@ -1066,5 +1066,14 @@ public class TB03uForm extends AbstractSimpleForm {
 		return Context.getService(MdrtbService.class).getCultureForms(getPatProgId());
 	
 	}
+	
+	public List<DSTForm> getDsts() {
+		if(getPatProgId()==null) {
+			System.out.println("GM: null program");
+			return new ArrayList<DSTForm>();
+		}
+		return Context.getService(MdrtbService.class).getDstForms(getPatProgId());
+		
+	}
 
 }

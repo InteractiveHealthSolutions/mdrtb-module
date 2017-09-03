@@ -95,6 +95,18 @@
 			
 				<tr><td style="background-color:#8FABC7;padding:2px 2px 2px 2px;">
 					<b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">&nbsp;&nbsp;
+						<spring:message code="mdrtb.mergePatients"/>&nbsp;&nbsp;
+					</b>
+				</td></tr>
+				<tr class="${rowClass}"><td>
+					<a href="${pageContext.request.contextPath}/module/mergePatient/search.form">
+						<spring:message code="mdrtb.mergePatients"/>
+					</a>
+					<br/>
+				</td></tr>
+			
+				<tr><td style="background-color:#8FABC7;padding:2px 2px 2px 2px;">
+					<b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">&nbsp;&nbsp;
 						<spring:message code="mdrtb.patientLists"/>&nbsp;&nbsp;
 					</b>
 				</td></tr>

@@ -36,10 +36,32 @@
 		
 	});
 
+	function fun1()
+	{
+		var e = document.getElementById("oblast");
+		var val = e.options[e.selectedIndex].value;
+		
+		if(val!="")
+			window.location.replace("/openmrs/module/mdrtb/form/smear.form?ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
+	}
 
+	function fun2()
+	{
+		var e = document.getElementById("oblast");
+		var val1 = e.options[e.selectedIndex].value;
+		var e = document.getElementById("district");
+		var val2 = e.options[e.selectedIndex].value;
+		
+		if(val2!="")
+			window.location.replace("/openmrs/module/mdrtb/form/smear.form?loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
+	}
 -->
 
 </script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</script>
+
 
 <br/>
 
@@ -54,6 +76,8 @@
 <span style="position: absolute; right:30px;"><a id="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/module/mdrtb/visits/delete.form?visitId=${smear.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteVisit" text="Are you sure you want to delete this visit?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span>
 </b>
 <div class="box">
+
+
 
 <table>
  
@@ -116,6 +140,13 @@
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 
+
+
+
+
+
+
+
 <table>
  
 <tr>
@@ -134,7 +165,7 @@
 </select>
 </td>
 </tr>
- 
+
 <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
 <td>

@@ -306,7 +306,7 @@ public class MDRDQController {
     	model.addAttribute("noSite", noSite);
     	model.addAttribute("errorCount", new Integer(errorCount));
     	model.addAttribute("errorPercentage", errorPercentage.toString() + "%");
-    	model.addAttribute("oblast", oName);
+    	model.addAttribute("oblastName", oName);
     	if(location!=null)
     		model.addAttribute("location", location.getName());
     	else
@@ -327,7 +327,7 @@ public class MDRDQController {
 		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
 		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
 		
-    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "DQ");
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "dq");
 		System.out.println(reportStatus);
 		
     	model.addAttribute("oblast", oblast);

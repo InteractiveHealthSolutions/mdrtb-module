@@ -35,6 +35,8 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.MdrtbConceptMap;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
@@ -45,6 +47,7 @@ import org.openmrs.module.mdrtb.comparator.PatientProgramComparator;
 import org.openmrs.module.mdrtb.comparator.PersonByNameComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.DSTForm;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
@@ -414,18 +417,6 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	return tbPrograms;
 	}
 
-
-	
-
-
-	
-	
-	
-	
-	
-	
-	
-	
 	public Specimen createSpecimen(Patient patient) {
 		// return null if the patient is null
 		if(patient == null) {
@@ -1225,6 +1216,35 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 
     }
     
+    public PatientIdentifier getGenPatientProgramIdentifier(PatientProgram pp) {
+        
+    	Integer id = null;
+    	
+    	String query = "select patient_identifier_id from patient_program where patient_program_id = " + pp.getPatientProgramId();
+    	List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
+    	
+		for (List<Object> temp : result) {
+			
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            		id = (Integer) value;
+	            	
+	            }
+	        }
+	       
+	    }
+		PatientIdentifier pi =  null;
+		if(id!=null) {
+			
+			pi = getPatientIdentifierById(id);
+		}
+
+    	return pi;
+
+    }
+    
     
     
     ///////////////////////
@@ -1385,6 +1405,30 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	Collections.sort(hains);
     	return hains;
     }
+
+    
+    public List<DSTForm> getDstForms (Integer patientProgramId) {
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<DSTForm> dsts = new ArrayList<DSTForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT), e)!=null) {
+    			System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				DSTForm sf = new DSTForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				dsts.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(dsts);
+    	return dsts;
+    }
     
     public List<Encounter> getEncountersWithNoProgramId(EncounterType et, Patient p) {
     	
@@ -1414,4 +1458,234 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	e.addObs(idObs);
     	Context.getEncounterService().saveEncounter(e);
     }
+    
+    /////////FOR LOCATIONS
+    @Override
+	public List<District> getDistricts(){
+		
+		List<District> districtList = new ArrayList<District>();
+		
+		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3", true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        districtList.add(new District(name, id));
+	    }
+		
+		return districtList;
+	}
+	
+	@Override
+	public List<District> getDistricts(int parentId){
+		
+		List<District> districtList = new ArrayList<District>();
+		
+		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and parent_id="+parentId, true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        districtList.add(new District(name, id));
+	    }
+		
+		return districtList;
+	}
+	
+	public District getDistrict(Integer districtId){
+		District district = null;
+				
+		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        district = new District(name, id);
+	        break;
+	    }
+
+		return district;
+	}
+	
+	public District getDistrict(String dname){
+		District district = null;
+		String query="Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '"+ dname+"'";
+		System.out.println(query);
+		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '" +dname+"'", true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        district = new District(name, id);
+	        break;
+	    }
+
+		return district;
+	}
+	
+    public List<Location> getLocationsFromDistrictName(District district){
+    	List<Location> locationList = new ArrayList<Location>();
+    	
+    	List<Location> locations = Context.getLocationService().getAllLocations(false);
+    	
+    	for(Location loc : locations){
+    		    		
+    		if(loc.getCountyDistrict() != null){
+	    		if(loc.getCountyDistrict().equals(district.getName()))
+	    			locationList.add(loc);
+    		}
+    	}
+    	return locationList;
+    }
+    
+    
+    public List<Facility> getFacilities(int parentId)
+    {
+    	List<Facility> facilityList = new ArrayList<Facility>();
+		
+		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and parent_id="+parentId, true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        facilityList.add(new Facility(name, id));
+	    }
+		
+		return facilityList;
+    }
+
+    public Facility getFacility(Integer facilityId)
+    {
+    	Facility facility = null;
+		
+		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and address_hierarchy_entry_id = " +  facilityId, true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        facility = new Facility(name, id);
+	        break;
+	    }
+
+		return facility;
+    }
+    
+    public List<Location> getLocationsFromFacilityName(Facility facility)
+    {
+    	List<Location> locationList = new ArrayList<Location>();
+    	
+    	List<Location> locations = Context.getLocationService().getAllLocations(false);
+    	
+    	for(Location loc : locations){
+    		    		
+    		if(loc.getRegion() != null){
+	    		if(loc.getRegion().equals(facility.getName()))
+	    			locationList.add(loc);
+    		}
+    	}
+    	return locationList;
+    }
+    
+    public Location getLocation(Oblast o, District d, Facility f) {
+    	
+    	if(o==null || d==null || f==null)
+    		return null;
+    	
+    	Location location = null;
+    	
+    	List<Location> locations = Context.getLocationService().getAllLocations(false);
+    	
+    	for(Location loc : locations){ 
+    		if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) && loc.getRegion()!=null && loc.getRegion().equals(f.getName()) ) {
+    			location = loc;
+    			break;
+    		}
+    	}
+    	
+    	return location;
+    }
+
+
+	public List<Facility> getFacilities() {
+
+    	List<Facility> facilityList = new ArrayList<Facility>();
+		
+		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6", true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        facilityList.add(new Facility(name, id));
+	    }
+		
+		return facilityList;
+	}
+    
+    
+   
+    
+
 }

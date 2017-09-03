@@ -80,6 +80,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		findMostRecentCulture(specimens, status);
 		findMostRecentXpert(specimens, status);
 		findMostRecentHAIN(specimens, status);
+		findMostRecentDst(specimens, status);
 		
 		// calculate whether or not the culture has been converted
 		status.addItem("smearConversion", calculateConversion(specimens, "smear"));
@@ -133,6 +134,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		findMostRecentCulture(specimens, status);
 		findMostRecentXpert(specimens, status);
 		findMostRecentHAIN(specimens, status);
+		findMostRecentDst(specimens, status);
 		
 		// calculate whether or not the culture has been converted
 		status.addItem("smearConversion", calculateConversion(specimens, "smear"));
@@ -159,6 +161,36 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 	 */
 	
 	private StatusItem calculateResistanceProfile(List<Specimen> specimens) {
+		StatusItem resistanceProfile = new StatusItem();
+		
+		List<Concept> drugs = new LinkedList<Concept>();
+		
+		Concept resistant = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESISTANT_TO_TB_DRUG);
+		
+		if(specimens != null) {
+			for (Specimen specimen : specimens) {
+				for (Dst dst : specimen.getDsts()) {
+					for (DstResult result : dst.getResults()) {
+						if (resistant.equals(result.getResult())) {
+							if (!drugs.contains(result.getDrug())) {
+								drugs.add(result.getDrug());
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// sort the drugs in the standard order
+		drugs = MdrtbUtil.sortMdrtbDrugs(drugs);
+		
+		resistanceProfile.setValue(drugs);
+		resistanceProfile.setDisplayString(renderer.renderDrugResistanceProfile(drugs));
+		
+		return resistanceProfile;
+	}
+	
+	private StatusItem calculateMostRecentResistanceProfile(List<Specimen> specimens) {
 		StatusItem resistanceProfile = new StatusItem();
 		
 		List<Concept> drugs = new LinkedList<Concept>();
@@ -489,6 +521,23 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 
     }
     
+    private void findMostRecentDst(List<Specimen> specimens, LabResultsStatus status) {
+    	StatusItem mostRecentCompletedDst = new StatusItem();
+	
+    	Dst dst = findFirstCompletedDstnList(specimens);
+		mostRecentCompletedDst.setValue(dst);
+		renderer.renderDst(mostRecentCompletedDst, status);
+		
+		status.addItem("mostRecentDst", mostRecentCompletedDst);
+		
+		/**
+		if (smear == null) {
+			mostRecentCompletedSmear.addFlag(renderer.createNoSmearsFlag());
+		}
+		*/
+
+    }
+    
 	private Smear findFirstCompletedSmearInList(List<Specimen> specimens) {
 
 		if (specimens == null) {
@@ -578,6 +627,30 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		}
 		
 		// if we've got to here, there is no completed hain for this patient
+		return null;
+	}
+	
+	private Dst findFirstCompletedDstnList(List<Specimen> specimens) {
+		
+		if (specimens == null) {
+			return null;
+		}
+		
+		for (Specimen specimen : specimens) {
+			List<Dst> dsts = specimen.getDsts();
+			
+			if (dsts!= null && !dsts.isEmpty()) {
+				Collections.reverse(dsts);
+				for (Dst dst : dsts) {
+					if (dst.getResults() != null) {
+						System.out.println("MOST RECENT DST: " + dst.getId());
+						return dst;
+					}
+				}
+			}
+		}
+		
+		// if we've got to here, there is no completed Dst for this patient
 		return null;
 	}
 	

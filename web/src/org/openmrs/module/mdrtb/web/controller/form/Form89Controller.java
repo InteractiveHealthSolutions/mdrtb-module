@@ -22,7 +22,7 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
-import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.Form89;
 
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.web.util.MdrtbWebUtil;
@@ -64,15 +64,15 @@ public class Form89Controller {
 		
 	}
 	
-	@ModelAttribute("tb03")
-	public TB03Form getTB03Form(@RequestParam(required = true, value = "encounterId") Integer encounterId,
+	@ModelAttribute("form89")
+	public Form89 getForm89(@RequestParam(required = true, value = "encounterId") Integer encounterId,
 	                            @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
 		// if no form is specified, create a new one
 		if (encounterId == -1) {
 			TbPatientProgram tbProgram = Context.getService(MdrtbService.class).getTbPatientProgram(patientProgramId);
 			
-			TB03Form form = new TB03Form(tbProgram.getPatient());
+			Form89 form = new Form89(tbProgram.getPatient());
 			
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
@@ -81,27 +81,27 @@ public class Form89Controller {
 			return form;
 		}
 		else {
-			return new TB03Form(Context.getEncounterService().getEncounter(encounterId));
+			return new Form89(Context.getEncounterService().getEncounter(encounterId));
 		}
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showTB03Form() {
+	public ModelAndView showForm89() {
 		ModelMap map = new ModelMap();
-		return new ModelAndView("/module/mdrtb/form/tb03", map);	
+		return new ModelAndView("/module/mdrtb/form/form89", map);	
 	}
 	
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
-	public ModelAndView processTB03Form (@ModelAttribute("tb03") TB03Form tb03, BindingResult errors, 
+	public ModelAndView processForm89 (@ModelAttribute("form89") Form89 form89, BindingResult errors, 
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
 	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
 		
 		
 		// perform validation and check for errors
-		/*if (tb03 != null) {
-    		new SimpleFormValidator().validate(tb03, errors);
+		/*if (form89 != null) {
+    		new SimpleFormValidator().validate(form89, errors);
     	}*/
 		
 		/*if (errors.hasErrors()) {
@@ -110,12 +110,12 @@ public class Form89Controller {
 		}*/
 		
 		// save the actual update
-		Context.getEncounterService().saveEncounter(tb03.getEncounter());
+		Context.getEncounterService().saveEncounter(form89.getEncounter());
 		
 		boolean programModified = false;
 		//handle changes in workflows
-		/*Concept outcome = tb03.getTreatmentOutcome();
-		Concept group = tb03.getRegistrationGroup();
+		/*Concept outcome = form89.getTreatmentOutcome();
+		Concept group = form89.getRegistrationGroup();
 		
 		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
 		
@@ -212,42 +212,100 @@ public class Form89Controller {
 		return Context.getService(MdrtbService.class).getPossibleAnatomicalSites();
 	}
 	
-	@ModelAttribute("iptxsites")
-	public Collection<ConceptAnswer> getPossibleIPTreatmentSites() {
-		return Context.getService(MdrtbService.class).getPossibleIPTreatmentSites();
+	@ModelAttribute("locationtypes")
+	public Collection<ConceptAnswer> getPossibleLocationTypes() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.LOCATION_TYPE);
 	}
 	
-	@ModelAttribute("cptxsites")
-	public Collection<ConceptAnswer> getPossibleCPTreatmentSites() {
-		return Context.getService(MdrtbService.class).getPossibleCPTreatmentSites();
+	@ModelAttribute("populationcategories")
+	public Collection<ConceptAnswer> getPossiblePopulationCategories() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.POPULATION_CATEGORY);
 	}
 	
-	
-	@ModelAttribute("categories")
-	public Collection<ConceptAnswer> getPossiblePatientCategories() {
-		return Context.getService(MdrtbService.class).getPossibleRegimens();
+	@ModelAttribute("professions")
+	public Collection<ConceptAnswer> getPossibleProfessions() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.PROFESSION);
 	}
 	
-	@ModelAttribute("groups")
-	public Set<ProgramWorkflowState> getPossiblePatientGroups() {
-		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
+	@ModelAttribute("places")
+	public Collection<ConceptAnswer> getPossiblePlacesOfDetection() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.PLACE_OF_DETECTION);
 	}
 	
-	@ModelAttribute("hivstatuses")
-	public Collection<ConceptAnswer> getPossibleHIVStatuses() {
-		return Context.getService(MdrtbService.class).getPossibleHIVStatuses();
+	@ModelAttribute("circumstances")
+	public Collection<ConceptAnswer> getPossibleCircumstancesOfDetection() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.CIRCUMSTANCES_OF_DETECTION);
 	}
 	
-	@ModelAttribute("resistancetypes")
-	public Collection<ConceptAnswer> getPossibleResistanceTypes() {
-		//return Context.getService(MdrtbService.class).getPossibleResistanceTypes();
-		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.RESISTANCE_TYPE);
+	@ModelAttribute("methods")
+	public Collection<ConceptAnswer> getPossibleMethodsOfDetection() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.METHOD_OF_DETECTION);
 	}
 	
-	@ModelAttribute("outcomes")
-	public Set<ProgramWorkflowState> getPossibleTreatmentOutcomes() {
-		return Context.getService(MdrtbService.class).getPossibleTbProgramOutcomes();
+	@ModelAttribute("epsites")
+	public Collection<ConceptAnswer> getPossibleEpSites() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.SITE_OF_EPTB);
+	}
+	
+	@ModelAttribute("psites")
+	public Collection<ConceptAnswer> getPossiblePSites() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.PTB_SITE);
+	}
+	
+	@ModelAttribute("eplocations")
+	public Collection<ConceptAnswer> getPossibleEPLocations() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.EPTB_SITE);
+	}	
+	
+	@ModelAttribute("diabetesOptions")
+	public Collection<ConceptAnswer> getPossibleDiabetes() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.DIABETES);
+	}
+	
+	@ModelAttribute("cnsdlOptions")
+	public Collection<ConceptAnswer> getPossibleCNSDL() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.CNSDL);
+	}
+	
+	@ModelAttribute("htHeartDiseaseOptions")
+	public Collection<ConceptAnswer> getPossibleHeartDisease() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.HYPERTENSION_OR_HEART_DISEASE);
 	}
 
+	@ModelAttribute("ulcerOptions")
+	public Collection<ConceptAnswer> getPossibleUlcers() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.ULCER);
+	}
+	
+	@ModelAttribute("presences")
+	public Collection<ConceptAnswer> getPossibleDecay() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.PRESENCE_OF_DECAY);
+	}
 		
+	@ModelAttribute("mentalDisorderOptions")
+	public Collection<ConceptAnswer> mentalDisorderOptions() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.MENTAL_DISORDER);
+	}
+	
+	@ModelAttribute("ibc20Options")
+	public Collection<ConceptAnswer> getPossibleIbc20() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.ICD20);
+	}
+	
+	@ModelAttribute("cancerOptions")
+	public Collection<ConceptAnswer> getPossibleCancer() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.CANCER);
+	}
+	
+	@ModelAttribute("noDiseaseOptions")
+	public Collection<ConceptAnswer> getPossibleND() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.NO_DISEASE);
+	}
+	
+	
+	
+	@ModelAttribute("gptOptions")
+	public Collection<ConceptAnswer> getPossibleGPT() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.GPT);
+	}
 }

@@ -19,6 +19,8 @@ public interface LabResultsStatusRenderer {
 	
 	public String renderDrugResistanceProfile(List<Concept> drugs);
 	
+	public void renderDst(StatusItem dst, LabResultsStatus status);
+	
 	public String renderTbClassification(TbClassification classification);
 	
 	public String renderConversion(StatusItem cultureConversion);

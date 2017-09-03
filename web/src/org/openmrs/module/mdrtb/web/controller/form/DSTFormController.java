@@ -220,6 +220,7 @@ public class DSTFormController {
 			}
 			
 			Context.getEncounterService().saveEncounter(dst.getEncounter());
+			
 			dst.setDi(new DstImpl(dst.getEncounter()));
 		 /*// validate
 	    	if(dst != null) {
@@ -301,20 +302,13 @@ public class DSTFormController {
 			// save the actual update
 			
 			
+			//Context.getService(MdrtbService.class).saveDst(dst.getDi());
+			
 			Context.getService(MdrtbService.class).saveDst(dst.getDi());
-			
-			//Context.getService(MdrtbService.class).saveDst(dst);
-			/*dst.getDstResult().setEncounter(dst.getEncounter());
-			dst.getDstResult().setObsDatetime(dst.getEncounterDatetime());
-			System.out.println("DO:" + dst.getDstResult().getObsDatetime());
-			dst.getDstResult().setLocation(dst.getEncounter().getLocation());
-			dst.getEncounter().addObs(dst.getDstResult());
-			Context.getEncounterService().saveEncounter(dst.getEncounter());*/
-			
-			
+			status.setComplete();
 			
 			// clears the command object from the session
-			status.setComplete();
+			
 			map.clear();
 			
 			// if there is no return URL, default to the patient dashboard

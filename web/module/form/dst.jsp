@@ -174,7 +174,7 @@ function showAddDstResultsWithData() {
 </b>
 <div class="box">
 
-<%-- <table>
+<table>
  
 <tr>
 <td><spring:message code="mdrtb.dateCollected" text="Date"/>:</td>
@@ -191,30 +191,35 @@ function showAddDstResultsWithData() {
 <td>${dst.location.displayString}</td>
 </tr>
 
-
-
 <tr>
 <td><spring:message code="mdrtb.specimenId" text="SpecimenId"/>:</td>
 <td>${dst.specimenId }</td>
 </tr>
 
+</table>
+<c:set var="resultsMap" value="${dst.resultsMap}"/>
+<br/>
+<table cellpadding="0">
 <tr>
-<td><spring:message code="mdrtb.mtbResult" text="MtbResult"/>:</td>
-<td>${dst.mtbResult.displayString}</td>
+<td style="font-weight:bold"><u><spring:message code="mdrtb.drug" text="Drug"/></u></td>
+<!--  <td style="font-weight:bold"><u><spring:message code="mdrtb.concentration" text="Concentration"/></u></td> -->
+<td style="font-weight:bold"><u><spring:message code="mdrtb.result" text="Result"/></u></td>
+<!--  <td style="font-weight:bold"><u><spring:message code="mdrtb.colonies" text="Colonies"/></u></td> -->
 </tr>
+<c:forEach var="drugType" items="${drugTypes}">
+<c:if test="${!empty resultsMap[drugType.id]}">
+	<c:forEach var="dstResult" items="${resultsMap[drugType.id]}">
+		<tr>
+		<td><nobr>${dstResult.drug.displayString}</nobr></td>
+		<!-- <td><nobr>${dstResult.concentration}</nobr></td> -->
+		<td><nobr>${dstResult.result.displayString}</nobr></td>
+		<!-- <td><nobr>${dstResult.colonies}</nobr></td> -->
+		</tr>
+	</c:forEach>
+</c:if>
+</c:forEach>
+</table>
 
-<tr>
-<td><spring:message code="mdrtb.inhResult" text="inhResult"/>:</td>
-<td>${dst.inhResult.displayString}</td>
-</tr>
-
-<tr>
-<td><spring:message code="mdrtb.rifResult" text="rifResult"/>:</td>
-<td>${dst.rifResult.displayString}</td>
-</tr>
-
-
-</table> --%>
 
 </div>
 </div>

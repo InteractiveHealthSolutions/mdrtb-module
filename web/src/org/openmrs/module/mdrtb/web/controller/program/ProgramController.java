@@ -2,6 +2,7 @@ package org.openmrs.module.mdrtb.web.controller.program;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.status.VisitStatus;
 import org.openmrs.module.mdrtb.status.VisitStatusCalculator;
 import org.openmrs.module.mdrtb.web.controller.status.DashboardVisitStatusRenderer;
+import org.openmrs.module.programlocation.PatientProgram;
 import org.openmrs.propertyeditor.LocationEditor;
 import org.openmrs.propertyeditor.ProgramWorkflowStateEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -218,6 +220,9 @@ public class ProgramController {
 			
 			map.put("mdrtbPrograms", mdrtbPrograms);
 			map.put("tbPrograms", tbPrograms);
+			
+			map.put("unassignedMdrIdentifiers",getUnassignedMdrIdentifiers(patient));
+			map.put("unassignedDotsIdentifiers",getUnassignedDotsIdentifiers(patient));
 			
 			return new ModelAndView("/module/mdrtb/program/enrollment", map);
 			
@@ -426,4 +431,95 @@ public class ProgramController {
 		
 		return new ModelAndView("redirect:/module/mdrtb/form/tb03.form?patientProgramId=" + program.getId() + "&encounterId=-1");
 	}
+	
+	
+	public List<PatientIdentifier> getUnassignedDotsIdentifiers(Patient p) {
+		List<PatientIdentifier> ids = null;
+		List<PatientIdentifier> ret = new ArrayList<PatientIdentifier>();
+		PatientIdentifierType pit = Context.getPatientService().getPatientIdentifierTypeByName(Context.getAdministrationService().getGlobalProperty("mdrtb.primaryPatientIdentifierType"));
+		List<PatientIdentifierType> typeList = new ArrayList<PatientIdentifierType>();
+		typeList.add(pit);
+		List<Patient> patList = new ArrayList<Patient>();
+		patList.add(p);
+ 		
+		ids = Context.getPatientService().getPatientIdentifiers(null, typeList, null, patList, null);
+		for(PatientIdentifier pi : ids) {
+			if(!isIdentifierAssigned(pi, false))
+				ret.add(pi);
+		}
+		
+		
+		return ret;
+	}
+	
+	
+	public List<PatientIdentifier> getUnassignedMdrIdentifiers(Patient p) {
+		List<PatientIdentifier> ids = null;
+		List<PatientIdentifier> ret = new ArrayList<PatientIdentifier>();
+		PatientIdentifierType pit = Context.getPatientService().getPatientIdentifierTypeByName(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrIdentifierType"));
+		
+		List<PatientIdentifierType> typeList = new ArrayList<PatientIdentifierType>();
+		typeList.add(pit);
+		List<Patient> patList = new ArrayList<Patient>();
+		patList.add(p);
+ 		
+		ids = Context.getPatientService().getPatientIdentifiers(null, typeList, null, patList, null);
+		for(PatientIdentifier pi : ids) {
+			if(!isIdentifierAssigned(pi, true))
+				ret.add(pi);
+		}
+		
+		
+		return ids;
+	}
+	
+	public Boolean isIdentifierAssigned(PatientIdentifier pi, boolean mdr) {
+		
+		Collection<org.openmrs.PatientProgram> ppList = Context.getProgramWorkflowService().getPatientPrograms(pi.getPatient());
+		PatientIdentifier temp = null;
+		for(org.openmrs.PatientProgram pp : ppList) {
+			/*if(mdr) {*/
+				temp = Context.getService(MdrtbService.class).getGenPatientProgramIdentifier(Context.getProgramWorkflowService().getPatientProgram(pp.getId()));
+				if(temp!=null){
+					System.out.println("temp ID=" + temp.getId().intValue());
+				}
+				else {
+					System.out.println("temp ID=null");
+				}
+				System.out.println("PI:" + pi.getId().intValue());
+				
+				if(temp!=null && temp.getId().intValue()==pi.getId().intValue())
+					return true;
+			/*}
+			
+			else {
+				temp = Context.getService(MdrtbService.class).getTbPatientProgram(pp.getId()).getPatientIdentifier();
+				if(temp!=null && temp.getId().intValue()==pi.getId().intValue())
+					return false;
+			}*/
+		}
+		
+		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+    @RequestMapping("/module/mdrtb/program/addId.form")
+	public ModelAndView addIdToProgram(@RequestParam(required = true, value = "ppid") Integer patientProgramId,
+											 @RequestParam(required = true, value = "idToAdd") Integer patientIdentifierId,
+	                                         ModelMap map) {
+		
+		
+			
+			Context.getService(MdrtbService.class).addIdentifierToProgram(patientIdentifierId, patientProgramId);
+			
+			//map.put("patientId", Context.getProgramWorkflowService().getPatientProgram(patientProgramId).getPatient().getId());
+			
+			
+			return new ModelAndView("redirect:/module/mdrtb/program/enrollment.form?patientId="+Context.getProgramWorkflowService().getPatientProgram(patientProgramId).getPatient().getId());
+			
+	}
+	
 }
+	
+	
+
