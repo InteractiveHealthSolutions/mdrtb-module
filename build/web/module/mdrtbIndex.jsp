@@ -150,9 +150,9 @@
 					<a href="../dotsreports/reporting/viewClosedReports.form"><spring:message code="mdrtb.viewClosedReports" /></a><br/>
 					<!-- <a href="drugforecast/simpleUsage.list"><spring:message code="mdrtb.simpleDrugUsage"/></a><br/>
 					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/> -->
-					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS07TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport07" /></a><br/>
+					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS07TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport07" /></a><br/> -->
 					<a href="../dotsreports/reporting/tb07.form"><spring:message code="mdrtb.dotsreport07Fast" /></a><br/>
-					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS08TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport08" /></a><br/>
+					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS08TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport08" /></a><br/> -->
 					<a href="../dotsreports/reporting/tb08.form"><spring:message code="mdrtb.dotsreport08Fast" /></a><br/>
 					<a href="../dotsreports/reporting/tb03.form"><spring:message code="dotsreports.tb03Export" /></a><br/>
 					<a href="../dotsreports/reporting/dq.form"><spring:message code="dotsreports.dq.title" /></a><br/>
@@ -194,19 +194,19 @@
 				
 				
 				
-				<tr><td style="background-color:#8FABC7;padding:2px 2px 2px 2px;">
+			<!-- 	<tr><td style="background-color:#8FABC7;padding:2px 2px 2px 2px;">
 					 <b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">
 						&nbsp;&nbsp;<spring:message code="mdrtb.otherreports" />&nbsp;&nbsp;
 					</b>
 				</td></tr>
 				
 				<tr><td>
-					<!-- <a href="drugforecast/simpleUsage.list"><spring:message code="mdrtb.simpleDrugUsage"/></a><br/>
-					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/> -->
+					<a href="drugforecast/simpleUsage.list"><spring:message code="mdrtb.simpleDrugUsage"/></a><br/>
+					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/>
 					<a href="drugforecast/patientsOnSLD.list"><spring:message code="mdrtb.sldreport" /></a><br/>
 					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.Form8"><spring:message code="mdrtb.dotsreportform08" /></a><br/>
 					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTSMDRReport"><spring:message code="mdrtb.dotsmdrreport" /></a><br/>
-				</td></tr>
+				</td></tr> -->
 			
 				
 			
