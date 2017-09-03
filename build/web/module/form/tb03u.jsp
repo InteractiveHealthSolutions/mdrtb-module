@@ -165,8 +165,7 @@
 
 <br/>
 
-
-<table
+<table>
 
 <tr>
 <td><spring:message code="mdrtb.tb03.resistanceType" text="Type of Resistance"/>:</td>

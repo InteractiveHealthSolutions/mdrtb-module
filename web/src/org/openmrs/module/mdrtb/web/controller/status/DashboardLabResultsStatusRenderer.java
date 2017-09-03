@@ -133,7 +133,7 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 	public void renderDst(StatusItem item, LabResultsStatus status) {
 		
 		Dst dst = (Dst) item.getValue();
-		System.out.println("DST String:" + getDstResultString(dst));
+		
 		if (dst != null) {
 			String[] params = {
 					getDstResultString(dst),
@@ -269,6 +269,8 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 	}
 	
 	public String getDstResultString(Dst dst) {
+		
+		
 		String results = "";
 		Map<Integer, List<DstResult>> dstResultsMap = dst.getResultsMap();
 		Collection<Concept> drugs = getPossibleDrugTypes();
