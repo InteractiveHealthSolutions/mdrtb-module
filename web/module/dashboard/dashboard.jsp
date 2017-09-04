@@ -782,7 +782,7 @@ ${regimen.displayString}
  <td><spring:message code="mdrtb.tb03u" text="TB03U"/></td>
  <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
  <td>${form.location}</td>
- <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterMdrb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
+ <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterMdrtb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
  </tr>
   
 </c:forEach>

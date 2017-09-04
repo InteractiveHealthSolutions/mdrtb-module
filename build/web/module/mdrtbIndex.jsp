@@ -111,7 +111,11 @@
 					</b>
 				</td></tr>
 				<tr class="${rowClass}"><td>
-					<a href="${pageContext.request.contextPath}/module/mdrtb/mdrtbListPatients.form">
+				 	<a href="${pageContext.request.contextPath}/module/mdrtb/reporting/patientLists.form">
+						<spring:message code="mdrtb.patientLists"/>
+					</a>
+					<br/>
+					<%-- <a href="${pageContext.request.contextPath}/module/mdrtb/mdrtbListPatients.form">
 						<spring:message code="mdrtb.viewListPatientPage"/>
 					</a>
 					<br/>
@@ -122,7 +126,7 @@
 					<a href="${pageContext.request.contextPath}/module/dotsreports/dotsListPatients.form">
 						<spring:message code="mdrtb.viewDotsListPatientPage"/>
 					</a>
-					<br/><br/>
+					<br/><br/> --%>
 					<!-- <c:if test="${showCohortBuilder}">
 						<a href="${pageContext.request.contextPath}/cohortBuilder.list">
 							<spring:message code="mdrtb.cohortBuilder" text="Cohort Builder"/>

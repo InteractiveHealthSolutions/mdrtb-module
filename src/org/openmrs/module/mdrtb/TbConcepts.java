@@ -270,6 +270,12 @@ public class TbConcepts {
  	public final static String[] FORM89_DATE = {"FORM89 DATE"};
  	public final static String [] AGE_AT_FORM89_REGISTRATION = {"FORM89 AGE"};
  	
+ 	public final static String[] MTB_POSITIVE = {"MTB POSITIVE"};
+ 	public final static String[] MTB_NEGATIVE = {"MTB NEGATIVE"};
+ 	
+ 	public final static String[] CONTACT_INVESTIGATION = {"CONTACT"};
+ 	public final static String[] YES = {"YES"};
+ 	
  	
      
 

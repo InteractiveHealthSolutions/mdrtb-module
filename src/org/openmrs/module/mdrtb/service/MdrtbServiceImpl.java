@@ -15,6 +15,7 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptSet;
@@ -48,11 +49,16 @@ import org.openmrs.module.mdrtb.comparator.PersonByNameComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.CultureForm;
 import org.openmrs.module.mdrtb.form.DSTForm;
+import org.openmrs.module.mdrtb.form.Form89;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
+import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TB03uForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
+import org.openmrs.module.mdrtb.reporting.ReportUtil;
+import org.openmrs.module.mdrtb.reporting.data.Cohorts;
 import org.openmrs.module.mdrtb.service.db.MdrtbDAO;
 import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.CultureImpl;
@@ -67,7 +73,11 @@ import org.openmrs.module.mdrtb.specimen.Specimen;
 import org.openmrs.module.mdrtb.specimen.SpecimenImpl;
 import org.openmrs.module.mdrtb.specimen.Xpert;
 import org.openmrs.module.mdrtb.specimen.XpertImpl;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.evaluation.EvaluationContext;
+import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.springframework.transaction.annotation.Transactional;
 
 public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService {
@@ -1684,7 +1694,117 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		return facilityList;
 	}
     
-    
+	public ArrayList<TB03Form> getTB03FormsFilled(Location location, String oblast, Integer year, String quarter, String month) {
+		
+		ArrayList<TB03Form> forms = new ArrayList<TB03Form>();
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		Oblast o = null;
+		if(!oblast.equals("") && location == null)
+			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+		
+		List<Location> locList = new ArrayList<Location>();
+		if(o != null && location == null)
+			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+		else if (location != null)
+			locList.add(location);
+		List<Encounter> temp = null;
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TB03Form(e));
+			}
+			
+		}
+		
+		return forms;
+		
+		
+	}
+	
+public ArrayList<TB03uForm> getTB03uFormsFilled(Location location, String oblast, Integer year, String quarter, String month) {
+		
+		ArrayList<TB03uForm> forms = new ArrayList<TB03uForm>();
+		
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		Oblast o = null;
+		if(!oblast.equals("") && location == null)
+			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+		
+		List<Location> locList = new ArrayList<Location>();
+		if(o != null && location == null)
+			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+		else if (location != null)
+			locList.add(location);
+		List<Encounter> temp = null;
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TB03uForm(e));
+			}
+			
+		}
+		
+		return forms;
+		
+		
+	}
+
+public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, Integer year, String quarter, String month) {
+	
+	ArrayList<Form89> forms = new ArrayList<Form89>();
+	
+	
+	
+	
+	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+	Date startDate = (Date)(dateMap.get("startDate"));
+	Date endDate = (Date)(dateMap.get("endDate"));
+	
+	EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+	typeList.add(eType);
+			
+	Oblast o = null;
+	if(!oblast.equals("") && location == null)
+		o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+	
+	List<Location> locList = new ArrayList<Location>();
+	if(o != null && location == null)
+		locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+	else if (location != null)
+		locList.add(location);
+	List<Encounter> temp = null;
+	for(Location l: locList) {
+		temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+		for(Encounter e : temp) {
+			forms.add(new Form89(e));
+		}
+		
+	}
+	
+	return forms;
+	
+	
+}
    
     
 
