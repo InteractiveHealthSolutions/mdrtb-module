@@ -318,7 +318,7 @@
 
 <!-- TREATMENT STATUS BOX -->
 
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.treatmentStatus" text="Treatment Status"/>: ${status.treatmentStatus.treatmentState.displayString}</b>
+<%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.treatmentStatus" text="Treatment Status"/>: ${status.treatmentStatus.treatmentState.displayString}</b>
 <div class="box" style="margin:0px">
 
 <c:if test="${fn:length(status.treatmentStatus.regimens.value) > 0 }">
@@ -337,11 +337,11 @@ ${regimen.displayString}
 <br/>
 <button onclick="window.location='${pageContext.request.contextPath}/module/mdrtb/regimen/manageDrugOrders.form?patientId=${patientId}&patientProgramId=${patientProgramId}'"><spring:message code="mdrtb.editTreatment" text="Edit Treatment"/></button>
 
-</div>
+</div> --%>
 
 <!-- END TREATMENT STATUS BOX -->
 
-<br/>
+<!-- <br/> -->
 
 <!--  VISIT STATUS BOX -->
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.forms" text="Forms"/></b>

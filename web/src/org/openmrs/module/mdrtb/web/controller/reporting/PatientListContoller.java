@@ -100,7 +100,7 @@ public class PatientListContoller {
     }
     
     @RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/dotsCasesByBregistationGroup")
-    public static String doTB08(@RequestParam("location") Location location,
+    public  String doCasesByRegistrationGroup(@RequestParam("location") Location location,
     		@RequestParam("oblast") String oblast,
             @RequestParam(value="year", required=true) Integer year,
             @RequestParam(value="quarter", required=false) String quarter,
@@ -114,7 +114,9 @@ public class PatientListContoller {
     		Date endDate = (Date)(dateMap.get("endDate"));
     		
     		
-    		return report;
+    		model.addAttribute("report",report);
+    		return "/module/mdrtb/reporting/patientListsResults";
+    		
     
     }
     

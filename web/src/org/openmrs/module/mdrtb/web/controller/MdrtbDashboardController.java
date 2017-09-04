@@ -369,7 +369,7 @@ public class MdrtbDashboardController {
 		  
 		Context.getService(MdrtbService.class).addProgramIdToEncounter(encounterId, patientProgramId);
 			
-		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientProgramId=" + patientProgramId);
+		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientId=" + Context.getProgramWorkflowService().getPatientProgram(patientProgramId).getPatient().getId() + "&patientProgramId=" + patientProgramId);
 			
 	}
 }

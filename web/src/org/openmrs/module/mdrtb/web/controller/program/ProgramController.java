@@ -515,7 +515,7 @@ public class ProgramController {
 			//map.put("patientId", Context.getProgramWorkflowService().getPatientProgram(patientProgramId).getPatient().getId());
 			
 			
-			return new ModelAndView("redirect:/module/mdrtb/program/enrollment.form?patientId="+Context.getProgramWorkflowService().getPatientProgram(patientProgramId).getPatient().getId());
+			return new ModelAndView("redirect:/module/mdrtb/program/enrollment.form?patientProgramId="+ patientProgramId +"&patientId="+Context.getProgramWorkflowService().getPatientProgram(patientProgramId).getPatient().getId());
 			
 	}
 	
