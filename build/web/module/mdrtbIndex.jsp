@@ -155,7 +155,7 @@
 					<!-- <a href="drugforecast/simpleUsage.list"><spring:message code="mdrtb.simpleDrugUsage"/></a><br/>
 					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/> -->
 					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS07TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport07" /></a><br/> -->
-					<a href="../dotsreports/reporting/tb07.form"><spring:message code="mdrtb.dotsreport07Fast" /></a><br/>
+					<a href="../mdrtb/reporting/tb07.form"><spring:message code="mdrtb.dotsreport07" /></a><br/>
 					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS08TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport08" /></a><br/> -->
 					<a href="../dotsreports/reporting/tb08.form"><spring:message code="mdrtb.dotsreport08Fast" /></a><br/>
 					<a href="../dotsreports/reporting/tb03.form"><spring:message code="dotsreports.tb03Export" /></a><br/>

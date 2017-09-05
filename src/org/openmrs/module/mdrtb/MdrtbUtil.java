@@ -34,6 +34,11 @@ import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.reporting.definition.AgeAtMDRRegistrationCohortDefinition;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
+import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.regimen.Regimen;
 import org.openmrs.module.mdrtb.regimen.RegimenUtils;
 import org.openmrs.module.mdrtb.reporting.data.Cohorts;
@@ -956,6 +961,63 @@ public class MdrtbUtil {
 			return cohort;
 		}
 	
+	public static Boolean isBacPositive(TB03Form tf) {
+		   Boolean ret = false;
+		   List<SmearForm> smears = tf.getSmears();
+		   
+		   for(SmearForm sf : smears) {
+			   if(MdrtbUtil.getPositiveResultConcepts().contains(sf.getSmearResult())) {
+				   return true;
+			   }
+		   }
+		   
+		   List<CultureForm> cultures = tf.getCultures();
+		   
+		   for(CultureForm cf : cultures) {
+			   if(MdrtbUtil.getPositiveResultConcepts().contains(cf.getCultureResult())) {
+				   return true;
+			   }
+		   }
+		   
+		   List<XpertForm> xperts = tf.getXperts();
+		   Concept positive = Context.getService(MdrtbService.class).getConcept(TbConcepts.POSITIVE);
+		   Concept mtbResult = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT);
+		   Concept xpertConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT);
+		   Obs constructObs = null;
+		   Obs resultObs = null;
+		   for(XpertForm xf : xperts) {
+			   resultObs = null;
+			   constructObs = MdrtbUtil.getObsFromEncounter(xpertConstructs, xf.getEncounter());
+			   if(constructObs!=null) {
+				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+					   return true;
+				   }
+			   }
+			   
+			  
+		   }
+		   
+		   List<HAINForm> hains = tf.getHains();
+		  
+		   Concept hainConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT);
+		   constructObs = null;
+		   resultObs = null;
+		   for(HAINForm hf : hains) {
+			   resultObs = null;
+			   constructObs = MdrtbUtil.getObsFromEncounter(hainConstructs, hf.getEncounter());
+			   if(constructObs!=null) {
+				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+					   return true;
+				   }
+			   }
+			   
+			  
+		   }
+		   
+		   return ret;
+	   }
 	
 
 }

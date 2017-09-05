@@ -135,6 +135,9 @@ public class CloseReportController {
         else if(formPath.equals("dquResults")) {
         	url = MDRDQController.doDQ(report_location, report_oblast, report_year, report_quarter, report_month, model);
         }
+        else if(formPath.equals("tb07Results")) {
+        	url = TB07ReportController.doTB07(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        }
         
         System.out.println("url: " + url);
 		return url;

@@ -439,7 +439,7 @@ public class PatientListContoller {
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==newConcept.getId().intValue()) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(isBacPositive(tf)) {
+    					if(MdrtbUtil.isBacPositive(tf)) {
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						report += openTR();
     						report += openTD() + getRegistrationNumber(tf) +  closeTD();
@@ -474,7 +474,7 @@ public class PatientListContoller {
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==newConcept.getId().intValue()) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(!isBacPositive(tf)) {
+    					if(!MdrtbUtil.isBacPositive(tf)) {
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						report += openTR();
     						report += openTD() + getRegistrationNumber(tf) +  closeTD();
@@ -509,7 +509,7 @@ public class PatientListContoller {
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && (temp.getValueCoded().getId().intValue()==relapse1Concept.getId().intValue() || temp.getValueCoded().getId().intValue()==relapse2Concept.getId().intValue())) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(isBacPositive(tf)) {
+    					if(MdrtbUtil.isBacPositive(tf)) {
     							p = Context.getPersonService().getPerson(tf.getPatient().getId());
     							report += openTR();
     							report += openTD() + getRegistrationNumber(tf) +  closeTD();
@@ -543,7 +543,7 @@ public class PatientListContoller {
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && (temp.getValueCoded().getId().intValue()==relapse1Concept.getId().intValue() || temp.getValueCoded().getId().intValue()==relapse2Concept.getId().intValue())) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(!isBacPositive(tf)) {
+    					if(!MdrtbUtil.isBacPositive(tf)) {
     							p = Context.getPersonService().getPerson(tf.getPatient().getId());
     							report += openTR();
     							report += openTD() + getRegistrationNumber(tf) +  closeTD();
@@ -587,7 +587,7 @@ public class PatientListContoller {
     					temp.getValueCoded().getId().intValue()==failure2Concept.getId().intValue())
     					) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(!isBacPositive(tf)) {
+    					if(!MdrtbUtil.isBacPositive(tf)) {
     				
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						report += openTR();
@@ -626,7 +626,7 @@ public class PatientListContoller {
     					temp.getValueCoded().getId().intValue()==failure2Concept.getId().intValue())
     					) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(isBacPositive(tf)) {
+    					if(MdrtbUtil.isBacPositive(tf)) {
     				
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						report += openTR();
@@ -664,7 +664,7 @@ public class PatientListContoller {
     					temp.getValueCoded().getId().intValue()==transferInConcept.getId().intValue())
     					 {
     					if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    						if(isBacPositive(tf)) {
+    						if(MdrtbUtil.isBacPositive(tf)) {
     							
     							p = Context.getPersonService().getPerson(tf.getPatient().getId());
     							report += openTR();
@@ -702,7 +702,7 @@ public class PatientListContoller {
     					temp.getValueCoded().getId().intValue()==transferInConcept.getId().intValue())
     					 {
     					if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    						if(!isBacPositive(tf)) {
+    						if(!MdrtbUtil.isBacPositive(tf)) {
     							
     							p = Context.getPersonService().getPerson(tf.getPatient().getId());
     							report += openTR();
@@ -1433,63 +1433,7 @@ public class PatientListContoller {
 	   return link;
    }
    
-   public Boolean isBacPositive(TB03Form tf) {
-	   Boolean ret = false;
-	   List<SmearForm> smears = tf.getSmears();
-	   
-	   for(SmearForm sf : smears) {
-		   if(MdrtbUtil.getPositiveResultConcepts().contains(sf.getSmearResult())) {
-			   return true;
-		   }
-	   }
-	   
-	   List<CultureForm> cultures = tf.getCultures();
-	   
-	   for(CultureForm cf : cultures) {
-		   if(MdrtbUtil.getPositiveResultConcepts().contains(cf.getCultureResult())) {
-			   return true;
-		   }
-	   }
-	   
-	   List<XpertForm> xperts = tf.getXperts();
-	   Concept positive = Context.getService(MdrtbService.class).getConcept(TbConcepts.POSITIVE);
-	   Concept mtbResult = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT);
-	   Concept xpertConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT);
-	   Obs constructObs = null;
-	   Obs resultObs = null;
-	   for(XpertForm xf : xperts) {
-		   resultObs = null;
-		   constructObs = MdrtbUtil.getObsFromEncounter(xpertConstructs, xf.getEncounter());
-		   if(constructObs!=null) {
-			   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
-			   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
-				   return true;
-			   }
-		   }
-		   
-		  
-	   }
-	   
-	   List<HAINForm> hains = tf.getHains();
-	  
-	   Concept hainConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT);
-	   constructObs = null;
-	   resultObs = null;
-	   for(HAINForm hf : hains) {
-		   resultObs = null;
-		   constructObs = MdrtbUtil.getObsFromEncounter(hainConstructs, hf.getEncounter());
-		   if(constructObs!=null) {
-			   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
-			   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
-				   return true;
-			   }
-		   }
-		   
-		  
-	   }
-	   
-	   return ret;
-   }
+   
    
   
   
