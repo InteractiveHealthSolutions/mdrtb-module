@@ -108,7 +108,13 @@ public class CloseReportController {
 //	    	System.out.println("reportName: " + reportName);
 //			System.out.println("\n\n\n");
 			
-			Context.getService(MdrtbService.class).savePDF(oblast, location.toString(), year, quarter, month, date, tableData, reportStatus, reportName);
+			
+			if(formPath.equals("tb08uResults") || formPath.equals("tb07uResults") || formPath.equals("tb03uResults") || formPath.equals("dquResults")) {
+				Context.getService(MdrtbService.class).savePDF(oblast, location.toString(), year, quarter, month, date, tableData, reportStatus, reportName, "MDRTB");
+			}
+			else {
+				Context.getService(MdrtbService.class).savePDF(oblast, location.toString(), year, quarter, month, date, tableData, reportStatus, reportName, "DOTSTB");
+			}
 			model.addAttribute("reportStatus", reportStatus);
 			request.getSession().setAttribute("reportStatus", reportStatus);
 			
@@ -137,6 +143,14 @@ public class CloseReportController {
         }
         else if(formPath.equals("tb07Results")) {
         	url = TB07ReportController.doTB07(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        }
+        else if(formPath.equals("tb08Results")) {
+        	url = TB08ReportController.doTB08(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        	System.out.println("URL:" + url);
+        }
+        else if(formPath.equals("tb03Results")) {
+        	url = TB03ExportController.doTB03(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        	System.out.println("URL:" + url);
         }
         
         System.out.println("url: " + url);

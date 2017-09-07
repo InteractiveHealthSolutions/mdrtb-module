@@ -10,7 +10,7 @@
 <!-- SPECIALIZED STYLES FOR THIS PAGE -->
 
 <!-- CUSTOM JQUERY  -->
-<c:set var="defaultReturnUrl" value="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=${patientProgramId}"/>
+<c:set var="defaultReturnUrl" value="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientProgramId=${patientProgramId}&patientId=${form89.patient.id}"/>
 <script type="text/javascript"><!--
 
 	var $j = jQuery.noConflict();	
@@ -50,7 +50,7 @@
 
 <!-- VIEW BOX -->
 <div id="viewVisit" <c:if test="${(empty form89.id) || (form89.id == -1) || fn:length(errors.allErrors) > 0}"> style="display:none" </c:if>>
-<b class="boxHeader"><spring:message code="mdrtb.form89Form" text="TB03 Form"/>
+<b class="boxHeader"><spring:message code="mdrtb.form89" text="Form89"/>
 <span style="position: absolute; right:30px;"><a id="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/module/mdrtb/visits/delete.form?visitId=${form89.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteVisit" text="Are you sure you want to delete this visit?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span>
 </b>
 <div class="box">
@@ -310,7 +310,7 @@
 
 <!-- EDIT BOX -->
 <div id="editVisit" <c:if test="${(!empty form89.id) && (form89.id != -1) && fn:length(errors.allErrors) == 0}"> style="display:none" </c:if>>
-<b class="boxHeader"><spring:message code="mdrtb.form89Form" text="TB03 Form"/></b>
+<b class="boxHeader"><spring:message code="mdrtb.form89" text="Form89"/></b>
 <div class="box">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->

@@ -37,8 +37,8 @@ public class ViewClosedReportsController {
     }
 	
 	@RequestMapping(method=RequestMethod.GET, value="/module/mdrtb/reporting/viewClosedReports")
-    public void viewClosedReportsGet(ModelMap model) {
-    	List<List<Integer>> closedReports = Context.getService(MdrtbService.class).PDFRows();
+    public void viewClosedReportsGet(@RequestParam(required = true, value = "type") String reportType, ModelMap model) {
+    	List<List<Integer>> closedReports = Context.getService(MdrtbService.class).PDFRows(reportType);
     	List<Integer> reportIds = closedReports.get(0);
     	List<Integer> oblastIds = closedReports.get(1);
     	List<Integer> locationIds = closedReports.get(2);
@@ -84,6 +84,7 @@ public class ViewClosedReportsController {
     	model.addAttribute("reportLocations", locations);
         model.addAttribute("oblasts", o);
     	model.addAttribute("oblastLocations", oblastLocations);
+    	model.addAttribute("reportType", reportType);
 	}
 
 
@@ -97,7 +98,8 @@ public class ViewClosedReportsController {
     		@RequestParam("month") Integer month, 
     		@RequestParam("reportName") String reportName, 
     		@RequestParam("reportDate") String reportDate, 
-    		@RequestParam("formAction") String formAction, 
+    		@RequestParam("formAction") String formAction,
+    		@RequestParam("reportType") String reportType,
             ModelMap model) throws EvaluationException {
 		System.out.println("-----POST-All-----");
 		
@@ -116,12 +118,12 @@ public class ViewClosedReportsController {
 			if(formAction.equals("unlock")) {
 				System.out.println("-----UNLOCK-----");
 				Context.getService(MdrtbService.class).unlockReport(oblast, location, year, quarter, month, reportName.replaceAll(" ", "_").toUpperCase(), reportDate);
-				viewClosedReportsGet(model);
+				viewClosedReportsGet(reportType, model);
 				returnStr = "/module/mdrtb/reporting/viewClosedReports";
 			}
 			else if(formAction.equals("view")) {
 				System.out.println("-----VIEW-----");
-				List<String> allReports = (List<String>) Context.getService(MdrtbService.class).readTableData(oblast, location, year, quarter, month, reportName.replaceAll(" ", "_").toUpperCase(), reportDate);
+				List<String> allReports = (List<String>) Context.getService(MdrtbService.class).readTableData(oblast, location, year, quarter, month, reportName.replaceAll(" ", "_").toUpperCase(), reportDate, reportType);
 
 				System.out.println(allReports);
 		    	

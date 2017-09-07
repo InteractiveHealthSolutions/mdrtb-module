@@ -327,7 +327,7 @@ public class MDRDQController {
 		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
 		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
 		
-    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "dq");
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "DQ","MDRTB");
 		System.out.println(reportStatus);
 		
     	model.addAttribute("oblast", oblast);

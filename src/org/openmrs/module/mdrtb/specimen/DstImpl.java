@@ -162,6 +162,8 @@ public class DstImpl extends TestImpl implements Dst {
     		// string representation of the concentration
     		for(DstResult result : getResults()) {
     			
+    			
+    			if(result.getDrug()!=null) {
     			Integer drug = result.getDrug().getId();
     			
     			// if a result for this drug already exists in the map, attach this result to that list
@@ -175,6 +177,7 @@ public class DstImpl extends TestImpl implements Dst {
     				List<DstResult> drugResults = new LinkedList<DstResult>();
     				drugResults.add(result);
     				resultsMap.put(drug, drugResults);
+    			}
     			}
     			
     			// TODO: remove this when we are sure we don't need it

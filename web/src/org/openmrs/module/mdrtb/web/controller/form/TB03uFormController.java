@@ -134,8 +134,8 @@ public class TB03uFormController {
 				}
 				
 				
-				ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX).getName().toString()); 
-				ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().toString());
+				ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX).getName().getName()); 
+				ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().getName());
 				tpp.setClassificationAccordingToPreviousTreatment(groupState);
 				
 				Context.getProgramWorkflowService().savePatientProgram(tpp.getPatientProgram());

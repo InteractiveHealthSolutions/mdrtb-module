@@ -23,6 +23,7 @@ import org.openmrs.Person;
 
 import org.openmrs.api.context.Context;
 
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.specimen.Dst;
@@ -81,7 +82,8 @@ public class DSTFormController {
 
 		boolean mdr = false;
 		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
-		if(pp.getProgram().getConcept().getId().intValue() == Context.getConceptService().getConceptByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name")).getId().intValue()) {
+		//if(pp.getProgram().getConcept().getId().intValue() == Context.getConceptService().getConceptByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name")).getId().intValue()) {
+		if(pp.getProgram().getConcept().getId().intValue() == Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_PROGRAM).getId().intValue()) {
 			mdr=true;
 			System.out.println("mdr");
 		}
@@ -211,7 +213,8 @@ public class DSTFormController {
 	    	
 		 	boolean mdr = false;
 			PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
-			if(pp.getProgram().getConcept().getId().intValue() == Context.getConceptService().getConceptByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name")).getId().intValue()) {
+			//if(pp.getProgram().getConcept().getId().intValue() == Context.getConceptService().getConceptByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name")).getId().intValue()) {
+			if(pp.getProgram().getConcept().getId().intValue() == Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_PROGRAM).getId().intValue()) {
 				mdr=true;
 			}
 			

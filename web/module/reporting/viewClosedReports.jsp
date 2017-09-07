@@ -39,6 +39,7 @@
 			<input type="hidden" id="reportName" name="reportName" />
 			<input type="hidden" id="reportDate" name="reportDate" />
 			<input type="hidden" id="formAction" name="formAction" />
+			<input type="hidden" id="reportType" name="reportType" />
 		</form>
 
 		<script>
@@ -137,6 +138,7 @@
 				document.getElementById("reportName").value = document.getElementById("reportName_"+id).innerHTML;
 				document.getElementById("reportDate").value = document.getElementById("reportDate_"+id).innerHTML;
 				document.getElementById("formAction").value = formAction; 
+				document.getElementById("reportType").value = '${reportType}'; 
 				document.getElementById("viewReport").submit();
 			}
 			

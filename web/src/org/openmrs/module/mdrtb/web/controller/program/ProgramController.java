@@ -223,6 +223,7 @@ public class ProgramController {
 			
 			map.put("unassignedMdrIdentifiers",getUnassignedMdrIdentifiers(patient));
 			map.put("unassignedDotsIdentifiers",getUnassignedDotsIdentifiers(patient));
+			map.put("idId",idId);
 			
 			return new ModelAndView("/module/mdrtb/program/enrollment", map);
 			

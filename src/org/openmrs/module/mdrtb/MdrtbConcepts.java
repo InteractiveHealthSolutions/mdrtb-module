@@ -238,4 +238,6 @@ public class MdrtbConcepts {
     
     public final static String[] MDTRB_CONFIRMATION_DATE = {"DATE OF MDR CONFIRMATION"};
     
+    public final static String[] MDR_TB_PROGRAM = {"MDR TB PROGRAM"};
+    
 }

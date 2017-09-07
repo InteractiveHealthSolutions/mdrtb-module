@@ -621,17 +621,18 @@ public interface MdrtbService extends OpenmrsService {
 
     public int countPDFColumns();
     
-    public List<List<Integer>> PDFRows();
+    public List<List<Integer>> PDFRows(String reportType);
     
     public ArrayList<String> PDFColumns();
     
     public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
     
-    public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName);
+   /* public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName);*/
+    public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType);
 
-    public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name);
+    public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String type);
 
-    public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
+    public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date, String reportType);
 
     public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames);
 

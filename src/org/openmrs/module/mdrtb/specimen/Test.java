@@ -62,4 +62,6 @@ public interface Test extends Comparable<Test> {
 	
 	public String getComments();
 	public void setComments(String comments);
+	
+	public String getRealSpecimenId();
 }

@@ -111,6 +111,13 @@ response.setDateHeader ("Expires", -1);
 			    input.setAttribute("value", reportName);
 			    form.appendChild(input);
 			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "reportType");
+			    input.setAttribute("name", "reportType");
+			    input.setAttribute("value", "MDRTB");
+			    form.appendChild(input);
+			    
 			    form.submit();
 			}
 			$(document).ready(function(){

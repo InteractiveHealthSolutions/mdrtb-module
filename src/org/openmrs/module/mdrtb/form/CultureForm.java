@@ -15,7 +15,7 @@ import org.openmrs.module.mdrtb.specimen.CultureImpl;
 
 
 public class CultureForm extends AbstractSimpleForm implements Comparable<CultureForm>{
-
+	
 	private Culture culture;
 	
 	public CultureForm() {

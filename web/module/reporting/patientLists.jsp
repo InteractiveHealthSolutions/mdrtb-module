@@ -19,8 +19,8 @@ function submitForm(url) {
 	var year = document.getElementById("year").value;
 	var quarter = document.getElementById("quarter").value;
 	var month = document.getElementById("month").value;
-	var submitPath = "/openmrs/module/mdrtb/reporting/" + url + ".form?oblast="+val1+"&location="+val2+"&year="+year+"&quarter="+quarter+"&month="+month;
-	alert(submitPath);
+	var submitPath = "${pageContext.request.contextPath}/module/mdrtb/reporting/" + url + ".form?oblast="+val1+"&location="+val2+"&year="+year+"&quarter="+quarter+"&month="+month;
+	
 	window.location.replace(submitPath);
 }
 
@@ -54,6 +54,11 @@ function submitForm(url) {
 		    <br/><br/><br/><br/>
 		    
 		    <table>
+		    <tr>
+		    <td><spring:message code="mdrtb.allCasesEnrolled" /></td>
+		    <td><button onClick="submitForm('allCasesEnrolled');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
 		    <tr>
 		    <td><spring:message code="mdrtb.dotsCasesByRegistrationGroup" /></td>
 		    <td><button onClick="submitForm('dotsCasesByRegistrationGroup');"><spring:message code="mdrtb.generate"/></button></td>

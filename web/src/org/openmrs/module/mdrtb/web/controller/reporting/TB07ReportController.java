@@ -129,15 +129,15 @@ public class TB07ReportController {
 		
 		
 		
-		Date startDate = (Date)(dateMap.get("startDate"));
-		Date endDate = (Date)(dateMap.get("endDate"));
-		
-		System.out.println("ST: " + startDate);
-		System.out.println("ED: " + endDate);
+//		Date startDate = (Date)(dateMap.get("startDate"));
+//		Date endDate = (Date)(dateMap.get("endDate"));
+//		
+//		System.out.println("ST: " + startDate);
+//		System.out.println("ED: " + endDate);
 		
 		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(location, oblast, year, quarter, month);
 		
-		CohortDefinition baseCohort = null;
+		//CohortDefinition baseCohort = null;
 		
 	/*	//OBLAST
 		if (!locList.isEmpty()){
@@ -196,7 +196,7 @@ public class TB07ReportController {
     	/*ArrayList<Concept> conceptAnswerList = new ArrayList<Concept>();
     	Integer regimenConceptId = null;*/
     	//Integer codId = null;
-    	List<Obs> obsList = null;
+    	//List<Obs> obsList = null;
     	Integer ageAtRegistration = 0;
     	
     	Concept pulmonaryConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PULMONARY_TB);
@@ -1796,9 +1796,9 @@ public class TB07ReportController {
 		
     	boolean reportStatus;// = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB 07");
 		if(location!=null)
-			 reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB 07");
+			 reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB-07","DOTSTB");
 		else
-			reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, null, year, report_quarter, report_month, "TB 07");
+			reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, null, year, report_quarter, report_month, "TB-07","DOTSTB");
 		
 		System.out.println(reportStatus);
 		

@@ -66,7 +66,12 @@ public class CloseReportChangesController {
 
 		/*MDRTB EncounterTypes For Report Generation*/
 		List<String> reportEncounterTypes = new ArrayList<String>();
-		reportEncounterTypes.add("TB03u - MDR");
+		
+		if(reportName.equals("TB-03u") || reportName.equals("TB-08u") || reportName.equals("TB-07u") || reportName.equals("DQ"))
+				reportEncounterTypes.add("TB03u - MDR");
+		else 
+			reportEncounterTypes.add("TB03");
+		
 		reportEncounterTypes.add("Specimen Collection");
 		
 		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);

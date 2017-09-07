@@ -90,7 +90,7 @@ public class TB03FormController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showTB03Form() {
+	public ModelAndView showTB03Form(@RequestParam(required = false, value = "returnUrl") String returnUrl) {
 		ModelMap map = new ModelMap();
 		return new ModelAndView("/module/mdrtb/form/tb03", map);	
 	}
@@ -124,8 +124,8 @@ public class TB03FormController {
 		TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
 		
 		if(outcome!=null) {
-			ProgramWorkflow outcomeFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME).getName().toString()); 
-			ProgramWorkflowState outcomeState = Context.getProgramWorkflowService().getState(outcomeFlow, outcome.getName().toString());
+			ProgramWorkflow outcomeFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME).getName().getName()); 
+			ProgramWorkflowState outcomeState = Context.getProgramWorkflowService().getState(outcomeFlow, outcome.getName().getName());
 			tpp.setOutcome(outcomeState);
 			tpp.setDateCompleted(tb03.getTreatmentOutcomeDate());
 		}
@@ -135,8 +135,8 @@ public class TB03FormController {
 		}
 		
 		
-		ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP).getName().toString()); 
-		ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().toString());
+		ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP).getName().getName()); 
+		ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().getName());
 		tpp.setClassificationAccordingToPatientGroups(groupState);
 		
 		Context.getProgramWorkflowService().savePatientProgram(tpp.getPatientProgram());

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
+import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbConstants;
@@ -67,11 +68,11 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 			        culture.getDateCollected() != null ? df.format(culture.getDateCollected()) : "(N/A)",
 			        culture.getLab() != null ? culture.getLab().getDisplayString() : "(N/A)" };
 			if(status.getPatientProgram()!=null) {
-				item.setLink("/module/mdrtb/specimen/culture.form?encounterId=" + culture.getSpecimenId() + "&patientProgramId=" + status.getPatientProgram().getId());
+				item.setLink("/module/mdrtb/form/culture.form?encounterId=" + culture.getSpecimenId() + "&patientProgramId=" + status.getPatientProgram().getId());
 			}
 			
 			else {
-				item.setLink("/module/mdrtb/specimen/culture.form?encounterId=" + culture.getSpecimenId() + "&patientProgramId=" + status.getPatientTbProgram().getId());
+				item.setLink("/module/mdrtb/form/culture.form?encounterId=" + culture.getSpecimenId() + "&patientProgramId=" + status.getPatientTbProgram().getId());
 			}
 			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.cultureFormatter", params, "{0} on {1}, tested at {2}", Context.getLocale()));
 		} else {
@@ -133,6 +134,7 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 	public void renderDst(StatusItem item, LabResultsStatus status) {
 		
 		Dst dst = (Dst) item.getValue();
+		
 		
 		if (dst != null) {
 			String[] params = {

@@ -29,7 +29,7 @@ function addId(ppid)
 	var e = document.getElementById("id_" + ppid);
 	var idToAdd = e.options[e.selectedIndex].value;
 	
-	window.location.replace("/openmrs/module/mdrtb/program/addId.form?ppid="+ppid+"&idToAdd="+idToAdd)
+	window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/addId.form?ppid="+ppid+"&idToAdd="+idToAdd)
 }
 
 
@@ -135,6 +135,7 @@ function addId(ppid)
 <div class="box" style="margin:0px">
 
 <form id="enrollment" action="${pageContext.request.contextPath}/module/mdrtb/program/firstEnrollment.form?patientId=${patientId}&patientProgramId=-1&idId=${idId}" method="post" >
+
 <table cellspacing="2" cellpadding="2">
 <tr><td>
 <spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${program.dateEnrolled}'/>" onFocus="showCalendar(this)"/>

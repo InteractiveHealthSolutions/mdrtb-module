@@ -113,12 +113,19 @@ response.setDateHeader ("Expires", -1);
 			    input.setAttribute("value", reportName);
 			    form.appendChild(input);
 			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "reportType");
+			    input.setAttribute("name", "reportType");
+			    input.setAttribute("value", "DOTSTB");
+			    form.appendChild(input);
+			    
 			    form.submit();
 			}
 			$(document).ready(function(){
 				$("#tableToSql").bind("click", function() {
 					if(confirm('<spring:message code="dotsreports.closeReportMessage" />') ) {
-						savePdf("closeReport.form", "TB 07", "tb07Results");
+						savePdf("closeReport.form", "TB-07", "tb07Results");
 					}
 				});
 				/* $("#tableToPdf").click(function(){

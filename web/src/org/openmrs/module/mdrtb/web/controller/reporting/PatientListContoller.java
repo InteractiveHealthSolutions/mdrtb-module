@@ -110,6 +110,68 @@ public class PatientListContoller {
         model.addAttribute("oblasts", oblasts);
     }
     
+    @RequestMapping("/module/mdrtb/reporting/allCasesEnrolled")
+    public  String allCasesEnrolled(@RequestParam("location") Location location,
+    		@RequestParam("oblast") String oblast,
+            @RequestParam(value="year", required=true) Integer year,
+            @RequestParam(value="quarter", required=false) String quarter,
+            @RequestParam(value="month", required=false) String month,
+            ModelMap model) throws EvaluationException{
+    		System.out.println("allCasesEnrolled");
+    		
+    		MdrtbService ms = Context.getService(MdrtbService.class);
+    		
+    		String oName = "";
+    		if(oblast!=null &&  oblast.length()!=0) {
+    			oName = ms.getOblast(Integer.parseInt(oblast)).getName();
+    		}
+    		
+    		model.addAttribute("oblast", oName);
+    		model.addAttribute("location", location);
+    		model.addAttribute("year", year);
+    		model.addAttribute("month", month);
+    		model.addAttribute("quarter", quarter);
+    		model.addAttribute("listName", getMessage("mdrtb.allCasesEnrolled"));
+
+    		String report = "";
+
+    		ArrayList<TB03Form> tb03s = Context.getService(MdrtbService.class).getTB03FormsFilled(location, oblast,year,quarter,month);
+    		/*Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+    		Date startDate = (Date)(dateMap.get("startDate"));
+    		Date endDate = (Date)(dateMap.get("endDate"));*/
+    		//NEW CASES 
+    		
+    		report += "<h4>" + getMessage("mdrtb.pulmonary") + "</h4>";
+    		report += openTable();
+    		report += openTR();
+    		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.name") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
+    		report += openTD() + "" + closeTD();
+    		report += closeTR();
+    		
+    		Person p = null;
+    		for(TB03Form tf : tb03s) {
+    			
+    				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+    				report += openTR();
+    				report += openTD() + getRegistrationNumber(tf) +  closeTD();
+    				report += renderPerson(p);
+    				report += openTD() + getPatientLink(tf) + closeTD(); 
+    				report += closeTR();
+    				
+    		}
+    		
+    				
+    		report += closeTable();
+
+    		model.addAttribute("report",report);
+    		return "/module/mdrtb/reporting/patientListsResults";
+    		
+    
+    }
+    
     @RequestMapping("/module/mdrtb/reporting/dotsCasesByRegistrationGroup")
     public  String dotsCasesByRegistrationGroup(@RequestParam("location") Location location,
     		@RequestParam("oblast") String oblast,

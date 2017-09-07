@@ -158,13 +158,15 @@ public class MdrtbDOTSDashboardController {
 	                               @RequestParam(required = false, value = "idId") Integer idId,
 	                               ModelMap map) {
     	/*System.out.println("MdrtbDashboard:showStatus");
-    	System.out.println("program:" + program);
+    	System.out.println("program:" + program);*/
     	if (program == null) {
     		// if the patient has no program, redirect to the enroll-in-program
     		map.clear();
     		System.out.println("null program");
     		return new ModelAndView("redirect:/module/mdrtb/program/enrollment.form?patientId=" + patientId + (idId != null ? "&idId=" + idId : "")); 
-    	}*/
+    	}
+    	
+    
 
     	// add the patient program ID
     	map.put("patientProgramId", program.getId());
