@@ -288,4 +288,8 @@ public class XpertForm extends AbstractSimpleForm implements Comparable<XpertFor
 	public int compareTo(XpertForm form) {
 		return this.getEncounterDatetime().compareTo(form.getEncounterDatetime());
 	}
+	
+	public String getLink() {
+		return "/module/mdrtb/form/xpert.form?patientProgramId=" + getPatProgId() + "&encounterId=" + getEncounter().getId();
+	}
 }

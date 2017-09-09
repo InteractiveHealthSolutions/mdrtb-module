@@ -10,6 +10,7 @@ import java.util.ListIterator;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -25,6 +26,8 @@ import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.TbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientStateComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TB03uForm;
 import org.openmrs.module.mdrtb.regimen.Regimen;
 import org.openmrs.module.mdrtb.regimen.RegimenUtils;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -560,5 +563,28 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 
 	public void setPatientIdentifier(PatientIdentifier patientIdentifier) {
 		this.patientIdentifier = patientIdentifier;
+	}
+	
+	public TB03uForm getTb03u() {
+		TB03uForm tb03u = null;
+		List<Encounter> encounters = null;
+		EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		
+    	encounters = getMdrtbEncountersDuringProgramObs();
+    
+		
+		if (encounters != null) {
+    		for (Encounter encounter : encounters) {
+    			// create a new status item for this encounter
+    			
+    			// now place the visit in the appropriate "bucket"
+    			if (encounter.getEncounterType().equals(intakeType)) {
+    				tb03u = new TB03uForm(encounter);
+    				break;
+    			}
+    		}
+		}
+		
+		return tb03u;
 	}
 }

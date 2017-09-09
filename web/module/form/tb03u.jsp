@@ -118,6 +118,11 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.previousDrugClassification" text="Registration Group By Drug"/>:</td>
+<td>${tb03u.registrationGroupByDrug.displayString}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.tb03.mdrStatus" text="MDRStatus"/>:</td>
 <td>${tb03u.mdrStatus.displayString}</td>
 </tr>
@@ -387,6 +392,18 @@
 <option value=""></option>
 <c:forEach var="group" items="${groups}">
 	<option value="${group.concept.id}" <c:if test="${tb03u.registrationGroup == group.concept}">selected</c:if> >${group.concept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.previousDrugClassification" text="Registration Group By Drug"/>:</td>
+<td>
+<select name="registrationGroupByDrug">
+<option value=""></option>
+<c:forEach var="group" items="${bydrug}">
+	<option value="${group.concept.id}" <c:if test="${tb03u.registrationGroupByDrug == group.concept}">selected</c:if> >${group.concept.displayString}</option>
 </c:forEach>
 </select>
 </td>

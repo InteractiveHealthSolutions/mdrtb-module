@@ -275,7 +275,13 @@ public class TbConcepts {
  	
  	public final static String[] CONTACT_INVESTIGATION = {"CONTACT"};
  	public final static String[] YES = {"YES"};
+ 	public final static String[] NO = {"NO"};
  	
+ 	public final static String[] NAME_OF_DOCTOR = {"NAME OF DOCTOR"};
+ 	public final static String[] NAME_OF_IP_FACILITY = {"NAME OF IP FACILITY"};
+ 	public final static String[] NAME_OF_CP_FACILITY = {"NAME OF CP FACILITY"};
+ 	
+ 	public final static String[] DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE = {"DOTS CLASSIFICATION ACCORDING TO PREVIOUS DRUG USE"};
  	
      
 

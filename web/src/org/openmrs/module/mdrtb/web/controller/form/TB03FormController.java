@@ -19,6 +19,7 @@ import org.openmrs.PatientState;
 import org.openmrs.Person;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -81,6 +82,8 @@ public class TB03FormController {
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
+			form.setRegistrationGroup(tbProgram.getClassificationAccordingToPatientGroups().getConcept());
+			form.setRegistrationGroupByDrug(tbProgram.getClassificationAccordingToPreviousDrugUse().getConcept());
 			
 			return form;
 		}
@@ -120,6 +123,7 @@ public class TB03FormController {
 		//handle changes in workflows
 		Concept outcome = tb03.getTreatmentOutcome();
 		Concept group = tb03.getRegistrationGroup();
+		Concept groupByDrug = tb03.getRegistrationGroupByDrug();
 		
 		TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
 		
@@ -138,6 +142,10 @@ public class TB03FormController {
 		ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP).getName().getName()); 
 		ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().getName());
 		tpp.setClassificationAccordingToPatientGroups(groupState);
+		
+		ProgramWorkflow groupByDrugFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE).getName().getName()); 
+		ProgramWorkflowState groupByDrugState = Context.getProgramWorkflowService().getState(groupByDrugFlow, groupByDrug.getName().getName());
+		tpp.setClassificationAccordingToPreviousDrugUse(groupByDrugState);
 		
 		Context.getProgramWorkflowService().savePatientProgram(tpp.getPatientProgram());
 
@@ -227,6 +235,11 @@ public class TB03FormController {
 	@ModelAttribute("groups")
 	public Set<ProgramWorkflowState> getPossiblePatientGroups() {
 		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
+	}
+	
+	@ModelAttribute("bydrug")
+	public Set<ProgramWorkflowState> getPossibleResultsByDrugs() {
+		return Context.getService(MdrtbService.class).getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
 	}
 	
 	@ModelAttribute("hivstatuses")

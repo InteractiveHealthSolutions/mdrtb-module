@@ -833,7 +833,27 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     }
 
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPreviousDrugUse() {
-    	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE), true);
+    	System.out.println("service call");
+    	Set<ProgramWorkflowState> temp =  getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE), true);
+    	System.out.println("States Drug:" + temp.size());
+    	for(ProgramWorkflowState pwf : temp) {
+    		System.out.println(pwf.getProgramWorkflow().toString());
+    		System.out.println(pwf.toString());
+    		System.out.println(pwf.getProgramWorkflowStateId());
+    	}
+    	return temp;
+    }
+    
+    public Set<ProgramWorkflowState> getPossibleDOTSClassificationsAccordingToPreviousDrugUse() {
+    	System.out.println("service call");
+    	Set<ProgramWorkflowState> temp =  getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE), false);
+    	System.out.println("States Drug:" + temp.size());
+    	for(ProgramWorkflowState pwf : temp) {
+    		System.out.println(pwf.getProgramWorkflow().toString());
+    		System.out.println(pwf.toString());
+    		System.out.println(pwf.getProgramWorkflowStateId());
+    	}
+    	return temp;
     }
     
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPatientGroups() {

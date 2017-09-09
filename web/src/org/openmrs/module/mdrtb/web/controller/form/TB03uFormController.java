@@ -81,6 +81,8 @@ public class TB03uFormController {
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
+			form.setRegistrationGroup(tbProgram.getClassificationAccordingToPreviousTreatment().getConcept());
+			form.setRegistrationGroupByDrug(tbProgram.getClassificationAccordingToPreviousDrugUse().getConcept());
 				
 			return form;
 		}
@@ -119,6 +121,7 @@ public class TB03uFormController {
 		//handle changes in workflows
 				Concept outcome = tb03u.getTreatmentOutcome();
 				Concept group = tb03u.getRegistrationGroup();
+				Concept groupByDrug = tb03u.getRegistrationGroupByDrug();
 				
 				MdrtbPatientProgram tpp = getMdrtbPatientProgram(patientProgramId);
 				
@@ -137,6 +140,10 @@ public class TB03uFormController {
 				ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX).getName().getName()); 
 				ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().getName());
 				tpp.setClassificationAccordingToPreviousTreatment(groupState);
+				
+				ProgramWorkflow groupByDrugFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE).getName().getName()); 
+				ProgramWorkflowState groupByDrugState = Context.getProgramWorkflowService().getState(groupByDrugFlow, groupByDrug.getName().getName());
+				tpp.setClassificationAccordingToPreviousDrugUse(groupByDrugState);
 				
 				Context.getProgramWorkflowService().savePatientProgram(tpp.getPatientProgram());
 
@@ -222,6 +229,11 @@ public class TB03uFormController {
 	@ModelAttribute("groups")
 	public Set<ProgramWorkflowState> getPossiblePatientGroups() {
 		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
+	}
+	
+	@ModelAttribute("bydrug")
+	public Set<ProgramWorkflowState> getPossibleResultsByDrugs() {
+		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPreviousDrugUse();
 	}
 	
 	@ModelAttribute("hivstatuses")

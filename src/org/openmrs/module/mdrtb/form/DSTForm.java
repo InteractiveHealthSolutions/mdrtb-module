@@ -225,5 +225,9 @@ public class DSTForm extends AbstractSimpleForm implements Comparable<DSTForm> {
 	public int compareTo(DSTForm form) {
 		return this.di.getDateCollected().compareTo(form.di.getDateCollected());
 	}
+	
+	public String getLink() {
+		return "/module/mdrtb/form/dst.form?patientProgramId=" + getPatProgId() + "&encounterId=" + getEncounter().getId();
+	}
 }
 

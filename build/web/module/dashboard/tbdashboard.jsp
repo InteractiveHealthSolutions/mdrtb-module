@@ -166,7 +166,7 @@
 <!--  MDR-TB PROGRAM STATUS BOX -->
 
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.programStatus" text="Program Status"/>
-<span style="position: absolute; left:575px;"><a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=mdr" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmMove" text="Are you sure you want to move this patient to MDR-TB program? The patient's current program will be automatically closed with outcome Moved to SLD Treatment"/>')"><spring:message code="mdrtb.moveToMDR" text="Enroll in MDR Program"/></a></span>
+<span style="position: absolute; left:575px;"><a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=mdr&mdrLocation=${program.location.id}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmMove" text="Are you sure you want to move this patient to MDR-TB program? The patient's current program will be automatically closed with outcome Moved to SLD Treatment"/>')"><spring:message code="mdrtb.moveToMDR" text="Enroll in MDR Program"/></a></span>
 </b>
 <div class="box" style="margin:0px;">
 
@@ -178,7 +178,7 @@
 <br/>
 
 <table cellpadding="0" cellspacing="0">
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03.patientGroup" text="Registration Group - Previous Drug Use"/>:</td>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03.patientGroup" text="Registration Group - Previous Tx"/>:</td>
 <td>
 <c:choose>
 	<c:when test="${! empty program.classificationAccordingToPatientGroups.concept.displayString}">
@@ -189,6 +189,19 @@
 	</c:otherwise>
 </c:choose>
 </td>
+</tr>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.previousDrugClassification" text="Registration Group - Previous Drug Use"/>:</td>
+<td>
+<c:choose>
+	<c:when test="${! empty program.classificationAccordingToPreviousDrugUse.concept.displayString}">
+		${program.classificationAccordingToPreviousDrugUse.concept.displayString}
+	</c:when>
+	<c:otherwise>
+		<spring:message code="mdrtb.unknown"/>
+	</c:otherwise>
+</c:choose>
+</td>
+</tr>
 
 </table>
 

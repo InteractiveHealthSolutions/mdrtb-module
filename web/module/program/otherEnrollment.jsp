@@ -78,6 +78,16 @@
 </select>	
 </td></tr>
 
+<tr><td colspan="2">
+<spring:message code="mdrtb.previousDrugClassification" text="Registration Group - Previous Drug Use"/>:<br/>
+<select name="classificationAccordingToPreviousDrugUse">
+<option value=""/>
+<c:forEach var="classificationAccordingToPreviousDrugUse" items="${classificationsAccordingToPreviousDrugUseDOTS}">
+<option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == program.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>
+</c:forEach>
+</select>	
+</td></tr>
+
 </table>
 <button type="submit"><spring:message code="mdrtb.enrollment.enroll" text="Enroll in Program"/>
 </form>
@@ -102,7 +112,7 @@
 <select name="location">
 <option value=""/>
 <c:forEach var="location" items="${locations}">
-<option value="${location.locationId}" <c:if test="${location == program.location}">selected</c:if> >${location.displayString}</option>
+<option value="${location.locationId}" <c:if test="${location == initLocation}">selected</c:if> >${location.displayString}</option>
 </c:forEach>
 </select>
 </td></tr>

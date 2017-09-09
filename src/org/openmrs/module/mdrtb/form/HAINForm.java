@@ -355,4 +355,8 @@ public class HAINForm extends AbstractSimpleForm implements Comparable<HAINForm>
 	public int compareTo(HAINForm form) {
 		return this.getEncounterDatetime().compareTo(form.getEncounterDatetime());
 	}
+	
+	public String getLink() {
+		return "/module/mdrtb/form/hain.form?patientProgramId=" + getPatProgId() + "&encounterId=" + getEncounter().getId();
+	}
 }

@@ -74,6 +74,16 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td>${tb03.patientName}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.tb03RegistrationNumber" text="TB03 Reg Num"/>:</td>
+<td>${tbProgram.patientIdentifier.identifier }</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.gender" text="Gender"/>:</td>
 <td>${tb03.gender}</td>
 </tr>
@@ -99,8 +109,18 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.tb03.nameOfIPFacility" text="IP_FAC_NAME"/>:</td>
+<td>${tb03.nameOfIPFacility}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.tb03.treatmentSiteCP" text="Tx Site CP"/>:</td>
 <td>${tb03.treatmentSiteCP.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.nameOfCPFacility" text="CP_FAC_NAME"/>:</td>
+<td>${tb03.nameOfCPFacility}</td>
 </tr>
 
 <tr>
@@ -124,8 +144,18 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.previousDrugClassification" text="Registration Group By Drug"/>:</td>
+<td>${tb03.registrationGroupByDrug.displayString}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.tb03.hivStatus" text="HIV Status"/>:</td>
 <td>${tb03.hivStatus.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.hivTestDate" text="hivTestDate"/>:</td>
+<td><openmrs:formatDate date="${tb03.hivTestDate}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
 <tr>
@@ -344,6 +374,16 @@
 </select>
 </td>
 </tr>
+
+<tr>
+<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td>${tb03.patientName}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.tb03RegistrationNumber" text="TB03 Reg Num"/>:</td>
+<td>${tbProgram.patientIdentifier.identifier }</td>
+</tr>
  
 <tr>
 <td><spring:message code="mdrtb.gender" text="Gender"/>:</td>
@@ -378,6 +418,11 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.tb03.nameOfIPFacility" text="IP_FAC_NAME"/>:</td>
+<td><input name="nameOfIPFacility" size="15" value="${tb03.nameOfIPFacility}"/></td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.tb03.treatmentSiteCP" text="Tx Site CP"/>:</td>
 <td>
 <select name="treatmentSiteCP">
@@ -387,6 +432,11 @@
 </c:forEach>
 </select>
 </td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.nameOfCPFacility" text="CP_FAC_NAME"/>:</td>
+<td><input name="nameOfCPFacility" size="15" value="${tb03.nameOfCPFacility}"/></td>
 </tr>
 
 <tr>
@@ -428,6 +478,23 @@
 </c:forEach>
 </select>
 </td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.previousDrugClassification" text="Registration Group By Drug"/>:</td>
+<td>
+<select name="registrationGroupByDrug">
+<option value=""></option>
+<c:forEach var="group" items="${bydrug}">
+	<option value="${group.concept.id}" <c:if test="${tb03.registrationGroupByDrug == group.concept}">selected</c:if> >${group.concept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.hivTestDate" text="HIV Test Date"/>:</td>
+<td><openmrs_tag:dateField formFieldName="hivTestDate" startValue="${tb03.hivTestDate}"/></td>
 </tr>
 
 <tr>

@@ -72,6 +72,11 @@ public class ProgramController {
 		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPreviousDrugUse();
 	}
 	
+	@ModelAttribute("classificationsAccordingToPreviousDrugUseDOTS")
+	public Collection<ProgramWorkflowState> getDOTSClassificationsAccordingToPreviousDrugUse() {		
+		return Context.getService(MdrtbService.class).getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
+	}
+	
 	@ModelAttribute("classificationsAccordingToPreviousTreatment")
 	public Collection<ProgramWorkflowState> getClassificationsAccordingToPreviousTreatment() {		
 		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPreviousTreatment();
@@ -279,6 +284,7 @@ public class ProgramController {
     @RequestMapping(value="/module/mdrtb/program/otherEnrollment.form", method = RequestMethod.GET)
 	public ModelAndView showOtherEnrollment(@RequestParam(required = true, value = "patientId") Integer patientId,
 									   @RequestParam(required = true, value = "type") String type,
+									   @RequestParam(required = false, value = "mdrLocation") Integer locationId,
 	                                         ModelMap map) {
 
 			Patient patient = Context.getPatientService().getPatient(patientId);
@@ -294,6 +300,9 @@ public class ProgramController {
 			map.put("patientId", patientId);
 			
 			map.put("type", type);
+			if(locationId!=null) {
+				map.put("initLocation", Context.getLocationService().getLocation(locationId));
+			}
 			
 			return new ModelAndView("/module/mdrtb/program/otherEnrollment", map);
 			
@@ -343,11 +352,15 @@ public class ProgramController {
     	}
 		
 		if (errors.hasErrors()) {
+			System.out.println("errors");
 			MdrtbPatientProgram mostRecentProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
 			map.put("hasActiveProgram", mostRecentProgram != null && mostRecentProgram.getActive() ? true : false);
 			map.put("patientId", patientId);
 			map.put("errors", errors);
-			return new ModelAndView("/module/mdrtb/program/enrollment", map);
+			map.put("type", "mdr");
+			for(Object err  : errors.getAllErrors())
+				System.out.println(err.toString());
+			return new ModelAndView("/module/mdrtb/program/otherEnrollmentMdrtb.form?patientId=" + patientId + "&type=mdr", map);
 		}
 		
 		// save the actual update

@@ -224,4 +224,8 @@ public class SmearForm extends AbstractSimpleForm implements Comparable<SmearFor
 			return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
 	}
 	
+	public String getLink() {
+		return "/module/mdrtb/form/smear.form?patientProgramId=" + getPatProgId() + "&encounterId=" + getEncounter().getId();
+	}
+	
 }

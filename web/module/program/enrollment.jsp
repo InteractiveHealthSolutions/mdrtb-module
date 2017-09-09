@@ -63,6 +63,7 @@ function addId(ppid)
 <th><spring:message code="mdrtb.enrollment.completionDate" text="Completion Date"/></th>
 <th>&nbsp;</th>
 <th>&nbsp;</th>
+<th><spring:message code="mdrtb.forms" text="Forms"/></th>
 </tr>
 
 <c:forEach var="tbProgram" items="${tbPrograms}">
@@ -84,6 +85,14 @@ function addId(ppid)
     </c:if>
 </c:if>
 </td>
+<td>
+<c:if test="${!empty tbProgram.tb03}">
+<a href="${pageContext.request.contextPath}${tbProgram.tb03.link }"><spring:message code="mdrtb.tb03" text="TB03"/></a>&nbsp;&nbsp;
+</c:if>
+<c:if test="${!empty tbProgram.form89}">
+<a href="${pageContext.request.contextPath}${tbProgram.form89.link }"><spring:message code="mdrtb.form89" text="Form89"/></a>
+</c:if>
+</td>
 </tr>     
 </c:forEach>
 </table>
@@ -101,6 +110,7 @@ function addId(ppid)
 <th><spring:message code="mdrtb.enrollment.completionDate" text="Completion Date"/></th>
 <th>&nbsp;</th>
 <th>&nbsp;</th>
+<th><spring:message code="mdrtb.forms" text="Forms"/></th>
 </tr>
 <c:forEach var="mdrtbProgram" items="${mdrtbPrograms}">
    <tr>
@@ -119,6 +129,11 @@ function addId(ppid)
     	</select>
     	<button onclick="addId(${mdrtbProgram.id})" text="Link">Add</button>
     </c:if>
+</c:if>
+</td>
+<td>
+<c:if test="${!empty mdrtbProgram.tb03u}">
+<a href="${pageContext.request.contextPath}${mdrtbProgram.tb03u.link }"><spring:message code="mdrtb.tb03u" text="TB03u"/></a>
 </c:if>
 </td>
 </tr>    
@@ -157,6 +172,16 @@ function addId(ppid)
 <option value=""/>
 <c:forEach var="classificationAccordingToPatientGroups" items="${classificationsAccordingToPatientGroups}">
 <option value="${classificationAccordingToPatientGroups.id}" <c:if test="${classificationAccordingToPatientGroups == program.classificationAccordingToPatientGroups}">selected</c:if>>${classificationAccordingToPatientGroups.concept.displayString}</option>
+</c:forEach>
+</select>	
+</td></tr>
+
+<tr><td colspan="2">
+<spring:message code="mdrtb.previousDrugClassification" text="Registration Group - Previous Drug Use"/>:<br/>
+<select name="classificationAccordingToPreviousDrugUse">
+<option value=""/>
+<c:forEach var="classificationAccordingToPreviousDrugUse" items="${classificationsAccordingToPreviousDrugUseDOTS}">
+<option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == program.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>

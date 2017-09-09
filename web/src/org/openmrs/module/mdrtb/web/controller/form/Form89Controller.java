@@ -76,12 +76,15 @@ public class Form89Controller {
 			
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
-			form.setLocation(tbProgram.getLocation());
-				
+			
+			form.initTB03(patientProgramId);
+			form.setLocation(form.getTB03().getLocation());
 			return form;
 		}
 		else {
-			return new Form89(Context.getEncounterService().getEncounter(encounterId));
+			Form89 ret = new Form89(Context.getEncounterService().getEncounter(encounterId));
+			ret.initTB03(patientProgramId);
+			return ret;
 		}
 	}
 	

@@ -218,5 +218,9 @@ public class CultureForm extends AbstractSimpleForm implements Comparable<Cultur
 	
 	public int compareTo(CultureForm form) {
 		return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
-}
+	}
+	
+	public String getLink() {
+		return "/module/mdrtb/form/culture.form?patientProgramId=" + getPatProgId() + "&encounterId=" + getEncounter().getId();
+	}
 }

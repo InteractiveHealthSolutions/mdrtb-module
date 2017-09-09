@@ -10,6 +10,7 @@ import java.util.ListIterator;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -19,11 +20,14 @@ import org.openmrs.PatientState;
 import org.openmrs.Person;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.TbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientStateComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.Form89;
+import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.regimen.Regimen;
 import org.openmrs.module.mdrtb.regimen.RegimenUtils;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -45,6 +49,7 @@ public class TbPatientProgram implements Comparable<TbPatientProgram> {
 	
 	public TbPatientProgram(PatientProgram program) {
 		this.program = (org.openmrs.module.programlocation.PatientProgram) program;
+		this.patientIdentifier = Context.getService(MdrtbService.class).getGenPatientProgramIdentifier(program);
 	}
 	
 	public PatientProgram getPatientProgram() {
@@ -173,6 +178,44 @@ public class TbPatientProgram implements Comparable<TbPatientProgram> {
 			this.program.getStates().add(previousGroupState);	
 		}
 	}
+	
+	public ProgramWorkflowState getClassificationAccordingToPreviousDrugUse() {		
+		Concept previousDrug = Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE);
+		return getPatientWorkflowState(previousDrug);
+	}
+	
+	public void setClassificationAccordingToPreviousDrugUse (ProgramWorkflowState classification) {
+		// first make sure that this program workflow state is valid
+		System.out.println(classification.toString());
+		System.out.println(classification.getProgramWorkflow().toString());
+		System.out.println(classification.getProgramWorkflowStateId());
+		if (classification != null && !Context.getService(MdrtbService.class).getPossibleDOTSClassificationsAccordingToPreviousDrugUse().contains(classification)) {
+			throw new MdrtbAPIException(classification.toString() + " is not a valid state for Classification According To Previous Drug Use workflow");
+		}
+		
+		// if the state hasn't changed, we don't need to bother doing the update
+		ProgramWorkflowState currentClassification = getClassificationAccordingToPreviousDrugUse();
+		if ( (currentClassification == null && classification == null) || (currentClassification != null && currentClassification.equals(classification)) ){
+			return;
+		}
+		
+		// otherwise, do the update
+		Concept previousDrug = Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE);
+		
+		// void any existing states tied to the the outcome workflow
+		voidStates(previousDrug);
+		
+		// now add the new state, if one has been specified
+		if (classification != null) {
+			PatientState previousDrugState = new PatientState();
+			previousDrugState.setState(classification);
+			// the start date for the state should be the program enrollment date
+			previousDrugState.setStartDate(program.getDateEnrolled()); 
+			this.program.getStates().add(previousDrugState);	
+		}
+	}
+	
+	
 	
 	/*public ProgramWorkflowState getClassificationAccordingToPreviousTreatment() {		
 		Concept previousTreatment = Context.getService(MdrtbService.class).getConcept(TbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX);
@@ -561,5 +604,51 @@ public class TbPatientProgram implements Comparable<TbPatientProgram> {
 
 	public void setPatientIdentifier(PatientIdentifier patientIdentifier) {
 		this.patientIdentifier = patientIdentifier;
+	}
+	
+	public TB03Form getTb03() {
+		TB03Form tb03 = null;
+		List<Encounter> encounters = null;
+		EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+		
+    	encounters = getTbEncountersDuringProgramObs();
+    
+		
+		if (encounters != null) {
+    		for (Encounter encounter : encounters) {
+    			// create a new status item for this encounter
+    			
+    			// now place the visit in the appropriate "bucket"
+    			if (encounter.getEncounterType().equals(intakeType)) {
+    				tb03 = new TB03Form(encounter);
+    				break;
+    			}
+    		}
+		}
+		
+		return tb03;
+	}
+	
+	public Form89 getForm89() {
+		Form89 form89 = null;
+		List<Encounter> encounters = null;
+		EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+		
+    	encounters = getTbEncountersDuringProgramObs();
+    
+		
+		if (encounters != null) {
+    		for (Encounter encounter : encounters) {
+    			// create a new status item for this encounter
+    			
+    			// now place the visit in the appropriate "bucket"
+    			if (encounter.getEncounterType().equals(intakeType)) {
+    				form89 = new Form89(encounter);
+    				break;
+    			}
+    		}
+		}
+		
+		return form89;
 	}
 }

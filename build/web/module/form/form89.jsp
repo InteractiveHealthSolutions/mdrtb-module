@@ -73,8 +73,19 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td>${form89.patientName}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.tb03.tb03RegistrationNumber" text="TB03 Reg Num"/>:</td>
-<td>${form89.tb03RegistrationNumber}</td>
+<%-- <td>${form89.tb03RegistrationNumber}</td> --%>
+<td>${tbProgram.patientIdentifier.identifier }</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.yearOfRegistration" text="TB03 Reg Year"/>:</td>
+<td>${form89.yearOfTB03Registration}</td>
 </tr>
 
 <tr>
@@ -137,20 +148,26 @@
 <td>${form89.anatomicalSite.displayString}</td>
 </tr>
 
+<c:if test="${form89.isPulmonary eq false}">
 <tr>
 <td><spring:message code="mdrtb.form89.epSite" text="EP Site"/>:</td>
 <td>${form89.epSite.displayString}</td>
 </tr>
+</c:if>
 
+<c:if test="${form89.isPulmonary eq true}">
 <tr>
 <td><spring:message code="mdrtb.form89.pSite" text="P Site"/>:</td>
 <td>${form89.pulSite.displayString}</td>
 </tr>
+</c:if>
 
+<c:if test="${form89.isPulmonary eq false}">
 <tr>
 <td><spring:message code="mdrtb.form89.epLocation" text="EP Location"/>:</td>
 <td>${form89.epLocation.displayString}</td>
 </tr>
+</c:if>
 
 <tr>
 <td><spring:message code="mdrtb.form89.presenceOfDecay" text="Decay"/>:</td>
@@ -175,12 +192,16 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
 </tr>
 <c:forEach var="smear" items="${form89.smears}">
+<c:if test="${smear.monthOfTreatment eq 0 }">
 <tr>
 <td>${smear.monthOfTreatment }</td>
 <td>${smear.smearResult.displayString }</td>
 <td><openmrs:formatDate date="${smear.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
-<td>${smear.location.displayString}
+<td>${smear.location.displayString}</td>
+</tr>
+</c:if>
 </c:forEach>
+
 </tr>
 </table>
 
@@ -198,7 +219,7 @@
 <tr>
 <td>${xpert.mtbResult.displayString }/RIF: ${xpert.rifResult.displayString }</td>
 <td><openmrs:formatDate date="${xpert.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
-<td>${xpert.location.displayString}
+<td>${xpert.location.displayString}</td>
 </c:forEach>
 </tr>
 </table>
@@ -217,7 +238,7 @@
 <tr>
 <td>${hain.mtbResult.displayString }/RIF: ${hain.rifResult.displayString }/ INH: ${hain.inhResult.displayString }</td>
 <td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
-<td>${hain.location.displayString}
+<td>${hain.location.displayString}</td>
 </c:forEach>
 </tr>
 </table>
@@ -264,10 +285,10 @@
 <td>${form89.cancer.displayString}</td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.form89.noDisease" text="noDisease"/>:</td>
 <td>${form89.noDisease.displayString}</td>
-</tr>
+</tr> --%>
 
 <tr>
 <td><spring:message code="mdrtb.form89.otherDisease" text="otherDisease"/>:</td>
@@ -293,6 +314,11 @@
 <tr>
 <td><spring:message code="mdrtb.form89.prescribedTreatment" text="prescribedTreatment"/>:</td>
 <td>${form89.prescribedTreatment.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.nameOfDoctor" text="DocName"/>:</td>
+<td>${form89.nameOfDoctor}</td>
 </tr>
 
 <tr>
@@ -359,11 +385,21 @@
 </tr>
 
 <tr>
-<td valign="top"><spring:message code="mdrtb.tb03.tb03RegistrationNumber" text="TB03RegistrationNumber"/>:</td>
-<td><input name="tb03RegistrationNumber" size="12" value="${form89.tb03RegistrationNumber}"/></td>
+<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td>${form89.patientName}</td>
 </tr>
- 
- 
+
+<tr>
+<td valign="top"><spring:message code="mdrtb.tb03.tb03RegistrationNumber" text="TB03RegistrationNumber"/>:</td>
+<%-- <td><input name="tb03RegistrationNumber" size="12" value="${form89.tb03RegistrationNumber}"/></td> --%>
+<td>${tbProgram.patientIdentifier.identifier }</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.yearOfRegistration" text="TB03 Reg Year"/>:</td>
+<td>${form89.yearOfTB03Registration}</td>
+</tr>
+
 <tr>
 <td><spring:message code="mdrtb.gender" text="Gender"/>:</td>
 <td>${form89.gender}</td>
@@ -460,6 +496,7 @@
 <td>${form89.anatomicalSite.displayString}</td>
 </tr>
 
+<c:if test="${form89.isPulmonary eq false}">
 <tr>
 <td><spring:message code="mdrtb.form89.epSite" text="EP Site"/>:</td>
 <td><select name="epSite">
@@ -470,7 +507,9 @@
 </select>
 </td>
 </tr>
+</c:if>
 
+<c:if test="${form89.isPulmonary eq true}">
 <tr>
 <td><spring:message code="mdrtb.form89.pSite" text="P Site"/>:</td>
 <td><select name="pulSite">
@@ -481,7 +520,9 @@
 </select>
 </td>
 </tr>
+</c:if>
 
+<c:if test="${form89.isPulmonary eq false}">
 <tr>
 <td><spring:message code="mdrtb.form89.epLocation" text="EP Location"/>:</td>
 <td><select name="epLocation">
@@ -492,6 +533,7 @@
 </select>
 </td>
 </tr>
+</c:if>
 
 <tr>
 <td><spring:message code="mdrtb.form89.presenceOfDecay" text="Decay"/>:</td>
@@ -574,13 +616,14 @@
 
 <tr>
 <td><spring:message code="mdrtb.form89.ibc20" text="ibc20"/>:</td>
-<td><select name="ibc20">
+<td>${form89.ibc20.displayString}</td>
+<%-- <td><select name="ibc20">
 <option value=""></option>
 <c:forEach var="p" items="${ibc20Options}">
 	<option value="${p.answerConcept.id}" <c:if test="${form89.ibc20 == p.answerConcept}">selected</c:if> >${p.answerConcept.displayString}</option>
 </c:forEach>
 </select>
-</td>
+</td> --%>
 </tr>
 
 <tr>
@@ -594,7 +637,7 @@
 </td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.form89.noDisease" text="noDisease"/>:</td>
 <td><select name="noDisease">
 <option value=""></option>
@@ -603,7 +646,7 @@
 </c:forEach>
 </select>
 </td>
-</tr>
+</tr> --%>
 
 <tr>
 <td><spring:message code="mdrtb.form89.otherDisease" text="otherDisease"/>:</td>
@@ -635,6 +678,11 @@
 </c:forEach>
 </select>
 </td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.nameOfDoctor" text="DocName"/>:</td>
+<td><input name="nameOfDoctor" size="20" value="${form89.nameOfDoctor}"/></td>
 </tr>
 
 <tr>

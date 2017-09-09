@@ -1119,7 +1119,7 @@ public class PatientListContoller {
     				if(temp!=null && temp.getValueNumeric().intValue()>=15  && temp.getValueNumeric().intValue()<=49) {
     					p = Context.getPersonService().getPerson(tf.getPatient().getId());
     					report += openTR();
-    					report += openTD() + tf.getTb03RegistrationNumber() +  closeTD();
+    					//report += openTD() + tf.getTb03RegistrationNumber() +  closeTD();
     					report += renderPerson(p);
     					report += openTD() + getPatientLink(tf) + closeTD(); 
     					report += closeTR();
@@ -1190,7 +1190,7 @@ public class PatientListContoller {
     				if(temp!=null && temp.getValueNumeric().intValue()>=18  && temp.getValueNumeric().intValue()<=41) {
     					p = Context.getPersonService().getPerson(tf.getPatient().getId());
     					report += openTR();
-    					report += openTD() + tf.getTb03RegistrationNumber() +  closeTD();
+    					//report += openTD() + tf.getTb03RegistrationNumber() +  closeTD();
     					report += renderPerson(p);
     					report += openTD() + getPatientLink(tf) + closeTD(); 
     					report += closeTR();
@@ -1262,7 +1262,7 @@ public class PatientListContoller {
     				if(temp!=null && (temp.getValueCoded().getId().intValue()  == fromContact.getId().intValue())) {
     					p = Context.getPersonService().getPerson(tf.getPatient().getId());
     					report += openTR();
-    					report += openTD() + tf.getTb03RegistrationNumber() +  closeTD();
+    					//report += openTD() + tf.getTb03RegistrationNumber() +  closeTD();
     					report += renderPerson(p);
     					report += openTD() + getPatientLink(tf) + closeTD(); 
     					report += closeTR();
@@ -1335,7 +1335,7 @@ public class PatientListContoller {
     				if(temp!=null && (temp.getValueCoded().getId().intValue()  == yes.getId().intValue())) {
     					p = Context.getPersonService().getPerson(tf.getPatient().getId());
     					report += openTR();
-    					report += openTD() + tf.getTb03RegistrationNumber() +  closeTD();
+    					//report += openTD() + tf.getTb03RegistrationNumber() +  closeTD();
     					report += renderPerson(p);
     					report += openTD() + getPatientLink(tf) + closeTD(); 
     					report += closeTR();
