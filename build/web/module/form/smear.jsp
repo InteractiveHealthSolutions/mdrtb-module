@@ -86,10 +86,10 @@
 <td><openmrs:formatDate date="${smear.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>${smear.provider.personName}</td>
-</tr>
+</tr> --%>
  
 <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
@@ -139,6 +139,7 @@
 <form name="smear" action="smear.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty smear.id ? smear.id : -1}" method="post">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
+<input type="hidden" name="provider" value="45" />
 
 
 
@@ -154,7 +155,7 @@
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${smear.encounterDatetime}"/></td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>
 <select name="provider">
@@ -164,7 +165,7 @@
 </c:forEach>
 </select>
 </td>
-</tr>
+</tr> --%>
 
 <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>

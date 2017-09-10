@@ -83,7 +83,8 @@ public class TB03FormController {
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
 			form.setRegistrationGroup(tbProgram.getClassificationAccordingToPatientGroups().getConcept());
-			form.setRegistrationGroupByDrug(tbProgram.getClassificationAccordingToPreviousDrugUse().getConcept());
+			if(tbProgram.getClassificationAccordingToPreviousDrugUse()!=null)
+				form.setRegistrationGroupByDrug(tbProgram.getClassificationAccordingToPreviousDrugUse().getConcept());
 			
 			return form;
 		}

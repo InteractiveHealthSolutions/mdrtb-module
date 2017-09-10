@@ -1828,7 +1828,45 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 	
 	
 }
-   
+
+ public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient) {
+	 TB03Form ret = null;
+	 Integer encounterId = null;
+	 EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+	 String query = "select encounter_id from encounter where location_id=" + location.getId() + " AND encounter_datetime <= '" + encounterDate + "' AND patient_id=" + patient.getId() + " AND encounter_type=" + intakeType.getId() + " ORDER BY encounter_datetime DESC";
+	 List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
+	 if(result!=null && result.size()>0) {
+		 List<Object> resp = result.get(0);
+		 if(resp!=null) {
+			 encounterId= (Integer)(resp.get(0));
+		 }
+			 
+	 }
+	 
+	 if(encounterId!=null)
+		 ret = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
+	 
+	 return ret;
+ 
+ }
+ /*
+  * List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        district = new District(name, id);
+	        break;  
+  */
     
 
 }

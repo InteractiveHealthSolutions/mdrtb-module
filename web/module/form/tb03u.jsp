@@ -61,10 +61,10 @@
 <td><openmrs:formatDate date="${tb03u.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>${tb03u.provider.personName}</td>
-</tr>
+</tr> --%>
  
 <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
@@ -306,6 +306,8 @@
 <form name="tb03u" action="tb03u.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty tb03u.id ? tb03u.id : -1}" method="post">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
+<input type="hidden" name="provider" value="47" />
+<%-- <input type="hidden" name="previousProgramId" <c:choose><c:when test="${!empty tb03u.previousProgramId }">value="${tb03u.previousProgramId}"</c:when><c:otherwise>value="${previousProgramId}"</c:otherwise></c:choose>/> --%>
 
 <table>
  
@@ -314,7 +316,7 @@
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${tb03u.encounterDatetime}"/></td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>
 <select name="provider">
@@ -324,7 +326,7 @@
 </c:forEach>
 </select>
 </td>
-</tr>
+</tr> --%>
  
 <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
@@ -373,7 +375,7 @@
 <td><input name="sldRegisterNumber" size="10" value="${tb03u.sldRegisterNumber}"/></td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.tb03.siteOfDisease" text="Anatomical Type"/>:</td>
 <td>
 <select name="anatomicalSite">
@@ -383,6 +385,11 @@
 </c:forEach>
 </select>
 </td>
+</tr> --%>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.siteOfDisease" text="Anatomical Type"/>:</td>
+<td>${tb03u.anatomicalSite.displayString}</td>
 </tr>
 
 <tr>

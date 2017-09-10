@@ -70,7 +70,8 @@ public class TB03uFormController {
 	
 	@ModelAttribute("tb03u")
 	public TB03uForm getTB03uForm(@RequestParam(required = true, value = "encounterId") Integer encounterId,
-	                            @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+	                            @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId/*,
+	                            @RequestParam(required = false, value = "previousProgramId") Integer previousProgramId*/) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
 		// if no form is specified, create a new one
 		if (encounterId == -1) {
@@ -82,7 +83,10 @@ public class TB03uFormController {
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
 			form.setRegistrationGroup(tbProgram.getClassificationAccordingToPreviousTreatment().getConcept());
-			form.setRegistrationGroupByDrug(tbProgram.getClassificationAccordingToPreviousDrugUse().getConcept());
+			if(tbProgram.getClassificationAccordingToPreviousDrugUse()!=null)
+				form.setRegistrationGroupByDrug(tbProgram.getClassificationAccordingToPreviousDrugUse().getConcept());
+			/*if(previousProgramId!=null)
+				form.setPreviousProgramId(previousProgramId);*/
 				
 			return form;
 		}
@@ -92,8 +96,10 @@ public class TB03uFormController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showTB03uForm() {
+	public ModelAndView showTB03uForm(/*@RequestParam(required = false, value = "previousProgramId") Integer previousProgamId*/) {
 		ModelMap map = new ModelMap();
+		/*if(previousProgamId!=null)
+			map.put("previousProgramId", previousProgamId);*/
 		return new ModelAndView("/module/mdrtb/form/tb03u", map);	
 	}
 	

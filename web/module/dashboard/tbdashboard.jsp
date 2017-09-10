@@ -166,7 +166,7 @@
 <!--  MDR-TB PROGRAM STATUS BOX -->
 
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.programStatus" text="Program Status"/>
-<span style="position: absolute; left:575px;"><a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=mdr&mdrLocation=${program.location.id}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmMove" text="Are you sure you want to move this patient to MDR-TB program? The patient's current program will be automatically closed with outcome Moved to SLD Treatment"/>')"><spring:message code="mdrtb.moveToMDR" text="Enroll in MDR Program"/></a></span>
+<span style="position: absolute; left:575px;"><a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=mdr&mdrLocation=${program.location.id}&previousProgramId=${program.id }" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmMove" text="Are you sure you want to move this patient to MDR-TB program? The patient's current program will be automatically closed with outcome Moved to SLD Treatment"/>')"><spring:message code="mdrtb.moveToMDR" text="Enroll in MDR Program"/></a></span>
 </b>
 <div class="box" style="margin:0px;">
 

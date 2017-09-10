@@ -62,10 +62,10 @@
 <td><openmrs:formatDate date="${xpert.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>${xpert.provider.personName}</td>
-</tr>
+</tr> --%>
  
 <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
@@ -113,6 +113,7 @@
 <form name="xpert" action="xpert.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty xpert.id ? xpert.id : -1}" method="post">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
+<input type="hidden" name="provider" value="45" />
 
 <table>
  
@@ -121,7 +122,7 @@
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${xpert.encounterDatetime}"/></td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>
 <select name="provider">
@@ -131,7 +132,7 @@
 </c:forEach>
 </select>
 </td>
-</tr>
+</tr> --%>
  
 <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>

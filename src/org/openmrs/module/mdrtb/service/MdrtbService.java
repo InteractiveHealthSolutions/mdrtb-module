@@ -653,6 +653,7 @@ public interface MdrtbService extends OpenmrsService {
 	public  ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, Integer year, String quarter, String month);
     
 	public Set<ProgramWorkflowState> getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
+	public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient);
 }
 
 

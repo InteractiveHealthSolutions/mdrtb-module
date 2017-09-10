@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PersonAddress;
@@ -13,6 +14,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 
@@ -225,17 +227,22 @@ public class TB03uForm extends AbstractSimpleForm {
 	
 	
 	public Concept getAnatomicalSite() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
 			return obs.getValueCoded();
-		}
+		}*/
+		TB03Form tb03 = getTb03();
+		if(tb03!=null)
+			return tb03.getAnatomicalSite();
+		else
+			return null;
 	}
 	
-	public void setAnatomicalSite(Concept site) {
+	/*public void setAnatomicalSite(Concept site) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -260,7 +267,7 @@ public class TB03uForm extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		} 
-	}
+	}*/
 	
 	public Concept getRegistrationGroup() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX), encounter);
@@ -1093,6 +1100,52 @@ public class TB03uForm extends AbstractSimpleForm {
 		} 
 	}
 	
+	/*public Integer getPreviousProgramId() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PREVIOUS_PROGRAM_ID), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueNumeric().intValue();
+		}
+	}
+	
+	public void setPreviousProgramId(Integer id) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PREVIOUS_PROGRAM_ID), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && id == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueNumeric() == null || obs.getValueNumeric().intValue() != id.intValue()) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(id != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueNumeric(new Double(id));
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	public TB03Form getTb03() {
+		Integer ppId = getPreviousProgramId();
+		if(ppId==null)
+			return null;
+		TbPatientProgram tpp = Context.getService(MdrtbService.class).getTbPatientProgram(ppId);
+		return tpp.getTb03();
+	}*/
+	
 	public List<SmearForm> getSmears() {
 		if(getPatProgId()==null) {
 			System.out.println("GM: null program");
@@ -1136,6 +1189,16 @@ public class TB03uForm extends AbstractSimpleForm {
 		this.tb03 = new TB03Form(Context.getEncounterService().getEncounter(id));
 	}
 	*/
+	
+	public TB03Form getTb03() {
+		TB03Form ret = null;
+		Location location = getLocation();
+		Date encounterDate = getEncounterDatetime();
+		
+		ret = Context.getService(MdrtbService.class).getClosestTB03Form(location, encounterDate, getPatient());
+		
+		return ret;
+	}
 		
 	
 

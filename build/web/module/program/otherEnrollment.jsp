@@ -95,7 +95,7 @@
 
 <c:otherwise>
 <form id="enrollment" action="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollmentMdrtb.form?patientId=${patientId}&patientProgramId=-1" method="post" >
-
+<%-- <input type="hidden" name="previousProgramId" value="${previousProgramId}"/> --%>
 <table cellspacing="2" cellpadding="2">
 
 <tr>

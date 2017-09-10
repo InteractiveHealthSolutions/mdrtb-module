@@ -282,7 +282,8 @@ public class TbConcepts {
  	public final static String[] NAME_OF_CP_FACILITY = {"NAME OF CP FACILITY"};
  	
  	public final static String[] DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE = {"DOTS CLASSIFICATION ACCORDING TO PREVIOUS DRUG USE"};
- 	
+ 	public final static String[] PREVIOUS_PROGRAM_ID = {"PREVIOUS PROGRAM ID"};
+ 			
      
 
 }

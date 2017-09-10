@@ -285,6 +285,7 @@ public class ProgramController {
 	public ModelAndView showOtherEnrollment(@RequestParam(required = true, value = "patientId") Integer patientId,
 									   @RequestParam(required = true, value = "type") String type,
 									   @RequestParam(required = false, value = "mdrLocation") Integer locationId,
+									  /* @RequestParam(required = false, value = "previousProgramId") Integer previousProgramId,*/
 	                                         ModelMap map) {
 
 			Patient patient = Context.getPatientService().getPatient(patientId);
@@ -303,6 +304,9 @@ public class ProgramController {
 			if(locationId!=null) {
 				map.put("initLocation", Context.getLocationService().getLocation(locationId));
 			}
+		/*	if(previousProgramId!=null) {
+				map.put("previousProgramId", previousProgramId);
+			}*/
 			
 			return new ModelAndView("/module/mdrtb/program/otherEnrollment", map);
 			
