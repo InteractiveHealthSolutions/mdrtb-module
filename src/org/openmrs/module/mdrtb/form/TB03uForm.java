@@ -2,6 +2,7 @@ package org.openmrs.module.mdrtb.form;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.openmrs.Concept;
@@ -9,7 +10,9 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.PatientIdentifier;
 import org.openmrs.PersonAddress;
+import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
@@ -38,20 +41,42 @@ public class TB03uForm extends AbstractSimpleForm {
 		super(encounter);
 	}
 	
-	
+	public String getPatientName() {
+		PersonName p = getPatient().getPersonName();
+		
+		return p.getFamilyName() + "," + p.getGivenName();
+	}
 	
 	public String getTb03RegistrationNumber() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB03_REGISTRATION_NUMBER), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB03_REGISTRATION_NUMBER), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
 			return obs.getValueText();
+		}*/
+		
+		String ret = null;
+		TB03Form tb03 = getTb03();
+		if(tb03!=null) {
+			Integer patProgId = tb03.getPatProgId();
+			if(patProgId!=null) {
+				TbPatientProgram tpp = Context.getService(MdrtbService.class).getTbPatientProgram(patProgId);
+				PatientIdentifier pi = tpp.getPatientIdentifier();
+				if(pi!=null)
+					return pi.getIdentifier();
+			}
+			
 		}
+		
+		return ret;
+		
 	}
 	
-	public void setTb03RegistrationNumber(String number) {
+	
+	
+	/*public void setTb03RegistrationNumber(String number) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB03_REGISTRATION_NUMBER), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -76,20 +101,30 @@ public class TB03uForm extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		} 
-	}
+	}*/
 	
 	public Integer getTb03RegistrationYear() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB03_REGISTRATION_YEAR), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB03_REGISTRATION_YEAR), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
 			return obs.getValueNumeric().intValue();
+		}*/
+		String ret = null;
+		TB03Form tb03 = getTb03();
+		if(tb03!=null) {
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(tb03.getEncounterDatetime());
+			return gc.get(GregorianCalendar.YEAR);
+			
 		}
+		
+		return null;
 	}
 	
-	public void setTb03RegistrationYear(Integer year) {
+	/*public void setTb03RegistrationYear(Integer year) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB03_REGISTRATION_YEAR), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -114,7 +149,7 @@ public class TB03uForm extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		} 
-	}
+	}*/
 	
 	
 	
@@ -1196,6 +1231,12 @@ public class TB03uForm extends AbstractSimpleForm {
 		Date encounterDate = getEncounterDatetime();
 		
 		ret = Context.getService(MdrtbService.class).getClosestTB03Form(location, encounterDate, getPatient());
+		
+		return ret;
+	}
+	
+	public String getTB03Identifier() {
+		String ret = null;
 		
 		return ret;
 	}

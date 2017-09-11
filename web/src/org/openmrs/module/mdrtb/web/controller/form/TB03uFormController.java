@@ -142,14 +142,17 @@ public class TB03uFormController {
 					tpp.setDateCompleted(null);
 				}
 				
+				if(group!=null) {
+					ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX).getName().getName()); 
+					ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().getName());
+					tpp.setClassificationAccordingToPreviousTreatment(groupState);
+				}
 				
-				ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX).getName().getName()); 
-				ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().getName());
-				tpp.setClassificationAccordingToPreviousTreatment(groupState);
-				
-				ProgramWorkflow groupByDrugFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE).getName().getName()); 
-				ProgramWorkflowState groupByDrugState = Context.getProgramWorkflowService().getState(groupByDrugFlow, groupByDrug.getName().getName());
-				tpp.setClassificationAccordingToPreviousDrugUse(groupByDrugState);
+				if(groupByDrug!=null) {
+					ProgramWorkflow groupByDrugFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE).getName().getName()); 
+					ProgramWorkflowState groupByDrugState = Context.getProgramWorkflowService().getState(groupByDrugFlow, groupByDrug.getName().getName());
+					tpp.setClassificationAccordingToPreviousDrugUse(groupByDrugState);
+				}
 				
 				Context.getProgramWorkflowService().savePatientProgram(tpp.getPatientProgram());
 

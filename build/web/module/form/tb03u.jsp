@@ -72,6 +72,11 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td>${tb03u.patientName}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.tb03.tb03RegistrationNumber" text="TB03 Reg Num"/>:</td>
 <td>${tb03u.tb03RegistrationNumber}</td>
 </tr>
@@ -341,13 +346,20 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td>${tb03u.patientName}</td>
+</tr>
+
+<tr>
 <td valign="top"><spring:message code="mdrtb.tb03.tb03RegistrationNumber" text="TB03RegistrationNumber"/>:</td>
-<td><input name="tb03RegistrationNumber" size="12" value="${tb03u.tb03RegistrationNumber}"/></td>
+<%-- <td><input name="tb03RegistrationNumber" size="12" value="${tb03u.tb03RegistrationNumber}"/></td> --%>
+<td>${tb03u.tb03RegistrationNumber}</td>
 </tr>
 
 <tr>
 <td valign="top"><spring:message code="mdrtb.tb03.tb03RegistrationYear" text="year of tb03 registration"/>:</td>
-<td><input name="tb03RegistrationYear" size="8" value="${tb03u.tb03RegistrationYear}"/></td>
+<%-- <td><input name="tb03RegistrationYear" size="8" value="${tb03u.tb03RegistrationYear}"/></td> --%>
+<td>${tb03u.tb03RegistrationYear}</td>
 </tr>
  
 <tr>

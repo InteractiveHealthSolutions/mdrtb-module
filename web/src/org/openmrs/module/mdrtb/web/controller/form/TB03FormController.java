@@ -139,14 +139,17 @@ public class TB03FormController {
 			tpp.setDateCompleted(null);
 		}
 		
+		if(group!=null) {
+			ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP).getName().getName()); 
+			ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().getName());
+			tpp.setClassificationAccordingToPatientGroups(groupState);
+		}
 		
-		ProgramWorkflow groupFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP).getName().getName()); 
-		ProgramWorkflowState groupState = Context.getProgramWorkflowService().getState(groupFlow, group.getName().getName());
-		tpp.setClassificationAccordingToPatientGroups(groupState);
-		
-		ProgramWorkflow groupByDrugFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE).getName().getName()); 
-		ProgramWorkflowState groupByDrugState = Context.getProgramWorkflowService().getState(groupByDrugFlow, groupByDrug.getName().getName());
-		tpp.setClassificationAccordingToPreviousDrugUse(groupByDrugState);
+		if(groupByDrug!=null) {
+			ProgramWorkflow groupByDrugFlow = Context.getProgramWorkflowService().getWorkflow(tpp.getPatientProgram().getProgram(), Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE).getName().getName()); 
+			ProgramWorkflowState groupByDrugState = Context.getProgramWorkflowService().getState(groupByDrugFlow, groupByDrug.getName().getName());
+			tpp.setClassificationAccordingToPreviousDrugUse(groupByDrugState);
+		}
 		
 		Context.getProgramWorkflowService().savePatientProgram(tpp.getPatientProgram());
 
