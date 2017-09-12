@@ -154,17 +154,18 @@ public class TB03uForm extends AbstractSimpleForm {
 	
 	
 	public Integer getAgeAtMDRRegistration() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.AGE_AT_MDR_REGISTRATION), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.AGE_AT_MDR_REGISTRATION), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
 			return obs.getValueNumeric().intValue();
-		}
+		}*/
+		return MdrtbUtil.calculateAge(getPatient().getBirthdate(), getEncounterDatetime());
 	}
 	
-	public void setAgeAtMDRRegistration(Integer age) {
+	/*public void setAgeAtMDRRegistration(Integer age) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.AGE_AT_MDR_REGISTRATION), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -189,7 +190,7 @@ public class TB03uForm extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		} 
-	}
+	}*/
 	
 	public String getSldRegisterNumber() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.REGIMEN_2_REG_NUMBER), encounter);

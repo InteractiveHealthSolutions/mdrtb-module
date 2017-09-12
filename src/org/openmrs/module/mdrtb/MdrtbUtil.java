@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -49,6 +50,8 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 
 public class MdrtbUtil {
     
@@ -1018,6 +1021,28 @@ public class MdrtbUtil {
 		   
 		   return ret;
 	   }
+	
+	public static Integer calculateAge(Date fromDate, Date toDate) {
+		Integer ret = null;
+		GregorianCalendar fromCal = new GregorianCalendar();
+		fromCal.setTimeInMillis(fromDate.getTime());
+		/*fromCal.set(GregorianCalendar.HOUR_OF_DAY, 0);
+		fromCal.set(GregorianCalendar.MINUTE, 0);
+		fromCal.set(GregorianCalendar.SECOND, 1);*/
+		GregorianCalendar toCal = new GregorianCalendar();
+		toCal.setTimeInMillis(toDate.getTime());
+		/*fromCal.set(GregorianCalendar.HOUR_OF_DAY, 23);
+		fromCal.set(GregorianCalendar.MINUTE, 59);
+		fromCal.set(GregorianCalendar.SECOND, 59);*/
+		
+		LocalDate fromLocalDate = new LocalDate(fromCal.get(GregorianCalendar.YEAR),  fromCal.get(GregorianCalendar.MONTH)+1, fromCal.get(GregorianCalendar.DATE));
+		LocalDate toLocalDate = new LocalDate(toCal.get(GregorianCalendar.YEAR),  toCal.get(GregorianCalendar.MONTH)+1, toCal.get(GregorianCalendar.DATE));
+		Years age = Years.yearsBetween(fromLocalDate, toLocalDate);
+		ret = age.getYears();
+		
+		
+		return ret;
+	}
 	
 
 }

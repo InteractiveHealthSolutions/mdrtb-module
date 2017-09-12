@@ -413,7 +413,8 @@
  
 <tr>
 <td valign="top"><spring:message code="mdrtb.form89.ageAtRegistration" text="Age at Registration"/>:</td>
-<td><input name="ageAtRegistration" size="8" value="${form89.ageAtRegistration}"/></td>
+<%-- <td><input name="ageAtRegistration" size="8" value="${form89.ageAtRegistration}"/></td> --%>
+<td>${form89.ageAtRegistration}</td>
 </tr>
 
 <tr>

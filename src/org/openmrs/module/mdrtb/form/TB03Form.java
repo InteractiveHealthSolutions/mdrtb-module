@@ -135,17 +135,19 @@ public class TB03Form extends AbstractSimpleForm {
 	}
 	
 	public Integer getAgeAtTB03Registration() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.AGE_AT_DOTS_REGISTRATION), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.AGE_AT_DOTS_REGISTRATION), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
 			return obs.getValueNumeric().intValue();
-		}
+		}*/
+		return MdrtbUtil.calculateAge(getPatient().getBirthdate(), getEncounterDatetime());
+		
 	}
 	
-	public void setAgeAtTB03Registration(Integer age) {
+	/*public void setAgeAtTB03Registration(Integer age) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.AGE_AT_DOTS_REGISTRATION), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -170,7 +172,7 @@ public class TB03Form extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		} 
-	}
+	}*/
 	
 	public String getGender() {
 		if(encounter.getPatient().getGender().equals("M"))
@@ -182,6 +184,7 @@ public class TB03Form extends AbstractSimpleForm {
 	}
 	
 	public Date getDateOfBirth() {
+		System.out.println("TIME:" + encounter.getPatient().getBirthdate().getTime());
 		return encounter.getPatient().getBirthdate();
 	}
 	

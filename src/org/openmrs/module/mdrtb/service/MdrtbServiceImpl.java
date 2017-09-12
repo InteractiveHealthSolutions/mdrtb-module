@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -829,7 +830,9 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     }
     
     public Set<ProgramWorkflowState> getPossibleTbProgramOutcomes() {
+    	
     	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME), false);
+    	
     }
 
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPreviousDrugUse() {
@@ -1292,7 +1295,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleRegimens() {
-    	return this.getConcept(TbConcepts.TUBERCULOSIS_PATIENT_CATEGORY).getAnswers();
+    	return this.getConcept(TbConcepts.TUBERCULOSIS_PATIENT_CATEGORY).getSortedAnswers(Context.getLocale());
     }
     
     @Transactional(readOnly=true)
@@ -1302,7 +1305,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleResistanceTypes() {
-    	return this.getConcept(TbConcepts.RESISTANCE_TYPE).getAnswers();
+    	return this.getConcept(TbConcepts.RESISTANCE_TYPE).getSortedAnswers(Context.getLocale());
     }
     
     @Transactional(readOnly=true)

@@ -20,6 +20,7 @@
 		$j('#edit').click(function(){
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
+			hivToggle();
 		});
 
 		$j('#cancel').click(function(){
@@ -34,7 +35,36 @@
 			}
 		});
 		
+		
+		
 	});
+	
+	function hivToggle () {
+		
+		var statusBox = document.getElementById('hivStatus');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideHivDates(choice);
+	}
+	
+	function showHideHivDates(val) {
+		
+		var e = document.getElementById('hivDateDiv');
+       	
+       	if(val==48) {
+       		
+       		document.getElementById('artStartDate').disabled = false;
+       		document.getElementById('pctStartDate').disabled = false;
+       		
+       	}
+       	else {
+       		    $j('#artStartDate').val("");
+       		 	$j('#pctStartDate').val("");
+       		 	document.getElementById('artStartDate').disabled = true;
+        		document.getElementById('pctStartDate').disabled = true;
+       	      
+       	   		//set values of dates to ""
+       	}
+     }
     
 	
 
@@ -393,7 +423,8 @@
  
 <tr>
 <td valign="top"><spring:message code="mdrtb.tb03.ageAtRegistration" text="Age at Regisration"/>:</td>
-<td><input name="ageAtTB03Registration" size="8" value="${tb03.ageAtTB03Registration}"/></td>
+<%-- <td><input name="ageAtTB03Registration" size="8" value="${tb03.ageAtTB03Registration}"/></td> --%>
+<td>${tb03.ageAtTB03Registration}</td>
 </tr>
 
 <tr>
@@ -499,9 +530,9 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.tb03.hivStatus" text="HIV Status"/>:</td>
+<td><spring:message code="mdrtb.tb03.hivStatus" text="HIV Status" />:</td>
 <td>
-<select name="hivStatus">
+<select name="hivStatus" id="hivStatus"  onChange="hivToggle()">
 <option value=""></option>
 <c:forEach var="status" items="${hivstatuses}">
 	<option value="${status.answerConcept.id}" <c:if test="${tb03.hivStatus == status.answerConcept}">selected</c:if> >${status.answerConcept.displayString}</option>
