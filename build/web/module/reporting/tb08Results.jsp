@@ -1976,7 +1976,9 @@ response.setDateHeader ("Expires", -1);
 		
 		<input type="button" onclick="tableToExcel('tb08', 'TB08')" value="<spring:message code='dotsreports.exportToExcelBtn' />" />
 		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="<spring:message code='dotsreports.exportToPdfBtn' />" /> -->
+		<openmrs:hasPrivilege privilege="Manage Report Closing">
 		<input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='dotsreports.closeReportBtn' />" />
+		</openmrs:hasPrivilege>
 		<input type="button" id="back" name="back" value="<spring:message code='dotsreports.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
 
 		

@@ -36,6 +36,36 @@
 		
 	});
 
+	var tableToExcel = (function() {
+		  var uri = 'data:application/vnd.ms-excel;base64,'
+		    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Form89</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
+		    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+		    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+		  return function(table, name) {
+		    if (!table.nodeType) table = document.getElementById(table)
+		    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+		    window.location.href = uri + base64(format(template, ctx))
+		  }
+		})()
+		
+	function printForm() {
+		var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+	    mywindow.document.write('<html><head><title><spring:message code="mdrtb.form89" text="Form89"/></title>');
+	    mywindow.document.write('</head><body >');
+	    mywindow.document.write('<h1><spring:message code="mdrtb.form89" text="Form89"/></h1>');
+	    mywindow.document.write(document.getElementById("form89").innerHTML);
+	    
+	    mywindow.document.write('</body></html>');
+
+	    mywindow.document.close(); // necessary for IE >= 10
+	    mywindow.focus(); // necessary for IE >= 10*/
+
+	    mywindow.print();
+	    mywindow.close();
+
+	    return true;
+	}
 
 -->
 
@@ -51,10 +81,11 @@
 <!-- VIEW BOX -->
 <div id="viewVisit" <c:if test="${(empty form89.id) || (form89.id == -1) || fn:length(errors.allErrors) > 0}"> style="display:none" </c:if>>
 <b class="boxHeader"><spring:message code="mdrtb.form89" text="Form89"/>
-<span style="position: absolute; right:30px;"><a id="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/module/mdrtb/visits/delete.form?visitId=${form89.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteVisit" text="Are you sure you want to delete this visit?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span>
+<span style="position: absolute; right:30px;"><a id="print" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'" onclick="printForm()"><spring:message code="mdrtb.print" text="TB03"/></a>&nbsp;&nbsp;<a id="export" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'" onclick="tableToExcel('form89', 'Form89')"><spring:message code="mdrtb.exportToExcel" text="TB03"/></a>&nbsp;&nbsp;<a id="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/module/mdrtb/visits/delete.form?visitId=${form89.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteVisit" text="Are you sure you want to delete this visit?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span>
 </b>
-<div class="box">
-
+<div id="form89" class="box">
+<table>
+<tr><td>
 <table>
  
 <tr>
@@ -328,6 +359,8 @@
 
 
 
+</table>
+</td></tr>
 </table>
 
 </div>

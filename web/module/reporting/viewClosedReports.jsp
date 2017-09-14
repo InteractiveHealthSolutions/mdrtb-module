@@ -122,7 +122,10 @@
 					//UNLOCK
 					var cell = row.insertCell(-1);
 					cell.id="unlock_${reportIdLoop.index}";
-					cell.innerHTML = "<button id='unlockBtn_${reportIdLoop.index}' name='unlockBtn_${reportIdLoop.index}' onclick='unlock(\"${reportIdLoop.index}\");' style='width: 100%'>"+unlockBtnTxt+"</button>";
+					cell.innerHTML = "<button id='unlockBtn_${reportIdLoop.index}' name='unlockBtn_${reportIdLoop.index}' onclick='unlock(\"${reportIdLoop.index}\");' style='width: 100%' disabled='true'>"+unlockBtnTxt+"</button>";
+					<openmrs:hasPrivilege privilege="Manage Report Closing">
+					document.getElementById('unlockBtn_${reportIdLoop.index}').disabled = false;
+					</openmrs:hasPrivilege>
 				</c:forEach>
 			}
 

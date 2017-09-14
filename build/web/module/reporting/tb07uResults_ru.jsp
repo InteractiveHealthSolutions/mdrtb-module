@@ -939,8 +939,9 @@
 		</div>
 		<input type="button" onclick="tableToExcel('tb07u', 'TB07u')" value="<spring:message code='mdrtb.exportToExcelBtn' />" />
 		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="<spring:message code='mdrtb.exportToPdfBtn' />" /> -->
+		<openmrs:hasPrivilege privilege="Manage Report Closing">
 		<input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='mdrtb.closeReportBtn' />" />
-		
+		</openmrs:hasPrivilege>
 		<script> 
 			console.log("${reportStatus}");
 			if("${reportStatus}" === "true") { 

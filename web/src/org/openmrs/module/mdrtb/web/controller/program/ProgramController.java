@@ -1,10 +1,12 @@
 package org.openmrs.module.mdrtb.web.controller.program;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -285,6 +287,7 @@ public class ProgramController {
 	public ModelAndView showOtherEnrollment(@RequestParam(required = true, value = "patientId") Integer patientId,
 									   @RequestParam(required = true, value = "type") String type,
 									   @RequestParam(required = false, value = "mdrLocation") Integer locationId,
+									   @RequestParam(required = false, value = "programStartDate") String programStartDate,
 									  /* @RequestParam(required = false, value = "previousProgramId") Integer previousProgramId,*/
 	                                         ModelMap map) {
 
@@ -303,6 +306,34 @@ public class ProgramController {
 			map.put("type", type);
 			if(locationId!=null) {
 				map.put("initLocation", Context.getLocationService().getLocation(locationId));
+			}
+			Date parsedDate = null;
+			if(programStartDate!=null) {
+				String[] splits = programStartDate.split("\\.");
+				if(splits==null || splits.length!=3) {
+					parsedDate = null;
+				}
+				
+				else {
+					int year = Integer.parseInt(splits[2]);
+					int month = Integer.parseInt(splits[1]) - 1;
+					int date = Integer.parseInt(splits[0]);
+					
+					GregorianCalendar gc = new GregorianCalendar();
+					gc.set(gc.YEAR, year);
+					gc.set(gc.MONTH, month);
+					gc.set(gc.DATE, date);
+					parsedDate = gc.getTime();
+				}
+				
+				/*SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+				try {
+					parsedDate = formatter.parse(programStartDate);
+				} catch (ParseException e) {
+					parsedDate = null;
+					}*/
+				System.out.println(parsedDate);
+				map.put("programStartDate", parsedDate);
 			}
 		/*	if(previousProgramId!=null) {
 				map.put("previousProgramId", previousProgramId);
