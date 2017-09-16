@@ -14,6 +14,8 @@ public interface LabResultsStatusRenderer {
 	public void renderXpert(StatusItem diagnosticXpert, LabResultsStatus status);
 	
 	public void renderHAIN(StatusItem diagnosticHAIN, LabResultsStatus status);
+	
+	public void renderHAIN2(StatusItem diagnosticHAIN2, LabResultsStatus status);
 
 	//public void renderPendingLabResults(StatusItem pendingLabResults, LabResultsStatus status);
 	

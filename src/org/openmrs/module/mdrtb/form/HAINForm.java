@@ -122,7 +122,7 @@ public class HAINForm extends AbstractSimpleForm implements Comparable<HAINForm>
 			return null;
 		}
 		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
+			//System.out.println("ValCo: " + obs.getValueCoded() );
 			return obs.getValueCoded();
 		}
 	}
@@ -190,7 +190,7 @@ public class HAINForm extends AbstractSimpleForm implements Comparable<HAINForm>
 			return null;
 		}
 		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
+			//System.out.println("ValCo: " + obs.getValueCoded() );
 			return obs.getValueCoded();
 		}
 	}
@@ -258,7 +258,7 @@ public class HAINForm extends AbstractSimpleForm implements Comparable<HAINForm>
 			return null;
 		}
 		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
+		//	System.out.println("ValCo: " + obs.getValueCoded() );
 			return obs.getValueCoded();
 		}
 	}

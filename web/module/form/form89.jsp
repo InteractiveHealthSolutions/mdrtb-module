@@ -276,6 +276,25 @@
 
 <br/>
 
+<spring:message code="mdrtb.hain2s" text="Hainz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+</tr>
+
+<c:forEach var="hain2" items="${form89.hain2s}">
+<tr>
+<td>${hain2.mtbResult.displayString }/FQ: ${hain2.fqResult.displayString }/ INJ: ${hain2.injResult.displayString }</td>
+<td><openmrs:formatDate date="${hain2.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${hain2.location.displayString}
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
 <spring:message code="mdrtb.form89.comorbidities" text="Comorb"/>
 <table>
 

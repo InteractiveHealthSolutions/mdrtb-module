@@ -20,10 +20,12 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.form.CultureForm;
 import org.openmrs.module.mdrtb.form.DSTForm;
 import org.openmrs.module.mdrtb.form.Form89;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
@@ -34,6 +36,7 @@ import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.HAIN2;
 import org.openmrs.module.mdrtb.specimen.ScannedLabReport;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Specimen;
@@ -544,8 +547,14 @@ public interface MdrtbService extends OpenmrsService {
      */
     public HAIN getHAIN(Integer obsId);
     
+    public HAIN2 getHAIN2(Obs obs);
     
+    public HAIN2 createHAIN2(Specimen specimen);
     
+    @Transactional
+    public void saveHAIN2(HAIN2 hain);
+    
+    public HAIN2 getHAIN2(Integer obsId);
     
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleMtbResults();
@@ -555,6 +564,12 @@ public interface MdrtbService extends OpenmrsService {
     
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleInhResistanceResults();
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleFqResistanceResults();
+    
+    @Transactional(readOnly=true)
+	public Collection<ConceptAnswer> getPossibleInjResistanceResults();
     
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleXpertMtbBurdens();
@@ -643,6 +658,7 @@ public interface MdrtbService extends OpenmrsService {
 	public List<CultureForm> getCultureForms(Integer patientProgramId);
 	public List<XpertForm> getXpertForms(Integer patientProgramId);
 	public List<HAINForm> getHAINForms(Integer patientProgramId);
+	public List<HAIN2Form> getHAIN2Forms(Integer patientProgramId);
 	public List<DSTForm> getDstForms (Integer patientProgramId);
 	
 	public List<Encounter> getEncountersWithNoProgramId(EncounterType ec, Patient p);

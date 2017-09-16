@@ -81,6 +81,15 @@ public class TB03Form extends AbstractSimpleForm {
 		
 	}
 	
+	public List<HAIN2Form> getHain2s() {
+		if(getPatProgId()==null) {
+			System.out.println("GM: null program");
+			return new ArrayList<HAIN2Form>();
+		}
+		return Context.getService(MdrtbService.class).getHAIN2Forms(getPatProgId());
+		
+	}
+	
 	public List<DSTForm> getDsts() {
 		if(getPatProgId()==null) {
 			System.out.println("GM: null program");
@@ -548,6 +557,44 @@ public class TB03Form extends AbstractSimpleForm {
 		} 
 	}
 	
+	public Date getXrayDate() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.XRAY_DATE), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueDatetime();
+		}
+	}
+	
+	public void setXrayDate(Date date) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.XRAY_DATE), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && date == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueDatetime() == null || !obs.getValueDatetime().equals(date)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(date != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.XRAY_DATE), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueDatetime(date);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
 	public Concept getResistanceType() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.RESISTANCE_TYPE), encounter);
 		
@@ -701,7 +748,12 @@ public class TB03Form extends AbstractSimpleForm {
 	}
 	
 	public Date getDateOfDeathAfterOutcome() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);
+		//Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);
+		List<Obs> obsList = Context.getObsService().getObservationsByPersonAndConcept(Context.getPersonService().getPerson(getPatient().getId()), Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME));
+		Obs obs = null;
+		
+		if(obsList!=null && obsList.size()>0)
+			obs = obsList.get(0);
 		
 		if (obs == null) {
 			return null;
@@ -712,7 +764,13 @@ public class TB03Form extends AbstractSimpleForm {
 	}
 	
 	public void setDateOfDeathAfterOutcome(Date date) {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);*/
+		List<Obs> obsList = Context.getObsService().getObservationsByPersonAndConcept(Context.getPersonService().getPerson(getPatient().getId()), Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME));
+		
+		Obs obs = null;
+		
+		if(obsList!=null && obsList.size()>0)
+			obs = obsList.get(0);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
 		if (obs == null && date == null) {

@@ -20,6 +20,7 @@
 		$j('#edit').click(function(){
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
+			resToggle();
 		});
 
 		$j('#cancel').click(function(){
@@ -35,6 +36,31 @@
 		});
 		
 	});
+	
+	function resToggle () {
+		
+		var statusBox = document.getElementById('mtbResult');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideRes(choice);
+	}
+	
+	function showHideRes(val) {
+       	
+       	if(val==449) {
+       		
+       		document.getElementById('rifResult').disabled = false;
+       		document.getElementById('inhResult').disabled = false;
+       		
+       		
+       	}
+       	else {
+       		 	
+       		 	document.getElementById('rifResult').disabled = true;
+       			document.getElementById('rifResult').selectedIndex = 0;
+       			document.getElementById('inhResult').disabled = true;
+       			document.getElementById('inhResult').selectedIndex = 0;
+       	}
+     }
 
 
 -->
@@ -160,9 +186,9 @@
 
 
 <tr>
-<td><spring:message code="mdrtb.mtbResult" text="mtbResult"/>:</td>
+<td><spring:message code="mdrtb.mtbResult" text="mtbResult"  />:</td>
 <td>
-<select name="mtbResult">
+<select name="mtbResult" id="mtbResult" onChange="resToggle()">
 <option value=""></option>
 <c:forEach var="result" items="${mtbresults}">
 	<option value="${result.answerConcept.id}" <c:if test="${hain.mtbResult == result.answerConcept}">selected</c:if> >${result.answerConcept.displayString}</option>
@@ -174,7 +200,7 @@
 <tr>
 <td><spring:message code="mdrtb.inhResult" text="inhResult"/>:</td>
 <td>
-<select name="inhResult">
+<select name="inhResult" id="inhResult">
 <option value=""></option>
 <c:forEach var="result" items="${inhresults}">
 	<option value="${result.answerConcept.id}" <c:if test="${hain.inhResult == result.answerConcept}">selected</c:if> >${result.answerConcept.displayString}</option>
@@ -187,7 +213,7 @@
 <tr>
 <td><spring:message code="mdrtb.rifResult" text="rifResult"/>:</td>
 <td>
-<select name="rifResult">
+<select name="rifResult" id="rifResult">
 <option value=""></option>
 <c:forEach var="result" items="${rifresults}">
 	<option value="${result.answerConcept.id}" <c:if test="${hain.rifResult == result.answerConcept}">selected</c:if> >${result.answerConcept.displayString}</option>

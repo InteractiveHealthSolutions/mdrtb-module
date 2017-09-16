@@ -51,6 +51,7 @@ import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.CultureForm;
 import org.openmrs.module.mdrtb.form.DSTForm;
 import org.openmrs.module.mdrtb.form.Form89;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
@@ -66,6 +67,8 @@ import org.openmrs.module.mdrtb.specimen.CultureImpl;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.DstImpl;
 import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.HAIN2;
+import org.openmrs.module.mdrtb.specimen.HAIN2Impl;
 import org.openmrs.module.mdrtb.specimen.HAINImpl;
 import org.openmrs.module.mdrtb.specimen.ScannedLabReport;
 import org.openmrs.module.mdrtb.specimen.Smear;
@@ -1083,6 +1086,14 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		return this.getConcept(MdrtbConcepts.ISONIAZID_RESISTANCE).getAnswers();
 	}
 	
+	public Collection<ConceptAnswer> getPossibleFqResistanceResults() {
+		return this.getConcept(MdrtbConcepts.FQ_RESISTANCE).getAnswers();
+	}
+	
+	public Collection<ConceptAnswer> getPossibleInjResistanceResults() {
+		return this.getConcept(MdrtbConcepts.INJ_RESISTANCE).getAnswers();
+	}
+	
 	public Collection<ConceptAnswer> getPossibleXpertMtbBurdens() {
 		return this.getConcept(MdrtbConcepts.XPERT_MTB_BURDEN).getAnswers();
 	}
@@ -1433,6 +1444,29 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
     			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
     				HAINForm sf = new HAINForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				hains.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(hains);
+    	return hains;
+    }
+    
+    public List<HAIN2Form> getHAIN2Forms (Integer patientProgramId) {
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<HAIN2Form> hains = new ArrayList<HAIN2Form>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HAIN2_CONSTRUCT), e)!=null) {
+    			System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				HAIN2Form sf = new HAIN2Form(e);
     				sf.setPatient(tpp.getPatient());
     				hains.add(sf);
     			}
@@ -1852,6 +1886,44 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 	 return ret;
  
  }
+ 
+	public HAIN2 createHAIN2(Specimen specimen) {			
+		if (specimen == null) {
+			log.error("Unable to create xpert: specimen is null.");
+			return null;
+		}
+		
+		// add the smear to the specimen
+		return specimen.addHAIN2();
+	}
+	
+	public HAIN2 getHAIN2(Obs obs) {
+		// don't need to do much error checking here because the constructor will handle it
+		return new HAIN2Impl(obs);
+	}
+
+	public HAIN2 getHAIN2(Integer obsId) {
+		return getHAIN2(Context.getObsService().getObs(obsId));
+	}
+	
+	public void saveHAIN2(HAIN2 hain2) {
+		if (hain2 == null) {
+			log.warn("Unable to save hain: hain object is null");
+			return;
+		}
+		
+		// make sure getSmear returns that right type
+		// (i.e., that this service implementation is using the specimen implementation that it expects, which should return a observation)
+	
+		if(!(hain2.getTest() instanceof Obs)) {
+			throw new APIException("Not a valid hain implementation for this service implementation");
+		}
+		
+		// otherwise, go ahead and do the save
+		Context.getObsService().saveObs((Obs) hain2.getTest(), "voided by Mdr-tb module specimen tracking UI");
+		
+	}
+	//////////////////////////////
  /*
   * List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
 		for (List<Object> temp : result) {

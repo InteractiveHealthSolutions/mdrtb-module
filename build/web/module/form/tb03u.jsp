@@ -267,6 +267,8 @@
 <td><openmrs:formatDate date="${tb03u.pctStartDate}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
+
+
 </table>
 
 <br/>

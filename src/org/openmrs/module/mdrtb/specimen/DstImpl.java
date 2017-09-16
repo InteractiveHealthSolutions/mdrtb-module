@@ -138,7 +138,7 @@ public class DstImpl extends TestImpl implements Dst {
 
     public List<DstResult> getResults() {
     	List<DstResult> results = new LinkedList<DstResult>();
-		System.out.println("getResults:" + test.getId());
+		//System.out.println("getResults:" + test.getId());
 		// iterate through all the obs groups, create dst results from them, and add them to the list
 		if(test.getGroupMembers() != null) {
 			for(Obs obs : test.getGroupMembers()) {
@@ -148,7 +148,7 @@ public class DstImpl extends TestImpl implements Dst {
 				}
 			}
 		}
-		System.out.println("GR:" + results.size());
+		//System.out.println("GR:" + results.size());
 		return results;
     }
     
@@ -338,9 +338,9 @@ public class DstImpl extends TestImpl implements Dst {
     public String getResultsString() {
     	String results = "";
 		Map<Integer, List<DstResult>> dstResultsMap = getResultsMap();
-		System.out.println("MAP SIZE=" + dstResultsMap.size());
+		//System.out.println("MAP SIZE=" + dstResultsMap.size());
 		Collection<Concept> drugs = getPossibleDrugTypes();
-		System.out.println("DRUG SIZE=" + drugs.size());
+	//	System.out.println("DRUG SIZE=" + drugs.size());
 		
 		for(Concept drug : drugs) {
 			if(dstResultsMap.get(drug.getId())!=null) {

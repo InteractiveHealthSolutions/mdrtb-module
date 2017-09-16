@@ -18,6 +18,7 @@ import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 
 import org.openmrs.module.mdrtb.MdrtbConcepts;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 import org.openmrs.module.mdrtb.form.XpertForm;
@@ -89,7 +90,7 @@ public class XpertFormController {
 				form = new XpertForm(tbProgram.getPatient());
 			
 				// prepopulate the intake form with any program information
-				form.setEncounterDatetime(tbProgram.getDateEnrolled());
+				//form.setEncounterDatetime(tbProgram.getDateEnrolled());
 				form.setLocation(tbProgram.getLocation());
 			}
 			
@@ -99,7 +100,7 @@ public class XpertFormController {
 				form = new XpertForm(mdrtbProgram.getPatient());
 			
 				// prepopulate the intake form with any program information
-				form.setEncounterDatetime(mdrtbProgram.getDateEnrolled());
+				//form.setEncounterDatetime(mdrtbProgram.getDateEnrolled());
 				form.setLocation(mdrtbProgram.getLocation());
 			}
 			return form;
@@ -165,6 +166,15 @@ public class XpertFormController {
 			map.put("errors", errors);
 			return new ModelAndView("/module/mdrtb/form/intake", map);
 		}*/
+		
+		System.out.println("PROC RIF:" + xpert.getRifResult());
+		System.out.println("PROF MTB:" + xpert.getMtbResult());
+		
+		if(xpert.getMtbResult()!=null && xpert.getMtbResult().getId().intValue()!=Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_POSITIVE).getId().intValue()) {
+			
+			System.out.println("Setting null");
+			xpert.setRifResult(null);
+		}
 		
 		// save the actual update
 		Context.getEncounterService().saveEncounter(xpert.getEncounter());

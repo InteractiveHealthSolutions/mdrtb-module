@@ -126,13 +126,13 @@ public class SmearForm extends AbstractSimpleForm implements Comparable<SmearFor
 			return null;
 		}
 		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
+		//	System.out.println("ValCo: " + obs.getValueCoded() );
 			return obs.getValueCoded();
 		}
 	}
 	
 	public void setSmearResult(Concept result) {
-		System.out.println("result" + result);
+	//	System.out.println("result" + result);
 		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.SMEAR_CONSTRUCT), encounter);
 		Obs obs = null;
 		

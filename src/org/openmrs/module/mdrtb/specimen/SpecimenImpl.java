@@ -573,6 +573,34 @@ public class SpecimenImpl implements Specimen {
 		return hains;
 	}
 	
+	public HAIN2 addHAIN2() {
+		// cast to an Impl so we can access protected methods from within the specimen impl
+		HAIN2Impl hain2 = new HAIN2Impl(this.encounter);
+		
+		// add the smear to the master encounter
+		this.encounter.addObs(hain2.getObs());
+		
+		// we need to set the location back to null, since it will be set to the encounter location
+		// when it is added to the location
+		hain2.setLab(null);
+		
+		return hain2;
+	}
+	
+	public List<HAIN2> getHAIN2s() {
+		List<HAIN2> hains = new LinkedList<HAIN2>();		
+		// iterate through all the obs groups, create hains from them, and add them to the list
+		if(encounter.getObsAtTopLevel(false) != null) {
+			for(Obs obs : encounter.getObsAtTopLevel(false)) {
+				if (obs.getConcept().equals(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HAIN2_CONSTRUCT))) {
+					hains.add(new HAIN2Impl(obs));
+				}
+			}
+		}
+		Collections.sort(hains);
+		return hains;
+	}
+	
 	
 	
 	//////////////

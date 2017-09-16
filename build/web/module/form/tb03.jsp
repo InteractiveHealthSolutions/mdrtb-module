@@ -228,6 +228,11 @@
 <td><openmrs:formatDate date="${tb03.pctStartDate}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.tb03.xrayDate" text="X-raydate"/>:</td>
+<td><openmrs:formatDate date="${tb03.xrayDate}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
 </table>
 
 <br/>
@@ -284,6 +289,25 @@
 <td>${hain.mtbResult.displayString }/RIF: ${hain.rifResult.displayString }/ INH: ${hain.inhResult.displayString }</td>
 <td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain.location.displayString}
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
+<spring:message code="mdrtb.hain2s" text="Hainz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+</tr>
+
+<c:forEach var="hain2" items="${tb03.hain2s}">
+<tr>
+<td>${hain2.mtbResult.displayString }/FQ: ${hain2.fqResult.displayString }/ INJ: ${hain2.injResult.displayString }</td>
+<td><openmrs:formatDate date="${hain2.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${hain2.location.displayString}
 </c:forEach>
 </tr>
 </table>
@@ -580,6 +604,11 @@
 <tr>
 <td><spring:message code="mdrtb.tb03.cptStartDate" text="PCT Start Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="pctStartDate" startValue="${tb03.pctStartDate}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.xrayDate" text="X-ray Date"/>:</td>
+<td><openmrs_tag:dateField formFieldName="xrayDate" startValue="${tb03.xrayDate}"/></td>
 </tr>
 
 <tr>

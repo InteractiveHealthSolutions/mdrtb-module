@@ -18,6 +18,7 @@ import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.DstResult;
 import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.HAIN2;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Test;
 import org.openmrs.module.mdrtb.specimen.SpecimenConstants.TestStatus;
@@ -124,6 +125,31 @@ public class DashboardLabResultsStatusRenderer implements LabResultsStatusRender
 			}
 			     
 			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.hainFormatter", params, "{0} on {1}, tested at {2}", Context.getLocale()));
+		} else {
+			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.none"));
+			item.setLink(null);
+		}
+	
+	}
+	
+	public void renderHAIN2(StatusItem item, LabResultsStatus status) {
+		
+		HAIN2 hain2 = (HAIN2) item.getValue();
+		
+		if (hain2 != null) {
+			String[] params = {
+					hain2.getResult().getBestShortName(Context.getLocale()).toString(),
+					hain2.getDateCollected() != null ? df.format(hain2.getDateCollected()) : "(N/A)",
+							hain2.getLab() != null ? hain2.getLab().getDisplayString() : "(N/A)" };
+			if(status.getPatientProgram()!=null) {
+				item.setLink("/module/mdrtb/form/hain2.form?encounterId=" + hain2.getSpecimenId() + "&patientProgramId=" + status.getPatientProgram().getId());
+			}
+			
+			else {
+				item.setLink("/module/mdrtb/form/hain2.form?encounterId=" + hain2.getSpecimenId() + "&patientProgramId=" + status.getPatientTbProgram().getId());
+			}
+			     
+			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.hain2Formatter", params, "{0} on {1}, tested at {2}", Context.getLocale()));
 		} else {
 			item.setDisplayString(Context.getMessageSourceService().getMessage("mdrtb.none"));
 			item.setLink(null);

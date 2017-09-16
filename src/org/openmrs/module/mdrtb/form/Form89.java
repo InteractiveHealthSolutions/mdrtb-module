@@ -1308,6 +1308,15 @@ public class Form89 extends AbstractSimpleForm {
 	
 	}
 	
+	public List<HAIN2Form> getHain2s() {
+		if(getPatProgId()==null) {
+			System.out.println("GM: null program");
+			return new ArrayList<HAIN2Form>();
+		}
+		return Context.getService(MdrtbService.class).getHAIN2Forms(getPatProgId());
+	
+	}
+	
 	public Boolean getIsPulmonary() {
 		Boolean result = null;
 		

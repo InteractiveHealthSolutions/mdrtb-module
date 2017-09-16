@@ -947,7 +947,13 @@ public class TB03uForm extends AbstractSimpleForm {
 	}
 	
 	public Date getDateOfDeathAfterOutcome() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);*/
+		
+		List<Obs> obsList = Context.getObsService().getObservationsByPersonAndConcept(Context.getPersonService().getPerson(getPatient().getId()), Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME));
+		Obs obs = null;
+		
+		if(obsList!=null && obsList.size()>0)
+			obs = obsList.get(0);
 		
 		if (obs == null) {
 			return null;
@@ -958,7 +964,13 @@ public class TB03uForm extends AbstractSimpleForm {
 	}
 	
 	public void setDateOfDeathAfterOutcome(Date date) {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME), encounter);*/
+		List<Obs> obsList = Context.getObsService().getObservationsByPersonAndConcept(Context.getPersonService().getPerson(getPatient().getId()), Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_DEATH_AFTER_OUTCOME));
+		
+		Obs obs = null;
+		
+		if(obsList!=null && obsList.size()>0)
+			obs = obsList.get(0);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
 		if (obs == null && date == null) {

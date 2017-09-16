@@ -122,13 +122,13 @@ public class XpertForm extends AbstractSimpleForm implements Comparable<XpertFor
 			return null;
 		}
 		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
+		//	System.out.println("ValCo: " + obs.getValueCoded() );
 			return obs.getValueCoded();
 		}
 	}
 	
 	public void setMtbResult(Concept result) {
-		System.out.println("result" + result);
+		//System.out.println("result" + result);
 		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT), encounter);
 		Obs obs = null;
 		
@@ -190,13 +190,13 @@ public class XpertForm extends AbstractSimpleForm implements Comparable<XpertFor
 			return null;
 		}
 		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
+		//	System.out.println("ValCo: " + obs.getValueCoded() );
 			return obs.getValueCoded();
 		}
 	}
 	
 	public void setRifResult(Concept result) {
-		System.out.println("result" + result);
+		System.out.println(">>>>>> result:" + result);
 		Obs obsgroup = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT), encounter);
 		Obs obs = null;
 		

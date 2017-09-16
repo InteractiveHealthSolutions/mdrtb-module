@@ -88,6 +88,9 @@ public interface Specimen extends Comparable<Specimen>{
 	public List<HAIN> getHAINs();
 	public HAIN addHAIN();
 	
+	public List<HAIN2> getHAIN2s();
+	public HAIN2 addHAIN2();
+	
 	public List<Test> getTests();
 	
 	public Map<Integer,List<DstResult>> getDstResultsMap();

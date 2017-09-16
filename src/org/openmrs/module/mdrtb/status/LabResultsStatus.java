@@ -54,6 +54,10 @@ public class LabResultsStatus extends Status {
 		return getItem("mostRecentHAIN");
 	}
 	
+	public StatusItem getMostRecentHAIN2() {
+		return getItem("mostRecentHAIN2");
+	}
+	
 	public StatusItem getMostRecentDst() {
 		return getItem("mostRecentDst");
 	}

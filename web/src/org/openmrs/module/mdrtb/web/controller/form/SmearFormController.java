@@ -94,7 +94,7 @@ public class SmearFormController {
 				form = new SmearForm(tbProgram.getPatient());
 			
 				// prepopulate the intake form with any program information
-				form.setEncounterDatetime(tbProgram.getDateEnrolled());
+				//form.setEncounterDatetime(tbProgram.getDateEnrolled());
 				form.setLocation(tbProgram.getLocation());
 			}
 			

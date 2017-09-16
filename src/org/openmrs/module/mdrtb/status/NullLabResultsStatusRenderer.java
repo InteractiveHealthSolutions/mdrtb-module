@@ -42,6 +42,9 @@ public class NullLabResultsStatusRenderer implements LabResultsStatusRenderer {
     
     public void renderHAIN(StatusItem diagnosticHAIN, LabResultsStatus status) {
     }
+    
+    public void renderHAIN2(StatusItem diagnosticHAIN, LabResultsStatus status) {
+    }
 
     public void renderDst(StatusItem dst, LabResultsStatus status) {
     }

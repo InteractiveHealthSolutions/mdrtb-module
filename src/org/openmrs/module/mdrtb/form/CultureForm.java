@@ -122,7 +122,7 @@ public class CultureForm extends AbstractSimpleForm implements Comparable<Cultur
 			return null;
 		}
 		else {
-			System.out.println("ValCo: " + obs.getValueCoded() );
+			//System.out.println("ValCo: " + obs.getValueCoded() );
 			return obs.getValueCoded();
 		}
 	}

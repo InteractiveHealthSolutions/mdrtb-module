@@ -89,7 +89,7 @@ public class CultureFormController {
 				form = new CultureForm(tbProgram.getPatient());
 			
 				// prepopulate the intake form with any program information
-				form.setEncounterDatetime(tbProgram.getDateEnrolled());
+				//form.setEncounterDatetime(tbProgram.getDateEnrolled());
 				form.setLocation(tbProgram.getLocation());
 			}
 			
@@ -99,7 +99,7 @@ public class CultureFormController {
 				form = new CultureForm(mdrtbProgram.getPatient());
 			
 				// prepopulate the intake form with any program information
-				form.setEncounterDatetime(mdrtbProgram.getDateEnrolled());
+				//form.setEncounterDatetime(mdrtbProgram.getDateEnrolled());
 				form.setLocation(mdrtbProgram.getLocation());
 			}
 			return form;

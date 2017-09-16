@@ -69,6 +69,7 @@ public class MdrtbConcepts {
     //XPERT AND HAIN CONCEPTS
     public final static String [] XPERT_CONSTRUCT = {"TUBERCULOSIS XPERT TEST CONSTRUCT"};
     public final static String [] HAIN_CONSTRUCT = {"TUBERCULOSIS HAIN TEST CONSTRUCT"};
+    public final static String [] HAIN2_CONSTRUCT = {"TUBERCULOSIS HAIN2 TEST CONSTRUCT"};
     public final static String [] MTB_RESULT = {"MTB RESULT"};
     public final static String [] RIFAMPICIN_RESISTANCE = {"RIFAMPICIN RESISTANCE"};
     public final static String [] DETECTED = {"DETECTED"};
@@ -80,6 +81,8 @@ public class MdrtbConcepts {
     public final static String [] XPERT_MEDIUM = {"MEDIUM"};
     public final static String [] XPERT_LOW = {"LOW"};
     public final static String [] ISONIAZID_RESISTANCE = {"ISONIAZID RESISTANCE"};
+    public final static String [] FQ_RESISTANCE = {"FQ RESISTANCE"};
+    public final static String [] INJ_RESISTANCE = {"INJ RESISTANCE"};
     
     
     public final static String [] COLONIES_IN_CONTROL = {"COLONIES IN CONTROL"};

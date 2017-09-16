@@ -22,6 +22,7 @@ import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.DstResult;
 import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.HAIN2;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Specimen;
 import org.openmrs.module.mdrtb.specimen.Test;
@@ -80,6 +81,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		findMostRecentCulture(specimens, status);
 		findMostRecentXpert(specimens, status);
 		findMostRecentHAIN(specimens, status);
+		findMostRecentHAIN2(specimens, status);
 		findMostRecentDst(specimens, status);
 		
 		// calculate whether or not the culture has been converted
@@ -134,6 +136,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		findMostRecentCulture(specimens, status);
 		findMostRecentXpert(specimens, status);
 		findMostRecentHAIN(specimens, status);
+		findMostRecentHAIN2(specimens, status);
 		findMostRecentDst(specimens, status);
 		
 		// calculate whether or not the culture has been converted
@@ -521,6 +524,23 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 
     }
     
+    private void findMostRecentHAIN2(List<Specimen> specimens, LabResultsStatus status) {
+    	StatusItem mostRecentCompletedHAIN2 = new StatusItem();
+	
+    	HAIN2 hain2 = findFirstCompletedHAIN2InList(specimens);
+		mostRecentCompletedHAIN2.setValue(hain2);
+		renderer.renderHAIN2(mostRecentCompletedHAIN2, status);
+		
+		status.addItem("mostRecentHAIN2", mostRecentCompletedHAIN2);
+		
+		/**
+		if (smear == null) {
+			mostRecentCompletedSmear.addFlag(renderer.createNoSmearsFlag());
+		}
+		*/
+
+    }
+    
     private void findMostRecentDst(List<Specimen> specimens, LabResultsStatus status) {
     	StatusItem mostRecentCompletedDst = new StatusItem();
 	
@@ -619,6 +639,29 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 			if (hains!= null && !hains.isEmpty()) {
 				Collections.reverse(hains);
 				for (HAIN hain : hains) {
+					if (hain.getResult() != null) {
+						return hain;
+					}
+				}
+			}
+		}
+		
+		// if we've got to here, there is no completed hain for this patient
+		return null;
+	}
+	
+	private HAIN2 findFirstCompletedHAIN2InList(List<Specimen> specimens) {
+		
+		if (specimens == null) {
+			return null;
+		}
+		
+		for (Specimen specimen : specimens) {
+			List<HAIN2> hains = specimen.getHAIN2s();
+			
+			if (hains!= null && !hains.isEmpty()) {
+				Collections.reverse(hains);
+				for (HAIN2 hain : hains) {
 					if (hain.getResult() != null) {
 						return hain;
 					}
