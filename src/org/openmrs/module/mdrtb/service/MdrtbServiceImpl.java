@@ -1584,6 +1584,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		District district = null;
 				
 		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
+		
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -1600,7 +1601,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	        district = new District(name, id);
 	        break;
 	    }
-
+		
 		return district;
 	}
 	
