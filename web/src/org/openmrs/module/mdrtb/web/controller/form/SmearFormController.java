@@ -210,11 +210,7 @@ public class SmearFormController {
         	}
         }
         
-        /*else if(oblast==null) {
-        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-        	model.addAttribute("oblasts", oblasts);
-        	
-        }*/
+       
         else if(district==null)
         { 
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
@@ -249,7 +245,7 @@ public class SmearFormController {
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
 		
 		Location location=null;
-    	//List<Location> locations = null;// new ArrayList<Location>();
+    	
     	
     	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
     	
@@ -259,40 +255,16 @@ public class SmearFormController {
     		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),null);
     	
     	
-    	
-    	/*if(facilityId!=null && facilityId.length()!=0) {
-    		//all fields selected
-    		Facility fac = Context.getService(MdrtbService.class).getFacility(Integer.parseInt(facilityId));
-    		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
-    		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
-    		location = Context.getService(MdrtbService.class).getLocation(obl,dist,fac);
-    		
-    	}
-    	
-    	else if(districtId!=null && districtId.length()!=0) {
-    		//district and oblast selected
-    		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
-    		locations = Context.getService(MdrtbService.class).getLocationsFromDistrictName(dist);
-    		
-    	}
-    	
-    	else if(oblastId!=null && oblastId.length()!=0) {
-    		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
-    		locations = Context.getService(MdrtbService.class).getLocationsFromOblastName(obl);
-    	}*/
-    	
     	if(location == null) { // && locations!=null && (locations.size()==0 || locations.size()>1)) {
     		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
     	}
     	
-    	/*else if(location==null && locations!=null && locations.size()==1) {
-    		location = locations.get(0);
-    	}*/
+    	
 		if(smear.getLocation()==null || !location.equals(smear.getLocation())) {
 			System.out.println("setting loc");
 			smear.setLocation(location);
 		}
-    	//smear.getEncounter().setLocation(location);
+   
 		
 		boolean mdr = false;
 		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
@@ -324,10 +296,7 @@ public class SmearFormController {
 		// clears the command object from the session
 		status.setComplete();
 		
-		/*if(programModified) {
-			System.out.println("saving program");
-			Context.getProgramWorkflowService().savePatientProgram(pp);
-		}*/
+		
 		
 		map.clear();
 
