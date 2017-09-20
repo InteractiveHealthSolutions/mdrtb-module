@@ -34,6 +34,16 @@
 			}
 		});
 		
+		if(${encounterId != -1}) {
+			$j('#viewVisit').hide();
+			$j('#editVisit').show();
+		}
+		
+		$('#oblast').val(${oblastSelected});
+		$('#district').val(${districtSelected});
+		$('#facility').val(${facilitySelected});
+		
+		
 	});
 
 	function fun1()
@@ -187,7 +197,7 @@
 			<td><select name="oblast" id="oblast" onchange="fun1()">
 					<option value=""></option>
 					<c:forEach var="o" items="${oblasts}">
-						<option value="${o.id}" <c:if test="${smear.location.stateProvince eq o.name}">selected</c:if>>${o.name}</option>
+						<option value="${o.id}">${o.name}</option>
 					</c:forEach>
 			</select></td>
 		</tr>
@@ -197,17 +207,17 @@
 			<td><select name="district" id="district" onchange="fun2()">
 					<option value=""></option>
 					<c:forEach var="dist" items="${districts}">
-						<option value="${dist.id}" <c:if test="${smear.location.countyDistrict eq dist.name}">selected</c:if>>${dist.name}</option>
+						<option value="${dist.id}">${dist.name}</option>
 					</c:forEach>
 			</select></td>
 		</tr>
 		
 		<tr id="facilityDiv">
 			<td align="right"><spring:message code="mdrtb.facility" /></td>
-			<td><select name="facility">
+			<td><select name="facility" id="facility">
 					<option value=""></option>
 					<c:forEach var="f" items="${facilities}">
-						<option value="${f.id}" <c:if test="${smear.location.region eq f.name}">selected</c:if>>${f.name}</option>
+						<option value="${f.id}">${f.name}</option>
 					</c:forEach>
 			</select>
 			</td>

@@ -34,6 +34,16 @@
 			}
 		});
 		
+		if(${encounterId != -1}) {
+			$j('#viewVisit').hide();
+			$j('#editVisit').show();
+		}
+		
+		$('#oblast').val(${oblastSelected});
+		$('#district').val(${districtSelected});
+		$('#facility').val(${facilitySelected});
+		
+		
 	});
 
 	function fun1()
@@ -155,6 +165,8 @@
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${smear.encounterDatetime}"/></td>
 </tr>
 
+</table>
+
 <%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>
@@ -167,7 +179,7 @@
 </td>
 </tr> --%>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
 <td>
 <select name="location">
@@ -177,8 +189,43 @@
 </c:forEach>
 </select>
 </td>
-</tr>
- 
+</tr> --%>
+
+<table>
+<tr id="oblastDiv">
+			<td align="right"><spring:message code="mdrtb.oblast" /></td>
+			<td><select name="oblast" id="oblast" onchange="fun1()">
+					<option value=""></option>
+					<c:forEach var="o" items="${oblasts}">
+						<option value="${o.id}">${o.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		
+		<tr id="districtDiv">
+			<td align="right"><spring:message code="mdrtb.district" /></td>
+			<td><select name="district" id="district" onchange="fun2()">
+					<option value=""></option>
+					<c:forEach var="dist" items="${districts}">
+						<option value="${dist.id}">${dist.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		
+		<tr id="facilityDiv">
+			<td align="right"><spring:message code="mdrtb.facility" /></td>
+			<td><select name="facility" id="facility">
+					<option value=""></option>
+					<c:forEach var="f" items="${facilities}">
+						<option value="${f.id}">${f.name}</option>
+					</c:forEach>
+			</select>
+			</td>
+		</tr>
+	</table>
+	
+<table>
+
 <tr>
 <td valign="top"><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
 <td><input name="monthOfTreatment" size="2" value="${smear.monthOfTreatment}"/></td>

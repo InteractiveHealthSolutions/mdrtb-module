@@ -583,7 +583,8 @@ public interface MdrtbService extends OpenmrsService {
     //FOR LOCATIONS
     public List<Facility> getFacilities();
     
-    public Location getLocation(Oblast o, District d, Facility f);
+    /*public Location getLocation(Oblast o, District d, Facility f);*/
+    public Location getLocation(Integer o, Integer d, Integer f);
 
     public List<Facility> getFacilities(int parentId);
 

@@ -8,6 +8,10 @@ public class District {
 		this.id = id;
 	}
 	
+	public District() {
+		// TODO Auto-generated constructor stub
+	}
+
 	String name;
 	Integer id;
 	

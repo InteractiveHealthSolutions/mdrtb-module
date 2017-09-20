@@ -37,6 +37,9 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 
+import org.openmrs.module.addresshierarchy.AddressHierarchyEntry;
+import org.openmrs.module.addresshierarchy.AddressHierarchyLevel;
+import org.openmrs.module.addresshierarchy.service.AddressHierarchyService;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.Oblast;
@@ -1103,20 +1106,15 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		
 		List<Oblast> oblastList = new ArrayList<Oblast>();
 		
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2", true);
-		for (List<Object> temp : result) {
-			Integer id = 0;
-			String name = "";
-	        for (int i = 0; i < temp.size(); i++) {
-	        	Object value = temp.get(i);
-	            if (value != null) {
-	            	
-	            	if(i == 0)
-	            		id = (Integer) value;
-	            	else if (i == 1)
-	            		name = (String) value;
-	            }
-	        }
+		//List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2", true);
+		AddressHierarchyLevel oblastLevel = new AddressHierarchyLevel();
+		oblastLevel.setLevelId(2);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(oblastLevel);
+		
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
 	        oblastList.add(new Oblast(name, id));
 	    }
 		
@@ -1126,7 +1124,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	public Oblast getOblast(Integer oblastId){
 		Oblast oblast = null;
 				
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2 and address_hierarchy_entry_id = " +  oblastId, true);
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2 and address_hierarchy_entry_id = " +  oblastId, true);
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -1142,10 +1140,21 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	        }
 	        oblast = new Oblast(name, id);
 	        break;
-	    }
+	    }*/
+	
+		
+		AddressHierarchyEntry add = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntry(oblastId.intValue());
+		 
+		if(add!=null) {
+				oblast = new Oblast();
+				oblast.setId(oblastId);
+				oblast.setName(add.getName());
+		
+		}
 
 		return oblast;
 	}
+	
 	
     public List<Location> getLocationsFromOblastName(Oblast oblast){
     	List<Location> locationList = new ArrayList<Location>();
@@ -1535,7 +1544,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		
 		List<District> districtList = new ArrayList<District>();
 		
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3", true);
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3", true);
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -1550,6 +1559,17 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	            }
 	        }
 	        districtList.add(new District(name, id));
+	    }*/
+		
+		AddressHierarchyLevel distLevel = new AddressHierarchyLevel();
+		distLevel.setLevelId(3);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(distLevel);
+		
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			districtList.add(new District(name, id));
 	    }
 		
 		return districtList;
@@ -1560,7 +1580,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		
 		List<District> districtList = new ArrayList<District>();
 		
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and parent_id="+parentId, true);
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and parent_id="+parentId, true);
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -1575,15 +1595,24 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	            }
 	        }
 	        districtList.add(new District(name, id));
+	    }*/
+		
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			districtList.add(new District(name, id));
 	    }
 		
 		return districtList;
+	
 	}
 	
 	public District getDistrict(Integer districtId){
 		District district = null;
 				
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -1599,14 +1628,24 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	        }
 	        district = new District(name, id);
 	        break;
-	    }
+	    }*/
+		
+		AddressHierarchyEntry add = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntry(districtId.intValue());
+		 
+		if(add!=null) {
+			district = new District();
+			district.setId(districtId);
+			district.setName(add.getName());
+		}
+
+		
 
 		return district;
 	}
 	
-	public District getDistrict(String dname){
+	public District getDistrict(String dName){
 		District district = null;
-		String query="Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '"+ dname+"'";
+		/*String query="Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '"+ dname+"'";
 		System.out.println(query);
 		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '" +dname+"'", true);
 		for (List<Object> temp : result) {
@@ -1624,8 +1663,18 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	        }
 	        district = new District(name, id);
 	        break;
-	    }
-
+	    }*/
+		
+		AddressHierarchyLevel distLevel = new AddressHierarchyLevel();
+		distLevel.setLevelId(3);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevelAndName(distLevel, dName);
+		if(list!=null) {
+			Integer id = list.get(0).getId();
+			String name = list.get(0).getName();
+			
+			return (new District(name, id));
+		}
+		
 		return district;
 	}
 	
@@ -1649,7 +1698,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     {
     	List<Facility> facilityList = new ArrayList<Facility>();
 		
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and parent_id="+parentId, true);
+	/*	List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and parent_id="+parentId + ";", true);
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -1664,6 +1713,14 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	            }
 	        }
 	        facilityList.add(new Facility(name, id));
+	    }*/
+    	
+    	List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			facilityList.add(new Facility(name, id));
 	    }
 		
 		return facilityList;
@@ -1673,7 +1730,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     {
     	Facility facility = null;
 		
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and address_hierarchy_entry_id = " +  facilityId, true);
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and address_hierarchy_entry_id = " +  facilityId + ";", true);
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -1689,7 +1746,18 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	        }
 	        facility = new Facility(name, id);
 	        break;
-	    }
+	    }*/
+    	
+    	AddressHierarchyEntry add = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntry(facilityId.intValue());
+		 
+		if(add!=null) {
+			facility = new Facility();
+			facility.setId(facilityId);
+			facility.setName(add.getName());
+		
+		}
+
+		
 
 		return facility;
     }
@@ -1710,19 +1778,39 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	return locationList;
     }
     
-    public Location getLocation(Oblast o, District d, Facility f) {
+    public Location getLocation(Integer oblastId, Integer districtId, Integer facilityId) {
     	
-    	if(o==null || d==null || f==null)
+    	if(oblastId==null || districtId==null)
     		return null;
+    	
+    	Oblast o = getOblast(oblastId);
+    	District d = getDistrict(districtId);
+    	
+    	Facility f = null;
+    	
+    	if(facilityId!=null)
+    		f = getFacility(facilityId);
     	
     	Location location = null;
     	
+    	
     	List<Location> locations = Context.getLocationService().getAllLocations(false);
     	
-    	for(Location loc : locations){ 
-    		if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) && loc.getRegion()!=null && loc.getRegion().equals(f.getName()) ) {
-    			location = loc;
-    			break;
+    	if(f!=null) {
+    		for(Location loc : locations){ 
+    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) && loc.getRegion()!=null && loc.getRegion().equals(f.getName()) ) {
+    				location = loc;
+    				break;
+    			}
+    		}
+    	}
+    	
+    	else {
+    		for(Location loc : locations){ 
+    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName())) {
+    				location = loc;
+    				break;
+    			}
     		}
     	}
     	
@@ -1734,7 +1822,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 
     	List<Facility> facilityList = new ArrayList<Facility>();
 		
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6", true);
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6", true);
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -1749,7 +1837,18 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	            }
 	        }
 	        facilityList.add(new Facility(name, id));
+	    }*/
+    	AddressHierarchyLevel facLevel = new AddressHierarchyLevel();
+    	facLevel.setLevelId(6);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(facLevel);
+		
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			facilityList.add(new Facility(name, id));
 	    }
+    	
 		
 		return facilityList;
 	}

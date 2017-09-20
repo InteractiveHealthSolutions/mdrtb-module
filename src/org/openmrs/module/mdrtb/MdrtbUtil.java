@@ -741,7 +741,7 @@ public class MdrtbUtil {
     		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
     		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
     		//List<Location> facList = Context.getService(MdrtbService.class).getLocationsFromFacilityName(fac);
-    		location = Context.getService(MdrtbService.class).getLocation(obl,dist,fac);
+    		location = Context.getService(MdrtbService.class).getLocation(obl.getId(),dist.getId(),fac.getId());
     		
     	}
     	

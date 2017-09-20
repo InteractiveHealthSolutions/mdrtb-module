@@ -26,6 +26,7 @@ import org.openmrs.module.mdrtb.service.MdrtbService;
 
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.SmearForm;
+import org.openmrs.module.mdrtb.form.TB03Form;
 
 
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
@@ -45,13 +46,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.openmrs.module.addresshierarchy.service.AddressHierarchyService;
+
 
 
 @Controller
 @RequestMapping("/module/mdrtb/form/smear.form")
+@SessionAttributes("smear")
 public class SmearFormController {
 	
 	@InitBinder
@@ -136,26 +141,51 @@ public class SmearFormController {
 	}*/
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showSmearForm(/*@RequestParam(value="loc", required=false) String district,
-    								  @RequestParam(value="ob", required=false) String oblast,*/
+	public ModelAndView showSmearForm(@RequestParam(value="loc", required=false) String district,
+    								  @RequestParam(value="ob", required=false) String oblast,
     								  @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
     								  @RequestParam(required = false, value = "encounterId") Integer encounterId,
     								  ModelMap model){
 		//ModelMap map = new ModelMap();
 		
-		/*List<Oblast> oblasts;
+		List<Oblast> oblasts;
         List<Facility> facilities;
         List<District> districts;
         
         if(oblast==null && encounterId!=-1) //we are editing an existing encounter
         {
+        	TB03Form tb03 = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
+        	Location location  = tb03.getLocation();
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
         	model.addAttribute("oblasts", oblasts);
-        	districts = Context.getService(MdrtbService.class).getDistricts();
-        	model.addAttribute("districts", districts);
-        	facilities = Context.getService(MdrtbService.class).getFacilities();
-        	model.addAttribute("facilities", facilities);
+        	for(Oblast o : oblasts) {
+        		if(o.getName().equals(location.getStateProvince())) {
+        			model.addAttribute("oblastSelected", o.getId());
+        			districts = Context.getService(MdrtbService.class).getDistricts(o.getId());
+        			model.addAttribute("districts", districts);
+        			for(District d : districts) {
+        				if(d.getName().equals(location.getCountyDistrict())) {
+        					model.addAttribute("districtSelected", d.getId());
+        					facilities = Context.getService(MdrtbService.class).getFacilities(d.getId());
+        					if(facilities != null ) {
+        						model.addAttribute("facilities", facilities);
+        						for(Facility f : facilities) {
+        							if(f.getName().equals(location.getRegion())) {
+        								System.out.println("setting");
+        								model.addAttribute("facilitySelected", f.getId());
+        								break;
+        							}
+        						}
+        					}
+        					break;
+        				}
+        			}
+        			
+        			break;
+        		}
+        	}
         }
+        
         else if(oblast==null) {
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
         	model.addAttribute("oblasts", oblasts);
@@ -180,7 +210,7 @@ public class SmearFormController {
             model.addAttribute("districtSelected", district);
             model.addAttribute("facilities", facilities);
         }
-        model.addAttribute("encounterId", encounterId);*/
+        model.addAttribute("encounterId", encounterId);
 		return new ModelAndView("/module/mdrtb/form/smear", model);	
 	}
 	
@@ -188,17 +218,25 @@ public class SmearFormController {
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView processSmearForm (@ModelAttribute("smear") SmearForm smear, BindingResult errors, 
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
-	                                       /*@RequestParam(required = true, value = "oblast") String oblastId,
+	                                       @RequestParam(required = true, value = "oblast") String oblastId,
 	                                       @RequestParam(required = true, value = "district") String districtId,
-	                                       @RequestParam(required = false, value = "facility") String facilityId,*/
+	                                       @RequestParam(required = false, value = "facility") String facilityId,
 	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
 		
-	/*	Location location=null;
-    	List<Location> locations = null;// new ArrayList<Location>();
+		Location location=null;
+    	//List<Location> locations = null;// new ArrayList<Location>();
+    	
+    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
+    	
+    	if(facilityId!=null && facilityId.length()!=0)
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),Integer.parseInt(facilityId));
+    	else
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),null);
     	
     	
-    	if(facilityId!=null && facilityId.length()!=0) {
+    	
+    	/*if(facilityId!=null && facilityId.length()!=0) {
     		//all fields selected
     		Facility fac = Context.getService(MdrtbService.class).getFacility(Integer.parseInt(facilityId));
     		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
@@ -217,19 +255,19 @@ public class SmearFormController {
     	else if(oblastId!=null && oblastId.length()!=0) {
     		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
     		locations = Context.getService(MdrtbService.class).getLocationsFromOblastName(obl);
-    	}
+    	}*/
     	
-    	if(location == null && locations!=null && (locations.size()==0 || locations.size()>1)) {
+    	if(location == null) { // && locations!=null && (locations.size()==0 || locations.size()>1)) {
     		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
     	}
     	
-    	else if(location==null && locations!=null && locations.size()==1) {
+    	/*else if(location==null && locations!=null && locations.size()==1) {
     		location = locations.get(0);
-    	}
+    	}*/
 		if(smear.getLocation()==null || !location.equals(smear.getLocation())) {
 			System.out.println("setting loc");
 			smear.setLocation(location);
-		}*/
+		}
     	//smear.getEncounter().setLocation(location);
 		
 		boolean mdr = false;

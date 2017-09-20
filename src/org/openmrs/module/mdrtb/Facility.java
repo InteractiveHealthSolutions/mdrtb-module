@@ -8,6 +8,10 @@ public class Facility {
 		this.id = id;
 	}
 	
+	public Facility() {
+		// TODO Auto-generated constructor stub
+	}
+
 	String name;
 	Integer id;
 	

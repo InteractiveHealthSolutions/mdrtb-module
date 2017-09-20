@@ -9,6 +9,10 @@ public class Oblast {
 		this.id = id;
 	}
 	
+	public Oblast() {
+		// TODO Auto-generated constructor stub
+	}
+
 	String name;
 	Integer id;
 	
