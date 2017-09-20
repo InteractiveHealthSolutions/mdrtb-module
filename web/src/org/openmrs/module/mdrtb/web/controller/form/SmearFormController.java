@@ -109,7 +109,7 @@ public class SmearFormController {
 				form = new SmearForm(mdrtbProgram.getPatient());
 			
 				// prepopulate the intake form with any program information
-				form.setEncounterDatetime(mdrtbProgram.getDateEnrolled());
+				//form.setEncounterDatetime(mdrtbProgram.getDateEnrolled());
 				form.setLocation(mdrtbProgram.getLocation());
 			}
 			return form;
@@ -152,10 +152,34 @@ public class SmearFormController {
         List<Facility> facilities;
         List<District> districts;
         
-        if(oblast==null && encounterId!=-1) //we are editing an existing encounter
+        if(oblast==null)
         {
-        	TB03Form tb03 = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
-        	Location location  = tb03.getLocation();
+        	SmearForm smear = null;
+        	if(encounterId!=-1) {  //we are editing an existing encounter
+        		 smear = new SmearForm(Context.getEncounterService().getEncounter(encounterId));
+        	}
+        	else {
+        		try {
+					smear = getSmearForm(-1, patientProgramId);
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+        	
+        	Location location  = smear.getLocation();
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
         	model.addAttribute("oblasts", oblasts);
         	for(Oblast o : oblasts) {
@@ -186,11 +210,11 @@ public class SmearFormController {
         	}
         }
         
-        else if(oblast==null) {
+        /*else if(oblast==null) {
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
         	model.addAttribute("oblasts", oblasts);
         	
-        }
+        }*/
         else if(district==null)
         { 
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
