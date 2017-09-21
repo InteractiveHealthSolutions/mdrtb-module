@@ -167,7 +167,7 @@ function addId(ppid)
 </td></tr>
 
 <tr><td colspan="2">
-<spring:message code="mdrtb.patientGroup" text="Registration Group"/>:<br/>
+<spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:<br/>
 <select name="classificationAccordingToPatientGroups">
 <option value=""/>
 <c:forEach var="classificationAccordingToPatientGroups" items="${classificationsAccordingToPatientGroups}">

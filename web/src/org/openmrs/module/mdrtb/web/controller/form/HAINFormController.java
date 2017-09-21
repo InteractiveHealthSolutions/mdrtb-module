@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +18,16 @@ import org.openmrs.Person;
 
 import org.openmrs.api.context.Context;
 
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
+import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
+import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
 
 
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
@@ -132,19 +138,133 @@ public class HAINFormController {
 	}*/
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showHAINForm() {
-		ModelMap map = new ModelMap();
+	public ModelAndView showHAINForm(@RequestParam(value="loc", required=false) String district,
+			  @RequestParam(value="ob", required=false) String oblast,
+			  @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
+			  @RequestParam(required = false, value = "encounterId") Integer encounterId,
+			  @RequestParam(required = false, value = "mode") String mode,
+			  ModelMap model) {
 		
+		List<Oblast> oblasts;
+        List<Facility> facilities;
+        List<District> districts;
+        
+        if(oblast==null)
+        {
+        	HAINForm hain = null;
+        	if(encounterId!=-1) {  //we are editing an existing encounter
+        		 hain = new HAINForm(Context.getEncounterService().getEncounter(encounterId));
+        	}
+        	else {
+        		try {
+					hain = getHAINForm(-1, patientProgramId);
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+        	
+        	Location location  = hain.getLocation();
+        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+        	model.addAttribute("oblasts", oblasts);
+        	for(Oblast o : oblasts) {
+        		if(o.getName().equals(location.getStateProvince())) {
+        			model.addAttribute("oblastSelected", o.getId());
+        			districts = Context.getService(MdrtbService.class).getDistricts(o.getId());
+        			model.addAttribute("districts", districts);
+        			for(District d : districts) {
+        				if(d.getName().equals(location.getCountyDistrict())) {
+        					model.addAttribute("districtSelected", d.getId());
+        					facilities = Context.getService(MdrtbService.class).getFacilities(d.getId());
+        					if(facilities != null ) {
+        						model.addAttribute("facilities", facilities);
+        						for(Facility f : facilities) {
+        							if(f.getName().equals(location.getRegion())) {
+        								System.out.println("setting");
+        								model.addAttribute("facilitySelected", f.getId());
+        								break;
+        							}
+        						}
+        					}
+        					break;
+        				}
+        			}
+        			
+        			break;
+        		}
+        	}
+        }
+        
+       
+        else if(district==null)
+        { 
+        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+        	model.addAttribute("oblastSelected", oblast);
+            model.addAttribute("oblasts", oblasts);
+            model.addAttribute("districts", districts);
+        }
+        else
+        {
+        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+        	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+            model.addAttribute("oblastSelected", oblast);
+            model.addAttribute("oblasts", oblasts);
+            model.addAttribute("districts", districts);
+            model.addAttribute("districtSelected", district);
+            model.addAttribute("facilities", facilities);
+        }
+        model.addAttribute("encounterId", encounterId);
+        if(mode!=null && mode.length()!=0) {
+        	model.addAttribute("mode", mode);
+        }
 		
-		return new ModelAndView("/module/mdrtb/form/hain", map);	
+		return new ModelAndView("/module/mdrtb/form/hain", model);	
 	}
 	
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView processHAINForm (@ModelAttribute("hain") HAINForm hain, BindingResult errors, 
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
+	                                       @RequestParam(required = true, value = "oblast") String oblastId,
+	                                       @RequestParam(required = true, value = "district") String districtId,
+	                                       @RequestParam(required = false, value = "facility") String facilityId,
 	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
+		
+		Location location=null;
+    	
+    	
+    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
+    	
+    	if(facilityId!=null && facilityId.length()!=0)
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),Integer.parseInt(facilityId));
+    	else
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),null);
+    	
+    	
+    	if(location == null) { // && locations!=null && (locations.size()==0 || locations.size()>1)) {
+    		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
+    	}
+    	
+    	
+		if(hain.getLocation()==null || !location.equals(hain.getLocation())) {
+			System.out.println("setting loc");
+			hain.setLocation(location);
+		}
 		
 		boolean mdr = false;
 		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);

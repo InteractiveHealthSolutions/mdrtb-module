@@ -88,6 +88,7 @@
 <input type="hidden" name="successURL" value="${successURL}"/>
 <input type="hidden" name="patientId" value="-1"/>
 <input type="hidden" name="skipSimilarCheck" value="1"/>
+<input type="hidden" name="add" value="1" />
 
 <button type="submit"><spring:message code="mdrtb.similarPersonNotOnList"/></button>
 <button type="reset" onclick="history.back()"><spring:message code="mdrtb.back"/></button>

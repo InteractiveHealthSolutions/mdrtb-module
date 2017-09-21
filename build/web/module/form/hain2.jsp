@@ -35,6 +35,16 @@
 			}
 		});
 		
+		if(${mode eq 'edit'}) {
+			$j('#viewVisit').hide();
+			$j('#editVisit').show();
+			resToggle();
+		}
+		
+		$('#oblast').val(${oblastSelected});
+		$('#district').val(${districtSelected});
+		$('#facility').val(${facilitySelected});
+		
 	});
 	
 function resToggle () {
@@ -62,11 +72,33 @@ function resToggle () {
        	}
      }
 
+	function fun1()
+	{
+		var e = document.getElementById("oblast");
+		var val = e.options[e.selectedIndex].value;
+		
+		if(val!="")
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/hain2.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty hain2.id ? hain2.id : -1})
+	}
+
+	function fun2()
+	{
+		var e = document.getElementById("oblast");
+		var val1 = e.options[e.selectedIndex].value;
+		var e = document.getElementById("district");
+		var val2 = e.options[e.selectedIndex].value;
+		
+		if(val2!="")
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/hain2.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty hain2.id ? hain2.id : -1})
+	}
+
 
 -->
 
 </script>
-
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</script>
 <br/>
 
 <div> <!-- start of page div -->
@@ -93,9 +125,24 @@ function resToggle () {
 <td>${hain2.provider.personName}</td>
 </tr> --%>
  
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
 <td>${hain2.location.displayString}</td>
+</tr> --%>
+
+<tr>
+<td><spring:message code="mdrtb.oblast" text="Oblast"/>:</td>
+<td>${hain2.location.stateProvince}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.district" text="District"/>:</td>
+<td>${hain2.location.countyDistrict}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.facility" text="Facility"/>:</td>
+<td>${hain2.location.region}</td>
 </tr>
 
 
@@ -166,7 +213,7 @@ function resToggle () {
 </td>
 </tr> --%>
  
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
 <td>
 <select name="location">
@@ -176,7 +223,44 @@ function resToggle () {
 </c:forEach>
 </select>
 </td>
-</tr>
+</tr> --%>
+
+</table>
+
+<table>
+<tr id="oblastDiv">
+			<td align="right"><spring:message code="mdrtb.oblast" /></td>
+			<td><select name="oblast" id="oblast" onchange="fun1()">
+					<option value=""></option>
+					<c:forEach var="o" items="${oblasts}">
+						<option value="${o.id}">${o.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		
+		<tr id="districtDiv">
+			<td align="right"><spring:message code="mdrtb.district" /></td>
+			<td><select name="district" id="district" onchange="fun2()">
+					<option value=""></option>
+					<c:forEach var="dist" items="${districts}">
+						<option value="${dist.id}">${dist.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		
+		<tr id="facilityDiv">
+			<td align="right"><spring:message code="mdrtb.facility" /></td>
+			<td><select name="facility" id="facility">
+					<option value=""></option>
+					<c:forEach var="f" items="${facilities}">
+						<option value="${f.id}">${f.name}</option>
+					</c:forEach>
+			</select>
+			</td>
+		</tr>
+	</table>
+	
+<table>
 
 
 <tr>

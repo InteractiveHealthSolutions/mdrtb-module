@@ -35,6 +35,16 @@
 			}
 		});
 		
+		if(${mode eq 'edit'}) {
+			$j('#viewVisit').hide();
+			$j('#editVisit').show();
+			resToggle();
+		}
+		
+		$('#oblast').val(${oblastSelected});
+		$('#district').val(${districtSelected});
+		$('#facility').val(${facilitySelected});
+		
 	});
 	
 	function resToggle () {
@@ -61,10 +71,33 @@
        			document.getElementById('inhResult').selectedIndex = 0;
        	}
      }
+	
+	function fun1()
+	{
+		var e = document.getElementById("oblast");
+		var val = e.options[e.selectedIndex].value;
+		
+		if(val!="")
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/hain.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty hain.id ? hain.id : -1})
+	}
+
+	function fun2()
+	{
+		var e = document.getElementById("oblast");
+		var val1 = e.options[e.selectedIndex].value;
+		var e = document.getElementById("district");
+		var val2 = e.options[e.selectedIndex].value;
+		
+		if(val2!="")
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/hain.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty hain.id ? hain.id : -1})
+	}
 
 
 -->
 
+</script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </script>
 
 <br/>
@@ -76,7 +109,7 @@
 
 <!-- VIEW BOX -->
 <div id="viewVisit" <c:if test="${(empty hain.id) || (hain.id == -1) || fn:length(errors.allErrors) > 0}"> style="display:none" </c:if>>
-<b class="boxHeader"><spring:message code="mdrtb.hain" text="HAIN Form"/>
+<b class="boxHeader"><spring:message code="mdrtb.hain1" text="HAIN Form"/>
 <span style="position: absolute; right:30px;"><a id="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/module/mdrtb/visits/delete.form?visitId=${hain.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteVisit" text="Are you sure you want to delete this visit?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span>
 </b>
 <div class="box">
@@ -93,12 +126,25 @@
 <td>${hain.provider.personName}</td>
 </tr> --%>
  
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
 <td>${hain.location.displayString}</td>
+</tr> --%>
+
+<tr>
+<td><spring:message code="mdrtb.oblast" text="Oblast"/>:</td>
+<td>${hain.location.stateProvince}</td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.district" text="District"/>:</td>
+<td>${hain.location.countyDistrict}</td>
+</tr>
 
+<tr>
+<td><spring:message code="mdrtb.facility" text="Facility"/>:</td>
+<td>${hain.location.region}</td>
+</tr>
 
 <tr>
 <td><spring:message code="mdrtb.specimenId" text="SpecimenId"/>:</td>
@@ -166,7 +212,7 @@
 </td>
 </tr> --%>
  
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
 <td>
 <select name="location">
@@ -176,8 +222,44 @@
 </c:forEach>
 </select>
 </td>
-</tr>
+</tr> --%>
 
+</table>
+
+<table>
+<tr id="oblastDiv">
+			<td align="right"><spring:message code="mdrtb.oblast" /></td>
+			<td><select name="oblast" id="oblast" onchange="fun1()">
+					<option value=""></option>
+					<c:forEach var="o" items="${oblasts}">
+						<option value="${o.id}">${o.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		
+		<tr id="districtDiv">
+			<td align="right"><spring:message code="mdrtb.district" /></td>
+			<td><select name="district" id="district" onchange="fun2()">
+					<option value=""></option>
+					<c:forEach var="dist" items="${districts}">
+						<option value="${dist.id}">${dist.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		
+		<tr id="facilityDiv">
+			<td align="right"><spring:message code="mdrtb.facility" /></td>
+			<td><select name="facility" id="facility">
+					<option value=""></option>
+					<c:forEach var="f" items="${facilities}">
+						<option value="${f.id}">${f.name}</option>
+					</c:forEach>
+			</select>
+			</td>
+		</tr>
+	</table>
+	
+<table>
 
 <tr>
 <td><spring:message code="mdrtb.specimenId" text="SpecimenId"/>:</td>

@@ -137,130 +137,22 @@ public class CultureFormController {
 	}*/
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showCultureForm(@RequestParam(value="loc", required=false) String district,
-			  @RequestParam(value="ob", required=false) String oblast,
-			  @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
-			  @RequestParam(required = false, value = "encounterId") Integer encounterId,
-			  ModelMap model) {
-		//ModelMap map = new ModelMap();
+	public ModelAndView showCultureForm() {
+				 ModelMap map = new ModelMap();
 		
-				List<Oblast> oblasts;
-		        List<Facility> facilities;
-		        List<District> districts;
-		        
-		        if(oblast==null)
-		        {
-		        	CultureForm culture = null;
-		        	if(encounterId!=-1) {  //we are editing an existing encounter
-		        		 culture = new CultureForm(Context.getEncounterService().getEncounter(encounterId));
-		        	}
-		        	else {
-		        		try {
-							culture = getCultureForm(-1, patientProgramId);
-						} catch (SecurityException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NoSuchMethodException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-		        	}
-		        	
-		        	Location location  = culture.getLocation();
-		        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-		        	model.addAttribute("oblasts", oblasts);
-		        	for(Oblast o : oblasts) {
-		        		if(o.getName().equals(location.getStateProvince())) {
-		        			model.addAttribute("oblastSelected", o.getId());
-		        			districts = Context.getService(MdrtbService.class).getDistricts(o.getId());
-		        			model.addAttribute("districts", districts);
-		        			for(District d : districts) {
-		        				if(d.getName().equals(location.getCountyDistrict())) {
-		        					model.addAttribute("districtSelected", d.getId());
-		        					facilities = Context.getService(MdrtbService.class).getFacilities(d.getId());
-		        					if(facilities != null ) {
-		        						model.addAttribute("facilities", facilities);
-		        						for(Facility f : facilities) {
-		        							if(f.getName().equals(location.getRegion())) {
-		        								System.out.println("setting");
-		        								model.addAttribute("facilitySelected", f.getId());
-		        								break;
-		        							}
-		        						}
-		        					}
-		        					break;
-		        				}
-		        			}
-		        			
-		        			break;
-		        		}
-		        	}
-		        }
-		       
-		        else if(district==null)
-		        { 
-		        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-		        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
-		        	model.addAttribute("oblastSelected", oblast);
-		            model.addAttribute("oblasts", oblasts);
-		            model.addAttribute("districts", districts);
-		        }
-		        else
-		        {
-		        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-		        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
-		        	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
-		            model.addAttribute("oblastSelected", oblast);
-		            model.addAttribute("oblasts", oblasts);
-		            model.addAttribute("districts", districts);
-		            model.addAttribute("districtSelected", district);
-		            model.addAttribute("facilities", facilities);
-		        }
-		        model.addAttribute("encounterId", encounterId);
+				
 		
 		
-		        return new ModelAndView("/module/mdrtb/form/culture", model);	
+		        return new ModelAndView("/module/mdrtb/form/culture", map);	
 	}
 	
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView processCultureForm (@ModelAttribute("culture") CultureForm culture, BindingResult errors, 
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
-	                                       @RequestParam(required = true, value = "oblast") String oblastId,
-	                                       @RequestParam(required = true, value = "district") String districtId,
-	                                       @RequestParam(required = false, value = "facility") String facilityId,
 	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
-		Location location=null;
-    	
-    	
-    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
-    	
-    	if(facilityId!=null && facilityId.length()!=0)
-    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),Integer.parseInt(facilityId));
-    	else
-    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),null);
-    	
-    	
-    	
-    	if(location == null) { 
-    		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
-    	}
-    	
-    	
-		if(culture.getLocation()==null || !location.equals(culture.getLocation())) {
-			System.out.println("setting loc");
-			culture.setLocation(location);
-		}
+		
 		
 		boolean mdr = false;
 		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);

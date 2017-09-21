@@ -82,7 +82,7 @@
 		var val = e.options[e.selectedIndex].value;
 		
 		if(val!="")
-			window.location.replace("/openmrs/module/mdrtb/form/form89.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty form89.id ? form89.id : -1})
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/form89.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty form89.id ? form89.id : -1})
 	}
 
 	function fun2()
@@ -93,7 +93,7 @@
 		var val2 = e.options[e.selectedIndex].value;
 		
 		if(val2!="")
-			window.location.replace("/openmrs/module/mdrtb/form/form89.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty form89.id ? form89.id : -1})
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/form89.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty form89.id ? form89.id : -1})
 	}
 
 -->

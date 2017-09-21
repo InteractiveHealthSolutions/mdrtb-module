@@ -52,7 +52,7 @@
 		var val = e.options[e.selectedIndex].value;
 		
 		if(val!="")
-			window.location.replace("/openmrs/module/mdrtb/form/smear.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/smear.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
 	}
 
 	function fun2()
@@ -63,7 +63,7 @@
 		var val2 = e.options[e.selectedIndex].value;
 		
 		if(val2!="")
-			window.location.replace("/openmrs/module/mdrtb/form/smear.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/smear.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
 	}
 -->
 
@@ -101,9 +101,24 @@
 <td>${smear.provider.personName}</td>
 </tr> --%>
  
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
 <td>${smear.location.displayString}</td>
+</tr> --%>
+
+<tr>
+<td><spring:message code="mdrtb.oblast" text="Oblast"/>:</td>
+<td>${smear.location.stateProvince}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.district" text="District"/>:</td>
+<td>${smear.location.countyDistrict}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.facility" text="Facility"/>:</td>
+<td>${smear.location.region}</td>
 </tr>
 
  
