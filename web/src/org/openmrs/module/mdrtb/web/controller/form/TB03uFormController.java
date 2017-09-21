@@ -107,6 +107,7 @@ public class TB03uFormController {
 			@RequestParam(value="ob", required=false) String oblast,
 			@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
 			  	@RequestParam(required = true, value = "encounterId") Integer encounterId,
+			  	@RequestParam(required = false, value = "mode") String mode,
 			  ModelMap model) {
 		List<Oblast> oblasts;
         List<Facility> facilities;
@@ -193,6 +194,9 @@ public class TB03uFormController {
             model.addAttribute("facilities", facilities);
         }
         model.addAttribute("encounterId", encounterId);
+        if(mode!=null && mode.length()!=0) {
+        	model.addAttribute("mode", mode);
+        }
 		
 		return new ModelAndView("/module/mdrtb/form/tb03u", model);	
 	}

@@ -35,7 +35,7 @@
 			}
 		});
 		
-		if(${encounterId != -1}) {
+		if(${mode eq 'edit'}) {
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
 		}
@@ -109,7 +109,7 @@
 		var val = e.options[e.selectedIndex].value;
 		
 		if(val!="")
-			window.location.replace("/openmrs/module/mdrtb/form/tb03u.form?ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty tb03u.id ? tb03u.id : -1})
+			window.location.replace("/openmrs/module/mdrtb/form/tb03u.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty tb03u.id ? tb03u.id : -1})
 	}
 
 	function fun2()
@@ -120,7 +120,7 @@
 		var val2 = e.options[e.selectedIndex].value;
 		
 		if(val2!="")
-			window.location.replace("/openmrs/module/mdrtb/form/tb03u.form?loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty tb03u.id ? tb03u.id : -1})
+			window.location.replace("/openmrs/module/mdrtb/form/tb03u.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty tb03u.id ? tb03u.id : -1})
 	}
 
 -->
@@ -157,9 +157,24 @@
 <td>${tb03u.provider.personName}</td>
 </tr> --%>
  
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.location" text="Location"/>:</td>
 <td>${tb03u.location.displayString}</td>
+</tr> --%>
+
+<tr>
+<td><spring:message code="mdrtb.oblast" text="Oblast"/>:</td>
+<td>${tb03u.location.stateProvince}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.district" text="District"/>:</td>
+<td>${tb03u.location.countyDistrict}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.facility" text="District"/>:</td>
+<td>${tb03u.location.region}</td>
 </tr>
 
 <tr>

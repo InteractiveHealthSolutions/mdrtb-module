@@ -145,6 +145,7 @@ public class SmearFormController {
     								  @RequestParam(value="ob", required=false) String oblast,
     								  @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
     								  @RequestParam(required = false, value = "encounterId") Integer encounterId,
+    								  @RequestParam(required = false, value = "mode") String mode,
     								  ModelMap model){
 		//ModelMap map = new ModelMap();
 		
@@ -231,6 +232,9 @@ public class SmearFormController {
             model.addAttribute("facilities", facilities);
         }
         model.addAttribute("encounterId", encounterId);
+        if(mode!=null && mode.length()!=0) {
+        	model.addAttribute("mode", mode);
+        }
 		return new ModelAndView("/module/mdrtb/form/smear", model);	
 	}
 	

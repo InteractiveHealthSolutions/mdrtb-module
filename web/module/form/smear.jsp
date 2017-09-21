@@ -34,7 +34,7 @@
 			}
 		});
 		
-		if(${encounterId != -1}) {
+		if(${mode eq 'edit'}) {
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
 		}
@@ -52,7 +52,7 @@
 		var val = e.options[e.selectedIndex].value;
 		
 		if(val!="")
-			window.location.replace("/openmrs/module/mdrtb/form/smear.form?ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
+			window.location.replace("/openmrs/module/mdrtb/form/smear.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
 	}
 
 	function fun2()
@@ -63,7 +63,7 @@
 		var val2 = e.options[e.selectedIndex].value;
 		
 		if(val2!="")
-			window.location.replace("/openmrs/module/mdrtb/form/smear.form?loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
+			window.location.replace("/openmrs/module/mdrtb/form/smear.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty smear.id ? smear.id : -1})
 	}
 -->
 
