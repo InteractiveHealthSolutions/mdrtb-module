@@ -842,33 +842,25 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     }
 
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPreviousDrugUse() {
-    	System.out.println("service call");
+    	
     	Set<ProgramWorkflowState> temp =  getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE), true);
-    	System.out.println("States Drug:" + temp.size());
-    	for(ProgramWorkflowState pwf : temp) {
-    		System.out.println(pwf.getProgramWorkflow().toString());
-    		System.out.println(pwf.toString());
-    		System.out.println(pwf.getProgramWorkflowStateId());
-    	}
+    	
+    	
     	return temp;
     }
     
     public Set<ProgramWorkflowState> getPossibleDOTSClassificationsAccordingToPreviousDrugUse() {
-    	System.out.println("service call");
+    	
     	Set<ProgramWorkflowState> temp =  getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE), false);
-    	System.out.println("States Drug:" + temp.size());
-    	for(ProgramWorkflowState pwf : temp) {
-    		System.out.println(pwf.getProgramWorkflow().toString());
-    		System.out.println(pwf.toString());
-    		System.out.println(pwf.getProgramWorkflowStateId());
-    	}
+    	
+    	
     	return temp;
     }
     
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPatientGroups() {
-    	System.out.println("service call");
+    	
     	Set<ProgramWorkflowState> temp = getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP), false);
-    	System.out.println("States:" + temp.size());
+    	
     	return temp;
     	//return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP));
     }
@@ -2022,6 +2014,40 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 		Context.getObsService().saveObs((Obs) hain2.getTest(), "voided by Mdr-tb module specimen tracking UI");
 		
 	}
+	
+	public List <Location> getCultureLocations() {
+	 ArrayList<Location> ret = new ArrayList<Location>();
+	 HashSet<Integer> locs = new HashSet<Integer>(); 
+	 
+	 String cultureLocIds = Context.getAdministrationService().getGlobalProperty("mdrtb.culturelabs");
+	 if(cultureLocIds==null || cultureLocIds.length()==0) {
+		 return ret;
+	 }
+	 
+	 String[] locIds =  cultureLocIds.split("\\|");
+	 
+	 if(locIds==null || locIds.length==0) {
+		 return ret;
+	 }
+	 
+	 for(int i=0; i<locIds.length; i++) {
+		 if(locIds[i].length()!=0) {
+			 locs.add(Integer.parseInt(locIds[i]));
+		 }
+	 }
+	 
+	 Collection<Location> allLocs = Context.getLocationService().getAllLocations(false);
+	 
+	 for(Location l : allLocs) {
+		 if(locs.contains(l.getId())) {
+			 ret.add(l);
+		 }
+	 }
+	 
+	 
+	 return ret;
+	}
+	
 	//////////////////////////////
  /*
   * List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);

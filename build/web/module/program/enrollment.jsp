@@ -24,6 +24,21 @@
 
 <!-- CUSTOM JQUERY  -->
 <script>
+
+$j(document).ready(function(){
+	
+	$('#oblast').val(${oblastSelected});
+	$('#district').val(${districtSelected});
+	$('#facility').val(${facilitySelected});
+	<c:if test="${! empty dateEnrolled}">
+		$('#dateEnrolled').val("" + ${dateEnrolled});
+	</c:if>
+	$('#classificationAccordingToPatientGroups').val(${patientGroup});
+	$('#classificationAccordingToPreviousDrugUse').val(${previousDrugUse});
+	
+});
+
+
 function addId(ppid)
 {
 	var e = document.getElementById("id_" + ppid);
@@ -32,7 +47,41 @@ function addId(ppid)
 	window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/addId.form?ppid="+ppid+"&idToAdd="+idToAdd)
 }
 
+function fun1()
+{
+	var e = document.getElementById("oblast");
+	var val = e.options[e.selectedIndex].value;
+	var dt = "\"" + document.getElementById("dateEnrolled").value + "\"";
+	var patGroup = document.getElementById("classificationAccordingToPatientGroups");
+	var patGroupChoice = patGroup.options[patGroup.selectedIndex].value;
+	var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
+	var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
+	
+	
+	if(val!="")
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?ob="+val+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+}
 
+function fun2()
+{
+	var e = document.getElementById("oblast");
+	var val1 = e.options[e.selectedIndex].value;
+	var e = document.getElementById("district");
+	var val2 = e.options[e.selectedIndex].value;
+	var dt = "\"" + document.getElementById("dateEnrolled").value + "\"";
+	var patGroup = document.getElementById("classificationAccordingToPatientGroups");
+	var patGroupChoice = patGroup.options[patGroup.selectedIndex].value;
+	var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
+	var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
+	
+	if(val2!="")
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?loc="+val2+"&ob="+val1+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+}
+
+</script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </script>
 
 <br/><br/>
@@ -156,7 +205,9 @@ function addId(ppid)
 <spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${program.dateEnrolled}'/>" onFocus="showCalendar(this)"/>
 </td></tr>
 
-<tr><td>
+</table>
+
+<%-- <tr><td>
 <spring:message code="mdrtb.enrollment.location" text="Enrollment Location"/>:</td><td>
 <select name="location">
 <option value=""/>
@@ -164,11 +215,47 @@ function addId(ppid)
 <option value="${location.locationId}" <c:if test="${location == program.location}">selected</c:if> >${location.displayString}</option>
 </c:forEach>
 </select>
-</td></tr>
+</td></tr> --%>
+
+<table>
+<tr id="oblastDiv">
+			<td align="right"><spring:message code="mdrtb.oblast" /></td>
+			<td><select name="oblast" id="oblast" onchange="fun1()">
+					<option value=""></option>
+					<c:forEach var="o" items="${oblasts}">
+						<option value="${o.id}">${o.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		
+		<tr id="districtDiv">
+			<td align="right"><spring:message code="mdrtb.district" /></td>
+			<td><select name="district" id="district" onchange="fun2()">
+					<option value=""></option>
+					<c:forEach var="dist" items="${districts}">
+						<option value="${dist.id}">${dist.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		
+		<tr id="facilityDiv">
+			<td align="right"><spring:message code="mdrtb.facility" /></td>
+			<td><select name="facility" id="facility">
+					<option value=""></option>
+					<c:forEach var="f" items="${facilities}">
+						<option value="${f.id}">${f.name}</option>
+					</c:forEach>
+			</select>
+			</td>
+		</tr>
+	</table>
+
+
+<table>
 
 <tr><td colspan="2">
 <spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:<br/>
-<select name="classificationAccordingToPatientGroups">
+<select name="classificationAccordingToPatientGroups" id="classificationAccordingToPatientGroups">
 <option value=""/>
 <c:forEach var="classificationAccordingToPatientGroups" items="${classificationsAccordingToPatientGroups}">
 <option value="${classificationAccordingToPatientGroups.id}" <c:if test="${classificationAccordingToPatientGroups == program.classificationAccordingToPatientGroups}">selected</c:if>>${classificationAccordingToPatientGroups.concept.displayString}</option>
@@ -178,7 +265,7 @@ function addId(ppid)
 
 <tr><td colspan="2">
 <spring:message code="mdrtb.previousDrugClassification" text="Registration Group - Previous Drug Use"/>:<br/>
-<select name="classificationAccordingToPreviousDrugUse">
+<select name="classificationAccordingToPreviousDrugUse" id="classificationAccordingToPreviousDrugUse">
 <option value=""/>
 <c:forEach var="classificationAccordingToPreviousDrugUse" items="${classificationsAccordingToPreviousDrugUseDOTS}">
 <option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == program.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>

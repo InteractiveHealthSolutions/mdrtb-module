@@ -23,6 +23,11 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
+import org.openmrs.module.mdrtb.Oblast;
+import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgramValidator;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
@@ -86,7 +91,6 @@ public class ProgramController {
 	
 	@ModelAttribute("classificationsAccordingToPatientGroups")
 	public Collection<ProgramWorkflowState> getClassificationsAccordingToPatientGroups() {		
-		System.out.println("called");
 		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
 	}
 	
@@ -203,6 +207,11 @@ public class ProgramController {
     @RequestMapping("/module/mdrtb/program/enrollment.form")
 	public ModelAndView showEnrollment(@RequestParam(required = false, value = "patientId") Integer patientId,
 									   @RequestParam(required = false, value = "idId") Integer idId,
+									   @RequestParam(value="loc", required=false) String district,
+										  @RequestParam(value="ob", required=false) String oblast,
+										  @RequestParam(value="dateEnrolled", required=false) String dateEnrolled,
+										  @RequestParam(value="patGroup", required=false) Integer patGroup,
+										  @RequestParam(value="drugGroup", required=false) Integer drugGroup,
 	                                         ModelMap map) {
 		
 		
@@ -223,7 +232,7 @@ public class ProgramController {
 			List<TbPatientProgram> tbPrograms = Context.getService(MdrtbService.class).getTbPatientPrograms(patient);
 			map.put("patientId", patientId);
 			map.put("hasPrograms", ((mdrtbPrograms != null && mdrtbPrograms.size()!=0) || (tbPrograms != null && tbPrograms.size() != 0)) ? true : false);
-			System.out.println("Prog:"+ map.get("hasPrograms"));
+			
 			
 			map.put("mdrtbPrograms", mdrtbPrograms);
 			map.put("tbPrograms", tbPrograms);
@@ -232,6 +241,43 @@ public class ProgramController {
 			map.put("unassignedDotsIdentifiers",getUnassignedDotsIdentifiers(patient));
 			map.put("idId",idId);
 			
+			List<Oblast> oblasts;
+	        List<Facility> facilities;
+	        List<District> districts;
+	        
+	        if(oblast==null)
+	        {
+	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+	        	map.addAttribute("oblasts", oblasts);
+	        	
+	        }
+	        
+	       
+	        else if(district==null)
+	        { 
+	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+	        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+	        	map.addAttribute("oblastSelected", oblast);
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            
+	        }
+	        else
+	        {
+	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+	        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+	        	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+	            map.addAttribute("oblastSelected", oblast);
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            map.addAttribute("districtSelected", district);
+	            map.addAttribute("facilities", facilities);
+	        }
+
+	        map.addAttribute("dateEnrolled", dateEnrolled);
+        	map.addAttribute("patientGroup", patGroup);
+        	map.addAttribute("previousDrugUse", drugGroup);
+        	
 			return new ModelAndView("/module/mdrtb/program/enrollment", map);
 			
 	}
@@ -239,14 +285,39 @@ public class ProgramController {
 	@SuppressWarnings("unchecked")
     @RequestMapping(value = "/module/mdrtb/program/firstEnrollment.form", method = RequestMethod.POST)
 	public ModelAndView processFirstEnroll(@ModelAttribute("program") TbPatientProgram program, BindingResult errors, 
-	                                  @RequestParam(required = true, value = "patientId") Integer patientId,
-	                                  @RequestParam(required = false, value="idId") Integer idId,
-	                                  SessionStatus status, HttpServletRequest request, ModelMap map) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+										@RequestParam(required = true, value = "oblast") String oblastId,
+										@RequestParam(required = true, value = "district") String districtId,
+										@RequestParam(required = false, value = "facility") String facilityId,
+										@RequestParam(required = true, value = "patientId") Integer patientId,
+										@RequestParam(required = false, value="idId") Integer idId,
+		
+										SessionStatus status, HttpServletRequest request, ModelMap map) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		System.out.println("ProgramCont:processEnroll");
 		Patient patient = Context.getPatientService().getPatient(patientId);
 		
 		if (patient == null) {
 			throw new RuntimeException ("Process enroll called with invalid patient id " + patientId);
+		}
+		
+		Location location=null;
+    	
+    	
+    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
+    	
+    	if(facilityId!=null && facilityId.length()!=0)
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),Integer.parseInt(facilityId));
+    	else
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),null);
+    	
+    	
+    	if(location == null) { // && locations!=null && (locations.size()==0 || locations.size()>1)) {
+    		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
+    	}
+    	
+    	
+		if(program.getLocation()==null || !location.equals(program.getLocation())) {
+			System.out.println("setting loc");
+			program.setLocation(location);
 		}
 		
 		// set the patient
@@ -287,17 +358,26 @@ public class ProgramController {
 	public ModelAndView showOtherEnrollment(@RequestParam(required = true, value = "patientId") Integer patientId,
 									   @RequestParam(required = true, value = "type") String type,
 									   @RequestParam(required = false, value = "mdrLocation") Integer locationId,
+									   @RequestParam(value="loc", required=false) String district,
+									   @RequestParam(value="ob", required=false) String oblast,
+										  @RequestParam(value="dateEnrolled", required=false) String dateEnrolled,
+										  @RequestParam(value="patGroup", required=false) Integer patGroup,
+										  @RequestParam(value="drugGroup", required=false) Integer drugGroup,
+										  @RequestParam(value="idSelected", required=false) Integer idSelected,
 									   @RequestParam(required = false, value = "programStartDate") String programStartDate,
 									  /* @RequestParam(required = false, value = "previousProgramId") Integer previousProgramId,*/
 	                                         ModelMap map) {
 
+		    System.out.println("SOE: " + patientId + ":" + type);
 			Patient patient = Context.getPatientService().getPatient(patientId);
 			if (patient == null) {
+				System.out.println("bad patient");
 				throw new RuntimeException ("Show enroll called with invalid patient id " + patientId);
 			}
 		
 			
 			if(type==null || type.length()==0) {
+				System.out.println("bad type");
 				throw new RuntimeException ("No program type specified");
 			}
 			
@@ -334,7 +414,48 @@ public class ProgramController {
 					}*/
 				System.out.println(parsedDate);
 				map.put("programStartDate", parsedDate);
+				
+			
 			}
+			
+			System.out.println("OBLAST: " + oblast);
+			List<Oblast> oblasts;
+	        List<Facility> facilities;
+	        List<District> districts;
+	        
+	        if(oblast==null)
+	        {
+	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+	        	map.addAttribute("oblasts", oblasts);
+	        	
+	        }
+	        
+	       
+	        else if(district==null)
+	        { 
+	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+	        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+	        	map.addAttribute("oblastSelected", oblast);
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            
+	        }
+	        else
+	        {
+	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+	        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+	        	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+	            map.addAttribute("oblastSelected", oblast);
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            map.addAttribute("districtSelected", district);
+	            map.addAttribute("facilities", facilities);
+	        }
+
+	        map.addAttribute("dateEnrolled", dateEnrolled);
+        	map.addAttribute("patientGroup", patGroup);
+        	map.addAttribute("previousDrugUse", drugGroup);
+        	map.addAttribute("idSelected", idSelected);
 		/*	if(previousProgramId!=null) {
 				map.put("previousProgramId", previousProgramId);
 			}*/
@@ -349,7 +470,9 @@ public class ProgramController {
     @RequestMapping(value = "/module/mdrtb/program/otherEnrollmentMdrtb.form", method = RequestMethod.POST)
 	public ModelAndView processOtherEnrollMdrtb(@ModelAttribute("program") MdrtbPatientProgram program, BindingResult errors, 
 			@RequestParam(required = true, value = "patientId") Integer patientId,
-           
+			@RequestParam(required = true, value = "oblast") String oblastId,
+			@RequestParam(required = true, value = "district") String districtId,
+			@RequestParam(required = false, value = "facility") String facilityId,
             
             @RequestParam(required = true, value = "identifierValue") String identifierValue,
 	                                  SessionStatus status, HttpServletRequest request, ModelMap map) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -358,6 +481,27 @@ public class ProgramController {
 		
 		if (patient == null) {
 			throw new RuntimeException ("Process enroll called with invalid patient id " + patientId);
+		}
+		
+		Location location=null;
+    	
+    	
+    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
+    	
+    	if(facilityId!=null && facilityId.length()!=0)
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),Integer.parseInt(facilityId));
+    	else
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),null);
+    	
+    	
+    	if(location == null) { // && locations!=null && (locations.size()==0 || locations.size()>1)) {
+    		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
+    	}
+    	
+    	
+		if(program.getLocation()==null || !location.equals(program.getLocation())) {
+			System.out.println("setting loc");
+			program.setLocation(location);
 		}
 		
 		PatientIdentifier identifier = new PatientIdentifier(identifierValue, getMdrIdentifier(), program.getLocation());
@@ -398,6 +542,8 @@ public class ProgramController {
 			return new ModelAndView("/module/mdrtb/program/otherEnrollmentMdrtb.form?patientId=" + patientId + "&type=mdr", map);
 		}
 		
+		
+		
 		// save the actual update
 		Context.getProgramWorkflowService().savePatientProgram(program.getPatientProgram());
 		Context.getService(MdrtbService.class).addIdentifierToProgram(idId, program.getPatientProgram().getPatientProgramId());
@@ -421,6 +567,9 @@ public class ProgramController {
     @RequestMapping(value = "/module/mdrtb/program/otherEnrollmentTb.form", method = RequestMethod.POST)
 	public ModelAndView processOtherEnrollTb(@ModelAttribute("program") TbPatientProgram program, BindingResult errors, 
 	                                  @RequestParam(required = true, value = "patientId") Integer patientId,
+	                                  @RequestParam(required = true, value = "oblast") String oblastId,
+	                                  @RequestParam(required = true, value = "district") String districtId,
+	                      			  @RequestParam(required = false, value = "facility") String facilityId,
 	                                  @RequestParam(required = true, value = "identifierValue") String identifierValue,
 	                                  SessionStatus status, HttpServletRequest request, ModelMap map) throws SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		System.out.println("ProgramCont:processEnroll -= OtherTB");
@@ -428,6 +577,27 @@ public class ProgramController {
 		
 		if (patient == null) {
 			throw new RuntimeException ("Process enroll called with invalid patient id " + patientId);
+		}
+		
+		Location location=null;
+    	
+    	
+    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
+    	
+    	if(facilityId!=null && facilityId.length()!=0)
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),Integer.parseInt(facilityId));
+    	else
+    		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),null);
+    	
+    	
+    	if(location == null) { // && locations!=null && (locations.size()==0 || locations.size()>1)) {
+    		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
+    	}
+    	
+    	
+		if(program.getLocation()==null || !location.equals(program.getLocation())) {
+			System.out.println("setting loc");
+			program.setLocation(location);
 		}
 		
 		PatientIdentifier identifier = new PatientIdentifier(identifierValue, getDotsIdentifier(), program.getLocation());
@@ -463,6 +633,8 @@ public class ProgramController {
 			map.put("errors", errors);
 			return new ModelAndView("/module/mdrtb/program/enrollment", map);
 		}
+		
+		
 		
 		// save the actual update
 		Context.getProgramWorkflowService().savePatientProgram(program.getPatientProgram());

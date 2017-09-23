@@ -360,7 +360,7 @@ public class DSTFormController {
 	
 	@ModelAttribute("locations")
 	Collection<Location> getPossibleLocations() {
-		return Context.getLocationService().getAllLocations(false);
+		return Context.getService(MdrtbService.class).getCultureLocations();
 	}
 	
 	@ModelAttribute("dstResults")

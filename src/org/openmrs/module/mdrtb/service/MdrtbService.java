@@ -671,6 +671,8 @@ public interface MdrtbService extends OpenmrsService {
     
 	public Set<ProgramWorkflowState> getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
 	public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient);
+	
+	public List <Location> getCultureLocations();
 }
 
 

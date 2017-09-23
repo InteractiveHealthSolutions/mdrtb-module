@@ -282,8 +282,8 @@ public class CultureFormController {
 	}
 	
 	@ModelAttribute("locations")
-	Collection<Location> getPossibleLocations() {
-		return Context.getLocationService().getAllLocations(false);
+	List <Location> getPossibleLocations() {
+		return Context.getService(MdrtbService.class).getCultureLocations();
 	}
 	
 	@ModelAttribute("cultureresults")
