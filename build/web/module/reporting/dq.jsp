@@ -7,10 +7,10 @@ function fun1()
 	var e = document.getElementById("oblast");
 	var val = e.options[e.selectedIndex].value;
 	var year = document.getElementById("year").value;
-	var quarter = document.getElementById("quarter").value;
-	var month = document.getElementById("month").value;
+	var quarter =  "\"" + document.getElementById("quarter").value +  "\"";
+	var month =  "\"" + document.getElementById("month").value +  "\"";
 	if(val!="")
-		window.location.replace("/openmrs/module/mdrtb/reporting/dq.form?ob="+val+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/dq.form?ob="+val+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
 }
 
 function fun2()
@@ -20,10 +20,10 @@ function fun2()
 	var e = document.getElementById("district");
 	var val2 = e.options[e.selectedIndex].value;
 	var year = document.getElementById("year").value;
-	var quarter = document.getElementById("quarter").value;
-	var month = document.getElementById("month").value;
+	var quarter = "\"" + document.getElementById("quarter").value +  "\"";
+	var month =  "\"" + document.getElementById("month").value +  "\"";
 	if(val2!="")
-		window.location.replace("/openmrs/module/mdrtb/reporting/dq.form?loc="+val2+"&ob="+val1+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/dq.form?loc="+val2+"&ob="+val1+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
 }
 
 </script>
@@ -47,6 +47,8 @@ $(document).ready(function(){
 	<br/>
 	
 	<table>
+		
+		<table>
 		
 		<tr id="oblastDiv">
 			<td align="right"><spring:message code="mdrtb.oblast" /></td>
@@ -74,36 +76,34 @@ $(document).ready(function(){
 		</tr>
 		<tr id="facilityDiv">
 			<td align="right"><spring:message code="mdrtb.facility" /></td>
-			<td><select name="facility">
+			<td><select name="facility" id="facility">
 					<option value=""></option>
 					<c:forEach var="f" items="${facilities}">
 						<option value="${f.id}">${f.name}</option>
 					</c:forEach>
 			</select></td>
 		<tr>
+		<tr><td>&nbsp;</td></tr>
 		<tr>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td align="right"><spring:message code="mdrtb.year" /></td>
+			<td align="right"><spring:message code="dotsreports.year" /></td>
 			<td><input name="year" id="year" type="text" size="4"/></td>
 		</tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr>
-			<td align="right"><spring:message code="mdrtb.quarter" /></td>
+			<td align="right"><spring:message code="dotsreports.quarter" /></td>
 			<td><input name="quarter" id="quarter" type="text" size="7"/></td>
 		</tr>
 		 <tr>
-		    <td align="right"><spring:message code="mdrtb.or" /></td>
+		    <td align="right"><spring:message code="dotsreports.or" /></td>
 		    </tr>
 		<tr>
-			<td align="right"><spring:message code="mdrtb.month" /></td>
+			<td align="right"><spring:message code="dotsreports.month" /></td>
 			<td><input name="month" id="month" type="text" size="7"/></td>
 		</tr>
 
 		<tr>
 			<td align="right"></td>
-			<td>&nbsp;<br/><input type="submit" value="<spring:message code="mdrtb.submit" />"/></td>
+			<td>&nbsp;<br/><input type="submit" value="<spring:message code="dotsreports.submit" />"/></td>
 		</tr>
 	</table>
 

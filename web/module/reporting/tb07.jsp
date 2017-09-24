@@ -15,7 +15,7 @@ function fun1()
 	var quarter =  "\"" + document.getElementById("quarter").value +  "\"";
 	var month =  "\"" + document.getElementById("month").value +  "\"";
 	if(val!="")
-		window.location.replace("/openmrs/module/mdrtb/reporting/tb07.form?ob="+val+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/tb07.form?ob="+val+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
 }
 
 function fun2()
@@ -28,7 +28,7 @@ function fun2()
 	var quarter = "\"" + document.getElementById("quarter").value +  "\"";
 	var month =  "\"" + document.getElementById("month").value +  "\"";
 	if(val2!="")
-		window.location.replace("/openmrs/module/mdrtb/reporting/tb07.form?loc="+val2+"&ob="+val1+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/tb07.form?loc="+val2+"&ob="+val1+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
 }
 
 </script>

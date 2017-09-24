@@ -28,10 +28,26 @@ var tableToExcel = (function() {
 function savePdf(action, reportName, formPath) {
 	var tableData = (document.getElementById("dq")).innerHTML.toString();
 	var oblast = "${oblast}";
-	var district = "${location.locationId}";
+	var district = "${district}";
+	var facility = "${facility}";
 	var year = "${year}";
-	var quarter = "${quarter}";
-	var month = "${month}";
+	<c:choose>
+	<c:when test="${! empty quarter}">
+		var quarter =  "\"" + ${quarter} + "\"";
+	</c:when>
+	<c:otherwise>
+		var quarter =  "";
+	</c:otherwise>
+	</c:choose>
+	
+	<c:choose>
+	<c:when test="${! empty month}" >
+		var month =  "\"" + ${month} + "\"";
+	</c:when>
+	<c:otherwise>
+		var month =  "";
+	</c:otherwise>
+    </c:choose>
 	var reportDate = "${reportDate}";
 	
 	var form = document.createElement("FORM");
@@ -52,9 +68,16 @@ function savePdf(action, reportName, formPath) {
 
     var input = document.createElement("INPUT");
     input.setAttribute("type", "hidden");
-    input.setAttribute("id", "location");
-    input.setAttribute("name", "location");
+    input.setAttribute("id", "district");
+    input.setAttribute("name", "district");
     input.setAttribute("value", district);
+    form.appendChild(input);
+    
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("id", "facility");
+    input.setAttribute("name", "facility");
+    input.setAttribute("value", facility);
     form.appendChild(input);
     
     var input = document.createElement("INPUT");
@@ -280,7 +303,7 @@ $(document).ready(function(){
 	  <c:forEach var="row" items="${missingTB03}">
 	    <tr>
 	        
-	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
 	         <td align="center">${row.patient.gender}</td>
 	    </tr>  
@@ -298,7 +321,7 @@ $(document).ready(function(){
 	  <c:forEach var="row" items="${missingAge}">
 	    <tr>
 	        
-	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
 	        <td align="center">${row.patient.gender}</td>
 	    </tr>  
@@ -317,7 +340,7 @@ $(document).ready(function(){
 	  <c:forEach var="row" items="${missingPatientGroup}">
 	    <tr>
 	        
-	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
 	         <td align="center">${row.patient.gender}</td>
 	    </tr>  
@@ -336,7 +359,7 @@ $(document).ready(function(){
 	  <c:forEach var="row" items="${missingDST}">
 	    <tr>
 	        
-	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
 	        <td>${row.patient.gender}</td>
 	    </tr>  
@@ -355,7 +378,7 @@ $(document).ready(function(){
 	  <c:forEach var="row" items="${notStartedTreatment}">
 	    <tr>
 	        
-	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
 	         <td align="center">${row.patient.gender}</td>
 	    </tr>  
@@ -374,7 +397,7 @@ $(document).ready(function(){
 	  <c:forEach var="row" items="${missingOutcomes}">
 	    <tr>
 	        
-	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
 	         <td align="center">${row.patient.gender}</td>
 	    </tr>  
@@ -393,7 +416,7 @@ $(document).ready(function(){
 	  <c:forEach var="row" items="${noMDRId}">
 	    <tr>
 	        
-	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
 	         <td align="center">${row.patient.gender}</td>
 	    </tr>  
@@ -412,7 +435,7 @@ $(document).ready(function(){
 	  <c:forEach var="row" items="${noSite}">
 	    <tr>
 	        
-	        <td><a href="../../../patientDashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
 	        <td align="center">${row.patient.gender}</td>
 	    </tr>  

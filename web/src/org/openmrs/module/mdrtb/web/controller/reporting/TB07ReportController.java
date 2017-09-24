@@ -1830,7 +1830,7 @@ public class TB07ReportController {
 		//}
     	
 		// TO CHECK WHETHER REPORT IS CLOSED OR NOT
-    	Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
+    	//Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
 		/*if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
 		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
 		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }*/
