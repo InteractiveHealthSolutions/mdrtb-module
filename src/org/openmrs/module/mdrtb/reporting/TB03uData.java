@@ -189,7 +189,7 @@ public class TB03uData implements Comparable <TB03uData> {
 	
 
 	public void setTb03uTreatmentOutcome(Integer tb03uTreatmentOutcome) {
-		System.out.println("---->" + tb03uTreatmentOutcome);
+		//System.out.println("---->" + tb03uTreatmentOutcome);
 		if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.cured.conceptId")))
 			this.tb03uTreatmentOutcome = 0;
 		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txCompleted.conceptId")))
@@ -214,7 +214,7 @@ public class TB03uData implements Comparable <TB03uData> {
 		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.transferout.conceptId")))
 			this.tb03uTreatmentOutcome = 6;
 		
-		System.out.println("---->" + this.tb03uTreatmentOutcome);
+		//System.out.println("---->" + this.tb03uTreatmentOutcome);
 	}
 
 	

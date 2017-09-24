@@ -19,6 +19,7 @@
 				<tr>
 					<th><spring:message code="mdrtb.viewClosedReports.oblast" /></th>
 					<th><spring:message code="mdrtb.viewClosedReports.district" /></th>
+					<th><spring:message code="mdrtb.viewClosedReports.facility" /></th>
 					<th><spring:message code="mdrtb.viewClosedReports.year" /></th>
 					<th><spring:message code="mdrtb.viewClosedReports.quarter" /></th>
 					<th><spring:message code="mdrtb.viewClosedReports.month" /></th>
@@ -32,7 +33,8 @@
 
 		<form id="viewReport" name="viewReport" method="post">
 			<input type="hidden" id="oblast" name="oblast" />
-			<input type="hidden" id="location" name="location" />
+			<input type="hidden" id="district" name="district" />
+			<input type="hidden" id="facility" name="facility" />
 			<input type="hidden" id="year" name="year" />
 			<input type="hidden" id="quarter" name="quarter" />
 			<input type="hidden" id="month" name="month" />
@@ -70,8 +72,10 @@
 				<c:forEach var="reportId" items="${reportIds}" varStatus="reportIdLoop">
 					oblastIds.push("${reportOblasts[reportIdLoop.index].id}"); 
 					oblastNames.push("${reportOblasts[reportIdLoop.index].name}");
-					locationIds.push("${reportLocations[reportIdLoop.index].id}"); 
-					locationNames.push("${reportLocations[reportIdLoop.index].name}");
+					districtIds.push("${reportDistricts[reportIdLoop.index].id}"); 
+					districtNames.push("${reportDistricts[reportIdLoop.index].name}");
+					facilityIds.push("${reportFacilities[reportIdLoop.index].id}"); 
+					facilotyNames.push("${reportFacilities[reportIdLoop.index].name}");
 					
 					var row = tbody.insertRow(-1);
 					
@@ -80,10 +84,15 @@
 					cell.id="oblast_${reportIdLoop.index}";
 					cell.innerHTML = "${reportOblasts[reportIdLoop.index].name}";
 					
-					//LOCATION
+					//DISTRICT
 					var cell = row.insertCell(-1);
-					cell.id="location_${reportIdLoop.index}";
-					cell.innerHTML = "${reportLocations[reportIdLoop.index].name}";
+					cell.id="district_${reportIdLoop.index}";
+					cell.innerHTML = "${reportDistricts[reportIdLoop.index].name}";
+					
+					//FACILITY
+					var cell = row.insertCell(-1);
+					cell.id="facility_${reportIdLoop.index}";
+					cell.innerHTML = "${reportFacilies[reportIdLoop.index].name}";
 	
 					//YEAR
 					var cell = row.insertCell(-1);
@@ -134,7 +143,8 @@
 
 			function submitForm(id, formAction) {
 				document.getElementById("oblast").value = oblastIds[oblastNames.indexOf(document.getElementById("oblast_"+id).innerHTML)];
-				document.getElementById("location").value = locationIds[locationNames.indexOf(document.getElementById("location_"+id).innerHTML)];
+				document.getElementById("district").value = districtIds[locationNames.indexOf(document.getElementById("district_"+id).innerHTML)];
+				document.getElementById("facility").value = districtIds[facilityNames.indexOf(document.getElementById("facility_"+id).innerHTML)];
 				document.getElementById("year").value = document.getElementById("year_"+id).innerHTML;
 				document.getElementById("quarter").value = document.getElementById("quarter_"+id).innerHTML;
 				document.getElementById("month").value = document.getElementById("month_"+id).innerHTML;

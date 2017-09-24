@@ -74,7 +74,7 @@
 					</tr>
 					<tr>
 						<td colspan="2"><span class="mdrListLabel">Tel et Adresse #2:</span></td>
-						<td colspan="4"><span class="mdrListLabel">Traitement Personalisé:</span><br/><span class="mdrListValue">${patient.individualizedRegimen}</span></td>
+						<td colspan="4"><span class="mdrListLabel">Traitement Personalisï¿½:</span><br/><span class="mdrListValue">${patient.individualizedRegimen}</span></td>
 						<td colspan="2"><span class="mdrListLabel">Derniere Bilan Thyroidien</span><br/><span class="mdrListValue">${patient.thyroidLast} <c:if test="${!empty patient.thyroidLastDate}">(<openmrs:formatDate format="${_dateFormatDisplay}" date="${patient.thyroidLastDate}"/>)</c:if></span></td>
 					</tr>
 					<tr bgcolor="#f0f0f0">
@@ -96,9 +96,9 @@
 						<td colspan="4"><span class="mdrListLabel">Type de resistance:</span><br/><span class="mdrListValue">${patient.typeOfResistance}</span></td>
 					</tr>
 					<tr bgcolor="#f0f0f0">
-						<td colspan="2"><span class="mdrListLabel">Date Réception</span><br/><span class="mdrListValue">${patient.startDate}</span></td>
+						<td colspan="2"><span class="mdrListLabel">Date Rï¿½ception</span><br/><span class="mdrListValue">${patient.startDate}</span></td>
 						<td colspan="2"><span class="mdrListLabel">Date Prochain RV:</span><br/><span class="mdrListValue"><openmrs:formatDate format="${_dateFormatDisplay}" date="${patient.returnVisitDate}"/></span></td>
-						<td colspan="4"><span class="mdrListLabel">Signé:</span><br/></td>
+						<td colspan="4"><span class="mdrListLabel">Signï¿½:</span><br/></td>
 					</tr>
 					<tr>
 						<td colspan="8" style="background-color:black; height:7px;"> </td>

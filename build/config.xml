@@ -19,6 +19,8 @@
 		<require_module>org.openmrs.module.programlocation</require_module>
 		<require_module version="0.6">org.openmrs.module.reporting</require_module>
 	</require_modules>
+	
+	
 		
 	<extension>
 		<point>org.openmrs.admin.list</point>

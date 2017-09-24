@@ -1283,7 +1283,7 @@ public class Form89 extends AbstractSimpleForm {
 	
 	public List<SmearForm> getSmears() {
 		if(getPatProgId()==null) {
-			System.out.println("GM: null program");
+			//System.out.println("GM: null program");
 			return new ArrayList<SmearForm>();
 		}
 		return Context.getService(MdrtbService.class).getSmearForms(getPatProgId());
@@ -1292,7 +1292,7 @@ public class Form89 extends AbstractSimpleForm {
 
 	public List<XpertForm> getXperts() {
 		if(getPatProgId()==null) {
-			System.out.println("GM: null program");
+			//System.out.println("GM: null program");
 			return new ArrayList<XpertForm>();
 		}
 		return Context.getService(MdrtbService.class).getXpertForms(getPatProgId());
@@ -1301,7 +1301,7 @@ public class Form89 extends AbstractSimpleForm {
 	
 	public List<HAINForm> getHains() {
 		if(getPatProgId()==null) {
-			System.out.println("GM: null program");
+			//System.out.println("GM: null program");
 			return new ArrayList<HAINForm>();
 		}
 		return Context.getService(MdrtbService.class).getHAINForms(getPatProgId());
@@ -1310,7 +1310,7 @@ public class Form89 extends AbstractSimpleForm {
 	
 	public List<HAIN2Form> getHain2s() {
 		if(getPatProgId()==null) {
-			System.out.println("GM: null program");
+			//System.out.println("GM: null program");
 			return new ArrayList<HAIN2Form>();
 		}
 		return Context.getService(MdrtbService.class).getHAIN2Forms(getPatProgId());

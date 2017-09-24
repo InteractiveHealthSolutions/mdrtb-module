@@ -51,8 +51,9 @@ public class CloseReportChangesController {
 	@RequestMapping(method=RequestMethod.POST)//, value="/module/mdrtb/reporting/viewClosedReportChanges"
     public ModelAndView viewClosedReportsPost(
     		HttpServletRequest request, HttpServletResponse response,
-    		@RequestParam("oblast") String oblast, 
-    		@RequestParam("location") Location location, 
+    		@RequestParam("oblast") Integer oblast, 
+    		@RequestParam("district") Integer district,
+    		@RequestParam("facility") Integer facility, 
     		@RequestParam("year") Integer year, 
     		@RequestParam("quarter") String quarter, 
     		@RequestParam("month") String month, 
@@ -218,7 +219,8 @@ public class CloseReportChangesController {
     	System.out.println("closeDate: " + closeDate);*/
 
     	model.addAttribute("oblast", oblast); 
-		model.addAttribute("location", location); 
+		model.addAttribute("district", district); 
+		model.addAttribute("facility", facility);
 		model.addAttribute("year", year); 
 		model.addAttribute("quarter", quarter); 
 		model.addAttribute("month", month); 

@@ -77,15 +77,16 @@ public class TB08ReportController {
 
     @RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb08")
     public static String doTB08(
-    		@RequestParam("location") Location location,
-    		@RequestParam("oblast") String oblast,
+    		@RequestParam("district") Integer districtId,
+    		@RequestParam("oblast") Integer oblastId,
+    		@RequestParam("facility") Integer facilityId,
             @RequestParam(value="year", required=true) Integer year,
             @RequestParam(value="quarter", required=false) String quarter,
             @RequestParam(value="month", required=false) String month,
             ModelMap model) throws EvaluationException {
     	
     	System.out.println("---POST-----");
-    	System.out.println("PARAMS:" + location + " " + oblast + " " + year + " " + quarter + " " + month);
+    //	System.out.println("PARAMS:" + location + " " + oblast + " " + year + " " + quarter + " " + month);
     	
     	
     	
@@ -93,9 +94,9 @@ public class TB08ReportController {
     	/*Oblast o = null;
     	if(oblast!=null && !oblast.equals("") && location == null)
 			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
-		
-		List<Location> locList = new ArrayList<Location>();
-		if(o != null && location == null)
+		*/
+		ArrayList<Location> locList = new ArrayList<Location>();
+		/*if(o != null && location == null)
 			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
 		else if (location != null)
 			locList.add(location);*/
@@ -130,7 +131,7 @@ public class TB08ReportController {
 		/*Date startDate = (Date)(dateMap.get("startDate"));
 		Date endDate = (Date)(dateMap.get("endDate"));*/
 	
-		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(location, oblast, year, quarter, month);
+		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
 		System.out.println("FORMS: " + tb03List.size());
 		//CohortDefinition baseCohort = null;
 		
@@ -3199,20 +3200,20 @@ public class TB08ReportController {
 		
     	
 		Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
-		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
+		//if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
 		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
 		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
 		
 		boolean reportStatus;
-		if(location!=null)
+		/*if(location!=null)
 			 reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB-08","DOTSTB");
-		else
-			reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, null, year, report_quarter, report_month, "TB-08","DOTSTB");
+		else*/
+			reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "TB-08","DOTSTB");
 		System.out.println(reportStatus);
 		
     	model.addAttribute("table1", fin);
-    	model.addAttribute("oblast", oblast);
-    	model.addAttribute("location", location);
+    	/*model.addAttribute("oblast", oblast);
+    	model.addAttribute("location", location);*/
     	model.addAttribute("year", year);
     	model.addAttribute("quarter", quarter);
     	model.addAttribute("reportDate", sdf.format(new Date()));

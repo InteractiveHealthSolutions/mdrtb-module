@@ -7,10 +7,10 @@ function fun1()
 	var e = document.getElementById("oblast");
 	var val = e.options[e.selectedIndex].value;
 	var year = document.getElementById("year").value;
-	var quarter = document.getElementById("quarter").value;
-	var month = document.getElementById("month").value;
+	var quarter =  "\"" + document.getElementById("quarter").value +  "\"";
+	var month =  "\"" + document.getElementById("month").value +  "\"";
 	if(val!="")
-		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/tb03u.form?ob="+val+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+		window.location.replace("/openmrs/module/mdrtb/reporting/tb03u.form?ob="+val+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
 }
 
 function fun2()
@@ -20,15 +20,16 @@ function fun2()
 	var e = document.getElementById("district");
 	var val2 = e.options[e.selectedIndex].value;
 	var year = document.getElementById("year").value;
-	var quarter = document.getElementById("quarter").value;
-	var month = document.getElementById("month").value;
+	var quarter = "\"" + document.getElementById("quarter").value +  "\"";
+	var month =  "\"" + document.getElementById("month").value +  "\"";
 	if(val2!="")
-		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/tb03u.form?loc="+val2+"&ob="+val1+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+		window.location.replace("/openmrs/module/mdrtb/reporting/tb03u.form?loc="+val2+"&ob="+val1+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
 }
 
 </script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</script>
 <script>
 $(document).ready(function(){
 	$('#oblast').val(${oblastSelected});
@@ -41,7 +42,7 @@ $(document).ready(function(){
 </script>
 
 <form method="post">
-	<h2><spring:message code="mdrtb.tb03.title" /></h2>
+	<h2><spring:message code="mdrtb.tb03u" /></h2>
 	
 	<br/>
 	
@@ -49,47 +50,57 @@ $(document).ready(function(){
 	
 	<table>
 		
-		<tr>
-		    <td align="right"><spring:message code="mdrtb.oblast" /></td>
-			<td>
-				<select name="oblast">
-				    <option value=""></option>
+		<table>
+		
+		<tr id="oblastDiv">
+			<td align="right"><spring:message code="mdrtb.oblast" /></td>
+			<td><select name="oblast" id="oblast" onchange="fun1()">
+					<option value=""></option>
 					<c:forEach var="o" items="${oblasts}">
 						<option value="${o.id}">${o.name}</option>
 					</c:forEach>
-				</select>
-			</td>
-		    
-		    <tr>
-		    <td align="right"><spring:message code="mdrtb.or" /></td>
-		    </tr>
-		
-			<td align="right"><spring:message code="mdrtb.facility" /></td>
-			<td>
-				<select name="location">
-				    <option value=""></option>
-					<c:forEach var="loc" items="${locations}">
-						<option value="${loc.id}">${loc.name}</option>
-					</c:forEach>
-				</select>
-			</td>
+			</select></td>
 		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr id="districtDiv">
+			<td align="right"><spring:message code="mdrtb.district" /></td>
+			<td><select name="district" id="district" onchange="fun2()">
+					<option value=""></option>
+					<c:forEach var="dist" items="${districts}">
+						<option value="${dist.id}">${dist.name}</option>
+					</c:forEach>
+			</select></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr id="facilityDiv">
+			<td align="right"><spring:message code="mdrtb.facility" /></td>
+			<td><select name="facility" id="facility">
+					<option value=""></option>
+					<c:forEach var="f" items="${facilities}">
+						<option value="${f.id}">${f.name}</option>
+					</c:forEach>
+			</select></td>
+		<tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr>
 			<td align="right"><spring:message code="mdrtb.year" /></td>
-			<td><input name="year" type="text" size="4"/></td>
+			<td><input name="year" id="year" type="text" size="4"/></td>
 		</tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr>
 			<td align="right"><spring:message code="mdrtb.quarter" /></td>
-			<td><input name="quarter" type="text" size="7"/></td>
+			<td><input name="quarter" id="quarter" type="text" size="7"/></td>
 		</tr>
 		 <tr>
 		    <td align="right"><spring:message code="mdrtb.or" /></td>
 		    </tr>
 		<tr>
 			<td align="right"><spring:message code="mdrtb.month" /></td>
-			<td><input name="month" type="text" size="7"/></td>
+			<td><input name="month" id="month" type="text" size="7"/></td>
 		</tr>
 
 		<tr>

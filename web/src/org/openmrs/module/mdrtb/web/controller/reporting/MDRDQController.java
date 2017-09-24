@@ -27,6 +27,8 @@ import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
+import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TB03uForm;
 import org.openmrs.module.mdrtb.reporting.DQItem;
 import org.openmrs.module.mdrtb.reporting.DQUtil;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
@@ -92,24 +94,26 @@ public class MDRDQController {
     
     @RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/dq")
     public static String doDQ(
-    		@RequestParam("location") Location location,
-    		@RequestParam("oblast") String oblast,
+    		@RequestParam("facility") Integer facilityId,
+    		@RequestParam("oblast") Integer oblastId,
+    		@RequestParam("district") Integer districtId,
             @RequestParam(value="year", required=true) Integer year,
             @RequestParam(value="quarter", required=false) String quarter,
             @RequestParam(value="month", required=false) String month,
             ModelMap model) throws EvaluationException {
     	
-    	Cohort patients = MdrtbUtil.getMdrPatientsTJK(null, null, location, oblast, null, null, null, null,year,quarter,month);
+    	//Cohort patients = MdrtbUtil.getMdrPatientsTJK(null, null, location, oblast, null, null, null, null,year,quarter,month);
+    	Cohort patients = new Cohort();
     	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
 		
     	String oName = null;
     	
-    	Oblast o = null;
-		if(!oblast.equals("")) {
-			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
-			oName = o.getName();
-			
-		}
+//    	Oblast o = null;
+//		if(!oblast.equals("")) {
+//			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+//			oName = o.getName();
+//			
+//		}
     	
 		Date startDate = (Date)(dateMap.get("startDate"));
 		Date endDate = (Date)(dateMap.get("endDate"));
@@ -255,7 +259,8 @@ public class MDRDQController {
     	    }
     	    //MISSING DST
 
-    	    Dst firstDst = TB03uUtil.getDiagnosticDST(patient);
+    	    TB03uForm tf = new TB03uForm(patient);
+    	    Dst firstDst = TB03uUtil.getDiagnosticDST(tf);
     	   
     	   
     	    if(firstDst==null) {
@@ -307,10 +312,10 @@ public class MDRDQController {
     	model.addAttribute("errorCount", new Integer(errorCount));
     	model.addAttribute("errorPercentage", errorPercentage.toString() + "%");
     	model.addAttribute("oblastName", oName);
-    	if(location!=null)
-    		model.addAttribute("location", location.getName());
-    	else
-    		model.addAttribute("location", "");
+//    	if(location!=null)
+//    		model.addAttribute("location", location.getName());
+//    	else
+//    		model.addAttribute("location", "");
     	model.addAttribute("year", year);
     	model.addAttribute("quarter", quarter);
     	model.addAttribute("month", month);
@@ -323,15 +328,15 @@ public class MDRDQController {
     	
     	// TO CHECK WHETHER REPORT IS CLOSED OR NOT
     	Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
-		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
+		/*if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
 		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
-		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
+		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }*/
 		
-    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "DQ","MDRTB");
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "DQ","MDRTB");
 		System.out.println(reportStatus);
 		
-    	model.addAttribute("oblast", oblast);
-    	model.addAttribute("location", location);
+    	model.addAttribute("oblast", oblastId);
+    	model.addAttribute("location", districtId);
     	model.addAttribute("year", year);
     	model.addAttribute("quarter", quarter);
     	model.addAttribute("reportDate", sdf.format(new Date()));

@@ -18,6 +18,8 @@ import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
@@ -61,6 +63,7 @@ import org.openmrs.module.mdrtbdrugforecast.reporting.definition.MdrtbDrugForeca
 import org.openmrs.module.mdrtbdrugforecast.service.MdrtbDrugForecastService;
 import org.openmrs.module.mdrtbdrugforecast.status.TreatmentStatusCalculator;
 import org.openmrs.module.mdrtbdrugforecast.web.controller.status.DashboardTreatmentStatusRenderer;*/
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 
@@ -75,20 +78,56 @@ public class TB03ExportController {
         
     
     @RequestMapping(method=RequestMethod.GET, value="/module/mdrtb/reporting/tb03")
-    public void showRegimenOptions(ModelMap model) {
+    public ModelAndView showRegimenOptions(@RequestParam(value="loc", required=false) String district,
+			@RequestParam(value="ob", required=false) String oblast,
+			@RequestParam(value="yearSelected", required=false) Integer year,
+			@RequestParam(value="quarterSelected", required=false) String quarter,
+			@RequestParam(value="monthSelected", required=false) String month,
+			ModelMap model) {
     	
+    	List<Oblast> oblasts;
+        List<Facility> facilities;
+        List<District> districts;
     	
-    
+    	if(oblast==null) {
+    		oblasts = Context.getService(MdrtbService.class).getOblasts();
+    		model.addAttribute("oblasts", oblasts);
+    	}
+    	 
+    	
+    	else if(district==null)
+         { 
+         	oblasts = Context.getService(MdrtbService.class).getOblasts();
+         	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+         	model.addAttribute("oblastSelected", oblast);
+             model.addAttribute("oblasts", oblasts);
+             model.addAttribute("districts", districts);
+         }
+         else
+         {
+         	oblasts = Context.getService(MdrtbService.class).getOblasts();
+         	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+         	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+             model.addAttribute("oblastSelected", oblast);
+             model.addAttribute("oblasts", oblasts);
+             model.addAttribute("districts", districts);
+             model.addAttribute("districtSelected", district);
+             model.addAttribute("facilities", facilities);
+         }
+    	
+    	 model.addAttribute("yearSelected", year);
+    	 model.addAttribute("monthSelected", month);
+    	 model.addAttribute("quarterSelected", quarter);
        
-        List<Location> locations = Context.getLocationService().getAllLocations(false);// Context.getLocationService().getAllLocations();//ms = (MdrtbDrugForecastService) Context.getService(MdrtbDrugForecastService.class);
+        /*List<Location> locations = Context.getLocationService().getAllLocations(false);// Context.getLocationService().getAllLocations();//ms = (MdrtbDrugForecastService) Context.getService(MdrtbDrugForecastService.class);
         List<Oblast> oblasts = Context.getService(MdrtbService.class).getOblasts();
         //drugSets =  ms.getMdrtbDrugs();
         
        
 
         model.addAttribute("locations", locations);
-        model.addAttribute("oblasts", oblasts);
-      
+        model.addAttribute("oblasts", oblasts);*/
+    	 return new ModelAndView("/module/mdrtb/reporting/tb03", model);	
     	
     }
     
@@ -98,13 +137,17 @@ public class TB03ExportController {
     @SuppressWarnings({ "deprecation", "unchecked" })
 	@RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb03")
     public static String doTB03(
-    		@RequestParam("location") Location location,
-    		@RequestParam("oblast") String oblast,
+    		@RequestParam("district") Integer districtId,
+    		@RequestParam("oblast") Integer oblastId,
+    		@RequestParam("facility") Integer facilityId,
             @RequestParam(value="year", required=true) Integer year,
             @RequestParam(value="quarter", required=false) String quarter,
             @RequestParam(value="month", required=false) String month,
             ModelMap model) throws EvaluationException {
     	
+    	
+    	System.out.println("---POST-----");
+    	System.out.println("PARAMS:" + oblastId + " " + districtId + " " + facilityId + " " + year + " " + quarter + " " + month);
     	/*Oblast o = null;
     	if(oblast!=null && !oblast.equals("") && location == null)
 			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
@@ -146,7 +189,14 @@ public class TB03ExportController {
     	
     	
     	Set<Integer> idSet = patients.getMemberIds();*/
-    	ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(location, oblast, year, quarter, month);
+    	
+    	
+    	
+    	//ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(location, oblastId+"", year, quarter, month);
+    	
+    	ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    	
+    	ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
     	
     	
     	ArrayList<TB03Data> patientSet  = new ArrayList<TB03Data>();
@@ -169,7 +219,8 @@ public class TB03ExportController {
     		TB03Data tb03Data = new TB03Data();
     		tb03Data.setReg1New(Boolean.FALSE);
     		tb03Data.setReg1Rtx(Boolean.FALSE);
-    	    Patient patient = tf.getPatient();
+    	    
+    		Patient patient = tf.getPatient();
     	    if(patient==null) {
     	    	continue;
     	    	
@@ -513,24 +564,42 @@ public class TB03ExportController {
     	model.addAttribute("locale", Context.getLocale().toString());
 
     	
-    	// TO CHECK WHETHER REPORT IS CLOSED OR NOT
-    	Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
-		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
-		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
-		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
+    	/*// TO CHECK WHETHER REPORT IS CLOSED OR NOT
+    	Integer report_oblast = null, report_district = null, report_facility = null;
+    	String report_quarter = null, report_month = null;*/
+		/*if(oblastId!=null)
+			report_oblast = oblastId;
+		if(districtId!=null)
+			report_district = districtId;
+		if(facilityId!=null)
+			report_facility = facilityId;*/
+		
+		/*if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
+		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }*/
 		
     	boolean reportStatus;// = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB 03");
     	
-    	if(location!=null)
+    	/*if(location!=null)
 			 reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB-03", "DOTSTB");
 		else
-			reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, null, year, report_quarter, report_month, "TB-03", "DOTSTB");
+			reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, null, year, report_quarter, report_month, "TB-03", "DOTSTB");*/
+    	
+    	reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "TB-03", "DOTSTB");
 		
     	System.out.println(reportStatus);
-    	model.addAttribute("oblast", oblast);
-    	model.addAttribute("location", location);
+    	model.addAttribute("oblast", oblastId);
+    	model.addAttribute("district", districtId);
+    	model.addAttribute("facility", facilityId);
     	model.addAttribute("year", year);
-    	model.addAttribute("quarter", quarter);
+    	if(month!=null && month.length()!=0)
+			model.addAttribute("month", month.replace("\"", ""));
+		else
+			model.addAttribute("month", "");
+		
+		if(quarter!=null && quarter.length()!=0)
+			model.addAttribute("quarter", quarter.replace("\"", "'"));
+		else
+			model.addAttribute("quarter", "");
     	model.addAttribute("reportDate", sdf.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
     	return "/module/mdrtb/reporting/tb03Results";

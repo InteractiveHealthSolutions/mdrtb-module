@@ -138,7 +138,7 @@
 			</style>
 			<table width="100%"><tr>
 				<td width="10%">&nbsp;</td>
-				<td width="50%" align="center" style="font-size:14px; font-weight:bold;">Квартальный отчет о вы�?влении и начале лечени�? �?лучаев ЛУ ТБ </td>
+				<td width="50%" align="center" style="font-size:14px; font-weight:bold;">Квартальный отчет о выявлении и начале лечения случаев ЛУ ТБ </td>
 				<td width="10%" align="right">ТБ 07y</td>
 			</tr></table>
 			<br/><br/>
@@ -146,13 +146,13 @@
 			<center>
 			<table width="100%" border="1">
 				<tr>
-				    <td>�?аименование учреждени�?:_________________  ________________<br/>
-					Обла�?ть/район  #location#<br/>
+				    <td>Наименование учреждения:_________________  ________________<br/>
+					Область/район  #location#<br/>
 					ФИО координатора по ТБ:   ________________<br/>
-					Подпи�?ь:  ___________________________
+					Подпись:  ___________________________
 				</td>
 				
-				<td valign="top">Случаи вы�?вленные за #quarter# квартал  #year# года (#startDate|dd/MMM/yyyy# - #endDate|dd/MMM/yyyy#)<br/>
+				<td valign="top">Случаи выявленные за #quarter# квартал  #year# года (#startDate|dd/MMM/yyyy# - #endDate|dd/MMM/yyyy#)<br/>
 					Дата отчета: #generationDate|dd/MMM/yyyy#</td>
 				</tr>
 			</table>
@@ -160,13 +160,13 @@
 			<br/>
 			<br/>
 			<span style="font-weight:bold;">
-				Таблица 1. Чи�?ло вы�?вленных �?лучаев ЛУ ТБ в течении отчетного периода: 
+				Таблица 1. Число выявленных случаев ЛУ ТБ в течении отчетного периода: 
 			</span>
 			<span style="font-weight:bold;">
 				<br/><br/>
 				<center><table width="100%" border="1">
 					<tr>
-					    <td rowspan="2" align="center">Чи�?ло вы�?вленных>br/>�?лучаев ЛУ ТБ, в�?его  </td>
+					    <td rowspan="2" align="center">Число выявленных>br/>случаев ЛУ ТБ, всего  </td>
 					    <td colspan="4" align="center">из них</td>
 					</tr>
 					<tr>
@@ -197,21 +197,21 @@
 			<br/><br/>
 			
 			<span style="font-weight:bold;">
-				Таблица 2. Чи�?ло �?лучаев ЛУ ТБ, начавших лечение в течении отчетного периода
+				Таблица 2. Число случаев ЛУ ТБ, начавших лечение в течении отчетного периода
 			</span>
 			<br/><br/>
 			<table border="1" cellpadding="5" width="100%">
 				<tr align="center">
 				 	<td colspan="2" rowspan="3">&nbsp;</td>
-					<td colspan="7">Реги�?трационна�? группа</td>
+					<td colspan="7">Регистрационная группа</td>
 					<td rowspan="3">Другие</td>
 					<td rowspan="3">Итого</td>
 				</tr>
 				<tr align="center">
-					<td rowspan="2">�?овый<br/�?лучай</td>
-					<td colspan="2">Рецидив по�?ле<br/>лечени�? по<br/>режиму</td>
-					<td colspan="2">По�?ле отрыва<br/>от лечени�? по<br/>режиму
-					<td colspan="2">По�?ле не�?ффективного<br/>лечени�? по режиму</td>
+					<td rowspan="2">Новый<br/случай</td>
+					<td colspan="2">Рецидив после<br/>лечения по<br/>режиму</td>
+					<td colspan="2">После отрыва<br/>от лечения по<br/>режиму
+					<td colspan="2">После неэффективного<br/>лечения по режиму</td>
 				</tr>
 				<tr align="center">
 					<td>I</td> <!-- relapse -->
@@ -271,7 +271,7 @@
 					 <td>#startedTreatment.mdr1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.mdrhiv.New#</td>
 					 <td>#startedTreatment.mdrhiv.Relapse1#</td>
 					 <td>#startedTreatment.mdrhiv.Relapse2#</td>
@@ -332,7 +332,7 @@
 					 <td>#startedTreatment.pdr1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.pdrhiv.New#</td>
 					 <td>#startedTreatment.pdrhiv.Relapse1#</td>
 					 <td>#startedTreatment.pdrhiv.Relapse2#</td>
@@ -393,7 +393,7 @@
 					 <td>#startedTreatment.prexdr1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.prexdrhiv.New#</td>
 					 <td>#startedTreatment.prexdrhiv.Relapse1#</td>
 					 <td>#startedTreatment.prexdrhiv.Relapse2#</td>
@@ -454,7 +454,7 @@
 					 <td>#startedTreatment.xdr1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.xdrhiv.New#</td>
 					 <td>#startedTreatment.xdrhiv.Relapse1#</td>
 					 <td>#startedTreatment.xdrhiv.Relapse2#</td>
@@ -515,7 +515,7 @@
 					 <td>#startedTreatment.total1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.totalhiv.New#</td>
 					 <td>#startedTreatment.totalhiv.Relapse1#</td>
 					 <td>#startedTreatment.totalhiv.Relapse2#</td>
@@ -530,21 +530,21 @@
 				</table>
 			<br/><br/>	
 			<span style="font-weight:bold;">
-				Таблица 3. Чи�?ло �?лучаев ЛУ ТБ, начавших лечение в течении квартала отчетного периода, по режиму лечени�?
+				Таблица 3. Число случаев ЛУ ТБ, начавших лечение в течении квартала отчетного периода, по режиму лечения
 			</span>
 			<br/><br/>
 			<table border="1" cellpadding="5" width="100%">
 				<tr align="center">
 				 	<td colspan="2" rowspan="3">&nbsp;</td>
-					<td colspan="7">Реги�?трационна�? группа</td>
+					<td colspan="7">Регистрационная группа</td>
 					<td rowspan="3">Другие</td>
 					<td rowspan="3">Итого</td>
 				</tr>
 				<tr align="center">
-					<td rowspan="2">�?овый<br/�?лучай</td>
-					<td colspan="2">Рецидив по�?ле<br/>лечени�? по<br/>режиму</td>
-					<td colspan="2">По�?ле отрыва<br/>от лечени�? по<br/>режиму
-					<td colspan="2">По�?ле не�?ффективного<br/>лечени�? по режиму</td>
+					<td rowspan="2">Новый<br/случай</td>
+					<td colspan="2">Рецидив после<br/>лечения по<br/>режиму</td>
+					<td colspan="2">После отрыва<br/>от лечения по<br/>режиму
+					<td colspan="2">После неэффективного<br/>лечения по режиму</td>
 				</tr>
 				<tr align="center">
 					<td>I</td> <!-- relapse -->
@@ -558,7 +558,7 @@
 				    <td colspan="11" align="center">РУ/МЛУ ТБ</td> 
 				</tr>
 				<tr>
-				   <td colspan="2">Кратко�?рочный<br/>режим лечени�?</td>
+				   <td colspan="2">Краткосрочный<br/>режим лечения</td>
 				     <td>#startedTreatment.mdrshr.New#</td>
 					 <td>#startedTreatment.mdrshr.Relapse1#</td>
 					 <td>#startedTreatment.mdrshr.Relapse2#</td>
@@ -608,7 +608,7 @@
 					 <td>#startedTreatment.mdrshr1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.mdrshrhiv.New#</td>
 					 <td>#startedTreatment.mdrshrhiv.Relapse1#</td>
 					 <td>#startedTreatment.mdrshrhiv.Relapse2#</td>
@@ -622,7 +622,7 @@
 				</tr>
 				
 				<tr>
-				    <td colspan="2">Стандартный<br/>режим лечени�?</td>
+				    <td colspan="2">Стандартный<br/>режим лечения</td>
 				    <td>#startedTreatment.mdrstr.New#</td>
 					 <td>#startedTreatment.mdrstr.Relapse1#</td>
 					 <td>#startedTreatment.mdrstr.Relapse2#</td>
@@ -671,7 +671,7 @@
 					 <td>#startedTreatment.mdrstr1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.mdrstrhiv.New#</td>
 					 <td>#startedTreatment.mdrstrhiv.Relapse1#</td>
 					 <td>#startedTreatment.mdrstrhiv.Relapse2#</td>
@@ -732,7 +732,7 @@
 					 <td>#startedTreatment.mdrtotal1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.mdrtotalhiv.New#</td>
 					 <td>#startedTreatment.mdrtotalhiv.Relapse1#</td>
 					 <td>#startedTreatment.mdrtotalhiv.Relapse2#</td>
@@ -749,7 +749,7 @@
 				    <td colspan="11" align="center">Пре-ШЛУ/ШЛУ ТБ</td> 
 				</tr>
 				<tr>
-				   <td colspan="2">Индивидуальный<br/>режим лечени�?</td>
+				   <td colspan="2">Индивидуальный<br/>режим лечения</td>
 				   <td>#startedTreatment.xdrind.New#</td>
 					 <td>#startedTreatment.xdrind.Relapse1#</td>
 					 <td>#startedTreatment.xdrind.Relapse2#</td>
@@ -799,7 +799,7 @@
 					 <td>#startedTreatment.xdrind1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.xdrindhiv.New#</td>
 					 <td>#startedTreatment.xdrindhiv.Relapse1#</td>
 					 <td>#startedTreatment.xdrindhiv.Relapse2#</td>
@@ -813,7 +813,7 @@
 				</tr>
 				
 				<tr>
-				    <td colspan="2">Стандартный<br/>режим лечени�?</td>
+				    <td colspan="2">Стандартный<br/>режим лечения</td>
 				    <td>#startedTreatment.xdrstr.New#</td>
 					 <td>#startedTreatment.xdrstr.Relapse1#</td>
 					 <td>#startedTreatment.xdrstr.Relapse2#</td>
@@ -862,7 +862,7 @@
 					 <td>#startedTreatment.xdrstr1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.xdrstrhiv.New#</td>
 					 <td>#startedTreatment.xdrstrhiv.Relapse1#</td>
 					 <td>#startedTreatment.xdrstrhiv.Relapse2#</td>
@@ -923,7 +923,7 @@
 					 <td>#startedTreatment.xdrtotal1517.newTotal#</td>
 				</tr>
 				<tr>
-				     <td colspan=2">из них �? ВИЧ</td>
+				     <td colspan=2">из них с ВИЧ</td>
 				     <td>#startedTreatment.xdrtotalhiv.New#</td>
 					 <td>#startedTreatment.xdrtotalhiv.Relapse1#</td>
 					 <td>#startedTreatment.xdrtotalhiv.Relapse2#</td>

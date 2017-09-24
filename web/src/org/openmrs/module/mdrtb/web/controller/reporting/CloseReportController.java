@@ -49,44 +49,67 @@ public class CloseReportController {
 	@RequestMapping(method=RequestMethod.POST)//, value="/module/mdrtb/reporting/closeReport"
     public String closeReportPost(
     		HttpServletRequest request, HttpServletResponse response,
-    		@RequestParam("oblast") String oblastId, 
-    		@RequestParam("location") String locationId, 
+    		@RequestParam("oblast") Integer oblastId, 
+    		@RequestParam("district") Integer districtId,
+    		@RequestParam("facility") Integer facilityId, 
     		@RequestParam("year") Integer year, 
-    		@RequestParam("quarter") Integer quarter, 
-    		@RequestParam("month") Integer month, 
+    		@RequestParam("quarter") String quarter, 
+    		@RequestParam("month") String month, 
     		@RequestParam("reportDate") String reportDate, 
     		@RequestParam("table") String table, 
     		@RequestParam("reportName") String reportName, 
     		@RequestParam("formPath") String formPath, 
     		ModelMap model) throws EvaluationException, IOException, ServletException {
         System.out.println("-----Close Report POST-----");
+        
+       // System.out.println("CRP-PARAMS:"+oblastId +":" + districtId + ":" + facilityId +":" + year + ":" + quarter + ":" + month + ":" + reportDate + ":" + reportName + ":" + formPath);
 		
-		Integer oblast = null;
-		Integer location = null;
+        Integer o = oblastId;
+        Integer d = districtId;
+        Integer f = facilityId;
+        Integer y = year;
+        String q = quarter;
+        if(q!=null)
+        	q = q.replace("\"", "");
+        String m = month;
+        if(m!=null && m.length()!=0)
+        	m = m.replace("\"", "");
+        String r = reportDate;
+        String t = table;
+        String rn = reportName;
+        String fp = formPath;
+        
+	/*	Integer oblast = null;
+		Integer district = null;
+		Integer facility = null;*/
+		//Integer location = null;
 		String date = reportDate;
 		String tableData = null;
 		boolean reportStatus = false;
 		
-		Location report_location = null;
+		/*String report_district = null;
+		String report_facility = null;
     	String report_oblast = oblastId;
         Integer report_year = year;
         String report_quarter = "";
-        String report_month = "";
+        String report_month = "";*/
 		
         try {
-			if(new PDFHelper().isString(quarter)) { 
+			/*if(new PDFHelper().isString(quarter)) { 
 				report_quarter = Integer.toString(quarter); 
 			}
 			if(new PDFHelper().isString(month)) { 
 				report_month = Integer.toString(month); 
 			}
-			if(new PDFHelper().isInt(locationId)) { 
-				report_location = Context.getLocationService().getLocation(Integer.parseInt(locationId));
-				location = report_location.getId(); 
+			if(new PDFHelper().isInt(districtId)) {
+				district = (Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId))).getId(); 
 			}
 			if(new PDFHelper().isInt(oblastId)) { 
 				oblast = (Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId))).getId(); 
 			}
+			if(new PDFHelper().isInt(oblastId)) { 
+				oblast = (Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId))).getId(); 
+			}*/
 			if(!(reportDate.equals(""))) {
 				date = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new SimpleDateFormat("dd.MM.yyyy").parse(reportDate)); 
 			}
@@ -95,25 +118,39 @@ public class CloseReportController {
 			}
 			reportStatus = true;
 			
-//			System.out.println("---POST CLOSE-----");
-//	    	System.out.println("oblast: " + oblast);
-//	    	System.out.println("location: " + location);
-//			System.out.println("year: " + year);
-//			System.out.println("quarter: " + quarter);
-//			System.out.println("month: " + month);
-//			System.out.println("tableData: " + tableData);
-//	    	System.out.println("reportDate: " + date);
-//	    	System.out.println("formPath: " + formPath);
-//	    	System.out.println("reportStatus: " + reportStatus);
-//	    	System.out.println("reportName: " + reportName);
-//			System.out.println("\n\n\n");
+			String td = tableData;
+			
+	    	System.out.println("oblast: " + o);
+	    	System.out.println("districtId: " + d);
+	    	System.out.println("facilityId: " + f);
+	    	System.out.println("year: " + y);
+			System.out.println("quarter: " + q);
+			System.out.println("month: " + m);
+			System.out.println("tableData: " + td);
+	    	System.out.println("reportDate: " + date);
+	    	System.out.println("formPath: " + fp);
+	    	System.out.println("reportStatus: " + reportStatus);
+	    	System.out.println("reportName: " + rn);
+			System.out.println("\n\n\n");
+			
+			
 			
 			
 			if(formPath.equals("tb08uResults") || formPath.equals("tb07uResults") || formPath.equals("tb03uResults") || formPath.equals("dquResults")) {
-				Context.getService(MdrtbService.class).savePDF(oblast, location.toString(), year, quarter, month, date, tableData, reportStatus, reportName, "MDRTB");
+				Context.getService(MdrtbService.class).savePDF(o, d, f, y, q, m, date, td, reportStatus, rn, "MDRTB");
 			}
 			else {
-				Context.getService(MdrtbService.class).savePDF(oblast, location.toString(), year, quarter, month, date, tableData, reportStatus, reportName, "DOTSTB");
+				try {
+					System.out.println("Saving PDF in try...");
+					Context.getService(MdrtbService.class).savePDF(o, d, f, y, q, m, r, td, reportStatus, rn, "DOTSTB");
+				}
+				
+				catch(Exception ee) {
+					System.out.println("Caught in inner catch:" + ee.getMessage());
+					ee.printStackTrace();
+					model.addAttribute("ex", ee); 
+					model.addAttribute("reportStatus", reportStatus);
+				}
 			}
 			model.addAttribute("reportStatus", reportStatus);
 			request.getSession().setAttribute("reportStatus", reportStatus);
@@ -121,6 +158,7 @@ public class CloseReportController {
 			System.out.println("---POST CLOSE-----");
 		} catch (Exception e) {
 			reportStatus = false;
+			System.out.println("Caught in outer catch:" + e.getMessage());
 			e.printStackTrace();
 
 			model.addAttribute("ex", e); 
@@ -130,26 +168,29 @@ public class CloseReportController {
         
         String url = "";
         if(formPath.equals("tb08uResults")) {
-        	url = TB08uController.doTB08(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        	url = TB08uController.doTB08(d, o, f, y, q, m, model);//(report_location, report_oblast, report_year, report_quarter, report_month, model);
 	    }
         else if(formPath.equals("tb07uResults")) {
-        	url = TB07uController.doTB08(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        	url = TB07uController.doTB08(d, o, f, y, q, m, model);//(report_location, report_oblast, report_year, report_quarter, report_month, model);
         }
-        else if(formPath.equals("tb03uResults")) {
-        	url = TB03uController.doTB03(report_location, report_oblast, report_year, report_quarter, report_month, model);
-        }
+       
         else if(formPath.equals("dquResults")) {
-        	url = MDRDQController.doDQ(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        	url = MDRDQController.doDQ(d, o, f, y, q, m, model);//(report_location, report_oblast, report_year, report_quarter, report_month, model);
         }
         else if(formPath.equals("tb07Results")) {
-        	url = TB07ReportController.doTB07(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        	url = TB07ReportController.doTB07(d, o, f, y, q, m, model);//report_year, report_quarter, report_month, model);
         }
         else if(formPath.equals("tb08Results")) {
-        	url = TB08ReportController.doTB08(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        	url = TB08ReportController.doTB08(d, o, f, y, q, m, model);//(report_location, report_oblast, report_year, report_quarter, report_month, model);
         	System.out.println("URL:" + url);
         }
         else if(formPath.equals("tb03Results")) {
-        	url = TB03ExportController.doTB03(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        	url = TB03ExportController.doTB03(d, o, f, y, q, m, model);
+        	System.out.println("URL:" + url);
+        }
+        
+        else  if(formPath.equals("tb03uResults")) {
+        	url = TB03uController.doTB03(d, o, f, y, q, m, model);
         	System.out.println("URL:" + url);
         }
         

@@ -102,27 +102,28 @@ public class TB07uController {
     
     @RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb07u")
     public static String doTB08(
-    		@RequestParam("location") Location location,
-    		@RequestParam("oblast") String oblast,
+    		@RequestParam("district") Integer districtId,
+    		@RequestParam("facility") Integer facilityId,
+    		@RequestParam("oblast") Integer oblastId,
             @RequestParam(value="year", required=true) Integer year,
             @RequestParam(value="quarter", required=false) String quarter,
             @RequestParam(value="month", required=false) String month,
             ModelMap model) throws EvaluationException {
     	System.out.println("---POST-----");
-    	System.out.println("PARAMS:" + location + " " + oblast + " " + year + " " + quarter + " " + month);
+    //	System.out.println("PARAMS:" + location + " " + oblast + " " + year + " " + quarter + " " + month);
     	
     	SimpleDateFormat sdf = new SimpleDateFormat();
     	sdf.applyPattern("dd.MM.yyyy");
     	
-    	Oblast o = null;
+    /*	Oblast o = null;
     	if(oblast!=null && !oblast.equals("") && location == null)
 			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
-		
-		List<Location> locList = new ArrayList<Location>();
-		if(o != null && location == null)
+		*/
+		ArrayList<Location> locList = new ArrayList<Location>();
+	/*	if(o != null && location == null)
 			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
 		else if (location != null)
-			locList.add(location);
+			locList.add(location);*/
 		
 		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
 		
@@ -637,17 +638,17 @@ public class TB07uController {
     	
     	
     	// TO CHECK WHETHER REPORT IS CLOSED OR NOT
-    	Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
+    	/*Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
 		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
 		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
-		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
+		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }*/
 		
-    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB-07u","MDRTB");
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "TB-07u","MDRTB");
 		System.out.println(reportStatus);
 		
 		model.addAttribute("table1", table1);
-    	model.addAttribute("oblast", oblast);
-    	model.addAttribute("location", location);
+    /*	model.addAttribute("oblast", oblast);
+    	model.addAttribute("location", location);*/
     	model.addAttribute("year", year);
     	model.addAttribute("quarter", quarter);
     	model.addAttribute("reportDate", sdf.format(new Date()));

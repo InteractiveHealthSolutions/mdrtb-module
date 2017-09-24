@@ -25,11 +25,19 @@ public interface MdrtbDAO {
     public ArrayList<String> PDFColumns();
     
    // public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName);
-    public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType);
-    public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String reportType);
-    public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date, String reportType);
-    public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
-	public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames);
+   // public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType);
+    public void savePDF(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType);
+   
+   // public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String reportType);
+    public boolean readReportStatus(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String reportType);
+    
+  //  public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date, String reportType);
+    public List<String> readTableData(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String reportType);
+    
+  //  public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
+    public void unlockReport(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String reportType);
+	
+    public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames);
 	public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames, Date startDate, Date endDate, Date closeDate);
     
 }

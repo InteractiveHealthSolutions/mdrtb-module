@@ -18,12 +18,18 @@ import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
+import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TB03uForm;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
+import org.openmrs.module.mdrtb.reporting.TB03Util;
 import org.openmrs.module.mdrtb.reporting.TB03uData;
 import org.openmrs.module.mdrtb.reporting.TB03uUtil;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -42,6 +48,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @SuppressWarnings({ "deprecation", "unused", "unchecked" })
 @Controller
@@ -56,39 +63,94 @@ public class TB03uController {
         
     
     @RequestMapping(method=RequestMethod.GET, value="/module/mdrtb/reporting/tb03u")
-    public void showRegimenOptions(ModelMap model) {
-		System.out.println("---GET-----");
+    public ModelAndView showRegimenOptions(@RequestParam(value="loc", required=false) String district,
+    									  @RequestParam(value="ob", required=false) String oblast,
+    									  @RequestParam(value = "yearSelected", required = false) Integer year,
+    									  @RequestParam(value = "quarterSelected", required = false) String quarter,
+    									  @RequestParam(value = "monthSelected", required = false) String month,
+    									  ModelMap model) {
 
-    	
-    
-       
-        List<Location> locations = Context.getLocationService().getAllLocations(false);//ms = (MdrtbDrugForecastService) Context.getService(MdrtbDrugForecastService.class);
-        List<Oblast> oblasts = Context.getService(MdrtbService.class).getOblasts();
-        //drugSets =  ms.getMdrtbDrugs();
-        
-       
+		List<Oblast> oblasts;
+		List<Facility> facilities;
+		List<District> districts;
 
-        model.addAttribute("locations", locations);
-        model.addAttribute("oblasts", oblasts);
-      
-    	
-    }
+		if (oblast == null) {
+			oblasts = Context.getService(MdrtbService.class).getOblasts();
+			model.addAttribute("oblasts", oblasts);
+		}
+
+		else if (district == null) {
+			oblasts = Context.getService(MdrtbService.class).getOblasts();
+			districts = Context.getService(MdrtbService.class).getDistricts(
+					Integer.parseInt(oblast));
+			model.addAttribute("oblastSelected", oblast);
+			model.addAttribute("oblasts", oblasts);
+			model.addAttribute("districts", districts);
+		} 
+		
+		else {
+			oblasts = Context.getService(MdrtbService.class).getOblasts();
+			districts = Context.getService(MdrtbService.class).getDistricts(
+					Integer.parseInt(oblast));
+			facilities = Context.getService(MdrtbService.class).getFacilities(
+					Integer.parseInt(district));
+			model.addAttribute("oblastSelected", oblast);
+			model.addAttribute("oblasts", oblasts);
+			model.addAttribute("districts", districts);
+			model.addAttribute("districtSelected", district);
+			model.addAttribute("facilities", facilities);
+		}
+
+		model.addAttribute("yearSelected", year);
+		if(month!=null && month.length()!=0)
+			model.addAttribute("monthSelected", month.replace("\"", ""));
+		else
+			model.addAttribute("monthSelected", "");
+		
+		if(quarter!=null && quarter.length()!=0)
+			model.addAttribute("quarterSelected", quarter.replace("\"", "'"));
+		else
+			model.addAttribute("quarterSelected", "");
+		//"bb".get
+		/*
+		 * List<Location> locations =
+		 * Context.getLocationService().getAllLocations(false);//
+		 * Context.getLocationService().getAllLocations();//ms =
+		 * (MdrtbDrugForecastService)
+		 * Context.getService(MdrtbDrugForecastService.class); List<Oblast>
+		 * oblasts = Context.getService(MdrtbService.class).getOblasts();
+		 * //drugSets = ms.getMdrtbDrugs();
+		 * 
+		 * 
+		 * 
+		 * model.addAttribute("locations", locations);
+		 * model.addAttribute("oblasts", oblasts);
+		 */
+		return new ModelAndView("/module/mdrtb/reporting/tb03u", model);
+
+	}
     
   
     
     
 	@RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/tb03u")
     public static String doTB03(
-    		@RequestParam("location") Location location,
-    		@RequestParam("oblast") String oblast,
+    		@RequestParam("district") Integer districtId,
+    		@RequestParam("oblast") Integer oblastId,
+    		@RequestParam("facility") Integer facilityId,
             @RequestParam(value="year", required=true) Integer year,
             @RequestParam(value="quarter", required=false) String quarter,
             @RequestParam(value="month", required=false) String month,
             ModelMap model) throws EvaluationException {
 		System.out.println("---POST-----");
-    	System.out.println("PARAMS:" + location + " " + oblast + " " + year + " " + quarter + " " + month);
-    	  	
-    	Cohort patients = MdrtbUtil.getMdrPatientsTJK(null, null, location, oblast, null, null, null, null,year,quarter,month);
+    	System.out.println("PARAMS:" + oblastId + " " + districtId + " " + facilityId + " " + year + " " + quarter + " " + month);
+    	
+		ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    	
+    	ArrayList<TB03uForm> tb03uList = Context.getService(MdrtbService.class).getTB03uFormsFilled(locList, year, quarter, month);
+		
+		
+    	/*Cohort patients = new Cohort();// MdrtbUtil.getMdrPatientsTJK(null, null, location, oblast, null, null, null, null,year,quarter,month);
     	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
 		
 		Date startDate = (Date)(dateMap.get("startDate"));
@@ -103,44 +165,37 @@ public class TB03uController {
 		oldformList.add(tb03Form);
     	
     	
-    	Set<Integer> idSet = patients.getMemberIds();
+    	Set<Integer> idSet = patients.getMemberIds();*/
     	ArrayList<TB03uData> patientSet  = new ArrayList<TB03uData>();
     	SimpleDateFormat sdf = new SimpleDateFormat();
     	
-    	ArrayList<Person> patientList = new ArrayList<Person>();
+    	/*ArrayList<Person> patientList = new ArrayList<Person>();
     	ArrayList<Concept> conceptQuestionList = new ArrayList<Concept>();
-    	ArrayList<Concept> conceptAnswerList = new ArrayList<Concept>();
+    	ArrayList<Concept> conceptAnswerList = new ArrayList<Concept>();*/
     	Integer regimenConceptId = null;
     	Integer codId = null;
-    	List<Obs> obsList = null;
+    	//List<Obs> obsList = null;
     	
     	/*Concept reg1New = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.REGIMEN_1_NEW);
     	Concept reg1Rtx = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.REGIMEN_1_RETREATMENT);
     	*/
     	sdf.applyPattern("dd.MM.yyyy");
-    	for (Integer i : idSet) {
-    		patientList.clear();
-         	conceptQuestionList.clear();
-         	conceptAnswerList.clear();
+    	for (TB03uForm tf : tb03uList) {
     		
-    		TB03uData tb03Data = new TB03uData();
+    		TB03uData tb03uData = new TB03uData();
     		
-    	    Patient patient = Context.getPatientService().getPatient(i);
+    		Patient patient = tf.getPatient();
     	    if(patient==null) {
     	    	continue;
     	    	
     	    }
     	    	
     	    
-    	    
-    	    patientList.add(patient);
-    	    
-    	    
-    	    tb03Data.setPatient(patient);
+    	    tb03uData.setPatient(patient);
     	    
     	    
     	    //PATIENT IDENTIFIER
-    	    List<PatientIdentifier> idList = patient.getActiveIdentifiers();
+    	   /* List<PatientIdentifier> idList = patient.getActiveIdentifiers();
     	    
     	    for(PatientIdentifier pi : idList) {
     	    	
@@ -156,34 +211,42 @@ public class TB03uController {
     	    			break;
     	    	}
     	    	
-    	    }
+    	    }*/
     	    
-    	    /*tb03Data.setIdentifierDOTS(patient.getActiveIdentifiers().get(0).toString());
-    	    tb03Data.setIdentifierMDR(patient.getActiveIdentifiers().get(0).toString());*/
+    	    String identifier = TB03Util.getRegistrationNumber(tf);
+    	    tb03uData.setIdentifierMDR(identifier);
+    	    
+    	    String identifierDOTS = TB03Util.getRegistrationNumber(tf.getTb03());
+    	    tb03uData.setIdentifierDOTS(identifierDOTS);
+    	    
+    	    Date encDate = tf.getEncounterDatetime();
+     	   
+    	    tb03uData.setTb03uRegistrationDate(sdf.format(encDate));
+    	    tb03uData.setDotsYear(tf.getTb03RegistrationYear());
     	   
     	    
-    	    //DATE OF TB03U REGISTRATION
-    	    List<Encounter> tb03uEncList = Context.getEncounterService().getEncounters(patient, null, startDate, endDate, formList, null, null, false);
-    	    Date encDate = null;
-    	    if(tb03uEncList.size() > 0 && tb03uEncList.get(0)!=null) {
-    	    	encDate = tb03uEncList.get(0).getEncounterDatetime();
-    	    	tb03Data.setTb03uRegistrationDate(sdf.format(encDate));
-    	    	
-    	    }
-    	    
-    	    else
-    	    	continue;
-    	    
-    	    List<Encounter> tb03EncList = Context.getEncounterService().getEncounters(patient, null, startDate, endDate, formList, null, null, false);
-    	    Date oldencDate = null;
-    	    if(tb03uEncList.size() > 0 && tb03uEncList.get(0)!=null) {
-    	    	oldencDate = tb03EncList.get(0).getEncounterDatetime();
-    	    	tb03Data.setDotsYear(oldencDate.getYear()+1900);
-    	    	
-    	    }
+//    	    //DATE OF TB03U REGISTRATION
+//    	    List<Encounter> tb03uEncList = Context.getEncounterService().getEncounters(patient, null, startDate, endDate, formList, null, null, false);
+//    	    Date encDate = null;
+//    	    if(tb03uEncList.size() > 0 && tb03uEncList.get(0)!=null) {
+//    	    	encDate = tb03uEncList.get(0).getEncounterDatetime();
+//    	    	tb03Data.setTb03uRegistrationDate(sdf.format(encDate));
+//    	    	
+//    	    }
+//    	    
+//    	    else
+//    	    	continue;
+//    	    
+//    	    List<Encounter> tb03EncList = Context.getEncounterService().getEncounters(patient, null, startDate, endDate, formList, null, null, false);
+//    	    Date oldencDate = null;
+//    	    if(tb03uEncList.size() > 0 && tb03uEncList.get(0)!=null) {
+//    	    	oldencDate = tb03EncList.get(0).getEncounterDatetime();
+//    	    	tb03Data.setDotsYear(oldencDate.getYear()+1900);
+//    	    	
+//    	    }
     	   
     	    
-    	    //FORMATTED DATE OF BIRTH
+    	   /* //FORMATTED DATE OF BIRTH
     	    tb03Data.setDateOfBirth(sdf.format(patient.getBirthdate()));
     	    
     	    //AGE AT TB03U Registration
@@ -193,86 +256,127 @@ public class TB03uController {
     	    
     	    obsList = Context.getObsService().getObservations(patientList, tb03uEncList, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setAgeAtTB03uRegistration(obsList.get(0).getValueNumeric().intValue());
+    	    	tb03Data.setAgeAtTB03uRegistration(obsList.get(0).getValueNumeric().intValue());*/
     	    
-    	 
+    	    if(patient.getBirthdate()!=null)
+    	    	tb03uData.setDateOfBirth(sdf.format(patient.getBirthdate()));
     	    
-    	    //SITE OF DISEASE (P/EP)
+    	   /* //SITE OF DISEASE (P/EP)
     	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setSiteOfDisease(obsList.get(0).getValueCoded().getName().getShortName());
+    	    	tb03Data.setSiteOfDisease(obsList.get(0).getValueCoded().getName().getShortName());*/
     	    
-    	    //SLD Register Number
+    	    Concept q = tf.getAnatomicalSite();
+      	  
+    	    if(q!=null)
+    	    	tb03uData.setSiteOfDisease(q.getName().getShortName());
+    	    
+    	   /* //SLD Register Number
      	   q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.REGIMEN_2_REG_NUMBER);
      	    conceptQuestionList.clear();
      	    conceptQuestionList.add(q);
      	    
      	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
      	    if(obsList.size()>0 && obsList.get(0)!=null)
-     	    	tb03Data.setReg2Number(obsList.get(0).getValueText());
+     	    	tb03Data.setReg2Number(obsList.get(0).getValueText());*/
+    	    
+    	    String reg2Number = tf.getSldRegisterNumber();
+        	  
+    	    tb03uData.setReg2Number(reg2Number);
 
     	    //REGISTRATION GROUP
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null) {
     	    	tb03Data.setRegGroup(obsList.get(0).getValueCoded().getConceptId());
+    	    }*/
+    	    
+    	    q = tf.getRegistrationGroup();
+     	   
+    	    if(q!=null) {
+    	    	tb03uData.setRegGroup(q.getConceptId());
     	    }
     	    
     	    //MDR STATUS
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_STATUS);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_STATUS);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setMdrtbStatus((obsList.get(0).getValueCoded().getName().getName()));
+    	    	tb03Data.setMdrtbStatus((obsList.get(0).getValueCoded().getName().getName()));*/
+    	    
+    	    q = tf.getMdrStatus();
+    	    
+    	    if(q!=null) {
+    	    	tb03uData.setMdrtbStatus(q.getName().getName());
+    	    }
     	    
     	    //MDR CONF DATE
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DATE_OF_MDR_CONFIRMATION);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DATE_OF_MDR_CONFIRMATION);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setMdrConfDate(sdf.format(obsList.get(0).getValueDatetime()));
+    	    	tb03Data.setMdrConfDate(sdf.format(obsList.get(0).getValueDatetime()));*/
+    	    
+    	    Date confDate = tf.getConfirmationDate();
+    	    if(confDate!=null)
+      	    	tb03uData.setMdrConfDate(sdf.format(confDate));
     	    
     	    
     	    //MDR TREATMENT REGIMEN
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TUBERCULOSIS_PATIENT_CATEGORY);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TUBERCULOSIS_PATIENT_CATEGORY);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setTreatmentRegimen(obsList.get(0).getValueCoded().getName().getName());
+    	    	tb03Data.setTreatmentRegimen(obsList.get(0).getValueCoded().getName().getName());*/
+    	    
+    	    q = tf.getPatientCategory();
+    	    
+    	    if(q!=null)
+    	    		tb03uData.setTreatmentRegimen(q.getName().getName());
     	    
     	    //DATE OF MDR TREATMENT START
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TREATMENT_START_DATE);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TREATMENT_START_DATE);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setTb03uTreatmentStartDate(sdf.format(obsList.get(0).getValueDatetime()));
+    	    	tb03Data.setTb03uTreatmentStartDate(sdf.format(obsList.get(0).getValueDatetime()));*/
+    	    
+    	    Date txStartDate = tf.getMdrTreatmentStartDate();
+    	    if(txStartDate!=null)
+      	    	tb03uData.setTb03uTreatmentStartDate(sdf.format(txStartDate));
     	    
     	    //TREATMENT LOCATION
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TREATMENT_LOCATION);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TREATMENT_LOCATION);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setTreatmentLocation(obsList.get(0).getValueCoded().getName().getName());
+    	    	tb03Data.setTreatmentLocation(obsList.get(0).getValueCoded().getName().getName());*/
+    	    
+    	    q = tf.getTxLocation();
+    	    
+    	    if(q!=null) {
+    	    	tb03uData.setTreatmentLocation(q.getName().getName());
+    	    }
     	    
     	    //DST
-    	    Dst firstDst = TB03uUtil.getDiagnosticDST(patient);
+    	   /* Dst firstDst = TB03uUtil.getDiagnosticDST(tf);
     	    
     	    if(firstDst!=null) {
     	    	if(firstDst.getDateCollected()!=null)
@@ -296,411 +400,466 @@ public class TB03uController {
     	    	
     	    	
     	    	System.out.println("-------");
+    	    }*/
+    	    
+    	    Dst firstDst = TB03uUtil.getDiagnosticDST(tf);
+    	    
+    	    if(firstDst!=null) {
+    	    	if(firstDst.getDateCollected()!=null)
+    	    		tb03uData.setDstCollectionDate(sdf.format(firstDst.getDateCollected()));
+    	    	if(firstDst.getResultDate()!=null)
+    	    		tb03uData.setDstResultDate(sdf.format(firstDst.getResultDate()));
+    	    	List<DstResult> resList = firstDst.getResults();
+    	    	String drugName = null;
+    	    	String result = null;
+    	    	for(DstResult res : resList)
+    	    	{
+    	    		if(res.getDrug()!=null) {
+    	    			drugName = res.getDrug().getShortestName(Context.getLocale(), false).toString();
+    	    			result = res.getResult().getName().getShortName();
+    	    			tb03uData.getDstResults().put(drugName,result);
+    	    			//System.out.println(drugName + "-" + result + " | " + res.getResult());
+    	    			
+    	    		}
+    	    	}
+    	    	System.out.println("-------");
     	    }
     	    
     	    //DRUG RESISTANCE
     	    
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESISTANCE_TYPE);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESISTANCE_TYPE);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setDrugResistance(obsList.get(0).getValueCoded().getName().getShortName());
+    	    	tb03Data.setDrugResistance(obsList.get(0).getValueCoded().getName().getShortName());*/
+    	    
+    	    q = tf.getResistanceType();
+    	    
+    	    if(q!=null) {
+    	    	tb03uData.setDrugResistance(q.getName().getName());
+    	    }
     	    
     	    //DIAGNOSTIC METHOD
     	    
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.METHOD_OF_DIAGNOSTIC);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.METHOD_OF_DIAGNOSTIC);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setDiagnosticMethod(obsList.get(0).getValueCoded().getName().getName());
+    	    	tb03Data.setDiagnosticMethod(obsList.get(0).getValueCoded().getName().getName());*/
     	    
-    	    //HIV TEST RESULT
+    	    q = tf.getBasisForDiagnosis();
+    	    
+    	    if(q!=null) {
+    	    	tb03uData.setDiagnosticMethod(q.getName().getName());
+    	    }
+    	    
+    	    
+    	   /* //HIV TEST RESULT
     	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESULT_OF_HIV_TEST);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setHivTestResult(obsList.get(0).getValueCoded().getName().getName());
+    	    	tb03Data.setHivTestResult(obsList.get(0).getValueCoded().getName().getName());*/
 
-    	    //DATE OF HIV TEST
+    	    q = tf.getHivStatus();
+    	    
+    	    if(q!=null) {
+    	    	tb03uData.setHivTestResult(q.getName().getName());
+    	    }
+    	    
+    	    
+    	    /*//DATE OF HIV TEST
     	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DATE_OF_HIV_TEST);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setHivTestDate(sdf.format(obsList.get(0).getValueDatetime()));
+    	    	tb03Data.setHivTestDate(sdf.format(obsList.get(0).getValueDatetime()));*/
+    	    
+    	    Date hivTestDate = tf.getHivTestDate();
+    	    if(hivTestDate!=null)
+      	    	tb03uData.setHivTestDate(sdf.format(hivTestDate));
     	    
     	  //DATE OF ART START
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DATE_OF_ART_TREATMENT_START);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DATE_OF_ART_TREATMENT_START);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setArtStartDate(sdf.format(obsList.get(0).getValueDatetime()));
+    	    	tb03Data.setArtStartDate(sdf.format(obsList.get(0).getValueDatetime()));*/
+    	    
+    	    Date artStartDate = tf.getArtStartDate();
+    	    if(artStartDate!=null)
+      	    	tb03uData.setArtStartDate(sdf.format(artStartDate));
     	    
     	  //DATE OF CP START
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DATE_OF_PCT_TREATMENT_START);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DATE_OF_PCT_TREATMENT_START);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setCpStartDate(sdf.format(obsList.get(0).getValueDatetime()));  
+    	    	tb03Data.setCpStartDate(sdf.format(obsList.get(0).getValueDatetime()));  */
+    	    
+    	    Date pctStartDate = tf.getPctStartDate();
+    	    if(pctStartDate!=null)
+      	    	tb03uData.setCpStartDate(sdf.format(pctStartDate));
     	    
     	
     	    
     	    //FOLLOW-UP SMEARS
     	    //accordingly look for smears
     	  
-    	    Smear followupSmear = TB03uUtil.getFollowupSmear(patient, 0);
+    	    Smear followupSmear = TB03uUtil.getFollowupSmear(tf, 0);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth0SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth0SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth0SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth0SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 1);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 1);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth1SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth1SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth1SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth1SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 2);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 2);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth2SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth2SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth2SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth2SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 3);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 3);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth3SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth3SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth3SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth3SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 4);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 4);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth4SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth4SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth4SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth4SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 5);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 5);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth5SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth5SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth5SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth5SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 6);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 6);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth6SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth6SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth6SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth6SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 7);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 7);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth7SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth7SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth7SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth7SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 8);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 8);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth8SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth8SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth8SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth8SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 9);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 9);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth9SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth9SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth9SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth9SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 10);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 10);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth10SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth10SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth10SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth10SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 11);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 11);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth11SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth11SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth11SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth11SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 12);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 12);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth12SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth12SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth12SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth12SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 15);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 15);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth15SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth15SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth15SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth15SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 18);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 18);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth18SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth18SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth18SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth18SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 21);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 21);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth21SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth21SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth21SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth21SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 24);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 24);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth24SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth24SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth24SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth24SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 27);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 27);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth27SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth27SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth27SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth27SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 30);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 30);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth30SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth30SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth30SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth30SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 33);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 33);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth33SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth33SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth33SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth33SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(patient, 36);
+    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 36);
     	    if(followupSmear!=null) {
     	    	if(followupSmear.getResult()!=null) 
-    	    		tb03Data.setMonth36SmearResult(followupSmear.getResult().getName().getShortName());
+    	    		tb03uData.setMonth36SmearResult(followupSmear.getResult().getName().getShortName());
     	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03Data.setMonth36SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	    tb03uData.setMonth36SmearResultDate(sdf.format(followupSmear.getResultDate()));	
     	   }
     	    
     	    //follow CULTURES
-    	    Culture followupCulture = TB03uUtil.getFollowupCulture(patient, 0);
+    	    Culture followupCulture = TB03uUtil.getFollowupCulture(tf, 0);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth0CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth0CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth0CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth0CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 1);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 1);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth1CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth1CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth1CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth1CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 2);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 2);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth2CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth2CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth2CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth2CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 3);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 3);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth3CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth3CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth3CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth3CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 4);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 4);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth4CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth4CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth4CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth4CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 5);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 5);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth5CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth5CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth5CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth5CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 6);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 6);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth6CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth6CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth6CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth6CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 7);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 7);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth7CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth7CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth7CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth7CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 8);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 8);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth8CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth8CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth8CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth8CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 9);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 9);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth9CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth9CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth9CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth9CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 10);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 10);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth10CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth10CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth10CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth10CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 11);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 11);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth11CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth11CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth11CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth11CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 12);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 12);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth12CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth12CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth12CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth12CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 15);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 15);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth15CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth15CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth15CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth15CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 18);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 18);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth18CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth18CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth18CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth18CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 21);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 21);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth21CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth21CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth21CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth21CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 24);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 24);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth24CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth24CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth24CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth24CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 27);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 27);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth27CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth27CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth27CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth27CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 30);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 30);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth30CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth30CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth30CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth30CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 33);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 33);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth33CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth33CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth33CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth33CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(patient, 36);
+    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 36);
     	    if(followupCulture!=null) {
     	    	if(followupCulture.getResult()!=null) 
-    	    		tb03Data.setMonth36CultureResult(followupCulture.getResult().getName().getShortName());
+    	    		tb03uData.setMonth36CultureResult(followupCulture.getResult().getName().getShortName());
     	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03Data.setMonth36CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	    tb03uData.setMonth36CultureResultDate(sdf.format(followupCulture.getResultDate()));	
     	   }
     	    
     	    
     	    //TX OUTCOME
     	    //CHECK CAUSE OF DEATH
     	   
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSE_OF_DEATH);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSE_OF_DEATH);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
@@ -715,34 +874,57 @@ public class TB03uController {
     	    }
     	    
     	    else
-	    		tb03Data.setDiedOfTB(false);
+	    		tb03Data.setDiedOfTB(false);*/
+    	    
+    	    q = tf.getCauseOfDeath();//Context.getService(MdrtbService.class).getConcept(TbConcepts.CAUSE_OF_DEATH);
+    	    
+    	    if(q!=null)
+    	    {	
+    	    	codId = q.getConceptId();
+    	    	if(codId.equals(Context.getService(MdrtbService.class).getConcept(TbConcepts.DEATH_BY_TB).getConceptId()))
+    	    		tb03uData.setDiedOfTB(true);
+    	    	else
+    	    		tb03uData.setDiedOfTB(false);
+    	    }
+    	    
+    	    else
+	    		tb03uData.setDiedOfTB(false);
     	    
     	    
     	    //RELAPSED
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RELAPSED);
-    	    conceptQuestionList.clear();
-    	    conceptQuestionList.add(q);
+//    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RELAPSED);
+//    	    conceptQuestionList.clear();
+//    	    conceptQuestionList.add(q);
+//    	    
+//    	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
+//    	    if(obsList.size()>0 && obsList.get(0)!=null)
+//    	    	tb03Data.setRelapsed(obsList.get(0).getValueCoded().getName().getName());
     	    
-    	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
-    	    if(obsList.size()>0 && obsList.get(0)!=null)
-    	    	tb03Data.setRelapsed(obsList.get(0).getValueCoded().getName().getName());
+    	    q = tf.getRelapsed();
     	    
-    	    
+    	    if(q!=null) {
+    	    	tb03uData.setRelapsed(q.getName().getName());
+    	    }
     	    
     	    //RELAPSED AT MONTH?
     	    //RELAPSED
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RELAPSE_MONTH);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RELAPSE_MONTH);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
         	    if(obsList.size()>0 && obsList.get(0)!=null)
-        	    	tb03Data.setRelapseMonth(obsList.get(0).getValueNumeric().intValue());
-        	    	
+        	    	tb03Data.setRelapseMonth(obsList.get(0).getValueNumeric().intValue());*/
+        	 
+    	   Integer relMonth = tf.getRelapseMonth();
+    	   
+    	   if(relMonth!=null) {
+    		   tb03uData.setRelapseMonth(relMonth);
+    	   }
         	    	
         	//TX OUTCOME
     	    
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_TX_OUTCOME);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_TX_OUTCOME);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
@@ -757,11 +939,21 @@ public class TB03uController {
  	    	    if(obsList.size()>0 && obsList.get(0)!=null) {
  	    	    	tb03Data.setTb03uTreatmentOutcomeDate(sdf.format(obsList.get(0).getValueDatetime()));
  	    	    }
-    	    }
+    	    }*/
+    	    
+    	   q = tf.getTreatmentOutcome();
+    	   if(q!=null) {
+   	    	tb03uData.setTb03uTreatmentOutcome(q.getConceptId());
+   	    	
+   	    	 Date txOutcomeDate = tf.getTreatmentOutcomeDate();
+   	    	 if(txOutcomeDate!=null) {
+   	    	    	tb03uData.setTb03uTreatmentOutcomeDate(sdf.format(txOutcomeDate));
+   	    	    }
+   	    	}
     	    
     	    //NOTES
     	    
-    	    q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CLINICIAN_NOTES);
+    	   /* q = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CLINICIAN_NOTES);
     	    conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
@@ -769,31 +961,47 @@ public class TB03uController {
     	    if(obsList.size()>0 && obsList.get(0)!=null)
     	    	tb03Data.setNotes(obsList.get(0).getValueText());
     	    
-    	    patientSet.add(tb03Data);
+    	    patientSet.add(tb03Data);*/
+    	   
+    	   String notes = tf.getClinicianNotes();
+    	   
+    	   if(notes!=null)
+   	    	tb03uData.setNotes(notes);
     	    
     	    regimenConceptId = null;
         	codId = null;
-        	obsList = null;
+        	q = null;
+        	
+        	patientSet.add(tb03uData);
     	   
     	}
     	
     	Collections.sort(patientSet);
-    	Integer num = patients.getSize();
+    	Integer num = patientSet.size();
     	model.addAttribute("num", num);
     	model.addAttribute("patientSet", patientSet);
     	
     	// TO CHECK WHETHER REPORT IS CLOSED OR NOT
     	Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
-		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
-		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
-		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }
+		/*if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
+		if(new PDFHelper().isInt(quartert)) { report_quarter = Integer.parseInt(quarter); }
+		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }*/
 		
-    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(report_oblast, location.getId(), year, report_quarter, report_month, "TB-03u","MDRTB");
+    	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "TB-03u","MDRTB");
 		System.out.println(reportStatus);
-    	model.addAttribute("oblast", oblast);
-    	model.addAttribute("location", location);
+		model.addAttribute("oblast", oblastId);
+    	model.addAttribute("district", districtId);
+    	model.addAttribute("facility", facilityId);
     	model.addAttribute("year", year);
-    	model.addAttribute("quarter", quarter);
+    	if(month!=null && month.length()!=0)
+			model.addAttribute("month", month.replace("\"", ""));
+		else
+			model.addAttribute("month", "");
+		
+		if(quarter!=null && quarter.length()!=0)
+			model.addAttribute("quarter", quarter.replace("\"", "'"));
+		else
+			model.addAttribute("quarter", "");
     	model.addAttribute("reportDate", sdf.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
     	

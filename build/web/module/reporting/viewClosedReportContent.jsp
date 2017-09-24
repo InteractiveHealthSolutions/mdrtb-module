@@ -26,7 +26,8 @@ response.setDateHeader ("Expires", -1);
 	<script>
 		function viewChanges() {
 			var oblast = "${oblast}";
-			var location = "${location}";
+			var district = "${district}";
+			var facility = "${facility}";
 			var year = "${year}";
 			var quarter = "${quarter}";
 			var month = "${month}";
@@ -51,9 +52,15 @@ response.setDateHeader ("Expires", -1);
 	
 		    var input = document.createElement("INPUT");
 		    input.setAttribute("type", "hidden");
-		    input.setAttribute("id", "location");
-		    input.setAttribute("name", "location");
-		    input.setAttribute("value", location);
+		    input.setAttribute("id", "district");
+		    input.setAttribute("name", "district");
+		    input.setAttribute("value", district);
+		    form.appendChild(input);
+		    
+		    var input = document.createElement("INPUT");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("id", "facility");
+		    input.setAttribute("name", "facility");
 		    form.appendChild(input);
 		    
 		    var input = document.createElement("INPUT");

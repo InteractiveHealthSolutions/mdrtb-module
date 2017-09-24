@@ -641,14 +641,19 @@ public interface MdrtbService extends OpenmrsService {
     
     public ArrayList<String> PDFColumns();
     
-    public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date);
+    public void unlockReport(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String reportType);
     
    /* public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName);*/
-    public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType);
+    //public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType);
+    public void savePDF(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType);
 
-    public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String type);
+    //public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String type);
+    public boolean readReportStatus(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String type);
 
-    public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date, String reportType);
+   // public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date, String reportType);
+    public List<String> readTableData(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String reportType);
+    
+    //public List<String> readTableData(Integer oblast, Integer district, Integer facility, Integer year, Integer quarter, Integer month, String name, String date, String reportType);
 
     public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames);
 
@@ -666,13 +671,18 @@ public interface MdrtbService extends OpenmrsService {
 	public void addProgramIdToEncounter(Integer encounterId, Integer programId);
 	
 	public  ArrayList<TB03Form> getTB03FormsFilled(Location location, String oblast, Integer year, String quarter, String month);
+	
+	public  ArrayList<TB03Form> getTB03FormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
 	public  ArrayList<TB03uForm> getTB03uFormsFilled(Location location, String oblast, Integer year, String quarter, String month);
+	public  ArrayList<TB03uForm> getTB03uFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
 	public  ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, Integer year, String quarter, String month);
-    
+	public  ArrayList<Form89> getForm89FormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
+	
 	public Set<ProgramWorkflowState> getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
 	public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient);
 	
 	public List <Location> getCultureLocations();
+	public ArrayList<Location> getLocationList(Integer oblastId, Integer districtId, Integer facilityId);
 }
 
 

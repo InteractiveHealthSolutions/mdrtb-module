@@ -51,11 +51,12 @@ public class ExportReportController {
 	@RequestMapping(method=RequestMethod.POST)//, value="/module/mdrtb/reporting/exportReport"
     public String exportReportPost(
     		HttpServletRequest request, HttpServletResponse response,
-    		@RequestParam("oblast") String oblastId, 
-    		@RequestParam("location") String locationId, 
+    		@RequestParam("oblast") Integer oblastId, 
+    		@RequestParam("district") Integer districtId, 
+    		@RequestParam("facility") Integer facilityId,
     		@RequestParam("year") Integer year, 
-    		@RequestParam("quarter") Integer quarter, 
-    		@RequestParam("month") Integer month, 
+    		@RequestParam("quarter") String quarter, 
+    		@RequestParam("month") String month, 
     		@RequestParam("reportDate") String reportDate, 
     		@RequestParam("table") String table, 
     		@RequestParam("reportName") String reportName, 
@@ -68,14 +69,14 @@ public class ExportReportController {
 		ByteArrayOutputStream baos = null;
 		
 		Location tb08u_location = null;
-    	String tb08u_oblast = oblastId;
+//    	String tb08u_oblast = oblastId;
     	String date = reportDate;
-        Integer tb08u_year = year;
-        String tb08u_quarter = "";
-        String tb08u_month = "";
+//        Integer tb08u_year = year;
+//        String tb08u_quarter = "";
+//        String tb08u_month = "";
         
 		try {
-			if(new PDFHelper().isString(quarter)) { 
+			/*if(new PDFHelper().isString(quarter)) { 
 				tb08u_quarter = Integer.toString(quarter); 
 			}
 			if(new PDFHelper().isString(month)) { 
@@ -87,7 +88,7 @@ public class ExportReportController {
 			}
 			if(new PDFHelper().isInt(oblastId)) { 
 				oblast = (Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId))).getId(); 
-			}
+			}*/
 			if(!(reportDate.equals(""))) {
 				date = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new SimpleDateFormat("dd.MM.yyyy").parse(reportDate)); 
 			}
@@ -125,7 +126,7 @@ public class ExportReportController {
 			e.printStackTrace();
 			model.addAttribute("ex", e); 
 		}
-        return TB08uController.doTB08(tb08u_location, tb08u_oblast, tb08u_year, tb08u_quarter, tb08u_month, model);
+        return TB08uController.doTB08(oblastId, districtId, facilityId, year, quarter, month, model);
     }
 	
 }

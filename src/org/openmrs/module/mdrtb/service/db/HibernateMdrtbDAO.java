@@ -54,7 +54,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		    "from PatientIdentifier p where patientIdentifierId = :pid").setInteger("pid", patientIdentifierId.intValue()).uniqueResult();
 	}
     
-    public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
+   /* public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
 		Integer status = 0; 
 		if(reportStatus == true) { 
 			status = 1; 
@@ -65,6 +65,27 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	session.beginTransaction();
 		session.createSQLQuery(sql).executeUpdate();
 		session.getTransaction().commit();
+	}*/
+    
+    public void savePDF(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
+    	try{
+    	System.out.println("SavePDF-PARAMS:"+oblast +":" + district + ":" + facility +":" + year + ":" + reportDate + ":" + tableData + ":" +  reportName + ":" + reportType);
+    	
+    	Integer status = 0; 
+		if(reportStatus == true) { 
+			status = 1; 
+		}
+    	String sql = "INSERT INTO report_data (oblast_id, district_id, facility_id,year, quarter, month, report_date, table_data, report_status, report_name, report_type) VALUES ("+oblast+", "+district+", "+ facility+", " +year+", '"+ quarter + "', '" + month + "', '"    +reportDate+"', '"+tableData+"', "+status+", '"+reportName+"', '" + reportType + "')";
+    	System.out.println(sql);
+    	Session session = sessionFactory.getCurrentSession();
+    	session.beginTransaction();
+		session.createSQLQuery(sql).executeUpdate();
+		session.getTransaction().commit();
+    	}
+    	catch (Exception e) {
+    		System.out.println("caught in dao: " + e.getMessage());
+    		e.printStackTrace();
+    	}
 	}
     
     /*public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName) {
@@ -104,7 +125,8 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("report_id");
 		list.add("oblast_id");
-		list.add("location_id");
+		list.add("district_id");
+		list.add("facility_id");
 		list.add("year");
 		list.add("quarter");
 		list.add("month");
@@ -112,6 +134,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		//list.add("table_data");
 		list.add("report_status");
 		list.add("report_name");
+		
     	return list;
 	}
 	
@@ -139,7 +162,8 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	List<List<Integer>> list = new ArrayList<List<Integer>>();
     	list.add((List<Integer>) session.createSQLQuery("select report_id from report_data where report_type = '" + reportType + "'").list());
 		list.add((List<Integer>) session.createSQLQuery("select oblast_id from report_data where report_type = '" + reportType + "'").list());
-		list.add((List<Integer>) session.createSQLQuery("select location_id from report_data where report_type = '" + reportType + "'").list());
+		list.add((List<Integer>) session.createSQLQuery("select district_id from report_data where report_type = '" + reportType + "'").list());
+		list.add((List<Integer>) session.createSQLQuery("select facility_id from report_data where report_type = '" + reportType + "'").list());
 		list.add((List<Integer>) session.createSQLQuery("select year from report_data where report_type = '" + reportType + "'").list());
 		list.add((List<Integer>) session.createSQLQuery("select quarter from report_data where report_type = '" + reportType + "'").list());
 		list.add((List<Integer>) session.createSQLQuery("select month from report_data where report_type = '" + reportType + "'").list());
@@ -150,7 +174,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	return list;
 	}
 	
-	@SuppressWarnings({"unchecked"})
+	/*@SuppressWarnings({"unchecked"})
 	public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date, String reportType) {
 		String sql = "select table_data from report_data ";
     	if(name != null && !name.equals("")) { 
@@ -182,9 +206,49 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	session.beginTransaction();
     	List<String> list = (List<String>) session.createSQLQuery(sql).list();
     	return list;
+	}*/
+	
+	@SuppressWarnings({"unchecked"})
+	public List<String> readTableData(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String reportType) {
+		String sql = "select table_data from report_data ";
+    	if(name != null && !name.equals("")) { 
+    		sql += " where report_name='" + name + "'"; 
+		} 
+    	if(date != null && !date.equals("")) { 
+    		sql += " and report_date='" + date + "'"; 
+		} 
+    	if(oblast != null) { 
+    		sql += " and oblast_id=" + oblast; 
+		} 
+    	if(district != null) { 
+    		sql += " and district_id=" + district; 
+		} 
+    	
+    	if(facility != null) { 
+    		sql += " and facility_id=" + facility; 
+		} 
+    	
+    	if(year != null) { 
+    		sql += " and year=" + year; 
+		} 
+    	if(quarter != null) { 
+    		sql += " and quarter='" + quarter + "'"; 
+		} 
+    	if(month != null) { 
+    		sql += " and month='" + month + "'"; 
+		}
+    	
+    	sql += " and report_type= '" + reportType + "'"; 
+    	
+    	System.out.println(sql);
+    	Session session = sessionFactory.getCurrentSession(); 
+    	session.beginTransaction();
+    	List<String> list = (List<String>) session.createSQLQuery(sql).list();
+    	return list;
 	}
+	
 		
-	public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
+	/*public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
     	String sql = "delete from report_data where report_type = 'MDRTB'"; 
     	if(name != null && !name.equals("")) { 
     		sql += " where report_name='" + name + "'"; 
@@ -212,9 +276,96 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	session.beginTransaction();
     	session.createSQLQuery(sql).executeUpdate();
 		session.getTransaction().commit();
+	}*/
+	
+	public void unlockReport(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String reportType) {
+    	String sql = "delete from report_data "; 
+    	if(name != null && !name.equals("")) { 
+    		sql += " where report_name='" + name + "'"; 
+		} 
+    	if(date != null && !date.equals("")) { 
+    		sql += " and report_date='" + date + "'"; 
+		} 
+    	if(oblast != null) { 
+    		sql += " and oblast_id=" + oblast; 
+		} 
+    	if(district != null) { 
+    		sql += " and district_id=" + district; 
+		} 
+    	
+    	if(facility != null) { 
+    		sql += " and facility_id=" + facility; 
+		} 
+    	if(year != null) { 
+    		sql += " and year=" + year; 
+		} 
+    	if(quarter != null) { 
+    		sql += " and quarter='" + quarter + "'"; 
+		} 
+    	if(month != null) { 
+    		sql += " and month='" + month + "'"; 
+		}
+    	
+    	sql += " and report_type='" + reportType + "'";
+    	
+    	System.out.println(sql);
+    	Session session = sessionFactory.getCurrentSession(); 
+    	session.beginTransaction();
+    	session.createSQLQuery(sql).executeUpdate();
+		session.getTransaction().commit();
 	}
+	
 
 	@SuppressWarnings("unchecked")
+	public boolean readReportStatus(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String reportType) {
+    	String sql = "select report_status from report_data ";
+    	if(name != null && !name.equals("")) { 
+    		sql += " where report_name='" + name + "'"; 
+		} 
+    	if(oblast != null) { 
+    		sql += " and oblast_id=" + oblast; 
+		} 
+    	if(district != null) { 
+    		sql += " and district_id=" + district; 
+		} 
+    	if(facility != null) { 
+    		sql += " and facility_id=" + facility; 
+		} 
+    	if(year != null) { 
+    		sql += " and year=" + year; 
+		} 
+    	if(quarter != null) { 
+    		sql += " and quarter='" + quarter + "'"; 
+		} 
+    	if(month != null) { 
+    		sql += " and month='" + month + "'"; 
+		}
+    	
+    	sql += " and report_type='" + reportType + "'";
+    	
+    	System.out.println(sql);
+    	Session session = sessionFactory.getCurrentSession(); 
+    	session.beginTransaction();
+    	List<String> statusList = (List<String>) session.createSQLQuery(sql).list(); 
+    	List<String> list = new PDFHelper().byteToStrArray(statusList.toString());
+    	boolean reportStatus = false; 
+    	if(list.size() > 0) { 
+    		if(new PDFHelper().isInt(list.get(0))) { 
+    			Integer status = Integer.parseInt(list.get(0)); 
+    			if(status == 0) { 
+    				reportStatus = false; 
+    			} else if(status == 1) { 
+    				reportStatus = true; 
+    			}
+    		}
+    	} else { 
+    		reportStatus = false; 
+    	}
+		session.getTransaction().commit(); 
+		return reportStatus;
+    }
+	
+	/*@SuppressWarnings("unchecked")
 	public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String reportType) {
     	String sql = "select report_status from report_data ";
     	if(name != null && !name.equals("")) { 
@@ -258,7 +409,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	}
 		session.getTransaction().commit(); 
 		return reportStatus;
-    }
+    }*/
 
 	public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames) {
 		return getEncountersByEncounterTypes(encounterTypeNames, null, null, null); 
