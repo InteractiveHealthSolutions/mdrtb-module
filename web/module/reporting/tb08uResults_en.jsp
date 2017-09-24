@@ -28,10 +28,26 @@
 			function savePdf(action, reportName, formPath) {
 				var tableData = (document.getElementById("tb08u")).innerHTML.toString();
 				var oblast = "${oblast}";
-				var district = "${location.locationId}";
+				var district = "${district}";
+				var facility = "${facility}";
 				var year = "${year}";
-				var quarter = "${quarter}";
-				var month = "${month}";
+				<c:choose>
+				<c:when test="${! empty quarter}">
+					var quarter =  "\"" + ${quarter} + "\"";
+				</c:when>
+				<c:otherwise>
+					var quarter =  "";
+				</c:otherwise>
+				</c:choose>
+				
+				<c:choose>
+				<c:when test="${! empty month}" >
+					var month =  "\"" + ${month} + "\"";
+				</c:when>
+				<c:otherwise>
+					var month =  "";
+				</c:otherwise>
+			    </c:choose>
 				var reportDate = "${reportDate}";
 				
 				var form = document.createElement("FORM");
@@ -52,9 +68,16 @@
 
 			    var input = document.createElement("INPUT");
 			    input.setAttribute("type", "hidden");
-			    input.setAttribute("id", "location");
-			    input.setAttribute("name", "location");
+			    input.setAttribute("id", "district");
+			    input.setAttribute("name", "district");
 			    input.setAttribute("value", district);
+			    form.appendChild(input);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "facility");
+			    input.setAttribute("name", "facility");
+			    input.setAttribute("value", facility);
 			    form.appendChild(input);
 			    
 			    var input = document.createElement("INPUT");
