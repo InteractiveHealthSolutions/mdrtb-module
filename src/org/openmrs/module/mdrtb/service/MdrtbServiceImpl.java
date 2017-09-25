@@ -1345,10 +1345,10 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	dao.savePDF(oblast, location, year, quarter, month, reportDate, tableData, reportStatus, reportName, reportType);
     }*/
     
-    public void savePDF(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
+    public void doPDF(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
     	System.out.println("Impl -> Saving PDF");
     	try {
-    		dao.savePDF(oblast, district, facility, year,quarter, month,reportDate, tableData, reportStatus, reportName, reportType);
+    		dao.doPDF(oblast, district, facility, year,quarter, month,reportDate, tableData, reportStatus, reportName, reportType);
     	}
     	
     	catch(Exception e) {

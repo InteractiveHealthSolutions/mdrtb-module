@@ -3253,7 +3253,7 @@ public class TB08ReportController {
     	model.addAttribute("table1", table1);
     	model.addAttribute("oblast", oblastId);
     	model.addAttribute("district", districtId);
-    	model.addAttribute("faciloty", facilityId);
+    	model.addAttribute("facility", facilityId);
     	model.addAttribute("year", year);
     	if(month!=null && month.length()!=0)
 			model.addAttribute("month", month.replace("\"", ""));

@@ -60,22 +60,26 @@
 			
 			var tbody = document.getElementById("tbody");
 			var oblastIds = []; var oblastNames = [];
-			var locationIds = []; var locationNames = [];
+			var districtIds = []; var districtNames = [];
+			var facilityIds = []; var facilityNames = [];
 			
-			if("${reportIds}"=== "[]") {
+			<c:choose>
+			<c:when test="${empty reportIds}">
+			
 				var row = tbody.insertRow(-1);
 				var cell = row.insertCell(-1);
 				cell.colSpan = document.getElementById("myTable").rows[0].cells.length;
 				cell.innerHTML = "<center>No Data Found</center>";
-			}
-			else {
+			</c:when>
+			<c:otherwise>
+			
 				<c:forEach var="reportId" items="${reportIds}" varStatus="reportIdLoop">
 					oblastIds.push("${reportOblasts[reportIdLoop.index].id}"); 
 					oblastNames.push("${reportOblasts[reportIdLoop.index].name}");
 					districtIds.push("${reportDistricts[reportIdLoop.index].id}"); 
 					districtNames.push("${reportDistricts[reportIdLoop.index].name}");
 					facilityIds.push("${reportFacilities[reportIdLoop.index].id}"); 
-					facilotyNames.push("${reportFacilities[reportIdLoop.index].name}");
+					facilityNames.push("${reportFacilities[reportIdLoop.index].name}");
 					
 					var row = tbody.insertRow(-1);
 					
@@ -92,7 +96,7 @@
 					//FACILITY
 					var cell = row.insertCell(-1);
 					cell.id="facility_${reportIdLoop.index}";
-					cell.innerHTML = "${reportFacilies[reportIdLoop.index].name}";
+					cell.innerHTML = "${reportFacilities[reportIdLoop.index].name}";
 	
 					//YEAR
 					var cell = row.insertCell(-1);
@@ -136,15 +140,17 @@
 					document.getElementById('unlockBtn_${reportIdLoop.index}').disabled = false;
 					</openmrs:hasPrivilege>
 				</c:forEach>
-			}
-
+			 
+			</c:otherwise>
+			</c:choose>
+			
 
 			function maxLengthCheck(year) { if (year.value.length > 4) { year.value = year.value.slice(0,4); } }
 
 			function submitForm(id, formAction) {
 				document.getElementById("oblast").value = oblastIds[oblastNames.indexOf(document.getElementById("oblast_"+id).innerHTML)];
-				document.getElementById("district").value = districtIds[locationNames.indexOf(document.getElementById("district_"+id).innerHTML)];
-				document.getElementById("facility").value = districtIds[facilityNames.indexOf(document.getElementById("facility_"+id).innerHTML)];
+				document.getElementById("district").value = districtIds[districtNames.indexOf(document.getElementById("district_"+id).innerHTML)];
+				document.getElementById("facility").value = facilityIds[facilityNames.indexOf(document.getElementById("facility_"+id).innerHTML)];
 				document.getElementById("year").value = document.getElementById("year_"+id).innerHTML;
 				document.getElementById("quarter").value = document.getElementById("quarter_"+id).innerHTML;
 				document.getElementById("month").value = document.getElementById("month_"+id).innerHTML;

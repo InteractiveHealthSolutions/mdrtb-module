@@ -40,17 +40,29 @@ public class ViewClosedReportsController {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/module/mdrtb/reporting/viewClosedReports")
     public void viewClosedReportsGet(@RequestParam(required = true, value = "type") String reportType, ModelMap model) {
-    	List<List<Integer>> closedReports = Context.getService(MdrtbService.class).PDFRows(reportType);
+    	System.out.println("TYPE:" + reportType);
+		List<List<Integer>> closedReports = Context.getService(MdrtbService.class).PDFRows(reportType);
+		System.out.println("SIZE:" + closedReports.size());
     	List<Integer> reportIds = closedReports.get(0);
+    	System.out.println("REP:" + reportIds.size());
     	List<Integer> oblastIds = closedReports.get(1);
+    	System.out.println("O:" + oblastIds.size());
     	List<Integer> districtIds = closedReports.get(2);
+    	System.out.println("D:" + districtIds.size());
     	List<Integer> facilityIds = closedReports.get(3);
+    	System.out.println("F:" + facilityIds.size());
     	List<Integer> years = closedReports.get(4);
+    	System.out.println("Y:" + years.size());
     	List<Integer> quarters = closedReports.get(5);
+    	System.out.println("Q:" + quarters.size());
     	List<Integer> months = closedReports.get(6);
+    	System.out.println("M:" + months.size());
     	List<Integer> reportDates = closedReports.get(7);
+    	System.out.println("RD:" + reportDates.size());
     	List<Integer> reportStatuses = closedReports.get(8);
+    	System.out.println("RS" + reportStatuses.size());
     	List<Integer> reportNames = closedReports.get(9);
+    	System.out.println("RN:" + reportNames.size());
     	
 		List<Oblast> oblasts = new ArrayList<Oblast>();
 		List<District> districts = new ArrayList<District>();
@@ -61,11 +73,23 @@ public class ViewClosedReportsController {
 		}
 		
 		for (Integer districtId : districtIds) {
-        	districts.add(Context.getService(MdrtbService.class).getDistrict(districtId));
+			if(districtId!=null) {
+				districts.add(Context.getService(MdrtbService.class).getDistrict(districtId));
+			}
+			
+			else {
+				districts.add(null);
+			}
 		}
 		
 		for (Integer facilityId : facilityIds) {
-        	facilities.add(Context.getService(MdrtbService.class).getFacility(facilityId));
+			if(facilityId!=null) {
+				facilities.add(Context.getService(MdrtbService.class).getFacility(facilityId));
+			}
+		
+			else {
+				facilities.add(null);
+			}
 		}
 
     	
@@ -79,6 +103,7 @@ public class ViewClosedReportsController {
 
     	model.addAttribute("closedReports", closedReports);
     	model.addAttribute("reportIds", reportIds);
+    	System.out.println("REP2:" + reportIds.size());
     	model.addAttribute("oblastIds", oblastIds);
     	model.addAttribute("districtIds", districtIds);
     	model.addAttribute("facilityIds", facilityIds);

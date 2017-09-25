@@ -67,7 +67,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		session.getTransaction().commit();
 	}*/
     
-    public void savePDF(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
+    public void doPDF(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
     	try{
     	System.out.println("SavePDF-PARAMS:"+oblast +":" + district + ":" + facility +":" + year + ":" + reportDate + ":" + tableData + ":" +  reportName + ":" + reportType);
     	

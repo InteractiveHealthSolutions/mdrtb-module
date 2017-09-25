@@ -137,12 +137,12 @@ public class CloseReportController {
 			
 			
 			if(formPath.equals("tb08uResults") || formPath.equals("tb07uResults") || formPath.equals("tb03uResults") || formPath.equals("dquResults")) {
-				Context.getService(MdrtbService.class).savePDF(o, d, f, y, q, m, date, td, reportStatus, rn, "MDRTB");
+				Context.getService(MdrtbService.class).doPDF(o, d, f, y, q, m, date, td, reportStatus, rn, "MDRTB");
 			}
 			else {
 				try {
 					System.out.println("Saving PDF in try...");
-					Context.getService(MdrtbService.class).savePDF(o, d, f, y, q, m, r, td, reportStatus, rn, "DOTSTB");
+					Context.getService(MdrtbService.class).doPDF(o, d, f, y, q, m, r, td, reportStatus, rn, "DOTSTB");
 				}
 				
 				catch(Exception ee) {
@@ -176,6 +176,10 @@ public class CloseReportController {
        
         else if(formPath.equals("dquResults")) {
         	url = MDRDQController.doDQ(d, o, f, y, q, m, model);//(report_location, report_oblast, report_year, report_quarter, report_month, model);
+        }
+        
+        else if(formPath.equals("dqResults")) {
+        	url = DOTSDQController.doDQ(d, o, f, y, q, m, model);//(report_location, report_oblast, report_year, report_quarter, report_month, model);
         }
         else if(formPath.equals("tb07Results")) {
         	url = TB07ReportController.doTB07(d, o, f, y, q, m, model);//report_year, report_quarter, report_month, model);
