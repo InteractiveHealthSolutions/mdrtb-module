@@ -59,6 +59,7 @@ import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
+import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
@@ -2091,9 +2092,33 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 	
 }
 
+	public ArrayList<TransferOutForm> getTransferOutFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<TransferOutForm> forms = new ArrayList<TransferOutForm>();
 
-
-
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		
+		List<Encounter> temp = null;
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TransferOutForm(e));
+			}
+			
+		}
+		
+		return forms;
+		
+		
+	}
 /////////////
 
  public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient) {

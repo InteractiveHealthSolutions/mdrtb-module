@@ -26,6 +26,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.Oblast;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
@@ -90,8 +91,45 @@ public class ProgramController {
 	}
 	
 	@ModelAttribute("classificationsAccordingToPatientGroups")
-	public Collection<ProgramWorkflowState> getClassificationsAccordingToPatientGroups() {		
-		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
+	public ArrayList<ProgramWorkflowState> getClassificationsAccordingToPatientGroups() {		
+		/*return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();*/
+		ArrayList<ProgramWorkflowState> stateArray = new ArrayList<ProgramWorkflowState>();
+		for(int i=0; i< 8; i++) {
+			stateArray.add(null);
+		}
+		Set<ProgramWorkflowState> states = Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
+		MdrtbService ms = Context.getService(MdrtbService.class);
+		for(ProgramWorkflowState pws : states) {
+			if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.NEW).getId().intValue()) {
+				stateArray.set(0, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.RELAPSE_AFTER_REGIMEN_1).getId().intValue()) {
+				stateArray.set(1, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.RELAPSE_AFTER_REGIMEN_2).getId().intValue()) {
+				stateArray.set(2, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.DEFAULT_AFTER_REGIMEN_1).getId().intValue()) {
+				stateArray.set(3, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.DEFAULT_AFTER_REGIMEN_2).getId().intValue()) {
+				stateArray.set(4, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.AFTER_FAILURE_REGIMEN_1).getId().intValue()) {
+				stateArray.set(5, pws);
+			}
+			
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.AFTER_FAILURE_REGIMEN_2).getId().intValue()) {
+				stateArray.set(6, pws);
+			}
+			
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.OTHER).getId().intValue()) {
+				stateArray.set(7, pws);
+			}
+			
+		}
+		
+		return stateArray;
 	}
 	
 	@ModelAttribute("outcomes")

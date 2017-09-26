@@ -25,6 +25,7 @@ import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.reporting.DQItem;
 import org.openmrs.module.mdrtb.reporting.DQUtil;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
@@ -214,6 +215,7 @@ public class DOTSDQController {
     	//List<DQItem> missingAddress = new ArrayList<DQItem>();
     	List<DQItem> noDOTSId = new ArrayList<DQItem>();
     	List<DQItem> noSite = new ArrayList<DQItem>();
+    	List<DQItem> noTB03AfterTransferOut = new ArrayList<DQItem>();
     	
     	Boolean errorFlag = Boolean.FALSE;
     	Integer errorCount = 0;
@@ -239,6 +241,7 @@ public class DOTSDQController {
     	ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId, districtId, facilityId);
     	
     	ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
+    	ArrayList<TransferOutForm> tofList = Context.getService(MdrtbService.class).getTransferOutFormsFilled(locList, year, quarter, month);
     	
     	for (TB03Form  tf : tb03List) {
     		
@@ -411,7 +414,11 @@ public class DOTSDQController {
     	    	
     	    }
     	    
-    	   
+    	    
+    	    //TRANSFER OUT BUT NO ENTRY
+    	    //get latest transfer out with any of these locations for any patient
+    	    //if no tb03 in list enterred after that date for patient add error
+    	    
     	    
     	    if(errorFlag) {
     	    	errorCount ++;
@@ -420,7 +427,42 @@ public class DOTSDQController {
     	    
     	}
     	
-    	Integer num = tb03List.size();
+    	
+    	Boolean foundFlag = Boolean.FALSE;
+    	
+    	for(TransferOutForm tof : tofList) {
+    		Location tofLoc = tof.getLocation();
+    		Date tofDate = tof.getEncounterDatetime();
+    		Patient tofPatient = tof.getPatient();
+    		dqi = new DQItem();
+    	    Patient patient = tof.getPatient();//Context.getPatientService().getPatient(i);
+    	    
+    	    if(patient==null) {
+    	    	continue;
+    	    }
+    	   // patientList.add(patient);
+    	    dqi.setPatient(patient);
+    	    dqi.setDateOfBirth(sdf.format(patient.getBirthdate()));
+    		foundFlag = Boolean.FALSE;
+    		errorFlag = Boolean.FALSE;
+    		for(TB03Form tf : tb03List) {
+    			if(tofLoc.equals(tf.getLocation()) && tofPatient.equals(tf.getPatient())) {
+    				if(tf.getEncounterDatetime().after(tofDate)) {
+    					foundFlag = Boolean.TRUE;
+    					break;
+    				}
+    			}
+    		}
+    		
+    		if(!foundFlag) {
+    			
+    			errorCount++;
+    			noTB03AfterTransferOut.add(dqi);
+    			
+    		}
+    	}
+    	
+    	Integer num = tb03List.size() + tofList.size();
     	Integer errorPercentage = null;
     	if(num==0)
     		errorPercentage = 0;
@@ -441,6 +483,7 @@ public class DOTSDQController {
     	model.addAttribute("missingOutcomes", missingOutcomes);
     	model.addAttribute("noDOTSId", noDOTSId);
     	model.addAttribute("noSite", noSite);
+    	model.addAttribute("transferOutError", noTB03AfterTransferOut);
     	model.addAttribute("errorCount", new Integer(errorCount));
     	model.addAttribute("errorPercentage", errorPercentage.toString() + "%");
     	model.addAttribute("oblast", oName);

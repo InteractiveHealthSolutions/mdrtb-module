@@ -30,6 +30,7 @@ import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
+import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
@@ -677,6 +678,7 @@ public interface MdrtbService extends OpenmrsService {
 	public  ArrayList<TB03uForm> getTB03uFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
 	public  ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, Integer year, String quarter, String month);
 	public  ArrayList<Form89> getForm89FormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
+	public ArrayList<TransferOutForm> getTransferOutFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
 	
 	public Set<ProgramWorkflowState> getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
 	public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient);

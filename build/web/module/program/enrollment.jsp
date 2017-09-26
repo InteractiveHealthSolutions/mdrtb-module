@@ -273,7 +273,13 @@ function fun2()
 </select>	
 </td></tr>
 
-</table>
+<tr>
+<td><spring:message code="mdrtb.tb03.transferIn" text="TransferIn"/>:</td>
+<td>
+<input type="checkbox" name="transferIn" id="transferIn" value="11"/>
+</td>
+</tr>
+
 <button type="submit"><spring:message code="mdrtb.enrollment.enroll" text="Enroll in Program"/></button><button type="reset" onclick=window.location='${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${patientId}'><spring:message code="mdrtb.cancel" text="Cancel"/></button>
 </form>
 </div>

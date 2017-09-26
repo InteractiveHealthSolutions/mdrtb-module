@@ -290,7 +290,7 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${missingTB03}">
 	    	<tr>
 	        
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
@@ -308,7 +308,7 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${missingAge}">
 	    	<tr>
 	        
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
@@ -327,7 +327,7 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${missingPatientGroup}">
 	    	<tr>
 	        
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
@@ -346,7 +346,7 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${missingDiagnosticTests}">
 		   	<tr>
 		        
-		        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+		        <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 		        <td>${row.dateOfBirth}</td>
 				<td align="center">${row.patient.gender}</td>
 		    </tr>  
@@ -365,7 +365,7 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${notStartedTreatment}">
 		    <tr>
 		        
-		        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+		        <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 		        <td>${row.dateOfBirth}</td>
 		        <td align="center">${row.patient.gender}</td>
 		    </tr>  
@@ -384,7 +384,7 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${missingOutcomes}">
 	    	<tr>
 				
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	        	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
@@ -403,7 +403,7 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${noDOTSId}">
 	    	<tr>
 	        
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
@@ -422,7 +422,27 @@ $(document).ready(function(){
 		<c:forEach var="row" items="${noSite}">
 			<tr>
 		        
-				<td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+				<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+				<td>${row.dateOfBirth}</td>
+				<td align="center">${row.patient.gender}</td>
+			</tr>  
+		</c:forEach>
+		<tr><td colspan="3">&nbsp;</td></tr>
+	  	<tr><td colspan="3">&nbsp;</td></tr>
+	  	
+	  	
+		<tr>
+			<th class=normal colspan="3"><spring:message code="mdrtb.dq.transferOutError" /></th>
+		</tr>
+		<tr>
+			<td><spring:message code="dotsreports.dq.fullName" /></td>
+			<td><spring:message code="dotsreports.dq.dob" /></td>
+			<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
+		</tr>
+		<c:forEach var="row" items="${transferOutError}">
+			<tr>
+		        
+				<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 				<td>${row.dateOfBirth}</td>
 				<td align="center">${row.patient.gender}</td>
 			</tr>  

@@ -45,12 +45,14 @@ public class VisitStatusCalculator implements StatusCalculator {
     	EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
     	EncounterType followUpType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
     	EncounterType specimenType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
+    	EncounterType transferOutType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
     	
     	// where we will store the various visits
     	List<StatusItem> intakeVisits = new LinkedList<StatusItem>();
     	List<StatusItem> followUpVisits = new LinkedList<StatusItem>();
     	List<StatusItem> scheduledFollowUpVisits = new LinkedList<StatusItem>();
     	List<StatusItem> specimenCollectionVisits = new LinkedList<StatusItem>();
+    	List<StatusItem> transferOutVisits = new LinkedList<StatusItem>();
     	
     	List<Encounter> encounters = null;
     	
@@ -85,6 +87,10 @@ public class VisitStatusCalculator implements StatusCalculator {
     					followUpVisits.add(visit);
     				}
     			}
+    			
+    			else if (encounter.getEncounterType().equals(transferOutType)) {
+    				transferOutVisits.add(visit);
+    			}
     		}
     	}
     	
@@ -93,6 +99,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	status.addItem("specimenCollectionVisits", new StatusItem(specimenCollectionVisits));
     	status.addItem("scheduledFollowUpVisits", new StatusItem(scheduledFollowUpVisits));
     	status.addItem("followUpVisits", new StatusItem(followUpVisits));
+    	status.addItem("transferOutVisits", new StatusItem(transferOutVisits));
     	
     	// now handle adding the links that we should use for the new intake and follow-up visits
     	// (the logic to determine these links is basically delegated to the renderer
@@ -103,6 +110,10 @@ public class VisitStatusCalculator implements StatusCalculator {
      	StatusItem newFollowUpVisit = new StatusItem();
     	renderer.renderNewFollowUpVisit(newFollowUpVisit, status);
     	status.addItem("newFollowUpVisit", newFollowUpVisit);
+    	
+    	StatusItem newTransferOutVisit = new StatusItem();
+    	renderer.renderNewTransferOutVisit(newTransferOutVisit, status);
+    	status.addItem("newTransferOutVisit", newTransferOutVisit);
     	
     	return status;
     }
@@ -130,12 +141,13 @@ public class VisitStatusCalculator implements StatusCalculator {
     	EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
     	EncounterType followUpType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
     	EncounterType specimenType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
-    	
+    	EncounterType transferOutType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
     	// where we will store the various visits
     	List<StatusItem> intakeVisits = new LinkedList<StatusItem>();
     	List<StatusItem> followUpVisits = new LinkedList<StatusItem>();
     	List<StatusItem> scheduledFollowUpVisits = new LinkedList<StatusItem>();
     	List<StatusItem> specimenCollectionVisits = new LinkedList<StatusItem>();
+    	List<StatusItem> transferOutVisits = new LinkedList<StatusItem>();
     	
     	List<Encounter> encounters = null;
     	
@@ -170,6 +182,9 @@ public class VisitStatusCalculator implements StatusCalculator {
     					followUpVisits.add(visit);
     				}
     			}
+    			else if (encounter.getEncounterType().equals(transferOutType)) {
+    				transferOutVisits.add(visit);
+    			}
     		}
     	}
     	
@@ -178,7 +193,8 @@ public class VisitStatusCalculator implements StatusCalculator {
     	status.addItem("specimenCollectionVisits", new StatusItem(specimenCollectionVisits));
     	status.addItem("scheduledFollowUpVisits", new StatusItem(scheduledFollowUpVisits));
     	status.addItem("followUpVisits", new StatusItem(followUpVisits));
-    	
+    	status.addItem("transferOutVisits", new StatusItem(transferOutVisits));
+    	System.out.println("SZ:" + transferOutVisits.size());
     	// now handle adding the links that we should use for the new intake and follow-up visits
     	// (the logic to determine these links is basically delegated to the renderer
     	StatusItem newIntakeVisit = new StatusItem();
@@ -188,6 +204,10 @@ public class VisitStatusCalculator implements StatusCalculator {
      	StatusItem newFollowUpVisit = new StatusItem();
     	renderer.renderNewTbFollowUpVisit(newFollowUpVisit, status);
     	status.addItem("newFollowUpVisit", newFollowUpVisit);
+    	
+    	StatusItem newTransferOutVisit = new StatusItem();
+    	renderer.renderNewTbTransferOutVisit(newTransferOutVisit, status);
+    	status.addItem("newTransferOutVisit", newTransferOutVisit);
     	
     	return status;
     }

@@ -198,6 +198,25 @@
 	</c:otherwise>
 </c:choose>
 </td>
+</tr>
+
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.transferOut" text="TOUT"/>:</td><td> 
+<c:choose>
+	<c:when test="${! empty status.visitStatus.transferOutVisits.value}">
+		<a href="${pageContext.request.contextPath}${status.visitStatus.transferOutVisits.value[fn:length(status.visitStatus.transferOutVisits.value) - 1].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.transferOutVisits.value[fn:length(status.visitStatus.transferOutVisits.value) - 1].displayString}</a>
+	</c:when>
+	<c:otherwise>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.newTransferOutVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addTransferOutVisit" text="Add TransferOut Visit"/></a>
+	</c:otherwise>
+</c:choose>
+</td></tr>
+<%-- <c:if test="${empty status.visitStatus.transferOutVisits.value}">
+<tr><td colspan="2">
+	<button onclick="window.location='${pageContext.request.contextPath}${status.visitStatus.newTransferOutVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}'"><spring:message code="mdrtb.addTransferOutVisit" text="Add TransferOut Visit"/></button>
+</td></tr>
+</c:if> --%>
+
+
 </table>
 
 <br/>
@@ -369,16 +388,18 @@ ${regimen.displayString}
 		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
 	</c:when>
 	<c:otherwise>
-		<spring:message code="mdrtb.none" text="None"/>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></a>
 	</c:otherwise>
 </c:choose>
 </td></tr>
 
-<c:if test="${empty status.visitStatus.intakeVisits.value}">
+<%-- <c:if test="${empty status.visitStatus.intakeVisits.value}">
 <tr><td colspan="2">
 	<button onclick="window.location='${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}'"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></button>
 </td></tr>
-</c:if>
+</c:if> --%>
+
+
 
 <%-- 
 

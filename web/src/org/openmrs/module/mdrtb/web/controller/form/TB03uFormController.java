@@ -376,8 +376,43 @@ public class TB03uFormController {
 	}
 	
 	@ModelAttribute("groups")
-	public Set<ProgramWorkflowState> getPossiblePatientGroups() {
-		return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientGroups();
+	public ArrayList <ProgramWorkflowState> getPossiblePatientGroups() {
+		//return Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPreviousTreatment();
+		ArrayList<ProgramWorkflowState> stateArray = new ArrayList<ProgramWorkflowState>();
+		for(int i=0; i< 8; i++) {
+			stateArray.add(null);
+		}
+		Set<ProgramWorkflowState> states = Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPreviousTreatment();
+		MdrtbService ms = Context.getService(MdrtbService.class);
+		for(ProgramWorkflowState pws : states) {
+			if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.NEW).getId().intValue()) {
+				stateArray.set(0, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.RELAPSE_AFTER_REGIMEN_1).getId().intValue()) {
+				stateArray.set(1, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.RELAPSE_AFTER_REGIMEN_2).getId().intValue()) {
+				stateArray.set(2, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.DEFAULT_AFTER_REGIMEN_1).getId().intValue()) {
+				stateArray.set(3, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.DEFAULT_AFTER_REGIMEN_2).getId().intValue()) {
+				stateArray.set(4, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.AFTER_FAILURE_REGIMEN_1).getId().intValue()) {
+				stateArray.set(5, pws);
+			}
+			
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.AFTER_FAILURE_REGIMEN_2).getId().intValue()) {
+				stateArray.set(6, pws);
+			}
+			
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.OTHER).getId().intValue()) {
+				stateArray.set(7, pws);
+			}
+		}
+		return stateArray;
 	}
 	
 	@ModelAttribute("bydrug")
