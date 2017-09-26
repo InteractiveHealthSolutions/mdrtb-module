@@ -36,7 +36,7 @@
 	<tr>
 		<td width=60% valign='top'>
 			<openmrs:portlet id="mdrtbFindPatient" url="mdrtbFindPatient" parameters="size=full|postURL=${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form|showIncludeVoided=false|viewType=shortEdit" moduleId="mdrtb"/>
-			<openmrs:hasPrivilege privilege="Add Patients">
+			<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
 				<br/><br/>
 				<openmrs:portlet id="mdrtbAddPatient" url="mdrtbAddPatient" parameters="personType=patient|postURL=mdrtbEditPatient.form|successURL=/module/mdrtb/dashboard/tbdashboard.form|viewType=shortEdit|add=1" moduleId="mdrtb" />
 			</openmrs:hasPrivilege>
@@ -92,19 +92,20 @@
 			</openmrs:extensionPoint>
 			
 			<table class="indexInner">
-			
+			    <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
 				<tr><td style="background-color:#8FABC7;padding:2px 2px 2px 2px;">
 					<b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">&nbsp;&nbsp;
 						<spring:message code="mdrtb.mergePatients"/>&nbsp;&nbsp;
 					</b>
 				</td></tr>
+				
 				<tr class="${rowClass}"><td>
 					<a href="${pageContext.request.contextPath}/module/mergePatient/search.form">
 						<spring:message code="mdrtb.mergePatients"/>
 					</a>
 					<br/>
 				</td></tr>
-			
+			    </openmrs:hasPrivilege>
 				<tr><td style="background-color:#8FABC7;padding:2px 2px 2px 2px;">
 					<b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">&nbsp;&nbsp;
 						<spring:message code="mdrtb.patientLists"/>&nbsp;&nbsp;

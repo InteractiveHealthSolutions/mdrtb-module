@@ -101,7 +101,9 @@ function fun2()
 <c:when test="${hasPrograms}">
 <c:if test="${not empty tbPrograms}">
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.tbPrograms" text="TB Programs"/>
+<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
 <span style="position: absolute; right:30px;"><a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=tb"><spring:message code="mdrtb.add" text="Addz"/></a></span>
+</openmrs:hasPrivilege>
 </b>
 <div class="box" style="margin:0px">
 <table cellspacing="2" cellpadding="2">
