@@ -139,7 +139,7 @@
 
 <!-- VIEW BOX -->
 <div id="viewVisit" <c:if test="${(empty tb03.id) || (tb03.id == -1) || fn:length(errors.allErrors) > 0}"> style="display:none" </c:if>>
-<b class="boxHeader"><spring:message code="mdrtb.tb03Form" text="TB03 Form"/>
+<b class="boxHeader"><spring:message code="mdrtb.tb03" text="TB03 Form"/>
 <span style="position: absolute; right:30px;"><a id="print" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'" onclick="printForm()"><spring:message code="mdrtb.print" text="TB03"/></a>
 &nbsp;&nbsp;<a id="export" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'" onclick="tableToExcel('tb03', 'TB03')"><spring:message code="mdrtb.exportToExcel" text="TB03"/></a>
 <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
@@ -155,7 +155,7 @@
 <table>
  
 <tr>
-<td><spring:message code="mdrtb.date" text="Date"/>:</td>
+<td><spring:message code="mdrtb.registrationDate" text="Date"/>:</td>
 <td><openmrs:formatDate date="${tb03.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
@@ -185,7 +185,7 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td><spring:message code="mdrtb.tb03.name" text="Name"/>:</td>
 <td>${tb03.patientName}</td>
 </tr>
 
@@ -311,6 +311,7 @@
 <spring:message code="mdrtb.xperts" text="Xpertz"/>
 <table border="1">
 <tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
@@ -318,6 +319,7 @@
 
 <c:forEach var="xpert" items="${tb03.xperts}">
 <tr>
+<td>${xpert.monthOfTreatment }</td>
 <td>${xpert.mtbResult.displayString }/RIF: ${xpert.rifResult.displayString }</td>
 <td><openmrs:formatDate date="${xpert.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${xpert.location.displayString}
@@ -330,6 +332,7 @@
 <spring:message code="mdrtb.hains" text="Hainz"/>
 <table border="1">
 <tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
@@ -337,6 +340,7 @@
 
 <c:forEach var="hain" items="${tb03.hains}">
 <tr>
+<td>${hain.monthOfTreatment }</td>
 <td>${hain.mtbResult.displayString }/RIF: ${hain.rifResult.displayString }/ INH: ${hain.inhResult.displayString }</td>
 <td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain.location.displayString}
@@ -349,6 +353,7 @@
 <spring:message code="mdrtb.hain2s" text="Hainz"/>
 <table border="1">
 <tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
@@ -356,6 +361,7 @@
 
 <c:forEach var="hain2" items="${tb03.hain2s}">
 <tr>
+<td>${hain2.monthOfTreatment }</td>
 <td>${hain2.mtbResult.displayString }/FQ: ${hain2.fqResult.displayString }/ INJ: ${hain2.injResult.displayString }</td>
 <td><openmrs:formatDate date="${hain2.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain2.location.displayString}
@@ -389,6 +395,7 @@
 <spring:message code="mdrtb.dsts" text="DSTz"/>
 <table border="1">
 <tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
@@ -396,6 +403,7 @@
 
 <c:forEach var="dst" items="${tb03.dsts}">
 <tr>
+<td>${dst.monthOfTreatment }</td>
 <td>${dst.di.resultsString }</td>
 <td><openmrs:formatDate date="${dst.encounter.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${dst.encounter.location.displayString}
@@ -420,7 +428,7 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.tb03.causeOfDeath" text="Cause of Death"/>:</td>
+<td><spring:message code="mdrtb.causeOfDeath" text="Cause of Death"/>:</td>
 <td>${tb03.causeOfDeath.displayString}</td>
 </tr>
 
@@ -484,7 +492,7 @@
 <table>
  
 <tr>
-<td><spring:message code="mdrtb.date" text="Date"/>:</td>
+<td><spring:message code="mdrtb.registrationDate" text="Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${tb03.encounterDatetime}"/></td>
 </tr>
 
@@ -549,7 +557,7 @@
 <table>
 
 <tr>
-<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td><spring:message code="mdrtb.tb03.name" text="Name"/>:</td>
 <td>${tb03.patientName}</td>
 </tr>
 
@@ -731,7 +739,7 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.tb03.causeOfDeath" text="Cause of Death"/>:</td>
+<td><spring:message code="mdrtb.causeOfDeath" text="Cause of Death"/>:</td>
 <td>
 <select name="causeOfDeath">
 <option value=""></option>

@@ -2,6 +2,7 @@ package org.openmrs.module.mdrtb.web.controller.form;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.Oblast;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
@@ -178,63 +180,11 @@ public class CultureFormController {
 		// save the actual update
 		Context.getEncounterService().saveEncounter(culture.getEncounter());
 		
-		boolean programModified = false;
-		//handle changes in workflows
-		/*Concept outcome = tb03.getTreatmentOutcome();
-		Concept group = tb03.getRegistrationGroup();
-		
-		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
-		
-		ProgramWorkflow outcomeFlow = new ProgramWorkflow();
-		outcomeFlow.setConcept(outcome);
-		PatientState outcomePatientState = pp.getCurrentState(outcomeFlow);
-		//ProgramWorkflowState pwfs = null;
-		Concept currentOutcomeConcept = null;
-		//outcome entered previously but now removed
-		if(outcomePatientState != null && outcome == null) {
-			System.out.println("outcome removed");
-			HashSet<PatientState> states = new HashSet<PatientState>();
-			outcomePatientState = null;
-			states.add(outcomePatientState);
-		
-			pp.setStates(states);	
-			programModified = true;
-		}
-
-		//outcome has been added	
-		else if(outcomePatientState == null && outcome != null) {
-			System.out.println("outcome added");
-			HashSet<PatientState> states = new HashSet<PatientState>();
-			PatientState newState = new PatientState();
-			ProgramWorkflowState pwfs = new ProgramWorkflowState();
-			pwfs.setConcept(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME));
-			newState.setState(pwfs);
-			states.add(newState);
-			pp.setStates(states);	
-			programModified = true;
-		}
-		
-		//outcome entered previously and may have been modified now
-		else if(outcomePatientState!=null && outcome !=null) {
-			
-		
-		}
 		
 		
-		
-		
-		//TX OUTCOME
-		//PATIENT GROUP
-		//PATIENT DEATH AND CAUSE OF DEATH
-*/
 		// clears the command object from the session
 		status.setComplete();
-		
-		/*if(programModified) {
-			System.out.println("saving program");
-			Context.getProgramWorkflowService().savePatientProgram(pp);
-		}*/
-		
+	
 		map.clear();
 
 		// if there is no return URL, default to the patient dashboard
@@ -288,7 +238,43 @@ public class CultureFormController {
 	
 	@ModelAttribute("cultureresults")
 	public Collection<ConceptAnswer> getCultureResults() {
-		return Context.getService(MdrtbService.class).getPossibleCultureResults();
+		//return Context.getService(MdrtbService.class).getPossibleCultureResults();
+		ArrayList<ConceptAnswer> resultArray = new ArrayList<ConceptAnswer>();
+		for(int i=0;i<5;i++) {
+			resultArray.add(null);
+		}
+		
+		Collection<ConceptAnswer> results = Context.getService(MdrtbService.class).getPossibleCultureResults();
+		MdrtbService ms = Context.getService(MdrtbService.class);
+		System.out.println("RS:" + results.size());
+		for(ConceptAnswer ca : results) {
+			System.out.println(ca.getId());
+			System.out.println(ca.getAnswerConcept().getId());
+			
+			if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.LOWAFB).getId().intValue()) {
+				resultArray.set(0,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.WEAKLY_POSITIVE).getId().intValue()) {
+				resultArray.set(1,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.MODERATELY_POSITIVE).getId().intValue()) {
+				resultArray.set(2,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.STRONGLY_POSITIVE).getId().intValue()) {
+				resultArray.set(3,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.NEGATIVE).getId().intValue()) {
+				resultArray.set(4,ca);
+			}
+		}
+		
+		
+		
+		return resultArray;
 	}
 	
 	

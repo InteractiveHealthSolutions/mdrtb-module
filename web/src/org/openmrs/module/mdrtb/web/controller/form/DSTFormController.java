@@ -2,12 +2,10 @@ package org.openmrs.module.mdrtb.web.controller.form;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,10 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
-import org.openmrs.ConceptAnswer;
 import org.openmrs.Location;
-import org.openmrs.Obs;
-
 import org.openmrs.Person;
 
 import org.openmrs.api.context.Context;
@@ -26,13 +21,10 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.service.MdrtbService;
-import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.DstImpl;
 import org.openmrs.module.mdrtb.specimen.DstResult;
-import org.openmrs.module.mdrtb.specimen.TestValidator;
 
 import org.openmrs.module.mdrtb.form.DSTForm;
-import org.openmrs.module.mdrtb.form.HAINForm;
 
 
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;

@@ -59,6 +59,7 @@ import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
+import org.openmrs.module.mdrtb.form.TransferInForm;
 import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
@@ -776,10 +777,10 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	public Collection<Concept> getPossibleDstResults() {
 		List<Concept> results = new LinkedList<Concept>();
 		results.add(this.getConcept(MdrtbConcepts.SUSCEPTIBLE_TO_TB_DRUG));
-		results.add(this.getConcept(MdrtbConcepts.INTERMEDIATE_TO_TB_DRUG));
+		//results.add(this.getConcept(MdrtbConcepts.INTERMEDIATE_TO_TB_DRUG));
 		results.add(this.getConcept(MdrtbConcepts.RESISTANT_TO_TB_DRUG));
-		results.add(this.getConcept(MdrtbConcepts.DST_CONTAMINATED));
-		results.add(this.getConcept(MdrtbConcepts.WAITING_FOR_TEST_RESULTS));
+		//results.add(this.getConcept(MdrtbConcepts.DST_CONTAMINATED));
+		//results.add(this.getConcept(MdrtbConcepts.WAITING_FOR_TEST_RESULTS));
 		
 		return results;
 	}
@@ -1586,6 +1587,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		distLevel.setLevelId(3);
 		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(distLevel);
 		
+		
+		
 		for (AddressHierarchyEntry add : list) {
 			Integer id = add.getId();
 			String name = add.getName();
@@ -1595,6 +1598,56 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		
 		return districtList;
 	}
+    
+    @Override
+   	public List<District> getRegDistricts(){
+   		
+   		List<District> districtList = new ArrayList<District>();
+   		
+   		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3", true);
+   		for (List<Object> temp : result) {
+   			Integer id = 0;
+   			String name = "";
+   	        for (int i = 0; i < temp.size(); i++) {
+   	        	Object value = temp.get(i);
+   	            if (value != null) {
+   	            	
+   	            	if(i == 0)
+   	            		id = (Integer) value;
+   	            	else if (i == 1)
+   	            		name = (String) value;
+   	            }
+   	        }
+   	        districtList.add(new District(name, id));
+   	    }*/
+   		
+   		AddressHierarchyLevel distLevel = new AddressHierarchyLevel();
+   		distLevel.setLevelId(3);
+   		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(distLevel);
+   		
+   		String labIdsProperty = Context.getAdministrationService().getGlobalProperty("mdrtb.lab_entry_ids");
+		String labIds[] = labIdsProperty.split("\\|");
+		HashSet<Integer> labs = new HashSet<Integer>();
+		if(labIds!=null) {
+			 for(int i=0; i<labIds.length; i++) {
+				 if(labIds[i].length()!=0) {
+					 labs.add(Integer.parseInt(labIds[i]));
+				 }
+			 }
+		}
+   		
+   		
+   		for (AddressHierarchyEntry add : list) {
+   			Integer id = add.getId();			
+   			String name = add.getName();
+   			if(!labs.contains(id))
+   				districtList.add(new District(name, id));
+   	    }
+   		
+   		return districtList;
+   	}
+    
+    
 	
 	@Override
 	public List<District> getDistricts(int parentId){
@@ -1625,6 +1678,35 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 			
 			districtList.add(new District(name, id));
 	    }
+		
+		return districtList;
+	
+	}
+	
+	@Override
+	public List<District> getRegDistricts(int parentId){
+		
+		List<District> districtList = new ArrayList<District>();
+		
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		String labIdsProperty = Context.getAdministrationService().getGlobalProperty("mdrtb.lab_entry_ids");
+		String labIds[] = labIdsProperty.split("\\|");
+		HashSet<Integer> labs = new HashSet<Integer>();
+		if(labIds!=null) {
+			 for(int i=0; i<labIds.length; i++) {
+				 if(labIds[i].length()!=0) {
+					 labs.add(Integer.parseInt(labIds[i]));
+				 }
+			 }
+		}
+   		
+   		
+   		for (AddressHierarchyEntry add : list) {
+   			Integer id = add.getId();			
+   			String name = add.getName();
+   			if(!labs.contains(id))
+   				districtList.add(new District(name, id));
+   	    }
 		
 		return districtList;
 	
@@ -1742,6 +1824,33 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 			String name = add.getName();
 			
 			facilityList.add(new Facility(name, id));
+	    }
+		
+		return facilityList;
+    }
+    
+    public List<Facility> getRegFacilities(int parentId)
+    {
+    	List<Facility> facilityList = new ArrayList<Facility>();
+    	
+    	List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		
+    	String labIdsProperty = Context.getAdministrationService().getGlobalProperty("mdrtb.lab_entry_ids");
+		String labIds[] = labIdsProperty.split("\\|");
+		HashSet<Integer> labs = new HashSet<Integer>();
+		if(labIds!=null) {
+			 for(int i=0; i<labIds.length; i++) {
+				 if(labIds[i].length()!=0) {
+					 labs.add(Integer.parseInt(labIds[i]));
+				 }
+			 }
+		}
+    	
+    	for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			if(!labs.contains(id))
+				facilityList.add(new Facility(name, id));
 	    }
 		
 		return facilityList;
@@ -1868,6 +1977,36 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 			String name = add.getName();
 			
 			facilityList.add(new Facility(name, id));
+	    }
+    	
+		
+		return facilityList;
+	}
+	
+	public List<Facility> getRegFacilities() {
+
+    	List<Facility> facilityList = new ArrayList<Facility>();
+	
+    	AddressHierarchyLevel facLevel = new AddressHierarchyLevel();
+    	facLevel.setLevelId(6);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(facLevel);
+		
+		String labIdsProperty = Context.getAdministrationService().getGlobalProperty("mdrtb.lab_entry_ids");
+		String labIds[] = labIdsProperty.split("\\|");
+		HashSet<Integer> labs = new HashSet<Integer>();
+		if(labIds!=null) {
+			 for(int i=0; i<labIds.length; i++) {
+				 if(labIds[i].length()!=0) {
+					 labs.add(Integer.parseInt(labIds[i]));
+				 }
+			 }
+		}
+    	
+    	for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			if(!labs.contains(id))
+				facilityList.add(new Facility(name, id));
 	    }
     	
 		
@@ -2020,6 +2159,49 @@ public ArrayList<TB03uForm> getTB03uFormsFilled(ArrayList<Location> locList, Int
 	}
 //////////////////////////////////
 
+public ArrayList<Form89> getForm89FormsFilledForPatientProgram(Patient p, Location location, Integer patProgId, Integer year, String quarter, String month) {
+	
+	ArrayList<Form89> forms = new ArrayList<Form89>();
+
+	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+	Date startDate = (Date)(dateMap.get("startDate"));
+	Date endDate = (Date)(dateMap.get("endDate"));
+	Concept ppid = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+	EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+	typeList.add(eType);
+			
+	List<Encounter> temp = Context.getEncounterService().getEncounters(p, location, startDate, endDate, null, typeList, null, false);
+	if(temp!=null) {
+		for(Encounter e : temp) {
+			Obs ppObs = MdrtbUtil.getObsFromEncounter(ppid, e);
+			if(ppObs!=null) {
+				if(ppObs.getValueNumeric()!=null && (ppObs.getValueNumeric().intValue() == patProgId.intValue())) {
+					forms.add(new Form89(e));
+				}
+				
+			}
+		}
+	}
+	/*Oblast o = null;
+	if(!oblast.equals("") && location == null)
+		o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+	
+	List<Location> locList = new ArrayList<Location>();
+	if(o != null && location == null)
+		locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+	else if (location != null)
+		locList.add(location);
+	List<Encounter> temp = null;*/
+	
+	
+	return forms;
+	
+	
+}
+////////////////
+
 public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, Integer year, String quarter, String month) {
 	
 	ArrayList<Form89> forms = new ArrayList<Form89>();
@@ -2120,6 +2302,78 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 		
 	}
 /////////////
+	
+	public ArrayList<TransferInForm> getTransferInFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<TransferInForm> forms = new ArrayList<TransferInForm>();
+
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		
+		List<Encounter> temp = null;
+		
+		for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+				forms.add(new TransferInForm(e));
+				}
+			
+			}
+		
+		
+		
+		return forms;
+		
+		
+	}
+/////////////
+	
+	public ArrayList<TransferInForm> getTransferInFormsFilledForPatient(Patient p) {
+		
+		ArrayList<TransferInForm> forms = new ArrayList<TransferInForm>();
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		List<Encounter> temp = null;
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		for(Encounter e: temp) {	
+			forms.add(new TransferInForm(e));
+		}
+			
+		return forms;
+		
+		
+	}
+/////////////
+	
+	public ArrayList<TransferOutForm> getTransferOutFormsFilledForPatient(Patient p) {
+		
+		ArrayList<TransferOutForm> forms = new ArrayList<TransferOutForm>();
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		List<Encounter> temp = null;
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		for(Encounter e: temp) {	
+			forms.add(new TransferOutForm(e));
+		}
+			
+		return forms;
+		
+		
+	}
+/////////////
+	
+	
 
  public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient) {
 	 TB03Form ret = null;

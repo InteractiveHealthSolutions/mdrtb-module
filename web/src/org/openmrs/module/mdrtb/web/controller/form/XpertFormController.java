@@ -97,7 +97,7 @@ public class XpertFormController {
 			
 				// prepopulate the intake form with any program information
 				//form.setEncounterDatetime(tbProgram.getDateEnrolled());
-				form.setLocation(tbProgram.getLocation());
+				//form.setLocation(tbProgram.getLocation());
 			}
 			
 			else {
@@ -176,6 +176,8 @@ public class XpertFormController {
         	}
         	
         	Location location  = xpert.getLocation();
+        	
+        	if(location!=null) {
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
         	model.addAttribute("oblasts", oblasts);
         	for(Oblast o : oblasts) {
@@ -203,6 +205,12 @@ public class XpertFormController {
         			
         			break;
         		}
+        	}
+        }
+        	
+        	else {
+        		oblasts = Context.getService(MdrtbService.class).getOblasts();
+        		 model.addAttribute("oblasts", oblasts);
         	}
         }
         

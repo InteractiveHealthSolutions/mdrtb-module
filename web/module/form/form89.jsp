@@ -154,7 +154,7 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td><spring:message code="mdrtb.tb03.name" text="Name"/>:</td>
 <td>${form89.patientName}</td>
 </tr>
 
@@ -291,6 +291,7 @@
 <spring:message code="mdrtb.xperts" text="Xpertz"/>
 <table border="1">
 <tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
@@ -298,6 +299,7 @@
 
 <c:forEach var="xpert" items="${form89.xperts}">
 <tr>
+<td>${xpert.monthOfTreatment }</td>
 <td>${xpert.mtbResult.displayString }/RIF: ${xpert.rifResult.displayString }</td>
 <td><openmrs:formatDate date="${xpert.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${xpert.location.displayString}</td>
@@ -310,6 +312,7 @@
 <spring:message code="mdrtb.hains" text="Hainz"/>
 <table border="1">
 <tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
@@ -317,6 +320,7 @@
 
 <c:forEach var="hain" items="${form89.hains}">
 <tr>
+<td>${hain.monthOfTreatment }</td>
 <td>${hain.mtbResult.displayString }/RIF: ${hain.rifResult.displayString }/ INH: ${hain.inhResult.displayString }</td>
 <td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain.location.displayString}</td>
@@ -329,6 +333,7 @@
 <spring:message code="mdrtb.hain2s" text="Hainz"/>
 <table border="1">
 <tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
@@ -336,6 +341,7 @@
 
 <c:forEach var="hain2" items="${form89.hain2s}">
 <tr>
+<td>${hain2.monthOfTreatment }</td>
 <td>${hain2.mtbResult.displayString }/FQ: ${hain2.fqResult.displayString }/ INJ: ${hain2.injResult.displayString }</td>
 <td><openmrs:formatDate date="${hain2.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain2.location.displayString}

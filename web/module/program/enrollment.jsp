@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%> 
 <%@ include file="/WEB-INF/view/module/mdrtb/mdrtbHeader.jsp"%>
 
+
 <openmrs:htmlInclude file="/scripts/jquery/jquery-1.3.2.min.js"/>
 <openmrs:htmlInclude file="/scripts/jquery-ui/js/jquery-ui-1.7.2.custom.min.js" />
 <openmrs:htmlInclude file="/scripts/jquery-ui/css/redmond/jquery-ui-1.7.2.custom.css" />
@@ -86,7 +87,7 @@ function fun2()
 
 <br/><br/>
 
-<div align="center"> <!-- start of page div -->
+<div> <!-- start of page div -->
 
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
@@ -99,10 +100,12 @@ function fun2()
 
 <c:choose>
 <c:when test="${hasPrograms}">
+<span><a href="${pageContext.request.contextPath}/module/mdrtb/mdrtbEditPatient.form?patientId=${patientId}&successUrl=/module/mdrtb/program/enrollment.form"><spring:message code="mdrtb.editPatient" text="Editz"/></a></span>
 <c:if test="${not empty tbPrograms}">
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.enrollment.tbPrograms" text="TB Programs"/>
 <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-<span style="position: absolute; right:30px;"><a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=tb"><spring:message code="mdrtb.add" text="Addz"/></a></span>
+<span style="position: absolute; right:30px;">
+<a href="${pageContext.request.contextPath}/module/mdrtb/program/otherEnrollment.form?patientId=${patientId}&patientProgramId=-1&type=tb"><spring:message code="mdrtb.add" text="Addz"/></a></span>
 </openmrs:hasPrivilege>
 </b>
 <div class="box" style="margin:0px">
@@ -224,8 +227,8 @@ function fun2()
 			<td align="right"><spring:message code="mdrtb.oblast" /></td>
 			<td><select name="oblast" id="oblast" onchange="fun1()">
 					<option value=""></option>
-					<c:forEach var="o" items="${oblasts}">
-						<option value="${o.id}">${o.name}</option>
+					<c:forEach var="o" items="${oblasts}" varStatus="loop">
+						<option value="${o.id}" <c:if test="${loop.index == 0 && fn:length(oblasts) == 1 }"> selected</c:if> >${o.name}</option>
 					</c:forEach>
 			</select></td>
 		</tr>
@@ -234,8 +237,8 @@ function fun2()
 			<td align="right"><spring:message code="mdrtb.district" /></td>
 			<td><select name="district" id="district" onchange="fun2()">
 					<option value=""></option>
-					<c:forEach var="dist" items="${districts}">
-						<option value="${dist.id}">${dist.name}</option>
+					<c:forEach var="dist" items="${districts}" varStatus="loop">
+						<option value="${dist.id}" <c:if test="${loop.index == 0 && fn:length(districts) == 1 }"> selected</c:if> >${dist.name}</option>
 					</c:forEach>
 			</select></td>
 		</tr>
@@ -244,8 +247,8 @@ function fun2()
 			<td align="right"><spring:message code="mdrtb.facility" /></td>
 			<td><select name="facility" id="facility">
 					<option value=""></option>
-					<c:forEach var="f" items="${facilities}">
-						<option value="${f.id}">${f.name}</option>
+					<c:forEach var="f" items="${facilities}" varStatus="loop">
+						<option value="${f.id}" <c:if test="${loop.index == 0 && fn:length(facilities) == 1 }"> selected</c:if> >${f.name}</option>
 					</c:forEach>
 			</select>
 			</td>
@@ -275,12 +278,7 @@ function fun2()
 </select>	
 </td></tr>
 
-<tr>
-<td><spring:message code="mdrtb.tb03.transferIn" text="TransferIn"/>:</td>
-<td>
-<input type="checkbox" name="transferIn" id="transferIn" value="11"/>
-</td>
-</tr>
+</table>
 
 <button type="submit"><spring:message code="mdrtb.enrollment.enroll" text="Enroll in Program"/></button><button type="reset" onclick=window.location='${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${patientId}'><spring:message code="mdrtb.cancel" text="Cancel"/></button>
 </form>

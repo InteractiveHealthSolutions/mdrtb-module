@@ -243,119 +243,143 @@ $(document).ready(function(){
 
 	<table class="resultsTable">
 	   	<tr>
-	   		<th class=normal colspan="3"><spring:message code="dotsreports.dq.title" /></th>
+	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.title" /></th>
 	  	</tr>
 		<tr>
-			<th colspan="2"><spring:message code="dotsreports.oblast" /></td>
-			<td>${oblast}</td>
+			<th colspan="2"><spring:message code="mdrtb.oblast" /></td>
+			<td colspan="2">${oName}</td>
 		</tr>
 		<tr>
-			<th colspan="2"><spring:message code="dotsreports.district" /></td>
-			<td>${location}</td>
+			<th colspan="2"><spring:message code="mdrtb.district" /></td>
+			<td colspan="2">${dName}</td>
+		</tr>
+		<tr>
+			<th colspan="2"><spring:message code="mdrtb.facility" /></td>
+			<td colspan="2">${fName}</td>
 		</tr>
 	  	<tr>
 	     	<th colspan="2"><spring:message code="dotsreports.year" /></td>
-	     	<td align="center">${year}</td>
+	     	<td  colspan="2" align="right">${year}</td>
 	  	</tr>
 	  	<tr>
 	     	<th colspan="2"><spring:message code="dotsreports.quarter" /></td>
-	     	<td align="center">${quarter}</td>
+	     	<td align="right"  colspan="2">${quarter}</td>
 	  	</tr>
 	   	<tr>
 	     	<th colspan="2"><spring:message code="dotsreports.month" /></td>
-	     	<td align="center">${month}</td>
+	     	<td align="right"  colspan="2">${month}</td>
 	  	</tr>
 	  	<tr>
 	     	<th colspan="2"><spring:message code="dotsreports.dq.numberOfPatients" /></td>
-	     	<td align="right">${num}</td>
+	     	<td align="right"  colspan="2">${num}</td>
 	  	</tr>
 	  	<tr>
 	     	<th colspan="2"><spring:message code="dotsreports.dq.numberWithErrors" /></td>
-	     	<td align="right">${errorCount}</td>
+	     	<td align="right"  colspan="2">${errorCount}</td>
 	  	</tr>
 	  	<tr>
 	     	<th colspan="2"><spring:message code="dotsreports.dq.errorPercentage" /></td>
-	     	<td align="right">${errorPercentage}</td>
+	     	<td align="right"  colspan="2">${errorPercentage}</td>
 	  	</tr>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
-	    <tr><td colspan="3">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
+	    <tr><td colspan="4">&nbsp;</td></tr>
 	  	<tr>
-	   		<th class=normal colspan="3"><spring:message code="dotsreports.dq.missingtb03" /></th>
+	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.missingtb03" /></th>
 	  	</tr>
 	  	<tr>
-	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
 	     	<td><spring:message code="dotsreports.dq.dob" /></td>
 	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 	  	</tr>
 	  	<c:forEach var="row" items="${missingTB03}">
 	    	<tr>
 	        
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
 	   	</c:forEach>
-	    <tr><td colspan="3">&nbsp;</td></tr>
-	    <tr><td colspan="3">&nbsp;</td></tr>
-	    <tr>
-	   		<th class=normal colspan="3"><spring:message code="dotsreports.dq.missingAge" /></th>
+	   	
+	   	<tr><td colspan="4">&nbsp;</td></tr>
+	    <tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr>
+	   		<th class=normal colspan="4"><spring:message code="mdrtb.dq.missingForm89" /></th>
 	  	</tr>
 	  	<tr>
-	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td><spring:message code="dotsreports.dq.dob" /></td>
+	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
+	  	</tr>
+	  	<c:forEach var="row" items="${missingForm89}">
+	    	<tr>
+	        
+	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td>${row.dateOfBirth}</td>
+	         	<td align="center">${row.patient.gender}</td>
+	    	</tr>  
+	   	</c:forEach>
+	   	
+	    <tr><td colspan="4">&nbsp;</td></tr>
+	    <tr><td colspan="4">&nbsp;</td></tr>
+	    <tr>
+	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.missingAge" /></th>
+	  	</tr>
+	  	<tr>
+	     	<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
 	     	<td><spring:message code="dotsreports.dq.dob" /></td>
 	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 	  	</tr>
 	  	<c:forEach var="row" items="${missingAge}">
 	    	<tr>
 	        
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
 	  
 	  	</c:forEach>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
 	  	<tr>
-	   		<th class=normal colspan="3"><spring:message code="dotsreports.dq.missingPatientGroup" /></th>
+	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.missingPatientGroup" /></th>
 	  	</tr>
 	  	<tr>
-	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
 	     	<td><spring:message code="dotsreports.dq.dob" /></td>
 	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 	  	</tr>
 	  	<c:forEach var="row" items="${missingPatientGroup}">
 	    	<tr>
 	        
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
 	  
 	  	</c:forEach>
-	   	<tr><td colspan="3">&nbsp;</td></tr>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
+	   	<tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
 	  	<tr>
-	   		<th class=normal colspan="3"><spring:message code="dotsreports.dq.missingDiagnosticTests" /></th>
+	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.missingDiagnosticTests" /></th>
 	  	</tr>
 	  	<tr>
-	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
 	    	<td><spring:message code="dotsreports.dq.dob" /></td>
 	    	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 	  	</tr>
 	  	<c:forEach var="row" items="${missingDiagnosticTests}">
 		   	<tr>
 		        
-		        <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+		        <td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 		        <td>${row.dateOfBirth}</td>
 				<td align="center">${row.patient.gender}</td>
 		    </tr>  
 	  
 	  	</c:forEach>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
 	  	<tr>
-	   		<th class=normal colspan="3"><spring:message code="dotsreports.dq.notStartedTreatment" /></th>
+	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.notStartedTreatment" /></th>
 	  	</tr>
 	  	<tr>
 	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
@@ -365,64 +389,64 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${notStartedTreatment}">
 		    <tr>
 		        
-		        <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+		        <td  colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 		        <td>${row.dateOfBirth}</td>
 		        <td align="center">${row.patient.gender}</td>
 		    </tr>  
 	  	
 	  	</c:forEach>
-	   	<tr><td colspan="3">&nbsp;</td></tr>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
+	   	<tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
 	  	<tr>
-	   		<th class=normal colspan="3"><spring:message code="dotsreports.dq.missingOutcomes" /></th>
+	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.missingOutcomes" /></th>
 	  	</tr>
 	  	<tr>
-	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
 	     	<td><spring:message code="dotsreports.dq.dob" /></td>
 	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 	  	</tr>
 	  	<c:forEach var="row" items="${missingOutcomes}">
 	    	<tr>
 				
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	        	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
 	  
 	  	</c:forEach>
-	   	<tr><td colspan="3">&nbsp;</td></tr>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
+	   	<tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
 		<tr>
-			<th class=normal colspan="3"><spring:message code="dotsreports.dq.noDOTSId" /></th>
+			<th class=normal colspan="4"><spring:message code="dotsreports.dq.noDOTSId" /></th>
 		</tr>
 		<tr>
-			<td><spring:message code="dotsreports.dq.fullName" /></td>
+			<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
 			<td><spring:message code="dotsreports.dq.dob" /></td>
 			<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 	  	</tr>
 	  	<c:forEach var="row" items="${noDOTSId}">
 	    	<tr>
 	        
-	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	    	</tr>  
 	  
 	  	</c:forEach>
-	   	<tr><td colspan="3">&nbsp;</td></tr>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
+	   	<tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
 		<tr>
-			<th class=normal colspan="3"><spring:message code="dotsreports.dq.noSite" /></th>
+			<th class=normal colspan="4"><spring:message code="dotsreports.dq.noSite" /></th>
 		</tr>
 		<tr>
-			<td><spring:message code="dotsreports.dq.fullName" /></td>
+			<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
 			<td><spring:message code="dotsreports.dq.dob" /></td>
 			<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 		</tr>
 		<c:forEach var="row" items="${noSite}">
 			<tr>
 		        
-				<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+				<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 				<td>${row.dateOfBirth}</td>
 				<td align="center">${row.patient.gender}</td>
 			</tr>  
@@ -432,17 +456,42 @@ $(document).ready(function(){
 	  	
 	  	
 		<tr>
-			<th class=normal colspan="3"><spring:message code="mdrtb.dq.transferOutError" /></th>
+			<th class=normal colspan="4"><spring:message code="mdrtb.dq.noTransferIn" /></th>
 		</tr>
 		<tr>
 			<td><spring:message code="dotsreports.dq.fullName" /></td>
+			<td><spring:message code="mdrtb.location" /></td>
 			<td><spring:message code="dotsreports.dq.dob" /></td>
 			<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 		</tr>
-		<c:forEach var="row" items="${transferOutError}">
+		<c:forEach var="row" items="${noTransferIn}">
 			<tr>
 		        
 				<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+				<td>${row.locName}</td>
+				<td>${row.dateOfBirth}</td>
+				<td align="center">${row.patient.gender}</td>
+			</tr>  
+		</c:forEach>
+		
+		<tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
+	  	
+	  	
+		<tr>
+			<th class=normal colspan="4"><spring:message code="mdrtb.dq.noTransferOut" /></th>
+		</tr>
+		<tr>
+			<td><spring:message code="dotsreports.dq.fullName" /></td>
+			<td><spring:message code="mdrtb.location" /></td>
+			<td><spring:message code="dotsreports.dq.dob" /></td>
+			<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
+		</tr>
+		<c:forEach var="row" items="${noTransferOut}">
+			<tr>
+		        
+				<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+				<td>${row.locName}</td>
 				<td>${row.dateOfBirth}</td>
 				<td align="center">${row.patient.gender}</td>
 			</tr>  

@@ -100,7 +100,12 @@ public class MdrtbEditPatientController {
 	
 	@ModelAttribute("locations")
 	public Collection<Location> getPossibleLocations() {
-		return Context.getLocationService().getAllLocations(false);
+		
+		List<Location> list = new ArrayList<Location>();
+		list.add(Context.getLocationService().getLocation(1));
+		return list;
+		
+		//return Context.getLocationService().getAllLocations(false);
 	}
 
 	// checks to see if the "fixedIdentifierLocation" global prop has been specified, which is used to determine if we
@@ -223,6 +228,9 @@ public class MdrtbEditPatientController {
 	                             @RequestParam(required = false, value="addAge") String addAge,
 	                             @RequestParam(required = false, value="addGender") String addGender,
 	                             @RequestParam(required = false, value="add") String add,
+	                             /*@RequestParam(required = false, value="ob") String oblast,
+	                             @RequestParam(required = false, value="c") String country,
+	                             @RequestParam(required = false, value="loc") String district,*/
 	                             @RequestParam(required = false, value="skipSimilarCheck") Boolean skipSimilarCheck,
 	                             ModelMap map) throws ParseException {
 		
@@ -284,16 +292,25 @@ public class MdrtbEditPatientController {
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView submitForm(@ModelAttribute("patient") Patient patient, BindingResult result,
-	                               @RequestParam("identifierValue") String [] identifierValue,
-	                               @RequestParam("identifierId") String [] identifierId, 
+	                               @RequestParam(required = false, value="identifierValue") String [] identifierValue,
+	                               @RequestParam(required = false, value="identifierId") String [] identifierId, 
 	                               @RequestParam(required = false, value = "identifierLocation") Location [] identifierLocation,
-	                               @RequestParam("identifierType") PatientIdentifierType [] identifierType,
+	                               @RequestParam(required = false, value = "identifierType") PatientIdentifierType [] identifierType,
 	                               @RequestParam(required = false, value ="patientProgramId") Integer patientProgramId,
+	                               /*@RequestParam(required = false, value="country") Integer countryId,
+	                               @RequestParam(required = false, value="oblast") Integer oblastId,
+	                               @RequestParam(required = true, value="district") Integer district,
+	                               @RequestParam(required = false, value="facility") Integer facilityId,
+	                               @RequestParam(required = false, value="address1") String address1,
+	                               @RequestParam(required = false, value="address2") String address2,
+	                               @RequestParam(required = false, value="otherCountry") String otherCountry,
+	                               @RequestParam(required = false, value="otherOblast") String otherOblast,
+	                               @RequestParam(required = true, value="otherDistrict") String otherdistrict,
+	                               @RequestParam(required = false, value="otherFacility") String otherFacility,*/
 	                               @RequestParam("successURL") String successUrl,
 	                               @RequestParam("add") String add,
 	                               SessionStatus status, ModelMap map) {
-		System.out.println(identifierValue.length);
-		System.out.println(identifierValue[0]);
+		
 		System.out.println("Edit:submit:add:" + add);
 		// first, we need to set the patient id to null if it's been set to -1
 		if (patient.getId() != null && patient.getId() == -1) {
@@ -311,6 +328,7 @@ public class MdrtbEditPatientController {
 		}
 		
 		// handle patient identifiers
+		if(identifierValue!=null) {
 		for (Integer i=0; i<identifierValue.length; i++) {
 			
 			//  if this identifier is blank and the idgen module is installed, see if we need to auto-generate this identifier
@@ -353,7 +371,7 @@ public class MdrtbEditPatientController {
 			}
 		}
 		
-		
+		}
 	
 		
 		
@@ -402,8 +420,16 @@ public class MdrtbEditPatientController {
 		status.setComplete();
 		map.clear();
 		
-		String returnUrl = "redirect:" + successUrl + (successUrl.contains("?") ? "&" : "?") + "patientId=" + patient.getId() + 
+		String returnUrl;
+		
+		if(add==null || add.length()==0) {
+			returnUrl = "redirect:/module/mdrtb/program/enrollment.form?patientId="+patient.getId();
+		}
+		
+		else {
+			returnUrl = "redirect:" + successUrl + (successUrl.contains("?") ? "&" : "?") + "patientId=" + patient.getId() + 
 			(patientProgramId != null ? "&patientProgramId=" + patientProgramId : "") + (idId != null ? "&idId=" + idId : "");
+		}
 
 		return new ModelAndView(returnUrl);
 	}

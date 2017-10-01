@@ -182,7 +182,7 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td><spring:message code="mdrtb.tb03.name" text="Name"/>:</td>
 <td>${tb03u.patientName}</td>
 </tr>
 
@@ -269,6 +269,7 @@
 <spring:message code="mdrtb.dsts" text="DSTz"/>
 <table border="1">
 <tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
@@ -276,6 +277,7 @@
 
 <c:forEach var="dst" items="${tb03u.dsts}">
 <tr>
+<td>${dst.monthOfTreatment }</td>
 <td>${dst.di.resultsString }</td>
 <td><openmrs:formatDate date="${dst.encounter.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${dst.encounter.location.displayString}
@@ -498,7 +500,7 @@
 <table>
 
 <tr>
-<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td><spring:message code="mdrtb.tb03.name" text="Name"/>:</td>
 <td>${tb03u.patientName}</td>
 </tr>
 

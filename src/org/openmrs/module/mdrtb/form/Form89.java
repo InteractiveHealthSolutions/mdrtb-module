@@ -1286,34 +1286,106 @@ public class Form89 extends AbstractSimpleForm {
 			//System.out.println("GM: null program");
 			return new ArrayList<SmearForm>();
 		}
-		return Context.getService(MdrtbService.class).getSmearForms(getPatProgId());
+		
+		ArrayList<SmearForm> ret = new ArrayList<SmearForm>();
+		List<SmearForm> allSmears = Context.getService(MdrtbService.class).getSmearForms(getPatProgId());
+		
+		if(allSmears==null)
+			return ret;
+		else {
+			for(SmearForm sf : allSmears) {
+				if(sf.getMonthOfTreatment()==0) {
+					ret.add(sf);
+				}
+			}
+		}
+			
+		return ret;
 		
 	}
 
 	public List<XpertForm> getXperts() {
+		/*if(getPatProgId()==null) {
+			//System.out.println("GM: null program");
+			return new ArrayList<XpertForm>();
+		}
+		return Context.getService(MdrtbService.class).getXpertForms(getPatProgId());*/
+		
 		if(getPatProgId()==null) {
 			//System.out.println("GM: null program");
 			return new ArrayList<XpertForm>();
 		}
-		return Context.getService(MdrtbService.class).getXpertForms(getPatProgId());
+		
+		ArrayList<XpertForm> ret = new ArrayList<XpertForm>();
+		List<XpertForm> allXperts = Context.getService(MdrtbService.class).getXpertForms(getPatProgId());
+		
+		if(allXperts==null)
+			return ret;
+		else {
+			for(XpertForm sf : allXperts) {
+				if(sf.getMonthOfTreatment()==0) {
+					ret.add(sf);
+				}
+			}
+		}
+			
+		return ret;
 	
 	}
 	
 	public List<HAINForm> getHains() {
+/*		if(getPatProgId()==null) {
+			//System.out.println("GM: null program");
+			return new ArrayList<HAINForm>();
+		}
+		return Context.getService(MdrtbService.class).getHAINForms(getPatProgId());*/
 		if(getPatProgId()==null) {
 			//System.out.println("GM: null program");
 			return new ArrayList<HAINForm>();
 		}
-		return Context.getService(MdrtbService.class).getHAINForms(getPatProgId());
-	
+		
+		ArrayList<HAINForm> ret = new ArrayList<HAINForm>();
+		List<HAINForm> allHains = Context.getService(MdrtbService.class).getHAINForms(getPatProgId());
+		
+		if(allHains==null)
+			return ret;
+		else {
+			for(HAINForm sf : allHains) {
+				if(sf.getMonthOfTreatment()==0) {
+					ret.add(sf);
+				}
+			}
+		}
+			
+		return ret;
 	}
 	
 	public List<HAIN2Form> getHain2s() {
+		/*if(getPatProgId()==null) {
+			//System.out.println("GM: null program");
+			return new ArrayList<HAIN2Form>();
+		}
+		return Context.getService(MdrtbService.class).getHAIN2Forms(getPatProgId());*/
+		
 		if(getPatProgId()==null) {
 			//System.out.println("GM: null program");
 			return new ArrayList<HAIN2Form>();
 		}
-		return Context.getService(MdrtbService.class).getHAIN2Forms(getPatProgId());
+		
+		ArrayList<HAIN2Form> ret = new ArrayList<HAIN2Form>();
+		List<HAIN2Form> allHains = Context.getService(MdrtbService.class).getHAIN2Forms(getPatProgId());
+		
+		if(allHains==null)
+			return ret;
+		else {
+			for(HAIN2Form sf : allHains) {
+				if(sf.getMonthOfTreatment()==0) {
+					ret.add(sf);
+				}
+			}
+		}
+			
+		return ret;
 	
 	}
 	

@@ -293,7 +293,7 @@ $(document).ready(function(){
 	  <tr><td colspan="3">&nbsp;</td></tr>
 	    <tr><td colspan="3">&nbsp;</td></tr>
 	  <tr>
-	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingtb03" /></th>
+	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingtb03u" /></th>
 	  </tr>
 	  <tr>
 	     <td><spring:message code="mdrtb.dq.fullName" /></td>

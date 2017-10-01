@@ -2,6 +2,7 @@ package org.openmrs.module.mdrtb.web.controller.form;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.Oblast;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
@@ -354,8 +356,43 @@ public class SmearFormController {
 	}
 	
 	@ModelAttribute("smearresults")
-	public Collection<ConceptAnswer> getSmearResults() {
-		return Context.getService(MdrtbService.class).getPossibleSmearResults();
+	public ArrayList<ConceptAnswer> getSmearResults() {
+		ArrayList<ConceptAnswer> resultArray = new ArrayList<ConceptAnswer>();
+		for(int i=0;i<5;i++) {
+			resultArray.add(null);
+		}
+		
+		Collection<ConceptAnswer> results = Context.getService(MdrtbService.class).getPossibleSmearResults();
+		MdrtbService ms = Context.getService(MdrtbService.class);
+		System.out.println("RS:" + results.size());
+		for(ConceptAnswer ca : results) {
+			System.out.println(ca.getId());
+			System.out.println(ca.getAnswerConcept().getId());
+			
+			if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.LOWAFB).getId().intValue()) {
+				resultArray.set(0,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.WEAKLY_POSITIVE).getId().intValue()) {
+				resultArray.set(1,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.MODERATELY_POSITIVE).getId().intValue()) {
+				resultArray.set(2,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.STRONGLY_POSITIVE).getId().intValue()) {
+				resultArray.set(3,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.NEGATIVE).getId().intValue()) {
+				resultArray.set(4,ca);
+			}
+		}
+		
+		
+		
+		return resultArray;
 	}
 	
 	

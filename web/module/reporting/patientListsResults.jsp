@@ -14,7 +14,8 @@
 <div class="box" style="margin:0px;">
 <a href="${pageContext.request.contextPath}/module/mdrtb/reporting/patientLists.form"><spring:message code="mdrtb.back" text="Back"/></a><br/><br/>
 <spring:message code="mdrtb.oblast" text="Oblast"/>: ${oblast }<br/>
-<spring:message code="mdrtb.district" text="District"/>: ${location.displayString }<br/>
+<spring:message code="mdrtb.district" text="District"/>: ${district}<br/>
+<spring:message code="mdrtb.facility" text="Facility"/>: ${facility}<br/>
 <spring:message code="mdrtb.year" text="Year"/>: ${year }<br/>
 <spring:message code="mdrtb.quarter" text="Quarter"/>: ${quarter }<br/>
 <spring:message code="mdrtb.month" text="Month"/>: ${month }<br/>

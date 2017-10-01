@@ -11,7 +11,7 @@
 <!-- only show the headers if we are in edit mode (i.e,. we have an existing patient id) -->
 <c:if test="${! empty patientId && patientId != -1}">
 	<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
-	<openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}" parameters="patientProgramId=${patientProgramId}"/>
+	<%-- <openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}" parameters="patientProgramId=${patientProgramId}"/> --%>
 </c:if>
 
 <!-- TODO: clean up above paths so they use dynamic reference -->
@@ -77,6 +77,57 @@
 		
 
 	});
+	
+	function fun0()
+	{
+		var c = document.getElementById("country");
+		var val0 = c.options[e.selectedIndex].value;
+		var dt = "\"" + document.getElementById("dateEnrolled").value + "\"";
+		var patGroup = document.getElementById("classificationAccordingToPatientGroups");
+		var patGroupChoice = patGroup.options[patGroup.selectedIndex].value;
+		var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
+		var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
+		
+		
+		if(val!="")
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?ob="+val+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+	}
+	
+	
+	function fun1()
+	{
+		var c = document.getElementById("country");
+		var val0 = c.options[e.selectedIndex].value;
+		var e = document.getElementById("oblast");
+		var val = e.options[e.selectedIndex].value;
+		var dt = "\"" + document.getElementById("dateEnrolled").value + "\"";
+		var patGroup = document.getElementById("classificationAccordingToPatientGroups");
+		var patGroupChoice = patGroup.options[patGroup.selectedIndex].value;
+		var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
+		var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
+		
+		
+		if(val!="")
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?ob="+val+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+	}
+
+	function fun2()
+	{
+		var c = document.getElementById("country");
+		var val0 = c.options[e.selectedIndex].value;
+		var e = document.getElementById("oblast");
+		var val1 = e.options[e.selectedIndex].value;
+		var e = document.getElementById("district");
+		var val2 = e.options[e.selectedIndex].value;
+		var dt = "\"" + document.getElementById("dateEnrolled").value + "\"";
+		var patGroup = document.getElementById("classificationAccordingToPatientGroups");
+		var patGroupChoice = patGroup.options[patGroup.selectedIndex].value;
+		var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
+		var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
+		
+		if(val2!="")
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?loc="+val2+"&ob="+val1+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+	}
 -->
 </script>
 <!-- END JQUERY -->
@@ -106,7 +157,7 @@
 <table style="padding:6px">
 
 <tr>
-<th style="headerCell"><spring:message code="mdrtb.name"/></th>
+<th style="headerCell">&nbsp;<!-- <spring:message code="mdrtb.name"/> --></th>
 <td>
 <table cellspacing="0" cellpadding="0" border="0">
 <openmrs:portlet url="nameLayout" id="namePortlet" size="columnHeaders" parameters="layoutShowTable=false|layoutShowExtended=false" /></td>
@@ -119,10 +170,7 @@
 
 <tr height="5"><td colspan="2">&nbsp;</td></tr>
 
-<tr>
-<th class="headerCell"><spring:message code="mdrtb.identifierNumbers"/></th>
-<td>
-<table>
+
 <%--<tr>
  <th><spring:message code="mdrtb.identifierType"/></th>
 <th><spring:message code="mdrtb.identifier"/></th>
@@ -134,6 +182,10 @@
 
 <c:choose>
 <c:when test="${add eq '1' }">
+<tr>
+<th class="headerCell"><spring:message code="mdrtb.identifierNumbers"/></th>
+<td>
+<table>
 <input name="identifierType" type="hidden" value="${dotsIdentifier.id}"/>
 <input name="identifierId" type="hidden" value=""/>
 <tr>
@@ -141,20 +193,27 @@
 <td><input name="identifierValue" type="text"></td>
 </tr>
 <tr>
+
 <td>
+<div style="display: none;">
 <spring:message code="mdrtb.identifierLocation"/>
+</div>
 </td>
+
 <td>
+<div style="display: none;">
 <select name="identifierLocation">
-<option value=""/>
 	<c:forEach var="location" items="${locations}">
 		<option value="${location.id}">${location.displayString}</option>
 	</c:forEach>
 	</select>
 </td>
+</div>
+</tr>
+</table>
 </c:when>
 <c:otherwise>
-<c:forEach var="type" items="${patientIdentifierTypesAutoAssigned}">
+<%-- <c:forEach var="type" items="${patientIdentifierTypesAutoAssigned}">
 <input name="identifierId" type="hidden" value="${! empty patientIdentifierMap[type.id] ? patientIdentifierMap[type.id].id : ''}"/>
 <input name="identifierType" type="hidden" value="${type.id}"/>
 <input name="identifierValue" type="hidden" value="${! empty patientIdentifierMap[type.id] ? patientIdentifierMap[type.id].identifier : ''}"/>
@@ -205,11 +264,10 @@
 </c:if>
 
 </c:forEach>	
+ --%>
 </c:otherwise>
 </c:choose>
-</table>
-</td>
-</tr>
+
 
 <tr height="5"><td colspan="2">&nbsp;</td></tr>
 
@@ -219,6 +277,62 @@
 <spring:nestedPath path="patient.personAddress">
 <openmrs:portlet url="addressLayout" id="addressPortlet" size="full" parameters="layoutMode=edit|layoutShowTable=true|layoutShowExtended=false" />
 </spring:nestedPath>
+<%-- <table>
+        <tr id="countryDiv">
+			<td align="left"><spring:message code="mdrtb.country" /></td>
+			<td><select name="country" id="country" onchange="fun0()">
+					<option value=""></option>
+					<c:forEach var="c" items="${countries}">
+						<option value="${c.id}" >${c.name}</option>
+					</c:forEach>
+			</select></td>
+			<td><input type="text" name="otherCountry" id="otherCountry"></td>
+		</tr>
+
+
+		<tr id="oblastDiv">
+			<td align="left"><spring:message code="mdrtb.oblast" /></td>
+			<td><select name="oblast" id="oblast" onchange="fun1()">
+					<option value=""></option>
+					<c:forEach var="o" items="${oblasts}">
+						<option value="${o.id}" >${o.name}</option>
+					</c:forEach>
+			</select></td>
+			<td><input type="text" name="otherOblast" id="otherOblast"></td>
+		</tr>
+		
+		<tr id="districtDiv">
+			<td align="left"><spring:message code="mdrtb.district" /></td>
+			<td><select name="district" id="district" onchange="fun2()">
+					<option value=""></option>
+					<c:forEach var="dist" items="${districts}">
+						<option value="${dist.id}" >${dist.name}</option>
+					</c:forEach>
+			</select></td>
+			<td><input type="text" name="otherDistrict" id="otherDistrict"></td>
+		</tr>
+		
+		<tr id="facilityDiv">
+			<td align="left"><spring:message code="mdrtb.facility" /></td>
+			<td><select name="facility" id="facility">
+					<option value=""></option>
+					<c:forEach var="f" items="${facilities}">
+						<option value="${f.id}" >${f.name}</option>
+					</c:forEach>
+			</select>
+			</td>
+			<td><input type="text" name="otherFacility" id="otherFacility"></td>
+		</tr>
+		<tr>
+			<td align="left"><spring:message code="mdrtb.address1" /></td>
+			<td><input type="text" name="address1" id="address1"></td>	
+		</tr>
+		<tr>
+			<td align="left"><spring:message code="mdrtb.address2" /></td>
+			<td><input type="text" name="address1" id="address2"></td>	
+		</tr>
+	</table> --%>
+
 </td>
 </tr>
 

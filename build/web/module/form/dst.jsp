@@ -183,6 +183,12 @@ function showAddDstResultsWithData() {
 <td><openmrs:formatDate date="${dst.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
+<td>${dst.monthOfTreatment}</td>
+</tr>
+
+
 <%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>${dst.provider.personName}</td>
@@ -252,6 +258,11 @@ function showAddDstResultsWithData() {
 <tr>
 <td><spring:message code="mdrtb.dateCollected" text="Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${dst.encounterDatetime}"/></td>
+</tr>
+
+<tr>
+<td valign="top"><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
+<td><input name="monthOfTreatment" size="2" value="${dst.monthOfTreatment}"/></td>
 </tr>
 
 <%-- <tr>

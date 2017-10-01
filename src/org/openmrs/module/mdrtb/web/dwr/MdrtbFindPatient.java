@@ -41,7 +41,13 @@ public class MdrtbFindPatient {
                 if (StringUtils.isNotBlank(primaryIdentifier) && p.getPatientIdentifier(primaryIdentifier) != null) {
                 	patientListItem.setIdentifier(p.getPatientIdentifier(primaryIdentifier).getIdentifier());
                 }
-                	
+                
+                else {
+                	continue;
+                }
+                if(patientListItem.getGender().equals("F") && Context.getLocale().toString().equals("ru")) {
+                	patientListItem.setGender("Ж");
+                }
             	patientList.add(patientListItem);
             }
                    

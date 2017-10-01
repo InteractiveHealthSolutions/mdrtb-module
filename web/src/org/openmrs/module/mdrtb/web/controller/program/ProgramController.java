@@ -283,10 +283,95 @@ public class ProgramController {
 	        List<Facility> facilities;
 	        List<District> districts;
 	        
+	        String prefix = "";
+	        
 	        if(oblast==null)
 	        {
-	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-	        	map.addAttribute("oblasts", oblasts);
+	        	if(idId!=null) {
+	        		Oblast locOb = null;// = new Oblast();
+	        		District locDist = null; //= new District();
+	        		Facility locFac = null;// = new Facility();
+	        		PatientIdentifier pi = Context.getService(MdrtbService.class).getPatientIdentifierById(idId);
+	        		if(pi!=null) {
+	        			prefix = pi.getIdentifier().substring(0,2);
+	        			prefix = "(" + prefix + ")";
+	        			Location idLoc = null;
+	        			List<Location> locList = Context.getLocationService().getAllLocations(false);
+	        			for(Location l : locList) {
+	        				if(l.getName().trim().endsWith(prefix)) {
+	        					idLoc = l;
+	        					break;
+	        				}
+	        			}
+	        			
+	        			if(idLoc!=null) {
+	        				String obName = idLoc.getStateProvince();
+	        				List<Oblast> obList = Context.getService(MdrtbService.class).getOblasts();
+	        				for(Oblast o : obList) {
+	        					if(obName!=null && o.getName()!=null && o.getName().equals(obName)) {
+	        						locOb = o;
+	        						break;
+	        					}
+	        				}
+	        				
+	        				if(locOb!=null && idLoc.getCountyDistrict()!=null) {
+	        					List<District> distList = Context.getService(MdrtbService.class).getDistricts(locOb.getId());
+	        					for(District d : distList) {
+	        						if(idLoc.getCountyDistrict().equals(d.getName())) {
+	        							locDist = d;
+	        							break;
+	        						}
+	        					}
+	        				}
+	        				
+	        				if(locDist!=null && idLoc.getRegion()!=null) {
+	        					List<Facility> facList = Context.getService(MdrtbService.class).getFacilities(locDist.getId());
+	        					for(Facility f  : facList) {
+	        						if(idLoc.getRegion().equals(f.getName())) {
+	        							locFac = f;
+	        							break;
+	        						}
+	        					}
+	        				}
+	        				
+	        				
+	        				
+	        			}
+	        		}
+	        		
+	        		if(locOb!=null) {
+	        			oblasts = new ArrayList<Oblast>();
+	        			oblasts.add(locOb);
+	        			map.addAttribute("oblasts", oblasts);
+	        			
+	        			if(locDist!=null) {
+		        			districts= new ArrayList<District>();
+		        			districts.add(locDist);
+		        			map.addAttribute("districts", districts);
+		        			
+		        			if(locFac!=null) {
+		        				facilities = new ArrayList<Facility>();
+		        				facilities.add(locFac);
+		        				map.addAttribute("facilities", facilities);
+		        			}
+		        		}
+	        			
+	        			else {
+	        				map.addAttribute("districts", Context.getService(MdrtbService.class).getDistrict(locOb.getId()));
+	        			}
+	        		}
+	        		
+	        		else {
+	        			oblasts = Context.getService(MdrtbService.class).getOblasts();
+		        		map.addAttribute("oblasts", oblasts);
+	        		}
+
+	        	}
+	        	
+	        	else {
+	        		oblasts = Context.getService(MdrtbService.class).getOblasts();
+	        		map.addAttribute("oblasts", oblasts);
+	        	}
 	        	
 	        }
 	        
@@ -294,7 +379,7 @@ public class ProgramController {
 	        else if(district==null)
 	        { 
 	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-	        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
 	        	map.addAttribute("oblastSelected", oblast);
 	            map.addAttribute("oblasts", oblasts);
 	            map.addAttribute("districts", districts);
@@ -303,8 +388,8 @@ public class ProgramController {
 	        else
 	        {
 	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-	        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
-	        	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
+	        	facilities = Context.getService(MdrtbService.class).getRegFacilities(Integer.parseInt(district));
 	            map.addAttribute("oblastSelected", oblast);
 	            map.addAttribute("oblasts", oblasts);
 	            map.addAttribute("districts", districts);
@@ -472,7 +557,7 @@ public class ProgramController {
 	        else if(district==null)
 	        { 
 	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-	        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
 	        	map.addAttribute("oblastSelected", oblast);
 	            map.addAttribute("oblasts", oblasts);
 	            map.addAttribute("districts", districts);
@@ -481,8 +566,8 @@ public class ProgramController {
 	        else
 	        {
 	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
-	        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
-	        	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
+	        	facilities = Context.getService(MdrtbService.class).getRegFacilities(Integer.parseInt(district));
 	            map.addAttribute("oblastSelected", oblast);
 	            map.addAttribute("oblasts", oblasts);
 	            map.addAttribute("districts", districts);

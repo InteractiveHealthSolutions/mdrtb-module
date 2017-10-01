@@ -94,8 +94,13 @@
 <table>
  
 <tr>
-<td><spring:message code="mdrtb.date" text="Date"/>:</td>
+<td><spring:message code="mdrtb.dateCollected" text="Date"/>:</td>
 <td><openmrs:formatDate date="${smear.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
+<td>${smear.monthOfTreatment}</td>
 </tr>
 
 <%-- <tr>
@@ -122,13 +127,6 @@
 <td><spring:message code="mdrtb.facility" text="Facility"/>:</td>
 <td>${smear.location.region}</td>
 </tr>
-
- 
-<tr>
-<td><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
-<td>${smear.monthOfTreatment}</td>
-</tr>
-
 
 <tr>
 <td><spring:message code="mdrtb.specimenId" text="SpecimenId"/>:</td>
@@ -180,6 +178,11 @@
 <tr>
 <td><spring:message code="mdrtb.dateCollected" text="Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${smear.encounterDatetime}"/></td>
+</tr>
+
+<tr>
+<td valign="top"><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
+<td><input name="monthOfTreatment" size="2" value="${smear.monthOfTreatment}"/></td>
 </tr>
 
 </table>
@@ -243,10 +246,7 @@
 	
 <table>
 
-<tr>
-<td valign="top"><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
-<td><input name="monthOfTreatment" size="2" value="${smear.monthOfTreatment}"/></td>
-</tr>
+
 
 <tr>
 <td><spring:message code="mdrtb.specimenId" text="SpecimenId"/>:</td>

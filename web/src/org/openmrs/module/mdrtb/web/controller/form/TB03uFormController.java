@@ -149,12 +149,12 @@ public class TB03uFormController {
         		if(o.getName().equals(location.getStateProvince())) {
         			System.out.println(o.getName() + " Set");
         			model.addAttribute("oblastSelected", o.getId());
-        			districts = Context.getService(MdrtbService.class).getDistricts(o.getId());
+        			districts = Context.getService(MdrtbService.class).getRegDistricts(o.getId());
         			model.addAttribute("districts", districts);
         			for(District d : districts) {
         				if(d.getName().equals(location.getCountyDistrict())) {
         					model.addAttribute("districtSelected", d.getId());
-        					facilities = Context.getService(MdrtbService.class).getFacilities(d.getId());
+        					facilities = Context.getService(MdrtbService.class).getRegFacilities(d.getId());
         					if(facilities != null ) {
         						model.addAttribute("facilities", facilities);
         						for(Facility f : facilities) {
@@ -177,7 +177,7 @@ public class TB03uFormController {
         else if(district==null)
         { 
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
-        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
         	model.addAttribute("oblastSelected", oblast);
             model.addAttribute("oblasts", oblasts);
             model.addAttribute("districts", districts);
@@ -185,8 +185,8 @@ public class TB03uFormController {
         else
         {
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
-        	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
-        	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
+        	facilities = Context.getService(MdrtbService.class).getRegFacilities(Integer.parseInt(district));
             model.addAttribute("oblastSelected", oblast);
             model.addAttribute("oblasts", oblasts);
             model.addAttribute("districts", districts);

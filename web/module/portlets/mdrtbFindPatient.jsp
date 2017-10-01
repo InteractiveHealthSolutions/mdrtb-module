@@ -154,6 +154,10 @@
 									if (patient.patientId != null && patient.patientId != "NaN")
 										return patient.identifier;
 								},
+								/* function(patient) {
+									if (patient.patientId != null && patient.patientId != "NaN")
+										return patient.address.countyDistrict;
+								}, */
 								//first name 
 								function(patient) { 
 										if (patient.patientId != null && patient.patientId != "NaN"){
@@ -163,10 +167,10 @@
 								 	      }
 							  		},
 							  	//middle name
-								function(patient) { 
+								/* function(patient) { 
 										if (patient.patientId != null && patient.patientId != "NaN")
 										return  patient.middleName;
-							  		},
+							  		}, */
 							  	//family name
 							  	function(patient) { 
 										if (patient.patientId != null && patient.patientId != "NaN")
@@ -235,8 +239,9 @@
 							var cellFuncsHeader = [
 							function() {return " "},
 							function() {return "<b><spring:message code='mdrtb.Identifier'/></b>"},
+							/* function() {return "<b><spring:message code='mdrtb.district'/></b>"}, */
 							function() {return "<b><spring:message code='mdrtb.first'/></b>"},
-							function() {return "<b><spring:message code='mdrtb.middle'/></b>"},
+							/* function() {return "<b><spring:message code='mdrtb.middle'/></b>"}, */
 							function() {return "<b><spring:message code='mdrtb.last'/></b>"},
 							function() {return "<b><spring:message code='mdrtb.age'/></b>"},
 							function() {return "<b><spring:message code='mdrtb.gender'/></b>"},

@@ -122,6 +122,11 @@ function resToggle () {
 <td><openmrs:formatDate date="${hain2.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
+<td>${hain2.monthOfTreatment}</td>
+</tr>
+
 <%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>${hain2.provider.personName}</td>
@@ -201,6 +206,11 @@ function resToggle () {
 <tr>
 <td><spring:message code="mdrtb.dateCollected" text="Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${hain2.encounterDatetime}"/></td>
+</tr>
+
+<tr>
+<td valign="top"><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
+<td><input name="monthOfTreatment" size="2" value="${hain2.monthOfTreatment}"/></td>
 </tr>
 
 <%-- <tr>

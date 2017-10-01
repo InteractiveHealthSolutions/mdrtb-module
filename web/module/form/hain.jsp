@@ -123,6 +123,11 @@
 <td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
+<td>${hain.monthOfTreatment}</td>
+</tr>
+
 <%-- <tr>
 <td><spring:message code="mdrtb.provider" text="Provider"/>:</td>
 <td>${hain.provider.personName}</td>
@@ -200,6 +205,11 @@
 <tr>
 <td><spring:message code="mdrtb.dateCollected" text="Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${hain.encounterDatetime}"/></td>
+</tr>
+
+<tr>
+<td valign="top"><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
+<td><input name="monthOfTreatment" size="2" value="${hain.monthOfTreatment}"/></td>
 </tr>
 
 <%-- <tr>

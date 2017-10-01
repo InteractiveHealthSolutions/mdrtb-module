@@ -14,39 +14,93 @@
 function submitForm(url) {
 	var e = document.getElementById("oblast");
 	var val1 = e.options[e.selectedIndex].value;
-	var e = document.getElementById("location");
+	var e = document.getElementById("district");
 	var val2 = e.options[e.selectedIndex].value;
+	var e = document.getElementById("facility");
+	var val3 = e.options[e.selectedIndex].value;
 	var year = document.getElementById("year").value;
 	var quarter = document.getElementById("quarter").value;
 	var month = document.getElementById("month").value;
-	var submitPath = "${pageContext.request.contextPath}/module/mdrtb/reporting/" + url + ".form?oblast="+val1+"&location="+val2+"&year="+year+"&quarter="+quarter+"&month="+month;
+	var submitPath = "${pageContext.request.contextPath}/module/mdrtb/reporting/" + url + ".form?oblast="+val1+"&district="+val2+ "&facility="+val3+"&year="+year+"&quarter="+quarter+"&month="+month;
 	
 	window.location.replace(submitPath);
 }
 
+function fun1()
+{
+	var e = document.getElementById("oblast");
+	var val = e.options[e.selectedIndex].value;
+	var year = document.getElementById("year").value;
+	var quarter =  "\"" + document.getElementById("quarter").value +  "\"";
+	var month =  "\"" + document.getElementById("month").value +  "\"";
+	if(val!="")
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/patientLists.form?ob="+val+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+}
 
+function fun2()
+{
+	var e = document.getElementById("oblast");
+	var val1 = e.options[e.selectedIndex].value;
+	var e = document.getElementById("district");
+	var val2 = e.options[e.selectedIndex].value;
+	var year = document.getElementById("year").value;
+	var quarter = "\"" + document.getElementById("quarter").value +  "\"";
+	var month =  "\"" + document.getElementById("month").value +  "\"";
+	if(val2!="")
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/patientLists.form?loc="+val2+"&ob="+val1+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+}
 </script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+	$('#oblast').val(${oblastSelected});
+	$('#district').val(${districtSelected});
+	$('#year').val(${yearSelected});
+	$('#quarter').val(${quarterSelected});
+	$('#month').val(${monthSelected});
 
+});
+</script>
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.patientLists" text="Lists"/></b>
 <div class="box" style="margin:0px;">
 <br/>
-	
-	<spring:message code="mdrtb.oblast" />
-	<select name="oblast" id="oblast">
-				    <option value=""></option>
+	<table>
+	<tr id="oblastDiv">
+			<td align="right"><spring:message code="mdrtb.oblast" /></td>
+			<td><select name="oblast" id="oblast" onchange="fun1()">
+					<option value=""></option>
 					<c:forEach var="o" items="${oblasts}">
 						<option value="${o.id}">${o.name}</option>
 					</c:forEach>
-				</select>
-			
-		    <spring:message code="mdrtb.or" />
-		    <spring:message code="mdrtb.district" />
-				<select name="location" id="location">
-				    <option value=""></option>
-					<c:forEach var="loc" items="${locations}">
-						<option value="${loc.id}">${loc.name}</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr id="districtDiv">
+			<td align="right"><spring:message code="mdrtb.district" /></td>
+			<td><select name="district" id="district" onchange="fun2()">
+					<option value=""></option>
+					<c:forEach var="dist" items="${districts}">
+						<option value="${dist.id}">${dist.name}</option>
 					</c:forEach>
-				</select>
+			</select></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr id="facilityDiv">
+			<td align="right"><spring:message code="mdrtb.facility" /></td>
+			<td><select name="facility" id="facility">
+					<option value=""></option>
+					<c:forEach var="f" items="${facilities}">
+						<option value="${f.id}">${f.name}</option>
+					</c:forEach>
+			</select></td>
+		<tr>
+		</table>
 			<br/>
 			<spring:message code="mdrtb.year" />&nbsp;&nbsp;&nbsp;&nbsp;<input name="year" id="year" type="text" size="4"/><br/>
 			<spring:message code="mdrtb.quarter" /><input name="quarter" id="quarter" type="text" size="7"/></td>
@@ -62,6 +116,11 @@ function submitForm(url) {
 		    <tr>
 		    <td><spring:message code="mdrtb.dotsCasesByRegistrationGroup" /></td>
 		    <td><button onClick="submitForm('dotsCasesByRegistrationGroup');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		    <tr>
+		    <td><spring:message code="mdrtb.byDrugResistance" /></td>
+		    <td><button onClick="submitForm('byDrugResistance');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
 		    <tr>
@@ -104,9 +163,84 @@ function submitForm(url) {
 		    <td><button onClick="submitForm('detectedFromContact');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
-		     <tr>
+		    <tr>
 		    <td><spring:message code="mdrtb.withDiabetes" /></td>
 		    <td><button onClick="submitForm('withDiabetes');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		    <tr>
+		    <td><spring:message code="mdrtb.withCancer" /></td>
+		    <td><button onClick="submitForm('withCancer');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.withUlcer" /></td>
+		    <td><button onClick="submitForm('withUlcer');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.withHypertension" /></td>
+		    <td><button onClick="submitForm('withHypertension');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.withCOPD" /></td>
+		    <td><button onClick="submitForm('withCOPD');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.withMentalDisorder" /></td>
+		    <td><button onClick="submitForm('withMentalDisorder');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.withHIV" /></td>
+		    <td><button onClick="submitForm('withHIV');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.withOtherDisease" /></td>
+		    <td><button onClick="submitForm('withOtherDisease');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.byDwelling" /></td>
+		    <td><button onClick="submitForm('byDwelling');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		    <tr>
+		    <td><spring:message code="mdrtb.bySocProfStatus" /></td>
+		    <td><button onClick="submitForm('bySocProfStatus');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		    <tr>
+		    <td><spring:message code="mdrtb.byPopCategory" /></td>
+		    <td><button onClick="submitForm('byPopCategory');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		    <tr>
+		    <td><spring:message code="mdrtb.byPlaceOfDetection" /></td>
+		    <td><button onClick="submitForm('byPlaceOfDetection');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		    <tr>
+		    <td><spring:message code="mdrtb.byCircumstancesOfDetection" /></td>
+		    <td><button onClick="submitForm('byCircumstancesOfDetection');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		    <tr>
+		    <td><spring:message code="mdrtb.byMethodOfDetection" /></td>
+		    <td><button onClick="submitForm('byMethodOfDetection');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		    <tr>
+		    <td><spring:message code="mdrtb.byPulmonaryLocation" /></td>
+		    <td><button onClick="submitForm('byPulmonaryLocation');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.byExtraPulmonaryLocation" /></td>
+		    <td><button onClick="submitForm('byExtraPulmonaryLocation');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
 		    </table>

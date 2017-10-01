@@ -222,8 +222,50 @@ public class DSTForm extends AbstractSimpleForm implements Comparable<DSTForm> {
 		} 
 	}
 	
-	public int compareTo(DSTForm form) {
+	public Integer getMonthOfTreatment() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.MONTH_OF_TREATMENT), encounter);
+		
+		if (obs == null) {
+			return 0;
+		}
+		else {
+			return obs.getValueNumeric().intValue();
+		}
+	}
+	
+	public void setMonthOfTreatment(Integer month) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.MONTH_OF_TREATMENT), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && month == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueNumeric() == null || obs.getValueNumeric().intValue() != month.intValue()) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(month != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.MONTH_OF_TREATMENT), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueNumeric(new Double(month));
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	/*public int compareTo(DSTForm form) {
 		return this.di.getDateCollected().compareTo(form.di.getDateCollected());
+	}*/
+	
+	public int compareTo(DSTForm form) {
+		return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
 	}
 	
 	public String getLink() {

@@ -6,9 +6,15 @@ public class DQItem {
 	
 	private Patient patient;
 	private String dateOfBirth;
+	private String locName;
 	
 	
-	
+	public String getLocName() {
+		return locName;
+	}
+	public void setLocName(String locName) {
+		this.locName = locName;
+	}
 	public Patient getPatient() {
 		return patient;
 	}

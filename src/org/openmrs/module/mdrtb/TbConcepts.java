@@ -114,6 +114,7 @@ public class TbConcepts {
     public final static String [] NEGATIVE = {"NEGATIVE"};
     public final static String [] CONTAMINATED = {"CONTAMINATED"};
     public final static String [] UNSATISFACTORY_SAMPLE = {"UNSATISFACTORY SAMPLE"};
+    public final static String [] LOWAFB = {"LOWAFB"};
     
     // MDR-TB Classification
     public final static String [] CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE = {"CATEGORY 4 TUBERCULOSIS CLASSIFICATION ACCORDING TO PREVIOUS DRUG USE"};
@@ -285,7 +286,71 @@ public class TbConcepts {
  	public final static String[] PREVIOUS_PROGRAM_ID = {"PREVIOUS PROGRAM ID"};
  	
  	public final static String[] XRAY_DATE = {"XRAY DATE"};
- 			
-     
-
+ 	
+ 	public final static String[] WORKER = {"WORKER"};
+ 	public final static String[] GOVT_SERVANT = {"GOVERNMENT SERVANT"};
+ 	public final static String[] STUDENT  = {"STUDENT"};
+ 	public final static String[] DISABLED  = {"DISABLED "};
+ 	public final static String[] UNEMPLOYED = {"UNEMPLOYED"};
+ 	public final static String[] PHC_WORKER = {"PHC WORKER"};
+ 	public final static String[] PRIVATE_SECTOR = {"PRIVATE SECTOR"};
+ 	public final static String[] MILITARY_SERVANT = {"MILITARY SERVANT"};
+ 	public final static String[] SCHOOLCHILD = {"SCHOOLCHILD"};
+ 	public final static String[] TB_SERVICES_WORKER  = {"TB SERVICES WORKER"};	
+ 	
+ 	public final static String[] RESIDENT_OF_TERRITORY = {"RESIDENT OF TERRITORY"};
+ 	public final static String[] RESIDENT_OTHER_TERRITORY = {"RESIDENT OTHER TERRITORY"};
+ 	public final static String[] FOREIGNER = {"FOREIGNER"};
+ 	public final static String[] RESIDENT_SOCIAL_SECURITY_FACILITY = {"RESIDENT SOCIAL SECURITY FACILITY"};
+ 	public final static String[] HOMELESS = {"HOMELESS"};
+ 	public final static String[] CONVICTED  = {"CONVICTED "};
+ 	public final static String[] ON_REMAND = {"ON REMAND"};
+ 	
+ 	public final static String[] CITY = {"CITY"};
+ 	public final static String[] VILLAGE = {"VILLAGE"};
+ 	
+ 	public final static String[] PHC_FACILITY = {"PMSA HEALTH CENTER"};
+ 	public final static String[] OTHER_MEDICAL_FACILITY = {"OTHER MEDICAL FACILITY"};
+ 	public final static String[] TB_FACILITY  = {"TB FACILITY "};
+ 
+ 	public final static String[] SELF_REFERRAL = {"HANDLING OF COMPLAINTS"};
+ 	public final static String[] BASELINE_EXAM= {"BASELINE EXAM"};
+ 	public final static String[] POSTMORTERM_IDENTIFICATION = {"POSTMORTERM IDENTIFICATION"};
+ 	public final static String[] CONTACT  = {"CONTACT "};
+ 	public final static String[] MIGRANT  = {"MIGRANT "};
+ 	
+ 	public final static String[] FLUOROGRAPHY = {"FLUOROGRAPHY"};
+ 	public final static String[] TUBERCULIN_TEST = {"TUBERCULIN TEST"};
+ 	public final static String[] ZIEHLNELSEN = {"ZIEHLNELSEN"};
+ 	public final static String[] FLURORESCENT_MICROSCOPY  = {"FLURORESCENT MICROSCOPY"};
+ 	public final static String[] HISTOLOGY = {"HISTOLOGY"};
+ 	public final static String[] CULTURE_DETECTION = {"CULTURE DETECTION"};
+ 	public final static String[] GENEXPERT  = {"GENEXPERT"};
+ 	public final static String[] HAIN_TEST = {"HAIN TEST"};
+ 	public final static String[] CXR_RESULT = {"CXR RESULT"};
+ 	
+ 	public final static String[] FOCAL  = {"FOCAL"};
+ 	public final static String[] INFILTRATIVE  = {"INFILTRATIVE"};
+ 	public final static String[] DISSEMINATED  = {"DISSEMINATED"};
+ 	public final static String[] CAVERNOUS  = {"CAVERNOUS"};
+ 	public final static String[] FIBROUS_CAVERNOUS = {"FIBROUS CAVERNOUS"};
+ 	public final static String[] CIRRHOTIC  = {"CIRRHOTIC"};
+ 	public final static String[] TB_PRIMARY_COMPLEX = {"TB PRIMARY COMPLEX"};
+ 	public final static String[] MILIARY = {"MILIARY"};
+ 	public final static String[] TUBERCULOMA  = {"TUBERCULOMA"};
+ 	
+ 	public final static String[] PLEVRITIS = {"PLEVRITIS"};
+ 	public final static String[] OF_LYMPH_NODES = {"OF LYMPH NODES"};
+ 	public final static String[] OSTEOARTICULAR = {"OSTEOARTICULAR"};
+ 	public final static String[] GENITOURINARY = {"GENITOURINARY"};
+ 	public final static String[] OF_PERIPHERAL_LYMPH_NODES = {"OF PERIPHERAL LYMPH NODES"};
+ 	public final static String[] ABDOMINAL = {"ABDOMINAL"};
+ 	public final static String[] TUBERCULODERMA = {"TUBERCULODERMA"};
+ 	public final static String[] OCULAR = {"OCULAR"};
+ 	public final static String[] OF_CNS = {"OF CNS"};
+ 	
+ 	
+ 	
+ 	
 }
+     

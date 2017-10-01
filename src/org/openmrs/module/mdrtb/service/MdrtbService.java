@@ -30,6 +30,7 @@ import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
+import org.openmrs.module.mdrtb.form.TransferInForm;
 import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
@@ -584,22 +585,30 @@ public interface MdrtbService extends OpenmrsService {
     //FOR LOCATIONS
     public List<Facility> getFacilities();
     
+    public List<Facility> getRegFacilities();
+    
     /*public Location getLocation(Oblast o, District d, Facility f);*/
     public Location getLocation(Integer o, Integer d, Integer f);
 
     public List<Facility> getFacilities(int parentId);
+    
+    public List<Facility> getRegFacilities(int parentId);
 
     public Facility getFacility(Integer facilityId);
     
     public List<Location> getLocationsFromFacilityName(Facility facility);
     
     public List<District> getDistricts(int parentId);
+    
+    public List<District> getRegDistricts(int parentId);
 
     public District getDistrict(Integer districtId);
     
     public District getDistrict(String name);
     
     List<District> getDistricts();
+    
+    List<District> getRegDistricts();
     
     public List<Location> getLocationsFromDistrictName(District district);
     
@@ -678,13 +687,19 @@ public interface MdrtbService extends OpenmrsService {
 	public  ArrayList<TB03uForm> getTB03uFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
 	public  ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, Integer year, String quarter, String month);
 	public  ArrayList<Form89> getForm89FormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
+	public ArrayList<Form89> getForm89FormsFilledForPatientProgram(Patient p, Location location, Integer patProgId, Integer year, String quarter, String month);
 	public ArrayList<TransferOutForm> getTransferOutFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
+	public ArrayList<TransferInForm> getTransferInFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
+	public ArrayList<TransferOutForm> getTransferOutFormsFilledForPatient(Patient p);
+	public ArrayList<TransferInForm> getTransferInFormsFilledForPatient(Patient p);
 	
 	public Set<ProgramWorkflowState> getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
 	public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient);
 	
 	public List <Location> getCultureLocations();
 	public ArrayList<Location> getLocationList(Integer oblastId, Integer districtId, Integer facilityId);
+	
+	public PatientIdentifier getPatientIdentifierById(Integer id);
 }
 
 

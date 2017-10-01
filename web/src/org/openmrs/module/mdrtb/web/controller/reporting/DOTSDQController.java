@@ -24,7 +24,9 @@ import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.form.Form89;
 import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TransferInForm;
 import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.reporting.DQItem;
 import org.openmrs.module.mdrtb.reporting.DQUtil;
@@ -209,13 +211,15 @@ public class DOTSDQController {
     	List<DQItem> missingTB03 = new ArrayList<DQItem>();
     	List<DQItem> missingAge = new ArrayList<DQItem>();
     	List<DQItem> missingPatientGroup = new ArrayList<DQItem>();
+    	List<DQItem> noForm89 = new ArrayList<DQItem>();
     	List<DQItem> missingDiagnosticTests = new ArrayList<DQItem>();
     	List<DQItem> notStartedTreatment = new ArrayList<DQItem>();
     	List<DQItem> missingOutcomes = new ArrayList<DQItem>();
     	//List<DQItem> missingAddress = new ArrayList<DQItem>();
     	List<DQItem> noDOTSId = new ArrayList<DQItem>();
     	List<DQItem> noSite = new ArrayList<DQItem>();
-    	List<DQItem> noTB03AfterTransferOut = new ArrayList<DQItem>();
+    	List<DQItem> noTifAfterTransferOut = new ArrayList<DQItem>();
+    	List<DQItem> noTofBeforeTransferIn = new ArrayList<DQItem>();
     	
     	Boolean errorFlag = Boolean.FALSE;
     	Integer errorCount = 0;
@@ -242,6 +246,9 @@ public class DOTSDQController {
     	
     	ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
     	ArrayList<TransferOutForm> tofList = Context.getService(MdrtbService.class).getTransferOutFormsFilled(locList, year, quarter, month);
+    	ArrayList<TransferInForm> tifList = Context.getService(MdrtbService.class).getTransferInFormsFilled(locList, year, quarter, month);
+    	ArrayList<TransferOutForm> allTofs = null;// Context.getService(MdrtbService.class).getTransferOutFormsFilled(locList, year, quarter, month);
+    	ArrayList<TransferInForm> allTifs = null;// Context.getService(MdrtbService.class).getTransferInFormsFilled(locList, year, quarter, month);
     	
     	for (TB03Form  tf : tb03List) {
     		
@@ -265,6 +272,10 @@ public class DOTSDQController {
     	    
     	    if(patient==null) {
     	    	continue;
+    	    }
+    	    
+    	    if(patient.getGender().equals("F") && Context.getLocale().equals("ru")) {
+    	    	patient.setGender(Context.getMessageSourceService().getMessage("mdrtb.tb03.gender.female"));
     	    }
     	   // patientList.add(patient);
     	    dqi.setPatient(patient);
@@ -301,6 +312,16 @@ public class DOTSDQController {
     	    	errorFlag = Boolean.TRUE;
     	    }
     	    
+    	    
+    	    
+    	    else if(tf.getRegistrationGroup().getId().intValue()== (Context.getService(MdrtbService.class).getConcept(TbConcepts.NEW).getId().intValue())) {
+    	    	ArrayList<Form89> f89 = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tf.getPatient(), tf.getLocation(), tf.getPatProgId(), year, quarter, month);
+    	    	if(f89==null || f89.size()==0) {
+    	    		noForm89.add(dqi);
+    	    		errorFlag = Boolean.TRUE;
+    	    	}
+    	    }
+    	    
     	    //NOT STARTED TREATMENT
     	   /* q = Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_TREATMENT_START_DATE);
     	    conceptQuestionList.clear();
@@ -308,6 +329,28 @@ public class DOTSDQController {
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);
     	    if(obsList==null || obsList.size()==0) {*/
+    	    
+    	    if(tf.getTreatmentStartDate()==null) {
+    	    	notStartedTreatment.add(dqi);
+    	    	errorFlag = Boolean.TRUE;
+    	    }
+    	    else {
+    	    	 //MISSING OUTCOMES
+    	    	
+    	    		 treatmentStartDate = tf.getTreatmentStartDate();
+    	    		 tCal = new GregorianCalendar();
+    	    		 tCal.setTime(treatmentStartDate);
+    	    		 nowCal = new GregorianCalendar();
+    	    		 timeDiff = nowCal.getTimeInMillis() - tCal.getTimeInMillis();
+    	    		 diffInWeeks = DQUtil.timeDiffInWeeks(timeDiff);
+    	    		 if(diffInWeeks > 52) {
+    	    			 
+    	    	    	    if(tf.getTreatmentOutcome()==null) {
+    	    	    	    	missingOutcomes.add(dqi);
+    	    	    	    	errorFlag = Boolean.TRUE;
+    	    	    	    }
+    	    		 } 
+    	    	 }
     	    
     	    if(tf.getTreatmentStartDate()==null) {
     	    	notStartedTreatment.add(dqi);
@@ -330,8 +373,6 @@ public class DOTSDQController {
     	    	    	    }
     	    		 } 
     	    	 }
-    	    
-    	    
     	    //NO SITE
     	    
     	   /* q = Context.getService(MdrtbService.class).getConcept(TbConcepts.ANATOMICAL_SITE_OF_TB);
@@ -415,10 +456,6 @@ public class DOTSDQController {
     	    }
     	    
     	    
-    	    //TRANSFER OUT BUT NO ENTRY
-    	    //get latest transfer out with any of these locations for any patient
-    	    //if no tb03 in list enterred after that date for patient add error
-    	    
     	    
     	    if(errorFlag) {
     	    	errorCount ++;
@@ -427,7 +464,9 @@ public class DOTSDQController {
     	    
     	}
     	
-    	
+    	  //TRANSFER OUT BUT NO TRANSFER IN
+	    //get latest transfer out with any of these locations for any patient
+	    //if no transferIn in list entered after that date for patient add error
     	Boolean foundFlag = Boolean.FALSE;
     	
     	for(TransferOutForm tof : tofList) {
@@ -442,12 +481,14 @@ public class DOTSDQController {
     	    }
     	   // patientList.add(patient);
     	    dqi.setPatient(patient);
+    	    dqi.setLocName(tofLoc.getDisplayString());
     	    dqi.setDateOfBirth(sdf.format(patient.getBirthdate()));
     		foundFlag = Boolean.FALSE;
     		errorFlag = Boolean.FALSE;
-    		for(TB03Form tf : tb03List) {
-    			if(tofLoc.equals(tf.getLocation()) && tofPatient.equals(tf.getPatient())) {
-    				if(tf.getEncounterDatetime().after(tofDate)) {
+    		allTifs = Context.getService(MdrtbService.class).getTransferInFormsFilledForPatient(patient);
+    		for(TransferInForm tif : allTifs) {
+    			if(tofLoc.equals(tif.getLocation()) && tofPatient.equals(tif.getPatient())) {
+    				if(tif.getEncounterDatetime().after(tofDate)) {
     					foundFlag = Boolean.TRUE;
     					break;
     				}
@@ -457,7 +498,49 @@ public class DOTSDQController {
     		if(!foundFlag) {
     			
     			errorCount++;
-    			noTB03AfterTransferOut.add(dqi);
+    			noTifAfterTransferOut.add(dqi);
+    			
+    			
+    		}
+    	}
+    	
+    	
+    	  //TRANSFER In  BUT NO TRANSFER Out
+	    //get latest transfer out with any of these locations for any patient
+	    //if no transferIn in list entered after that date for patient add error
+    	foundFlag = Boolean.FALSE;
+    	
+    	for(TransferInForm tif : tifList) {
+    		Location tifLoc = tif.getLocation();
+    		Date tifDate = tif.getEncounterDatetime();
+    		Patient tifPatient = tif.getPatient();
+    		dqi = new DQItem();
+    	    Patient patient = tif.getPatient();//Context.getPatientService().getPatient(i);
+    	    
+    	    if(patient==null) {
+    	    	continue;
+    	    }
+    	   // patientList.add(patient);
+    	    dqi.setPatient(patient);
+    	    dqi.setLocName(tifLoc.getDisplayString());
+    	    dqi.setDateOfBirth(sdf.format(patient.getBirthdate()));
+    		foundFlag = Boolean.FALSE;
+    		errorFlag = Boolean.FALSE;
+    		allTofs = Context.getService(MdrtbService.class).getTransferOutFormsFilledForPatient(patient);
+    		for(TransferOutForm tof : tofList) {
+    			if(tifLoc.equals(tof.getLocation()) && tifPatient.equals(tof.getPatient())) {
+    				if(tof.getEncounterDatetime().before(tifDate)) {
+    					foundFlag = Boolean.TRUE;
+    					break;
+    				}
+    			}
+    		}
+    		
+    		if(!foundFlag) {
+    			
+    			errorCount++;
+    			noTofBeforeTransferIn.add(dqi);
+    			
     			
     		}
     	}
@@ -474,8 +557,23 @@ public class DOTSDQController {
     	if(obl!=null)
     		oName = obl.getName();
     	
+    	String dName = null;
+    	if(districtId!=null) {
+    		District dist = Context.getService(MdrtbService.class).getDistrict(districtId);
+    		if(dist!=null)
+    			dName = dist.getName();
+    	}
+    	
+    	String fName = null;
+    	if(facilityId!=null) {
+    		Facility fac = Context.getService(MdrtbService.class).getFacility(facilityId);
+    		if(fac!=null)
+    			fName = fac.getName();
+    	}
+    	
     	model.addAttribute("num", num);
     	model.addAttribute("missingTB03", missingTB03);
+    	model.addAttribute("missingForm89", noForm89);
     	model.addAttribute("missingAge", missingAge);
     	model.addAttribute("missingPatientGroup", missingPatientGroup);
     	model.addAttribute("missingDiagnosticTests", missingDiagnosticTests);
@@ -483,10 +581,13 @@ public class DOTSDQController {
     	model.addAttribute("missingOutcomes", missingOutcomes);
     	model.addAttribute("noDOTSId", noDOTSId);
     	model.addAttribute("noSite", noSite);
-    	model.addAttribute("transferOutError", noTB03AfterTransferOut);
+    	model.addAttribute("noTrasnferIn", noTifAfterTransferOut);
+    	model.addAttribute("noTransferOut", noTofBeforeTransferIn);
     	model.addAttribute("errorCount", new Integer(errorCount));
     	model.addAttribute("errorPercentage", errorPercentage.toString() + "%");
-    	model.addAttribute("oblast", oName);
+    	model.addAttribute("oName", oName);
+    	model.addAttribute("dName", dName);
+    	model.addAttribute("fName", fName);
     	
     	
     	
