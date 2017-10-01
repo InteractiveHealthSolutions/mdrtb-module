@@ -13,10 +13,12 @@ import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
@@ -306,13 +308,26 @@ public class TB03uForm extends AbstractSimpleForm {
 	}*/
 	
 	public Concept getRegistrationGroup() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
 			return obs.getValueCoded();
+		}*/
+		
+		if(getPatProgId()!=null) {
+			MdrtbPatientProgram tp  = Context.getService(MdrtbService.class).getMdrtbPatientProgram(getPatProgId());
+			ProgramWorkflowState pws = tp.getClassificationAccordingToPreviousTreatment();
+			if(pws!=null)
+				return pws.getConcept();
+			else
+				return null;
+		}
+		
+		else {
+			return null;
 		}
 	}
 	
@@ -344,13 +359,25 @@ public class TB03uForm extends AbstractSimpleForm {
 	}
 	
 	public Concept getRegistrationGroupByDrug() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE), encounter);
+		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
 			return obs.getValueCoded();
+		}*/
+		if(getPatProgId()!=null) {
+			MdrtbPatientProgram tp  = Context.getService(MdrtbService.class).getMdrtbPatientProgram(getPatProgId());
+			ProgramWorkflowState pws = tp.getClassificationAccordingToPreviousDrugUse();
+			if(pws!=null)
+				return pws.getConcept();
+			else
+				return null;
+		}
+		
+		else {
+			return null;
 		}
 	}
 	

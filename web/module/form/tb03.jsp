@@ -40,9 +40,16 @@
 			$j('#editVisit').show();
 		}
 		
+		
+		
 		$('#oblast').val(${oblastSelected});
 		$('#district').val(${districtSelected});
 		$('#facility').val(${facilitySelected});
+		$('#oblast').prop('disabled',true);
+		$('#district').prop('disabled',true);
+		$('#facility').prop('disabled',true);
+		$('#encounterDatetime').prop('disabled',true);
+		
 		
 	});
 	
@@ -72,6 +79,17 @@
        	   		//set values of dates to ""
        	}
      }
+	
+	function enable() {
+		
+			
+			$('#oblast').prop('disabled',false);
+			$('#district').prop('disabled',false);
+			$('#facility').prop('disabled',false);
+			$('#encounterDatetime').prop('disabled',false);
+	
+		
+	}
     
 	var tableToExcel = (function() {
 		  var uri = 'data:application/vnd.ms-excel;base64,'
@@ -484,7 +502,7 @@
 	<br/>
 </c:if>
 
-<form name="tb03" action="tb03.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty tb03.id ? tb03.id : -1}" method="post">
+<form name="tb03Form" name="tb03Form" action="tb03.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty tb03.id ? tb03.id : -1}" method="post" onSubmit="enable()">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />
@@ -524,7 +542,7 @@
 <table>
 <tr id="oblastDiv">
 			<td align="right"><spring:message code="mdrtb.oblast" /></td>
-			<td><select name="oblast" id="oblast" onchange="fun1()">
+			<td><select name="oblast" id="oblast" onchange="fun1()" >
 					<option value=""></option>
 					<c:forEach var="o" items="${oblasts}">
 						<option value="${o.id}">${o.name}</option>
@@ -534,7 +552,7 @@
 		
 		<tr id="districtDiv">
 			<td align="right"><spring:message code="mdrtb.district" /></td>
-			<td><select name="district" id="district" onchange="fun2()">
+			<td><select name="district" id="district" onchange="fun2()" >
 					<option value=""></option>
 					<c:forEach var="dist" items="${districts}">
 						<option value="${dist.id}">${dist.name}</option>
@@ -544,7 +562,7 @@
 		
 		<tr id="facilityDiv">
 			<td align="right"><spring:message code="mdrtb.facility" /></td>
-			<td><select name="facility" id="facility">
+			<td><select name="facility" id="facility" >
 					<option value=""></option>
 					<c:forEach var="f" items="${facilities}">
 						<option value="${f.id}">${f.name}</option>
@@ -652,6 +670,16 @@
 
 <tr>
 <td><spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:</td>
+<td>${tb03.registrationGroup.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.previousDrugClassification" text="Registration Group By Drug"/>:</td>
+<td>${tb03.registrationGroupByDrug.displayString}</td>
+</tr>
+
+<%-- <tr>
+<td><spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:</td>
 <td>
 <select name="registrationGroup">
 <option value=""></option>
@@ -674,7 +702,7 @@
 </c:forEach>
 </select>
 </td>
-</tr>
+</tr> --%>
 
 <tr>
 <td><spring:message code="mdrtb.tb03.hivTestDate" text="HIV Test Date"/>:</td>

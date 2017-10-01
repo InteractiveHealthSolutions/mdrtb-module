@@ -84,7 +84,8 @@ public class Form89Controller {
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			
 			form.initTB03(patientProgramId);
-			form.setLocation(form.getTB03().getLocation());
+			if(form.getTB03()!=null)
+					form.setLocation(form.getTB03().getLocation());
 			return form;
 		}
 		else {
@@ -136,7 +137,8 @@ public class Form89Controller {
         	
         	//TB03Form tb03 = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
         	Location location  = form89.getLocation();
-        	System.out.println("show:" + location.getDisplayString());
+        	//System.out.println("show:" + location.getDisplayString());
+        	if(location!=null) {
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
         	model.addAttribute("oblasts", oblasts);
         	for(Oblast o : oblasts) {
@@ -165,6 +167,11 @@ public class Form89Controller {
         			
         			break;
         		}
+        	}
+        	}
+        	else {
+        		oblasts  = Context.getService(MdrtbService.class).getOblasts();
+        		model.addAttribute("oblasts", oblasts);
         	}
         }
         

@@ -42,8 +42,23 @@
 		$('#oblast').val(${oblastSelected});
 		$('#district').val(${districtSelected});
 		$('#facility').val(${facilitySelected});
+		$('#oblast').prop('disabled',true);
+		$('#district').prop('disabled',true);
+		$('#facility').prop('disabled',true);
+		$('#encounterDatetime').prop('disabled',true);
 		
 	});
+	
+	function enable() {
+		
+		
+		$('#oblast').prop('disabled',false);
+		$('#district').prop('disabled',false);
+		$('#facility').prop('disabled',false);
+		$('#encounterDatetime').prop('disabled',false);
+
+	
+}
 
 	var tableToExcel = (function() {
 		  var uri = 'data:application/vnd.ms-excel;base64,'
@@ -124,7 +139,7 @@
 <table>
  
 <tr>
-<td><spring:message code="mdrtb.date" text="Date"/>:</td>
+<td><spring:message code="mdrtb.registrationDate" text="Date"/>:</td>
 <td><openmrs:formatDate date="${form89.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
@@ -173,16 +188,18 @@
 <td><spring:message code="mdrtb.gender" text="Gender"/>:</td>
 <td>${form89.gender}</td>
 </tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.ageAtRegistration" text="Age at Regisration"/>:</td>
+<td>${form89.ageAtRegistration}</td>
+</tr>
  
  <tr>
 <td><spring:message code="mdrtb.tb03.dateOfBirth" text="Date of Birth"/>:</td>
 <td><openmrs:formatDate date="${form89.dateOfBirth}" format="${_dateFormatDisplay}"/></td>
 </tr>
  
-<tr>
-<td><spring:message code="mdrtb.form89.ageAtRegistration" text="Age at Regisration"/>:</td>
-<td>${form89.ageAtRegistration}</td>
-</tr>
+
 
 <tr>
 <td><spring:message code="mdrtb.tb03.address" text="Residential Address"/>:</td>
@@ -457,7 +474,7 @@
 	<br/>
 </c:if>
 
-<form name="form89" action="form89.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty form89.id ? form89.id : -1}" method="post">
+<form name="form89" action="form89.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty form89.id ? form89.id : -1}" method="post" onSubmit="enable()">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />
@@ -465,7 +482,7 @@
 <table>
  
 <tr>
-<td><spring:message code="mdrtb.date" text="Date"/>:</td>
+<td><spring:message code="mdrtb.registrationDate" text="Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${form89.encounterDatetime}"/></td>
 </tr>
 
@@ -531,7 +548,7 @@
 
 
 <tr>
-<td><spring:message code="mdrtb.name" text="Name"/>:</td>
+<td><spring:message code="mdrtb.tb03.name" text="Name"/>:</td>
 <td>${form89.patientName}</td>
 </tr>
 
@@ -552,15 +569,17 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.tb03.dateOfBirth" text="Date of Birth"/>:</td>
-<td><openmrs:formatDate date="${form89.dateOfBirth}" format="${_dateFormatDisplay}"/></td>
-</tr>
- 
-<tr>
 <td valign="top"><spring:message code="mdrtb.form89.ageAtRegistration" text="Age at Registration"/>:</td>
 <%-- <td><input name="ageAtRegistration" size="8" value="${form89.ageAtRegistration}"/></td> --%>
 <td>${form89.ageAtRegistration}</td>
 </tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.dateOfBirth" text="Date of Birth"/>:</td>
+<td><openmrs:formatDate date="${form89.dateOfBirth}" format="${_dateFormatDisplay}"/></td>
+</tr>
+ 
+
 
 <tr>
 <td><spring:message code="mdrtb.tb03.address" text="Residential Address"/>:</td>

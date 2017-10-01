@@ -129,7 +129,9 @@ public class Form89 extends AbstractSimpleForm {
 	}*/
 	
 	public Concept getAnatomicalSite() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB), tb03.getEncounter());
+		Obs obs = null;
+		if(tb03!=null)
+			obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB), tb03.getEncounter());
 		
 		if (obs == null) {
 			return null;
@@ -901,8 +903,12 @@ public class Form89 extends AbstractSimpleForm {
 	/////////////////////
 	
 	public Concept getIbc20() {
-		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.RESULT_OF_HIV_TEST), tb03.getEncounter());
+		Obs obs = null;
 		
+		if(tb03!=null){ 
+			obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.RESULT_OF_HIV_TEST), tb03.getEncounter());
+		}	
+	
 		if (obs == null) {
 			return null;
 		}

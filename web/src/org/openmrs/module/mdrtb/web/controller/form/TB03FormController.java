@@ -89,8 +89,9 @@ public class TB03FormController {
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
-			System.out.println("Init: " + form.getLocation().getDisplayString());
-			form.setRegistrationGroup(tbProgram.getClassificationAccordingToPatientGroups().getConcept());
+			
+			if(tbProgram.getClassificationAccordingToPatientGroups()!=null)
+				form.setRegistrationGroup(tbProgram.getClassificationAccordingToPatientGroups().getConcept());
 			if(tbProgram.getClassificationAccordingToPreviousDrugUse()!=null)
 				form.setRegistrationGroupByDrug(tbProgram.getClassificationAccordingToPreviousDrugUse().getConcept());
 			
@@ -437,8 +438,27 @@ public class TB03FormController {
 	}
 	
 	@ModelAttribute("bydrug")
-	public Set<ProgramWorkflowState> getPossibleResultsByDrugs() {
-		return Context.getService(MdrtbService.class).getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
+	public ArrayList<ProgramWorkflowState> getPossibleResultsByDrugs() {
+		/*return Context.getService(MdrtbService.class).getPossibleDOTSClassificationsAccordingToPreviousDrugUse();*/
+		ArrayList<ProgramWorkflowState> stateArray = new ArrayList<ProgramWorkflowState>();
+		for(int i=0; i< 3; i++) {
+			stateArray.add(null);
+		}
+		Set<ProgramWorkflowState> states = Context.getService(MdrtbService.class).getPossibleDOTSClassificationsAccordingToPreviousDrugUse();
+		MdrtbService ms = Context.getService(MdrtbService.class);
+		for(ProgramWorkflowState pws : states) {
+			if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.NEW).getId().intValue()) {
+				stateArray.set(0, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.PREVIOUSLY_TREATED_FIRST_LINE_DRUGS_ONLY).getId().intValue()) {
+				stateArray.set(1, pws);
+			}
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.PREVIOUSLY_TREATED_SECOND_LINE_DRUGS).getId().intValue()) {
+				stateArray.set(2, pws);
+			}
+		}
+		
+		return stateArray;
 	}
 	
 	@ModelAttribute("hivstatuses")

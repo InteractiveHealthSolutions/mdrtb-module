@@ -43,6 +43,10 @@
 		$('#oblast').val(${oblastSelected});
 		$('#district').val(${districtSelected});
 		$('#facility').val(${facilitySelected});
+		$('#oblast').prop('disabled',true);
+		$('#district').prop('disabled',true);
+		$('#facility').prop('disabled',true);
+		$('#encounterDatetime').prop('disabled',true);
 		
 	});
 	
@@ -72,6 +76,17 @@
        	   		//set values of dates to ""
        	}
      }
+	
+	function enable() {
+		
+		
+		$('#oblast').prop('disabled',false);
+		$('#district').prop('disabled',false);
+		$('#facility').prop('disabled',false);
+		$('#encounterDatetime').prop('disabled',false);
+
+	
+}
 	
 	var tableToExcel = (function() {
 		  var uri = 'data:application/vnd.ms-excel;base64,'
@@ -423,7 +438,7 @@
 	<br/>
 </c:if>
 
-<form name="tb03u" action="tb03u.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty tb03u.id ? tb03u.id : -1}" method="post">
+<form name="tb03u" action="tb03u.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty tb03u.id ? tb03u.id : -1}" method="post" onSubmit="enable()">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />
@@ -559,7 +574,7 @@
 <td>${tb03u.anatomicalSite.displayString}</td>
 </tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:</td>
 <td>
 <select name="registrationGroup">
@@ -581,6 +596,16 @@
 </c:forEach>
 </select>
 </td>
+</tr> --%>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:</td>
+<td>${tb03u.registrationGroup.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.previousDrugClassification" text="Registration Group By Drug"/>:</td>
+<td>${tb03u.registrationGroupByDrug.displayString}</td>
 </tr>
 
 <tr>

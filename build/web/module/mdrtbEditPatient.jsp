@@ -415,6 +415,17 @@
 
 <tr height="5"><td colspan="2">&nbsp;</td></tr>
 
+<c:if test="${add ne '1' }">
+<tr>
+<th><spring:message code="general.createdBy"/></th>
+<td>${patient.personCreator.person.personName.fullName} - ${patient.personDateCreated}</td>
+</tr>
+<tr>
+<th><spring:message code="general.changedBy"/></th>
+<td>${patient.personChangedBy.person.personName.fullName} - ${patient.personDateChanged}</td>
+</tr>
+</c:if>
+
 <tr><td colspan="2">
 <button type="submit"><spring:message code="Patient.save" text="Save Patient"/></button>
 <button id="reset" type="reset"><spring:message code="general.cancel" text="Cancel"/></button></td></tr>
