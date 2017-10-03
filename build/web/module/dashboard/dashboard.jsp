@@ -929,6 +929,23 @@ ${regimen.displayString}
 </c:if>
 </div>
 </openmrs:hasPrivilege>
+
+
+
+
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.regimens" text="Regimens"/>
+</b>
+
+<div class="box" style="margin:0px;">
+<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+<a href="${pageContext.request.contextPath}/module/mdrtb/regimen/manageDrugOrders.form?patientProgramId=${program.id}&patientId=${patientId}"><spring:message code="mdrtb.manageRegimens" text="Manage Regimen"/></a>
+</openmrs:hasPrivilege>
+</div>
+
+
+
+
+
 </div>
 
 </div> <!-- end of page div -->

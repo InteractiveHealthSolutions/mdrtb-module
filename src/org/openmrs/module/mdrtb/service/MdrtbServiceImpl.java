@@ -2159,6 +2159,39 @@ public ArrayList<TB03uForm> getTB03uFormsFilled(ArrayList<Location> locList, Int
 	}
 //////////////////////////////////
 
+	public ArrayList<TB03uForm> getTB03uFormsFilledWithTxStartDateDuring(ArrayList<Location> locList, Integer year, String quarter, String month) {
+	
+	ArrayList<TB03uForm> forms = new ArrayList<TB03uForm>();
+	
+	
+	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+	Date startDate = (Date)(dateMap.get("startDate"));
+	Date endDate = (Date)(dateMap.get("endDate"));
+	
+	EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+	typeList.add(eType);
+			
+	
+	List<Encounter> temp = null;
+	for(Location l: locList) {
+		temp = Context.getEncounterService().getEncounters(null, l, null, null, null, typeList, null, false);
+		for(Encounter e : temp) {
+			
+			Obs o = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TREATMENT_START_DATE), e);
+			if(o!=null && o.getValueDatetime()!=null && (o.getValueDatetime().equals(startDate) || o.getValueDatetime().after(startDate)) && (o.getValueDatetime().equals(endDate) || o.getValueDatetime().before(endDate))) {
+				forms.add(new TB03uForm(e));
+			}
+		}
+		
+	}
+	
+	return forms;
+	
+	
+}
+
 public ArrayList<Form89> getForm89FormsFilledForPatientProgram(Patient p, Location location, Integer patProgId, Integer year, String quarter, String month) {
 	
 	ArrayList<Form89> forms = new ArrayList<Form89>();

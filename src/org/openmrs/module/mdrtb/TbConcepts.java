@@ -42,6 +42,8 @@ public class TbConcepts {
 	public final static String [] MOXIFLOXACIN = {"MOXIFLOXACIN"};
 	public final static String [] AMOXICILLIN_AND_LAVULANIC_ACID = {"AMOXICILLIN AND CLAVULANIC ACID"};
 	public final static String [] THIOACETAZONE = {"THIOACETAZONE"};
+	public final static String [] LINEZOLID = {"LINEZOLID"};
+	public final static String [] BEDAQUILINE = {"BEDAQUILINE"};
 	
 	public final static String [] QUINOLONES = {"QUINOLONES"};
 
@@ -263,10 +265,13 @@ public class TbConcepts {
  	public final static String[] MENTAL_DISORDER = {"MENTAL DISEASE"};
  	public final static String[] ICD20 = {"IBC 20.0"};
  	public final static String[] CANCER = {"CANCER"};
+ 	public final static String[] COMORBID_HEPATITIS = {"COMORBID HEPATITIS"};
+ 	public final static String[] KIDNEY_DISEASE = {"KIDNEY_DISEASE"};
  	public final static String[] NO_DISEASE = {"NO COMORBIDITY"};
  	public final static String[] OTHER_DISEASE = {"OTHER CONCOMITANT DISEASE"};
  	public final static String[] CMAC_DATE = {"CMAC DATE"};
  	public final static String[] CMAC_NUMBER = {"CMAC Number"};
+ 	public final static String[] PLACE_OF_ELECTORAL_COMMISSION = {"CMAC PLACE"};
  	public final static String[] GPT = {"GPT"};
  	public final static String[] FORM89_DATE = {"FORM89 DATE"};
  	public final static String [] AGE_AT_FORM89_REGISTRATION = {"FORM89 AGE"};
@@ -316,9 +321,13 @@ public class TbConcepts {
  	public final static String[] SELF_REFERRAL = {"HANDLING OF COMPLAINTS"};
  	public final static String[] BASELINE_EXAM= {"BASELINE EXAM"};
  	public final static String[] POSTMORTERM_IDENTIFICATION = {"POSTMORTERM IDENTIFICATION"};
- 	public final static String[] CONTACT  = {"CONTACT "};
- 	public final static String[] MIGRANT  = {"MIGRANT "};
+ 	public final static String[] CONTACT  = {"CONTACT"};
+ 	public final static String[] MIGRANT  = {"MIGRANT"};
+ 	public final static String[] COUNTRY_OF_ORIGIN = {"COUNTRY_OF_ORIGIN"};
+ 	public final static String[] CITY_OF_ORIGIN = {"CITY_OF_ORIGIN"};
+ 	public final static String[] DATE_OF_RETURN = {"DATE_OF_RETURN"};
  	
+
  	public final static String[] FLUOROGRAPHY = {"FLUOROGRAPHY"};
  	public final static String[] TUBERCULIN_TEST = {"TUBERCULIN TEST"};
  	public final static String[] ZIEHLNELSEN = {"ZIEHLNELSEN"};
@@ -328,6 +337,7 @@ public class TbConcepts {
  	public final static String[] GENEXPERT  = {"GENEXPERT"};
  	public final static String[] HAIN_TEST = {"HAIN TEST"};
  	public final static String[] CXR_RESULT = {"CXR RESULT"};
+ 	public final static String[] OTHER_METHOD_OF_DETECTION = {"OTHER METHOD OF DETECTION"};
  	
  	public final static String[] FOCAL  = {"FOCAL"};
  	public final static String[] INFILTRATIVE  = {"INFILTRATIVE"};
@@ -338,6 +348,7 @@ public class TbConcepts {
  	public final static String[] TB_PRIMARY_COMPLEX = {"TB PRIMARY COMPLEX"};
  	public final static String[] MILIARY = {"MILIARY"};
  	public final static String[] TUBERCULOMA  = {"TUBERCULOMA"};
+ 	public final static String[] BRONCHUS  = {"BRONHCUS"};
  	
  	public final static String[] PLEVRITIS = {"PLEVRITIS"};
  	public final static String[] OF_LYMPH_NODES = {"OF LYMPH NODES"};
@@ -348,6 +359,9 @@ public class TbConcepts {
  	public final static String[] TUBERCULODERMA = {"TUBERCULODERMA"};
  	public final static String[] OCULAR = {"OCULAR"};
  	public final static String[] OF_CNS = {"OF CNS"};
+ 	public final static String[] OF_LIVER = {"OF LIVER"};
+ 	
+ 	public final static String[] COMPLICATION = {"COMPLICATION"};
  	
  	
  	

@@ -917,7 +917,7 @@ ${regimen.displayString}
  <td><spring:message code="mdrtb.specimenCollection" text="SpecColl"/></td>
  <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
  <td>${form.location}</td>
- <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterTb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
+ <td><a href="${pageContext.request.contextPath}/module/mdrtb/regimen/addEncounterTb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
  </tr>
   
 </c:forEach>
@@ -927,6 +927,17 @@ ${regimen.displayString}
 </c:if>
 </div>
 </openmrs:hasPrivilege>
+
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.regimens" text="Regimens"/>
+</b>
+
+<div class="box" style="margin:0px;">
+<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+<a href="${pageContext.request.contextPath}/module/mdrtb/regimen/manageDrugOrders.form?patientProgramId=${program.id}&patientId=${patientId}"><spring:message code="mdrtb.manageRegimens" text="Manage Regimen"/></a>
+</openmrs:hasPrivilege>
+</div>
+
+
 </div>
 </div> <!-- end of page div -->
 

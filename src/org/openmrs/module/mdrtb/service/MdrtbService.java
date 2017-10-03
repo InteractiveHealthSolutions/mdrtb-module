@@ -700,6 +700,8 @@ public interface MdrtbService extends OpenmrsService {
 	public ArrayList<Location> getLocationList(Integer oblastId, Integer districtId, Integer facilityId);
 	
 	public PatientIdentifier getPatientIdentifierById(Integer id);
+	
+	public ArrayList<TB03uForm> getTB03uFormsFilledWithTxStartDateDuring(ArrayList<Location> locList, Integer year, String quarter, String month);
 }
 
 

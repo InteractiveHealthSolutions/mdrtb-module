@@ -9,7 +9,7 @@
 <openmrs:htmlInclude file="/moduleResources/mdrtb/drugOrders.css"/>
 
 <openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${patient.patientId}"/>
-<openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${patient.patientId}" parameters="patientProgramId=${patientProgramId}"/>
+<%-- <openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${patient.patientId}" parameters="patientProgramId=${patientProgramId}"/> --%>
 
 <script type="text/javascript">
 	$j(document).ready(function() {
