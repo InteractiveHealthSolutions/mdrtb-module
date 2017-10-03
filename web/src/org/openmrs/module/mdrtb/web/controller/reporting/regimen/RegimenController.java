@@ -1,9 +1,11 @@
 package org.openmrs.module.mdrtb.web.controller.reporting.regimen;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.model.Sheet;
 import org.apache.poi.hssf.model.Workbook;
@@ -157,14 +161,14 @@ public class RegimenController {
     
     @SuppressWarnings({ "deprecation", "unchecked" })
 	@RequestMapping(method=RequestMethod.POST, value="/module/mdrtb/reporting/regimen")
-    public static String doRegimen(
+    public static void doRegimen(
     		@RequestParam("district") Integer districtId,
     		@RequestParam("oblast") Integer oblastId,
     		@RequestParam("facility") Integer facilityId,
             @RequestParam(value="year", required=true) Integer year,
             @RequestParam(value="quarter", required=false) String quarter,
-            @RequestParam(value="month", required=false) String month,
-            ModelMap model) throws EvaluationException {
+            @RequestParam(value="month", required=false) String month, HttpServletResponse response,
+            ModelMap model) throws EvaluationException, IOException {
     	
     	
     	System.out.println("---POST-----");
@@ -440,7 +444,7 @@ public class RegimenController {
 		//TxStartDate
 		HSSFCell txStartHeaderCell =  headerRow.createCell((short) 2);
 		txStartHeaderCell.setCellStyle(headerStyle);
-		txStartHeaderCell.setCellValue(Context.getMessageSourceService().getMessage("mdrtb.tb03.treatmentStartDate"));
+		txStartHeaderCell.setCellValue(Context.getMessageSourceService().getMessage("mdrtb.sldreport.treatmentStartDate"));
 		
 		
 		//Cm
@@ -665,6 +669,9 @@ public class RegimenController {
     	palette.setColorAtIndex(HSSFColor.PALE_BLUE.index, (byte) 220, (byte) 230, (byte) 241);
     	palette.setColorAtIndex(HSSFColor.BLUE_GREY.index, (byte) 184, (byte) 204, (byte) 228);
     	
+    	
+        
+        
 
    	 // write the workbook to the output stream
    	 // close our file (don't blow out our file handles
@@ -675,8 +682,33 @@ public class RegimenController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+   	 
+   	File file = new File(System.getProperty("user.home") + File.separator + "regimenReport.xls") ;
+   	response.setContentType("application/vnd.ms-excel");
+	
+	String headerKey = "Content-Disposition";
+    String headerValue = String.format("attachment; filename=\"%s\"",
+            "regimenReport.xls");
+    response.setHeader(headerKey, headerValue);
+    response.setContentLength((int)file.length());
+    
+    FileInputStream inputStream = new FileInputStream(file);
+    
+	OutputStream outStream = response.getOutputStream();
+	byte[] buffer = new byte[4096];
+    int bytesRead = -1;
+
+    // write bytes read from the input stream into the output stream
+    while ((bytesRead = inputStream.read(buffer)) != -1) {
+        outStream.write(buffer, 0, bytesRead);
+    }
+
+    inputStream.close();
+    outStream.close();
+	file.delete();
+    
 		
-    	boolean reportStatus;
+    	/*boolean reportStatus;
     	
     	    	
     	reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "TB-03", "DOTSTB");
@@ -697,7 +729,7 @@ public class RegimenController {
 			model.addAttribute("quarter", "");
     	//model.addAttribute("reportDate", sdf.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
-    	return "/module/mdrtb/reporting/regimen";
+    	return "/module/mdrtb/reporting/regimen";*/
     }
     
     private static Short getColorIndex(String colorStr, HSSFWorkbook wb) {
