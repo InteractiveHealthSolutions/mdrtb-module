@@ -59,8 +59,17 @@ function fun1()
 	var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
 	
 	
-	if(val!="")
+	<c:if test="${not empty idId}">
+	if(val!="") {
 		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?ob="+val+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+	}
+	</c:if>
+	
+	<c:if test="${empty idId}">
+	if(val!="") {
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?ob="+val+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId})
+	}
+	</c:if>
 }
 
 function fun2()
@@ -75,14 +84,23 @@ function fun2()
 	var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
 	var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
 	
-	if(val2!="")
+	<c:if test="${not empty idId}">
+	if(val2!="") {
 		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?loc="+val2+"&ob="+val1+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+	}
+	</c:if>
+	
+	<c:if test="${empty idId}">
+	if(val2!="") {
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?loc="+val2+"&ob="+val1+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId})
+	}
+	</c:if>
 }
 
 </script>
 
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
 
 <br/><br/>

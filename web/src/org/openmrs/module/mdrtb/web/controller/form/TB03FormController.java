@@ -144,7 +144,7 @@ public class TB03FormController {
         	
         	//TB03Form tb03 = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
         	Location location  = tb03.getLocation();
-        	System.out.println("show:" + location.getDisplayString());
+        	
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
         	model.addAttribute("oblasts", oblasts);
         	for(Oblast o : oblasts) {

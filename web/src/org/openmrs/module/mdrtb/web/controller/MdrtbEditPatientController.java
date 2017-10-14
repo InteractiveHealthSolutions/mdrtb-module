@@ -266,6 +266,7 @@ public class MdrtbEditPatientController {
 	                		patientListItem.setIdentifier(((Patient) person).getPatientIdentifier(primaryIdentifier).getIdentifier());
 	                }
 					
+					
 					similarPatients.add(patientListItem);
 				}
 			}

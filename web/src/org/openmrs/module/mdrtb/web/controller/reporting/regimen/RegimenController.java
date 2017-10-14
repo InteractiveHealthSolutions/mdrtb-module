@@ -444,7 +444,7 @@ public class RegimenController {
 		//TxStartDate
 		HSSFCell txStartHeaderCell =  headerRow.createCell((short) 2);
 		txStartHeaderCell.setCellStyle(headerStyle);
-		txStartHeaderCell.setCellValue(Context.getMessageSourceService().getMessage("mdrtb.sldreport.treatmentStartDate"));
+		txStartHeaderCell.setCellValue(Context.getMessageSourceService().getMessage("mdrtb.sldreport..treatmentStartDate"));
 		
 		
 		//Cm
