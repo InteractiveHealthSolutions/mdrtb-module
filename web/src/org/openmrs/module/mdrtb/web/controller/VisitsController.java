@@ -61,7 +61,7 @@ public class VisitsController {
 		}
 		
 		// forward on to the main showVisits method to display the visits page
-		return showVisits(patientProgramId, patientId, map); 
+		return new ModelAndView("redirect:/module/mdrtb/program/enrollment.form?patientId="+patientId);
 	}
 										
 								

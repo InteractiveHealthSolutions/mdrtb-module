@@ -89,6 +89,7 @@ public class TB03uFormController {
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
 			form.setPatProgId(patientProgramId);
+			
 			if(tbProgram.getClassificationAccordingToPreviousTreatment()!=null)
 				form.setRegistrationGroup(tbProgram.getClassificationAccordingToPreviousTreatment().getConcept());
 			if(tbProgram.getClassificationAccordingToPreviousDrugUse()!=null)
