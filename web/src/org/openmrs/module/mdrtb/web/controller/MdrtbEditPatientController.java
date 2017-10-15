@@ -34,7 +34,11 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.PersonService.ATTR_VIEW_TYPE;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.ModuleFactory;
+import org.openmrs.module.mdrtb.Country;
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.validator.PatientValidator;
@@ -230,11 +234,155 @@ public class MdrtbEditPatientController {
 	                             @RequestParam(required = false, value="add") String add,
 	                             /*@RequestParam(required = false, value="ob") String oblast,
 	                             @RequestParam(required = false, value="c") String country,
-	                             @RequestParam(required = false, value="loc") String district,*/
+	                             @RequestParam(required = false, value="loc") String district,
+	                             */
 	                             @RequestParam(required = false, value="skipSimilarCheck") Boolean skipSimilarCheck,
 	                             ModelMap map) throws ParseException {
 		
 		System.out.println("Edit:show:add:" + add);
+		
+		/*List<Country> countries;
+		List<Oblast> oblasts;
+        List<Facility> facilities;
+        List<District> districts;
+		
+		 if(country==null)
+	      {
+			 countries = Context.getService(MdrtbService.class).getCountries();
+			 map.addAttribute("countries", countries);*/
+			
+			/*Oblast locOb = null;// = new Oblast();
+			District locDist = null; // = new District();
+			Facility locFac = null;// = new Facility();
+			PatientIdentifier pi = Context.getService(MdrtbService.class)
+					.getPatientIdentifierById(idId);
+			if (pi != null) {
+				prefix = pi.getIdentifier().substring(0, 2);
+				prefix = "(" + prefix + ")";
+				Location idLoc = null;
+				List<Location> locList = Context.getLocationService()
+						.getAllLocations(false);
+				for (Location l : locList) {
+					if (l.getName().trim().endsWith(prefix)) {
+						idLoc = l;
+						break;
+					}
+				}
+
+				if (idLoc != null) {
+					String obName = idLoc.getStateProvince();
+					List<Oblast> obList = Context
+							.getService(MdrtbService.class).getOblasts();
+					for (Oblast o : obList) {
+						if (obName != null && o.getName() != null
+								&& o.getName().equals(obName)) {
+							locOb = o;
+							break;
+						}
+					}
+
+					if (locOb != null && idLoc.getCountyDistrict() != null) {
+						List<District> distList = Context.getService(
+								MdrtbService.class).getDistricts(locOb.getId());
+						for (District d : distList) {
+							if (idLoc.getCountyDistrict().equals(d.getName())) {
+								locDist = d;
+								break;
+							}
+						}
+					}
+
+					if (locDist != null && idLoc.getRegion() != null) {
+						List<Facility> facList = Context.getService(
+								MdrtbService.class).getFacilities(
+								locDist.getId());
+						for (Facility f : facList) {
+							if (idLoc.getRegion().equals(f.getName())) {
+								locFac = f;
+								break;
+							}
+						}
+					}
+
+				}
+			}
+
+			if (locOb != null) {
+				oblasts = new ArrayList<Oblast>();
+				oblasts.add(locOb);
+				map.addAttribute("oblasts", oblasts);
+
+				if (locDist != null) {
+					districts = new ArrayList<District>();
+					districts.add(locDist);
+					map.addAttribute("districts", districts);
+
+					if (locFac != null) {
+						facilities = new ArrayList<Facility>();
+						facilities.add(locFac);
+						map.addAttribute("facilities", facilities);
+					}
+				}
+
+				else {
+					map.addAttribute(
+							"districts",
+							Context.getService(MdrtbService.class).getDistrict(
+									locOb.getId()));
+				}
+			}
+
+			else {
+				oblasts = Context.getService(MdrtbService.class).getOblasts();
+				map.addAttribute("oblasts", oblasts);
+			}
+
+		}*/
+	        	
+	        	
+	        	
+	        
+		 
+		 /*	else if(oblast==null) {
+		 		countries = Context.getService(MdrtbService.class).getCountries();
+		 		map.addAttribute("countrySelected", country);
+		 		oblasts = Context.getService(MdrtbService.class).getOblasts(Integer.parseInt(country));
+		 		
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("countries", countries);
+		 	}
+	        
+	       
+	        else if(district==null)
+	        { 
+	        	countries = Context.getService(MdrtbService.class).getCountries();
+		 		map.addAttribute("countrySelected", country);
+		 		oblasts = Context.getService(MdrtbService.class).getOblasts(Integer.parseInt(country));
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
+	        	map.addAttribute("oblastSelected", oblast);
+	        	
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            map.addAttribute("countries", countries);
+	            
+	        }
+	        else
+	        {
+	        	countries = Context.getService(MdrtbService.class).getCountries();
+		 		map.addAttribute("countrySelected", country);
+		 		oblasts = Context.getService(MdrtbService.class).getOblasts(Integer.parseInt(country));
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
+	        	facilities = Context.getService(MdrtbService.class).getRegFacilities(Integer.parseInt(district));
+	            map.addAttribute("oblastSelected", oblast);
+	           
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            map.addAttribute("districtSelected", district);
+	            map.addAttribute("facilities", facilities);
+	            map.addAttribute("countries", countries);
+	        }*/
+		
+		
 		// if we are dealing with a new patient (one with no id, or id=-1) we need to check for similar patients first
 		if ((skipSimilarCheck == null || !skipSimilarCheck) && (patientId == null || patientId == -1)) {
 			
@@ -284,6 +432,11 @@ public class MdrtbEditPatientController {
 				return new ModelAndView("/module/mdrtb/similarPatients");
 			}
 		}
+		 	map.put("addName", addName);
+			map.put("addBirthdate", addBirthdate);
+			map.put("addAge", addAge);
+			map.put("addGender", addGender);
+			map.put("add", add);
 		
 		// if no similar patients, show the edit page
 		map.put("add", add);
@@ -298,7 +451,9 @@ public class MdrtbEditPatientController {
 	                               @RequestParam(required = false, value = "identifierLocation") Location [] identifierLocation,
 	                               @RequestParam(required = false, value = "identifierType") PatientIdentifierType [] identifierType,
 	                               @RequestParam(required = false, value ="patientProgramId") Integer patientProgramId,
-	                               /*@RequestParam(required = false, value="country") Integer countryId,
+	                               /*@RequestParam(required = false, value ="givenName") String givenName,
+	                               @RequestParam(required = false, value ="familyName") String familyName,
+	                               @RequestParam(required = false, value="country") Integer countryId,
 	                               @RequestParam(required = false, value="oblast") Integer oblastId,
 	                               @RequestParam(required = true, value="district") Integer district,
 	                               @RequestParam(required = false, value="facility") Integer facilityId,

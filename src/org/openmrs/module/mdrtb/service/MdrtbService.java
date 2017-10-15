@@ -18,6 +18,7 @@ import org.openmrs.Person;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.mdrtb.Country;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
@@ -702,6 +703,9 @@ public interface MdrtbService extends OpenmrsService {
 	public PatientIdentifier getPatientIdentifierById(Integer id);
 	
 	public ArrayList<TB03uForm> getTB03uFormsFilledWithTxStartDateDuring(ArrayList<Location> locList, Integer year, String quarter, String month);
+	
+	public List<Country> getCountries();
+	public List<Oblast> getOblasts(int parentId);
 }
 
 

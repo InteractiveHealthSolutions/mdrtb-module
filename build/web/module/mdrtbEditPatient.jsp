@@ -28,6 +28,11 @@
 	var $j = jQuery.noConflict();	
 
 	$j(document).ready(function(){
+		
+	/* 	$('#country').val(${countrySelected});
+		$('#oblast').val(${oblastSelected});
+		$('#district').val(${districtSelected});
+		$('#facility').val(${facilitySelected}); */
 
 		// toggle the estimated checkbox
 		$j('#birthdateEstimatedCheckbox').click(function () {
@@ -77,59 +82,61 @@
 		
 
 	});
-	
-	function fun0()
+//http://localhost:8080/openmrs/module/mdrtb/mdrtbEditPatient.form?successURL=%2Fmodule%2Fmdrtb%2Fdashboard%2Ftbdashboard.form&addName=pata+chala&addBirthdate=&addAge=36&addGender=F&personType=patient&viewType=shortEdit&add=1	
+	/* function fun0()
 	{
 		var c = document.getElementById("country");
-		var val0 = c.options[e.selectedIndex].value;
-		var dt = "\"" + document.getElementById("dateEnrolled").value + "\"";
-		var patGroup = document.getElementById("classificationAccordingToPatientGroups");
-		var patGroupChoice = patGroup.options[patGroup.selectedIndex].value;
-		var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
-		var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
+		var val0 = c.options[c.selectedIndex].value;
 		
+		var url = "${pageContext.request.contextPath}/module/mdrtb/mdrtbEditPatient.form?";
 		
-		if(val!="")
-			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?ob="+val+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+		if(val0!="") {
+			url = url + "c="+val0;
+		}
+		
+		var givenName = document.getElementById("givenName").value;
+		var familyName = document.getElementById("familyName").value;
+		
+		if(givenName!="") {
+			url = url + "&givenName=" + givenName;
+		}
+		
+		if(familyName!="") {
+			url = url + "&familyName=" + familyName;
+		}
+			
+			
+		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/mdrtbEditPatient.form?c="+val0)
 	}
 	
 	
 	function fun1()
 	{
 		var c = document.getElementById("country");
-		var val0 = c.options[e.selectedIndex].value;
+		var val0 = c.options[c.selectedIndex].value;
 		var e = document.getElementById("oblast");
 		var val = e.options[e.selectedIndex].value;
-		var dt = "\"" + document.getElementById("dateEnrolled").value + "\"";
-		var patGroup = document.getElementById("classificationAccordingToPatientGroups");
-		var patGroupChoice = patGroup.options[patGroup.selectedIndex].value;
-		var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
-		var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
 		
-		
+
 		if(val!="")
-			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?ob="+val+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/mdrtbEditPatient.form?c="+val0 + "&ob="+val)
 	}
 
 	function fun2()
 	{
 		var c = document.getElementById("country");
-		var val0 = c.options[e.selectedIndex].value;
-		var e = document.getElementById("oblast");
-		var val1 = e.options[e.selectedIndex].value;
+		var val0 = c.options[c.selectedIndex].value;
+		var e1 = document.getElementById("oblast");
+		var val1 = e1.options[e1.selectedIndex].value;
 		var e = document.getElementById("district");
 		var val2 = e.options[e.selectedIndex].value;
-		var dt = "\"" + document.getElementById("dateEnrolled").value + "\"";
-		var patGroup = document.getElementById("classificationAccordingToPatientGroups");
-		var patGroupChoice = patGroup.options[patGroup.selectedIndex].value;
-		var drugGroup = document.getElementById("classificationAccordingToPreviousDrugUse");
-		var drugGroupChoice = drugGroup.options[drugGroup.selectedIndex].value;
 		
 		if(val2!="")
-			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?loc="+val2+"&ob="+val1+ "&dateEnrolled=" + dt + "&patGroup=" + patGroupChoice + "&drugGroup=" + drugGroupChoice + "&patientId="+${patientId} + "&idId=" + ${idId})
-	}
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/mdrtbEditPatient.form?loc="+val2+"&ob="+val1+ "&c=" + val0)
+	} */
 -->
 </script>
+
 <!-- END JQUERY -->
 
 <!-- START PAGE DIV -->
@@ -160,6 +167,15 @@
 <th style="headerCell">&nbsp;<!-- <spring:message code="mdrtb.name"/> --></th>
 <td>
 <table cellspacing="0" cellpadding="0" border="0">
+<!-- <tr>
+<td><spring:message code="mdrtb.familyName"/></td>
+<td><input type="text" name="familyName" id="familyName"></td>
+</tr>
+<tr>
+<td><spring:message code="mdrtb.givenName"/></td>
+<td><input type="text" name="givenName" id="givenName"></td>
+</tr> -->
+
 <openmrs:portlet url="nameLayout" id="namePortlet" size="columnHeaders" parameters="layoutShowTable=false|layoutShowExtended=false" /></td>
 <spring:nestedPath path="patient.personName">
 <openmrs:portlet url="nameLayout" id="namePortlet" size="inOneRow" parameters="layoutMode=edit|layoutShowTable=false|layoutShowExtended=false" />
@@ -286,7 +302,7 @@
 						<option value="${c.id}" >${c.name}</option>
 					</c:forEach>
 			</select></td>
-			<td><input type="text" name="otherCountry" id="otherCountry"></td>
+			<!-- <td><input type="text" name="otherCountry" id="otherCountry"></td> -->
 		</tr>
 
 
@@ -298,7 +314,7 @@
 						<option value="${o.id}" >${o.name}</option>
 					</c:forEach>
 			</select></td>
-			<td><input type="text" name="otherOblast" id="otherOblast"></td>
+			<!-- <td><input type="text" name="otherOblast" id="otherOblast"></td> -->
 		</tr>
 		
 		<tr id="districtDiv">
@@ -309,7 +325,7 @@
 						<option value="${dist.id}" >${dist.name}</option>
 					</c:forEach>
 			</select></td>
-			<td><input type="text" name="otherDistrict" id="otherDistrict"></td>
+			<!-- <td><input type="text" name="otherDistrict" id="otherDistrict"></td> -->
 		</tr>
 		
 		<tr id="facilityDiv">
@@ -321,7 +337,7 @@
 					</c:forEach>
 			</select>
 			</td>
-			<td><input type="text" name="otherFacility" id="otherFacility"></td>
+			<!-- <td><input type="text" name="otherFacility" id="otherFacility"></td> -->
 		</tr>
 		<tr>
 			<td align="left"><spring:message code="mdrtb.address1" /></td>

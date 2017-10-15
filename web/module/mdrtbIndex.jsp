@@ -160,6 +160,7 @@
 					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS08TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport08" /></a><br/> -->
 					<a href="../mdrtb/reporting/tb08.form"><spring:message code="mdrtb.dotsreport08" /></a><br/>
 					<a href="../mdrtb/reporting/tb03.form"><spring:message code="dotsreports.tb03Export" /></a><br/>
+					<a href="../mdrtb/reporting/tb03Single.form"><spring:message code="mdrtb.tb03ExportSingleLine" /></a><br/>
 					<a href="../mdrtb/reporting/dotsdq.form"><spring:message code="dotsreports.dq.title" /></a><br/>
 								
 				</td></tr>

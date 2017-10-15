@@ -489,6 +489,11 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.otherCauseOfDeath" text="Other Cause of Death"/>:</td>
+<td>${tb03.otherCauseOfDeath}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.tb03.afterOutcomeDeathDate" text="Date of Death after Outcome"/>:</td>
 <td><openmrs:formatDate date="${tb03.dateOfDeathAfterOutcome}"  format="${_dateFormatDisplay}"/></td>
 </tr>

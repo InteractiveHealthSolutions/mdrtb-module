@@ -40,6 +40,7 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.addresshierarchy.AddressHierarchyEntry;
 import org.openmrs.module.addresshierarchy.AddressHierarchyLevel;
 import org.openmrs.module.addresshierarchy.service.AddressHierarchyService;
+import org.openmrs.module.mdrtb.Country;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.Oblast;
@@ -2569,6 +2570,34 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 	        district = new District(name, id);
 	        break;  
   */
-    
+	public List<Country> getCountries() {
+		ArrayList<Country> ret = new ArrayList<Country>(); 
+		//List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2", true);
+		AddressHierarchyLevel countryLevel = new AddressHierarchyLevel();
+		countryLevel.setLevelId(1);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(countryLevel);
+				
+		for (AddressHierarchyEntry add : list) {
+				Integer id = add.getId();
+				String name = add.getName();
+					
+			    ret.add(new Country(name, id));
+		}
+		return ret;
+	}
+	
+	public List<Oblast> getOblasts(int parentId) {
+		ArrayList<Oblast> ret = new ArrayList<Oblast>();
+		
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			ret.add(new Oblast(name, id));
+	    }
+		
+		return ret;
+	}
 
 }
