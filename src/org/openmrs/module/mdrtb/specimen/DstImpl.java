@@ -15,6 +15,7 @@ import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 /**
@@ -357,6 +358,71 @@ public class DstImpl extends TestImpl implements Dst {
 		
 		return results;
 	}
+    
+    public String getResistantDrugs() {
+    	//String ret = "";
+    	
+    	String results = "";
+		Map<Integer, List<DstResult>> dstResultsMap = getResultsMap();
+		//System.out.println("MAP SIZE=" + dstResultsMap.size());
+		Collection<Concept> drugs = getPossibleDrugTypes();
+	//	System.out.println("DRUG SIZE=" + drugs.size());
+		
+		for(Concept drug : drugs) {
+			if(dstResultsMap.get(drug.getId())!=null) {
+				
+				for(DstResult result : dstResultsMap.get(drug.getId())) {
+					if(result.getResult().getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.RESISTANT_TO_TB_DRUG).getId().intValue()) {					
+						results += result.getDrug().getName().getShortName() + ",";
+				
+					}
+				}
+			}
+		}
+		
+		if(results.length()==0) {
+			results = "N/A";
+		}
+		else {
+			results = results.substring(0,results.length()-1);
+		}
+    	
+    	
+    	return results;
+    }
+    
+    public String getSensitiveDrugs() {
+
+    	String results = "";
+		Map<Integer, List<DstResult>> dstResultsMap = getResultsMap();
+		//System.out.println("MAP SIZE=" + dstResultsMap.size());
+		Collection<Concept> drugs = getPossibleDrugTypes();
+	//	System.out.println("DRUG SIZE=" + drugs.size());
+		
+		for(Concept drug : drugs) {
+			if(dstResultsMap.get(drug.getId())!=null) {
+				
+				for(DstResult result : dstResultsMap.get(drug.getId())) {
+					if(result.getResult().getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.SUSCEPTIBLE_TO_TB_DRUG).getId().intValue()) {					
+						results += result.getDrug().getName().getShortName() + ",";
+				
+					}
+				}
+			}
+		}
+		
+		if(results.length()==0) {
+			results = "N/A";
+		}
+		else {
+			results = results.substring(0,results.length()-1);
+		}
+    	
+    	
+    	return results;
+    }
+    
+    
 
     public Collection<Concept> getPossibleDrugTypes() {
     	return Context.getService(MdrtbService.class).getMdrtbDrugs();
