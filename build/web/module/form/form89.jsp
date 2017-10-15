@@ -20,6 +20,9 @@
 		$j('#edit').click(function(){
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
+			cooToggle();
+			codToggle();
+			modToggle();
 		});
 
 		$j('#cancel').click(function(){
@@ -49,8 +52,79 @@
 		
 	});
 	
-	function enable() {
+	function cooToggle () {
 		
+		var statusBox = document.getElementById('populationCategory');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideCoo(choice);
+	}
+	
+	function showHideCoo(val) {
+
+       	
+       	if(val==341) {
+       		
+       		document.getElementById('countryOfOrigin').disabled = false;
+       		
+       		
+       	}
+       	else {
+       		    $j('#countryOfOrigin').val("");
+        		document.getElementById('countryOfOrigin').disabled = true;
+
+       	}
+     }
+
+	function codToggle () {
+		
+		var statusBox = document.getElementById('circumstancesOfDetection');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideCityDate(choice);
+	}
+	
+	function showHideCityDate(val) {
+
+       	
+       	if(val==356) {
+       		
+       		document.getElementById('cityOfOrigin').disabled = false;
+       		document.getElementById('dateOfReturn').disabled = false;
+       		
+       		
+       	}
+       	else {
+       		    $j('#cityOfOrigin').val("");
+        		document.getElementById('cityOfOrigin').disabled = true;
+        		$j('#dateOfReturn').val("");
+        		document.getElementById('dateOfReturn').disabled = true;
+
+       	}
+     }
+	
+	function modToggle () {
+		
+		var statusBox = document.getElementById('methodOfDetection');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideOtherMod(choice);
+	}
+	
+	function showHideOtherMod(val) {
+
+       	
+       	if(val==19) {
+       		
+       		document.getElementById('otherMethodOfDetection').disabled = false;
+       		
+       		
+       	}
+       	else {
+       		    $j('#otherMethodOfDetection').val("");
+        		document.getElementById('otherMethodOfDetection').disabled = true;
+
+       	}
+     }
+	
+	function enable() {
 		
 		$('#oblast').prop('disabled',false);
 		$('#district').prop('disabled',false);
@@ -139,7 +213,7 @@
 <table>
  
 <tr>
-<td><spring:message code="mdrtb.registrationDate" text="Date"/>:</td>
+<td><spring:message code="mdrtb.form89.registrationDate" text="Date"/>:</td>
 <td><openmrs:formatDate date="${form89.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 </tr>
 
@@ -222,6 +296,11 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.form89.countryOfOrigin" text="countryOfOrigin"/>:</td>
+<td>${form89.countryOfOrigin }</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.form89.placeOfDetection" text="DetPlace"/>:</td>
 <td>${form89.placeOfDetection.displayString }</td>
 </tr>
@@ -237,8 +316,23 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.form89.cityOfOrigin" text="cityOfOrigin"/>:</td>
+<td>${form89.cityOfOrigin }</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.dateOfReturn" text="dateOfReturn"/>:</td>
+<td><openmrs:formatDate date="${form89.dateOfReturn}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.form89.methodOfDetection" text="mDet"/>:</td>
 <td>${form89.methodOfDetection.displayString }</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.otherMethodOfDetection" text="mDet"/>:</td>
+<td>${form89.otherMethodOfDetection}</td>
 </tr>
 
 <tr>
@@ -275,6 +369,11 @@
 <tr>
 <td><spring:message code="mdrtb.form89.dateOfDecaySurvey" text="dateOfDecaySurvey"/>:</td>
 <td><openmrs:formatDate date="${form89.dateOfDecaySurvey}" format="${_dateFormatDisplay}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.complication" text="mDet"/>:</td>
+<td>${form89.complication}</td>
 </tr>
 
 </table>
@@ -408,6 +507,17 @@
 <td>${form89.cancer.displayString}</td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.form89.hepatitis" text="hepatitis"/>:</td>
+<td>${form89.hepatitis.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.kidneyDisease" text="kidneyDisease"/>:</td>
+<td>${form89.kidneyDisease.displayString}</td>
+</tr>
+
+
 <%-- <tr>
 <td><spring:message code="mdrtb.form89.noDisease" text="noDisease"/>:</td>
 <td>${form89.noDisease.displayString}</td>
@@ -437,6 +547,11 @@
 <tr>
 <td><spring:message code="mdrtb.form89.prescribedTreatment" text="prescribedTreatment"/>:</td>
 <td>${form89.prescribedTreatment.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.placeOfCommission" text="placeOfCommission"/>:</td>
+<td>${form89.placeOfCommission.displayString}</td>
 </tr>
 
 <tr>
@@ -482,7 +597,7 @@
 <table>
  
 <tr>
-<td><spring:message code="mdrtb.registrationDate" text="Date"/>:</td>
+<td><spring:message code="mdrtb.form89.registrationDate" text="Date"/>:</td>
 <td><openmrs_tag:dateField formFieldName="encounterDatetime" startValue="${form89.encounterDatetime}"/></td>
 </tr>
 
@@ -609,14 +724,20 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.form89.populationCategory" text="PopCat"/>:</td>
-<td><select name="populationCategory">
+<td><spring:message code="mdrtb.form89.populationCategory" text="PopCat" />:</td>
+<td><select name="populationCategory" id="populationCategory" onChange="cooToggle()">
 <option value=""></option>
 <c:forEach var="cat" items="${populationcategories}">
 	<option value="${cat.answerConcept.id}" <c:if test="${form89.populationCategory == cat.answerConcept}">selected</c:if> >${cat.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
+</tr>
+
+
+<tr>
+<td><spring:message code="mdrtb.form89.countryOfOrigin" text="countryOfOrigin"/>:</td>
+<td><input name="countryOfOrigin" id="countryOfOrigin" size="30" value="${form89.countryOfOrigin}"/></td>
 </tr>
 
 <tr>
@@ -637,7 +758,7 @@
 
 <tr>
 <td><spring:message code="mdrtb.form89.circumstancesOfDetection" text="CPlace"/>:</td>
-<td><select name="circumstancesOfDetection">
+<td><select name="circumstancesOfDetection" id="circumstancesOfDetection" onChange="codToggle()">
 <option value=""></option>
 <c:forEach var="p" items="${circumstances}">
 	<option value="${p.answerConcept.id}" <c:if test="${form89.circumstancesOfDetection == p.answerConcept}">selected</c:if> >${p.answerConcept.displayString}</option>
@@ -647,14 +768,29 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.form89.cityOfOrigin" text="cityOfOrigin"/>:</td>
+<td><input name="cityOfOrigin" id="cityOfOrigin" size="30" value="${form89.cityOfOrigin}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.dateOfReturn" text="dateOfReturn"/>:</td>
+<td><openmrs_tag:dateField formFieldName="dateOfReturn" startValue="${form89.dateOfReturn}"/></td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.form89.methodOfDetection" text="mDet"/>:</td>
-<td><select name="methodOfDetection">
+<td><select name="methodOfDetection" id="methodOfDetection" onChange="modToggle()">
 <option value=""></option>
 <c:forEach var="p" items="${methods}">
 	<option value="${p.answerConcept.id}" <c:if test="${form89.methodOfDetection == p.answerConcept}">selected</c:if> >${p.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.otherMethodOfDetection" text="otherMethodOfDetection"/>:</td>
+<td><input name="otherMethodOfDetection" id="otherMethodOfDetection" size="30" value="${form89.otherMethodOfDetection}"/></td>
 </tr>
 
 <tr>
@@ -713,9 +849,16 @@
 </td>
 </tr>
 
+
+
 <tr>
 <td><spring:message code="mdrtb.form89.dateOfDecaySurvey" text="dateOfDecaySurvey"/>:</td>
 <td><openmrs_tag:dateField formFieldName="dateOfDecaySurvey" startValue="${form89.dateOfDecaySurvey}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.complication" text="complication"/>:</td>
+<td><input name="complication" id="complication" size="45" value="${form89.complication}"/></td>
 </tr>
 
 </table>
@@ -803,6 +946,28 @@
 </td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.form89.hepatitis" text="hepatitis"/>:</td>
+<td><select name="hepatitis">
+<option value=""></option>
+<c:forEach var="p" items="${hepatitisOptions}">
+	<option value="${p.answerConcept.id}" <c:if test="${form89.hepatitis == p.answerConcept}">selected</c:if> >${p.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.kidneyDisease" text="kidneyDisease"/>:</td>
+<td><select name="kidneyDisease">
+<option value=""></option>
+<c:forEach var="p" items="${kidneyDiseaseOptions}">
+	<option value="${p.answerConcept.id}" <c:if test="${form89.kidneyDisease == p.answerConcept}">selected</c:if> >${p.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
 <%-- <tr>
 <td><spring:message code="mdrtb.form89.noDisease" text="noDisease"/>:</td>
 <td><select name="noDisease">
@@ -841,6 +1006,17 @@
 <option value=""></option>
 <c:forEach var="p" items="${gptOptions}">
 	<option value="${p.answerConcept.id}" <c:if test="${form89.prescribedTreatment == p.answerConcept}">selected</c:if> >${p.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.form89.placeOfCommission" text="placeOfCommission"/>:</td>
+<td><select name="placeOfCommission">
+<option value=""></option>
+<c:forEach var="p" items="${cecOptions}">
+	<option value="${p.answerConcept.id}" <c:if test="${form89.placeOfCommission == p.answerConcept}">selected</c:if> >${p.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>

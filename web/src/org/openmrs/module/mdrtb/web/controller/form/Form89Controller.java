@@ -249,6 +249,26 @@ public class Form89Controller {
 			form89.setLocation(location);
 		}
 		
+		if(form89.getPopulationCategory()!=null && form89.getPopulationCategory().getId().intValue()!=Context.getService(MdrtbService.class).getConcept(TbConcepts.FOREIGNER).getId().intValue()) {
+			
+			System.out.println("Setting null");
+			form89.setCountryOfOrigin(null);
+		}
+		
+		if(form89.getCircumstancesOfDetection()!=null && form89.getCircumstancesOfDetection().getId().intValue()!=Context.getService(MdrtbService.class).getConcept(TbConcepts.MIGRANT).getId().intValue()) {
+			
+			System.out.println("Setting null");
+			form89.setCityOfOrigin(null);
+			form89.setDateOfReturn(null);
+		}
+		
+		if(form89.getMethodOfDetection()!=null && form89.getMethodOfDetection().getId().intValue()!=Context.getService(MdrtbService.class).getConcept(TbConcepts.OTHER).getId().intValue()) {
+			
+			System.out.println("Setting null");
+			form89.setOtherMethodOfDetection(null);
+			
+		}
+		
 		// save the actual update
 		Context.getEncounterService().saveEncounter(form89.getEncounter());
 		
@@ -437,6 +457,16 @@ public class Form89Controller {
 		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.CANCER);
 	}
 	
+	@ModelAttribute("hepatitisOptions")
+	public Collection<ConceptAnswer> getPossibleHepatitis() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.COMORBID_HEPATITIS);
+	}
+	
+	@ModelAttribute("kidneyDiseaseOptions")
+	public Collection<ConceptAnswer> getPossibleKidneyDisease() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.KIDNEY_DISEASE);
+	}
+	
 	@ModelAttribute("noDiseaseOptions")
 	public Collection<ConceptAnswer> getPossibleND() {
 		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.NO_DISEASE);
@@ -447,5 +477,10 @@ public class Form89Controller {
 	@ModelAttribute("gptOptions")
 	public Collection<ConceptAnswer> getPossibleGPT() {
 		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.GPT);
+	}
+	
+	@ModelAttribute("cecOptions")
+	public Collection<ConceptAnswer> getPossibleCMACPlace() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.PLACE_OF_ELECTORAL_COMMISSION);
 	}
 }

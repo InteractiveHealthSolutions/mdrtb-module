@@ -288,6 +288,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 
 <c:forEach var="dst" items="${tb03u.dsts}">
@@ -296,6 +297,7 @@
 <td>${dst.di.resultsString }</td>
 <td><openmrs:formatDate date="${dst.encounter.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${dst.encounter.location.displayString}
+<td>${dst.specimenId}
 </c:forEach>
 </tr>
 </table>
@@ -347,6 +349,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 <c:forEach var="smear" items="${tb03u.smears}">
 <tr>
@@ -354,6 +357,7 @@
 <td>${smear.smearResult.displayString }</td>
 <td><openmrs:formatDate date="${smear.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${smear.location.displayString}
+<td>${smear.specimenId}
 </c:forEach>
 </tr>
 </table>
@@ -367,6 +371,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 
 <c:forEach var="culture" items="${tb03u.cultures}">
@@ -375,6 +380,7 @@
 <td>${culture.cultureResult.displayString }</td>
 <td><openmrs:formatDate date="${culture.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${culture.location.displayString}
+<td>${culture.specimenId}
 </c:forEach>
 </tr>
 </table>

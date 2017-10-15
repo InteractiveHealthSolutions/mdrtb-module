@@ -88,6 +88,7 @@ public class TB03uFormController {
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
+			form.setPatProgId(patientProgramId);
 			if(tbProgram.getClassificationAccordingToPreviousTreatment()!=null)
 				form.setRegistrationGroup(tbProgram.getClassificationAccordingToPreviousTreatment().getConcept());
 			if(tbProgram.getClassificationAccordingToPreviousDrugUse()!=null)

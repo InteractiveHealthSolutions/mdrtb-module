@@ -21,6 +21,7 @@
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
 			hivToggle();
+			codToggle()
 		});
 
 		$j('#cancel').click(function(){
@@ -75,6 +76,31 @@
        		 	$j('#pctStartDate').val("");
        		 	document.getElementById('artStartDate').disabled = true;
         		document.getElementById('pctStartDate').disabled = true;
+       	      
+       	   		//set values of dates to ""
+       	}
+     }
+	
+	function codToggle () {
+		
+		var statusBox = document.getElementById('causeOfDeath');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideOtherCod(choice);
+	}
+	
+	function showHideOtherCod(val) {
+		
+		
+       	
+       	if(val==291) {
+       		
+       		document.getElementById('otherCauseOfDeath').disabled = false;
+       		
+       	}
+       	else {
+       		    $j('#otherCauseOfDeath').val("");
+       		 	
+       		 	document.getElementById('otherCauseOfDeath').disabled = true;
        	      
        	   		//set values of dates to ""
        	}
@@ -313,6 +339,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 <c:forEach var="smear" items="${tb03.smears}">
 <tr>
@@ -320,6 +347,7 @@
 <td>${smear.smearResult.displayString }</td>
 <td><openmrs:formatDate date="${smear.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${smear.location.displayString}
+<td>${smear.specimenId}
 </c:forEach>
 </tr>
 </table>
@@ -333,6 +361,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 
 <c:forEach var="xpert" items="${tb03.xperts}">
@@ -341,6 +370,7 @@
 <td>${xpert.mtbResult.displayString }/RIF: ${xpert.rifResult.displayString }</td>
 <td><openmrs:formatDate date="${xpert.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${xpert.location.displayString}
+<td>${xpert.specimenId}
 </c:forEach>
 </tr>
 </table>
@@ -354,6 +384,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 
 <c:forEach var="hain" items="${tb03.hains}">
@@ -362,6 +393,7 @@
 <td>${hain.mtbResult.displayString }/RIF: ${hain.rifResult.displayString }/ INH: ${hain.inhResult.displayString }</td>
 <td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain.location.displayString}
+<td>${hain.specimenId}
 </c:forEach>
 </tr>
 </table>
@@ -375,6 +407,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 
 <c:forEach var="hain2" items="${tb03.hain2s}">
@@ -383,6 +416,7 @@
 <td>${hain2.mtbResult.displayString }/FQ: ${hain2.fqResult.displayString }/ INJ: ${hain2.injResult.displayString }</td>
 <td><openmrs:formatDate date="${hain2.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain2.location.displayString}
+<td>${hain2.specimenId}
 </c:forEach>
 </tr>
 </table>
@@ -396,6 +430,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 
 <c:forEach var="culture" items="${tb03.cultures}">
@@ -404,6 +439,7 @@
 <td>${culture.cultureResult.displayString }</td>
 <td><openmrs:formatDate date="${culture.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${culture.location.displayString}
+<td>${culture.specimenId}
 </c:forEach>
 </tr>
 </table>
@@ -417,6 +453,7 @@
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
 </tr>
 
 <c:forEach var="dst" items="${tb03.dsts}">
@@ -425,6 +462,7 @@
 <td>${dst.di.resultsString }</td>
 <td><openmrs:formatDate date="${dst.encounter.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${dst.encounter.location.displayString}
+<td>${dst.specimenId}
 </c:forEach>
 </tr>
 </table>
@@ -769,13 +807,18 @@
 <tr>
 <td><spring:message code="mdrtb.causeOfDeath" text="Cause of Death"/>:</td>
 <td>
-<select name="causeOfDeath">
+<select name="causeOfDeath" id="causeOfDeath" onChange="codToggle()">
 <option value=""></option>
 <c:forEach var="type" items="${causes}">
 	<option value="${type.answerConcept.id}" <c:if test="${tb03.causeOfDeath == type.answerConcept}">selected</c:if> >${type.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.otherCauseOfDeath" text="Other Cause of Death"/>:</td>
+<td><input name="otherCauseOfDeath" id="otherCauseOfDeath" size="15" value="${tb03.otherCauseOfDeath}"/></td>
 </tr>
 
 <tr>

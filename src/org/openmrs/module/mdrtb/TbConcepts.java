@@ -266,7 +266,7 @@ public class TbConcepts {
  	public final static String[] ICD20 = {"IBC 20.0"};
  	public final static String[] CANCER = {"CANCER"};
  	public final static String[] COMORBID_HEPATITIS = {"COMORBID HEPATITIS"};
- 	public final static String[] KIDNEY_DISEASE = {"KIDNEY_DISEASE"};
+ 	public final static String[] KIDNEY_DISEASE = {"KIDNEY DISEASE"};
  	public final static String[] NO_DISEASE = {"NO COMORBIDITY"};
  	public final static String[] OTHER_DISEASE = {"OTHER CONCOMITANT DISEASE"};
  	public final static String[] CMAC_DATE = {"CMAC DATE"};
@@ -323,9 +323,9 @@ public class TbConcepts {
  	public final static String[] POSTMORTERM_IDENTIFICATION = {"POSTMORTERM IDENTIFICATION"};
  	public final static String[] CONTACT  = {"CONTACT"};
  	public final static String[] MIGRANT  = {"MIGRANT"};
- 	public final static String[] COUNTRY_OF_ORIGIN = {"COUNTRY_OF_ORIGIN"};
- 	public final static String[] CITY_OF_ORIGIN = {"CITY_OF_ORIGIN"};
- 	public final static String[] DATE_OF_RETURN = {"DATE_OF_RETURN"};
+ 	public final static String[] COUNTRY_OF_ORIGIN = {"COUNTRY OF ORIGIN"};
+ 	public final static String[] CITY_OF_ORIGIN = {"CITY OF ORIGIN"};
+ 	public final static String[] DATE_OF_RETURN = {"DATE OF RETURN"};
  	
 
  	public final static String[] FLUOROGRAPHY = {"FLUOROGRAPHY"};
@@ -362,6 +362,7 @@ public class TbConcepts {
  	public final static String[] OF_LIVER = {"OF LIVER"};
  	
  	public final static String[] COMPLICATION = {"COMPLICATION"};
+ 	public final static String[] OTHER_CAUSE_OF_DEATH = {"OTHER CAUSE OF DEATH"};
  	
  	
  	

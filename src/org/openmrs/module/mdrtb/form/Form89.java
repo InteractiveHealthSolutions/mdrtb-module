@@ -352,6 +352,8 @@ public class Form89 extends AbstractSimpleForm {
 	}///////////
 	
 	
+	
+	
 	public Concept getPlaceOfDetection() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PLACE_OF_DETECTION), encounter);
 		
@@ -1044,7 +1046,7 @@ public class Form89 extends AbstractSimpleForm {
 		}
 	}
 	
-	public void setKidneyDisesase(Concept site) {
+	public void setKidneyDisease(Concept site) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.KIDNEY_DISEASE), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -1574,28 +1576,28 @@ public class Form89 extends AbstractSimpleForm {
 		} 
 	}
 	
-	public String getCECPlace() {
+	public Concept getPlaceOfCommission() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PLACE_OF_ELECTORAL_COMMISSION), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
-			return obs.getValueText();
+			return obs.getValueCoded();
 		}
 		
 	}
 	
-	public void setCECPlace(String name) {
+	public void setPlaceOfCommission(Concept place) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PLACE_OF_ELECTORAL_COMMISSION), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
-		if (obs == null && name == null) {
+		if (obs == null && place == null) {
 			return;
 		}
 		
 		// we only need to update this if this is a new obs or if the value has changed.
-		if (obs == null || obs.getValueText() == null || !obs.getValueText().equals(name)) {
+		if (obs == null || obs.getValueCoded() == null || !obs.getValueCoded().equals(place)) {
 			
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
@@ -1605,9 +1607,9 @@ public class Form89 extends AbstractSimpleForm {
 			}
 				
 			// now create the new Obs and add it to the encounter	
-			if(name != null) {
+			if(place != null) {
 				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PLACE_OF_ELECTORAL_COMMISSION), encounter.getEncounterDatetime(), encounter.getLocation());
-				obs.setValueText(name);
+				obs.setValueCoded(place);
 				encounter.addObs(obs);
 			}
 		} 

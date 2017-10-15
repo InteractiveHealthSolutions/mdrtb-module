@@ -89,11 +89,17 @@ public class TB03FormController {
 			// prepopulate the intake form with any program information
 			form.setEncounterDatetime(tbProgram.getDateEnrolled());
 			form.setLocation(tbProgram.getLocation());
+			form.setPatProgId(patientProgramId);
 			
-			if(tbProgram.getClassificationAccordingToPatientGroups()!=null)
+			if(tbProgram.getClassificationAccordingToPatientGroups()!=null) {
+				System.out.println("NOT NULL P");
 				form.setRegistrationGroup(tbProgram.getClassificationAccordingToPatientGroups().getConcept());
-			if(tbProgram.getClassificationAccordingToPreviousDrugUse()!=null)
+			}
+				
+			if(tbProgram.getClassificationAccordingToPreviousDrugUse()!=null) {
+				System.out.println("NOT NULL P2");
 				form.setRegistrationGroupByDrug(tbProgram.getClassificationAccordingToPreviousDrugUse().getConcept());
+			}
 			
 			return form;
 		}
@@ -250,6 +256,13 @@ public class TB03FormController {
 			tb03.setLocation(location);
 		}
     	
+		if(tb03.getCauseOfDeath()!=null && tb03.getCauseOfDeath().getId().intValue()!=Context.getService(MdrtbService.class).getConcept(TbConcepts.DEATH_BY_OTHER_DISEASES).getId().intValue()) {
+			
+			System.out.println("Setting null");
+			tb03.setOtherCauseOfDeath(null);
+			
+		}
+		
     	
     	// save the actual update
 		Context.getEncounterService().saveEncounter(tb03.getEncounter());
