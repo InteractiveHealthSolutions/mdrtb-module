@@ -285,7 +285,7 @@
 <table border="1">
 <tr>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
-<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold" colspan="2" align="center"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
@@ -293,13 +293,19 @@
 
 <c:forEach var="dst" items="${tb03u.dsts}">
 <tr>
-<td>${dst.monthOfTreatment }</td>
-<td>${dst.di.resultsString }</td>
-<td><openmrs:formatDate date="${dst.encounter.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
-<td>${dst.encounter.location.displayString}
-<td>${dst.specimenId}
-</c:forEach>
+<td rowspan="2" valign="middle" align="center">${dst.monthOfTreatment }</td>
+<td><spring:message code="mdrtb.resistant"/></td>
+<td>${dst.di.resistantDrugs}</td>
+<td rowspan="2" valign="middle" align="center"><openmrs:formatDate date="${dst.encounter.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td rowspan="2" valign="middle" align="center">${dst.encounter.location.displayString}</td>
+<td rowspan="2" valign="middle" align="center"><a href="${pageContext.request.contextPath}/module/mdrtb/form/dst.form?encounterId=${dst.id}&patientProgramId=${patientProgramId}" target="_blank">${dst.specimenId}</a></td>
 </tr>
+<tr>
+<td><spring:message code="mdrtb.sensitive"/></td>
+<td>${dst.di.sensitiveDrugs}</td>
+</tr>
+</c:forEach>
+
 </table>
 
 <br/>
@@ -356,8 +362,8 @@
 <td>${smear.monthOfTreatment }</td>
 <td>${smear.smearResult.displayString }</td>
 <td><openmrs:formatDate date="${smear.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
-<td>${smear.location.displayString}
-<td>${smear.specimenId}
+<td>${smear.location.displayString}</td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/smear.form?encounterId=${smear.id}&patientProgramId=${patientProgramId}" target="_blank">${smear.specimenId}</a></td>
 </c:forEach>
 </tr>
 </table>
@@ -379,8 +385,8 @@
 <td>${culture.monthOfTreatment }</td>
 <td>${culture.cultureResult.displayString }</td>
 <td><openmrs:formatDate date="${culture.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
-<td>${culture.location.displayString}
-<td>${culture.specimenId}
+<td>${culture.location.displayString}</td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/culture.form?encounterId=${culture.id}&patientProgramId=${patientProgramId}" target="_blank">${culture.specimenId}</a></td>
 </c:forEach>
 </tr>
 </table>

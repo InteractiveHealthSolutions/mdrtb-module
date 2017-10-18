@@ -630,6 +630,42 @@ public class PatientListContoller {
 		report += closeTable();
 
 		report += "<br/>";
+		
+		// TDR
+				q = ms.getConcept(MdrtbConcepts.TDR_TB);
+				report += "<h4>" + q.getName().getName() + "</h4>";
+				report += openTable();
+				report += openTR();
+				report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+						+ closeTD();
+				report += openTD() + getMessage("mdrtb.name") + closeTD();
+				report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
+				report += openTD() + "" + closeTD();
+				report += closeTR();
+
+				temp = null;
+				p = null;
+				for (TB03Form tf : tb03s) {
+					temp = MdrtbUtil.getObsFromEncounter(groupConcept,
+							tf.getEncounter());
+					if (temp != null
+							&& temp.getValueCoded() != null
+							&& temp.getValueCoded().getId().intValue() == q.getId()
+									.intValue()) {
+						p = Context.getPersonService().getPerson(
+								tf.getPatient().getId());
+						report += openTR();
+						report += openTD() + getRegistrationNumber(tf) + closeTD();
+						report += renderPerson(p);
+						report += openTD() + getPatientLink(tf) + closeTD();
+						report += closeTR();
+
+					}
+				}
+
+				report += closeTable();
+
+				report += "<br/>";
 
 		// UNKNOWN
 		q = ms.getConcept(MdrtbConcepts.UNKNOWN);

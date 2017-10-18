@@ -148,6 +148,7 @@ public class MdrtbConcepts {
     public final static String [] PRE_XDR_TB = {"PRE-XDR"};
     public final static String [] SUSPECTED_MDR_TB = {"SUSPECTED MULTI-DRUG TUBERCULOSIS"};
     public final static String [] MONO = {"MONO"};
+    public final static String [] TDR_TB = {"TDR-TB"};
     public final static String [] TB = {"TUBERCULOSIS"};
     
     // Treatment Outcome

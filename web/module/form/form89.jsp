@@ -396,7 +396,7 @@
 <td>${smear.smearResult.displayString }</td>
 <td><openmrs:formatDate date="${smear.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${smear.location.displayString}</td>
-<td>${smear.specimenId}
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/smear.form?encounterId=${smear.id}&patientProgramId=${patientProgramId}" target="_blank">${smear.specimenId}</a></td>
 </tr>
 </c:if>
 </c:forEach>
@@ -419,10 +419,10 @@
 <c:forEach var="xpert" items="${form89.xperts}">
 <tr>
 <td>${xpert.monthOfTreatment }</td>
-<td>${xpert.mtbResult.displayString }/RIF: ${xpert.rifResult.displayString }</td>
+<td>${xpert.resultString}</td>  <%-- mtbResult.displayString }/RIF: ${xpert.rifResult.displayString }</td> --%>
 <td><openmrs:formatDate date="${xpert.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${xpert.location.displayString}</td>
-<td>${xpert.specimenId}
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?encounterId=${xpert.id}&patientProgramId=${patientProgramId}" target="_blank">${xpert.specimenId}</a></td>
 </c:forEach>
 </tr>
 </table>
@@ -445,7 +445,7 @@
 <td>${hain.mtbResult.displayString }/RIF: ${hain.rifResult.displayString }/ INH: ${hain.inhResult.displayString }</td>
 <td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain.location.displayString}</td>
-<td>${hain.specimenId}
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain.form?encounterId=${hain.id}&patientProgramId=${patientProgramId}" target="_blank">${hain.specimenId}</a></td>
 </c:forEach>
 </tr>
 </table>
@@ -468,7 +468,7 @@
 <td>${hain2.mtbResult.displayString }/FQ: ${hain2.fqResult.displayString }/ INJ: ${hain2.injResult.displayString }</td>
 <td><openmrs:formatDate date="${hain2.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
 <td>${hain2.location.displayString}
-<td>${hain2.specimenId}
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain2.form?encounterId=${hain2.id}&patientProgramId=${patientProgramId}" target="_blank">${hain2.specimenId}</a></td>
 </c:forEach>
 </tr>
 </table>

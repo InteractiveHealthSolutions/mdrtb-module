@@ -18,7 +18,7 @@ import org.openmrs.web.dwr.PatientListItem;
 public class MdrtbFindPatient {
     protected final Log log = LogFactory.getLog(getClass());
     
-    public Collection findPatients(String searchValue, boolean includeVoided) {
+    public Collection findPatientsOld(String searchValue, boolean includeVoided) {
         
         Collection<Object> patientList = new Vector<Object>();
 
@@ -40,6 +40,7 @@ public class MdrtbFindPatient {
                 // make sure the correct patient identifier is set on the patient list item
                 if (StringUtils.isNotBlank(primaryIdentifier) && p.getPatientIdentifier(primaryIdentifier) != null) {
                 	patientListItem.setIdentifier(p.getPatientIdentifier(primaryIdentifier).getIdentifier());
+                	System.out.println("DOB:" + p.getBirthdate());
                 }
                 
                 else {
@@ -48,6 +49,51 @@ public class MdrtbFindPatient {
                 if(patientListItem.getGender().equals("F") && Context.getLocale().toString().equals("ru")) {
                 	patientListItem.setGender("Ж");
                 }
+                
+                
+            	patientList.add(patientListItem);
+            }
+                   
+        
+        // I'm taking out the 'minimal patients returned'
+        // If this needs to be smarter, there should be a better findPatients(...)
+                
+        return patientList;
+    }
+    
+ public Collection findPatients(String searchValue, boolean includeVoided) {
+        
+        Collection<Object> patientList = new Vector<Object>();
+
+        Integer userId = -1;
+        if (Context.isAuthenticated())
+            userId = Context.getAuthenticatedUser().getUserId();
+        log.info(userId + "|" + searchValue);
+        
+        PatientService ps = Context.getPatientService();
+        List<Patient> patients;
+        
+
+            patients = ps.getPatients(searchValue);
+            patientList = new Vector<Object>(patients.size());
+            String primaryIdentifier = Context.getAdministrationService().getGlobalProperty("mdrtb.primaryPatientIdentifierType");
+            for (Patient p : patients) {
+                MdrtbPatientListItem patientListItem = new MdrtbPatientListItem(p);
+                
+                // make sure the correct patient identifier is set on the patient list item
+                if (StringUtils.isNotBlank(primaryIdentifier) && p.getPatientIdentifier(primaryIdentifier) != null) {
+                	patientListItem.setIdentifier(p.getPatientIdentifier(primaryIdentifier).getIdentifier());
+                	System.out.println("DOB:" + p.getBirthdate());
+                }
+                
+                else {
+                	continue;
+                }
+                if(patientListItem.getGender().equals("F") && Context.getLocale().toString().equals("ru")) {
+                	patientListItem.setGender("Ж");
+                }
+                
+                
             	patientList.add(patientListItem);
             }
                    

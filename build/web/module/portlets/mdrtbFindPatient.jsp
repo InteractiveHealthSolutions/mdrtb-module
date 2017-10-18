@@ -100,7 +100,11 @@
 	}
 
 	function getDateString(d) {
-		var str = '';
+		
+		
+		
+		
+		 var str = '';
 		if (d != null) {
 			
 			// get the month, day, year values
@@ -133,7 +137,7 @@
 				str = day + sep + month + sep + year
 			
 		}
-		return str;
+		return str; 
 	}
 	
 	
@@ -218,8 +222,10 @@
 								},
 								function(patient) {
 									if (patient.patientId != null && patient.patientId != "NaN"){
-										if (patient.birthdate != "" && patient.birthdate != "Unknown")
-										return getDateString(patient.birthdate);
+										if (patient.birthdate != "" && patient.birthdate != "Unknown") {
+											//return getDateString(patient.birthdate);
+											return patient.dateOfBirth;
+										}
 									} 	
 								}
 								<c:if test ="${!empty useHealthCenter}">

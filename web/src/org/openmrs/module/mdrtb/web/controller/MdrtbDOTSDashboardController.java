@@ -202,12 +202,41 @@ public class MdrtbDOTSDashboardController {
 		List<Encounter> tb03List = Context.getService(MdrtbService.class).getEncountersWithNoProgramId(tb03Type, program.getPatient());
 		map.put("unlinkedtb03s", tb03List);
 		
-		
-		
 		EncounterType labType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
 		List<Encounter> labList = Context.getService(MdrtbService.class).getEncountersWithNoProgramId(labType, program.getPatient());
 		map.put("unlinkedlabs", labList);
+		Encounter e = new Encounter();
 		
+		Integer xpertFormId = -1; 
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.xpert.formId")!=null) {
+			xpertFormId = Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.xpert.formId"));
+		}
+		
+		Integer smearFormId = -1; 
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.smear.formId")!=null) {
+			smearFormId = Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.smear.formId"));
+		}
+		
+		Integer cultureFormId = -1;
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.culture.formId")!=null) {
+			cultureFormId = Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.culture.formId"));
+		}
+		
+		Integer hainFormId = -1;
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.hain.formId")!=null){
+			hainFormId =Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.hain.formId"));
+		}
+		
+		Integer dstFormId = -1; 
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.dst.formId")!=null){
+			dstFormId = Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.dst.formId"));
+		}
+		
+		map.put("xpertFormId",xpertFormId);
+		map.put("smearFormId",smearFormId);
+		map.put("cultureFormId",cultureFormId);
+		map.put("hainFormId",hainFormId);
+		map.put("dstFormId",dstFormId);
 		return new ModelAndView("/module/mdrtb/dashboard/tbdashboard", map);
 
 	}

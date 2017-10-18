@@ -452,7 +452,7 @@ public class TB03uFormController {
 		
 		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
 		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.RESISTANCE_TYPE);
-		for(int i=0; i< 8; i++) {
+		for(int i=0; i< 9; i++) {
 			typeArray.add(null);
 		}
 		for(ConceptAnswer c : ca) {
@@ -474,11 +474,14 @@ public class TB03uFormController {
 			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XDR_TB).getId().intValue()) {
 				typeArray.set(5, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.NO).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TDR_TB).getId().intValue()) {
 				typeArray.set(6, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.UNKNOWN).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.NO).getId().intValue()) {
 				typeArray.set(7, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.UNKNOWN).getId().intValue()) {
+				typeArray.set(8, c);
 			}
 		}
 		

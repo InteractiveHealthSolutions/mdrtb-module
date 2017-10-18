@@ -908,7 +908,7 @@ ${regimen.displayString}
   </tr>
 <c:forEach var="form" items="${unlinkedtb03us}">
  <tr>
- <td><spring:message code="mdrtb.tb03u" text="TB03U"/></td>
+ <td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.tb03u" text="TB03U"/></a></td>
  <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
  <td>${form.location}</td>
  <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterMdrtb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
@@ -929,7 +929,26 @@ ${regimen.displayString}
   </tr>
 <c:forEach var="form" items="${unlinkedlabs}">
  <tr>
- <td><spring:message code="mdrtb.specimenCollection" text="SpecColl"/></td>
+  <c:choose>
+  <c:when test="${form.form.id eq xpertFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.xpert" text="XpertForm"/></a></td>
+   </c:when>
+   <c:when test="${form.form.id eq smearFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.smear" text="BacterioscopyForm"/></a></td>
+   </c:when>
+   <c:when test="${form.form.id eq cultureFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.culture" text="CultureForm"/></a></td>
+   </c:when>
+   <c:when test="${form.form.id eq hainFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.hain" text="HainForm"/></a></td>
+   </c:when>
+   <c:when test="${form.form.id eq dstFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.dst" text="DstForm"/></a></td>
+   </c:when>
+   <c:otherwise>
+ 	<td><spring:message code="mdrtb.lab" text="labForm"/></td>
+   </c:otherwise>
+ </c:choose>
  <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
  <td>${form.location}</td>
  <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterMdrtb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>

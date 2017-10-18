@@ -64,6 +64,7 @@ public class TbConcepts {
     public final static String [] DST_CONSTRUCT = {"TUBERCULOSIS DRUG SENSITIVITY TEST CONSTRUCT"};
     public final static String [] DST_METHOD = {"TUBERCULOSIS DRUG SENSITIVITY TEST METHOD"};
     public final static String [] DST_RESULT = {"TUBERCULOSIS DRUG SENSITIVITY TEST RESULT"};
+    public final static String [] CULTURE_GROWTH = {"CULTURE GROWTH"};
     
     //XPERT AND HAIN CONCEPTS
     public final static String [] XPERT_CONSTRUCT = {"TUBERCULOSIS XPERT TEST CONSTRUCT"};
@@ -363,6 +364,8 @@ public class TbConcepts {
  	
  	public final static String[] COMPLICATION = {"COMPLICATION"};
  	public final static String[] OTHER_CAUSE_OF_DEATH = {"OTHER CAUSE OF DEATH"};
+ 	
+ 	public final static String[] UNDETERMINED = {"UNDETERMINED"};
  	
  	
  	

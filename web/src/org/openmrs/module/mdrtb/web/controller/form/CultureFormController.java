@@ -240,16 +240,14 @@ public class CultureFormController {
 	public Collection<ConceptAnswer> getCultureResults() {
 		//return Context.getService(MdrtbService.class).getPossibleCultureResults();
 		ArrayList<ConceptAnswer> resultArray = new ArrayList<ConceptAnswer>();
-		for(int i=0;i<5;i++) {
+		for(int i=0;i<6;i++) {
 			resultArray.add(null);
 		}
 		
 		Collection<ConceptAnswer> results = Context.getService(MdrtbService.class).getPossibleCultureResults();
 		MdrtbService ms = Context.getService(MdrtbService.class);
-		System.out.println("RS:" + results.size());
+
 		for(ConceptAnswer ca : results) {
-			System.out.println(ca.getId());
-			System.out.println(ca.getAnswerConcept().getId());
 			
 			if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.LOWAFB).getId().intValue()) {
 				resultArray.set(0,ca);
@@ -269,6 +267,10 @@ public class CultureFormController {
 			
 			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.NEGATIVE).getId().intValue()) {
 				resultArray.set(4,ca);
+			}
+			
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.CULTURE_GROWTH).getId().intValue()) {
+				resultArray.set(5,ca);
 			}
 		}
 		

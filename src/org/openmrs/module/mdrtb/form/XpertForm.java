@@ -322,7 +322,46 @@ public class XpertForm extends AbstractSimpleForm implements Comparable<XpertFor
 		} 
 	}
 	
-
+	  public String getResultString() {
+		String ret = "";
+		
+		Concept mtbResult = getMtbResult();
+		
+		if(mtbResult==null) {
+			return ret;
+		}
+		
+		Concept rifResult = getRifResult();
+		
+		if(mtbResult.getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_POSITIVE).getId().intValue()) {
+			ret = ret + Context.getMessageSourceService().getMessage("mdrtb.positiveShort");
+			
+			if(rifResult!=null && rifResult.getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.DETECTED).getId().intValue()) {
+				ret += "/" + Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			}
+			
+			else if(rifResult!=null && rifResult.getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.NOT_DETECTED).getId().intValue()) {
+				ret += "/" + Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			}
+			
+			else if(rifResult!=null && rifResult.getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.UNDETERMINED).getId().intValue()) {
+				ret += "/" + Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			}
+		}
+		
+		else if(mtbResult.getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_NEGATIVE).getId().intValue()) {
+			ret = ret + Context.getMessageSourceService().getMessage("mdrtb.negativeShort");
+		}
+		
+		else if(mtbResult.getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.ERROR).getId().intValue()) {
+			ret = ret + Context.getMessageSourceService().getMessage("mdrtb.error");
+		}
+		
+		
+		return ret;
+		
+		
+	}
 	/*public int compareTo(XpertForm form) {
 		return this.getEncounterDatetime().compareTo(form.getEncounterDatetime());
 	}*/
