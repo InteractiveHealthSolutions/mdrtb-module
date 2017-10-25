@@ -58,7 +58,7 @@ public class DstImpl extends TestImpl implements Dst {
 			test = obs;
 		}
 		
-		System.out.println("<<<<>>>>>" + test.getEncounter().getId() + "," + test.getPatient()+","+test.getConcept()+","+test.getObsDatetime()+","+test.getLocation());
+		//System.out.println("<<<<>>>>>" + test.getEncounter().getId() + "," + test.getPatient()+","+test.getConcept()+","+test.getObsDatetime()+","+test.getLocation());
 	}
 	
 	@Override

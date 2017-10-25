@@ -207,7 +207,7 @@ public class TB08uController {
     		
     		
     		Patient patient = tf.getPatient();
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    }
     	      
@@ -658,6 +658,30 @@ public class TB08uController {
     	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "TB-08u","MDRTB");
 		System.out.println(reportStatus);
 		
+		String oName = null;
+		String dName = null;
+		String fName = null;
+		
+		if(oblastId!=null) {
+			Oblast o = Context.getService(MdrtbService.class).getOblast(oblastId);
+			if(o!=null) {
+				oName = o.getName();
+			}
+		}
+		
+		if(districtId!=null) {
+			District d = Context.getService(MdrtbService.class).getDistrict(districtId);
+			if(d!=null) {
+				dName = d.getName();
+			}
+		}
+		
+		if(facilityId!=null) {
+			Facility f = Context.getService(MdrtbService.class).getFacility(facilityId);
+			if(f!=null) {
+				fName = f.getName();
+			}
+		}
 		
 		model.addAttribute("oblast", oblastId);
     	model.addAttribute("facility", facilityId);
@@ -669,9 +693,13 @@ public class TB08uController {
 			model.addAttribute("month", "");
 		
 		if(quarter!=null && quarter.length()!=0)
-			model.addAttribute("quarter", quarter.replace("\"", "'"));
+			model.addAttribute("quarter", quarter.replace("\"", ""));
 		else
 			model.addAttribute("quarter", "");
+		
+		model.addAttribute("oName", oName);
+		model.addAttribute("dName", dName);
+		model.addAttribute("fName", fName);
     	model.addAttribute("reportDate", sdf.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
         return "/module/mdrtb/reporting/tb08uResults_" + Context.getLocale().toString().substring(0, 2);

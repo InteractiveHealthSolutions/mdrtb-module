@@ -185,7 +185,7 @@ public class TB03uController {
     		TB03uData tb03uData = new TB03uData();
     		
     		Patient patient = tf.getPatient();
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    	
     	    }

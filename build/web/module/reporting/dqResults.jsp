@@ -258,14 +258,17 @@ $(document).ready(function(){
 	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.title" /></th>
 	  </tr>
 	  <tr>
-	     <th colspan="2"><spring:message code="mdrtb.oblast" /></td>
-	     <td>${oblast}</td>
-	 
-	  </tr>
-	  <tr>
-	     <th colspan="2"><spring:message code="mdrtb.district" /></td>
-	     <td>${location}</td>
-	  </tr>
+			<th colspan="2"><spring:message code="mdrtb.oblast" /></td>
+			<td colspan="2">${oName}</td>
+		</tr>
+		<tr>
+			<th colspan="2"><spring:message code="mdrtb.district" /></td>
+			<td colspan="2">${dName}</td>
+		</tr>
+		<tr>
+			<th colspan="2"><spring:message code="mdrtb.facility" /></td>
+			<td colspan="2">${fName}</td>
+		</tr>
 	  <tr>
 	     <th colspan="2"><spring:message code="mdrtb.year" /></td>
 	     <td align="center">${year}</td>

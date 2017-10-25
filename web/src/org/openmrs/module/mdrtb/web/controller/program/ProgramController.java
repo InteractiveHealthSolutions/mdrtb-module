@@ -899,13 +899,13 @@ public class ProgramController {
 		for(org.openmrs.PatientProgram pp : ppList) {
 			/*if(mdr) {*/
 				temp = Context.getService(MdrtbService.class).getGenPatientProgramIdentifier(Context.getProgramWorkflowService().getPatientProgram(pp.getId()));
-				if(temp!=null){
+				/*if(temp!=null){
 					System.out.println("temp ID=" + temp.getId().intValue());
 				}
 				else {
 					System.out.println("temp ID=null");
-				}
-				System.out.println("PI:" + pi.getId().intValue());
+				}*/
+				//System.out.println("PI:" + pi.getId().intValue());
 				
 				if(temp!=null && temp.getId().intValue()==pi.getId().intValue())
 					return true;

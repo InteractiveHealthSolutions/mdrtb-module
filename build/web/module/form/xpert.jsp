@@ -47,7 +47,7 @@
 		
 	});
 	
-function resToggle () {
+	function resToggle () {
 		
 		var statusBox = document.getElementById('mtbResult');
 		var choice  = statusBox.options[statusBox.selectedIndex].value;
@@ -73,7 +73,7 @@ function resToggle () {
 	{
 		var e = document.getElementById("oblast");
 		var val = e.options[e.selectedIndex].value;
-		
+
 		if(val!="")
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty xpert.id ? xpert.id : -1})
 	}
@@ -200,7 +200,7 @@ function resToggle () {
 
 <tr>
 <td valign="top"><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
-<td><input name="monthOfTreatment" size="2" value="${xpert.monthOfTreatment}"/></td>
+<td><input name="monthOfTreatment" id="monthOfTreatment" size="2" value="${xpert.monthOfTreatment}"/></td>
 </tr>
 
 <%-- <tr>
@@ -269,7 +269,7 @@ function resToggle () {
 
 <tr>
 <td><spring:message code="mdrtb.specimenId" text="SpecimenId"/>:</td>
-<td><input type="text" size="10" name="specimenId" value="${xpert.specimenId}"/></td>
+<td><input type="text" size="10" id="specimenId" name="specimenId" value="${xpert.specimenId}"/></td>
 </tr>
 
 

@@ -221,7 +221,7 @@ public class TB03SingleExportController {
     		tb03Data.setReg1Rtx(Boolean.FALSE);
     	    
     		Patient patient = tf.getPatient();
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    	
     	    }

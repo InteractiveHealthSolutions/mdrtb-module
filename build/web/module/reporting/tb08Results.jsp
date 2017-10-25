@@ -187,8 +187,8 @@ response.setDateHeader ("Expires", -1);
 		<table border="1" width="100%">
 		<tr>
 		<td>
-		<spring:message code="dotsreports.tb08.nameOfFacility"/>______________________ <br/>
-		<spring:message code="dotsreports.tb08.regionCityDistrict"/>  <u> ${ location } </u><br/>
+		<spring:message code="dotsreports.tb08.nameOfFacility"/> <u>&nbsp; ${fName} &nbsp;</u> <br/>
+		<spring:message code="dotsreports.tb08.regionCityDistrict"/>  <u> ${oName}/${dName} </u><br/>
 		<spring:message code="dotsreports.tb08.tbCoordinator"/> ____________________<spring:message code="dotsreports.tb08.signature"/> ____________<br/>
 		</td>
 		

@@ -270,7 +270,7 @@ public class DOTSDQController {
     		dqi = new DQItem();
     	    Patient patient = tf.getPatient();//Context.getPatientService().getPatient(i);
     	    
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    }
     	    

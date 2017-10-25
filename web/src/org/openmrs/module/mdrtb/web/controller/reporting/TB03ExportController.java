@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -211,8 +212,9 @@ public class TB03ExportController {
     	
     	Concept reg1New = Context.getService(MdrtbService.class).getConcept(TbConcepts.REGIMEN_1_NEW);
     	Concept reg1Rtx = Context.getService(MdrtbService.class).getConcept(TbConcepts.REGIMEN_1_RETREATMENT);
-    	
+    	HashMap<Integer,Integer> idMap = new HashMap<Integer,Integer>();
     	sdf.applyPattern("dd.MM.yyyy");
+    	
     	for (TB03Form tf : tb03List) {
     		
     		
@@ -221,10 +223,12 @@ public class TB03ExportController {
     		tb03Data.setReg1Rtx(Boolean.FALSE);
     	    
     		Patient patient = tf.getPatient();
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    	
     	    }
+    	    
+    	    
     	    
     	    
     	    tb03Data.setPatient(patient);
@@ -397,7 +401,7 @@ public class TB03ExportController {
     	    			
     	    		}
     	    	}
-    	    	System.out.println("-------");
+    	    	
     	    }
     	    
     	    
@@ -558,6 +562,12 @@ public class TB03ExportController {
     	
     	Collections.sort(patientSet);
     	
+    	int i = 1;
+    	for(TB03Data tt : patientSet) {
+    		System.out.println(i + " : " + tt.getPatient().getId());
+    	    i++;
+    	}
+    	
     	Integer num = patientSet.size();
     	model.addAttribute("num", num);
     	model.addAttribute("patientSet", patientSet);
@@ -586,7 +596,7 @@ public class TB03ExportController {
     	
     	reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "TB-03", "DOTSTB");
 		
-    	System.out.println(reportStatus);
+    	//System.out.println(reportStatus);
     	model.addAttribute("oblast", oblastId);
     	model.addAttribute("district", districtId);
     	model.addAttribute("facility", facilityId);

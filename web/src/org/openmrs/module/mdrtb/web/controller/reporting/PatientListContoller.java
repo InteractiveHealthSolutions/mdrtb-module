@@ -152,7 +152,9 @@ public class PatientListContoller {
     		
     		Person p = null;
     		for(TB03Form tf : tb03s) {
-    			
+    				if(tf.getPatient()==null || tf.getPatient().isVoided())
+    					continue;
+    				
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
     				report += openTR();
     				report += openTD() + getRegistrationNumber(tf) +  closeTD();
@@ -233,6 +235,9 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(TB03Form tf : tb03s) {
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==newConcept.getId().intValue()) {
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -430,6 +435,10 @@ public class PatientListContoller {
 		Obs temp = null;
 		Person p = null;
 		for (TB03Form tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -809,6 +818,10 @@ public class PatientListContoller {
     		Obs temp2 = null;
     		Person p = null;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==newConcept.getId().intValue()) {
@@ -1163,6 +1176,10 @@ public class PatientListContoller {
     		Obs temp2 = null;
     		Person p = null;
     		for(TB03uForm tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(treatmentStartDate, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==mdr.getId().intValue() && (temp2==null || temp2.getValueDatetime()==null)) {
@@ -1284,6 +1301,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(TB03uForm tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && (temp.getValueCoded().getId().intValue()==curedConcept.getId().intValue() || 
     					temp.getValueCoded().getId().intValue()==txCompleted.getId().intValue())) {
@@ -1371,6 +1392,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(TB03uForm tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==mdr.getId().intValue()) {
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -1490,6 +1515,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : forms) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			if(tf.getPatient().getGender().equals("F")) {
     				temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     				if(temp!=null && temp.getValueNumeric().intValue()>=15  && temp.getValueNumeric().intValue()<=49) {
@@ -1577,6 +1606,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : forms) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			if(tf.getPatient().getGender().equals("M")) {
     				temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     				if(temp!=null && temp.getValueNumeric().intValue()>=18  && temp.getValueNumeric().intValue()<=41) {
@@ -1665,6 +1698,9 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : forms) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     				temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     				if(temp!=null && (temp.getValueCoded().getId().intValue()  == fromContact.getId().intValue())) {
@@ -1755,6 +1791,9 @@ public class PatientListContoller {
     		Person p = null;
     		for(Form89 tf : forms) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     				temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     				if(temp!=null && (temp.getValueCoded().getId().intValue()  == yes.getId().intValue())) {
     					p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -1841,6 +1880,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : forms) {
+    			
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     				temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     				if(temp!=null && (temp.getValueCoded().getId().intValue()  == yes.getId().intValue())) {
@@ -1930,6 +1973,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : forms) {
+    			
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     				temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     				if(temp!=null && (temp.getValueCoded().getId().intValue()  == yes.getId().intValue())) {
@@ -2111,6 +2158,9 @@ public class PatientListContoller {
 		Person p = null;
 		for (Form89 tf : forms) {
 
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -2205,6 +2255,9 @@ public class PatientListContoller {
 		Person p = null;
 		for (Form89 tf : forms) {
 
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -2299,6 +2352,9 @@ public class PatientListContoller {
 		Person p = null;
 		for (Form89 tf : forms) {
 
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -2393,6 +2449,9 @@ public class PatientListContoller {
 		Person p = null;
 		for (Form89 tf : forms) {
 
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -2487,6 +2546,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -2819,6 +2882,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -3091,6 +3158,9 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : tb03s) {
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -3209,6 +3279,9 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : tb03s) {
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -3356,6 +3429,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -3564,6 +3641,10 @@ public class PatientListContoller {
     		Obs temp = null;
     		Person p = null;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -3918,6 +3999,10 @@ public class PatientListContoller {
 		Obs temp = null;
 		Person p = null;
 		for (Form89 tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -4302,6 +4387,9 @@ public class PatientListContoller {
 		Obs temp = null;
 		Person p = null;
 		for (Form89 tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null

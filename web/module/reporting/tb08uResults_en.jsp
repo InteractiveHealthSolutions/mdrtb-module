@@ -166,8 +166,8 @@
 			<center>
 			<table width="100%" border="1">
 				<tr>
-				    <td>Name of facility: ________________  <br/>  
-				    Region/City/District  ${location} }<br/>
+				    <td>Name of facility: <u>&nbsp; ${fName} &nbsp;</u><br/>  
+				    Region/City/District:   <u> ${oName}/${dName} </u><br/>
 					Name of coordinator:  _________________<br/>
 					Signature: ____________________
 				</td>

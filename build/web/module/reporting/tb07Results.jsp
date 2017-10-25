@@ -175,8 +175,8 @@ response.setDateHeader ("Expires", -1);
 <table width="100%" border="1">
 <tr>
 <td>
-<spring:message code="dotsreports.tb07.nameOfFacility"/>__________________</br>
-<spring:message code="dotsreports.tb07.regionCityDistrict"/> <u> ${location } </u></br>
+<spring:message code="dotsreports.tb07.nameOfFacility"/> <u>&nbsp; ${fName} &nbsp;</u></br>
+<spring:message code="dotsreports.tb07.regionCityDistrict"/> <u> ${oName}/${dName} </u></br>
 <spring:message code="dotsreports.tb07.tbCoordinatorName"/> ___________________ </br>
 <spring:message code="dotsreports.tb07.signature"/>_________________
 </td>
@@ -1203,7 +1203,7 @@ response.setDateHeader ("Expires", -1);
 
 			</tbody>
 		</table>
-<p><spring:message code="dotsreports.tb07.table1.footnote" /> </p>
+<p><spring:message code="mdrtb.tb07.table1.footnote" /> </p>
 		
 
 

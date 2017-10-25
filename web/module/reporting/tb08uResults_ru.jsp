@@ -171,8 +171,8 @@ response.setDateHeader ("Expires", -1);
 			<center>
 			<table width="100%" border="1">
 				<tr>
-				    <td>Наименование учреждения: ________________  <br/>  
-				    Область/район:  ${location}<br/>
+				    <td>Наименование учреждения: <u>&nbsp; ${fName} &nbsp;</u> <br/>  
+				    Область/район:   <u> ${oName}/${dName} </u><br/>
 					ФИО координатора по ТБ:   _________________<br/>
 					
 				</td>

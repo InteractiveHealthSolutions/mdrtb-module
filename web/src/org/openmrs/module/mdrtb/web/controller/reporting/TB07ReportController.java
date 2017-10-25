@@ -265,7 +265,7 @@ public class TB07ReportController {
     		
     		
     		Patient patient = tf.getPatient();
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    	
     	    }
@@ -1806,16 +1806,27 @@ public class TB07ReportController {
     	//GRAND TOTALS
     	table1.setTotalMalePulmonaryBC(table1.getNewMalePulmonaryBC() + table1.getRelapseMalePulmonaryBC() + table1.getRetreatmentMalePulmonaryBC());
     	table1.setTotalFemalePulmonaryBC(table1.getNewFemalePulmonaryBC() + table1.getRelapseFemalePulmonaryBC() + table1.getRetreatmentFemalePulmonaryBC());
+    	table1.setTotalPulmonaryBC(table1.getTotalMalePulmonaryBC() + table1.getTotalFemalePulmonaryBC());
+    	
     	table1.setTotalMalePulmonaryBCHIV(table1.getNewMalePulmonaryBCHIV() + table1.getRelapseMalePulmonaryBCHIV() + table1.getRetreatmentMalePulmonaryBCHIV());
     	table1.setTotalFemalePulmonaryBCHIV(table1.getNewFemalePulmonaryBCHIV() + table1.getRelapseFemalePulmonaryBCHIV() + table1.getRetreatmentFemalePulmonaryBCHIV());
+    	table1.setTotalPulmonaryBCHIV(table1.getTotalMalePulmonaryBCHIV() + table1.getTotalFemalePulmonaryBCHIV());
+    	
     	table1.setTotalMalePulmonaryCD(table1.getNewMalePulmonaryCD() + table1.getRelapseMalePulmonaryCD() + table1.getRetreatmentMalePulmonaryCD());
     	table1.setTotalFemalePulmonaryCD(table1.getNewFemalePulmonaryCD() + table1.getRelapseFemalePulmonaryCD() + table1.getRetreatmentFemalePulmonaryCD());
+    	table1.setTotalPulmonaryCD(table1.getTotalMalePulmonaryCD() + table1.getTotalFemalePulmonaryCD());
+    	
     	table1.setTotalMalePulmonaryCDHIV(table1.getNewMalePulmonaryCDHIV() + table1.getRelapseMalePulmonaryCDHIV() + table1.getRetreatmentMalePulmonaryCDHIV());
     	table1.setTotalFemalePulmonaryCDHIV(table1.getNewFemalePulmonaryCDHIV() + table1.getRelapseFemalePulmonaryCDHIV() + table1.getRetreatmentFemalePulmonaryCDHIV());
+    	table1.setTotalPulmonaryCDHIV(table1.getTotalMalePulmonaryCDHIV() + table1.getTotalFemalePulmonaryCDHIV());
+    	
     	table1.setTotalMaleExtrapulmonary(table1.getNewMaleExtrapulmonary() + table1.getRelapseMaleExtrapulmonary() + table1.getRetreatmentMaleExtrapulmonary());
     	table1.setTotalFemaleExtrapulmonary(table1.getNewFemaleExtrapulmonary() + table1.getRelapseFemaleExtrapulmonary() + table1.getRetreatmentFemaleExtrapulmonary());
+    	table1.setTotalExtrapulmonary(table1.getTotalMaleExtrapulmonary() + table1.getTotalFemaleExtrapulmonary());
+    	
     	table1.setTotalMaleExtrapulmonaryHIV(table1.getNewMaleExtrapulmonaryHIV() + table1.getRelapseMaleExtrapulmonaryHIV() + table1.getRetreatmentMaleExtrapulmonaryHIV());
     	table1.setTotalFemaleExtrapulmonaryHIV(table1.getNewFemaleExtrapulmonaryHIV() + table1.getRelapseFemaleExtrapulmonaryHIV() + table1.getRetreatmentFemaleExtrapulmonaryHIV());
+    	table1.setTotalExtrapulmonaryHIV(table1.getTotalMaleExtrapulmonaryHIV() + table1.getTotalFemaleExtrapulmonaryHIV());
     	
     	table1.setTotalMale(table1.getNewMale() + table1.getRelapseMale() + table1.getRetreatmentMale());
     	table1.setTotalFemale(table1.getNewFemale() + table1.getRelapseFemale() + table1.getRetreatmentFemale());
@@ -1824,6 +1835,9 @@ public class TB07ReportController {
     	table1.setTotalMaleHIV(table1.getNewMaleHIV() + table1.getRelapseMaleHIV() + table1.getRetreatmentMaleHIV());
     	table1.setTotalFemaleHIV(table1.getNewFemaleHIV() + table1.getRelapseFemaleHIV() + table1.getRetreatmentFemaleHIV());
     	table1.setTotalAllHIV(table1.getTotalMaleHIV() + table1.getTotalFemaleHIV());
+    	
+    	
+    	
     	//table1.setTotalAll(table1.getTotalMale() + getTotalFemale());
     	
     	//fin.add(table1);
@@ -1843,6 +1857,31 @@ public class TB07ReportController {
 		
 		System.out.println(reportStatus);
 		
+		String oName = null;
+		String dName = null;
+		String fName = null;
+		
+		if(oblastId!=null) {
+			Oblast o = Context.getService(MdrtbService.class).getOblast(oblastId);
+			if(o!=null) {
+				oName = o.getName();
+			}
+		}
+		
+		if(districtId!=null) {
+			District d = Context.getService(MdrtbService.class).getDistrict(districtId);
+			if(d!=null) {
+				dName = d.getName();
+			}
+		}
+		
+		if(facilityId!=null) {
+			Facility f = Context.getService(MdrtbService.class).getFacility(facilityId);
+			if(f!=null) {
+				fName = f.getName();
+			}
+		}
+		
     	model.addAttribute("table1", table1);
     	model.addAttribute("oblast", oblastId);
     	model.addAttribute("facility", facilityId);
@@ -1857,6 +1896,11 @@ public class TB07ReportController {
 			model.addAttribute("quarter", quarter.replace("\"", "'"));
 		else
 			model.addAttribute("quarter", "");
+		
+		model.addAttribute("oName", oName);
+		model.addAttribute("dName", dName);
+		model.addAttribute("fName", fName);
+		
     	model.addAttribute("reportDate", sdf.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
         return "/module/mdrtb/reporting/tb07Results";

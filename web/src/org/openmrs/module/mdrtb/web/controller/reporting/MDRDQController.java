@@ -144,7 +144,7 @@ public class MDRDQController {
     	/*Cohort patients = new Cohort();
     	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);*/
 		
-    	String oName = null;
+    	//String oName = null;
     	
 //    	Oblast o = null;
 //		if(!oblast.equals("")) {
@@ -220,7 +220,7 @@ public class MDRDQController {
     		DQItem dqi= new DQItem();
     	    Patient patient = tf.getPatient();
     	    
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    }
     	    //patientList.add(patient);
@@ -352,6 +352,25 @@ public class MDRDQController {
     	else
     		errorPercentage = (errorCount*100)/num;
     	
+    	String oName = null;
+    	Oblast obl = Context.getService(MdrtbService.class).getOblast(oblastId);
+    	if(obl!=null)
+    		oName = obl.getName();
+    	
+    	String dName = null;
+    	if(districtId!=null) {
+    		District dist = Context.getService(MdrtbService.class).getDistrict(districtId);
+    		if(dist!=null)
+    			dName = dist.getName();
+    	}
+    	
+    	String fName = null;
+    	if(facilityId!=null) {
+    		Facility fac = Context.getService(MdrtbService.class).getFacility(facilityId);
+    		if(fac!=null)
+    			fName = fac.getName();
+    	}
+    	
     	
     	model.addAttribute("num", num);
     	model.addAttribute("missingTB03", missingTB03);
@@ -365,7 +384,9 @@ public class MDRDQController {
     	model.addAttribute("errorCount", new Integer(errorCount));
     	model.addAttribute("errorPercentage", errorPercentage.toString() + "%");
     	model.addAttribute("oblastName", oName);
-    	
+    	model.addAttribute("oName", oName);
+    	model.addAttribute("dName", dName);
+    	model.addAttribute("fName", fName);
     	
     	
     	
