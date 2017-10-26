@@ -2078,7 +2078,31 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		
 	}
 	
-	
+	public ArrayList<TB03Form> getTB03FormsForProgram(Patient p, Integer patientProgId) {
+		
+		ArrayList<TB03Form> forms = new ArrayList<TB03Form>();
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		System.out.println("TEMP: " + temp.size());
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				forms.add(new TB03Form(e));
+			}
+				
+		}
+			
+		return forms;
+		
+		
+	}
 	
 	
 	

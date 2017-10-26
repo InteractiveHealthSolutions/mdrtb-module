@@ -706,6 +706,8 @@ public interface MdrtbService extends OpenmrsService {
 	
 	public List<Country> getCountries();
 	public List<Oblast> getOblasts(int parentId);
+	
+	public ArrayList<TB03Form> getTB03FormsForProgram(Patient p, Integer patientProgId);
 }
 
 

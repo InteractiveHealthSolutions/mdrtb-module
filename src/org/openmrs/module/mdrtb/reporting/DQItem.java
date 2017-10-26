@@ -1,5 +1,7 @@
 package org.openmrs.module.mdrtb.reporting;
 
+import java.util.ArrayList;
+
 import org.openmrs.Patient;
 
 public class DQItem {
@@ -7,6 +9,7 @@ public class DQItem {
 	private Patient patient;
 	private String dateOfBirth;
 	private String locName;
+	private ArrayList<String> links;
 	
 	
 	public String getLocName() {
@@ -28,9 +31,29 @@ public class DQItem {
 		this.dateOfBirth = dateOfBirth;
 	}
 	
+	public ArrayList<String> getLinks() {
+		return links;
+	}
+	public void setLink(ArrayList<String> links) {
+		this.links = links;
+	}
+	
+	public String getLink(int i) {
+		return links.get(i);
+	}
+	
+	public void setLink(int i, String lnk) {
+		links.set(i, lnk);
+	}
+	
+	public void addLink(String lnk) {
+		links.add(lnk);
+	}
+	
 	public DQItem() {
 		patient = null;
 		dateOfBirth = null;
+		links = new ArrayList<String>();
 	}
 
 }

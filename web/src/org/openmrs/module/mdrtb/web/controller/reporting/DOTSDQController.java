@@ -147,7 +147,7 @@ public class DOTSDQController {
             @RequestParam(value="month", required=false) String month,
             ModelMap model) throws EvaluationException {
     	
-    	System.out.println("---POST-----");
+    //	System.out.println("---POST-----");
     //	System.out.println("PARAMS:" + location + " " + oblast + " " + year + " " + quarter + " " + month);
     	
     	//Cohort patients = TbUtil.getDOTSPatientsTJK(null, null, location, oblast, null, null, null, null,year,quarter,month);
@@ -220,6 +220,8 @@ public class DOTSDQController {
     	List<DQItem> noSite = new ArrayList<DQItem>();
     	List<DQItem> noTifAfterTransferOut = new ArrayList<DQItem>();
     	List<DQItem> noTofBeforeTransferIn = new ArrayList<DQItem>();
+    	List<DQItem> duplicateTB03 = new ArrayList<DQItem>();
+    	List<DQItem> unlinkedTB03 = new ArrayList<DQItem>();
     	
     	Boolean errorFlag = Boolean.FALSE;
     	Integer errorCount = 0;
@@ -295,6 +297,45 @@ public class DOTSDQController {
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);*/
+    	    
+    	    //DUPLICATE TB03
+    	    Integer patProgId   = null;
+    	    
+    	    patProgId = tf.getPatProgId();
+    	    Boolean found = Boolean.FALSE;
+    	    if(patProgId!=null) {
+    	    	List<TB03Form> dupList = Context.getService(MdrtbService.class).getTB03FormsForProgram(patient, patProgId);
+    	    	
+    	    	if(dupList!=null) {
+    	    		
+    	    		if(dupList.size() > 1) {
+    	    			for(TB03Form form : dupList) {
+    	    				if(form.getPatProgId().intValue()==patProgId.intValue()) {
+    	    					dqi.addLink(form.getLink());
+    	    					found = Boolean.TRUE;
+    	    					System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>FOUND:" + tf.getPatProgId());
+    	    				}
+    	    			}
+    	    		}
+    	    	}
+    	    	
+    	    	if(found) {
+    	    		errorFlag = Boolean.TRUE;
+    	    		duplicateTB03.add(dqi);
+    	    	}
+    	    }
+    	    
+    	    else { //UNLINKED TB03
+    	    	String link = "";
+    	    	dqi.addLink(link);
+    	    	unlinkedTB03.add(dqi);
+    	    	errorFlag = Boolean.TRUE;
+    	    }
+    	    
+    	    
+    	    
+    	    
+    	    
     	    if(tf.getAgeAtTB03Registration()==null) { //obsList==null || obsList.size()==0) {
     	    	missingAge.add(dqi);
     	    	errorFlag = Boolean.TRUE;
@@ -476,7 +517,7 @@ public class DOTSDQController {
     		dqi = new DQItem();
     	    Patient patient = tof.getPatient();//Context.getPatientService().getPatient(i);
     	    
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    }
     	   // patientList.add(patient);
@@ -517,7 +558,7 @@ public class DOTSDQController {
     		dqi = new DQItem();
     	    Patient patient = tif.getPatient();//Context.getPatientService().getPatient(i);
     	    
-    	    if(patient==null) {
+    	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    }
     	   // patientList.add(patient);
@@ -573,6 +614,8 @@ public class DOTSDQController {
     	
     	model.addAttribute("num", num);
     	model.addAttribute("missingTB03", missingTB03);
+    	model.addAttribute("duplicateTB03", duplicateTB03);
+    	model.addAttribute("unlinkedTB03", unlinkedTB03);
     	model.addAttribute("missingForm89", noForm89);
     	model.addAttribute("missingAge", missingAge);
     	model.addAttribute("missingPatientGroup", missingPatientGroup);

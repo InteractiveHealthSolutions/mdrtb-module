@@ -302,6 +302,33 @@ $(document).ready(function(){
 	   	
 	   	<tr><td colspan="4">&nbsp;</td></tr>
 	    <tr><td colspan="4">&nbsp;</td></tr>
+	    
+	    <tr>
+	   		<th class=normal colspan="4"><spring:message code="mdrtb.dq.duplicateTB03" /></th>
+	  	</tr>
+	  	<tr>
+	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td><spring:message code="dotsreports.dq.dob" /></td>
+	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
+	     	<td align="center"><spring:message code="mdrtb.dq.links" /></td>
+	  	</tr>
+	  	<c:forEach var="row" items="${duplicateTB03}">
+	    	<tr>
+	        
+	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td>${row.dateOfBirth}</td>
+	         	<td align="center">${row.patient.gender}</td>
+	         	<td>
+	         	<c:forEach var="link" items="${row.links }">
+	         	    <a href="${pageContext.request.contextPath}${link}" target="_blank"><spring:message code="mdrtb.tb03" />, </a>
+	         	</c:forEach>
+	         	</td>
+	    	</tr>  
+	   	</c:forEach>
+	   	
+	   	<tr><td colspan="4">&nbsp;</td></tr>
+	    <tr><td colspan="4">&nbsp;</td></tr>
+	    
 	  	<tr>
 	   		<th class=normal colspan="4"><spring:message code="mdrtb.dq.missingForm89" /></th>
 	  	</tr>
@@ -382,7 +409,7 @@ $(document).ready(function(){
 	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.notStartedTreatment" /></th>
 	  	</tr>
 	  	<tr>
-	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
 	     	<td><spring:message code="dotsreports.dq.dob" /></td>
 	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
 	  	</tr>
@@ -451,8 +478,8 @@ $(document).ready(function(){
 				<td align="center">${row.patient.gender}</td>
 			</tr>  
 		</c:forEach>
-		<tr><td colspan="3">&nbsp;</td></tr>
-	  	<tr><td colspan="3">&nbsp;</td></tr>
+		<tr><td colspan="4">&nbsp;</td></tr>
+	  	<tr><td colspan="4">&nbsp;</td></tr>
 	  	
 	  	
 		<tr>

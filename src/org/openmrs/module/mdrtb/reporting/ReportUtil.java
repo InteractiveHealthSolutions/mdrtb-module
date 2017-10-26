@@ -259,9 +259,9 @@ public class ReportUtil {
 		if(month!=null && month.length()==0)
 			month = null;
 		
-		System.out.println("YEAR:" + year);
+		/*System.out.println("YEAR:" + year);
 		System.out.println("QTR:" + quarter);
-		System.out.println("MONTH:" + month);
+		System.out.println("MONTH:" + month);*/
 		
 		// Validate input and construct start and end months
 		int startMonth =1;
