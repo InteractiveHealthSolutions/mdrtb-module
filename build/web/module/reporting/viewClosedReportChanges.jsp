@@ -82,9 +82,7 @@
 						<th>Age</th>
 						<th>Date Created</th>
 						<th>Date Changed</th>
-						<th>Encounter Id</th>
-						<th>Encounter Type Id</th>
-						<th>Encounter Type name</th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -115,7 +113,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="obs" items="${obsData}" varStatus="obssLoop">
+					<c:forEach var="obss" items="${obsData}" varStatus="obssLoop">
 						<tr>
 							<c:forEach var="obs" items="${obss}" varStatus="obsLoop">
 								<td>${obs}</td>

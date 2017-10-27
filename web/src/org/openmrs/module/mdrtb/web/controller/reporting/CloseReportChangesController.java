@@ -17,6 +17,7 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -79,10 +80,14 @@ public class CloseReportChangesController {
 		
 		Date startDate = (Date)(dateMap.get("startDate"));
 		Date endDate = (Date)(dateMap.get("endDate"));
-		Date closeDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reportDate);
+		Date closeDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(reportDate);
+		
+		System.out.println(startDate);
+		System.out.println(endDate);
+		System.out.println(closeDate);
 		
 		List<Encounter> modifiedEncounters = new ArrayList<Encounter>();
-		Map<Encounter, Obs> modifiedObs = new HashMap<Encounter, Obs>();
+		Map<Integer, Obs> modifiedObs = new HashMap<Integer, Obs>();
 		Map<Encounter, Patient> modifiedPatients = new HashMap<Encounter, Patient>();
 
 		List<Encounter> encounters = (List<Encounter>) Context.getService(MdrtbService.class).getEncountersByEncounterTypes(reportEncounterTypes, startDate, endDate, null);
@@ -102,33 +107,47 @@ public class CloseReportChangesController {
 					}
 					
 					Patient patient = encounter.getPatient();
+					Person person = Context.getPersonService().getPerson(patient.getId());
 					if(patient != null) {
 						if(patient.getDateCreated() != null) {
 							//Patient By Encounter Created Between Start Date and End Date Or Created After Report Close Date
-							if((patient.getDateCreated().after(startDate) && patient.getDateCreated().before(endDate)) || patient.getDateCreated().after(closeDate)) {
+							//if((patient.getDateCreated().after(startDate) && patient.getDateCreated().before(endDate)) || (person.getDateCreated().after(startDate) && person.getDateCreated().before(endDate)) || patient.getDateCreated().after(closeDate) || person.getDateCreated().after(closeDate)) {
 								if(patient.getDateChanged() != null) {
 									//Patient By Encounter Changed After Report Closed Date
 									if(patient.getDateCreated().after(closeDate) || patient.getDateChanged().after(closeDate)) {
-										modifiedPatients.put(encounter, patient);
+										
+										if(!modifiedPatients.containsValue(patient))
+											modifiedPatients.put(encounter, patient);
 									}
 								}
-							}
+								
+								else if(person.getDateChanged() != null) {
+									//Patient By Encounter Changed After Report Closed Date
+									if(person.getDateCreated().after(closeDate) || person.getDateChanged().after(closeDate)) {
+										if(!modifiedPatients.containsValue(patient))
+											modifiedPatients.put(encounter, patient);
+									}
+								}
+							//}
 						}	
 					}
+					
+					
 					
 					Set<Obs> observationList = encounter.getAllObs(true); // include voided
 					if(observationList != null) {
 						for (Obs obs : observationList) {
 							if(obs.getDateCreated() != null) {
 								//Obs By Encounter Created Between Start Date and End Date Or Created After Report Close Date
-								if(obs.getObsDatetime().after(startDate) && obs.getObsDatetime().before(endDate)) {
-									if(obs.getDateChanged() != null) {
+								//if(obs.getObsDatetime().after(startDate) && obs.getObsDatetime().before(endDate)) {
+									//if(obs.getDateVoided() != null) {
 										//Obs By Encounter Changed After Report Closed Date
-										if(obs.getDateCreated().after(closeDate) || obs.getDateChanged().after(closeDate)) {
-											modifiedObs.put(encounter, obs);
+										if(obs.getDateCreated().after(closeDate) || (obs.getDateVoided()!=null && obs.getDateVoided().after(closeDate))) {
+											System.out.println("PUTTING:" + obs.getId());
+											modifiedObs.put(obs.getId(), obs);
 										}
-									}
-								}
+									//}
+								//}
 							}	
 						}
 					}
@@ -174,9 +193,10 @@ public class CloseReportChangesController {
 			tempData.add(Integer.toString(patient.getAge())); // patient age
 			tempData.add(patient.getDateCreated().toString()); // patient date created
 			tempData.add(patient.getDateChanged().toString()); // patient date changed
-	        tempData.add(Integer.toString(encounter.getId())); // encounter id
+	       /* tempData.add(Integer.toString(encounter.getId())); // encounter id
 			tempData.add(Integer.toString(encounter.getEncounterType().getId())); // encounter type id
 			tempData.add(encounter.getEncounterType().getName()); // encounter type name 
+*/			patientData.add(tempData);
 			iterator1.remove();
 	    }
 	    
@@ -184,16 +204,23 @@ public class CloseReportChangesController {
 	    while (iterator2.hasNext()) {
 			ArrayList<String> tempData = new ArrayList<String>();
 	        Map.Entry obsMap = (Map.Entry) iterator2.next();
-	        Encounter encounter = (Encounter) obsMap.getKey();
+	        Integer id = (Integer) obsMap.getKey();
+	        
 	        Obs obs = (Obs) obsMap.getValue();
+	        Encounter encounter = obs.getEncounter();
 			tempData.add(Integer.toString(obs.getId())); // obs id
 			tempData.add(obs.getConcept().getName().toString()); // obs concept name
 			tempData.add(obs.getObsDatetime().toString()); // obs date time
 			tempData.add(obs.getDateCreated().toString()); // obs create date
-			tempData.add(obs.getDateChanged().toString()); // obs change date
+			if(obs.getDateVoided()!=null)
+				tempData.add(obs.getDateVoided().toString()); // obs change date
+			else {
+				tempData.add("");
+			}
 	        tempData.add(Integer.toString(encounter.getId())); //encounter id
 			tempData.add(Integer.toString(encounter.getEncounterType().getId())); //encounter type id
 			tempData.add(encounter.getEncounterType().getName()); //encounter type name 
+			obsData.add(tempData);
 			iterator2.remove();
 	    }
 	    
@@ -249,7 +276,7 @@ public class CloseReportChangesController {
 		model.addAttribute("obsData", obsData);
 		model.addAttribute("obsDataSize", obsData.size());
 		
-		
+		/*
 		Map<Integer, Patient> testPatient = new HashMap<Integer, Patient>();
 		Encounter test1 = Context.getEncounterService().getEncounter(28634);
 		testPatient.put(test1.getId(), test1.getPatient());
@@ -261,7 +288,7 @@ public class CloseReportChangesController {
 		Obs o = Context.getObsService().getObs(1);
 		testObs.put(test2.getId(), o);
 		model.addAttribute("testObs", testObs);
-		model.addAttribute("testObsSize", testObs.size());
+		model.addAttribute("testObsSize", testObs.size());*/
 
 		return new ModelAndView("/module/mdrtb/reporting/viewClosedReportChanges", model);
 	}
