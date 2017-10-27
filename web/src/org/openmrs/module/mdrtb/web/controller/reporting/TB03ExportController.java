@@ -202,7 +202,7 @@ public class TB03ExportController {
     	
     	ArrayList<TB03Data> patientSet  = new ArrayList<TB03Data>();
     	SimpleDateFormat sdf = new SimpleDateFormat();
-    	
+    
     	/*ArrayList<Person> patientList = new ArrayList<Person>();
     	ArrayList<Concept> conceptQuestionList = new ArrayList<Concept>();
     	ArrayList<Concept> conceptAnswerList = new ArrayList<Concept>();*/
@@ -214,6 +214,9 @@ public class TB03ExportController {
     	Concept reg1Rtx = Context.getService(MdrtbService.class).getConcept(TbConcepts.REGIMEN_1_RETREATMENT);
     	HashMap<Integer,Integer> idMap = new HashMap<Integer,Integer>();
     	sdf.applyPattern("dd.MM.yyyy");
+    	
+    	SimpleDateFormat rdateSDF = new SimpleDateFormat();
+    	rdateSDF.applyPattern("dd.MM.yyyy HH:mm:ss");
     	
     	for (TB03Form tf : tb03List) {
     		
@@ -610,7 +613,7 @@ public class TB03ExportController {
 			model.addAttribute("quarter", quarter.replace("\"", "'"));
 		else
 			model.addAttribute("quarter", "");
-    	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportDate", rdateSDF.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
     	return "/module/mdrtb/reporting/tb03Results";
     }

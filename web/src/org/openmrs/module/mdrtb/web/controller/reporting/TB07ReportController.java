@@ -151,6 +151,8 @@ public class TB07ReportController {
 	*/	
 		SimpleDateFormat sdf = new SimpleDateFormat();
     	sdf.applyPattern("dd.MM.yyyy");
+    	SimpleDateFormat rdateSDF = new SimpleDateFormat();
+    	rdateSDF.applyPattern("dd.MM.yyyy HH:mm:ss");
 		
 		//for(int j=0; j<iterations; j++) {	
 			
@@ -1901,7 +1903,7 @@ public class TB07ReportController {
 		model.addAttribute("dName", dName);
 		model.addAttribute("fName", fName);
 		
-    	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportDate", rdateSDF.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
         return "/module/mdrtb/reporting/tb07Results";
         //_" + Context.getLocale().toString().substring(0, 2);

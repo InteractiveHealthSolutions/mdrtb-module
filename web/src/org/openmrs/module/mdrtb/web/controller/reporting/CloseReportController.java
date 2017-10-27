@@ -62,7 +62,7 @@ public class CloseReportController {
     		ModelMap model) throws EvaluationException, IOException, ServletException {
         System.out.println("-----Close Report POST-----");
         
-       // System.out.println("CRP-PARAMS:"+oblastId +":" + districtId + ":" + facilityId +":" + year + ":" + quarter + ":" + month + ":" + reportDate + ":" + reportName + ":" + formPath);
+        System.out.println("CRP-PARAMS:"+oblastId +":" + districtId + ":" + facilityId +":" + year + ":" + quarter + ":" + month + ":" + reportDate + ":" + reportName + ":" + formPath);
 		
         Integer o = oblastId;
         Integer d = districtId;
@@ -111,7 +111,7 @@ public class CloseReportController {
 				oblast = (Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId))).getId(); 
 			}*/
 			if(!(reportDate.equals(""))) {
-				date = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new SimpleDateFormat("dd.MM.yyyy").parse(reportDate)); 
+				date = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(reportDate)); 
 			}
 			if(!(table.equals(""))) {
 		    	tableData = new PDFHelper().compressCode(table);
@@ -142,7 +142,7 @@ public class CloseReportController {
 			else {
 				try {
 					System.out.println("Saving PDF in try...");
-					Context.getService(MdrtbService.class).doPDF(o, d, f, y, q, m, r, td, reportStatus, rn, "DOTSTB");
+					Context.getService(MdrtbService.class).doPDF(o, d, f, y, q, m, date, td, reportStatus, rn, "DOTSTB");
 				}
 				
 				catch(Exception ee) {

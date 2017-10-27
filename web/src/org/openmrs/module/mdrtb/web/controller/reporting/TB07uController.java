@@ -114,6 +114,8 @@ public class TB07uController {
     	
     	SimpleDateFormat sdf = new SimpleDateFormat();
     	sdf.applyPattern("dd.MM.yyyy");
+    	SimpleDateFormat rdateSDF = new SimpleDateFormat();
+    	rdateSDF.applyPattern("dd.MM.yyyy HH:mm:ss");
     	
     /*	Oblast o = null;
     	if(oblast!=null && !oblast.equals("") && location == null)
@@ -651,7 +653,7 @@ public class TB07uController {
     	model.addAttribute("location", location);*/
     	model.addAttribute("year", year);
     	model.addAttribute("quarter", quarter);
-    	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportDate", rdateSDF.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
         return "/module/mdrtb/reporting/tb08uResults_" + Context.getLocale().toString().substring(0, 2);
     }

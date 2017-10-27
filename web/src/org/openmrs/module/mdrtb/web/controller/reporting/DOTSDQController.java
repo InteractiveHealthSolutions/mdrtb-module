@@ -243,6 +243,8 @@ public class DOTSDQController {
 	    Integer eptbConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.EXTRA_PULMONARY_TB).getConceptId();
 	    
     	sdf.applyPattern("dd.MM.yyyy");
+    	SimpleDateFormat rdateSDF = new SimpleDateFormat();
+    	rdateSDF.applyPattern("dd.MM.yyyy HH:mm:ss");
     	
     	ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId, districtId, facilityId);
     	
@@ -658,7 +660,7 @@ public class DOTSDQController {
 			model.addAttribute("quarter", quarter.replace("\"", "'"));
 		else
 			model.addAttribute("quarter", "");
-    	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportDate", rdateSDF.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
         return "/module/mdrtb/reporting/dotsdqResults";
     }

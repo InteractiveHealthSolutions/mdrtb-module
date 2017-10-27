@@ -127,7 +127,8 @@ public class TB08uController {
     	
     	SimpleDateFormat sdf = new SimpleDateFormat();
     	sdf.applyPattern("dd.MM.yyyy");
-    	
+    	SimpleDateFormat rdateSDF = new SimpleDateFormat();
+    	rdateSDF.applyPattern("dd.MM.yyyy HH:mm:ss");
     	/*Oblast o = null;
     	if(oblast!=null && !oblast.equals("") && location == null)
 			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
@@ -700,7 +701,7 @@ public class TB08uController {
 		model.addAttribute("oName", oName);
 		model.addAttribute("dName", dName);
 		model.addAttribute("fName", fName);
-    	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportDate", rdateSDF.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
         return "/module/mdrtb/reporting/tb08uResults_" + Context.getLocale().toString().substring(0, 2);
     }

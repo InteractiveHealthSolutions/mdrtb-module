@@ -315,12 +315,12 @@ $(document).ready(function(){
 	  	<c:forEach var="row" items="${duplicateTB03}">
 	    	<tr>
 	        
-	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.patient.gender}</td>
 	         	<td>
 	         	<c:forEach var="link" items="${row.links }">
-	         	    <a href="${pageContext.request.contextPath}${link}" target="_blank"><spring:message code="mdrtb.tb03" />, </a>
+	         	    <a href="${pageContext.request.contextPath}${link}" target="_blank"><spring:message code="mdrtb.tb03" /> </a>&nbsp;
 	         	</c:forEach>
 	         	</td>
 	    	</tr>  

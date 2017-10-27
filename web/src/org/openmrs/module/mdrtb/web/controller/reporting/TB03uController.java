@@ -180,6 +180,8 @@ public class TB03uController {
     	Concept reg1Rtx = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.REGIMEN_1_RETREATMENT);
     	*/
     	sdf.applyPattern("dd.MM.yyyy");
+    	SimpleDateFormat rdateSDF = new SimpleDateFormat();
+    	rdateSDF.applyPattern("dd.MM.yyyy HH:mm:ss");
     	for (TB03uForm tf : tb03uList) {
     		
     		TB03uData tb03uData = new TB03uData();
@@ -1002,7 +1004,7 @@ public class TB03uController {
 			model.addAttribute("quarter", quarter.replace("\"", "'"));
 		else
 			model.addAttribute("quarter", "");
-    	model.addAttribute("reportDate", sdf.format(new Date()));
+    	model.addAttribute("reportDate", rdateSDF.format(new Date()));
     	model.addAttribute("reportStatus", reportStatus);
     	
     	
