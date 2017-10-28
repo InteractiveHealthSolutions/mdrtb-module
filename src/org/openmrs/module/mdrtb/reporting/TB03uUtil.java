@@ -139,7 +139,7 @@ public class TB03uUtil {
 		
 		return d;
 	}*/
-	
+	/*
 	public static Culture getDiagnosticCulture(TB03uForm tf) {
 		Culture c = null;
 		
@@ -153,7 +153,7 @@ public class TB03uUtil {
 			}
 		return c;
 		
-	}
+	}*/
 
 	
 	/*public static Xpert getFirstXpert(TB03uForm tf) {
@@ -185,7 +185,7 @@ public class TB03uUtil {
 	
 //	
 	
-	public static Smear getDiagnosticSmear(TB03uForm form) {
+	/*public static Smear getDiagnosticSmear(TB03uForm form) {
 		Smear c = null;
 		
 		for (SmearForm sf : form.getSmears()) {
@@ -198,9 +198,52 @@ public class TB03uUtil {
 		
 		return c;
 		
+	}*/
+	
+	public static SmearForm getFollowupSmearForm(TB03uForm form, Integer month) {
+		SmearForm c = null;
+		
+		for (SmearForm sf : form.getSmears()) {//, startDateCollected, endDateCollected)) {
+			if(sf.getMonthOfTreatment()!=null && sf.getMonthOfTreatment()==month.intValue()) {
+					c = sf;//new SmearImpl(sf.getEncounter());
+					break;
+				}
+					
+		}
+		return c;
+		
 	}
 	
-	public static Smear getFollowupSmear(TB03uForm form, Integer month) {
+	/*public static Culture getFollowupCulture(TB03uForm form, Integer month) {
+		Culture c = null;
+		
+		for (CultureForm cf : form.getCultures()) {//, startDateCollected, endDateCollected)) {
+			if(cf.getMonthOfTreatment()!=null && cf.getMonthOfTreatment()==month.intValue()) {
+					c = new CultureImpl(cf.getEncounter());
+					break;
+				}
+					
+		}
+		return c;
+		
+	}*/
+	
+	public static CultureForm getFollowupCultureForm(TB03uForm form, Integer month) {
+		CultureForm c = null;
+		
+		for (CultureForm cf : form.getCultures()) {//, startDateCollected, endDateCollected)) {
+			if(cf.getMonthOfTreatment()!=null && cf.getMonthOfTreatment()==month.intValue()) {
+					c = cf;//new CultureImpl(cf.getEncounter());
+					break;
+				}
+					
+		}
+		return c;
+		
+	}
+		
+	
+	/*public static Smear getFollowupSmear(TB03uForm form, Integer month) {
 		Smear c = null;
 		
 		for (SmearForm sf : form.getSmears()) {//, startDateCollected, endDateCollected)) {
@@ -227,7 +270,7 @@ public class TB03uUtil {
 		return c;
 		
 	}
-		
+		*/
 	
 	public static Dst getDiagnosticDST(TB03uForm tf) {
 		Dst d = null;

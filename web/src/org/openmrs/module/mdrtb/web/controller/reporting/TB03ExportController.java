@@ -24,7 +24,11 @@ import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.reporting.TB03Data;
@@ -241,6 +245,7 @@ public class TB03ExportController {
     	   
     	    String identifier = TB03Util.getRegistrationNumber(tf);
     	    tb03Data.setIdentifier(identifier);
+    	    System.out.println("ID:" + tb03Data.getIdentifier());
     	    
     	    //DATE OF TB03 REGISTRATION
     	    
@@ -329,19 +334,53 @@ public class TB03ExportController {
     	    
     	    //DIAGNOSTIC SMEAR
     	    
-    	    Smear diagnosticSmear = TB03Util.getDiagnosticSmear(tf);
+    	    SmearForm diagnosticSmear = TB03Util.getDiagnosticSmearForm(tf);
     	    if(diagnosticSmear!=null) {
-    	    		if(diagnosticSmear.getResult()!=null) 
+    	    	System.out.println("SMEAR ID:" + diagnosticSmear.getId());
+    	    		if(diagnosticSmear.getSmearResult()!=null) {
+    	    			tb03Data.setDiagnosticSmearResult(diagnosticSmear.getSmearResult().getName().getShortName());
+    	    			//System.out.println("RESULT:" + diagnosticSmear.getResult());
+    	    		}
+    	    		if(diagnosticSmear.getEncounterDatetime()!=null) {
+    	    			tb03Data.setDiagnosticSmearDate(sdf.format(diagnosticSmear.getEncounterDatetime()));
+    	    			//System.out.println("DATE:" + diagnosticSmear.getResultDate());
+    	    		}
+    	    		
+    	    		tb03Data.setDiagnosticSmearTestNumber(diagnosticSmear.getSpecimenId());
+    	    		//System.out.println("SPEC ID:" + diagnosticSmear.getRealSpecimenId());
+    	    		
+    	    		System.out.println(tb03Data.getDiagnosticSmearResult() + "," + tb03Data.getDiagnosticSmearDate() + "," + tb03Data.getDiagnosticSmearTestNumber());
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG SMEAR");
+    	    }
+    	    
+    	   /* Smear diagnosticSmear = TB03Util.getDiagnosticSmear(tf);
+    	    if(diagnosticSmear!=null) {
+    	    	System.out.println("SMEAR ID:" + diagnosticSmear.getId());
+    	    		if(diagnosticSmear.getResult()!=null) {
     	    			tb03Data.setDiagnosticSmearResult(diagnosticSmear.getResult().getName().getShortName());
-    	    		if(diagnosticSmear.getResultDate()!=null)
+    	    			System.out.println("RESULT:" + diagnosticSmear.getResult());
+    	    		}
+    	    		if(diagnosticSmear.getResultDate()!=null) {
     	    			tb03Data.setDiagnosticSmearDate(sdf.format(diagnosticSmear.getResultDate()));
+    	    			System.out.println("DATE:" + diagnosticSmear.getResultDate());
+    	    		}
     	    		
     	    		tb03Data.setDiagnosticSmearTestNumber(diagnosticSmear.getRealSpecimenId());
+    	    		System.out.println("SPEC ID:" + diagnosticSmear.getRealSpecimenId());
+    	    		
+    	    		System.out.println(tb03Data.getDiagnosticSmearResult() + "," + tb03Data.getDiagnosticSmearDate() + "," + tb03Data.getDiagnosticSmearTestNumber());
     	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG SMEAR");
+    	    }*/
     	    
     	    
     	    //DIAGNOSTIC XPERT
-    	    Xpert firstXpert = TB03Util.getFirstXpert(tf);
+    	    /*Xpert firstXpert = TB03Util.getFirstXpert(tf);
     	    if(firstXpert!=null) {
     	    	if(firstXpert.getResult()!=null)
     	    		tb03Data.setXpertMTBResult(firstXpert.getResult().getName().getShortName());
@@ -353,10 +392,30 @@ public class TB03ExportController {
     	    	tb03Data.setXpertTestNumber(firstXpert.getRealSpecimenId());
     	    }
     	    
+    	    else {
+    	    	System.out.println("NULL DIAG XPERT");
+    	    }*/
+    	    
+    	    XpertForm firstXpert = TB03Util.getFirstXpertForm(tf);
+    	    if(firstXpert!=null) {
+    	    	if(firstXpert.getMtbResult()!=null)
+    	    		tb03Data.setXpertMTBResult(firstXpert.getMtbResult().getName().getShortName());
+    	    	if(firstXpert.getRifResult()!=null)
+    	    		tb03Data.setXpertRIFResult(firstXpert.getRifResult().getName().getShortName());
+    	    	if(firstXpert.getEncounterDatetime()!=null)
+    	    		tb03Data.setXpertTestDate(sdf.format(firstXpert.getEncounterDatetime()));
+    	    	
+    	    	tb03Data.setXpertTestNumber(firstXpert.getSpecimenId());
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG XPERT");
+    	    }
+    	    
     	    
     	    
     	    //DIAGNOSTIC HAIN
-    	    HAIN firstHAIN = TB03Util.getFirstHAIN(tf);
+    	   /* HAIN firstHAIN = TB03Util.getFirstHAIN(tf);
     	    if(firstHAIN!=null) {
     	    	if(firstHAIN.getResult()!=null)
     	    		tb03Data.setHainMTBResult(firstHAIN.getResult().getName().getShortName());
@@ -370,14 +429,53 @@ public class TB03ExportController {
     	    	tb03Data.setHainTestNumber(firstHAIN.getRealSpecimenId());
     	    }
     	    
+    	    else {
+    	    	System.out.println("NULL DIAG HAIN");
+    	    }*/
+    	    
+    	    HAINForm firstHAIN = TB03Util.getFirstHAINForm(tf);
+    	    if(firstHAIN!=null) {
+    	    	if(firstHAIN.getMtbResult()!=null)
+    	    		tb03Data.setHainMTBResult(firstHAIN.getMtbResult().getName().getShortName());
+    	    	if(firstHAIN.getRifResult()!=null)
+    	    		tb03Data.setHainRIFResult(firstHAIN.getRifResult().getName().getShortName());
+    	    	if(firstHAIN.getInhResult()!=null)
+    	    		tb03Data.setHainINHResult(firstHAIN.getInhResult().getName().getShortName());
+    	    	if(firstHAIN.getEncounterDatetime()!=null)
+    	    		tb03Data.setHainTestDate(sdf.format(firstHAIN.getEncounterDatetime()));
+    	    	
+    	    	tb03Data.setHainTestNumber(firstHAIN.getSpecimenId());
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG HAIN");
+    	    }
+    	    
     	    //DIAGNOSTIC CULTURE
-    	    Culture diagnosticCulture  = TB03Util.getDiagnosticCulture(tf);
+    	   /* Culture diagnosticCulture  = TB03Util.getDiagnosticCulture(tf);
     	    if(diagnosticCulture!=null) {
     	    	if(diagnosticCulture.getResult()!=null)
     	    		tb03Data.setCultureResult(diagnosticCulture.getResult().getName().getShortName());
     	    	if(diagnosticCulture.getResultDate()!=null)
     	    		tb03Data.setCultureTestDate(sdf.format(diagnosticCulture.getResultDate()));
     	    	tb03Data.setCultureTestNumber(diagnosticCulture.getRealSpecimenId());
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG CULTURE");
+    	    }*/
+    	    
+    	    CultureForm diagnosticCulture  = TB03Util.getDiagnosticCultureForm(tf);
+    	    if(diagnosticCulture!=null) {
+    	    	if(diagnosticCulture.getCultureResult()!=null)
+    	    		tb03Data.setCultureResult(diagnosticCulture.getCultureResult().getName().getShortName());
+    	    	if(diagnosticCulture.getEncounterDatetime()!=null)
+    	    		tb03Data.setCultureTestDate(sdf.format(diagnosticCulture.getEncounterDatetime()));
+    	    	tb03Data.setCultureTestNumber(diagnosticCulture.getSpecimenId());
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG CULTURE");
     	    }
     	    
     	    
@@ -422,7 +520,8 @@ public class TB03ExportController {
     	    //FOLLOW-UP SMEARS
     	    
     	    //first check patient regimen
-    	    Smear followupSmear = null;
+    	   // Smear followupSmear = null;
+    	    SmearForm followupSmear = null;
     	    q = tf.getPatientCategory();//
     	    
     	    if(q!=null)
@@ -434,87 +533,87 @@ public class TB03ExportController {
     	    		
     	    		tb03Data.setReg1New(Boolean.TRUE);
     	    		
-    	    		followupSmear = TB03Util.getFollowupSmear(tf, 2);
+    	    		followupSmear = TB03Util.getFollowupSmearForm(tf, 2);
     	    	    if(followupSmear!=null) {
-    	    	    		if(followupSmear.getResult()!=null) 
-    	    	    			tb03Data.setMonth2SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	    		if(followupSmear.getResultDate()!=null)
-    	    	    			tb03Data.setMonth2SmearDate(sdf.format(followupSmear.getResultDate()));
+    	    	    		if(followupSmear.getSmearResult()!=null) 
+    	    	    			tb03Data.setMonth2SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	    		if(followupSmear.getEncounterDatetime()!=null)
+    	    	    			tb03Data.setMonth2SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
-    	    	    		tb03Data.setMonth2TestNumber(followupSmear.getRealSpecimenId());
+    	    	    		tb03Data.setMonth2TestNumber(followupSmear.getSpecimenId());
     	    	    }
     	    	    
-    	    	    followupSmear = TB03Util.getFollowupSmear(tf, 3);
+    	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 3);
     	    	    if(followupSmear!=null) {
-    	    	    		if(followupSmear.getResult()!=null) 
-    	    	    			tb03Data.setMonth3SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	    		if(followupSmear.getResultDate()!=null)
-    	    	    			tb03Data.setMonth3SmearDate(sdf.format(followupSmear.getResultDate()));
+    	    	    		if(followupSmear.getSmearResult()!=null) 
+    	    	    			tb03Data.setMonth3SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	    		if(followupSmear.getEncounterDatetime()!=null)
+    	    	    			tb03Data.setMonth3SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
-    	    	    		tb03Data.setMonth3TestNumber(followupSmear.getRealSpecimenId());
+    	    	    		tb03Data.setMonth3TestNumber(followupSmear.getSpecimenId());
     	    	    }
     	    	    
-    	    	    followupSmear = TB03Util.getFollowupSmear(tf, 5);
+    	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 5);
     	    	    if(followupSmear!=null) {
-    	    	    		if(followupSmear.getResult()!=null) 
-    	    	    			tb03Data.setMonth5SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	    		if(followupSmear.getResultDate()!=null)
-    	    	    			tb03Data.setMonth5SmearDate(sdf.format(followupSmear.getResultDate()));
+    	    	    		if(followupSmear.getSmearResult()!=null) 
+    	    	    			tb03Data.setMonth5SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	    		if(followupSmear.getEncounterDatetime()!=null)
+    	    	    			tb03Data.setMonth5SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
-    	    	    		tb03Data.setMonth5TestNumber(followupSmear.getRealSpecimenId());
+    	    	    		tb03Data.setMonth5TestNumber(followupSmear.getSpecimenId());
     	    	    }
     	    	    
-    	    	    followupSmear = TB03Util.getFollowupSmear(tf, 6);
+    	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 6);
     	    	    if(followupSmear!=null) {
-    	    	    		if(followupSmear.getResult()!=null) 
-    	    	    			tb03Data.setMonth6SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	    		if(followupSmear.getResultDate()!=null)
-    	    	    			tb03Data.setMonth6SmearDate(sdf.format(followupSmear.getResultDate()));
+    	    	    		if(followupSmear.getSmearResult()!=null) 
+    	    	    			tb03Data.setMonth6SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	    		if(followupSmear.getEncounterDatetime()!=null)
+    	    	    			tb03Data.setMonth6SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
-    	    	    		tb03Data.setMonth6TestNumber(followupSmear.getRealSpecimenId());
+    	    	    		tb03Data.setMonth6TestNumber(followupSmear.getSpecimenId());
     	    	    }
     	    	}
     	    	
     	    	else if(regimenConceptId.equals(reg1Rtx.getConceptId())) {
     	    		tb03Data.setReg1Rtx(Boolean.TRUE);
-    	    		 followupSmear = TB03Util.getFollowupSmear(tf, 3);
+    	    		 followupSmear = TB03Util.getFollowupSmearForm(tf, 3);
      	    	    if(followupSmear!=null) {
-     	    	    		if(followupSmear.getResult()!=null) 
-     	    	    			tb03Data.setMonth3SmearResult(followupSmear.getResult().getName().getShortName());
-     	    	    		if(followupSmear.getResultDate()!=null)
-     	    	    			tb03Data.setMonth3SmearDate(sdf.format(followupSmear.getResultDate()));
+     	    	    		if(followupSmear.getSmearResult()!=null) 
+     	    	    			tb03Data.setMonth3SmearResult(followupSmear.getSmearResult().getName().getShortName());
+     	    	    		if(followupSmear.getEncounterDatetime()!=null)
+     	    	    			tb03Data.setMonth3SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
      	    	    		
-     	    	    		tb03Data.setMonth3TestNumber(followupSmear.getRealSpecimenId());
+     	    	    		tb03Data.setMonth3TestNumber(followupSmear.getSpecimenId());
      	    	    }
     	    	    
-    	    	    followupSmear = TB03Util.getFollowupSmear(tf, 4);
+    	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 4);
     	    	    if(followupSmear!=null) {
-    	    	    		if(followupSmear.getResult()!=null) 
-    	    	    			tb03Data.setMonth4SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	    		if(followupSmear.getResultDate()!=null)
-    	    	    			tb03Data.setMonth4SmearDate(sdf.format(followupSmear.getResultDate()));
+    	    	    		if(followupSmear.getSmearResult()!=null) 
+    	    	    			tb03Data.setMonth4SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	    		if(followupSmear.getEncounterDatetime()!=null)
+    	    	    			tb03Data.setMonth4SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
-    	    	    		tb03Data.setMonth4TestNumber(followupSmear.getRealSpecimenId());
+    	    	    		tb03Data.setMonth4TestNumber(followupSmear.getSpecimenId());
     	    	    }
     	    	    
-    	    	    followupSmear = TB03Util.getFollowupSmear(tf, 5);
+    	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 5);
     	    	    if(followupSmear!=null) {
-    	    	    		if(followupSmear.getResult()!=null) 
-    	    	    			tb03Data.setMonth5SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	    		if(followupSmear.getResultDate()!=null)
-    	    	    			tb03Data.setMonth5SmearDate(sdf.format(followupSmear.getResultDate()));
+    	    	    		if(followupSmear.getSmearResult()!=null) 
+    	    	    			tb03Data.setMonth5SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	    		if(followupSmear.getEncounterDatetime()!=null)
+    	    	    			tb03Data.setMonth5SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
-    	    	    		tb03Data.setMonth5TestNumber(followupSmear.getRealSpecimenId());
+    	    	    		tb03Data.setMonth5TestNumber(followupSmear.getSpecimenId());
     	    	    }
     	    	    
-    	    	    followupSmear = TB03Util.getFollowupSmear(tf, 8);
+    	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 8);
     	    	    if(followupSmear!=null) {
-    	    	    		if(followupSmear.getResult()!=null) 
-    	    	    			tb03Data.setMonth8SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	    		if(followupSmear.getResultDate()!=null)
-    	    	    			tb03Data.setMonth8SmearDate(sdf.format(followupSmear.getResultDate()));
+    	    	    		if(followupSmear.getSmearResult()!=null) 
+    	    	    			tb03Data.setMonth8SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	    		if(followupSmear.getEncounterDatetime()!=null)
+    	    	    			tb03Data.setMonth8SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
-    	    	    		tb03Data.setMonth8TestNumber(followupSmear.getRealSpecimenId());
+    	    	    		tb03Data.setMonth8TestNumber(followupSmear.getSpecimenId());
     	    	    }
     	    	}
     	    }

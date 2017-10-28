@@ -25,6 +25,8 @@ import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
@@ -520,341 +522,341 @@ public class TB03uController {
     	    //FOLLOW-UP SMEARS
     	    //accordingly look for smears
     	  
-    	    Smear followupSmear = TB03uUtil.getFollowupSmear(tf, 0);
+    	    SmearForm followupSmear = TB03uUtil.getFollowupSmearForm(tf, 0);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth0SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth0SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth0SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth0SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 1);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 1);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth1SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth1SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth1SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth1SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 2);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 2);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth2SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth2SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth2SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth2SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 3);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 3);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth3SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth3SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth3SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth3SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 4);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 4);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth4SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth4SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth4SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth4SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 5);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 5);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth5SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth5SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth5SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth5SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 6);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 6);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth6SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth6SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth6SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth6SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 7);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 7);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth7SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth7SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth7SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth7SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 8);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 8);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth8SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth8SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth8SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth8SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 9);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 9);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth9SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth9SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth9SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth9SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 10);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 10);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth10SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth10SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth10SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth10SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 11);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 11);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth11SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth11SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth11SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth11SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 12);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 12);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth12SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth12SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth12SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth12SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 15);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 15);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth15SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth15SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth15SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth15SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 18);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 18);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth18SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth18SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth18SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth18SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 21);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 21);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth21SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth21SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth21SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth21SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 24);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 24);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth24SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth24SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth24SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth24SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 27);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 27);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth27SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth27SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth27SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth27SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 30);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 30);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth30SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth30SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth30SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth30SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 33);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 33);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth33SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth33SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth33SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth33SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
-    	    followupSmear = TB03uUtil.getFollowupSmear(tf, 36);
+    	    followupSmear = TB03uUtil.getFollowupSmearForm(tf, 36);
     	    if(followupSmear!=null) {
-    	    	if(followupSmear.getResult()!=null) 
-    	    		tb03uData.setMonth36SmearResult(followupSmear.getResult().getName().getShortName());
-    	    	if(followupSmear.getResultDate()!=null)
-    	    	    tb03uData.setMonth36SmearResultDate(sdf.format(followupSmear.getResultDate()));	
+    	    	if(followupSmear.getSmearResult()!=null) 
+    	    		tb03uData.setMonth36SmearResult(followupSmear.getSmearResult().getName().getShortName());
+    	    	if(followupSmear.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth36SmearResultDate(sdf.format(followupSmear.getEncounterDatetime()));	
     	   }
     	    
     	    //follow CULTURES
-    	    Culture followupCulture = TB03uUtil.getFollowupCulture(tf, 0);
+    	    CultureForm followupCulture = TB03uUtil.getFollowupCultureForm(tf, 0);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth0CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth0CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth0CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth0CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 1);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 1);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth1CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth1CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth1CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth1CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 2);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 2);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth2CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth2CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth2CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth2CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 3);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 3);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth3CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth3CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth3CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth3CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 4);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 4);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth4CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth4CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth4CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth4CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 5);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 5);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth5CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth5CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth5CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth5CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 6);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 6);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth6CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth6CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth6CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth6CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 7);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 7);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth7CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth7CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth7CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth7CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 8);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 8);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth8CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth8CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth8CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth8CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 9);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 9);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth9CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth9CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth9CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth9CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 10);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 10);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth10CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth10CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth10CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth10CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 11);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 11);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth11CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth11CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth11CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth11CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 12);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 12);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth12CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth12CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth12CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth12CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 15);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 15);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth15CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth15CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth15CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth15CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 18);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 18);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth18CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth18CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth18CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth18CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 21);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 21);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth21CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth21CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth21CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth21CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 24);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 24);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth24CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth24CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth24CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth24CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 27);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 27);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth27CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth27CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth27CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth27CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 30);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 30);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth30CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth30CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth30CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth30CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 33);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 33);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth33CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth33CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth33CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth33CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
-    	    followupCulture = TB03uUtil.getFollowupCulture(tf, 36);
+    	    followupCulture = TB03uUtil.getFollowupCultureForm(tf, 36);
     	    if(followupCulture!=null) {
-    	    	if(followupCulture.getResult()!=null) 
-    	    		tb03uData.setMonth36CultureResult(followupCulture.getResult().getName().getShortName());
-    	    	if(followupCulture.getResultDate()!=null)
-    	    	    tb03uData.setMonth36CultureResultDate(sdf.format(followupCulture.getResultDate()));	
+    	    	if(followupCulture.getCultureResult()!=null) 
+    	    		tb03uData.setMonth36CultureResult(followupCulture.getCultureResult().getName().getShortName());
+    	    	if(followupCulture.getEncounterDatetime()!=null)
+    	    	    tb03uData.setMonth36CultureResultDate(sdf.format(followupCulture.getEncounterDatetime()));	
     	   }
     	    
     	    

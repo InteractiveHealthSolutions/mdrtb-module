@@ -51,6 +51,21 @@ public class TB03Util {
 		return c;
 		
 	}
+	
+	public static CultureForm getDiagnosticCultureForm(TB03Form tf) {
+		CultureForm c = null;
+		
+		for (CultureForm cf : tf.getCultures()) {//, startDateCollected, endDateCollected)) {
+			if(cf.getMonthOfTreatment()!=null && cf.getMonthOfTreatment()==0) {
+				
+					c = cf;
+					break;
+				}
+					
+			}
+		return c;
+		
+	}
 
 	
 	public static Xpert getFirstXpert(TB03Form tf) {
@@ -59,6 +74,19 @@ public class TB03Util {
 		 {//, startDateCollected, endDateCollected)) {
 			if(xperts!=null && xperts.size() > 0) {
 					c = new XpertImpl(xperts.get(0).getEncounter());
+					
+				}
+		}
+		
+		return c;
+	}
+	
+	public static XpertForm getFirstXpertForm(TB03Form tf) {
+		XpertForm c = null;
+		List<XpertForm> xperts = tf.getXperts();
+		 {//, startDateCollected, endDateCollected)) {
+			if(xperts!=null && xperts.size() > 0) {
+					c = xperts.get(0);
 					
 				}
 		}
@@ -80,6 +108,20 @@ public class TB03Util {
 		return c;
 	}
 	
+	public static HAINForm getFirstHAINForm(TB03Form tf) {
+		HAINForm c = null;
+		
+		List<HAINForm> hains = tf.getHains();
+		//, startDateCollected, endDateCollected)) {
+			if(hains!=null && hains.size() > 0) {
+					c = hains.get(0);// new HAINImpl(hains.get(0).getEncounter());
+					
+				}
+	
+		
+		return c;
+	}
+	
 //	
 	
 	public static Smear getDiagnosticSmear(TB03Form form) {
@@ -88,6 +130,25 @@ public class TB03Util {
 		for (SmearForm sf : form.getSmears()) {
 			if(sf.getMonthOfTreatment()!=null && sf.getMonthOfTreatment()==0) {
 					c = new SmearImpl(sf.getEncounter());
+					c.setResult(sf.getSmearResult());
+					c.setResultDate(sf.getEncounterDatetime());
+					
+					break;
+				}
+					
+		}
+		
+		return c;
+		
+	}
+	
+	public static SmearForm getDiagnosticSmearForm(TB03Form form) {
+		SmearForm c = null;
+		
+		for (SmearForm sf : form.getSmears()) {
+			if(sf.getMonthOfTreatment()!=null && sf.getMonthOfTreatment()==0) {
+					c=sf;
+					
 					break;
 				}
 					
@@ -103,6 +164,20 @@ public class TB03Util {
 		for (SmearForm sf : form.getSmears()) {//, startDateCollected, endDateCollected)) {
 			if(sf.getMonthOfTreatment()!=null && sf.getMonthOfTreatment()==month.intValue()) {
 					c = new SmearImpl(sf.getEncounter());
+					break;
+				}
+					
+		}
+		return c;
+		
+	}
+	
+	public static SmearForm getFollowupSmearForm(TB03Form form, Integer month) {
+		SmearForm c = null;
+		
+		for (SmearForm sf : form.getSmears()) {//, startDateCollected, endDateCollected)) {
+			if(sf.getMonthOfTreatment()!=null && sf.getMonthOfTreatment()==month.intValue()) {
+					c = sf;// new SmearImpl(sf.getEncounter());
 					break;
 				}
 					

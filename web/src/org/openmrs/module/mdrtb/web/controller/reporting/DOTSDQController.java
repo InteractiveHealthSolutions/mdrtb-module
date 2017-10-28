@@ -24,10 +24,14 @@ import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.form.CultureForm;
 import org.openmrs.module.mdrtb.form.Form89;
+import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TransferInForm;
 import org.openmrs.module.mdrtb.form.TransferOutForm;
+import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.reporting.DQItem;
 import org.openmrs.module.mdrtb.reporting.DQUtil;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
@@ -232,10 +236,10 @@ public class DOTSDQController {
     	long timeDiff = 0;
     	double diffInWeeks = 0;
     	
-    	Smear diagnosticSmear = null;
-	    Xpert firstXpert = null;
-	    HAIN firstHAIN = null;
-	    Culture diagnosticCulture  = null;
+    	SmearForm diagnosticSmear = null;
+	    XpertForm firstXpert = null;
+	    HAINForm firstHAIN = null;
+	    CultureForm diagnosticCulture  = null;
 	    Boolean eptb = Boolean.FALSE;
 	    Boolean child = Boolean.FALSE;
 	    DQItem dqi = null;
@@ -460,10 +464,10 @@ public class DOTSDQController {
     	    //MISSING DIAGNOSTIC TESTS
 
     	    
-    	    diagnosticSmear = TB03Util.getDiagnosticSmear(tf);
-    	    firstXpert = TB03Util.getFirstXpert(tf);
-    	    firstHAIN = TB03Util.getFirstHAIN(tf);
-    	    diagnosticCulture  = TB03Util.getDiagnosticCulture(tf);
+    	    diagnosticSmear = TB03Util.getDiagnosticSmearForm(tf);
+    	    firstXpert = TB03Util.getFirstXpertForm(tf);
+    	    firstHAIN = TB03Util.getFirstHAINForm(tf);
+    	    diagnosticCulture  = TB03Util.getDiagnosticCultureForm(tf);
     	    
     	   
     	    if(diagnosticSmear == null && diagnosticCulture == null && firstXpert==null && firstHAIN == null && eptb == Boolean.FALSE && child ==Boolean.FALSE) {
