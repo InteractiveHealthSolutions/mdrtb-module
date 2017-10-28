@@ -395,6 +395,10 @@ public class HAINForm extends AbstractSimpleForm implements Comparable<HAINForm>
 	}*/
 	
 	public int compareTo(HAINForm form) {
+		if(this.getMonthOfTreatment()==null)
+			return 1;
+		if(form.getMonthOfTreatment()==null)
+			return -1;
 		return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
 	}
 	

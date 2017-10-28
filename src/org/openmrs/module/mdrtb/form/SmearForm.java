@@ -221,6 +221,11 @@ public class SmearForm extends AbstractSimpleForm implements Comparable<SmearFor
 	}
 	
 	public int compareTo(SmearForm form) {
+			if(this.getMonthOfTreatment()==null)
+				return 1;
+			if(form.getMonthOfTreatment()==null)
+				return -1;
+			
 			return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
 	}
 	

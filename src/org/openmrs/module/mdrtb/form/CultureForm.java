@@ -217,6 +217,12 @@ public class CultureForm extends AbstractSimpleForm implements Comparable<Cultur
 	}
 	
 	public int compareTo(CultureForm form) {
+		
+		if(this.getMonthOfTreatment()==null)
+			return 1;
+		if(form.getMonthOfTreatment()==null)
+			return -1;
+		
 		return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
 	}
 	

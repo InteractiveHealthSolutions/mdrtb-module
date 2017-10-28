@@ -367,6 +367,10 @@ public class XpertForm extends AbstractSimpleForm implements Comparable<XpertFor
 	}*/
 	
 	public int compareTo(XpertForm form) {
+		if(this.getMonthOfTreatment()==null)
+			return 1;
+		if(form.getMonthOfTreatment()==null)
+			return -1;
 		return this.getMonthOfTreatment().compareTo(form.getMonthOfTreatment());
 }
 	
