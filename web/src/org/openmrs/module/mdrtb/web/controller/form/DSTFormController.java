@@ -23,6 +23,7 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.specimen.DstImpl;
 import org.openmrs.module.mdrtb.specimen.DstResult;
+import org.openmrs.module.mdrtb.specimen.DstResultImpl;
 
 import org.openmrs.module.mdrtb.form.DSTForm;
 
@@ -202,7 +203,12 @@ public class DSTFormController {
 		 								  @RequestParam(required = false, value = "returnUrl") String returnUrl,
 		 								 SessionStatus status, HttpServletRequest request, ModelMap map) {
 		 
-	    	
+			/*if(removeDstResults!=null) {
+			for(int ind = 0; ind<removeDstResults.length; ind++) {
+				System.out.println(removeDstResults[ind]);
+				System.out.println("-------------");
+			}
+			}*/
 		 	boolean mdr = false;
 			PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
 			//if(pp.getProgram().getConcept().getId().intValue() == Context.getConceptService().getConceptByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name")).getId().intValue()) {
@@ -217,6 +223,25 @@ public class DSTFormController {
 			Context.getEncounterService().saveEncounter(dst.getEncounter());
 			
 			dst.setDi(new DstImpl(dst.getEncounter()));
+			
+			Context.getService(MdrtbService.class).evict(dst.di.getTest());
+			Context.getService(MdrtbService.class).evict(dst.getEncounter());
+			
+			
+			/*List<DstResult> resultList = dst.getResults();
+			System.out.println("AFTER ENC SAVE");
+			
+			if(resultList!=null)
+			for(DstResult d : resultList) {
+				System.out.println(d.getId()+"-");
+				
+				System.out.println(d.getResult().getName().getName()+"-");
+				System.out.println(d.getDrug().getName().getName());
+				System.out.println("----");
+			}*/
+			
+			
+			//map.clear();
 		 /*// validate
 	    	if(dst != null) {
 	    		new TestValidator().validate(dst, errors);
@@ -260,6 +285,26 @@ public class DSTFormController {
 	    	
 			// hacky way to manually handle the addition of new dsts
 	    	// note that we only add dsts that have a result and drug specified
+			
+			// remove dst results
+						if(removeDstResults != null) {
+							
+							
+							Set<String> removeDstResultSet = new HashSet<String>(Arrays.asList(removeDstResults));
+							
+							for(DstResult result : dst.getResults()) {
+								if(result.getId() != null && removeDstResultSet.contains(result.getId())) {
+									/*System.out.println("REMOVING");
+									System.out.println(result.getId()+"-");
+									
+									System.out.println(result.getResult().getName().getName()+"-");
+									System.out.println(result.getDrug().getName().getName());
+									System.out.println("----");*/
+									dst.removeResult(result);
+								}
+							}
+						}
+			
 			int i = 1;
 			while(i<=30) {
 				if(StringUtils.isNotEmpty(request.getParameter("addDstResult" + i + ".result")) 
@@ -279,22 +324,34 @@ public class DSTFormController {
 					if (StringUtils.isNotBlank(drug)) {
 						dstResult.setDrug(Context.getConceptService().getConcept(Integer.valueOf(drug)));
 					}
+					
+					/*System.out.println(i + " ADDING");
+					System.out.println(dstResult.getId()+"-");
+					
+					System.out.println(dstResult.getResult().getName().getName()+"-");
+					System.out.println(dstResult.getDrug().getName().getName());
+					System.out.println("----");*/
 				}
 				i++;
 			} 
 			 
-			// remove dst results
-			if(removeDstResults != null) {
-				Set<String> removeDstResultSet = new HashSet<String>(Arrays.asList(removeDstResults));
-				
-				for(DstResult result : dst.getResults()) {
-					if(result.getId() != null && removeDstResultSet.contains(result.getId())) {
-						dst.removeResult(result);
-					}
-				}
-			}
+			
 	    	
 			// save the actual update
+			
+			/*resultList = dst.getResults();
+			System.out.println("FINAL");
+			if(resultList!=null)
+			for(DstResult d : resultList) {
+				System.out.println(d.getId()+"-");
+			
+				System.out.println(d.getResult().getName().getName()+"-");
+				System.out.println(d.getDrug().getName().getName());
+				
+				System.out.println("----");
+			}*/
+			
+			
 			
 			
 			//Context.getService(MdrtbService.class).saveDst(dst.getDi());
@@ -303,8 +360,8 @@ public class DSTFormController {
 			status.setComplete();
 			
 			// clears the command object from the session
-			
 			map.clear();
+			
 			
 			// if there is no return URL, default to the patient dashboard
 			if (returnUrl == null || StringUtils.isEmpty(returnUrl)) {

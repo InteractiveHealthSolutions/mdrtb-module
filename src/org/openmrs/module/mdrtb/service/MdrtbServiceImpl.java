@@ -2623,5 +2623,9 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 		
 		return ret;
 	}
+	
+	public void evict(Object obj) {
+		dao.evict(obj);
+	}
 
 }

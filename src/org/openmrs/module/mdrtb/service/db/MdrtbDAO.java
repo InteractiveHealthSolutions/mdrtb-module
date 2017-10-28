@@ -39,5 +39,7 @@ public interface MdrtbDAO {
 	
     public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames);
 	public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames, Date startDate, Date endDate, Date closeDate);
+	
+	public void evict(Object obj);
     
 }

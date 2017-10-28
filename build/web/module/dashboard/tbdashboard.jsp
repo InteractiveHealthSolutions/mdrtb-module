@@ -965,7 +965,7 @@ ${regimen.displayString}
 </div>
 </openmrs:hasPrivilege>
 
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.regimens" text="Regimens"/>
+<%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.regimens" text="Regimens"/>
 </b>
 
 <div class="box" style="margin:0px;">
@@ -974,7 +974,7 @@ ${regimen.displayString}
 </openmrs:hasPrivilege>
 </div>
 
-
+ --%>
 </div>
 </div> <!-- end of page div -->
 

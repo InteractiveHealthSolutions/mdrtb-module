@@ -456,5 +456,9 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 		System.out.println("encounters: " + encounters.size());
 		return encounters; 
 	}
+	
+	public void evict(Object obj) {
+		sessionFactory.getCurrentSession().evict(obj);
+	}
     
 }

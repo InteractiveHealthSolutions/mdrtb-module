@@ -246,6 +246,12 @@ public class DstResultImpl implements DstResult {
 		
 		this.dstResult.setVoided(true);
 		this.dstResult.setVoidReason("voided by DstResultImpl class");
+		
+		/*Obs o  = dstResult.getObsGroup();
+		if(o!=null) {
+			o.setVoided(true);
+			o.setVoidReason("voided by DstResultImpl class");
+		}*/
 	}
 	
     /**

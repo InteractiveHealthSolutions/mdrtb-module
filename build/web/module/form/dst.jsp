@@ -335,10 +335,10 @@ function showAddDstResultsWithData() {
 		<option value=""></option>
 		<c:forEach var="possibleResult" items="${dstResults}">
 			<option value="${possibleResult.id}" <c:if test="${! empty addDstResultResult && addDstResultResult[i.count - 1] == possibleResult.id}">selected</c:if>>${possibleResult.displayString}</option>
-		</c:forEach></td>
+		</c:forEach>
 		</select>
 	</td>
-	<td><input type="text" size="6" name="addDstResult${i.count}.colonies" value="${! empty addDstResultColonies ? addDstResultColonies[i.count - 1] : ''}" class="dstColonies" style="display:none"/></td>
+	<%-- <td><input type="text" size="6" name="addDstResult${i.count}.colonies" value="${! empty addDstResultColonies ? addDstResultColonies[i.count - 1] : ''}" class="dstColonies" style="display:none"/></td> --%>
 	<td><button class="removeDstResultRow" value="${i.count}" type="button"><spring:message code="mdrtb.remove" text="Remove"/></button></td>	
 	</tr>
 </c:forEach>
