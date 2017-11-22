@@ -302,7 +302,8 @@ public class TbConcepts {
  	public final static String[] PRIVATE_SECTOR = {"PRIVATE SECTOR"};
  	public final static String[] MILITARY_SERVANT = {"MILITARY SERVANT"};
  	public final static String[] SCHOOLCHILD = {"SCHOOLCHILD"};
- 	public final static String[] TB_SERVICES_WORKER  = {"TB SERVICES WORKER"};	
+ 	public final static String[] TB_SERVICES_WORKER  = {"TB SERVICES WORKER"};
+ 	public final static String[] HOUSEWIFE  = {"HOUSEWIFE"};	
  	
  	public final static String[] RESIDENT_OF_TERRITORY = {"RESIDENT OF TERRITORY"};
  	public final static String[] RESIDENT_OTHER_TERRITORY = {"RESIDENT OTHER TERRITORY"};
@@ -317,6 +318,7 @@ public class TbConcepts {
  	
  	public final static String[] PHC_FACILITY = {"PMSA HEALTH CENTER"};
  	public final static String[] OTHER_MEDICAL_FACILITY = {"OTHER MEDICAL FACILITY"};
+ 	public final static String[] PRIVATE_SECTOR_FACILITY = {"PRIVATE SECTOR FACILITY"};
  	public final static String[] TB_FACILITY  = {"TB FACILITY "};
  
  	public final static String[] SELF_REFERRAL = {"HANDLING OF COMPLAINTS"};
@@ -349,7 +351,7 @@ public class TbConcepts {
  	public final static String[] TB_PRIMARY_COMPLEX = {"TB PRIMARY COMPLEX"};
  	public final static String[] MILIARY = {"MILIARY"};
  	public final static String[] TUBERCULOMA  = {"TUBERCULOMA"};
- 	public final static String[] BRONCHUS  = {"BRONHCUS"};
+ 	public final static String[] BRONCHUS  = {"BRONCHUS"};
  	
  	public final static String[] PLEVRITIS = {"PLEVRITIS"};
  	public final static String[] OF_LYMPH_NODES = {"OF LYMPH NODES"};
@@ -366,6 +368,9 @@ public class TbConcepts {
  	public final static String[] OTHER_CAUSE_OF_DEATH = {"OTHER CAUSE OF DEATH"};
  	
  	public final static String[] UNDETERMINED = {"UNDETERMINED"};
+ 	
+ 	public final static String[] DRUG_RESISTANCE_DURING_TX = {"DRUG RESISTANCE DURING TX"};
+ 	public final static String[] DATE_OF_DRUG_RESISTANCE_DURING_TX = {"DATE OF DRUG RESISTANCE DURING TX"};
  	
  	
  	

@@ -397,7 +397,7 @@ ${regimen.displayString}
 
 <table cellspacing="0" cellpadding="0">
 
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03u" text="TB03uz"/>:</td><td>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03uForm" text="TB03uz"/>:</td><td>
 <c:choose> 
 	<c:when test="${! empty status.visitStatus.intakeVisits.value}">
 		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
@@ -405,6 +405,19 @@ ${regimen.displayString}
 	<c:otherwise>
 		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
 			<a href="${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></a>
+	    </openmrs:hasPrivilege>
+	</c:otherwise>
+</c:choose>
+</td></tr>
+
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03uXDRForm" text="TB03uxdr"/>:</td><td>
+<c:choose> 
+	<c:when test="${! empty status.visitStatus.followUpVisits.value}">
+		<a href="${pageContext.request.contextPath}${status.visitStatus.followUpVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.followUpVisits.value[0].displayString}</a>
+	</c:when>
+	<c:otherwise>
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addTB03-XDR" text="Add XDR Visit"/></a>
 	    </openmrs:hasPrivilege>
 	</c:otherwise>
 </c:choose>
@@ -893,6 +906,7 @@ ${regimen.displayString}
 
 </div> --%>
 <!-- END HIV STATUS BOX -->
+<c:if test="${! empty unlinkedlabs || ! empty unlinkedtb03us }">
 <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.Unlinked Forms" text="Unlinked Forms"/>
 </b>
@@ -961,7 +975,7 @@ ${regimen.displayString}
 </c:if>
 </div>
 </openmrs:hasPrivilege>
-
+</c:if>
 
 
 

@@ -452,36 +452,36 @@ public class TB03uFormController {
 		
 		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
 		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.RESISTANCE_TYPE);
-		for(int i=0; i< 9; i++) {
+		for(int i=0; i< 8; i++) {
 			typeArray.add(null);
 		}
 		for(ConceptAnswer c : ca) {
-			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MONO).getId().intValue()) {
+			/*if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MONO).getId().intValue()) {
+				typeArray.set(0, c);
+			}*/
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PDR_TB).getId().intValue()) {
 				typeArray.set(0, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PDR_TB).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RR_TB).getId().intValue()) {
 				typeArray.set(1, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RR_TB).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB).getId().intValue()) {
 				typeArray.set(2, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PRE_XDR_TB).getId().intValue()) {
 				typeArray.set(3, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PRE_XDR_TB).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XDR_TB).getId().intValue()) {
 				typeArray.set(4, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XDR_TB).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TDR_TB).getId().intValue()) {
 				typeArray.set(5, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TDR_TB).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.NO).getId().intValue()) {
 				typeArray.set(6, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.NO).getId().intValue()) {
-				typeArray.set(7, c);
-			}
 			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.UNKNOWN).getId().intValue()) {
-				typeArray.set(8, c);
+				typeArray.set(7, c);
 			}
 		}
 		
@@ -494,7 +494,7 @@ public class TB03uFormController {
 	public ArrayList<ProgramWorkflowState> getPossibleTreatmentOutcomes() {
 		/*return Context.getService(MdrtbService.class).getPossibleMdrtbProgramOutcomes();*/
 		ArrayList<ProgramWorkflowState> stateArray = new ArrayList<ProgramWorkflowState>();
-		for(int i=0; i< 5; i++) {
+		for(int i=0; i< 6; i++) {
 			stateArray.add(null);
 		}
 		Set<ProgramWorkflowState> states = Context.getService(MdrtbService.class).getPossibleTbProgramOutcomes();
@@ -515,9 +515,9 @@ public class TB03uFormController {
 			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.LOST_TO_FOLLOWUP).getId().intValue()) {
 				stateArray.set(4, pws);
 			}
-			/*else if(pws.getConcept().getId().intValue() == ms.getConcept(MdrtbConcepts).getId().intValue()) {
-				stateArray.set(6, pws);
-			}*/
+			else if(pws.getConcept().getId().intValue() == ms.getConcept(TbConcepts.CANCELLED).getId().intValue()) {
+				stateArray.set(5, pws);
+			}
 		}
 		
 		return stateArray;

@@ -384,7 +384,7 @@ public class MdrtbEditPatientController {
 		
 		
 		// if we are dealing with a new patient (one with no id, or id=-1) we need to check for similar patients first
-		if ((skipSimilarCheck == null || !skipSimilarCheck) && (patientId == null || patientId == -1)) {
+	/*	if ((skipSimilarCheck == null || !skipSimilarCheck) && (patientId == null || patientId == -1)) {
 			
 			Integer birthYear = null;
 			
@@ -431,7 +431,7 @@ public class MdrtbEditPatientController {
 				
 				return new ModelAndView("/module/mdrtb/similarPatients");
 			}
-		}
+		}*/
 		 	map.put("addName", addName);
 			map.put("addBirthdate", addBirthdate);
 			map.put("addAge", addAge);
@@ -467,7 +467,7 @@ public class MdrtbEditPatientController {
 	                               @RequestParam("add") String add,
 	                               SessionStatus status, ModelMap map) {
 		
-		System.out.println("Edit:submit:add:" + add);
+
 		// first, we need to set the patient id to null if it's been set to -1
 		if (patient.getId() != null && patient.getId() == -1) {
 			patient.setId(null);

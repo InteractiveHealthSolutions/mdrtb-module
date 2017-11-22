@@ -11,7 +11,7 @@
 <openmrs:htmlInclude file="/moduleResources/mdrtb/mdrtb.css"/>
 
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.patientLists" text="Lists"/></b>
-<div class="box" style="margin:0px;">
+
 <a href="${pageContext.request.contextPath}/module/mdrtb/reporting/patientLists.form"><spring:message code="mdrtb.back" text="Back"/></a><br/><br/>
 <spring:message code="mdrtb.oblast" text="Oblast"/>: ${oblast }<br/>
 <spring:message code="mdrtb.district" text="District"/>: ${district}<br/>
@@ -22,7 +22,7 @@
 <spring:message code="mdrtb.list" text="List"/>: ${listName }<br/>
 <br/>
 ${report}
-</div>
+
 <br/>
 <a href="${pageContext.request.contextPath}/module/mdrtb/reporting/patientLists.form"><spring:message code="mdrtb.back" text="Back"/></a><br/><br/>
 

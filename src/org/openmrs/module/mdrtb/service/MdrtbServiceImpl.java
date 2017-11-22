@@ -2454,6 +2454,27 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
  
  }
  
+ public TB03Form getTB03uForm(Location location, Date encounterDate, Patient patient) {
+	 TB03Form ret = null;
+	 Integer encounterId = null;
+	 EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+	 String query = "select encounter_id from encounter where location_id=" + location.getId() + " AND encounter_datetime <= '" + encounterDate + "' AND patient_id=" + patient.getId() + " AND encounter_type=" + intakeType.getId() + " ORDER BY encounter_datetime DESC";
+	 List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
+	 if(result!=null && result.size()>0) {
+		 List<Object> resp = result.get(0);
+		 if(resp!=null) {
+			 encounterId= (Integer)(resp.get(0));
+		 }
+			 
+	 }
+	 
+	 if(encounterId!=null)
+		 ret = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
+	 
+	 return ret;
+ 
+ }
+ 
 	public HAIN2 createHAIN2(Specimen specimen) {			
 		if (specimen == null) {
 			log.error("Unable to create xpert: specimen is null.");
@@ -2626,6 +2647,33 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 	
 	public void evict(Object obj) {
 		dao.evict(obj);
+	}
+	
+	public TB03uForm getTB03uFormForProgram(Patient p, Integer patientProgId) {
+		
+		TB03uForm form = null;
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				form = new TB03uForm(e);
+				break;
+			}
+				
+		}
+			
+		return form;
+		
+		
 	}
 
 }

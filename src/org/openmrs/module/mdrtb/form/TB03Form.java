@@ -9,6 +9,8 @@ import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.PatientIdentifier;
+import org.openmrs.PatientProgram;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
 import org.openmrs.ProgramWorkflowState;
@@ -28,7 +30,7 @@ import org.openmrs.module.mdrtb.specimen.Xpert;
 
 
 
-public class TB03Form extends AbstractSimpleForm {
+public class TB03Form extends AbstractSimpleForm implements Comparable<TB03Form> {
 
 	
 	
@@ -1055,6 +1057,54 @@ public class TB03Form extends AbstractSimpleForm {
 	
 	public String getLink() {
 		return "/module/mdrtb/form/tb03.form?patientProgramId=" + getPatProgId() + "&encounterId=" + getEncounter().getId();
+	}
+	
+	
+	public String getRegistrationNumber() {
+		String val = "";
+    	PatientIdentifier pi = null;
+    	Integer ppid = null;
+    	Concept ppidConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+    	Obs idObs  = MdrtbUtil.getObsFromEncounter(ppidConcept, getEncounter());
+    	if(idObs==null) {
+    		val = null;
+    	}
+    	
+    	else {
+    		ppid = idObs.getValueNumeric().intValue();
+    		PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(ppid);
+    		
+    		if(pp!=null) {
+    			pi = Context.getService(MdrtbService.class).getGenPatientProgramIdentifier(pp);
+    			if(pi==null) {
+    				val = null;
+    			}
+    			
+    			else {
+    				val = pi.getIdentifier();
+    			}
+    		}
+    		
+    		else {
+    			val = null;
+    		}
+    	}
+    	
+    	if(val==null || val.length()==0) {
+    		val = null;// Context.getMessageSourceService().getMessage("mdrtb.unassigned");
+    	}
+    	
+    	return val;
+	}
+	
+	
+	public int compareTo(TB03Form form) {
+		if(this.getRegistrationNumber()==null)
+			return 1;
+		if(form.getRegistrationNumber()==null)
+			return -1;
+		
+		return this.getRegistrationNumber().compareTo(form.getRegistrationNumber());
 	}
 	
 	/*

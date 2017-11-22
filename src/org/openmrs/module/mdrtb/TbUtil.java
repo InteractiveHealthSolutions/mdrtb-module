@@ -149,6 +149,7 @@ public class TbUtil {
     	positiveResults.add(service.getConcept(TbConcepts.WEAKLY_POSITIVE));
     	positiveResults.add(service.getConcept(TbConcepts.POSITIVE));
     	positiveResults.add(service.getConcept(TbConcepts.SCANTY));
+    	positiveResults.add(service.getConcept(TbConcepts.LOWAFB));
     	
     	//Xpert and HAIN
     	positiveResults.add(service.getConcept(TbConcepts.DETECTED));

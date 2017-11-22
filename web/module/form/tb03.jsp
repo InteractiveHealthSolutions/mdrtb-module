@@ -495,7 +495,7 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.otherCauseOfDeath" text="Other Cause of Death"/>:</td>
+<td><spring:message code="mdrtb.tb03.otherCauseOfDeath" text="Other Cause of Death"/>:</td>
 <td>${tb03.otherCauseOfDeath}</td>
 </tr>
 

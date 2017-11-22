@@ -896,6 +896,7 @@ ${regimen.displayString}
 
 </div> --%>
 <!-- END HIV STATUS BOX -->
+<c:if test="${! empty unlinkedlabs || ! empty unlinkedtb03s }">
 <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.Unlinked Forms" text="Unlinked Forms"/>
 </b>
@@ -964,6 +965,7 @@ ${regimen.displayString}
 </c:if>
 </div>
 </openmrs:hasPrivilege>
+</c:if>
 
 <%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.regimens" text="Regimens"/>
 </b>

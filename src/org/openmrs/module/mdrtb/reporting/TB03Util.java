@@ -248,6 +248,11 @@ public class TB03Util {
 	}
 	
 	public static String getRegistrationNumber(TB03Form form) {
+		
+		if(form==null) {
+			return Context.getMessageSourceService().getMessage("mdrtb.unassigned");
+			
+		}
     	String val = "";
     	PatientIdentifier pi = null;
     	Integer ppid = null;

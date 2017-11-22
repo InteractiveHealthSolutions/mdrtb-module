@@ -164,6 +164,11 @@ $(document).ready(function(){
 		    </tr>
 		    
 		    <tr>
+		    <td><spring:message code="mdrtb.withConcomitantDisease" /></td>
+		    <td><button onClick="submitForm('withConcomitantDisease');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		   <!--  <tr>
 		    <td><spring:message code="mdrtb.withDiabetes" /></td>
 		    <td><button onClick="submitForm('withDiabetes');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
@@ -198,10 +203,20 @@ $(document).ready(function(){
 		    <td><button onClick="submitForm('withHIV');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
+		      <tr>
+		    <td><spring:message code="mdrtb.withHepatitis" /></td>
+		    <td><button onClick="submitForm('withHepatitis');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
+		       <tr>
+		    <td><spring:message code="mdrtb.withKidneyDisease" /></td>
+		    <td><button onClick="submitForm('withKidneyDisease');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr>
+		    
 		     <tr>
 		    <td><spring:message code="mdrtb.withOtherDisease" /></td>
 		    <td><button onClick="submitForm('withOtherDisease');"><spring:message code="mdrtb.generate"/></button></td>
-		    </tr>
+		    </tr> -->
 		    
 		     <tr>
 		    <td><spring:message code="mdrtb.byDwelling" /></td>

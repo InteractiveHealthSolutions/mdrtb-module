@@ -43,7 +43,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	}
     		
     	EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
-    	EncounterType followUpType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+    	EncounterType followUpType = Context.getEncounterService().getEncounterType("TB03u - XDR");
     	EncounterType specimenType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
     	EncounterType transferOutType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
     	EncounterType transferInType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type"));

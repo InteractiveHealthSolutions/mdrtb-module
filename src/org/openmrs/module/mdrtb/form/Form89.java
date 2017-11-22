@@ -23,7 +23,7 @@ import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.status.StatusItem;
 
 
-public class Form89 extends AbstractSimpleForm {
+public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 
 	private TB03Form tb03;
 	
@@ -1784,6 +1784,24 @@ public class Form89 extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		}
+	}
+	
+	public String getRegistrationNumber() {
+		
+			if(tb03==null)
+				return null;
+			
+			return tb03.getRegistrationNumber();
+
+	}
+	
+	public int compareTo(Form89 form) {
+		if(this.getRegistrationNumber()==null)
+			return 1;
+		if(form.getRegistrationNumber()==null)
+			return -1;
+		
+		return this.getRegistrationNumber().compareTo(form.getRegistrationNumber());
 	}
 	
 }

@@ -285,7 +285,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newFemalePulmonaryBC}</td>
 					<td>${table1.newPulmonaryBC}</td>                       
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /> </td>
 					
 					<td>${table1.newMalePulmonaryBCHIV04}</td>
@@ -371,7 +371,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newFemalePulmonaryCD}</td>
 					<td>${table1.newPulmonaryCD}</td>                         
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 					<td>${table1.newMalePulmonaryCDHIV04}</td>
 					<td>${table1.newFemalePulmonaryCDHIV04}</td>
@@ -455,7 +455,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newFemaleExtrapulmonary}</td>
 					<td>${table1.newExtrapulmonary}</td>                   
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 					<td>${table1.newMaleExtrapulmonaryHIV04}</td>
 					<td>${table1.newFemaleExtrapulmonaryHIV04}</td>
@@ -540,7 +540,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newFemale}</td>  
 					<td>${table1.newAll}</td> 
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td colspan="2"><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 
 					<td>${table1.newMaleHIV04}</td>
@@ -656,7 +656,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.relapseFemalePulmonaryBC}</td>
 					<td>${table1.relapsePulmonaryBC}</td>                       
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /> </td>
 					
 					<td>${table1.relapseMalePulmonaryBCHIV04}</td>
@@ -742,7 +742,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.relapseFemalePulmonaryCD}</td>
 					<td>${table1.relapsePulmonaryCD}</td>                         
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 					<td>${table1.relapseMalePulmonaryCDHIV04}</td>
 					<td>${table1.relapseFemalePulmonaryCDHIV04}</td>
@@ -828,7 +828,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.relapseFemaleExtrapulmonary}</td>
 					<td>${table1.relapseExtrapulmonary}</td>                   
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 					<td>${table1.relapseMaleExtrapulmonaryHIV04}</td>
 					<td>${table1.relapseFemaleExtrapulmonaryHIV04}</td>
@@ -913,7 +913,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.relapseFemale}</td>  
 					<td>${table1.relapseAll}</td> 
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td colspan="2"><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 
 					<td>${table1.relapseMaleHIV04}</td>
@@ -1012,7 +1012,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newPulmonaryBC + table1.relapsePulmonaryBC }</td>
 					
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 					<td>${table1.newMalePulmonaryBCHIV04 + table1.relapseMalePulmonaryBCHIV04 }</td>
 					<td>${table1.newFemalePulmonaryBCHIV04 + table1.relapseFemalePulmonaryBCHIV04 }</td>
@@ -1066,7 +1066,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newPulmonaryCD + table1.relapsePulmonaryCD }</td>
 					
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 					<td>${table1.newMalePulmonaryCDHIV04 + table1.relapseMalePulmonaryCDHIV04 }</td>
 					<td>${table1.newFemalePulmonaryCDHIV04 + table1.relapseFemalePulmonaryCDHIV04 }</td>
@@ -1119,7 +1119,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newExtrapulmonary + table1.relapseExtrapulmonary }</td>
 					
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 					<td>${table1.newMaleExtrapulmonaryHIV04 + table1.relapseMaleExtrapulmonaryHIV04 }</td>
 					<td>${table1.newFemaleExtrapulmonaryHIV04 + table1.relapseFemaleExtrapulmonaryHIV04 }</td>
@@ -1172,7 +1172,7 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.newFemale + table1.relapseFemale }</td>		
 					<td>${table1.newAll + table1.relapseAll }</td>
 				</tr>
-				<tr>
+				<tr bgcolor="yellow">
 					<td colspan="2"><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 
 					<td>${table1.newMaleHIV04 + table1.relapseMaleHIV04 }</td>
@@ -1214,7 +1214,7 @@ response.setDateHeader ("Expires", -1);
 <td>&nbsp;</td>
 <td style="text-align: center;" colspan="3"><spring:message code="dotsreports.tb07.afterFailure"/></td>
 <td style="text-align: center;" colspan="3"><spring:message code="dotsreports.tb07.afterDefault"/></td>
-<td style="text-align: center;" colspan="3">Others</td>
+<td style="text-align: center;" colspan="3"><spring:message code="mdrtb.tb07.others"/></td>
 <td style="text-align: center;" colspan="3"><spring:message code="dotsreports.tb07.total"/></td>
 <td colspan="3">
 <p style="text-align: center;"><spring:message code="dotsreports.tb07.total"/></p>
@@ -1260,7 +1260,7 @@ response.setDateHeader ("Expires", -1);
 <td>${table1.totalPulmonaryBC}</td>
                       
 </tr>
-<tr>
+<tr bgcolor="yellow">
 <td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 <td>${table1.failureMalePulmonaryBCHIV}</td>
 <td>${table1.failureFemalePulmonaryBCHIV}</td>
@@ -1296,7 +1296,7 @@ response.setDateHeader ("Expires", -1);
 <td>${table1.totalFemalePulmonaryCD}</td>
 <td>${table1.totalPulmonaryCD}</td>
 </tr>
-<tr>
+<tr bgcolor="yellow">
 <td><spring:message code="dotsreports.tb07.ofTheseHIV" />&nbsp;</td>
 <td>${table1.failureMalePulmonaryCDHIV}</td>
 <td>${table1.failureFemalePulmonaryCDHIV}</td>
@@ -1332,7 +1332,7 @@ response.setDateHeader ("Expires", -1);
 <td>${table1.totalFemaleExtrapulmonary}</td>
 <td>${table1.totalExtrapulmonary}</td>
 </tr>
-<tr>
+<tr bgcolor="yellow">
 <td><spring:message code="dotsreports.tb07.ofTheseHIV" /></td>
 <td>${table1.failureMaleExtrapulmonaryHIV}</td>
 <td>${table1.failureFemaleExtrapulmonaryHIV}</td>
@@ -1368,7 +1368,7 @@ response.setDateHeader ("Expires", -1);
 <td>${table1.totalAll}</td>
 </tr>
 
-<tr>
+<tr bgcolor="yellow">
 <td style="text-align: center;"><strong><spring:message code="dotsreports.tb07.ofTheseHIV" /></strong></td>
 <td>${table1.failureMaleHIV}</td>
 <td>${table1.failureFemaleHIV}</td>

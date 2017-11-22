@@ -136,7 +136,7 @@ public class MdrtbUtil {
 
 		Set<EncounterType> types = new HashSet<EncounterType>();
 		types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type")));
-    	//types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type")));
+    	types.add(Context.getEncounterService().getEncounterType("TB03u - XDR"));
     	types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
     	types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type")));
     	types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type")));
@@ -158,6 +158,7 @@ public class MdrtbUtil {
     	positiveResults.add(service.getConcept(MdrtbConcepts.WEAKLY_POSITIVE));
     	positiveResults.add(service.getConcept(MdrtbConcepts.POSITIVE));
     	positiveResults.add(service.getConcept(MdrtbConcepts.SCANTY));
+    	positiveResults.add(service.getConcept(TbConcepts.LOWAFB));
     	
     	return positiveResults;
     }

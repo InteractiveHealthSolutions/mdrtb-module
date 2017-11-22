@@ -50,11 +50,11 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
         			+ "&patientProgramId=" + status.getPatientProgram().getId() 
         			+ "&encounterId=" + encounter.getId());
     		}
-    		else if (type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type")))) {
-    			/*visit.setLink("/module/mdrtb/form/followup.form?patientId="
-        			+ status.getPatientProgram().getPatient().getPatientId()
-        			+ "&patientProgramId=" + status.getPatientProgram().getId() 
-        			+ "&encounterId=" + encounter.getId());*/
+    		else if (type.equals(Context.getEncounterService().getEncounterType("TB03u - XDR"))) {
+    			visit.setLink("/module/mdrtb/form/tb03u-xdr.form?patientId="
+            			+ status.getPatientProgram().getPatient().getPatientId()
+            			+ "&patientProgramId=" + status.getPatientProgram().getId() 
+            			+ "&encounterId=" + encounter.getId());
     		}
     		else if(type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")))) {
     			/*visit.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + encounter.getId()
@@ -225,7 +225,7 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
     public void renderNewFollowUpVisit(StatusItem newFollowUpVisit, VisitStatus status) {
         
     	// we've changed this so that we link to the select form page instead of determining what form to use here
-    	newFollowUpVisit.setLink("/module/mdrtb/form/form89.form?formType=followUp&encounterId=-1&patientId=" 
+    	newFollowUpVisit.setLink("/module/mdrtb/form/tb03u-xdr.form?formType=followUp&encounterId=-1&patientId=" 
      		+ status.getPatientProgram().getPatient().getPatientId() 
      		+ "&patientProgramId=" + status.getPatientProgram().getId());
     	

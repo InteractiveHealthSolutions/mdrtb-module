@@ -313,7 +313,7 @@
 <table>
 
 <tr>
-<td><spring:message code="mdrtb.tb03.resistanceType" text="Type of Resistance"/>:</td>
+<td><spring:message code="mdrtb.tb03u.resistanceType" text="Type of Resistance"/>:</td>
 <td>${tb03u.resistanceType.displayString}</td>
 </tr>
 
@@ -667,7 +667,7 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.tb03.resistanceType" text="Type of Resistance"/>:</td>
+<td><spring:message code="mdrtb.tb03u.resistanceType" text="Type of Resistance"/>:</td>
 <td>
 <select name="resistanceType">
 <option value=""></option>
