@@ -651,6 +651,10 @@ public class PatientListContoller {
     		p = null;
     		i = 0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			
     			if(temp!=null && temp.getValueCoded()!=null && (temp.getValueCoded().getId().intValue()==relapse1Concept.getId().intValue() || temp.getValueCoded().getId().intValue()==relapse2Concept.getId().intValue())) {
@@ -691,6 +695,10 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
     					(temp.getValueCoded().getId().intValue()==default1Concept.getId().intValue() ||
@@ -735,6 +743,10 @@ public class PatientListContoller {
     		i=0;
     		p = null;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
     					temp.getValueCoded().getId().intValue()==transferInConcept.getId().intValue())
@@ -870,6 +882,10 @@ public class PatientListContoller {
     		p = null;
     		i = 0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==epConcept.getId().intValue()) {
@@ -1029,6 +1045,10 @@ public class PatientListContoller {
 		p = null;
 		i=0;
 		for (TB03Form tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -1074,6 +1094,10 @@ public class PatientListContoller {
 		p = null;
 		i=0;
 		for (TB03Form tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -1120,6 +1144,10 @@ public class PatientListContoller {
 		p = null;
 		i=0;
 		for (TB03Form tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -1166,6 +1194,10 @@ public class PatientListContoller {
 		p = null;
 		i=0;
 		for (TB03Form tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -1212,6 +1244,10 @@ public class PatientListContoller {
 		p = null;
 		i=0;
 		for (TB03Form tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -1258,6 +1294,10 @@ public class PatientListContoller {
 				p = null;
 				i=0;
 				for (TB03Form tf : tb03s) {
+					
+					if(tf.getPatient()==null || tf.getPatient().isVoided())
+	    				continue;
+					
 					temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 							tf.getEncounter());
 					if (temp != null
@@ -1304,6 +1344,9 @@ public class PatientListContoller {
 		p = null;
 		i=0;
 		for (TB03Form tf : tb03s) {
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -1350,6 +1393,10 @@ public class PatientListContoller {
 		p = null;
 		i=0;
 		for (TB03Form tf : tb03s) {
+			
+			if(tf.getPatient()==null || tf.getPatient().isVoided())
+				continue;
+			
 			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
 					tf.getEncounter());
 			if (temp != null
@@ -1493,6 +1540,11 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==newConcept.getId().intValue()) {
@@ -1532,6 +1584,10 @@ public class PatientListContoller {
     		i=0;
     		p = null;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && (temp.getValueCoded().getId().intValue()==relapse1Concept.getId().intValue() || temp.getValueCoded().getId().intValue()==relapse2Concept.getId().intValue())) {
@@ -1571,6 +1627,10 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && (temp.getValueCoded().getId().intValue()==relapse1Concept.getId().intValue() || temp.getValueCoded().getId().intValue()==relapse2Concept.getId().intValue())) {
@@ -1615,6 +1675,10 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
@@ -1660,6 +1724,10 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
@@ -1707,6 +1775,10 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
@@ -1751,6 +1823,10 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
@@ -1850,6 +1926,8 @@ public class PatientListContoller {
     		int i=0;
     		for(TB03uForm tf : tb03s) {
     			
+    			
+    			
     			if(tf.getPatient()==null || tf.getPatient().isVoided())
     				continue;
     			
@@ -1887,6 +1965,10 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03uForm tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(treatmentStartDate, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
@@ -2115,6 +2197,10 @@ public class PatientListContoller {
     		p = null;
     		i=0;
     		for(TB03uForm tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
     					temp.getValueCoded().getId().intValue()==xdr.getId().intValue()) {
@@ -3616,6 +3702,9 @@ report += "<br/>";
     		int i=0;
     		for(Form89 tf : forms) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
 				tf.initTB03(tf.getPatProgId());
 				tb03 = tf.getTB03();
@@ -4411,6 +4500,9 @@ report += "<br/>";
     		i =0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -4453,6 +4545,9 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
@@ -4498,6 +4593,9 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -4540,6 +4638,10 @@ report += "<br/>";
     		p = null;
     		i=0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			
     			TB03Form tb03 = null;
@@ -4584,6 +4686,9 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -4626,6 +4731,9 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
@@ -4670,6 +4778,9 @@ report += "<br/>";
     		 i =0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -4712,6 +4823,10 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -4755,6 +4870,10 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -4798,6 +4917,10 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -4949,6 +5072,10 @@ report += "<br/>";
     		p = null;
     		i=0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -4991,6 +5118,10 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5035,6 +5166,9 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5078,6 +5212,9 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5120,6 +5257,10 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5164,6 +5305,9 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5318,6 +5462,9 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5467,6 +5614,9 @@ report += "<br/>";
     		i=0;
     		for(Form89 tf : tb03s) {
     		
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5512,6 +5662,9 @@ report += "<br/>";
     		i=0;
     		for(Form89 tf : tb03s) {
     		
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5557,6 +5710,9 @@ report += "<br/>";
     		p = null;
     		i=0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
@@ -5708,6 +5864,9 @@ report += "<br/>";
     		i=0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5752,6 +5911,9 @@ report += "<br/>";
     		i=0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -5793,6 +5955,9 @@ report += "<br/>";
     		p = null;
     		i=0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
@@ -5836,6 +6001,9 @@ report += "<br/>";
     		p = null;
     		i=0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
@@ -5986,6 +6154,10 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			
     			TB03Form tb03 = null;
@@ -6031,6 +6203,9 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -6073,6 +6248,9 @@ report += "<br/>";
     		p = null;
     		i=0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
@@ -6161,6 +6339,9 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -6204,6 +6385,9 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -6246,6 +6430,10 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
     			tb03 = tf.getTB03();
@@ -6288,6 +6476,10 @@ report += "<br/>";
     		p = null;
     		i = 0;
     		for(Form89 tf : tb03s) {
+    			
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
@@ -6334,6 +6526,8 @@ report += "<br/>";
     		i = 0;
     		for(Form89 tf : tb03s) {
     			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
     			
     			TB03Form tb03 = null;
     			tf.initTB03(tf.getPatProgId());
@@ -7009,8 +7203,7 @@ report += "<br/>";
 			
 			if(tf.getPatient()==null || tf.getPatient().isVoided())
 				continue;
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+			
 			TB03Form tb03 = null;
 			tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
@@ -7664,7 +7857,7 @@ public String getGender(Person p) {
 	   String ret = "";;
 	   String gender = p.getGender();
 	   
-	   System.out.println(gender);
+	 //  System.out.println(gender);
 	   
 	   if(gender.equals("F")) {
 		   return getMessage("mdrtb.tb03.gender.female");

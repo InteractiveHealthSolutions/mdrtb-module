@@ -1,6 +1,7 @@
 package org.openmrs.module.mdrtb.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -2059,6 +2060,10 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		
 		Date startDate = (Date)(dateMap.get("startDate"));
 		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTimeInMillis(endDate.getTime());
+		endCal.add(Calendar.DATE, 1);
 		
 		System.out.println("STR:" + startDate);
 		System.out.println("END:" + endDate);

@@ -410,6 +410,12 @@ public class ReportUtil {
 			c.set(Calendar.DATE, startDate);
 		else
 			c.set(Calendar.DATE, 1);
+		
+		c.set(Calendar.HOUR_OF_DAY,0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		
+		
 		periodDates.put("startDate", c.getTime());
 		
 		c.set(Calendar.YEAR, year);
@@ -419,6 +425,10 @@ public class ReportUtil {
 			c.set(Calendar.DATE, endDate);
 		else
 			c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
+		
+		c.set(Calendar.HOUR_OF_DAY,23);
+		c.set(Calendar.MINUTE, 59);
+		c.set(Calendar.SECOND, 59);
 		periodDates.put("endDate", c.getTime());
 		
 		return periodDates;
