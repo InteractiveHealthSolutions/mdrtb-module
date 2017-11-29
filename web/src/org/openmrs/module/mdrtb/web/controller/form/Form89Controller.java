@@ -2,6 +2,7 @@ package org.openmrs.module.mdrtb.web.controller.form;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -399,7 +400,43 @@ public class Form89Controller {
 	
 	@ModelAttribute("methods")
 	public Collection<ConceptAnswer> getPossibleMethodsOfDetection() {
-		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.METHOD_OF_DETECTION);
+		//return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.METHOD_OF_DETECTION);
+		ArrayList<ConceptAnswer> stateArray = new ArrayList<ConceptAnswer>();
+		for(int i=0; i< 9; i++) {
+			stateArray.add(null);
+		}
+		Collection<ConceptAnswer> bases = Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.METHOD_OF_DETECTION);
+		MdrtbService ms = Context.getService(MdrtbService.class);
+		for(ConceptAnswer ca : bases) {
+			if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.HISTOLOGY).getId().intValue()) {
+				stateArray.set(0, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.GENEXPERT).getId().intValue()) {
+				stateArray.set(1, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.FLURORESCENT_MICROSCOPY).getId().intValue()) {
+				stateArray.set(2, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.CXR_RESULT).getId().intValue()) {
+				stateArray.set(3, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.FLUOROGRAPHY).getId().intValue()) {
+				stateArray.set(4, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.HAIN_TEST).getId().intValue()) {
+				stateArray.set(5, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.CULTURE_DETECTION).getId().intValue()) {
+				stateArray.set(6, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.TUBERCULIN_TEST).getId().intValue()) {
+				stateArray.set(7, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.OTHER).getId().intValue()) {
+				stateArray.set(8, ca);
+			}
+		}
+		return stateArray;
 	}
 	
 	@ModelAttribute("epsites")

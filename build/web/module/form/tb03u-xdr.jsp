@@ -277,6 +277,11 @@
 <td>${tb03u.txLocation.displayString}</td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.tb03.nameOfTreatmentLocation" text="Name ofTx Location"/>:</td>
+<td>${tb03u.nameOfTxLocation}</td>
+</tr>
+
 </table>
 
 <br/>
@@ -668,6 +673,11 @@
 </c:forEach>
 </select>
 </td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.nameOfTreatmentLocation" text="Name of TxLocation"/>:</td>
+<td><input name="nameOfTxLocation" size="10" value="${tb03u.nameOfTxLocation}"/></td>
 </tr>
 
 <tr>

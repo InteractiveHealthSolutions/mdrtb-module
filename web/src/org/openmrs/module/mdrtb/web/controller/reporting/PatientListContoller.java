@@ -249,7 +249,10 @@ public class PatientListContoller {
     		    	else
     					report += openTD() + "" +  closeTD();
     		    	
-    		    	report += openTD() + tf.getRegistrationGroup().getName().getName() +  closeTD();
+    		    	if(tf.getRegistrationGroup()!=null)
+    		    		report += openTD() + tf.getRegistrationGroup().getName().getName() +  closeTD();
+    		    	else 
+    		    		report += openTD() + "" +  closeTD();
     		    	
     		    	//SMEAR
     		    	List<SmearForm> smears = tf.getSmears();
@@ -2334,7 +2337,11 @@ public class PatientListContoller {
     						report += openTD() + getRegistrationNumber(tb03) +  closeTD();
     						report += renderPerson(p);
     						report += openTD() + age +  closeTD();
-    						report += openTD() + tb03.getRegistrationGroup().getName().getName() +  closeTD();
+    						if(tb03.getRegistrationGroup()!=null)
+    							report += openTD() + tb03.getRegistrationGroup().getName().getName() +  closeTD();
+    						else
+    							report += openTD() + "" + closeTD();
+    						
     						report += openTD() + getPatientLink(tf) + closeTD(); 
     						report += closeTR();
     					}

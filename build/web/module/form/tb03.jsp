@@ -172,13 +172,14 @@
 
 </script>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
+
 <br/>
 
 <div> <!-- start of page div -->
 
-&nbsp;&nbsp;<a href="${!empty returnUrl ? returnUrl : defaultReturnUrl}"><spring:message code="mdrtb.back" text="Back"/></a>
+&nbsp;&nbsp;<a href="${!empty returnUrl ? returnUrl : defaultReturnUrl}"><spring:message code="mdrtb.back" text="Backu"/></a>
 <br/><br/>
 
 <!-- VIEW BOX -->
@@ -824,13 +825,13 @@
 	<option value="${type.answerConcept.id}" <c:if test="${tb03.causeOfDeath == type.answerConcept}">selected</c:if> >${type.answerConcept.displayString}</option>
 </c:forEach>
 </select>
-</td>
+&nbsp;&nbsp;&nbsp;&nbsp;<input name="otherCauseOfDeath" id="otherCauseOfDeath" size="15" value="${tb03.otherCauseOfDeath}"/></td>
 </tr>
 
-<tr>
+<!-- <tr>
 <td><spring:message code="mdrtb.tb03.otherCauseOfDeath" text="Other Cause of Death"/>:</td>
-<td><input name="otherCauseOfDeath" id="otherCauseOfDeath" size="15" value="${tb03.otherCauseOfDeath}"/></td>
-</tr>
+
+</tr> -->
 
 <tr>
 <td><spring:message code="mdrtb.tb03.afterOutcomeDeathDate" text="Date of Death after Outcome"/>:</td>

@@ -2060,6 +2060,10 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		Date startDate = (Date)(dateMap.get("startDate"));
 		Date endDate = (Date)(dateMap.get("endDate"));
 		
+		System.out.println("STR:" + startDate);
+		System.out.println("END:" + endDate);
+		
+		
 		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
 		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
 		typeList.add(eType);

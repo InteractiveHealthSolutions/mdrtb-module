@@ -986,7 +986,7 @@ public class MdrtbUtil {
 		   }
 		   
 		   List<XpertForm> xperts = tf.getXperts();
-		   Concept positive = Context.getService(MdrtbService.class).getConcept(TbConcepts.POSITIVE);
+		   Concept positive = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_POSITIVE);
 		   Concept mtbResult = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT);
 		   Concept xpertConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT);
 		   Obs constructObs = null;

@@ -337,6 +337,9 @@ public class TbConcepts {
  	public final static String[] FLURORESCENT_MICROSCOPY  = {"FLURORESCENT MICROSCOPY"};
  	public final static String[] HISTOLOGY = {"HISTOLOGY"};
  	public final static String[] CULTURE_DETECTION = {"CULTURE DETECTION"};
+ 	public final static String[] HAIN_1_DETECTION = {"HAIN 1 DETECTION"};
+ 	public final static String[] HAIN_2_DETECTION = {"HAIN 2 DETECTION"};
+ 	public final static String[] DST_DETECTION = {"DST DETECTION"};
  	public final static String[] GENEXPERT  = {"GENEXPERT"};
  	public final static String[] HAIN_TEST = {"HAIN TEST"};
  	public final static String[] CXR_RESULT = {"CXR RESULT"};
@@ -371,6 +374,9 @@ public class TbConcepts {
  	
  	public final static String[] DRUG_RESISTANCE_DURING_TX = {"DRUG RESISTANCE DURING TX"};
  	public final static String[] DATE_OF_DRUG_RESISTANCE_DURING_TX = {"DATE OF DRUG RESISTANCE DURING TX"};
+ 	
+ 	public final static String[] NAME_OF_TX_LOCATION = {"NAME OF TX LOCATION"};
+ 	
  	
  	
  	

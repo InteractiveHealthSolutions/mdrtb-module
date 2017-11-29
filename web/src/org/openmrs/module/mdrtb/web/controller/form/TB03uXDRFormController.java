@@ -538,8 +538,34 @@ public class TB03uXDRFormController {
 	
 	@ModelAttribute("basesfordiagnosis")
 	public Collection<ConceptAnswer> getPossibleBasesForDiagnosis() {
-	
-		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.BASIS_FOR_TB_DIAGNOSIS);
+		ArrayList<ConceptAnswer> stateArray = new ArrayList<ConceptAnswer>();
+		for(int i=0; i< 6; i++) {
+			stateArray.add(null);
+		}
+		Collection<ConceptAnswer> bases = Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.BASIS_FOR_TB_DIAGNOSIS);
+		MdrtbService ms = Context.getService(MdrtbService.class);
+		for(ConceptAnswer ca : bases) {
+			if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.GENEXPERT).getId().intValue()) {
+				stateArray.set(0, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.HAIN_1_DETECTION).getId().intValue()) {
+				stateArray.set(1, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.HAIN_2_DETECTION).getId().intValue()) {
+				stateArray.set(2, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.DST_DETECTION).getId().intValue()) {
+				stateArray.set(3, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.CONTACT).getId().intValue()) {
+				stateArray.set(4, ca);
+			}
+			else if(ca.getAnswerConcept().getId().intValue() == ms.getConcept(TbConcepts.TB_CLINICAL_DIAGNOSIS).getId().intValue()) {
+				stateArray.set(5, ca);
+			}
+		}
+		return stateArray;
+		//return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.BASIS_FOR_TB_DIAGNOSIS);
 	}
 
 	@ModelAttribute("hivstatuses")
