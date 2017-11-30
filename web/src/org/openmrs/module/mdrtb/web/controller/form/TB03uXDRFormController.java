@@ -284,7 +284,7 @@ public class TB03uXDRFormController {
 				//TX OUTCOME
 				//PATIENT GROUP
 				//PATIENT DEATH AND CAUSE OF DEATH
-				if(outcome!=null && outcome.getId()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")));
+				if(outcome!=null && outcome.getId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")));
 				{
 					Patient patient = tpp.getPatient();
 					if(!patient.getDead())

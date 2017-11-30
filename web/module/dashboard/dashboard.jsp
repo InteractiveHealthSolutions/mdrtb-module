@@ -242,6 +242,11 @@
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>${program.outcome.concept.displayString}</td></tr>
 </c:if>
 </table>
+<table>
+<tr><td>
+<a href="${pageContext.request.contextPath}/module/mdrtb/program/showEditEnroll.form?programId=${program.id}&type=mdr"><spring:message code="mdrtb.editProgram" text="Edit Program"/></a> 
+</td></tr>
+</table>
 </div>
 <%-- <button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${program.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>
 

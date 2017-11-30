@@ -28,6 +28,7 @@ import org.openmrs.module.mdrtb.comparator.PatientStateComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
+import org.openmrs.module.mdrtb.form.TB03uXDRForm;
 import org.openmrs.module.mdrtb.regimen.Regimen;
 import org.openmrs.module.mdrtb.regimen.RegimenUtils;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -586,5 +587,28 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 		}
 		
 		return tb03u;
+	}
+	
+	public TB03uXDRForm getTb03uXDR() {
+		TB03uXDRForm tb03ux = null;
+		List<Encounter> encounters = null;
+		EncounterType intakeType = Context.getEncounterService().getEncounterType("TB03u - XDR");
+		
+    	encounters = getMdrtbEncountersDuringProgramObs();
+    
+		
+		if (encounters != null) {
+    		for (Encounter encounter : encounters) {
+    			// create a new status item for this encounter
+    			
+    			// now place the visit in the appropriate "bucket"
+    			if (encounter.getEncounterType().equals(intakeType)) {
+    				tb03ux = new TB03uXDRForm(encounter);
+    				break;
+    			}
+    		}
+		}
+		
+		return tb03ux;
 	}
 }

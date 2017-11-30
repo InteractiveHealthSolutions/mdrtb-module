@@ -257,9 +257,12 @@
 
 
 </table>
-
-<%-- <button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${program.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>
-</div> --%>
+<table>
+<tr><td>
+<a href="${pageContext.request.contextPath}/module/mdrtb/program/showEditEnroll.form?programId=${program.id}&type=tb"><spring:message code="mdrtb.editProgram" text="Edit Program"/></a> 
+</td></tr>
+</table>
+</div>
 
 <!--  EDIT PROGRAM POPUP -->
 <%--<div id="programEditPopup" style="display:none">
@@ -362,8 +365,8 @@
 </table>
 <button type="submit"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button> <button type="reset" id="programCloseCancelButton"><spring:message code="mdrtb.cancel" text="Cancel"/></button>
 
-</form> --%>
-</div>
+</form> 
+</div> --%>
 
 <!-- END CLOSE PROGRAM POPUP -->
 
