@@ -1267,6 +1267,17 @@ public class TB03uForm extends AbstractSimpleForm {
 		return Context.getService(MdrtbService.class).getSmearForms(getPatProgId());
 		
 	}
+	
+	
+	public List<DrugResistanceDuringTreatmentForm> getDrdts() {
+		if(getPatProgId()==null) {
+			//System.out.println("GM: null program");
+			return new ArrayList<DrugResistanceDuringTreatmentForm>();
+		}
+		return Context.getService(MdrtbService.class).getDrdtForms(getPatProgId());
+		
+	}
+	
 
 	public List<CultureForm> getCultures() {
 		if(getPatProgId()==null) {

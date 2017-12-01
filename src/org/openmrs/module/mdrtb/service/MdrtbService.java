@@ -25,6 +25,7 @@ import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.form.CultureForm;
 import org.openmrs.module.mdrtb.form.DSTForm;
+import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
 import org.openmrs.module.mdrtb.form.Form89;
 import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
@@ -677,6 +678,8 @@ public interface MdrtbService extends OpenmrsService {
 	public List<HAINForm> getHAINForms(Integer patientProgramId);
 	public List<HAIN2Form> getHAIN2Forms(Integer patientProgramId);
 	public List<DSTForm> getDstForms (Integer patientProgramId);
+	
+	public List<DrugResistanceDuringTreatmentForm> getDrdtForms (Integer patientProgramId);
 	
 	public List<Encounter> getEncountersWithNoProgramId(EncounterType ec, Patient p);
 	public void addProgramIdToEncounter(Integer encounterId, Integer programId);

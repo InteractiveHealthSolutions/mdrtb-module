@@ -55,6 +55,7 @@ import org.openmrs.module.mdrtb.comparator.PersonByNameComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.CultureForm;
 import org.openmrs.module.mdrtb.form.DSTForm;
+import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
 import org.openmrs.module.mdrtb.form.Form89;
 import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
@@ -2683,6 +2684,28 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 		return form;
 		
 		
+	}
+	
+	public List<DrugResistanceDuringTreatmentForm> getDrdtForms (Integer patientProgramId) {
+		PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<DrugResistanceDuringTreatmentForm> drdts = new ArrayList<DrugResistanceDuringTreatmentForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType("Resistance During Treatment"));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	//System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		//if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HAIN2_CONSTRUCT), e)!=null) {
+    			//System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				DrugResistanceDuringTreatmentForm drdt = new DrugResistanceDuringTreatmentForm(e);
+    				drdt.setPatient(tpp.getPatient());
+    				drdts.add(drdt);
+    			}
+    		//}
+    	}
+    	Collections.sort(drdts);
+    	return drdts;
 	}
 
 }

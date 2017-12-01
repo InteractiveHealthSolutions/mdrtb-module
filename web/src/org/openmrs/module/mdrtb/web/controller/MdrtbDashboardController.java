@@ -14,6 +14,7 @@ import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientState;
 import org.openmrs.ProgramWorkflowState;
@@ -21,7 +22,10 @@ import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
+import org.openmrs.module.mdrtb.form.TB03uXDRForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgramHospitalizationValidator;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgramValidator;
@@ -206,6 +210,39 @@ public class MdrtbDashboardController {
 		List<Encounter> labList = Context.getService(MdrtbService.class).getEncountersWithNoProgramId(labType, program.getPatient());
 		map.put("unlinkedlabs", labList);
 		
+		Integer showTb03uXDR  = 0;
+
+		if(program.getTb03uXDR()==null)
+		{
+			int preXdrId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PRE_XDR_TB).getId().intValue();
+			int xdrId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XDR_TB).getId().intValue();
+			int tdrId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TDR_TB).getId().intValue();
+			Concept resDuringTx = Context.getService(MdrtbService.class).getConcept(TbConcepts.DRUG_RESISTANCE_DURING_TX);
+			List<DrugResistanceDuringTreatmentForm> drdts = Context.getService(MdrtbService.class).getDrdtForms(program.getId());
+			if(drdts!=null && drdts.size()!=0) {
+				for(DrugResistanceDuringTreatmentForm drdt : drdts) {
+					Obs temp = MdrtbUtil.getObsFromEncounter(resDuringTx, drdt.getEncounter());
+					if(temp!=null) {
+						int cid = temp.getValueCoded().getId().intValue();
+						
+						if(cid==preXdrId || cid==xdrId || cid==tdrId) {
+							showTb03uXDR = 1;
+							break;
+						}
+					}
+				}
+			}
+			
+			else showTb03uXDR = 0;
+		}
+		
+		else {
+			showTb03uXDR=1;
+		}
+		
+		System.out.println("st03: " + showTb03uXDR);
+		
+		map.addAttribute("showtb03uxdr", showTb03uXDR);
 		return new ModelAndView("/module/mdrtb/dashboard/dashboard", map);
 
 	}

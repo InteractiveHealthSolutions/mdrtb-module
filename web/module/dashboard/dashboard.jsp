@@ -405,28 +405,42 @@ ${regimen.displayString}
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03uForm" text="TB03uz"/>:</td><td>
 <c:choose> 
 	<c:when test="${! empty status.visitStatus.intakeVisits.value}">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
 	</c:when>
 	<c:otherwise>
 		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-			<a href="${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></a>
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></a>
 	    </openmrs:hasPrivilege>
 	</c:otherwise>
 </c:choose>
 </td></tr>
 
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.drdtForm" text="DRDT"/>:</td><td>
+
+	<c:if test="${! empty status.visitStatus.drdtVisits.value}">
+		<a href="${pageContext.request.contextPath}${status.visitStatus.drdtVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.drdtVisits.value[0].displayString}</a><br/>
+	</c:if>
+	
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newDrdtVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addDrdt" text="Add DRDT Visit"/></a>
+	    </openmrs:hasPrivilege>
+	
+
+</td></tr>
+<c:if test="${showtb03uxdr eq 1 }">
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03uXDRForm" text="TB03uxdr"/>:</td><td>
 <c:choose> 
 	<c:when test="${! empty status.visitStatus.followUpVisits.value}">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.followUpVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.followUpVisits.value[0].displayString}</a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.followUpVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.followUpVisits.value[0].displayString}</a>
 	</c:when>
 	<c:otherwise>
 		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-			<a href="${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addTB03-XDR" text="Add XDR Visit"/></a>
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addTB03-XDR" text="Add XDR Visit"/></a>
 	    </openmrs:hasPrivilege>
 	</c:otherwise>
 </c:choose>
 </td></tr>
+</c:if>
 
 <%-- <c:if test="${empty status.visitStatus.intakeVisits.value}">
 <tr><td colspan="2">

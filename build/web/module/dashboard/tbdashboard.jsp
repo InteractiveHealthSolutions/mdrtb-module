@@ -217,11 +217,11 @@
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.transferIn" text="TIN"/>:</td><td> 
 <c:choose>
 	<c:when test="${! empty status.visitStatus.transferInVisits.value}">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.transferInVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.transferInVisits.value[0].displayString}</a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.transferInVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.transferInVisits.value[0].displayString}</a>
 	</c:when>
 	<c:otherwise>
 	<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.newTransferInVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addTransferInVisit" text="Add TransferIn Visit"/></a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.newTransferInVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addTransferInVisit" text="Add TransferIn Visit"/></a>
 	</openmrs:hasPrivilege>
 	</c:otherwise>
 </c:choose>
@@ -230,11 +230,11 @@
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.transferOut" text="TOUT"/>:</td><td> 
 <c:choose>
 	<c:when test="${! empty status.visitStatus.transferOutVisits.value}">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.transferOutVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.transferOutVisits.value[0].displayString}</a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.transferOutVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.transferOutVisits.value[0].displayString}</a>
 	</c:when>
 	<c:otherwise>
 	<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.newTransferOutVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addTransferOutVisit" text="Add TransferOut Visit"/></a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.newTransferOutVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addTransferOutVisit" text="Add TransferOut Visit"/></a>
 	</openmrs:hasPrivilege>
 	</c:otherwise>
 </c:choose>
@@ -410,11 +410,11 @@ ${regimen.displayString}
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03" text="TB03"/>:</td><td>
 <c:choose> 
 	<c:when test="${! empty status.visitStatus.intakeVisits.value}">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
 	</c:when>
 	<c:otherwise>
 	   <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></a>
 	   </openmrs:hasPrivilege>
 	</c:otherwise>
 </c:choose>
@@ -435,7 +435,7 @@ ${regimen.displayString}
 	</c:when>
 	<c:otherwise>
 	   <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addFollowUpVisit" text="Add Follow-up Visit"/></a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addFollowUpVisit" text="Add Follow-up Visit"/></a>
 	   </openmrs:hasPrivilege>
 	</c:otherwise>
 </c:choose>

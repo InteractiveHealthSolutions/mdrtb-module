@@ -398,6 +398,27 @@
 
 <br/>
 
+<spring:message code="mdrtb.tb03u.resistanceDuringTx" text="Drdtz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.date"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.drdt"/></td>
+<td style="font-weight:bold"></td>
+</tr>
+
+<c:forEach var="drdt" items="${tb03u.drdts}">
+<tr>
+<td><openmrs:formatDate date="${drdt.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${drdt.drugResistanceDuringTreatment.displayString}</td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/resistanceDuringTx.form?encounterId=${drdt.id}&patientProgramId=${patientProgramId}" target="_blank"><spring:message code="mdrtb.view"/></a></td>
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
+
+
 <table>
 
 

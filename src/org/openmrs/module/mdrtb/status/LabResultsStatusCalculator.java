@@ -14,6 +14,7 @@ import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.MdrtbConstants.TbClassification;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -558,6 +559,23 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 
     }
     
+    /*private void findMostRecentDrdt(List<DrugResistanceDuringTreatmentForm> forms, LabResultsStatus status) {
+    	StatusItem mostRecentCompletedDrdt = new StatusItem();
+	
+    	DrugResistanceDuringTreatmentForm drdtf = findFirstDrugResistanceDuringTreatmentInList(forms);
+    	mostRecentCompletedDrdt.setValue(drdtf);
+		renderer.renderDst(mostRecentCompletedDrdt, status);
+		
+		status.addItem("mostRecentCompletedDrdt", mostRecentCompletedDrdt);
+		
+		*//**
+		if (smear == null) {
+			mostRecentCompletedSmear.addFlag(renderer.createNoSmearsFlag());
+		}
+		*//*
+
+    }*/
+    
 	private Smear findFirstCompletedSmearInList(List<Specimen> specimens) {
 
 		if (specimens == null) {
@@ -695,7 +713,5 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		
 		// if we've got to here, there is no completed Dst for this patient
 		return null;
-	}
-	
-	
+	}	
 }

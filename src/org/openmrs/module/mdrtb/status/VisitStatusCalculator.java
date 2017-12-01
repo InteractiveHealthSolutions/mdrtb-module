@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.status;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	EncounterType specimenType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
     	EncounterType transferOutType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
     	EncounterType transferInType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type"));
+    	EncounterType drdtType = Context.getEncounterService().getEncounterType("Resistance During Treatment");
     	
     	// where we will store the various visits
     	List<StatusItem> intakeVisits = new LinkedList<StatusItem>();
@@ -55,6 +57,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	List<StatusItem> specimenCollectionVisits = new LinkedList<StatusItem>();
     	List<StatusItem> transferOutVisits = new LinkedList<StatusItem>();
     	List<StatusItem> transferInVisits = new LinkedList<StatusItem>();
+    	List<StatusItem> drdtVisits = new LinkedList<StatusItem>();
     	
     	List<Encounter> encounters = null;
     	
@@ -97,8 +100,15 @@ public class VisitStatusCalculator implements StatusCalculator {
     			else if (encounter.getEncounterType().equals(transferInType)) {
     				transferInVisits.add(visit);
     			}
+    			
+    			else if (encounter.getEncounterType().equals(drdtType)) {
+    				drdtVisits.add(visit);
+    			}
     		}
     	}
+    	
+    	Collections.reverse(drdtVisits);
+    	
     	
     	// add all the lists to the main status 
     	status.addItem("intakeVisits", new StatusItem(intakeVisits));
@@ -107,6 +117,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	status.addItem("followUpVisits", new StatusItem(followUpVisits));
     	status.addItem("transferOutVisits", new StatusItem(transferOutVisits));
     	status.addItem("transferInVisits", new StatusItem(transferInVisits));
+    	status.addItem("drdtVisits", new StatusItem(drdtVisits));
     	
     	// now handle adding the links that we should use for the new intake and follow-up visits
     	// (the logic to determine these links is basically delegated to the renderer
@@ -125,6 +136,10 @@ public class VisitStatusCalculator implements StatusCalculator {
     	StatusItem newTransferInVisit = new StatusItem();
     	renderer.renderNewTransferInVisit(newTransferInVisit, status);
     	status.addItem("newTransferInVisit", newTransferInVisit);
+    	
+    	StatusItem newDrdtVisit = new StatusItem();
+    	renderer.renderNewDrdtVisit(newDrdtVisit, status);
+    	status.addItem("newDrdtVisit", newDrdtVisit);
     	
     	return status;
     }
@@ -154,6 +169,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	EncounterType specimenType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
     	EncounterType transferOutType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
     	EncounterType transferInType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type"));
+    	
     	// where we will store the various visits
     	List<StatusItem> intakeVisits = new LinkedList<StatusItem>();
     	List<StatusItem> followUpVisits = new LinkedList<StatusItem>();
@@ -161,6 +177,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	List<StatusItem> specimenCollectionVisits = new LinkedList<StatusItem>();
     	List<StatusItem> transferOutVisits = new LinkedList<StatusItem>();
     	List<StatusItem> transferInVisits = new LinkedList<StatusItem>();
+    	
     	
     	List<Encounter> encounters = null;
     	
@@ -202,6 +219,8 @@ public class VisitStatusCalculator implements StatusCalculator {
     			else if (encounter.getEncounterType().equals(transferInType)) {
     				transferInVisits.add(visit);
     			}
+    			
+    			
     		}
     	}
     	
@@ -212,6 +231,7 @@ public class VisitStatusCalculator implements StatusCalculator {
     	status.addItem("followUpVisits", new StatusItem(followUpVisits));
     	status.addItem("transferOutVisits", new StatusItem(transferOutVisits));
     	status.addItem("transferInVisits", new StatusItem(transferInVisits));
+    	
     	
     	// now handle adding the links that we should use for the new intake and follow-up visits
     	// (the logic to determine these links is basically delegated to the renderer

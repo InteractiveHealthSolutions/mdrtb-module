@@ -56,6 +56,14 @@ public class DashboardVisitStatusRenderer implements VisitStatusRenderer {
             			+ "&patientProgramId=" + status.getPatientProgram().getId() 
             			+ "&encounterId=" + encounter.getId());
     		}
+    		
+    		else if (type.equals(Context.getEncounterService().getEncounterType("Resistance During Treatment"))) {
+    			visit.setLink("/module/mdrtb/form/resistanceDuringTx.form?patientId="
+            			+ status.getPatientProgram().getPatient().getPatientId()
+            			+ "&patientProgramId=" + status.getPatientProgram().getId() 
+            			+ "&encounterId=" + encounter.getId());
+    		}
+    		
     		else if(type.equals(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")))) {
     			/*visit.setLink("/module/mdrtb/specimen/specimen.form?specimenId=" + encounter.getId()
     							+ "&patientProgramId=" + status.getPatientProgram().getId());*/
@@ -349,6 +357,16 @@ public void renderNewTransferInVisit(StatusItem newTransferInVisit, VisitStatus 
     	
     	*/
     } 
+
+	public void renderNewDrdtVisit(StatusItem newDrdtVisit, VisitStatus status) {
+    
+	// we've changed this so that we link to the select form page instead of determining what form to use here
+	newDrdtVisit.setLink("/module/mdrtb/form/resistanceDuringTx.form?formType=drdt&encounterId=-1&patientId=" 
+ 		+ status.getPatientProgram().getPatient().getPatientId() 
+ 		+ "&patientProgramId=" + status.getPatientProgram().getId());
+	
+	
+	} 
     
     public void renderNewTbTransferOutVisit(StatusItem newTransferOutVisit, VisitStatus status) {
         

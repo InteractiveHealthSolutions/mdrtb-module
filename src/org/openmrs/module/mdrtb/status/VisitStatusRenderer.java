@@ -14,6 +14,8 @@ public interface VisitStatusRenderer {
 	
 	public void renderNewTransferInVisit(StatusItem newFollowUpVisit, VisitStatus status);
 	
+	public void renderNewDrdtVisit(StatusItem newDrdtVisit, VisitStatus status);
+	
 	public void renderTbVisit(StatusItem visit, VisitStatus status);
 
 	public void renderNewTbIntakeVisit(StatusItem newIntakeVisit, VisitStatus status);

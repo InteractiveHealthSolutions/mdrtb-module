@@ -38,6 +38,10 @@ public class VisitStatus extends Status {
 		return getItem("transferInVisits");
 	}
 	
+	public StatusItem getDrdtVisits() {
+		return getItem("drdtVisits");
+	}
+	
 	// used to store the link that should be used for a new intake visit
 	public StatusItem getNewIntakeVisit() {
 		return getItem("newIntakeVisit");
@@ -56,5 +60,10 @@ public class VisitStatus extends Status {
 	// used to store the link that should be used for the a new follow-up visit
 	public StatusItem getNewTransferInVisit() {
 			return getItem("newTransferInVisit");
+	}
+	
+	// used to store the link that should be used for the a new follow-up visit
+	public StatusItem getNewDrdtVisit() {
+			return getItem("newDrdtVisit");
 	}
 }
