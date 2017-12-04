@@ -240,7 +240,6 @@ public class MdrtbDashboardController {
 			showTb03uXDR=1;
 		}
 		
-		System.out.println("st03: " + showTb03uXDR);
 		
 		map.addAttribute("showtb03uxdr", showTb03uXDR);
 		return new ModelAndView("/module/mdrtb/dashboard/dashboard", map);

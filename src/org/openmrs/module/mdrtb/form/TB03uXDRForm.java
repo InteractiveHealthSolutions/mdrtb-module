@@ -1,11 +1,13 @@
 package org.openmrs.module.mdrtb.form;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
@@ -22,6 +24,7 @@ import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.MdrtbService;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 
 
@@ -1311,6 +1314,15 @@ public class TB03uXDRForm extends AbstractSimpleForm {
 		return Context.getService(MdrtbService.class).getSmearForms(getPatProgId());
 		
 	}
+	
+	public List<DrugResistanceDuringTreatmentForm> getDrdts() {
+		if(getPatProgId()==null) {
+			//System.out.println("GM: null program");
+			return new ArrayList<DrugResistanceDuringTreatmentForm>();
+		}
+		return Context.getService(MdrtbService.class).getDrdtForms(getPatProgId());
+		
+	}
 
 	public List<CultureForm> getCultures() {
 		if(getPatProgId()==null) {
@@ -1409,6 +1421,47 @@ public class TB03uXDRForm extends AbstractSimpleForm {
 			}
 		} 
 	}
+	
+	public String getOtherCauseOfDeath() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.OTHER_CAUSE_OF_DEATH), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueText();
+		}
+		
+	}
+	
+	public void setOtherCauseOfDeath(String name) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.OTHER_CAUSE_OF_DEATH), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && name == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueText() == null || !obs.getValueText().equals(name)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(name != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.OTHER_CAUSE_OF_DEATH), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueText(name);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	
 		
 	
 

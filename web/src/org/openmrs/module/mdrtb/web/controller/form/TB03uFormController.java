@@ -576,5 +576,10 @@ public class TB03uFormController {
 	public Collection<ConceptAnswer> getPossibleRelapses() {
 		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.RELAPSED);
 	}
+	
+	@ModelAttribute("causes")
+	public Collection<ConceptAnswer> getPossibleCausesOfDeath() {
+		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.CAUSE_OF_DEATH);
+	}
 		
 }

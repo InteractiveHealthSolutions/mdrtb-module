@@ -21,6 +21,7 @@
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
 			hivToggle();
+			codToggle();
 		});
 
 		$j('#cancel').click(function(){
@@ -72,6 +73,31 @@
        		 	$j('#pctStartDate').val("");
        		 	document.getElementById('artStartDate').disabled = true;
         		document.getElementById('pctStartDate').disabled = true;
+       	      
+       	   		//set values of dates to ""
+       	}
+     }
+	
+	function codToggle () {
+		
+		var statusBox = document.getElementById('causeOfDeath');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideOtherCod(choice);
+	}
+	
+	function showHideOtherCod(val) {
+		
+		
+       	
+       	if(val==291) {
+       		
+       		document.getElementById('otherCauseOfDeath').disabled = false;
+       		
+       	}
+       	else {
+       		    $j('#otherCauseOfDeath').val("");
+       		 	
+       		 	document.getElementById('otherCauseOfDeath').disabled = true;
        	      
        	   		//set values of dates to ""
        	}
@@ -433,6 +459,16 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.causeOfDeath" text="Cause of Death"/>:</td>
+<td>${tb03u.causeOfDeath.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.tb03.otherCauseOfDeath" text="Other Cause of Death"/>:</td>
+<td>${tb03u.otherCauseOfDeath}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.tb03.afterOutcomeDeathDate" text="Date of Death after Outcome"/>:</td>
 <td><openmrs:formatDate date="${tb03u.dateOfDeathAfterOutcome}"  format="${_dateFormatDisplay}"/></td>
 </tr>
@@ -765,6 +801,18 @@
 <tr>
 <td><spring:message code="mdrtb.tb03.treatmentOutcomeDateOnly" text="Outcome Dates"/>:</td>
 <td><openmrs_tag:dateField formFieldName="treatmentOutcomeDate" startValue="${tb03u.treatmentOutcomeDate}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.causeOfDeath" text="Cause of Death"/>:</td>
+<td>
+<select name="causeOfDeath" id="causeOfDeath" onChange="codToggle()">
+<option value=""></option>
+<c:forEach var="type" items="${causes}">
+	<option value="${type.answerConcept.id}" <c:if test="${tb03u.causeOfDeath == type.answerConcept}">selected</c:if> >${type.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+&nbsp;&nbsp;&nbsp;&nbsp;<input name="otherCauseOfDeath" id="otherCauseOfDeath" size="15" value="${tb03u.otherCauseOfDeath}"/></td>
 </tr>
 
 <tr>

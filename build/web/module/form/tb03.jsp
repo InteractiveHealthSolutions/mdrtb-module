@@ -21,7 +21,7 @@
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
 			hivToggle();
-			codToggle()
+			codToggle();
 		});
 
 		$j('#cancel').click(function(){
