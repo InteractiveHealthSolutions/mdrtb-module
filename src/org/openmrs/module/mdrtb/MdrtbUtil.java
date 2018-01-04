@@ -29,6 +29,9 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAddress;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.BlankIdentifierException;
+import org.openmrs.api.IdentifierNotUniqueException;
+import org.openmrs.api.PatientIdentifierException;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.Oblast;
@@ -50,6 +53,7 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
+import org.springframework.validation.Errors;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
@@ -1046,6 +1050,58 @@ public class MdrtbUtil {
 		
 		
 		return ret;
+	}
+	
+	/*
+	 * Validates a PatientIdentifier.
+	 * 
+	 * @see org.springframework.validation.Validator#validate(java.lang.Object,
+	 *      org.springframework.validation.Errors)
+	 */
+	
+	public static void validateIdentifier(PatientIdentifier pi, Errors errors) throws PatientIdentifierException {
+		
+		// Validate that the identifier is non-null
+		if (pi == null) {
+			errors.reject(Context.getMessageSourceService().getMessage("mdrtb.emptyId"));
+			// BlankIdentifierException("Patient Identifier cannot be null.");
+		}
+		
+		// Only validate if the PatientIdentifier is not voided
+		if (!pi.isVoided()) {
+			
+			// Check is already in use by another patient
+			String id = pi.getIdentifier();
+			
+			GregorianCalendar now = new GregorianCalendar();
+			int year = now.get(GregorianCalendar.YEAR);
+			String yearString = "" + year;
+			String firstTwoDigits = yearString.substring(0,2);
+			System.out.println("FTD:" + firstTwoDigits);
+			int centuryYear = Integer.parseInt(firstTwoDigits) * 100;
+			System.out.println("CY:" + centuryYear);
+			int yearFromId = Integer.parseInt(id.substring(2,4)) + centuryYear;
+			System.out.println("YFI:" + yearFromId);
+			
+			if(yearFromId > year) {
+				errors.reject(Context.getMessageSourceService().getMessage("mdrtb.yearInIdInFuture"));
+			}
+			
+			/*if(programStartDate!=null) {
+			{
+				GregorianCalendar stDateCal = new GregorianCalendar();	
+				stDateCal.setTimeInMillis(programStartDate.getTime());
+				int stDateYear = stDateCal.get(GregorianCalendar.YEAR);
+			
+				if(yearFromId != stDateYear) {
+					Context.getMessageSourceService().getMessage("mdrtb.yearInIdMismatch");
+				}
+			}*/
+			
+			
+			
+		
+		}
 	}
 	
 

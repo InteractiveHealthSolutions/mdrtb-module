@@ -390,7 +390,7 @@ public class DOTSDQController {
     	    		 nowCal = new GregorianCalendar();
     	    		 timeDiff = nowCal.getTimeInMillis() - tCal.getTimeInMillis();
     	    		 diffInWeeks = DQUtil.timeDiffInWeeks(timeDiff);
-    	    		 if(diffInWeeks > 52) {
+    	    		 if(diffInWeeks > 32) {
     	    			 
     	    	    	    if(tf.getTreatmentOutcome()==null) {
     	    	    	    	missingOutcomes.add(dqi);
@@ -399,7 +399,7 @@ public class DOTSDQController {
     	    		 } 
     	    	 }
     	    
-    	    if(tf.getTreatmentStartDate()==null) {
+    	  /*  if(tf.getTreatmentStartDate()==null) {
     	    	notStartedTreatment.add(dqi);
     	    	errorFlag = Boolean.TRUE;
     	    }
@@ -419,7 +419,7 @@ public class DOTSDQController {
     	    	    	    	errorFlag = Boolean.TRUE;
     	    	    	    }
     	    		 } 
-    	    	 }
+    	    	 }*/
     	    //NO SITE
     	    
     	   /* q = Context.getService(MdrtbService.class).getConcept(TbConcepts.ANATOMICAL_SITE_OF_TB);

@@ -535,6 +535,7 @@ public class MdrtbEditPatientController {
 		validator.validate(patient, result);
 		if (result.hasErrors()) {
 			map.put("errors", result);
+			map.put("add", add);
 			return new ModelAndView("/module/mdrtb/mdrtbEditPatient", map);
 		}
 		

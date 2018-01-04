@@ -40,6 +40,7 @@ import org.openmrs.module.mdrtb.program.TbPatientProgramValidator;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.status.VisitStatus;
 import org.openmrs.module.mdrtb.status.VisitStatusCalculator;
+import org.openmrs.module.mdrtb.validator.PatientValidator;
 import org.openmrs.module.mdrtb.web.controller.status.DashboardVisitStatusRenderer;
 import org.openmrs.module.programlocation.PatientProgram;
 import org.openmrs.propertyeditor.LocationEditor;
@@ -393,6 +394,10 @@ public class ProgramController {
 	        					}
 	        				}
 	        				
+	        				/*if(locOb!=null && idLoc.getCountyDistrict()!=null && locOb.getId().intValue()!=Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.dushanbe.entryId")) ) {
+	        					locDist = null;
+	        				}*/
+	        				
 	        				if(locOb!=null && idLoc.getCountyDistrict()!=null) {
 	        					List<District> distList = Context.getService(MdrtbService.class).getDistricts(locOb.getId());
 	        					for(District d : distList) {
@@ -436,7 +441,8 @@ public class ProgramController {
 		        		}
 	        			
 	        			else {
-	        				map.addAttribute("districts", Context.getService(MdrtbService.class).getDistrict(locOb.getId()));
+	        				System.out.println("all districts");
+	        				map.addAttribute("districts", Context.getService(MdrtbService.class).getDistricts(locOb.getId()));
 	        			}
 	        		}
 	        		
@@ -464,6 +470,17 @@ public class ProgramController {
 	            map.addAttribute("districts", districts);
 	            
 	        }
+	        
+	        /*else if(district==null)
+	        { 
+	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
+	        	map.addAttribute("oblastSelected", oblast);
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            
+	        }*/
+	        
 	        else
 	        {
 	        	oblasts = Context.getService(MdrtbService.class).getOblasts();
@@ -725,7 +742,11 @@ public class ProgramController {
 		}
 		
 		// set the patient
-		program.setPatient(patient);
+		if(program!=null)
+			program.setPatient(patient);
+		
+		PatientValidator validator = new PatientValidator();
+		validator.validate(patient, errors);
 		
 		// perform validation (validation needs to happen after patient is set since patient is used to pull up patient's previous programs)
 		if (program != null) {
@@ -806,7 +827,7 @@ public class ProgramController {
 
 		patient.addIdentifier(identifier);	
 		
-		Context.getPatientService().savePatient(patient);
+		
 		
 		Integer idId = null;
 		Set<PatientIdentifier> identifiers = patient.getIdentifiers();
@@ -820,8 +841,15 @@ public class ProgramController {
 			}
 		}
 		
+		System.out.println("Save Patient");
+		Context.getPatientService().savePatient(patient);
+		
 		// set the patient
-		program.setPatient(patient);
+		if(program!=null)
+			program.setPatient(patient);
+		
+		/*PatientValidator validator = new PatientValidator();
+		validator.validate(patient, errors);*/
 		
 		// perform validation (validation needs to happen after patient is set since patient is used to pull up patient's previous programs)
 		if (program != null) {
@@ -833,13 +861,32 @@ public class ProgramController {
 			map.put("hasActiveProgram", mostRecentProgram != null && mostRecentProgram.getActive() ? true : false);
 			map.put("patientId", patientId);
 			map.put("errors", errors);
-			return new ModelAndView("/module/mdrtb/program/enrollment", map);
+			map.put("type", "tb");
+			map.put("oblasts",Context.getService(MdrtbService.class).getOblasts());
+			if(oblastId!=null) {
+				map.put("oblastSelected", oblastId);
+				map.put("districts", Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblastId)));
+			}
+			
+			if(districtId!=null) {
+				map.put("districtSelected", districtId);
+				map.put("facilities", Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(districtId)));
+			}
+			map.put("facilitySelected", facilityId);
+			map.put("identifierValue", identifierValue);
+			//map.put("patientProgramId", -1);
+			System.out.println("ERRORS");
+			return new ModelAndView("/module/mdrtb/program/otherEnrollment", map);//?patientId=" + patient.getId() + "&patientProgramId=-1&type=tb", map);
+			//http://localhost:8080/openmrs/module/mdrtb/program/otherEnrollment.form?patientId=47407&patientProgramId=-1&type=tb
 		}
 		
 		
 		
 		// save the actual update
+		
+		System.out.println("Save Program");
 		Context.getProgramWorkflowService().savePatientProgram(program.getPatientProgram());
+		System.out.println("Add ID to Program");
 		Context.getService(MdrtbService.class).addIdentifierToProgram(idId, program.getPatientProgram().getPatientProgramId());
 		// clears the command object from the session
 		status.setComplete();

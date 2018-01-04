@@ -7982,6 +7982,10 @@ public String getGender(Person p) {
 	  String ret = "";
 	  
 	  Integer ppid = tf.getPatProgId();
+	  
+	  if(ppid==null)
+		  return ret;
+	  
 	  Patient p = tf.getPatient();
 	  
 	  MdrtbService ms = Context.getService(MdrtbService.class);
@@ -8001,6 +8005,9 @@ public String getGender(Person p) {
 	  int foundIndex = -1;
 	  for(TbPatientProgram tpp : tpps) {
 		  
+		  if(tpp==null || tpp.getId()==null)
+			  continue;
+		
 		  if(tpp.getId().intValue() == ppid.intValue()) {
 			  foundIndex = index;
 			  break;

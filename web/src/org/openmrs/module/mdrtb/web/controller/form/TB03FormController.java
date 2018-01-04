@@ -303,8 +303,10 @@ public class TB03FormController {
 		//TX OUTCOME
 		//PATIENT GROUP
 		//PATIENT DEATH AND CAUSE OF DEATH
-		if(outcome!=null && outcome.getId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")));
+		if(outcome!=null && (outcome.getId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId"))))
 		{
+			System.out.println("O_ID: " +  outcome.getId().intValue());
+			System.out.println("C_ID: " + Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")));
 			Patient patient = tpp.getPatient();
 			if(!patient.getDead()) {
 				patient.setDead(new Boolean(true));
