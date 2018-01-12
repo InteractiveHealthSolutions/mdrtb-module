@@ -245,4 +245,29 @@ public class MdrtbConcepts {
     
     public final static String[] MDR_TB_PROGRAM = {"MDR TB PROGRAM"};
     
+    public final static String[] FUNDING_SOURCE = {"FUNDING SOURCE"};
+    public final static String[] PROJECT_HOPE = {"HOPE"};
+    public final static String[] MSF = {"MSF"};
+    
+    public final static String[] CM_DOSE = {"CM DOSE"};
+    public final static String[] AM_DOSE = {"AM DOSE"};
+    public final static String[] MFX_DOSE = {"MFX DOSE"};
+    public final static String[] LFX_DOSE = {"LFX DOSE"};
+    public final static String[] PTO_DOSE = {"PTO DOSE"};
+    public final static String[] CS_DOSE = {"CS DOSE"};
+    public final static String[] PAS_DOSE = {"PAS DOSE"};
+    public final static String[] Z_DOSE = {"Z DOSE"};
+    public final static String[] E_DOSE = {"E DOSE"};
+    public final static String[] H_DOSE = {"H DOSE"};
+    public final static String[] LZD_DOSE = {"LZD DOSE"};
+    public final static String[] CFZ_DOSE = {"CFZ DOSE"};
+    public final static String[] BDQ_DOSE = {"BDQ DOSE"};
+    public final static String[] DLM_DOSE = {"DLM DOSE"};
+    public final static String[] IMP_DOSE = {"IMP DOSE"};
+    public final static String[] AMX_DOSE = {"AMX DOSE"};
+    public final static String[] OTHER_DRUG_1_DOSE = {"OTHER DRUG 1 DOSE"};
+    public final static String[] OTHER_DRUG_2_DOSE = {"OTHER DRUG 2 DOSE"};
+    
+    
+    
 }

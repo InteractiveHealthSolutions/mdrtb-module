@@ -29,6 +29,7 @@ import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
 import org.openmrs.module.mdrtb.form.Form89;
 import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.RegimenForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
@@ -715,6 +716,8 @@ public interface MdrtbService extends OpenmrsService {
 	public void evict(Object obj);
 	
 	public TB03uForm getTB03uFormForProgram(Patient p, Integer patientProgId);
+	
+	public ArrayList<RegimenForm> getRegimenFormsForProgram(Patient p, Integer patientProgId);
 }
 
 

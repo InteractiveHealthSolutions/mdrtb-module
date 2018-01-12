@@ -59,6 +59,7 @@ import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
 import org.openmrs.module.mdrtb.form.Form89;
 import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.RegimenForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
@@ -2706,6 +2707,33 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
     	}
     	Collections.sort(drdts);
     	return drdts;
+	}
+	
+	public ArrayList<RegimenForm> getRegimenFormsForProgram(Patient p, Integer patientProgId) {
+		
+		ArrayList<RegimenForm> forms = new ArrayList<RegimenForm>();
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		System.out.println("TEMP: " + temp.size());
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				forms.add(new RegimenForm(e));
+			}
+				
+		}
+		Collections.sort(forms);
+		//Collections.reverse(forms);
+		return forms;
+		
+		
 	}
 
 }
