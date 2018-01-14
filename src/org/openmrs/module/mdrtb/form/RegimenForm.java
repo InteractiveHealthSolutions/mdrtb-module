@@ -56,7 +56,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		}
 		
 		// we only need to update this if this is a new obs or if the value has changed.
-		if (obs == null || obs.getValueDatetime() == null || !obs.getValueDatetime().equals(date)) {
+		if (obs == null || obs.getValueDatetime() == null || (date == null && obs != null) || !obs.getValueDatetime().equals(date)) {
 			
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
@@ -94,7 +94,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		}
 		
 		// we only need to update this if this is a new obs or if the value has changed.
-		if (obs == null || obs.getValueText() == null || !obs.getValueText().equals(number)) {
+		if (obs == null || obs.getValueText() == null || (number == null && obs != null) || !obs.getValueText().equals(number)) {
 			
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
@@ -264,7 +264,48 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 			}
 		} 
 	}
-	///////////////
+	/////////////////////
+	
+	public Concept getSldRegimenType() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SLD_REGIMEN_TYPE), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueCoded();
+		}
+	}
+	
+	public void setSldRegimenType(Concept type) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SLD_REGIMEN_TYPE), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && type == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueCoded() == null || !obs.getValueCoded().equals(type)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(type != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SLD_REGIMEN_TYPE), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueCoded(type);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	
+	//////////////////////
 	public Double getCmDose() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CM_DOSE), encounter);
 		
@@ -278,14 +319,15 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 	
 	public void setCmDose(Double dose) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CM_DOSE), encounter);
-		
+		/*System.out.println("CM: " + dose );
+		System.out.println("Obs: " + obs ); */
 		// if this obs have not been created, and there is no data to add, do nothing
 		if (obs == null && dose == null) {
 			return;
 		}
 		
 		// we only need to update this if this is a new obs or if the value has changed.
-		if (obs == null || obs.getValueNumeric() == null || obs.getValueNumeric() != dose.doubleValue()) {
+		if (obs == null || obs.getValueNumeric() == null || (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 			
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
@@ -331,7 +373,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
-		if (obs == null || obs.getValueNumeric() == null
+		if (obs == null || obs.getValueNumeric() == null || (dose == null && obs != null)
 				|| obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
@@ -381,7 +423,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -431,7 +473,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -481,7 +523,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -531,7 +573,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -581,7 +623,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -631,7 +673,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -681,7 +723,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -731,7 +773,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -781,7 +823,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -831,7 +873,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -881,7 +923,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -931,7 +973,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -981,7 +1023,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -1005,10 +1047,10 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 	
 	////////////////////////////////////////////////
 	
-	public Double getAmxDose() {
+	public Double getHrDose() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(
 				Context.getService(MdrtbService.class).getConcept(
-						MdrtbConcepts.AMX_DOSE), encounter);
+						MdrtbConcepts.HR_DOSE), encounter);
 
 		if (obs == null) {
 			return null;
@@ -1017,10 +1059,10 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		}
 	}
 
-	public void setAmxDose(Double dose) {
+	public void setHrDose(Double dose) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(
 				Context.getService(MdrtbService.class).getConcept(
-						MdrtbConcepts.AMX_DOSE), encounter);
+						MdrtbConcepts.HR_DOSE), encounter);
 
 		// if this obs have not been created, and there is no data to add, do
 		// nothing
@@ -1031,7 +1073,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -1044,7 +1086,107 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 			// now create the new Obs and add it to the encounter
 			if (dose != null) {
 				obs = new Obs(encounter.getPatient(), Context.getService(
-						MdrtbService.class).getConcept(MdrtbConcepts.AMX_DOSE),
+						MdrtbService.class).getConcept(MdrtbConcepts.HR_DOSE),
+						encounter.getEncounterDatetime(),
+						encounter.getLocation());
+				obs.setValueNumeric(new Double(dose));
+				encounter.addObs(obs);
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////
+	
+	public Double getHrzeDose() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(
+				Context.getService(MdrtbService.class).getConcept(
+						MdrtbConcepts.HRZE_DOSE), encounter);
+
+		if (obs == null) {
+			return null;
+		} else {
+			return obs.getValueNumeric();
+		}
+	}
+
+	public void setHrzeDose(Double dose) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(
+				Context.getService(MdrtbService.class).getConcept(
+						MdrtbConcepts.HRZE_DOSE), encounter);
+
+		// if this obs have not been created, and there is no data to add, do
+		// nothing
+		if (obs == null && dose == null) {
+			return;
+		}
+
+		// we only need to update this if this is a new obs or if the value has
+		// changed.
+		if (obs == null || obs.getValueNumeric() == null
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
+
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs
+			// when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+
+			// now create the new Obs and add it to the encounter
+			if (dose != null) {
+				obs = new Obs(encounter.getPatient(), Context.getService(
+						MdrtbService.class).getConcept(MdrtbConcepts.HRZE_DOSE),
+						encounter.getEncounterDatetime(),
+						encounter.getLocation());
+				obs.setValueNumeric(new Double(dose));
+				encounter.addObs(obs);
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////
+	
+	public Double getSDose() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(
+				Context.getService(MdrtbService.class).getConcept(
+						MdrtbConcepts.S_DOSE), encounter);
+
+		if (obs == null) {
+			return null;
+		} else {
+			return obs.getValueNumeric();
+		}
+	}
+
+	public void setSDose(Double dose) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(
+				Context.getService(MdrtbService.class).getConcept(
+						MdrtbConcepts.S_DOSE), encounter);
+
+		// if this obs have not been created, and there is no data to add, do
+		// nothing
+		if (obs == null && dose == null) {
+			return;
+		}
+
+		// we only need to update this if this is a new obs or if the value has
+		// changed.
+		if (obs == null || obs.getValueNumeric() == null
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
+
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs
+			// when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+
+			// now create the new Obs and add it to the encounter
+			if (dose != null) {
+				obs = new Obs(encounter.getPatient(), Context.getService(
+						MdrtbService.class).getConcept(MdrtbConcepts.S_DOSE),
 						encounter.getEncounterDatetime(),
 						encounter.getLocation());
 				obs.setValueNumeric(new Double(dose));
@@ -1081,7 +1223,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		// we only need to update this if this is a new obs or if the value has
 		// changed.
 		if (obs == null || obs.getValueNumeric() == null
-				|| obs.getValueNumeric() != dose.doubleValue()) {
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
 
 			// void the existing obs if it exists
 			// (we have to do this manually because openmrs doesn't void obs
@@ -1105,7 +1247,143 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 	
 	/////////////////////////////////////////////
 	
-	public Double getOtherDrug2Dose() {
+	public String getOtherDrug1Name() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OTHER_DRUG_1_NAME), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueText();
+		}
+	}
+	
+	public void setOtherDrug1Name(String name) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OTHER_DRUG_1_NAME), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && name == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueText() == null || (name == null && obs != null) || !obs.getValueText().equals(name)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(name != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OTHER_DRUG_1_NAME), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueText(name);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	////////////////////////////////////////////
+	
+	public Double getAmxDose() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(
+				Context.getService(MdrtbService.class).getConcept(
+						MdrtbConcepts.AMX_DOSE), encounter);
+
+		if (obs == null) {
+			return null;
+		} else {
+			return obs.getValueNumeric();
+		}
+	}
+
+	public void setAmxDose(Double dose) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(
+				Context.getService(MdrtbService.class).getConcept(
+						MdrtbConcepts.AMX_DOSE), encounter);
+
+		// if this obs have not been created, and there is no data to add, do
+		// nothing
+		if (obs == null && dose == null) {
+			return;
+		}
+
+		// we only need to update this if this is a new obs or if the value has
+		// changed.
+		if (obs == null || obs.getValueNumeric() == null
+				|| (dose == null && obs != null) || obs.getValueNumeric() != dose.doubleValue()) {
+
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs
+			// when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+
+			// now create the new Obs and add it to the encounter
+			if (dose != null) {
+				obs = new Obs(encounter.getPatient(), Context.getService(
+						MdrtbService.class).getConcept(MdrtbConcepts.AMX_DOSE),
+						encounter.getEncounterDatetime(),
+						encounter.getLocation());
+				obs.setValueNumeric(new Double(dose));
+				encounter.addObs(obs);
+			}
+		}
+	}
+	
+	///////////////////////////////////////
+	
+	public String getOtherRegimen() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SLD_TREATMENT_REGIMEN), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueText();
+		}
+	}
+	
+	public void setOtherRegimen(String name) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SLD_TREATMENT_REGIMEN), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && name == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueText() == null || (name == null && obs != null) || !obs.getValueText().equals(name)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(name != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SLD_TREATMENT_REGIMEN), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueText(name);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	
+	
+	/////////////////////////////////////
+	
+	
+	
+	
+	
+	/*public Double getOtherDrug2Dose() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(
 				Context.getService(MdrtbService.class).getConcept(
 						MdrtbConcepts.OTHER_DRUG_2_DOSE), encounter);
@@ -1151,7 +1429,7 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 				encounter.addObs(obs);
 			}
 		}
-	}
+	}*/
 	
 	public int compareTo(RegimenForm form) {
 		
@@ -1162,6 +1440,10 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		
 		return this.getCouncilDate().compareTo(form.getCouncilDate());
 	}
+	
+	
+	
+	
 	
 	public String getLink() {
 		return "/module/mdrtb/form/regimen.form?patientProgramId=" + getPatProgId() + "&encounterId=" + getEncounter().getId();

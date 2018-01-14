@@ -20,6 +20,7 @@
 		$j('#edit').click(function(){
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
+			sldToggle();
 			
 		});
 
@@ -45,11 +46,36 @@
 		$('#oblast').val(${oblastSelected});
 		$('#district').val(${districtSelected});
 		$('#facility').val(${facilitySelected});
+		$('#otherRegimen').prop('disabled',true);
 		
 		
 		
 	});
 	
+	function sldToggle () {
+		
+		var statusBox = document.getElementById('sldRegimenType');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideOtherRegimen(choice);
+	}
+	
+	function showHideOtherRegimen(val) {
+		
+		
+       	
+       	if(val==653) {
+       		
+       		document.getElementById('otherRegimen').disabled = false;
+       		
+       	}
+       	else {
+       		    $j('#otherRegimen').val("");
+       		 	
+       		 	document.getElementById('otherRegimen').disabled = true;
+       	      
+       	   		//set values of dates to ""
+       	}
+     }
 	
     
 	var tableToExcel = (function() {
@@ -190,6 +216,16 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.pv.sldRegimenType" text="typez"/>:</td>
+<td>${regimenForm.sldRegimenType.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.otherRegimen" text="otherz"/>:</td>
+<td>${regimenForm.otherRegimen}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.pv.cmDose" text="cmDose"/>:</td>
 <td>${regimenForm.cmDose}</td>
 </tr>
@@ -270,14 +306,34 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.pv.hrDose" text="hrDose"/>:</td>
+<td>${regimenForm.hrDose}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.hrzeDose" text="hrzeDose"/>:</td>
+<td>${regimenForm.hrzeDose}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.sDose" text="sDose"/>:</td>
+<td>${regimenForm.SDose}</td>
+</tr>
+
+<tr>
+<td colspan="2" align="left"><spring:message code="mdrtb.pv.other" text="Otherz"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.otherDrug1Name" text="otherDrug1Name"/>:</td>
+<td>${regimenForm.otherDrug1Name}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.pv.otherDrug1Dose" text="otherDrug1Dose"/>:</td>
 <td>${regimenForm.otherDrug1Dose}</td>
 </tr>
 
-<tr>
-<td><spring:message code="mdrtb.pv.otherDrug2Dose" text="otherDrug2Dose"/>:</td>
-<td>${regimenForm.otherDrug2Dose}</td>
-</tr>
 
 </table>
 </td></tr>
@@ -420,6 +476,23 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.pv.sldRegimenType" text="typez"/>:</td>
+<td>
+<select name="sldRegimenType" id="sldRegimenType" onChange="sldToggle()">
+<option value=""></option>
+<c:forEach var="type" items="${sldregimens}">
+	<option value="${type.answerConcept.id}" <c:if test="${regimenForm.sldRegimenType == type.answerConcept}">selected</c:if> >${type.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.otherRegimen" text="otherz"/>:</td>
+<td><input name="otherRegimen" id="otherRegimen" size="20" value="${regimenForm.otherRegimen}"/></td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.pv.cmDose" text="cmDose"/>:</td>
 <td><input name="cmDose" size="4" value="${regimenForm.cmDose}"/></td>
 </tr>
@@ -500,14 +573,34 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.pv.hrDose" text="hrDose"/>:</td>
+<td><input name="hrDose" size="4" value="${regimenForm.hrDose}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.hrzeDose" text="hrzeDose"/>:</td>
+<td><input name="hrzeDose" size="4" value="${regimenForm.hrzeDose}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.sDose" text="sDose"/>:</td>
+<td><input name="SDose" size="4" value="${regimenForm.SDose}"/></td>
+</tr>
+
+<tr>
+<td colspan="2" align="left"><spring:message code="mdrtb.pv.other" text="Otherz"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.otherDrug1Name" text="otherDrug1Name"/>:</td>
+<td><input name="otherDrug1Name" size="25" value="${regimenForm.otherDrug1Name}"/></td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.pv.otherDrug1Dose" text="otherDrug1Dose"/>:</td>
 <td><input name="otherDrug1Dose" size="4" value="${regimenForm.otherDrug1Dose}"/></td>
 </tr>
 
-<tr>
-<td><spring:message code="mdrtb.pv.otherDrug2Dose" text="otherDrug2Dose"/>:</td>
-<td><input name="otherDrug2Dose" size="4" value="${regimenForm.otherDrug2Dose}"/></td>
-</tr>
 
 </table>
 

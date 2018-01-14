@@ -35,7 +35,7 @@
 		<th><spring:message code="mdrtb.form89.cmacNumber" text="numberz"/></th>
 		<th><spring:message code="mdrtb.form89.placeOfCommission" text="placez"/></th>
 		<th><spring:message code="mdrtb.tb03.resistanceType" text="typez"/></th>
-		
+		<th><spring:message code="mdrtb.pv.sldRegimenType" text="typez"/></th>
 		<th><spring:message code="mdrtb.pv.cmDose" text="cmDose"/></th>
 		<th><spring:message code="mdrtb.pv.amDose" text="amDose"/></th>
 		<th><spring:message code="mdrtb.pv.mfxDose" text="mfxDose"/></th>
@@ -52,8 +52,11 @@
 		<th><spring:message code="mdrtb.pv.dlmDose" text="dlmDose"/></th>
 		<th><spring:message code="mdrtb.pv.impDose" text="impDose"/></th>
 		<th><spring:message code="mdrtb.pv.amxDose" text="amxDose"/></th>
+		<th><spring:message code="mdrtb.pv.hrDose" text="hrDose"/></th>
+		<th><spring:message code="mdrtb.pv.hrzeDose" text="hrzeDose"/></th>
+		<th><spring:message code="mdrtb.pv.sDose" text="sDose"/></th>
 		<th><spring:message code="mdrtb.pv.otherDrug1Dose" text="otherDrug1Dose"/></th>
-		<th><spring:message code="mdrtb.pv.otherDrug2Dose" text="otherDrug2Dose"/></th>
+		<!-- <th><spring:message code="mdrtb.pv.otherDrug2Dose" text="otherDrug2Dose"/></th> -->
 		<th><spring:message code="mdrtb.pv.fundingSource" text="fundingz"/></th>
 		
 </tr>
@@ -65,7 +68,7 @@
  <td>${form.cmacNumber}</td>
  <td>${form.placeOfCommission.displayString}</td>
  <td>${form.resistanceType.displayString}</td>
- 
+ <td>${form.sldRegimenType.displayString}</td>
  <td>${form.cmDose}</td>
  <td>${form.amDose}</td>
  <td>${form.mfxDose}</td>
@@ -82,8 +85,10 @@
  <td>${form.dlmDose}</td>
  <td>${form.impDose}</td>
  <td>${form.amxDose}</td>
- <td>${form.otherDrug1Dose}</td>
- <td>${form.otherDrug2Dose}</td>
+ <td>${form.hrDose}</td>
+ <td>${form.hrzeDose}</td>
+ <td>${form.SDose}</td>
+ <td>${form.otherDrug1Name}&nbsp;&nbsp;${form.otherDrug1Dose}</td>
  <td>${form.fundingSource.displayString}</td>
  </tr>
   

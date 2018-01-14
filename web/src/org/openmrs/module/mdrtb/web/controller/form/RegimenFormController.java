@@ -87,8 +87,8 @@ public class RegimenFormController {
 			RegimenForm form = new RegimenForm(tbProgram.getPatient());
 			
 			// prepopulate the intake form with any program information
-			form.setEncounterDatetime(tbProgram.getDateEnrolled());
-			form.setLocation(tbProgram.getLocation());
+			//form.setEncounterDatetime(tbProgram.getDateEnrolled());
+			//form.setLocation(tbProgram.getLocation());
 			form.setPatProgId(patientProgramId);
 			
 			
@@ -141,7 +141,9 @@ public class RegimenFormController {
         	
         	//TB03Form tb03 = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
         	Location location  = regimenForm.getLocation();
-        	System.out.println("show:" + location.getDisplayString());
+        	//System.out.println("show:" + location.getDisplayString());
+        	
+        	if(location!=null) {
         	oblasts = Context.getService(MdrtbService.class).getOblasts();
         	model.addAttribute("oblasts", oblasts);
         	for(Oblast o : oblasts) {
@@ -171,6 +173,13 @@ public class RegimenFormController {
         			break;
         		}
         	}
+        	}
+        	else {
+        		oblasts  = Context.getService(MdrtbService.class).getOblasts();
+        		model.addAttribute("oblasts", oblasts);
+        	}
+        		
+        	
         }
 
         else if(district==null)
@@ -244,6 +253,12 @@ public class RegimenFormController {
 		System.out.println(regimenForm.getLocation());
 		System.out.println(regimenForm.getProvider());
 		System.out.println(regimenForm.getEncounterDatetime());
+		
+		if(regimenForm.getSldRegimenType()!=null && regimenForm.getSldRegimenType().getId().intValue()!=Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OTHER_MDRTB_REGIMEN).getId().intValue()) {
+			
+			System.out.println("Setting null");
+			regimenForm.setOtherRegimen(null);
+		}
 		
 		// save the actual update
 		Context.getEncounterService().saveEncounter(regimenForm.getEncounter());
@@ -343,6 +358,42 @@ public class RegimenFormController {
 	@ModelAttribute("fundingSources")
 	public Collection<ConceptAnswer> getPossibleFundingSources() {
 		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.FUNDING_SOURCE);
+	}
+	
+	@ModelAttribute("sldregimens")
+	public Collection<ConceptAnswer> getPossibleSLDRegimenrs() {
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.SLD_REGIMEN_TYPE);
+		for(int i=0; i< 7; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SHORT_MDR_REGIMEN).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.STANDARD_MDR_REGIMEN).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.INDIVIDUAL_WITH_BDQ).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.INDIVIDUAL_WITH_DLM).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.INDIVIDUAL_WITH_BDQ_AND_DLM).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.INDIVIDUAL_WITH_CFZ_LZD).getId().intValue()) {
+				typeArray.set(5, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OTHER_MDRTB_REGIMEN).getId().intValue()) {
+				typeArray.set(6, c);
+			}
+		}
+		
+		return typeArray;
+		
 	}
 	
 	

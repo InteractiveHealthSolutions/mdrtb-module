@@ -265,8 +265,22 @@ public class MdrtbConcepts {
     public final static String[] DLM_DOSE = {"DLM DOSE"};
     public final static String[] IMP_DOSE = {"IMP DOSE"};
     public final static String[] AMX_DOSE = {"AMX DOSE"};
+    public final static String[] HR_DOSE = {"HR DOSE"};
+    public final static String[] HRZE_DOSE = {"HRZE DOSE"};
+    public final static String[] S_DOSE = {"S DOSE"};
     public final static String[] OTHER_DRUG_1_DOSE = {"OTHER DRUG 1 DOSE"};
+    public final static String[] OTHER_DRUG_1_NAME = {"OTHER DRUG 1 NAME"};
     public final static String[] OTHER_DRUG_2_DOSE = {"OTHER DRUG 2 DOSE"};
+    
+    public final static String[] SHORT_MDR_REGIMEN = {"SHORT MDR REGIMEN"};
+    public final static String[] STANDARD_MDR_REGIMEN = {"STANDARD MDR REGIMEN"};
+    public final static String[] INDIVIDUAL_WITH_BDQ = {"INDIVIDUAL WITH BDQ"};
+    public final static String[] INDIVIDUAL_WITH_DLM = {"INDIVIDUAL WITH DLM"};
+    public final static String[] INDIVIDUAL_WITH_BDQ_AND_DLM = {"INDIVIDUAL WITH BDQ AND DLM"};
+    public final static String[] INDIVIDUAL_WITH_CFZ_LZD = {"INDIVIDUAL WITH CFZ LZD"};
+    public final static String[] OTHER_MDRTB_REGIMEN = {"OTHER MDRTB REGIMEN"};
+    public final static String[] SLD_TREATMENT_REGIMEN  = {"SLD TREATMENT REGIMEN"};
+    public final static String[] SLD_REGIMEN_TYPE = {"SLD REGIMEN TYPE "}; 
     
     
     

@@ -294,8 +294,7 @@ public class XpertFormController {
 			return new ModelAndView("/module/mdrtb/form/intake", map);
 		}*/
 		
-		System.out.println("PROC RIF:" + xpert.getRifResult());
-		System.out.println("PROF MTB:" + xpert.getMtbResult());
+		
 		
 		if(xpert.getMtbResult()!=null && xpert.getMtbResult().getId().intValue()!=Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_POSITIVE).getId().intValue()) {
 			
