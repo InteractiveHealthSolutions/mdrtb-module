@@ -413,6 +413,13 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 	 * Implementation of comparable method
 	 */
 	public int compareTo(MdrtbPatientProgram programToCompare) {
+		
+		if(this.getDateEnrolled()==null)
+			return 1;
+		
+		else if(programToCompare.getDateEnrolled()==null)
+			return 0;
+		
 		return this.getDateEnrolled().compareTo(programToCompare.getDateEnrolled());
 	}
 	

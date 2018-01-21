@@ -453,6 +453,13 @@ public class TbPatientProgram implements Comparable<TbPatientProgram> {
 	 * Implementation of comparable method
 	 */
 	public int compareTo(TbPatientProgram programToCompare) {
+		
+		if(this.getDateEnrolled()==null)
+			return 1;
+		
+		else if(programToCompare.getDateEnrolled()==null)
+			return 0;
+		
 		return this.getDateEnrolled().compareTo(programToCompare.getDateEnrolled());
 	}
 	
