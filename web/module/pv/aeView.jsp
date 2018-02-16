@@ -33,9 +33,9 @@
 		<th><spring:message code="mdrtb.pv.serialNumber" text="serialz"/></th>
 		<th><spring:message code="mdrtb.pv.adverseEvent" text="aez"/></th>
 		<th><spring:message code="mdrtb.pv.onsetDate" text="datez"/></th>
-		<th><spring:message code="mdrtb.pv.diagnosticInvestiation" text="diz"/></th>
+		<th><spring:message code="mdrtb.pv.diagnosticInvestigation" text="diz"/></th>
 		<th><spring:message code="mdrtb.pv.suspectedDrug" text="drugz"/></th>
-		<th><spring:message code="mdrtb.pv.treatmentRegimen" text="regimenz"/></th>
+		<th><spring:message code="mdrtb.pv.treatmentRegimenAtOnset" text="regimenz"/></th>
 		<th><spring:message code="mdrtb.pv.typeOfEvent" text="typez"/></th>
 		<th><spring:message code="mdrtb.pv.yellowCardDate" text="Yellowz"/></th>
 		<th><spring:message code="mdrtb.pv.causalityDrug1" text="cd1"/></th>
@@ -61,8 +61,8 @@
  <td>${form.adverseEvent.displayString}</td>
  <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
  <td>${form.diagnosticInvestigation.displayString}</td>
- <td>${form.suspectedDrug.displayString}</td>
- <td></td>
+ <td>${form.suspectedDrug}</td>
+ <td>${form.treatmentRegimenAtOnset}</td>
  <td>${form.typeOfEvent.displayString}</td>
  <td><openmrs:formatDate date="${form.yellowCardDate}" format="${_dateFormatDisplay}"/></td>
  <td>${form.causalityDrug1.displayString}</td>
@@ -74,7 +74,7 @@
  <td>${form.actionTaken.displayString}</td>
  <td>${form.actionOutcome.displayString}</td>
  <td><openmrs:formatDate date="${form.outcomeDate}" format="${_dateFormatDisplay}"/></td>
- <td></td>
+ <td>${form.facility}</td>
  <td>${form.meddraCode.displayString}</td>
  <td>${form.drugRechallenge.displayString}</td>
  <td>${form.comments}</td>

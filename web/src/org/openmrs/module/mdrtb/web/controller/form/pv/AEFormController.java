@@ -530,7 +530,7 @@ public class AEFormController {
 			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.POSSIBLE).getId().intValue()) {
 				typeArray.set(2, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SUSPECTED).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SUSPECTED_CA).getId().intValue()) {
 				typeArray.set(3, c);
 			}
 			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NOT_CLASSIFIED).getId().intValue()) {
@@ -661,5 +661,52 @@ public class AEFormController {
 		return typeArray;
 	
 	}
+	
+	@ModelAttribute("drugRechallenges")
+	public ArrayList<ConceptAnswer> getRechallengeOptions() {
+		
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.DRUG_RECHALLENGE);
+		for(int i=0; i< 4; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NO_RECHALLENGE).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RECURRENCE_OF_EVENT).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NO_RECURRENCE).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DRUG_INTERRUPTED).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			
+			
+		}
+		
+		return typeArray;
+	
+	}
+	
+	@ModelAttribute("regimens")
+	public ArrayList<String> getRegimens(@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId) {
+		ArrayList<String> regimens = new ArrayList<String>();
+		MdrtbPatientProgram pp = Context.getService(MdrtbService.class).getMdrtbPatientProgram(patientProgramId);
+		ArrayList<RegimenForm> regimenList = Context.getService(MdrtbService.class).getRegimenFormsForProgram(pp.getPatient(), patientProgramId);
+		
+		for(RegimenForm form : regimenList) {
+			String s = form.getRegimenSummary();
+			if(s!=null) {
+				regimens.add(s);
+			}
+		}
+		
+		return regimens;
+	}
+	
 	
 }

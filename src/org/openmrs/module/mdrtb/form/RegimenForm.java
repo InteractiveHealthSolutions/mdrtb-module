@@ -1379,7 +1379,54 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 	
 	/////////////////////////////////////
 	
-	
+	public String getRegimenSummary() {
+		String ret = "";
+		
+		if(getCmDose()!=null)
+			ret += "Cm-";
+		if(getAmDose()!=null)
+			ret+="Am-";
+		if(getMfxDose()!=null)
+			ret+="Mfx-";
+		if(getLfxDose()!=null)
+			ret+="Lfx-";
+		if(getPtoDose()!=null)
+			ret+="Pto-";
+		if(getCsDose()!=null)
+			ret+="Cs-";
+		if(getPasDose()!=null)
+			ret+="PAS-";
+		if(getZDose()!=null)
+			ret+="Z-";
+		if(getEDose()!=null)
+			ret+="E-";
+		if(getHDose()!=null)
+			ret+="H-";
+		if(getLzdDose()!=null)
+			ret+="Lzd-";
+		if(getCfzDose()!=null)
+			ret+="Cfz-";
+		if(getBdqDose()!=null)
+			ret+="Bdq-";
+		if(getImpDose()!=null)
+			ret+="Imp/Clm-";
+		if(getHrDose()!=null)
+			ret+="HR-";
+		if(getHrzeDose()!=null)
+			ret+="HRZE-";
+		if(getSDose()!=null)
+			ret+="S-";
+		if(getAmxDose()!=null)
+			ret+="Amx/Clv-";
+		if(getOtherDrug1Name()!=null)
+			ret+=getOtherDrug1Name();
+		
+		if(ret.endsWith("-")) {
+			ret = ret.substring(0,ret.length()-1);
+		}
+		
+		return ret;
+	}
 	
 	
 	

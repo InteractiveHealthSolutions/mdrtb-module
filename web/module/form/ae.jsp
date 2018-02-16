@@ -20,7 +20,7 @@
 		$j('#edit').click(function(){
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
-			sldToggle();
+			
 			
 		});
 
@@ -105,6 +105,141 @@
 		if(val2!="")
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/ae.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty aeForm.id ? aeForm.id : -1})
 	}
+	
+	function validate() 
+	{
+		var encDate = document.getElementById("encounterDatetime").value;
+		var errorText = "";
+		if(encDate=="") {
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingOnsetDate"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		if(document.getElementById("adverseEvent").value=="") {
+			
+			
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingAdverseEvent"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		encDate = encDate.replace(/\//g,".");
+		
+		
+		var parts = encDate.split(".");
+		var day = parts[0];
+		var month = parts[1]-1;
+		var year = parts[2];
+		
+		
+		
+		var onsetDate = new Date(year,month,day);
+
+		var now = new Date();
+		
+		if(onsetDate.getTime() > now.getTime()) {
+			alert("Onset date cannot be in future");
+			return false;
+		}
+		
+		if(document.getElementById("diagnosticInvestigation").value=="") {
+			
+			alert("Please enter the Diagnostic Investigation");
+			return false;
+		}
+		
+		if(document.getElementById("suspectedDrug").value=="") {
+			
+			alert("Please enter the Suspected Drug");
+			return false;
+		}
+		
+		if(document.getElementById("typeOfEvent").value=="") {
+			
+			alert("Please enter the Type of Event");
+			return false;
+		}
+		
+		var ycDateString = document.getElementById("yellowCardDate").value;
+		
+		if(ycDateString!="") {
+			ycDateString = ycDateString.replace(/\//g,".");
+			parts = ycDateString.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var ycDate = new Date(year, month, day);
+
+			if(ycDate.getTime() < onsetDate.getTime()) {
+				alert("Yellow Card Submission Date cannot be before Onset Date");
+				return false;
+			}
+		}
+		
+		if(document.getElementById("causalityDrug1").value!="" && document.getElementById("causalityAssessmentResult1").value=="") {
+			
+			alert("Please enter the Causality Assessment Result for Drug 1");
+			return false;
+		}
+		
+		if(document.getElementById("causalityDrug2").value!="" && document.getElementById("causalityAssessmentResult2").value=="") {
+			
+			alert("Please enter the Causality Assessment Result for Drug 2");
+			return false;
+		}
+		
+		if(document.getElementById("causalityDrug3").value!="" && document.getElementById("causalityAssessmentResult3").value=="") {
+			
+			alert("Please enter the Causality Assessment Result for Drug 3");
+			return false;
+		}
+		
+		if(document.getElementById("actionTaken").value=="") {
+			
+			alert("Please enter the Action Taken");
+			return false;
+		}
+
+		var outcomeDateString = document.getElementById("outcomeDate").value;
+		
+		if(document.getElementById("actionOutcome").value!="" && outcomeDateString=="") {
+			
+			alert("Please enter the Outcome Date");
+			return false;
+		}
+		
+		if(outcomeDateString != "") {
+			
+			if(document.getElementById("actionOutcome").value=="") {
+				
+				alert("Please enter the Outcome");
+				return false;
+			}
+			
+			
+			outcomeDateString = outcomeDateString.replace(/\//g,".");
+			parts = outcomeDateString.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+		
+			var outcomeDate = new Date(year, month, day);
+			if(outcomeDate.getTime() < onsetDate.getTime()) {
+				alert("Outcome date cannot be before Onset Date");
+				return false;
+			}
+		}
+		
+		if(document.getElementById("meddraCode").value=="") {
+			
+			alert("Please enter the MedDRA code");
+			return false;
+		}
+		
+		return true;
+	}
 
 -->
 
@@ -174,6 +309,11 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.pv.treatmentRegimenAtOnset" text="regz"/>:</td>
+<td>${aeForm.treatmentRegimenAtOnset}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.pv.typeOfEvent" text="Eventz"/>:</td>
 <td>${aeForm.typeOfEvent.displayString}</td>
 </tr>
@@ -187,7 +327,7 @@
 <td><spring:message code="mdrtb.pv.causalityDrug1" text="CD1z"/>:</td>
 <td>${aeForm.causalityDrug1.displayString}</td>
 <td><spring:message code="mdrtb.pv.causalityAssessmentResult1" text="CAR1z"/>:</td>
-<td>${aeForm.causalityDrug1.displayString}</td>
+<td>${aeForm.causalityAssessmentResult1.displayString}</td>
 </tr>
 
 <tr>
@@ -221,7 +361,7 @@
 
 <tr>
 <td><spring:message code="mdrtb.pv.meddraCode" text="MeddraCodez"/>:</td>
-<td>${aeForm.meddraCodes.displayString}</td>
+<td>${aeForm.meddraCode.displayString}</td>
 </tr>
 
 <tr>
@@ -246,7 +386,7 @@
 
 <!-- EDIT BOX -->
 <div id="editVisit" <c:if test="${(!empty aeForm.id) && (aeForm.id != -1) && fn:length(errors.allErrors) == 0}"> style="display:none" </c:if>>
-<b class="boxHeader"><spring:message code="mdrtb.aeForm" text="aeForm"/></b>
+<b class="boxHeader"><spring:message code="mdrtb.pv.aeForm" text="aeForm"/></b>
 <div class="box">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
@@ -259,7 +399,7 @@
 	<br/>
 </c:if>
 
-<form name="aeForm" name="aeForm" action="ae.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty aeForm.id ? aeForm.id : -1}" method="post">
+<form name="aeForm" name="aeForm" action="ae.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty aeForm.id ? aeForm.id : -1}" method="post" onSubmit="return validate()">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />
@@ -334,7 +474,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.adverseEvent" text="AEz"/>:</td>
 <td>
-<select name="adverseEvent">
+<select name="adverseEvent" id="adverseEvent">
 <option value=""></option>
 <c:forEach var="aeOption" items="${aeOptions}">
 	<option value="${aeOption.answerConcept.id}" <c:if test="${aeForm.adverseEvent == aeOption.answerConcept}">selected</c:if> >${aeOption.answerConcept.displayString}</option>
@@ -347,7 +487,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.diagnosticInvestigation" text="DIz"/>:</td>
 <td>
-<select name="diagnosticInvestigation">
+<select name="diagnosticInvestigation" id="diagnosticInvestigation">
 <option value=""></option>
 <c:forEach var="diOption" items="${diOptions}">
 	<option value="${diOption.answerConcept.id}" <c:if test="${aeForm.diagnosticInvestigation == diOption.answerConcept}">selected</c:if> >${diOption.answerConcept.displayString}</option>
@@ -359,13 +499,26 @@
 
 <tr>
 <td><spring:message code="mdrtb.pv.suspectedDrug" text="Drugz"/>:</td>
-<td><input name="suspectedDrug" size="25" value="${aeForm.suspectedDrug}"/></td>
+<td><input name="suspectedDrug" id="suspectedDrug" size="25" value="${aeForm.suspectedDrug}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.treatmentRegimenAtOnset" text="regimenz"/>:</td>
+<td>
+<select name="treatmentRegimenAtOnset" id="treatmentRegimenAtOnset">
+<option value=""></option>
+<c:forEach var="regimen" items="${regimens}">
+	<option value="${regimen}" <c:if test="${aeForm.treatmentRegimenAtOnset == regimen}">selected</c:if> >${regimen}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
 </tr>
 
 <tr>
 <td><spring:message code="mdrtb.pv.typeOfEvent" text="Eventz"/>:</td>
 <td>
-<select name="typeOfEvent">
+<select name="typeOfEvent" id="typeOfEvent">
 <option value=""></option>
 <c:forEach var="typeOption" items="${typeOptions}">
 	<option value="${typeOption.answerConcept.id}" <c:if test="${aeForm.typeOfEvent == typeOption.answerConcept}">selected</c:if> >${typeOption.answerConcept.displayString}</option>
@@ -383,7 +536,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.causalityDrug1" text="CD1z"/>:</td>
 <td>
-<select name="causalityDrug1">
+<select name="causalityDrug1" id="causalityDrug1">
 <option value=""></option>
 <c:forEach var="cdOption" items="${cdOptions}">
 	<option value="${cdOption.answerConcept.id}" <c:if test="${aeForm.causalityDrug1 == cdOption.answerConcept}">selected</c:if> >${cdOption.answerConcept.displayString}</option>
@@ -392,7 +545,7 @@
 </td>
 <td><spring:message code="mdrtb.pv.causalityAssessmentResult1" text="CAR1z"/>:</td>
 <td>
-<select name="causalityAssessmentResult1">
+<select name="causalityAssessmentResult1" id="causalityAssessmentResult1">
 <option value=""></option>
 <c:forEach var="carOption" items="${carOptions}">
 	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult1 == carOption.answerConcept}">selected</c:if> >${carOption.answerConcept.displayString}</option>
@@ -404,7 +557,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.causalityDrug2" text="CD2z"/>:</td>
 <td>
-<select name="causalityDrug2">
+<select name="causalityDrug2" id="causalityDrug2">
 <option value=""></option>
 <c:forEach var="cdOption" items="${cdOptions}">
 	<option value="${cdOption.answerConcept.id}" <c:if test="${aeForm.causalityDrug2 == cdOption.answerConcept}">selected</c:if> >${cdOption.answerConcept.displayString}</option>
@@ -413,7 +566,7 @@
 </td>
 <td><spring:message code="mdrtb.pv.causalityAssessmentResult2" text="CAR2z"/>:</td>
 <td>
-<select name="causalityAssessmentResult2">
+<select name="causalityAssessmentResult2" id="causalityAssessmentResult2">
 <option value=""></option>
 <c:forEach var="carOption" items="${carOptions}">
 	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult2 == carOption.answerConcept}">selected</c:if> >${carOption.answerConcept.displayString}</option>
@@ -425,7 +578,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.causalityDrug3" text="CD3z"/>:</td>
 <td>
-<select name="causalityDrug3">
+<select name="causalityDrug3" id="causalityDrug3">
 <option value=""></option>
 <c:forEach var="cdOption" items="${cdOptions}">
 	<option value="${cdOption.answerConcept.id}" <c:if test="${aeForm.causalityDrug3 == cdOption.answerConcept}">selected</c:if> >${cdOption.answerConcept.displayString}</option>
@@ -434,7 +587,7 @@
 </td>
 <td><spring:message code="mdrtb.pv.causalityAssessmentResult3" text="CAR3z"/>:</td>
 <td>
-<select name="causalityAssessmentResult3">
+<select name="causalityAssessmentResult3" id="causalityAssessmentResult3">
 <option value=""></option>
 <c:forEach var="carOption" items="${carOptions}">
 	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult3 == carOption.answerConcept}">selected</c:if> >${carOption.answerConcept.displayString}</option>
@@ -446,7 +599,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.actionTaken" text="Actionz"/>:</td>
 <td>
-<select name="actionTaken">
+<select name="actionTaken" id="actionTaken">
 <option value=""></option>
 <c:forEach var="action" items="${actions}">
 	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken == action.answerConcept}">selected</c:if> >${action.answerConcept.displayString}</option>
@@ -458,7 +611,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.actionOutcome" text="Actionz"/>:</td>
 <td>
-<select name="actionOutcome">
+<select name="actionOutcome" id="actionOutcome">
 <option value=""></option>
 <c:forEach var="outcome" items="${outcomes}">
 	<option value="${outcome.answerConcept.id}" <c:if test="${aeForm.actionOutcome == outcome.answerConcept}">selected</c:if> >${outcome.answerConcept.displayString}</option>
@@ -475,7 +628,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.meddraCode" text="medraz"/>:</td>
 <td>
-<select name="meddraCode">
+<select name="meddraCode" id="meddraCode">
 <option value=""></option>
 <c:forEach var="code" items="${meddraCodes}">
 	<option value="${code.answerConcept.id}" <c:if test="${aeForm.meddraCode == code.answerConcept}">selected</c:if> >${code.answerConcept.displayString}</option>
@@ -487,7 +640,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.drugRechallenge" text="RCz"/>:</td>
 <td>
-<select name="drugRechallenge">
+<select name="drugRechallenge" id="drugRechallenge">
 <option value=""></option>
 <c:forEach var="dr" items="${drugRechallenges}">
 	<option value="${dr.answerConcept.id}" <c:if test="${aeForm.drugRechallenge == dr.answerConcept}">selected</c:if> >${dr.answerConcept.displayString}</option>

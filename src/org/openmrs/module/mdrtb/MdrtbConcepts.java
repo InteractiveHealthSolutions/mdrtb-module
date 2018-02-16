@@ -350,7 +350,7 @@ public class MdrtbConcepts {
     public final static String[] DEFINITE  = {"DEFINITE"};
     public final static String[] PROBABLE  = {"PROBABLE"};
     public final static String[] POSSIBLE  = {"POSSIBLE"};
-    public final static String[] SUSPECTED  = {"SUSPECTED"};
+    public final static String[] SUSPECTED_CA  = {"SUSPECTED CA"};
     public final static String[] NOT_CLASSIFIED  = {"NOT CLASSIFIED"};
     
     public final static String[] AE_ACTION  = {"AE ACTION"};
@@ -363,12 +363,13 @@ public class MdrtbConcepts {
     
     public final static String[] AE_OUTCOME  = {"AE OUTCOME"};
     public final static String[] RESOLVED  = {"RESOLVED"};
-    public final static String[] RESOLVED_WITH_SEQUELAE  = {"RESOLVED_WITH_SEQUELAE"};
+    public final static String[] RESOLVED_WITH_SEQUELAE  = {"RESOLVED WITH SEQUELAE"};
     public final static String[] FATAL   = {"FATAL "};
     public final static String[] RESOLVING   = {"RESOLVING"};
     public final static String[] NOT_RESOLVED   = {"NOT RESOLVED"};
     
     public final static String[] AE_OUTCOME_DATE  = {"AE OUTCOME DATE"};
+    
     
     public final static String[] DRUG_RECHALLENGE  = {"DRUG RECHALLENGE"};
     public final static String[] NO_RECHALLENGE  = {"NO RECHALLENGE"};
@@ -388,10 +389,8 @@ public class MdrtbConcepts {
     public final static String[] METABOLIC_DISORDER  = {"METABOLIC DISORDER"};
     public final static String[] ENDOCRINE_DISORDER   = {"ENDOCRINE DISORDER "};
     public final static String[] CARDIAC_DISORDER   = {"CARDIAC DISORDER"};
-   
-    
-    
     
     
     
 }
+   

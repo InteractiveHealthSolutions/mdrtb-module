@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
@@ -148,6 +149,48 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 		} 
 	}
 	
+	
+	public String getTreatmentRegimenAtOnset() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.AE_REGIMEN), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueText();
+		}
+	}
+	
+	public void setTreatmentRegimenAtOnset(String regimen) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.AE_REGIMEN), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && regimen == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueText() == null || (regimen == null && obs != null) || !obs.getValueText().equals(regimen)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(regimen != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.AE_REGIMEN), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueText(regimen);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	
+	
+	
 	public Concept getTypeOfEvent() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.AE_TYPE), encounter);
 		
@@ -224,7 +267,7 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 		} 
 	}
 	
-	public Concept getCausalityAssessment1() {
+	public Concept getCausalityAssessmentResult1() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_1), encounter);
 		
 		if (obs == null) {
@@ -235,7 +278,7 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 		}
 	}
 	
-	public void setCausalityAssessment1(Concept result) {
+	public void setCausalityAssessmentResult1(Concept result) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_1), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -262,7 +305,7 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 		} 
 	}
 	
-	public Concept getCausalityAssessment2() {
+	public Concept getCausalityAssessmentResult2() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_2), encounter);
 		
 		if (obs == null) {
@@ -273,7 +316,7 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 		}
 	}
 	
-	public void setCausalityAssessment2(Concept result) {
+	public void setCausalityAssessmentResult2(Concept result) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_2), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -300,7 +343,7 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 		} 
 	}
 	
-	public Concept getCausalityAssessment3() {
+	public Concept getCausalityAssessmentResult3() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_3), encounter);
 		
 		if (obs == null) {
@@ -311,7 +354,7 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 		}
 	}
 	
-	public void setCausalityAssessment3(Concept result) {
+	public void setCausalityAssessmentResult3(Concept result) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_3), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -730,6 +773,21 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 				encounter.addObs(obs);
 			}
 		} 
+	}
+	
+	public String getFacility() {
+		String ret = "";
+		Location loc = this.getEncounter().getLocation();
+		
+		ret = loc.getStateProvince();
+		if(loc.getCountyDistrict()!=null) {
+			ret += "/" + loc.getCountyDistrict();
+		}
+		if(loc.getRegion()!=null && loc.getRegion().length()>0) {
+			ret += "/" + loc.getRegion();
+		}
+		
+		return ret;
 	}
 	
 	
