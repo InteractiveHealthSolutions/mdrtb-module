@@ -66,6 +66,7 @@ import org.openmrs.module.mdrtb.form.TB03uForm;
 import org.openmrs.module.mdrtb.form.TransferInForm;
 import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
+import org.openmrs.module.mdrtb.form.pv.AEForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
@@ -2726,6 +2727,33 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
 			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
 				forms.add(new RegimenForm(e));
+			}
+				
+		}
+		Collections.sort(forms);
+		//Collections.reverse(forms);
+		return forms;
+		
+		
+	}
+	
+	public ArrayList<AEForm> getAEFormsForProgram(Patient p, Integer patientProgId) {
+		
+		ArrayList<AEForm> forms = new ArrayList<AEForm>();
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType("Adverse Event");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		System.out.println("TEMP: " + temp.size());
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				forms.add(new AEForm(e));
 			}
 				
 		}

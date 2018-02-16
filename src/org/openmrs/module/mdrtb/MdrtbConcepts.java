@@ -338,7 +338,14 @@ public class MdrtbConcepts {
     
     public final static String[] YELLOW_CARD_DATE  = {"YELLOW CARD DATE"};
     
-    public final static String[] CAUSALITY_ASSESSMENT_RESULT  = {"CAUSALITY ASSESSMENT RESULT"};
+    public final static String[] SUSPECTED_DRUG = {"SUSPECTED DRUG"};
+    
+    public final static String[] CAUSALITY_ASSESSMENT_RESULT_1  = {"CAUSALITY ASSESSMENT RESULT 1"};
+    public final static String[] CAUSALITY_ASSESSMENT_RESULT_2 = {"CAUSALITY ASSESSMENT RESULT 2"};
+    public final static String[] CAUSALITY_ASSESSMENT_RESULT_3  = {"CAUSALITY ASSESSMENT RESULT 3"};
+    public final static String[] CAUSALITY_DRUG_1  = {"CAUSALITY DRUG 1"};
+    public final static String[] CAUSALITY_DRUG_2 = {"CAUSALITY DRUG 2"};
+    public final static String[] CAUSALITY_DRUG_3  = {"CAUSALITY DRUG 3"};
     public final static String[] DEFINITE  = {"DEFINITE"};
     public final static String[] PROBABLE  = {"PROBABLE"};
     public final static String[] POSSIBLE  = {"POSSIBLE"};

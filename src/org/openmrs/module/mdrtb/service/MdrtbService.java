@@ -36,6 +36,7 @@ import org.openmrs.module.mdrtb.form.TB03uForm;
 import org.openmrs.module.mdrtb.form.TransferInForm;
 import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
+import org.openmrs.module.mdrtb.form.pv.AEForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.specimen.Culture;
@@ -718,6 +719,7 @@ public interface MdrtbService extends OpenmrsService {
 	public TB03uForm getTB03uFormForProgram(Patient p, Integer patientProgId);
 	
 	public ArrayList<RegimenForm> getRegimenFormsForProgram(Patient p, Integer patientProgId);
+	public ArrayList<AEForm> getAEFormsForProgram(Patient p, Integer patientProgId);
 }
 
 
