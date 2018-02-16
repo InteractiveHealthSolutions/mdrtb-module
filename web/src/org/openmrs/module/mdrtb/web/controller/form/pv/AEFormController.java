@@ -58,7 +58,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.openmrs.ProgramWorkflowState;
 
 @Controller
-@RequestMapping("/module/mdrtb/form/regimen.form")
+@RequestMapping("/module/mdrtb/form/ae.form")
 public class AEFormController {
 	
 	@InitBinder
@@ -207,7 +207,7 @@ public class AEFormController {
         	model.addAttribute("mode", mode);
         }
 		
-		return new ModelAndView("/module/mdrtb/form/regimen", model);	
+		return new ModelAndView("/module/mdrtb/form/ae", model);	
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -306,6 +306,360 @@ public class AEFormController {
 		return Context.getLocationService().getAllLocations(false);
 	}
 	
+	@ModelAttribute("aeOptions")
+	public ArrayList<ConceptAnswer> getPossibleAdverseEvents() {
+		
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.ADVERSE_EVENT);
+		for(int i=0; i< 24; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NAUSEA).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DIARRHOEA).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ARTHALGIA).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DIZZINESS).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HEARING_DISTURBANCES).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HEADACHE).getId().intValue()) {
+				typeArray.set(5, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SLEEP_DISTURBANCES).getId().intValue()) {
+				typeArray.set(6, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ELECTROLYTE_DISTURBANCES).getId().intValue()) {
+				typeArray.set(7, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ABDOMINAL_PAIN).getId().intValue()) {
+				typeArray.set(8, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANOREXIA).getId().intValue()) {
+				typeArray.set(9, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.GASTRITIS).getId().intValue()) {
+				typeArray.set(10, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PERIPHERAL_NEUROPATHY).getId().intValue()) {
+				typeArray.set(11, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DEPRESSION).getId().intValue()) {
+				typeArray.set(12, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TINNITUS).getId().intValue()) {
+				typeArray.set(13, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ALLERGIC_REACTION).getId().intValue()) {
+				typeArray.set(14, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RASH).getId().intValue()) {
+				typeArray.set(15, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.VISUAL_DISTURBANCES).getId().intValue()) {
+				typeArray.set(16, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SEIZURES).getId().intValue()) {
+				typeArray.set(17, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HYPOTHYROIDISM).getId().intValue()) {
+				typeArray.set(18, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PSYCHOSIS).getId().intValue()) {
+				typeArray.set(19, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SUICIDAL_IDEATION).getId().intValue()) {
+				typeArray.set(20, c);
+			}
+			
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HEPATITIS_AE).getId().intValue()) {
+				typeArray.set(21, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RENAL_FAILURE).getId().intValue()) {
+				typeArray.set(22, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.QT_PROLONGATION).getId().intValue()) {
+				typeArray.set(23, c);
+			}
+			
+		}
+		
+		return typeArray;
 	
+	}
+	
+	@ModelAttribute("diOptions")
+	public ArrayList<ConceptAnswer> getPossibleDiagnosticInvestigations() {
+		
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.LAB_TEST_CONFIRMING_AE);
+		for(int i=0; i< 22; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CLINICAL_SCREEN).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.VISUAL_ACUITY).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SIMPLE_HEARING_TEST).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.AUDIOGRAM).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NEURO_INVESTIGATION).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CREATNINE).getId().intValue()) {
+				typeArray.set(5, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ALT).getId().intValue()) {
+				typeArray.set(6, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.AST).getId().intValue()) {
+				typeArray.set(7, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.BILIRUBIN).getId().intValue()) {
+				typeArray.set(8, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ALKALINE_PHOSPHATASE).getId().intValue()) {
+				typeArray.set(9, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.YGT).getId().intValue()) {
+				typeArray.set(10, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ECG).getId().intValue()) {
+				typeArray.set(11, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LIPASE).getId().intValue()) {
+				typeArray.set(12, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.AMYLASE).getId().intValue()) {
+				typeArray.set(13, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.POTASSIUM).getId().intValue()) {
+				typeArray.set(14, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MAGNESIUM).getId().intValue()) {
+				typeArray.set(15, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CALCIUM).getId().intValue()) {
+				typeArray.set(16, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ALBUMIN).getId().intValue()) {
+				typeArray.set(17, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CBC).getId().intValue()) {
+				typeArray.set(18, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.BLOOD_GLUCOSE).getId().intValue()) {
+				typeArray.set(19, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.THYROID_TEST).getId().intValue()) {
+				typeArray.set(20, c);
+			}
+			
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OTHER).getId().intValue()) {
+				typeArray.set(21, c);
+			}
+			
+		}
+		
+		return typeArray;
+	
+	}
+	
+	@ModelAttribute("typeOptions")
+	public Collection<ConceptAnswer> getPossibleEventType() {
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.AE_TYPE);
+		for(int i=0; i< 2; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SERIOUS).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OF_SPECIAL_INTEREST).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			
+		}
+		
+		return typeArray;
+		
+	}
+	
+	@ModelAttribute("cdOptions")
+	public Collection<ConceptAnswer> getCausalityDrugOptions() {
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.CAUSALITY_DRUG_1);
+		
+		
+		return ca;
+		
+	}
+	
+	@ModelAttribute("carOptions")
+	public Collection<ConceptAnswer> getCausalityAssessmentOptions() {
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_1);
+		for(int i=0; i< 5; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DEFINITE).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PROBABLE).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.POSSIBLE).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SUSPECTED).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NOT_CLASSIFIED).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			
+		}
+	
+		
+		return typeArray;
+		
+	}
+	
+	@ModelAttribute("actions")
+	public Collection<ConceptAnswer> getActionOptions() {
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.AE_ACTION);
+		for(int i=0; i< 6; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DOSE_NOT_CHANGED).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DOSE_REDUCED).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DRUG_INTERRUPTED).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DRUG_WITHDRAWN).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANCILLARY_DRUG_GIVEN).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ADDITIONAL_EXAMINATION).getId().intValue()) {
+				typeArray.set(5, c);
+			}
+			
+		}
+	
+		
+		return typeArray;
+		
+	}
+	
+	@ModelAttribute("outcomes")
+	public Collection<ConceptAnswer> getActionOutcomes() {
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.AE_OUTCOME);
+		for(int i=0; i< 5; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESOLVED).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESOLVED_WITH_SEQUELAE).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.FATAL).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESOLVING).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NOT_RESOLVED).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			
+		}
+	
+		return typeArray;
+		
+	}
+	
+	@ModelAttribute("meddraCodes")
+	public ArrayList<ConceptAnswer> getMeddraCodeOptions() {
+		
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.MEDDRA_CODE);
+		for(int i=0; i< 12; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SKIN_DISORDER).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MUSCULOSKELETAL_DISORDER).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NEUROLOGICAL_DISORDER).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.VISION_DISORDER).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HEARING_DISORDER).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PSYCHIATRIC_DISORDER).getId().intValue()) {
+				typeArray.set(5, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.GASTROINTESTINAL_DISORDER).getId().intValue()) {
+				typeArray.set(6, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LIVER_DISORDER).getId().intValue()) {
+				typeArray.set(7, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.METABOLIC_DISORDER).getId().intValue()) {
+				typeArray.set(8, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ENDOCRINE_DISORDER).getId().intValue()) {
+				typeArray.set(9, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CARDIAC_DISORDER).getId().intValue()) {
+				typeArray.set(10, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OTHER).getId().intValue()) {
+				typeArray.set(11, c);
+			}
+		}
+		
+		return typeArray;
+	
+	}
 	
 }

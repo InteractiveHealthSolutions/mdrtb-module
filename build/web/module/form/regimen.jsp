@@ -10,7 +10,7 @@
 <!-- SPECIALIZED STYLES FOR THIS PAGE -->
 
 <!-- CUSTOM JQUERY  -->
-<c:set var="defaultReturnUrl" value="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientProgramId=${patientProgramId}&patientId=${tb03.patient.id}"/>
+<c:set var="defaultReturnUrl" value="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientProgramId=${patientProgramId}&patientId=${regimenForm.patient.id}"/>
 <script type="text/javascript"><!--
 
 	var $j = jQuery.noConflict();	
@@ -96,7 +96,7 @@
 	    mywindow.document.write('<html><head><title><spring:message code="mdrtb.pv.regimenForm" text="Regimen"/></title>');
 	    mywindow.document.write('</head><body >');
 	    mywindow.document.write('<h1><spring:message code="mdrtb.pv.regimenForm" text="Regimen"/></h1>');
-	    mywindow.document.write(document.getElementById("tb03").innerHTML);
+	    mywindow.document.write(document.getElementById("regimen").innerHTML);
 	    
 	    mywindow.document.write('</body></html>');
 
@@ -115,7 +115,7 @@
 		var val = e.options[e.selectedIndex].value;
 		
 		if(val!="")
-			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/regimen.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty tb03.id ? tb03.id : -1})
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/regimen.form?mode=edit&ob="+val+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty regimenForm.id ? regimenForm.id : -1})
 	}
 
 	function fun2()
@@ -126,7 +126,7 @@
 		var val2 = e.options[e.selectedIndex].value;
 		
 		if(val2!="")
-			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/regimen.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty tb03.id ? tb03.id : -1})
+			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/regimen.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty regimenForm.id ? regimenForm.id : -1})
 	}
 
 -->

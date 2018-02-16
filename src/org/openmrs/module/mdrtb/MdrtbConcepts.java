@@ -325,6 +325,7 @@ public class MdrtbConcepts {
     public final static String[] AMYLASE  = {"AMYLASE"};
     public final static String[] POTASSIUM  = {"POTASSIUM"};
     public final static String[] MAGNESIUM  = {"MAGNESIUM"};
+    public final static String[] CALCIUM  = {"CALCIUM"};
     public final static String[] ALBUMIN  = {"ALBUMIN"};
     public final static String[] CBC  = {"CBC"};
     public final static String[] BLOOD_GLUCOSE  = {"BLOOD GLUCOSE"};
@@ -365,7 +366,8 @@ public class MdrtbConcepts {
     public final static String[] RESOLVED_WITH_SEQUELAE  = {"RESOLVED_WITH_SEQUELAE"};
     public final static String[] FATAL   = {"FATAL "};
     public final static String[] RESOLVING   = {"RESOLVING"};
-   
+    public final static String[] NOT_RESOLVED   = {"NOT RESOLVED"};
+    
     public final static String[] AE_OUTCOME_DATE  = {"AE OUTCOME DATE"};
     
     public final static String[] DRUG_RECHALLENGE  = {"DRUG RECHALLENGE"};
@@ -376,7 +378,7 @@ public class MdrtbConcepts {
     
     public final static String[] MEDDRA_CODE  = {"MEDDRA CODE"};
     public final static String[] SKIN_DISORDER  = {"SKIN DISORDER"};
-    public final static String[] MUSULOSKELETAL_DISORDER  = {"MUSULOSKELETAL DISORDER"};
+    public final static String[] MUSCULOSKELETAL_DISORDER  = {"MUSCULOSKELETAL DISORDER"};
     public final static String[] NEUROLOGICAL_DISORDER  = {"NEUROLOGICAL DISORDER"};
     public final static String[] VISION_DISORDER  = {"VISION DISORDER"};
     public final static String[] HEARING_DISORDER  = {"HEARING DISORDER"};
