@@ -139,25 +139,29 @@
 		var now = new Date();
 		
 		if(onsetDate.getTime() > now.getTime()) {
-			alert("Onset date cannot be in future");
+			errorText = ""  + '<spring:message code="mdrtb.pv.onsetDateInFuture"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
 		if(document.getElementById("diagnosticInvestigation").value=="") {
 			
-			alert("Please enter the Diagnostic Investigation");
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingDiagnosticInvestigation"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
 		if(document.getElementById("suspectedDrug").value=="") {
 			
-			alert("Please enter the Suspected Drug");
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingSuspectedDrug"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
 		if(document.getElementById("typeOfEvent").value=="") {
 			
-			alert("Please enter the Type of Event");
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingTypeOfEvent"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
@@ -173,32 +177,37 @@
 			var ycDate = new Date(year, month, day);
 
 			if(ycDate.getTime() < onsetDate.getTime()) {
-				alert("Yellow Card Submission Date cannot be before Onset Date");
+				errorText = ""  + '<spring:message code="mdrtb.pv.yellowCardDateBeforeOnsetDate"/>' + "";
+				alert(errorText);
 				return false;
 			}
 		}
 		
 		if(document.getElementById("causalityDrug1").value!="" && document.getElementById("causalityAssessmentResult1").value=="") {
 			
-			alert("Please enter the Causality Assessment Result for Drug 1");
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingCAR1"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
 		if(document.getElementById("causalityDrug2").value!="" && document.getElementById("causalityAssessmentResult2").value=="") {
 			
-			alert("Please enter the Causality Assessment Result for Drug 2");
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingCAR2"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
 		if(document.getElementById("causalityDrug3").value!="" && document.getElementById("causalityAssessmentResult3").value=="") {
 			
-			alert("Please enter the Causality Assessment Result for Drug 3");
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingCAR3"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
 		if(document.getElementById("actionTaken").value=="") {
 			
-			alert("Please enter the Action Taken");
+			errorText = ""  + '<spring:message code="mdrtb.pv.actionTaken"/>' + "";
+			alert(errorText);
 			return false;
 		}
 
@@ -206,7 +215,8 @@
 		
 		if(document.getElementById("actionOutcome").value!="" && outcomeDateString=="") {
 			
-			alert("Please enter the Outcome Date");
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingOutcomeDate"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
@@ -214,7 +224,8 @@
 			
 			if(document.getElementById("actionOutcome").value=="") {
 				
-				alert("Please enter the Outcome");
+				errorText = ""  + '<spring:message code="mdrtb.pv.missingOutcome"/>' + "";
+				alert(errorText);
 				return false;
 			}
 			
@@ -227,14 +238,16 @@
 		
 			var outcomeDate = new Date(year, month, day);
 			if(outcomeDate.getTime() < onsetDate.getTime()) {
-				alert("Outcome date cannot be before Onset Date");
+				errorText = ""  + '<spring:message code="mdrtb.pv.outcomeDateBeforeOnsetDate"/>' + "";
+				alert(errorText);
 				return false;
 			}
 		}
 		
 		if(document.getElementById("meddraCode").value=="") {
 			
-			alert("Please enter the MedDRA code");
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingMeddraCode"/>' + "";
+			alert(errorText);
 			return false;
 		}
 		
