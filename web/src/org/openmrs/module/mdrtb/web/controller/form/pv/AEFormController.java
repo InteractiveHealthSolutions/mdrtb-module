@@ -685,11 +685,9 @@ public class AEFormController {
 				typeArray.set(3, c);
 			}
 			
-			
 		}
 		
 		return typeArray;
-	
 	}
 	
 	@ModelAttribute("regimens")

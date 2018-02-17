@@ -10,7 +10,7 @@
 <!-- SPECIALIZED STYLES FOR THIS PAGE -->
 
 <!-- CUSTOM JQUERY  -->
-<c:set var="defaultReturnUrl" value="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientProgramId=${patientProgramId}&patientId=${tb03.patient.id}"/>
+<c:set var="defaultReturnUrl" value="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientProgramId=${patientProgramId}&patientId=${aeForm.patient.id}"/>
 <script type="text/javascript"><!--
 
 	var $j = jQuery.noConflict();	
@@ -73,7 +73,7 @@
 	    mywindow.document.write('<html><head><title><spring:message code="mdrtb.pv.aeForm" text="AE"/></title>');
 	    mywindow.document.write('</head><body >');
 	    mywindow.document.write('<h1><spring:message code="mdrtb.pv.aeForm" text="AE"/></h1>');
-	    mywindow.document.write(document.getElementById("tb03").innerHTML);
+	    mywindow.document.write(document.getElementById("ae").innerHTML);
 	    
 	    mywindow.document.write('</body></html>');
 

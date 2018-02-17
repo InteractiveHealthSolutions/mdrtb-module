@@ -1008,6 +1008,18 @@ ${regimen.displayString}
 </div>
 
 
+
+
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.pv.pv" text="AE"/>
+</b>
+
+<div class="box" style="margin:0px;">
+<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+<a href="${pageContext.request.contextPath}/module/mdrtb/pv/aeView.form?patientProgramId=${program.id}&patientId=${patientId}"><spring:message code="mdrtb.pv.manageAE" text="Manage AE"/></a>
+</openmrs:hasPrivilege>
+</div>
+
+
 </div>
 
 </div> <!-- end of page div -->
