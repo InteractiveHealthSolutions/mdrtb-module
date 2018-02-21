@@ -681,7 +681,7 @@ public class AEFormController {
 			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NO_RECURRENCE).getId().intValue()) {
 				typeArray.set(2, c);
 			}
-			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DRUG_INTERRUPTED).getId().intValue()) {
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.UNKNOWN_RESULT).getId().intValue()) {
 				typeArray.set(3, c);
 			}
 			

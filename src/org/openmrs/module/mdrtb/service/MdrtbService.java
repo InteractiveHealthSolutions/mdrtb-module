@@ -719,6 +719,11 @@ public interface MdrtbService extends OpenmrsService {
 	public TB03uForm getTB03uFormForProgram(Patient p, Integer patientProgId);
 	
 	public ArrayList<RegimenForm> getRegimenFormsForProgram(Patient p, Integer patientProgId);
+	public ArrayList<RegimenForm> getRegimenFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
+	public ArrayList<Patient> getAllPatientsWithRegimenForms();
+	public RegimenForm getPreviousRegimenFormForPatient(Patient p, ArrayList<Location> locList, Date beforeDate);
+	
+	public ArrayList<AEForm> getAEFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
 	public ArrayList<AEForm> getAEFormsForProgram(Patient p, Integer patientProgId);
 }
 

@@ -2055,6 +2055,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	}
 	
 	//////////////
+	
 	public ArrayList<TB03Form> getTB03FormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
 		
 		ArrayList<TB03Form> forms = new ArrayList<TB03Form>();
@@ -2762,6 +2763,154 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 		return forms;
 		
 		
+	}
+	
+	
+	public ArrayList<RegimenForm> getRegimenFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<RegimenForm> forms = new ArrayList<RegimenForm>();
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTimeInMillis(endDate.getTime());
+		endCal.add(Calendar.DATE, 1);
+		
+		System.out.println("STR:" + startDate);
+		System.out.println("END:" + endDate);
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new RegimenForm(e));
+			}
+		}
+		
+		else {
+		
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new RegimenForm(e));
+				}
+			}
+			
+		}
+		
+		Collections.sort(forms);
+		return forms;
+		
+		
+	}
+	
+	
+	public ArrayList<Patient> getAllPatientsWithRegimenForms() {
+		ArrayList<Patient> pList = new ArrayList<Patient>();
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = Context.getEncounterService().getEncounters(null, null, null, null, null, typeList, null, false);
+		
+		for(Encounter e : temp) {
+			if(!pList.contains(e.getPatient())) {
+				pList.add(e.getPatient());
+			}
+		}
+		
+		return pList;
+	}
+	
+	public RegimenForm getPreviousRegimenFormForPatient(Patient p, ArrayList<Location> locList, Date beforeDate) {
+		RegimenForm form = null;
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		List<Encounter> temp = null;
+		ArrayList<RegimenForm> forms = new ArrayList<RegimenForm>();
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(p, null, null, beforeDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new RegimenForm(e));
+			}
+		}
+		
+		else {
+		
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(p, l, null, beforeDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new RegimenForm(e));
+				}
+			}
+			
+		}
+		if(forms!=null && forms.size()!=0) {
+			Collections.sort(forms);
+			return forms.get(forms.size()-1);
+		}
+		
+		else 
+			return null;
+		
+		
+	}
+	
+	////////////
+	
+	public ArrayList<AEForm> getAEFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<AEForm> forms = new ArrayList<AEForm>();
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTimeInMillis(endDate.getTime());
+		endCal.add(Calendar.DATE, 1);
+		
+		System.out.println("STR:" + startDate);
+		System.out.println("END:" + endDate);
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType("Adverse Event");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new AEForm(e));
+			}
+		}
+		
+		else {
+		
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new AEForm(e));
+				}
+			}
+		}
+		
+		Collections.sort(forms);
+		return forms;
+
 	}
 
 }
