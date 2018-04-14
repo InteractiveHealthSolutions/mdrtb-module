@@ -88,7 +88,7 @@ public class RegimenFormController {
 			
 			// prepopulate the intake form with any program information
 			//form.setEncounterDatetime(tbProgram.getDateEnrolled());
-			//form.setLocation(tbProgram.getLocation());
+			form.setLocation(tbProgram.getLocation());
 			form.setPatProgId(patientProgramId);
 			
 			
@@ -102,8 +102,8 @@ public class RegimenFormController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showRegimenForm(@RequestParam(required = false, value = "returnUrl") String returnUrl,
-			@RequestParam(value="loc", required=false) String district,
-			@RequestParam(value="ob", required=false) String oblast,
+			/*@RequestParam(value="loc", required=false) String district,
+			@RequestParam(value="ob", required=false) String oblast,*/
 			@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
 			  	@RequestParam(required = true, value = "encounterId") Integer encounterId,
 			  	@RequestParam(required = false, value = "mode") String mode,
@@ -112,8 +112,8 @@ public class RegimenFormController {
         List<Facility> facilities;
         List<District> districts;
         
-        if(oblast==null)
-        {
+     /*   if(oblast==null)
+        {*/
         	RegimenForm regimenForm = null;
         	if(encounterId!=-1) {  //we are editing an existing encounter
         		 regimenForm = new RegimenForm(Context.getEncounterService().getEncounter(encounterId));
@@ -140,7 +140,7 @@ public class RegimenFormController {
         	}
         	
         	//TB03Form tb03 = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
-        	Location location  = regimenForm.getLocation();
+        	/*Location location  = regimenForm.getLocation();
         	//System.out.println("show:" + location.getDisplayString());
         	
         	if(location!=null) {
@@ -200,7 +200,7 @@ public class RegimenFormController {
             model.addAttribute("districts", districts);
             model.addAttribute("districtSelected", district);
             model.addAttribute("facilities", facilities);
-        }
+        }*/
         model.addAttribute("encounterId", encounterId);
         if(mode!=null && mode.length()!=0) {
         	model.addAttribute("mode", mode);
@@ -213,9 +213,9 @@ public class RegimenFormController {
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView processRegimenForm (@ModelAttribute("regimenForm") RegimenForm regimenForm, BindingResult errors, 
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
-	                                       @RequestParam(required = true, value = "oblast") String oblastId,
+	                                      /* @RequestParam(required = true, value = "oblast") String oblastId,
 	                                       @RequestParam(required = true, value = "district") String districtId,
-	                                       @RequestParam(required = false, value = "facility") String facilityId,
+	                                       @RequestParam(required = false, value = "facility") String facilityId,*/
 	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
 		
@@ -230,7 +230,7 @@ public class RegimenFormController {
 			return new ModelAndView("/module/mdrtb/form/intake", map);
 		}*/
 		
-		Location location=null;
+		/*Location location=null;
     	
     	
     	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
@@ -248,7 +248,7 @@ public class RegimenFormController {
 		if(regimenForm.getLocation()==null || !location.equals(regimenForm.getLocation())) {
 			System.out.println("setting loc");
 			regimenForm.setLocation(location);
-		}
+		}*/
 		
 		System.out.println(regimenForm.getLocation());
 		System.out.println(regimenForm.getProvider());

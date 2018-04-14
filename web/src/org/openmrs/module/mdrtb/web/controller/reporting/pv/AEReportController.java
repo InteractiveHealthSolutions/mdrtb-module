@@ -160,6 +160,7 @@ public class AEReportController {
     	Integer regimenWithBdqConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.INDIVIDUAL_WITH_BDQ).getId();
     	Integer regimenWithDlmConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.INDIVIDUAL_WITH_DLM).getId();
     	Integer regimenWithBdqDlmConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.INDIVIDUAL_WITH_BDQ_AND_DLM).getId();
+    	Integer regimenWithCfzLzdConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.INDIVIDUAL_WITH_CFZ_LZD).getId();
 
     	PVDataTable1 table1 = new PVDataTable1();
     	PVDataTable4 table4 = new PVDataTable4();
@@ -197,10 +198,15 @@ public class AEReportController {
     	    	}
       	    	
       	    	else if(q.getConceptId().intValue()==regimenWithBdqDlmConceptId) {
-      	    		table1.setRegimenWithDlmEver(table1.getRegimenWithDlmEver() + 1);
-      	    		table1.setRegimenWithDlmStarting(table1.getRegimenWithDlmStarting() + 1);
-      	    		table1.setRegimenWithBdqEver(table1.getRegimenWithBdqEver() + 1);
-      	    		table1.setRegimenWithBdqStarting(table1.getRegimenWithBdqStarting() + 1);
+      	    		table1.setRegimenWithBdqDlmEver(table1.getRegimenWithBdqDlmEver() + 1);
+      	    		table1.setRegimenWithBdqDlmStarting(table1.getRegimenWithBdqDlmStarting() + 1);
+      	    		
+      	    	}
+      	    	
+      	    	else if(q.getConceptId().intValue()==regimenWithCfzLzdConceptId) {
+      	    		table1.setRegimenWithBdqDlmEver(table1.getRegimenWithCfzLzdEver() + 1);
+      	    		table1.setRegimenWithBdqDlmStarting(table1.getRegimenWithCfzLzdStarting() + 1);
+      	    		
       	    	}
       	    }
     	  }
@@ -217,29 +223,34 @@ public class AEReportController {
     		      	    if(q!=null) {
     		      	    	if(q.getConceptId().intValue()==standardRegimenConceptId.intValue()) {
     		      	             table1.setStandardRegimenEver(table1.getStandardRegimenEver() + 1);
-    		      	             table1.setStandardRegimenEver(table1.getStandardRegimenStarting() + 1);
+    		      	             //table1.setStandardRegimenEver(table1.getStandardRegimenStarting() + 1);
     		      	    	}
     		      	    	
     		      	    	else if(q.getConceptId().intValue()==shortRegimenConceptId.intValue()) {
     		     	             table1.setShortRegimenEver(table1.getShortRegimenEver() + 1);
-    		     	             table1.setShortRegimenEver(table1.getShortRegimenStarting() + 1);
+    		     	             //table1.setShortRegimenEver(table1.getShortRegimenStarting() + 1);
     		     	    	}
     		      	    	
     		      	    	else if(q.getConceptId().intValue()==regimenWithBdqConceptId.intValue()) {
     		     	             table1.setRegimenWithBdqEver(table1.getRegimenWithBdqEver() + 1);
-    		     	             table1.setRegimenWithBdqEver(table1.getRegimenWithBdqStarting() + 1);
+    		     	             //table1.setRegimenWithBdqEver(table1.getRegimenWithBdqStarting() + 1);
     		     	    	}
     		      	    	
     		      	    	else if(q.getConceptId().intValue()==regimenWithDlmConceptId.intValue()) {
     		    	             table1.setRegimenWithDlmEver(table1.getRegimenWithDlmEver() + 1);
-    		    	             table1.setRegimenWithDlmEver(table1.getRegimenWithDlmStarting() + 1);
+    		    	             //table1.setRegimenWithDlmEver(table1.getRegimenWithDlmStarting() + 1);
     		    	    	}
     		      	    	
-    		      	    	else if(q.getConceptId().intValue()==regimenWithBdqDlmConceptId.intValue()) {
-    		      	    		table1.setRegimenWithDlmEver(table1.getRegimenWithDlmEver() + 1);
-    		      	    		table1.setRegimenWithDlmEver(table1.getRegimenWithDlmStarting() + 1);
-    		      	    		table1.setRegimenWithBdqEver(table1.getRegimenWithBdqEver() + 1);
-    		      	    		table1.setRegimenWithBdqEver(table1.getRegimenWithBdqStarting() + 1);
+    		      	    	else if(q.getConceptId().intValue()==regimenWithBdqDlmConceptId) {
+    		      	    		table1.setRegimenWithBdqDlmEver(table1.getRegimenWithBdqDlmEver() + 1);
+    		      	    		//table1.setRegimenWithBdqDlmStarting(table1.getRegimenWithBdqDlmStarting() + 1);
+    		      	    		
+    		      	    	}
+    		      	    	
+    		      	    	else if(q.getConceptId().intValue()==regimenWithCfzLzdConceptId) {
+    		      	    		table1.setRegimenWithBdqDlmEver(table1.getRegimenWithCfzLzdEver() + 1);
+    		      	    		//table1.setRegimenWithBdqDlmStarting(table1.getRegimenWithCfzLzdStarting() + 1);
+    		      	    		
     		      	    	}
     		      	    }
     				}

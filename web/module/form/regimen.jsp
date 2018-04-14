@@ -43,9 +43,9 @@
 		
 		
 		
-		$('#oblast').val(${oblastSelected});
+		/* $('#oblast').val(${oblastSelected});
 		$('#district').val(${districtSelected});
-		$('#facility').val(${facilitySelected});
+		$('#facility').val(${facilitySelected}); */
 		$('#otherRegimen').prop('disabled',true);
 		
 		
@@ -109,7 +109,7 @@
 	    return true;
 	}
 	
-	function fun1()
+	/* function fun1()
 	{
 		var e = document.getElementById("oblast");
 		var val = e.options[e.selectedIndex].value;
@@ -127,7 +127,7 @@
 		
 		if(val2!="")
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/regimen.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty regimenForm.id ? regimenForm.id : -1})
-	}
+	} */
 
 -->
 
@@ -361,6 +361,7 @@
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />
+<input type="hidden" name="location" value="${regimenForm.location.id }"/>
 
 <table>
  
@@ -394,7 +395,7 @@
 </tr> --%>
 </table>
 
-<table>
+<%-- <table>
 <tr id="oblastDiv">
 			<td align="right"><spring:message code="mdrtb.oblast" /></td>
 			<td><select name="oblast" id="oblast" onchange="fun1()" >
@@ -426,8 +427,23 @@
 			</td>
 		</tr>
 	</table>
-	
+	 --%>
 <table>
+
+<tr>
+<td><spring:message code="mdrtb.oblast" text="Oblast"/>:</td>
+<td>${regimenForm.location.stateProvince}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.district" text="District"/>:</td>
+<td>${regimenForm.location.countyDistrict}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.facility" text="District"/>:</td>
+<td>${regimenForm.location.region}</td>
+</tr>
 
 <tr>
 <td><spring:message code="mdrtb.pv.cmacDate" text="CMAC Datez"/>:</td>

@@ -218,14 +218,14 @@ response.setDateHeader ("Expires", -1);
 					<td>${table1.regimenWithDlmEver}</td>
 				</tr>
 				<tr>
-					<td><spring:message code="mdrtb.pv.table1.otherRegimenSpecify"/></td>
-					<td></td>
-					<td></td>
+					<td><spring:message code="mdrtb.pv.regimenWithBdqAndDlm"/></td>
+					<td>${table1.regimenWithBdqDlmStarting}</td>
+					<td>${table1.regimenWithBdqDlmEver}</td>
 				</tr>
 				<tr>
-					<td><spring:message code="mdrtb.pv.table1.otherRegimenSpecify"/></td>
-					<td></td>
-					<td></td>
+					<td><spring:message code="mdrtb.pv.regimenWithCfzLzd"/></td>
+					<td>${table1.regimenWithCfzLzdStarting}</td>
+					<td>${table1.regimenWithCfzLzdEver}</td>
 				</tr>
 				<tr>
 					<td><spring:message code="mdrtb.pv.table1.otherRegimenSpecify"/></td>

@@ -334,8 +334,24 @@ public class MdrtbConcepts {
     public final static String[] AE_REGIMEN  = {"AE REGIMEN"};
     
     public final static String[] AE_TYPE  = {"AE TYPE"};
-    public final static String[] SERIOUS   = {"SERIOUS "};
+    public final static String[] SERIOUS   = {"SERIOUS"};
     public final static String[] OF_SPECIAL_INTEREST  = {"OF SPECIAL INTEREST"};
+    
+    public final static String[] SAE_TYPE   = {"SAE TYPE"};
+    public final static String[] DEATH   = {"DEATH"};
+    public final static String[] HOSPITALIZATION   = {"HOSPITALIZATION "};
+    public final static String[] DISABILITY   = {"DISABILITY"};
+    public final static String[] CONGENITAL_ANOMALY   = {"CONGENITAL ANOMALY"};
+    public final static String[] LIFE_THREATENING_EXPERIENCE  = {"LIFE THREATENING EXPERIENCE"};
+    
+    public final static String[] SPECIAL_INTEREST_EVENT_TYPE  = {"SPECIAL INTEREST EVENT TYPE"};
+    public final static String[] MYELOSUPPRESSION  = {"MYELOSUPPRESSION"};
+    public final static String[] LACTIC_ACIDOSIS  = {"LACTIC ACIDOSIS"};
+    public final static String[] HYPOKALEMIA  = {"HYPOKALEMIA"};
+    public final static String[] PANCREATITIS  = {"PANCREATITIS"};
+    public final static String[] PHOSPHOLIPIDOSIS  = {"PHOSPHOLIPIDOSIS"};
+    
+    
     
     public final static String[] YELLOW_CARD_DATE  = {"YELLOW CARD DATE"};
     

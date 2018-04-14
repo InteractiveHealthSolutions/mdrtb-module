@@ -89,7 +89,7 @@ public class AEFormController {
 			
 			// prepopulate the intake form with any program information
 			//form.setEncounterDatetime(tbProgram.getDateEnrolled());
-			//form.setLocation(tbProgram.getLocation());
+			form.setLocation(tbProgram.getLocation());
 			form.setPatProgId(patientProgramId);
 			
 			
@@ -103,18 +103,18 @@ public class AEFormController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showAEForm(@RequestParam(required = false, value = "returnUrl") String returnUrl,
-			@RequestParam(value="loc", required=false) String district,
-			@RequestParam(value="ob", required=false) String oblast,
+			/*@RequestParam(value="loc", required=false) String district,
+			@RequestParam(value="ob", required=false) String oblast,*/
 			@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
 			  	@RequestParam(required = true, value = "encounterId") Integer encounterId,
 			  	@RequestParam(required = false, value = "mode") String mode,
 			  ModelMap model) {
-		List<Oblast> oblasts;
+		/*List<Oblast> oblasts;
         List<Facility> facilities;
         List<District> districts;
         
         if(oblast==null)
-        {
+        {*/
         	AEForm aeForm = null;
         	if(encounterId!=-1) {  //we are editing an existing encounter
         		 aeForm = new AEForm(Context.getEncounterService().getEncounter(encounterId));
@@ -140,7 +140,7 @@ public class AEFormController {
 				}
         	}
         	
-        	//TB03Form tb03 = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
+        	/*//TB03Form tb03 = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
         	Location location  = aeForm.getLocation();
         	//System.out.println("show:" + location.getDisplayString());
         	
@@ -201,7 +201,7 @@ public class AEFormController {
             model.addAttribute("districts", districts);
             model.addAttribute("districtSelected", district);
             model.addAttribute("facilities", facilities);
-        }
+        }*/
         model.addAttribute("encounterId", encounterId);
         if(mode!=null && mode.length()!=0) {
         	model.addAttribute("mode", mode);
@@ -214,9 +214,9 @@ public class AEFormController {
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView processAEForm (@ModelAttribute("aeForm") AEForm aeForm, BindingResult errors, 
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
-	                                       @RequestParam(required = true, value = "oblast") String oblastId,
+	                                      /* @RequestParam(required = true, value = "oblast") String oblastId,
 	                                       @RequestParam(required = true, value = "district") String districtId,
-	                                       @RequestParam(required = false, value = "facility") String facilityId,
+	                                       @RequestParam(required = false, value = "facility") String facilityId,*/
 	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
 	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
 		
@@ -231,10 +231,10 @@ public class AEFormController {
 			return new ModelAndView("/module/mdrtb/form/intake", map);
 		}*/
 		
-		Location location=null;
+		//Location location=null;
     	
     	
-    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
+    	/*System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
     	
     	if(facilityId!=null && facilityId.length()!=0)
     		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),Integer.parseInt(facilityId));
@@ -243,13 +243,13 @@ public class AEFormController {
 		
     	if(location == null) { // && locations!=null && (locations.size()==0 || locations.size()>1)) {
     		throw new MdrtbAPIException("Invalid Hierarchy Set selected");
-    	}
+    	}*/
     	
     	
-		if(aeForm.getLocation()==null || !location.equals(aeForm.getLocation())) {
+		/*if(aeForm.getLocation()==null || !location.equals(aeForm.getLocation())) {
 			System.out.println("setting loc");
 			aeForm.setLocation(location);
-		}
+		}*/
 		
 		System.out.println(aeForm.getLocation());
 		System.out.println(aeForm.getProvider());
@@ -260,6 +260,32 @@ public class AEFormController {
 			System.out.println("Setting null");
 			regimenForm.setOtherRegimen(null);
 		}*/
+		
+//		System.out.println("*********************************************");
+//		System.out.println("TYPE: " + aeForm.getTypeOfEvent());
+//		System.out.println("SERIOUS" + Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SERIOUS));
+//		System.out.println("SI" + Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OF_SPECIAL_INTEREST));
+//		System.out.println("SAE TYPE" + aeForm.getTypeOfSAE());
+//		System.out.println("SIE TYPE" + aeForm.getTypeOfSpecialEvent());
+//		System.out.println("*********************************************");
+		
+		if(aeForm.getTypeOfEvent()!=null && aeForm.getTypeOfEvent().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SERIOUS).getId().intValue()) {
+			
+			System.out.println(">>>>>>>>>> Setting special null");
+			aeForm.setTypeOfSpecialEvent(null);
+		}
+		
+		else if(aeForm.getTypeOfEvent()!=null && aeForm.getTypeOfEvent().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OF_SPECIAL_INTEREST).getId().intValue()) {
+			
+			System.out.println(">>>>>>>>>> Setting serious null");
+			aeForm.setTypeOfSAE(null);
+		}
+		
+		else if(aeForm.getTypeOfEvent()==null) {
+			System.out.println(">>>>>>>>>> Setting both null");
+			aeForm.setTypeOfSpecialEvent(null);
+			aeForm.setTypeOfSAE(null);
+		}
 		
 		// save the actual update
 		Context.getEncounterService().saveEncounter(aeForm.getEncounter());
@@ -494,6 +520,92 @@ public class AEFormController {
 			}
 			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OF_SPECIAL_INTEREST).getId().intValue()) {
 				typeArray.set(1, c);
+			}
+			
+		}
+		
+		return typeArray;
+		
+	}
+	
+	@ModelAttribute("saeOptions")
+	public Collection<ConceptAnswer> getPossibleSAEType() {
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.SAE_TYPE);
+		for(int i=0; i< 5; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DEATH).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HOSPITALIZATION).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DISABILITY).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CONGENITAL_ANOMALY).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LIFE_THREATENING_EXPERIENCE).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			
+		}
+		
+		return typeArray;
+		
+	}
+	
+	@ModelAttribute("specialOptions")
+	public Collection<ConceptAnswer> getPossibleSpecialType() {
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.SPECIAL_INTEREST_EVENT_TYPE);
+		for(int i=0; i< 13; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PERIPHERAL_NEUROPATHY).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PSYCHIATRIC_DISORDER).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.VISUAL_DISTURBANCES).getId().intValue()) {
+				typeArray.set(2, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HEARING_DISTURBANCES).getId().intValue()) {
+				typeArray.set(3, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MYELOSUPPRESSION).getId().intValue()) {
+				typeArray.set(4, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.QT_PROLONGATION).getId().intValue()) {
+				typeArray.set(5, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LACTIC_ACIDOSIS).getId().intValue()) {
+				typeArray.set(6, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HEPATITIS_AE).getId().intValue()) {
+				typeArray.set(7, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HYPOTHYROIDISM).getId().intValue()) {
+				typeArray.set(8, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HYPOKALEMIA).getId().intValue()) {
+				typeArray.set(9, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PANCREATITIS).getId().intValue()) {
+				typeArray.set(10, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PHOSPHOLIPIDOSIS).getId().intValue()) {
+				typeArray.set(11, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RENAL_FAILURE).getId().intValue()) {
+				typeArray.set(12, c);
 			}
 			
 		}

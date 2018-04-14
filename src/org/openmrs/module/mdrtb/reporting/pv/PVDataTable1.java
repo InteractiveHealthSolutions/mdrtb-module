@@ -14,6 +14,12 @@ public class PVDataTable1 {
 	private Integer regimenWithDlmStarting;
 	private Integer regimenWithDlmEver;
 	
+	private Integer regimenWithBdqDlmStarting;
+	private Integer regimenWithBdqDlmEver;
+	
+	private Integer regimenWithCfzLzdStarting;
+	private Integer regimenWithCfzLzdEver;
+	
 	
 	
 	public PVDataTable1() {
@@ -28,6 +34,12 @@ public class PVDataTable1 {
 		
 		regimenWithDlmStarting = 0;
 		regimenWithDlmEver = 0;
+		
+		regimenWithBdqDlmStarting = 0;
+		regimenWithBdqDlmEver = 0;
+		
+		regimenWithCfzLzdStarting = 0;
+		regimenWithCfzLzdEver = 0;
 		
 	}
 	public Integer getStandardRegimenStarting() {
@@ -77,6 +89,30 @@ public class PVDataTable1 {
 	}
 	public void setRegimenWithDlmEver(Integer regimenWithDlmEver) {
 		this.regimenWithDlmEver = regimenWithDlmEver;
+	}
+	public Integer getRegimenWithBdqDlmStarting() {
+		return regimenWithBdqDlmStarting;
+	}
+	public void setRegimenWithBdqDlmStarting(Integer regimenWithBdqDlmStarting) {
+		this.regimenWithBdqDlmStarting = regimenWithBdqDlmStarting;
+	}
+	public Integer getRegimenWithBdqDlmEver() {
+		return regimenWithBdqDlmEver;
+	}
+	public void setRegimenWithBdqDlmEver(Integer regimenWithBdqDlmEver) {
+		this.regimenWithBdqDlmEver = regimenWithBdqDlmEver;
+	}
+	public Integer getRegimenWithCfzLzdStarting() {
+		return regimenWithCfzLzdStarting;
+	}
+	public void setRegimenWithCfzLzdStarting(Integer regimenWithCfzLzdStarting) {
+		this.regimenWithCfzLzdStarting = regimenWithCfzLzdStarting;
+	}
+	public Integer getRegimenWithCfzLzdEver() {
+		return regimenWithCfzLzdEver;
+	}
+	public void setRegimenWithCfzLzdEver(Integer regimenWithCfzLzdEver) {
+		this.regimenWithCfzLzdEver = regimenWithCfzLzdEver;
 	}
 
 }
