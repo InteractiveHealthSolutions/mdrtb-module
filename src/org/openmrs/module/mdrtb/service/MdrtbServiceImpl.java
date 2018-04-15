@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -2911,6 +2912,39 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 		Collections.sort(forms);
 		return forms;
 
+	}
+	
+	public RegimenForm getCurrentRegimenFormForPatient(Patient p, Date beforeDate) {
+		//RegimenForm form = null;
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		List<Encounter> temp = null;
+		
+		Date currentDate = null;
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTimeInMillis(beforeDate.getTime());
+		gc.add(gc.DATE, 1);
+		currentDate = gc.getTime();
+		
+		ArrayList<RegimenForm> forms = new ArrayList<RegimenForm>();
+		
+		temp = Context.getEncounterService().getEncounters(p, null, null, currentDate, null, typeList, null, false);
+		for(Encounter e : temp) {
+		 forms.add(new RegimenForm(e));
+		}
+		
+		
+		
+		if(forms!=null && forms.size()!=0) {
+			Collections.sort(forms);
+			return forms.get(forms.size()-1);
+		}
+		
+		else 
+			return null;
+		
+		
 	}
 
 }

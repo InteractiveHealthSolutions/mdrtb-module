@@ -20,6 +20,7 @@
 		$j('#edit').click(function(){
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
+			typeToggle();
 			
 			
 		});
@@ -42,15 +43,46 @@
 		}
 		
 		
-		
+	/* 	
 		$('#oblast').val(${oblastSelected});
 		$('#district').val(${districtSelected});
-		$('#facility').val(${facilitySelected});
+		$('#facility').val(${facilitySelected}); */
 		
 		
 		
 		
 	});
+	
+	function typeToggle () {
+		
+		var statusBox = document.getElementById('typeOfEvent');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideTypes(choice);
+	}
+	
+	function showHideTypes(val) {
+	
+       	if(val==710) {
+       		
+       		document.getElementById('typeOfSpecialEvent').disabled = true;
+   			document.getElementById('typeOfSpecialEvent').selectedIndex = 0;
+   			document.getElementById('typeOfSAE').disabled = false;
+       		
+       	}
+       	else if(val==711) {
+       		document.getElementById('typeOfSAE').disabled = true;
+   			document.getElementById('typeOfSAE').selectedIndex = 0;
+   			document.getElementById('typeOfSpecialEvent').disabled = false;
+       	}
+       	
+       	else {
+       		document.getElementById('typeOfSpecialEvent').disabled = true;
+   			document.getElementById('typeOfSpecialEvent').selectedIndex = 0;
+   			document.getElementById('typeOfSAE').disabled = true;
+   			document.getElementById('typeOfSAE').selectedIndex = 0;
+       		//hide both
+       	}
+     }
 	
 	
 	
@@ -86,7 +118,7 @@
 	    return true;
 	}
 	
-	function fun1()
+	/* function fun1()
 	{
 		var e = document.getElementById("oblast");
 		var val = e.options[e.selectedIndex].value;
@@ -104,7 +136,7 @@
 		
 		if(val2!="")
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/ae.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty aeForm.id ? aeForm.id : -1})
-	}
+	} */
 	
 	function validate() 
 	{
@@ -161,6 +193,20 @@
 		if(document.getElementById("typeOfEvent").value=="") {
 			
 			errorText = ""  + '<spring:message code="mdrtb.pv.missingTypeOfEvent"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		if(document.getElementById("typeOfEvent").value==710 && document.getElementById("typeOfSAE").value=="") {
+			
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingSAEType"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		if(document.getElementById("typeOfEvent").value==711 && document.getElementById("typeOfSpecialEvent").value=="") {
+			
+			errorText = ""  + '<spring:message code="mdrtb.pv.missingSpecialEventType"/>' + "";
 			alert(errorText);
 			return false;
 		}
@@ -332,6 +378,16 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.pv.typeOfSAE" text="SAEz"/>:</td>
+<td>${aeForm.typeOfSAE.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.typeOfSpecialEvent" text="Specialz"/>:</td>
+<td>${aeForm.typeOfSpecialEvent.displayString}</td>
+</tr>
+
+<tr>
 <td><spring:message code="mdrtb.pv.yellowCardDate" text="Yellowz"/>:</td>
 <td><openmrs:formatDate date="${aeForm.yellowCardDate}" format="${_dateFormatDisplay}"/></td>
 </tr>
@@ -416,6 +472,7 @@
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />
+<input type="hidden" name="location" value="${aeForm.location.id }"/>
 
 <table>
  
@@ -449,7 +506,7 @@
 </tr> --%>
 </table>
 
-<table>
+<%-- <table>
 <tr id="oblastDiv">
 			<td align="right"><spring:message code="mdrtb.oblast" /></td>
 			<td><select name="oblast" id="oblast" onchange="fun1()" >
@@ -480,9 +537,24 @@
 			</select>
 			</td>
 		</tr>
-	</table>
+	</table> --%>
 	
 <table>
+
+<tr>
+<td><spring:message code="mdrtb.oblast" text="Oblast"/>:</td>
+<td>${aeForm.location.stateProvince}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.district" text="District"/>:</td>
+<td>${aeForm.location.countyDistrict}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.facility" text="District"/>:</td>
+<td>${aeForm.location.region}</td>
+</tr>
 
 <tr>
 <td><spring:message code="mdrtb.pv.adverseEvent" text="AEz"/>:</td>
@@ -529,9 +601,9 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.pv.typeOfEvent" text="Eventz"/>:</td>
+<td><spring:message code="mdrtb.pv.typeOfEvent" text="Eventz" />:</td>
 <td>
-<select name="typeOfEvent" id="typeOfEvent">
+<select name="typeOfEvent" id="typeOfEvent" onChange="typeToggle()">
 <option value=""></option>
 <c:forEach var="typeOption" items="${typeOptions}">
 	<option value="${typeOption.answerConcept.id}" <c:if test="${aeForm.typeOfEvent == typeOption.answerConcept}">selected</c:if> >${typeOption.answerConcept.displayString}</option>
@@ -540,6 +612,33 @@
 </td>
 </tr>
 </tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.typeOfSAE" text="SAEz"/>:</td>
+<td>
+<select name="typeOfSAE" id="typeOfSAE">
+<option value=""></option>
+<c:forEach var="saeOption" items="${saeOptions}">
+	<option value="${saeOption.answerConcept.id}" <c:if test="${aeForm.typeOfSAE == saeOption.answerConcept}">selected</c:if> >${saeOption.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.typeOfSpecialEvent" text="Specialz"/>:</td>
+<td>
+<select name="typeOfSpecialEvent" id="typeOfSpecialEvent">
+<option value=""></option>
+<c:forEach var="specialOption" items="${specialOptions}">
+	<option value="${specialOption.answerConcept.id}" <c:if test="${aeForm.typeOfSpecialEvent == specialOption.answerConcept}">selected</c:if> >${specialOption.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+</tr>
+
 
 <tr>
 <td><spring:message code="mdrtb.pv.yellowCardDate" text="Yellowz"/>:</td>

@@ -20,7 +20,8 @@ public class PVDataTable1 {
 	private Integer regimenWithCfzLzdStarting;
 	private Integer regimenWithCfzLzdEver;
 	
-	
+	private Integer otherRegimenStarting;
+	private Integer otherRegimenEver;
 	
 	public PVDataTable1() {
 		standardRegimenStarting = 0;
@@ -114,5 +115,19 @@ public class PVDataTable1 {
 	public void setRegimenWithCfzLzdEver(Integer regimenWithCfzLzdEver) {
 		this.regimenWithCfzLzdEver = regimenWithCfzLzdEver;
 	}
+	
+	public Integer getOtherRegimenStarting() {
+		return otherRegimenStarting;
+	}
+	public void setOtherRegimenStarting(Integer otherRegimenStarting) {
+		this.otherRegimenStarting = otherRegimenStarting;
+	}
+	public Integer getOtherRegimenEver() {
+		return otherRegimenEver;
+	}
+	public void setOtherRegimenEver(Integer otherRegimenEver) {
+		this.otherRegimenEver = otherRegimenEver;
+	}
+	
 
 }
