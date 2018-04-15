@@ -35,6 +35,7 @@ import org.openmrs.module.mdrtb.reporting.TB07Util;
 import org.openmrs.module.mdrtb.reporting.data.Cohorts;
 import org.openmrs.module.mdrtb.reporting.pv.PVDataTable1;
 import org.openmrs.module.mdrtb.reporting.pv.PVDataTable2;
+import org.openmrs.module.mdrtb.reporting.pv.PVDataTable3;
 import org.openmrs.module.mdrtb.reporting.pv.PVDataTable4;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -166,7 +167,7 @@ public class AEReportController {
     	
     	PVDataTable1 table1 = new PVDataTable1();
     	PVDataTable2 table2 = new PVDataTable2();
-    	//PVDataTable1 table3 = new PVDataTable3();
+    	PVDataTable3 table3 = new PVDataTable3();
     	PVDataTable4 table4 = new PVDataTable4();
     	
     	
@@ -309,8 +310,8 @@ public class AEReportController {
 
     	Integer saeId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SERIOUS).getId();
     	Integer specialInterestId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OF_SPECIAL_INTEREST).getId();
-    	Integer saeTypeId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SAE_TYPE).getId();
-    	Integer specialInterestTypeId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SPECIAL_INTEREST_EVENT_TYPE).getId();
+    //	Integer saeTypeId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SAE_TYPE).getId();
+   // 	Integer specialInterestTypeId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SPECIAL_INTEREST_EVENT_TYPE).getId();
     	
     	Integer deathId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DEATH).getId();
     	Integer hospitilizationId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HOSPITALIZATION).getId();
@@ -325,6 +326,23 @@ public class AEReportController {
     	Integer pancreatitisId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PANCREATITIS).getId();
     	Integer phospholipidosisId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PHOSPHOLIPIDOSIS).getId();
     	
+    	/*Integer car1ConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_1).getId();
+    	Integer car2ConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_2).getId();
+    	Integer car3ConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_ASSESSMENT_RESULT_3).getId();
+    	
+    	Integer cad1ConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_DRUG_1).getId();
+    	Integer cad2ConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_DRUG_2).getId();
+    	Integer cad3ConceptId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAUSALITY_DRUG_3).getId();*/
+    	
+    	Integer bdqId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.BEDAQUILINE).getId();
+    	Integer dlmId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DELAMANID).getId();
+    	Integer cfzId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CLOFAZIMINE).getId();
+    	Integer lzdId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LINEZOLID).getId();
+    	Integer amId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.AMIKACIN).getId();
+    	Integer cmId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAPREOMYCIN).getId();
+    	Integer mfxId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MOXIFLOXACIN).getId();
+    	Integer lfxId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LEVOFLOXACIN).getId();
+    	
     	ArrayList<AEForm> aeForms = Context.getService(MdrtbService.class).getAEFormsFilled(locList, year, quarter, month);
     	System.out.println("SZ:" + aeForms.size());
     	
@@ -336,6 +354,15 @@ public class AEReportController {
     	boolean isCfzLzd = false;
     	boolean isOther = false;
     	
+    	boolean isSuspBdq = false;
+    	boolean isSuspDlm = false;
+    	boolean isSuspCfz = false;
+    	boolean isSuspLzd = false;
+    	boolean isSuspAm = false;
+    	boolean isSuspCm = false;
+    	boolean isSuspMfx = false;
+    	boolean isSuspLfx = false;
+    	
     	
     	for(AEForm ae : aeForms) {
     		
@@ -346,6 +373,17 @@ public class AEReportController {
         	 isBdqDlm = false;
         	 isCfzLzd = false;
         	 isOther = false;
+        	 
+        	 isSuspBdq = false;
+         	 isSuspDlm = false;
+         	 isSuspCfz = false;
+         	 isSuspLzd = false;
+         	 isSuspAm = false;
+         	 isSuspCm = false;
+         	 isSuspMfx = false;
+         	 isSuspLfx = false;
+        	 
+        	 
     		
     		//TABLE2
     		Concept q = ae.getTypeOfEvent();
@@ -357,6 +395,9 @@ public class AEReportController {
     		if(q!=null) {
     			id = q.getId();
     			System.out.println("ID2: " + id);
+    			
+    			//Table 2 setup
+    			
     			Patient p = ae.getPatient();
     			RegimenForm currentRegimenForm = Context.getService(MdrtbService.class).getCurrentRegimenFormForPatient(p, ae.getEncounterDatetime());
     			Integer regimenTypeConceptId = null;
@@ -402,7 +443,44 @@ public class AEReportController {
     			
     			}
     			
-    			
+    			//Table 3 Setup
+    			ArrayList<Concept> drugs = ae.getSuspectedDrugs();
+    			if(drugs!=null) {
+    				for(Concept c : drugs) {
+    					if(c.getId().intValue()==bdqId.intValue()) {
+    						isSuspBdq = true;
+    					}
+    				
+    					else if(c.getId().intValue()==dlmId.intValue()) {
+    						isSuspDlm = true;
+    					}
+    				
+    					else if(c.getId().intValue()==cfzId.intValue()) {
+    						isSuspCfz = true;
+    					}
+    				
+    					else if(c.getId().intValue()==lzdId.intValue()) {
+    						isSuspLzd = true;
+    					}	
+    				
+    					else if(c.getId().intValue()==amId.intValue()) {
+    						isSuspAm = true;
+    					}
+    					
+    					else if(c.getId().intValue()==cmId.intValue()) {
+    						isSuspCm = true;
+    					}
+    				
+    					else if(c.getId().intValue()==mfxId.intValue()) {
+    						isSuspMfx = true;
+    					}
+    				
+    					else if(c.getId().intValue()==lzdId.intValue()) {
+    						isSuspLzd = true;
+    					}
+    				}
+    		
+    			}
     			
     			
     			if(id!=null && id.intValue() == saeId.intValue()) {
@@ -431,6 +509,35 @@ public class AEReportController {
 					
 					
     				table2.setSaeTotal(table2.getSaeTotal()+1);
+    				
+    				
+    				if(isSuspBdq) {
+    					table3.setSaeBdq(table3.getSaeBdq() + 1);
+    				}
+    				 if(isSuspDlm) {
+    					table3.setSaeDlm(table3.getSaeDlm() + 1);
+    				}
+    				 if(isSuspCfz) {
+    					table3.setSaeCfz(table3.getSaeCfz() + 1);
+    				}
+    				 if(isSuspLzd) {
+    					table3.setSaeLzd(table3.getSaeLzd() + 1);
+    				}
+    				 if(isSuspAm) {
+    					table3.setSaeAm(table3.getSaeAm() + 1);
+    				}
+    				 if(isSuspCm) {
+    					table3.setSaeCm(table3.getSaeCm() + 1);
+    				}
+    				 if(isSuspMfx) {
+    					table3.setSaeMfx(table3.getSaeMfx() + 1);
+    				}
+    				 if(isSuspLfx) {
+    					table3.setSaeLfx(table3.getSaeLfx() + 1);
+    				}
+    				
+    				table3.setSaeTotal(table3.getSaeTotal()+1);
+    				
     				if(aq==null)
     					continue;
     				
@@ -461,6 +568,33 @@ public class AEReportController {
     					}
     					
     					table2.setDeathTotal(table2.getDeathTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setDeathBdq(table3.getDeathBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setDeathDlm(table3.getDeathDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setDeathCfz(table3.getDeathCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setDeathLzd(table3.getDeathLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setDeathAm(table3.getDeathAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setDeathCm(table3.getDeathCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setDeathMfx(table3.getDeathMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setDeathLfx(table3.getDeathLfx() + 1);
+        				}
+        				
+        				table3.setDeathTotal(table3.getDeathTotal()+1);
     				}
     				
     				else if(qi.intValue() == hospitilizationId.intValue()) {
@@ -487,6 +621,33 @@ public class AEReportController {
     					}
     					
     					table2.setHospitalizationTotal(table2.getHospitalizationTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setHospitalizationBdq(table3.getHospitalizationBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setHospitalizationDlm(table3.getHospitalizationDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setHospitalizationCfz(table3.getHospitalizationCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setHospitalizationLzd(table3.getHospitalizationLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setHospitalizationAm(table3.getHospitalizationAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setHospitalizationCm(table3.getHospitalizationCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setHospitalizationMfx(table3.getHospitalizationMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setHospitalizationLfx(table3.getHospitalizationLfx() + 1);
+        				}
+        				
+        				table3.setHospitalizationTotal(table3.getHospitalizationTotal()+1);
     				}
     				
     				else if(qi.intValue() == disabilityId.intValue()) {
@@ -513,6 +674,33 @@ public class AEReportController {
     					}
     					
     					table2.setDisabilityTotal(table2.getDisabilityTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setDisabilityBdq(table3.getDisabilityBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setDisabilityDlm(table3.getDisabilityDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setDisabilityCfz(table3.getDisabilityCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setDisabilityLzd(table3.getDisabilityLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setDisabilityAm(table3.getDisabilityAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setDisabilityCm(table3.getDisabilityCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setDisabilityMfx(table3.getDisabilityMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setDisabilityLfx(table3.getDisabilityLfx() + 1);
+        				}
+        				
+        				table3.setDisabilityTotal(table3.getDisabilityTotal()+1);
     				}
     				
     				else if(qi.intValue() == congenitalAbnormalityId.intValue()) {
@@ -539,6 +727,33 @@ public class AEReportController {
     					}
     					
     					table2.setCongenitalAbnormalityTotal(table2.getCongenitalAbnormalityTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setCongenitalAbnormalityBdq(table3.getCongenitalAbnormalityBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setCongenitalAbnormalityDlm(table3.getCongenitalAbnormalityDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setCongenitalAbnormalityCfz(table3.getCongenitalAbnormalityCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setCongenitalAbnormalityLzd(table3.getCongenitalAbnormalityLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setCongenitalAbnormalityAm(table3.getCongenitalAbnormalityAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setCongenitalAbnormalityCm(table3.getCongenitalAbnormalityCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setCongenitalAbnormalityMfx(table3.getCongenitalAbnormalityMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setCongenitalAbnormalityLfx(table3.getCongenitalAbnormalityLfx() + 1);
+        				}
+        				
+        				table3.setCongenitalAbnormalityTotal(table3.getCongenitalAbnormalityTotal()+1);
     				}
     				
     				else if(qi.intValue() == lifeThreateningExperienceId.intValue()) {
@@ -565,6 +780,33 @@ public class AEReportController {
     					}
     					
     					table2.setLifeThreateningExperienceTotal(table2.getLifeThreateningExperienceTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setLifeThreateningExperienceBdq(table3.getLifeThreateningExperienceBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setLifeThreateningExperienceDlm(table3.getLifeThreateningExperienceDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setLifeThreateningExperienceCfz(table3.getLifeThreateningExperienceCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setLifeThreateningExperienceLzd(table3.getLifeThreateningExperienceLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setLifeThreateningExperienceAm(table3.getLifeThreateningExperienceAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setLifeThreateningExperienceCm(table3.getLifeThreateningExperienceCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setLifeThreateningExperienceMfx(table3.getLifeThreateningExperienceMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setLifeThreateningExperienceLfx(table3.getLifeThreateningExperienceLfx() + 1);
+        				}
+        				
+        				table3.setLifeThreateningExperienceTotal(table3.getLifeThreateningExperienceTotal()+1);
     				}
     				
     			}
@@ -594,8 +836,34 @@ public class AEReportController {
 						table2.setSpecialInterestOther(table2.getSpecialInterestOther()+1);
 					}
 					
-					
     				table2.setSpecialInterestTotal(table2.getSpecialInterestTotal()+1);
+    				
+    				if(isSuspBdq) {
+    					table3.setSpecialInterestBdq(table3.getSpecialInterestBdq() + 1);
+    				}
+    				 if(isSuspDlm) {
+    					table3.setSpecialInterestDlm(table3.getSpecialInterestDlm() + 1);
+    				}
+    				 if(isSuspCfz) {
+    					table3.setSpecialInterestCfz(table3.getSpecialInterestCfz() + 1);
+    				}
+    				 if(isSuspLzd) {
+    					table3.setSpecialInterestLzd(table3.getSpecialInterestLzd() + 1);
+    				}
+    				 if(isSuspAm) {
+    					table3.setSpecialInterestAm(table3.getSpecialInterestAm() + 1);
+    				}
+    				 if(isSuspCm) {
+    					table3.setSpecialInterestCm(table3.getSpecialInterestCm() + 1);
+    				}
+    				 if(isSuspMfx) {
+    					table3.setSpecialInterestMfx(table3.getSpecialInterestMfx() + 1);
+    				}
+    				 if(isSuspLfx) {
+    					table3.setSpecialInterestLfx(table3.getSpecialInterestLfx() + 1);
+    				}
+    				
+    				table3.setSpecialInterestTotal(table3.getSpecialInterestTotal()+1);
     				
     				if(aq==null)
     					continue;
@@ -626,6 +894,33 @@ public class AEReportController {
     					}
     					
     					table2.setPeripheralNeuropathyTotal(table2.getPeripheralNeuropathyTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setPeripheralNeuropathyBdq(table3.getPeripheralNeuropathyBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setPeripheralNeuropathyDlm(table3.getPeripheralNeuropathyDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setPeripheralNeuropathyCfz(table3.getPeripheralNeuropathyCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setPeripheralNeuropathyLzd(table3.getPeripheralNeuropathyLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setPeripheralNeuropathyAm(table3.getPeripheralNeuropathyAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setPeripheralNeuropathyCm(table3.getPeripheralNeuropathyCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setPeripheralNeuropathyMfx(table3.getPeripheralNeuropathyMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setPeripheralNeuropathyLfx(table3.getPeripheralNeuropathyLfx() + 1);
+        				}
+        				
+        				table3.setPeripheralNeuropathyTotal(table3.getPeripheralNeuropathyTotal()+1);
     				}
     				
     				else if(qi.intValue() == psychiatricDisorderId.intValue()) {
@@ -652,6 +947,33 @@ public class AEReportController {
     					}
     					
     					table2.setPsychiatricDisorderTotal(table2.getPsychiatricDisorderTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setPsychiatricDisorderBdq(table3.getPsychiatricDisorderBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setPsychiatricDisorderDlm(table3.getPsychiatricDisorderDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setPsychiatricDisorderCfz(table3.getPsychiatricDisorderCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setPsychiatricDisorderLzd(table3.getPsychiatricDisorderLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setPsychiatricDisorderAm(table3.getPsychiatricDisorderAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setPsychiatricDisorderCm(table3.getPsychiatricDisorderCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setPsychiatricDisorderMfx(table3.getPsychiatricDisorderMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setPsychiatricDisorderLfx(table3.getPsychiatricDisorderLfx() + 1);
+        				}
+        				
+        				table3.setPsychiatricDisorderTotal(table3.getPsychiatricDisorderTotal()+1);
     				}
     				
     				else if(qi.intValue() == visualDisturbancesId.intValue()) {
@@ -678,6 +1000,33 @@ public class AEReportController {
     					}
     					
     					table2.setOpticNerveDisorderTotal(table2.getOpticNerveDisorderTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setOpticNerveDisorderBdq(table3.getOpticNerveDisorderBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setOpticNerveDisorderDlm(table3.getOpticNerveDisorderDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setOpticNerveDisorderCfz(table3.getOpticNerveDisorderCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setOpticNerveDisorderLzd(table3.getOpticNerveDisorderLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setOpticNerveDisorderAm(table3.getOpticNerveDisorderAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setOpticNerveDisorderCm(table3.getOpticNerveDisorderCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setOpticNerveDisorderMfx(table3.getOpticNerveDisorderMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setOpticNerveDisorderLfx(table3.getOpticNerveDisorderLfx() + 1);
+        				}
+        				
+        				table3.setOpticNerveDisorderTotal(table3.getOpticNerveDisorderTotal()+1);
     				}
     				
     				else if(qi.intValue() == hearingDisturbancesId.intValue()) {
@@ -704,6 +1053,33 @@ public class AEReportController {
     					}
     					
     					table2.setOtotoxicityTotal(table2.getOtotoxicityTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setOtotoxicityBdq(table3.getOtotoxicityBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setOtotoxicityDlm(table3.getOtotoxicityDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setOtotoxicityCfz(table3.getOtotoxicityCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setOtotoxicityLzd(table3.getOtotoxicityLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setOtotoxicityAm(table3.getOtotoxicityAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setOtotoxicityCm(table3.getOtotoxicityCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setOtotoxicityMfx(table3.getOtotoxicityMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setOtotoxicityLfx(table3.getOtotoxicityLfx() + 1);
+        				}
+        				
+        				table3.setOtotoxicityTotal(table3.getOtotoxicityTotal()+1);
     				}
     				
     				else if(qi.intValue() == myelosuppressionId.intValue()) {
@@ -730,6 +1106,33 @@ public class AEReportController {
     					}
     					
     					table2.setMyelosuppressionTotal(table2.getMyelosuppressionTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setMyelosuppressionBdq(table3.getMyelosuppressionBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setMyelosuppressionDlm(table3.getMyelosuppressionDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setMyelosuppressionCfz(table3.getMyelosuppressionCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setMyelosuppressionLzd(table3.getMyelosuppressionLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setMyelosuppressionAm(table3.getMyelosuppressionAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setMyelosuppressionCm(table3.getMyelosuppressionCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setMyelosuppressionMfx(table3.getMyelosuppressionMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setMyelosuppressionLfx(table3.getMyelosuppressionLfx() + 1);
+        				}
+        				
+        				table3.setMyelosuppressionTotal(table3.getMyelosuppressionTotal()+1);
     				}
     				
     				else if(qi.intValue() == qtProlongationId.intValue()) {
@@ -756,6 +1159,33 @@ public class AEReportController {
     					}
     					
     					table2.setQtProlongationTotal(table2.getQtProlongationTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setQtProlongationBdq(table3.getQtProlongationBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setQtProlongationDlm(table3.getQtProlongationDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setQtProlongationCfz(table3.getQtProlongationCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setQtProlongationLzd(table3.getQtProlongationLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setQtProlongationAm(table3.getQtProlongationAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setQtProlongationCm(table3.getQtProlongationCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setQtProlongationMfx(table3.getQtProlongationMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setQtProlongationLfx(table3.getQtProlongationLfx() + 1);
+        				}
+        				
+        				table3.setQtProlongationTotal(table3.getQtProlongationTotal()+1);
     				}
     				
     				else if(qi.intValue() == lacticAcidosisId.intValue()) {
@@ -782,6 +1212,33 @@ public class AEReportController {
     					}
     					
     					table2.setLacticAcidosisTotal(table2.getLacticAcidosisTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setLacticAcidosisBdq(table3.getLacticAcidosisBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setLacticAcidosisDlm(table3.getLacticAcidosisDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setLacticAcidosisCfz(table3.getLacticAcidosisCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setLacticAcidosisLzd(table3.getLacticAcidosisLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setLacticAcidosisAm(table3.getLacticAcidosisAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setLacticAcidosisCm(table3.getLacticAcidosisCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setLacticAcidosisMfx(table3.getLacticAcidosisMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setLacticAcidosisLfx(table3.getLacticAcidosisLfx() + 1);
+        				}
+        				
+        				table3.setLacticAcidosisTotal(table3.getLacticAcidosisTotal()+1);
     				}
     				
     				else if(qi.intValue() == hepatitisId.intValue()) {
@@ -808,6 +1265,33 @@ public class AEReportController {
     					}
     					
     					table2.setHepatitisTotal(table2.getHepatitisTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setHepatitisBdq(table3.getHepatitisBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setHepatitisDlm(table3.getHepatitisDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setHepatitisCfz(table3.getHepatitisCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setHepatitisLzd(table3.getHepatitisLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setHepatitisAm(table3.getHepatitisAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setHepatitisCm(table3.getHepatitisCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setHepatitisMfx(table3.getHepatitisMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setHepatitisLfx(table3.getHepatitisLfx() + 1);
+        				}
+        				
+        				table3.setHepatitisTotal(table3.getHepatitisTotal()+1);
     				}
     				
     				else if(qi.intValue() == hypothyroidismId.intValue()) {
@@ -834,6 +1318,35 @@ public class AEReportController {
     					}
     					
     					table2.setHypothyroidismTotal(table2.getHypothyroidismTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setHypothyroidismBdq(table3.getHypothyroidismBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setHypothyroidismDlm(table3.getHypothyroidismDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setHypothyroidismCfz(table3.getHypothyroidismCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setHypothyroidismLzd(table3.getHypothyroidismLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setHypothyroidismAm(table3.getHypothyroidismAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setHypothyroidismCm(table3.getHypothyroidismCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setHypothyroidismMfx(table3.getHypothyroidismMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setHypothyroidismLfx(table3.getHypothyroidismLfx() + 1);
+        				}
+        				
+        				table3.setHypothyroidismTotal(table3.getHypothyroidismTotal()+1);
+    					
+    					
     				}
     				
     				else if(qi.intValue() == hypokalemiaId.intValue()) {
@@ -860,6 +1373,33 @@ public class AEReportController {
     					}
     					
     					table2.setHypokalemiaTotal(table2.getHypokalemiaTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setHypokalemiaBdq(table3.getHypokalemiaBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setHypokalemiaDlm(table3.getHypokalemiaDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setHypokalemiaCfz(table3.getHypokalemiaCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setHypokalemiaLzd(table3.getHypokalemiaLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setHypokalemiaAm(table3.getHypokalemiaAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setHypokalemiaCm(table3.getHypokalemiaCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setHypokalemiaMfx(table3.getHypokalemiaMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setHypokalemiaLfx(table3.getHypokalemiaLfx() + 1);
+        				}
+        				
+        				table3.setHypokalemiaTotal(table3.getHypokalemiaTotal()+1);
     				}
     				
     				else if(qi.intValue() == pancreatitisId.intValue()) {
@@ -886,6 +1426,33 @@ public class AEReportController {
     					}
     					
     					table2.setPancreatitisTotal(table2.getPancreatitisTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setPancreatitisBdq(table3.getPancreatitisBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setPancreatitisDlm(table3.getPancreatitisDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setPancreatitisCfz(table3.getPancreatitisCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setPancreatitisLzd(table3.getPancreatitisLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setPancreatitisAm(table3.getPancreatitisAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setPancreatitisCm(table3.getPancreatitisCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setPancreatitisMfx(table3.getPancreatitisMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setPancreatitisLfx(table3.getPancreatitisLfx() + 1);
+        				}
+        				
+        				table3.setPancreatitisTotal(table3.getPancreatitisTotal()+1);
     				}
     				
     				else if(qi.intValue() == phospholipidosisId.intValue()) {
@@ -912,6 +1479,33 @@ public class AEReportController {
     					}
     					
     					table2.setPhospholipidosisTotal(table2.getPhospholipidosisTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setPhospholipidosisBdq(table3.getPhospholipidosisBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setPhospholipidosisDlm(table3.getPhospholipidosisDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setPhospholipidosisCfz(table3.getPhospholipidosisCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setPhospholipidosisLzd(table3.getPhospholipidosisLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setPhospholipidosisAm(table3.getPhospholipidosisAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setPhospholipidosisCm(table3.getPhospholipidosisCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setPhospholipidosisMfx(table3.getPhospholipidosisMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setPhospholipidosisLfx(table3.getPhospholipidosisLfx() + 1);
+        				}
+        				
+        				table3.setPhospholipidosisTotal(table3.getPhospholipidosisTotal()+1);
     				}
     				
     				else if(qi.intValue() == renalFailureId.intValue()) {
@@ -938,6 +1532,33 @@ public class AEReportController {
     					}
     					
     					table2.setRenalFailureTotal(table2.getRenalFailureTotal() + 1);
+    					
+    					if(isSuspBdq) {
+        					table3.setRenalFailureBdq(table3.getRenalFailureBdq() + 1);
+        				}
+        				 if(isSuspDlm) {
+        					table3.setRenalFailureDlm(table3.getRenalFailureDlm() + 1);
+        				}
+        				 if(isSuspCfz) {
+        					table3.setRenalFailureCfz(table3.getRenalFailureCfz() + 1);
+        				}
+        				 if(isSuspLzd) {
+        					table3.setRenalFailureLzd(table3.getRenalFailureLzd() + 1);
+        				}
+        				 if(isSuspAm) {
+        					table3.setRenalFailureAm(table3.getRenalFailureAm() + 1);
+        				}
+        				 if(isSuspCm) {
+        					table3.setRenalFailureCm(table3.getRenalFailureCm() + 1);
+        				}
+        				 if(isSuspMfx) {
+        					table3.setRenalFailureMfx(table3.getRenalFailureMfx() + 1);
+        				}
+        				 if(isSuspLfx) {
+        					table3.setRenalFailureLfx(table3.getRenalFailureLfx() + 1);
+        				}
+        				
+        				table3.setRenalFailureTotal(table3.getRenalFailureTotal()+1);
     				}
     			}
     			
@@ -964,6 +1585,33 @@ public class AEReportController {
 				}
 				
 				table2.setTotalTotal(table2.getTotalTotal() + 1);
+				
+				if(isSuspBdq) {
+					table3.setTotalBdq(table3.getTotalBdq() + 1);
+				}
+				 if(isSuspDlm) {
+					table3.setTotalDlm(table3.getTotalDlm() + 1);
+				}
+				 if(isSuspCfz) {
+					table3.setTotalCfz(table3.getTotalCfz() + 1);
+				}
+				 if(isSuspLzd) {
+					table3.setTotalLzd(table3.getTotalLzd() + 1);
+				}
+				 if(isSuspAm) {
+					table3.setTotalAm(table3.getTotalAm() + 1);
+				}
+				 if(isSuspCm) {
+					table3.setTotalCm(table3.getTotalCm() + 1);
+				}
+				 if(isSuspMfx) {
+					table3.setTotalMfx(table3.getTotalMfx() + 1);
+				}
+				 if(isSuspLfx) {
+					table3.setTotalLfx(table3.getTotalLfx() + 1);
+				}
+				
+				table3.setTotalTotal(table3.getTotalTotal()+1);
     			
     			
     		}
@@ -971,12 +1619,7 @@ public class AEReportController {
     		
     		
     		
-    		//TABLE3
-    		
-    		
-    		/*q = ae.getActionTaken();
-    		id = null;
- */   		
+    	//TABLE 4 loop
     		
     	for(AEForm ae : aeForms) {	
     		
@@ -1143,6 +1786,7 @@ public class AEReportController {
 		
     	model.addAttribute("table1", table1);
     	model.addAttribute("table2", table2);
+    	model.addAttribute("table3", table3);
     	model.addAttribute("table4", table4);
     	model.addAttribute("oblast", oblastId);
     	model.addAttribute("facility", facilityId);

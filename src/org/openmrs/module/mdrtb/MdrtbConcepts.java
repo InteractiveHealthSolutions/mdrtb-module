@@ -42,6 +42,9 @@ public class MdrtbConcepts {
 	public final static String [] MOXIFLOXACIN = {"MOXIFLOXACIN"};
 	public final static String [] AMOXICILLIN_AND_LAVULANIC_ACID = {"AMOXICILLIN AND CLAVULANIC ACID"};
 	public final static String [] THIOACETAZONE = {"THIOACETAZONE"};
+	public final static String [] BEDAQUILINE = {"BEDAQUILINE"};
+	public final static String [] DELAMANID = {"DELAMANID"};
+	public final static String [] LINEZOLID = {"LINEZOLID"};
 	
 	public final static String [] QUINOLONES = {"QUINOLONES"};
 

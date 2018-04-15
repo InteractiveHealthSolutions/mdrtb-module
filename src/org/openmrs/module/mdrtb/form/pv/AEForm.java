@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.form.pv;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.openmrs.Concept;
@@ -880,5 +881,39 @@ public class AEForm extends AbstractSimpleForm implements Comparable<AEForm>{
 	
 	public String getLink() {
 		return "/module/mdrtb/form/ae.form?patientProgramId=" + getPatProgId() + "&encounterId=" + getEncounter().getId();
+	}
+	
+	public ArrayList<Concept> getSuspectedDrugs() {
+		ArrayList<Concept> drugs = new ArrayList<Concept>();
+		
+		Concept c = getCausalityAssessmentResult1();
+		Concept d = getCausalityDrug1();
+		if(c!=null && c.getId() != null && c.getId().intValue() != Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NOT_CLASSIFIED).getId().intValue());
+		{
+			if(d!=null)
+				drugs.add(d);
+		}
+		
+		c = getCausalityAssessmentResult2();
+		d = getCausalityDrug2();
+		if(c!=null && c.getId() != null && c.getId().intValue() != Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NOT_CLASSIFIED).getId().intValue());
+		{
+			if(d!=null)
+				drugs.add(d);
+		}
+	
+		c = getCausalityAssessmentResult3();
+		d = getCausalityDrug3();
+		if(c!=null && c.getId() != null && c.getId().intValue() != Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NOT_CLASSIFIED).getId().intValue());
+		{
+			if(d!=null)
+				drugs.add(d);
+		}
+		
+		
+		
+		
+		
+		return drugs;
 	}
 }

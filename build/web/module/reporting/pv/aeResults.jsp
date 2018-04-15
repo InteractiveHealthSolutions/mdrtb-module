@@ -491,6 +491,270 @@ response.setDateHeader ("Expires", -1);
 		<table border="1" cellpadding="1" cellspacing="1" dir="ltr"
 			style="width: 980px;">
 			<tbody>
+			<tr>
+			    <th align="center"><spring:message code="mdrtb.pv.adverseEvent"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.bdq"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.dlm"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.cfz"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.lzd"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.am"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.cm"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.mfx"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.lfx"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.total"/></th>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.saes"/></td>
+			   	<td align="center">${table3.saeBdq}</td>
+			   	<td align="center">${table3.saeDlm}</td>
+			   	<td align="center">${table3.saeCfz}</td>
+			   	<td align="center">${table3.saeLzd}</td>
+			   	<td align="center">${table3.saeAm}</td>
+			   	<td align="center">${table3.saeCm}</td>
+			   	<td align="center">${table3.saeMfx}</td>
+			   	<td align="center">${table3.saeLfx}</td>
+			   	<td align="center">${table3.saeTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.death"/></td>
+			   	<td align="center">${table3.deathBdq}</td>
+			   	<td align="center">${table3.deathDlm}</td>
+			   	<td align="center">${table3.deathCfz}</td>
+			   	<td align="center">${table3.deathLzd}</td>
+			   	<td align="center">${table3.deathAm}</td>
+			   	<td align="center">${table3.deathCm}</td>
+			   	<td align="center">${table3.deathMfx}</td>
+			   	<td align="center">${table3.deathLfx}</td>
+			   	<td align="center">${table3.deathTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.hospitalization"/></td>
+			   	<td align="center">${table3.hospitalizationBdq}</td>
+			   	<td align="center">${table3.hospitalizationDlm}</td>
+			   	<td align="center">${table3.hospitalizationCfz}</td>
+			   	<td align="center">${table3.hospitalizationLzd}</td>
+			   	<td align="center">${table3.hospitalizationAm}</td>
+			   	<td align="center">${table3.hospitalizationCm}</td>
+			   	<td align="center">${table3.hospitalizationMfx}</td>
+			   	<td align="center">${table3.hospitalizationLfx}</td>
+			   	<td align="center">${table3.hospitalizationTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.disability"/></td>
+			   	<td align="center">${table3.disabilityBdq}</td>
+			   	<td align="center">${table3.disabilityDlm}</td>
+			   	<td align="center">${table3.disabilityCfz}</td>
+			   	<td align="center">${table3.disabilityLzd}</td>
+			   	<td align="center">${table3.disabilityAm}</td>
+			   	<td align="center">${table3.disabilityCm}</td>
+			   	<td align="center">${table3.disabilityMfx}</td>
+			   	<td align="center">${table3.disabilityLfx}</td>
+			   	<td align="center">${table3.disabilityTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.congenitalAbnormality"/></td>
+			   	<td align="center">${table3.congenitalAbnormalityBdq}</td>
+			   	<td align="center">${table3.congenitalAbnormalityDlm}</td>
+			   	<td align="center">${table3.congenitalAbnormalityCfz}</td>
+			   	<td align="center">${table3.congenitalAbnormalityLzd}</td>
+			   	<td align="center">${table3.congenitalAbnormalityAm}</td>
+			   	<td align="center">${table3.congenitalAbnormalityCm}</td>
+			   	<td align="center">${table3.congenitalAbnormalityMfx}</td>
+			   	<td align="center">${table3.congenitalAbnormalityLfx}</td>
+			   	<td align="center">${table3.congenitalAbnormalityTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.lifeThreateningExperience"/></td>
+			   	<td align="center">${table3.lifeThreateningExperienceBdq}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceDlm}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceCfz}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceLzd}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceAm}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceCm}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceMfx}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceLfx}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.specialInterest"/></td>
+			   	<td align="center">${table3.specialInterestBdq}</td>
+			   	<td align="center">${table3.specialInterestDlm}</td>
+			   	<td align="center">${table3.specialInterestCfz}</td>
+			   	<td align="center">${table3.specialInterestLzd}</td>
+			   	<td align="center">${table3.specialInterestAm}</td>
+			   	<td align="center">${table3.specialInterestCm}</td>
+			   	<td align="center">${table3.specialInterestMfx}</td>
+			   	<td align="center">${table3.specialInterestLfx}</td>
+			   	<td align="center">${table3.specialInterestTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.peripheralNeuropathy"/></td>
+			   	<td align="center">${table3.peripheralNeuropathyBdq}</td>
+			   	<td align="center">${table3.peripheralNeuropathyDlm}</td>
+			   	<td align="center">${table3.peripheralNeuropathyCfz}</td>
+			   	<td align="center">${table3.peripheralNeuropathyLzd}</td>
+			   	<td align="center">${table3.peripheralNeuropathyAm}</td>
+			   	<td align="center">${table3.peripheralNeuropathyCm}</td>
+			   	<td align="center">${table3.peripheralNeuropathyMfx}</td>
+			   	<td align="center">${table3.peripheralNeuropathyLfx}</td>
+			   	<td align="center">${table3.peripheralNeuropathyTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.psychiatricDisorders"/></td>
+			   	<td align="center">${table3.psychiatricDisorderBdq}</td>
+			   	<td align="center">${table3.psychiatricDisorderDlm}</td>
+			   	<td align="center">${table3.psychiatricDisorderCfz}</td>
+			   	<td align="center">${table3.psychiatricDisorderLzd}</td>
+			   	<td align="center">${table3.psychiatricDisorderAm}</td>
+			   	<td align="center">${table3.psychiatricDisorderCm}</td>
+			   	<td align="center">${table3.psychiatricDisorderMfx}</td>
+			   	<td align="center">${table3.psychiatricDisorderLfx}</td>
+			   	<td align="center">${table3.psychiatricDisorderTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.opticNerveDisorders"/></td>
+			   	<td align="center">${table3.opticNerveDisorderBdq}</td>
+			   	<td align="center">${table3.opticNerveDisorderDlm}</td>
+			   	<td align="center">${table3.opticNerveDisorderCfz}</td>
+			   	<td align="center">${table3.opticNerveDisorderLzd}</td>
+			   	<td align="center">${table3.opticNerveDisorderAm}</td>
+			   	<td align="center">${table3.opticNerveDisorderCm}</td>
+			   	<td align="center">${table3.opticNerveDisorderMfx}</td>
+			   	<td align="center">${table3.opticNerveDisorderLfx}</td>
+			   	<td align="center">${table3.opticNerveDisorderTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.ototoxicity"/></td>
+			   	<td align="center">${table3.ototoxicityBdq}</td>
+			   	<td align="center">${table3.ototoxicityDlm}</td>
+			   	<td align="center">${table3.ototoxicityCfz}</td>
+			   	<td align="center">${table3.ototoxicityLzd}</td>
+			   	<td align="center">${table3.ototoxicityAm}</td>
+			   	<td align="center">${table3.ototoxicityCm}</td>
+			   	<td align="center">${table3.ototoxicityMfx}</td>
+			   	<td align="center">${table3.ototoxicityLfx}</td>
+			   	<td align="center">${table3.ototoxicityTotal}</td>
+			  </tr>
+			   <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.myelosuppression"/></td>
+			   	<td align="center">${table3.myelosuppressionBdq}</td>
+			   	<td align="center">${table3.myelosuppressionDlm}</td>
+			   	<td align="center">${table3.myelosuppressionCfz}</td>
+			   	<td align="center">${table3.myelosuppressionLzd}</td>
+			   	<td align="center">${table3.myelosuppressionAm}</td>
+			   	<td align="center">${table3.myelosuppressionCm}</td>
+			   	<td align="center">${table3.myelosuppressionMfx}</td>
+			   	<td align="center">${table3.myelosuppressionLfx}</td>
+			   	<td align="center">${table3.myelosuppressionTotal}</td>
+			  </tr>
+			   <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.qtProlongation"/></td>
+			   	<td align="center">${table3.qtProlongationBdq}</td>
+			   	<td align="center">${table3.qtProlongationDlm}</td>
+			   	<td align="center">${table3.qtProlongationCfz}</td>
+			   	<td align="center">${table3.qtProlongationLzd}</td>
+			   	<td align="center">${table3.qtProlongationAm}</td>
+			   	<td align="center">${table3.qtProlongationCm}</td>
+			   	<td align="center">${table3.qtProlongationMfx}</td>
+			   	<td align="center">${table3.qtProlongationLfx}</td>
+			   	<td align="center">${table3.qtProlongationTotal}</td>
+			  </tr>
+			   <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.lacticAcidosis"/></td>
+			   	<td align="center">${table3.lacticAcidosisBdq}</td>
+			   	<td align="center">${table3.lacticAcidosisDlm}</td>
+			   	<td align="center">${table3.lacticAcidosisCfz}</td>
+			   	<td align="center">${table3.lacticAcidosisLzd}</td>
+			   	<td align="center">${table3.lacticAcidosisAm}</td>
+			   	<td align="center">${table3.lacticAcidosisCm}</td>
+			   	<td align="center">${table3.lacticAcidosisMfx}</td>
+			   	<td align="center">${table3.lacticAcidosisLfx}</td>
+			   	<td align="center">${table3.lacticAcidosisTotal}</td>
+			  </tr>
+			   <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.hepatitis"/></td>
+			   	<td align="center">${table3.hepatitisBdq}</td>
+			   	<td align="center">${table3.hepatitisDlm}</td>
+			   	<td align="center">${table3.hepatitisCfz}</td>
+			   	<td align="center">${table3.hepatitisLzd}</td>
+			   	<td align="center">${table3.hepatitisAm}</td>
+			   	<td align="center">${table3.hepatitisCm}</td>
+			   	<td align="center">${table3.hepatitisMfx}</td>
+			   	<td align="center">${table3.hepatitisLfx}</td>
+			   	<td align="center">${table3.hepatitisTotal}</td>
+			  </tr>
+			   <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.hypothyroidism"/></td>
+			   	<td align="center">${table3.hypothyroidismBdq}</td>
+			   	<td align="center">${table3.hypothyroidismDlm}</td>
+			   	<td align="center">${table3.hypothyroidismCfz}</td>
+			   	<td align="center">${table3.hypothyroidismLzd}</td>
+			   	<td align="center">${table3.hypothyroidismAm}</td>
+			   	<td align="center">${table3.hypothyroidismCm}</td>
+			   	<td align="center">${table3.hypothyroidismMfx}</td>
+			   	<td align="center">${table3.hypothyroidismLfx}</td>
+			   	<td align="center">${table3.hypothyroidismTotal}</td>
+			  </tr>
+			   <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.hypokalemia"/></td>
+			   	<td align="center">${table3.hypokalemiaBdq}</td>
+			   	<td align="center">${table3.hypokalemiaDlm}</td>
+			   	<td align="center">${table3.hypokalemiaCfz}</td>
+			   	<td align="center">${table3.hypokalemiaLzd}</td>
+			   	<td align="center">${table3.hypokalemiaAm}</td>
+			   	<td align="center">${table3.hypokalemiaCm}</td>
+			   	<td align="center">${table3.hypokalemiaMfx}</td>
+			   	<td align="center">${table3.hypokalemiaLfx}</td>
+			   	<td align="center">${table3.hypokalemiaTotal}</td>
+			  </tr>
+			   <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.pancreatitis"/></td>
+			   	<td align="center">${table3.pancreatitisBdq}</td>
+			   	<td align="center">${table3.pancreatitisDlm}</td>
+			   	<td align="center">${table3.pancreatitisCfz}</td>
+			   	<td align="center">${table3.pancreatitisLzd}</td>
+			   	<td align="center">${table3.pancreatitisAm}</td>
+			   	<td align="center">${table3.pancreatitisCm}</td>
+			   	<td align="center">${table3.pancreatitisMfx}</td>
+			   	<td align="center">${table3.pancreatitisLfx}</td>
+			   	<td align="center">${table3.pancreatitisTotal}</td>
+			  </tr>
+			   <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.phospholipidosis"/></td>
+			   	<td align="center">${table3.phospholipidosisBdq}</td>
+			   	<td align="center">${table3.phospholipidosisDlm}</td>
+			   	<td align="center">${table3.phospholipidosisCfz}</td>
+			   	<td align="center">${table3.phospholipidosisLzd}</td>
+			   	<td align="center">${table3.phospholipidosisAm}</td>
+			   	<td align="center">${table3.phospholipidosisCm}</td>
+			   	<td align="center">${table3.phospholipidosisMfx}</td>
+			   	<td align="center">${table3.phospholipidosisLfx}</td>
+			   	<td align="center">${table3.phospholipidosisTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.report.renalFailure"/></td>
+			   	<td align="center">${table3.renalFailureBdq}</td>
+			   	<td align="center">${table3.renalFailureDlm}</td>
+			   	<td align="center">${table3.renalFailureCfz}</td>
+			   	<td align="center">${table3.renalFailureLzd}</td>
+			   	<td align="center">${table3.renalFailureAm}</td>
+			   	<td align="center">${table3.renalFailureCm}</td>
+			   	<td align="center">${table3.renalFailureMfx}</td>
+			   	<td align="center">${table3.renalFailureLfx}</td>
+			   	<td align="center">${table3.renalFailureTotal}</td>
+			  </tr>
+			  <tr>
+			   	<td align="left"><spring:message code="mdrtb.pv.total"/></td>
+			   	<td align="center">${table3.totalBdq}</td>
+			   	<td align="center">${table3.totalDlm}</td>
+			   	<td align="center">${table3.totalCfz}</td>
+			   	<td align="center">${table3.totalLzd}</td>
+			   	<td align="center">${table3.totalAm}</td>
+			   	<td align="center">${table3.totalCm}</td>
+			   	<td align="center">${table3.totalMfx}</td>
+			   	<td align="center">${table3.totalLfx}</td>
+			   	<td align="center">${table3.totalTotal}</td>
+			  </tr>
 			</tbody>
 	     </table>
 	     
