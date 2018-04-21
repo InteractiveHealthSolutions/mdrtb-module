@@ -1408,6 +1408,8 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 			ret+="Cfz-";
 		if(getBdqDose()!=null)
 			ret+="Bdq-";
+		if(getDlmDose()!=null)
+			ret+="Dlm-";
 		if(getImpDose()!=null)
 			ret+="Imp/Clm-";
 		if(getHrDose()!=null)

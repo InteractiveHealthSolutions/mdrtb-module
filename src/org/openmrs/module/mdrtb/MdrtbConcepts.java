@@ -45,6 +45,7 @@ public class MdrtbConcepts {
 	public final static String [] BEDAQUILINE = {"BEDAQUILINE"};
 	public final static String [] DELAMANID = {"DELAMANID"};
 	public final static String [] LINEZOLID = {"LINEZOLID"};
+	public final static String [] IMIPENEM = {"IMIPENEM"};
 	
 	public final static String [] QUINOLONES = {"QUINOLONES"};
 
