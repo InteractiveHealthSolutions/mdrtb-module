@@ -42,6 +42,9 @@ public class PVDataTable1 {
 		regimenWithCfzLzdStarting = 0;
 		regimenWithCfzLzdEver = 0;
 		
+		otherRegimenStarting = 0;
+		otherRegimenEver = 0;
+		
 	}
 	public Integer getStandardRegimenStarting() {
 		return standardRegimenStarting;

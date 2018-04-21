@@ -868,12 +868,7 @@ response.setDateHeader ("Expires", -1);
 	     </table>
 	     
 	     <br/><br/>
-		<h5><spring:message code="mdrtb.pv.table5.title"/></h5>
-		<table border="1" cellpadding="1" cellspacing="1" dir="ltr"
-			style="width: 980px;">
-			<tbody>
-			</tbody>
-	     </table>
+		
 
 </div>
 		
