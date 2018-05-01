@@ -97,7 +97,7 @@
 	
 	function showHideDate(val) {
 	
-       	if(val==731) {
+       	if(val==731 || val==730) {
        		
        		document.getElementById('outcomeDate').disabled = true;
        		document.getElementById('outcomeDate').value = "";
@@ -404,7 +404,7 @@
 
 		var outcomeDateString = document.getElementById("outcomeDate").value;
 		
-		if(document.getElementById("actionOutcome").value!="" && document.getElementById("actionOutcome").value!=731 && outcomeDateString=="") {
+		if(document.getElementById("actionOutcome").value!="" && document.getElementById("actionOutcome").value!=731 && document.getElementById("actionOutcome").value!=730 && outcomeDateString=="") {
 			
 			errorText = ""  + '<spring:message code="mdrtb.pv.missingOutcomeDate"/>' + "";
 			alert(errorText);

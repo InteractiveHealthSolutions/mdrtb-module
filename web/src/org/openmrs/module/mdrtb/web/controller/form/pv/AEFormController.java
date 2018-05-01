@@ -299,7 +299,7 @@ public class AEFormController {
 			aeForm.setCausalityAssessmentResult3(null);
 		}
 		
-		if(aeForm.getActionOutcome()!=null && aeForm.getActionOutcome().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NOT_RESOLVED).getId().intValue())
+		if(aeForm.getActionOutcome()!=null && (aeForm.getActionOutcome().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NOT_RESOLVED).getId().intValue() || aeForm.getActionOutcome().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESOLVING).getId().intValue()))
 		{
 			aeForm.setOutcomeDate(null);
 		}
