@@ -57,7 +57,7 @@
 
 <c:forEach var="form" items="${forms}" varStatus="loop">
  <tr>
- <td><a href="${pageContext.request.contextPath}//module/mdrtb/form/ae.form?encounterId=${form.id}&patientProgramId=${patientProgramId}" target="_blank">${loop.index+1}</a></td>
+ <td><a href="${pageContext.request.contextPath}/module/mdrtb/form/ae.form?encounterId=${form.id}&patientProgramId=${patientProgramId}" target="_blank">${loop.index+1}</a></td>
  <td>${form.adverseEvent.displayString}</td>
  <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
  <td>${form.diagnosticInvestigation.displayString}</td>
@@ -71,7 +71,7 @@
  <td>${form.causalityAssessmentResult2.displayString}</td>
  <td>${form.causalityDrug3.displayString}</td>
  <td>${form.causalityAssessmentResult3.displayString}</td>
- <td>${form.actionTaken.displayString}</td>
+ <td>${form.actionTakenSummary}</td>
  <td>${form.actionOutcome.displayString}</td>
  <td><openmrs:formatDate date="${form.outcomeDate}" format="${_dateFormatDisplay}"/></td>
  <td>${form.facility}</td>

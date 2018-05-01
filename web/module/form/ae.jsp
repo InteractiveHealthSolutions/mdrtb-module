@@ -3,7 +3,7 @@
 
 <openmrs:htmlInclude file="/scripts/jquery/jquery-1.3.2.min.js"/>
 <openmrs:htmlInclude file="/moduleResources/mdrtb/mdrtb.css"/>
-
+<script src='<%= request.getContextPath() %>/dwr/interface/MdrtbAEDrugsDWR.js'></script>
 <!-- TODO: clean up above paths so they use dynamic reference -->
 <!-- TODO: add privileges? -->
 
@@ -21,6 +21,10 @@
 			$j('#viewVisit').hide();
 			$j('#editVisit').show();
 			typeToggle();
+			dateToggle();
+			car1Toggle();
+			car2Toggle();
+			car3Toggle();
 			
 			
 		});
@@ -84,6 +88,102 @@
        	}
      }
 	
+	function dateToggle () {
+		
+		var statusBox = document.getElementById('actionOutcome');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideDate(choice);
+	}
+	
+	function showHideDate(val) {
+	
+       	if(val==731) {
+       		
+       		document.getElementById('outcomeDate').disabled = true;
+       		document.getElementById('outcomeDate').value = "";
+   			
+       		
+       	}
+       	else {
+       		
+       		document.getElementById('outcomeDate').disabled = false;
+       	}
+       	
+      
+     }
+	
+     function car1Toggle () {
+		
+		var statusBox = document.getElementById('causalityDrug1');
+		var choice  = statusBox.options[statusBox.selectedIndex].value;
+		showHideCar1(choice);
+	}
+	
+	function showHideCar1(val) {
+	
+       	if(val=="") {
+       		
+       		document.getElementById('causalityAssessmentResult1').disabled = true;
+       		document.getElementById('causalityAssessmentResult1').selectedIndex = 0;
+   			
+       		
+       	}
+       	else {
+       		
+       		document.getElementById('causalityAssessmentResult1').disabled = false;
+       	}
+       	
+      
+     }	
+	
+	 function car2Toggle () {
+			
+			var statusBox = document.getElementById('causalityDrug2');
+			var choice  = statusBox.options[statusBox.selectedIndex].value;
+			showHideCar2(choice);
+		}
+		
+	function showHideCar2(val) {
+		
+	       	if(val=="") {
+	       		
+	       		document.getElementById('causalityAssessmentResult2').disabled = true;
+	       		document.getElementById('causalityAssessmentResult2').selectedIndex = 0;
+	   			
+	       		
+	       	}
+	       	else {
+	       		
+	       		document.getElementById('causalityAssessmentResult2').disabled = false;
+	       	}
+	       	
+	      
+	     }	
+	
+	 function car3Toggle () {
+			
+			var statusBox = document.getElementById('causalityDrug3');
+			var choice  = statusBox.options[statusBox.selectedIndex].value;
+			showHideCar3(choice);
+		}
+		
+		function showHideCar3(val) {
+		
+	       	if(val=="") {
+	       		
+	       		document.getElementById('causalityAssessmentResult3').disabled = true;
+	       		document.getElementById('causalityAssessmentResult3').selectedIndex = 0;
+	   			
+	       		
+	       	}
+	       	else {
+	       		
+	       		document.getElementById('causalityAssessmentResult3').disabled = false;
+	       	}
+	       	
+	      
+	     }	
+	
 	
 	
     
@@ -116,6 +216,51 @@
 	    mywindow.close();
 
 	    return true;
+	}
+	
+	function drugToggle() {
+		var statusBox = document.getElementById('treatmentRegimenAtOnset');
+		var regimen  = statusBox.options[statusBox.selectedIndex].value;
+		
+		var drug1 = document.getElementById('causalityDrug1');
+		var drug2 = document.getElementById('causalityDrug2');
+		var drug3 = document.getElementById('causalityDrug3');
+		
+		var car1 = document.getElementById('causalityAssessmentResult1');
+		var car2 = document.getElementById('causalityAssessmentResult2');
+		var car3 = document.getElementById('causalityAssessmentResult3');
+		
+		car1.disabled = true;
+		car1.selectedIndex = 0;
+		car2.disabled = true;
+		car2.selectedIndex = 0;
+		car3.disabled = true;
+		car3.selectedIndex = 0;
+		
+		
+		drug1.options.length = 0;
+		drug2.options.length = 0;
+		drug3.options.length = 0;
+		
+		var drugs=[];
+		var optionsHTML=[];
+		   MdrtbAEDrugsDWR.getRelevantDrugsString(regimen, {
+			   callback:function(data) {
+				   drugs = data;
+				},
+			   async:false
+			 } );
+		 //alert(drugs); 
+		 for(var i=0; i<drugs.length; i++) {
+			 optionsHTML.push(drugs[i]);    
+		 }
+		 
+		 drug1.innerHTML = optionsHTML.join('\n');
+		 drug2.innerHTML = optionsHTML.join('\n');
+		 drug3.innerHTML = optionsHTML.join('\n');
+		   
+		   
+	
 	}
 	
 	/* function fun1()
@@ -259,7 +404,7 @@
 
 		var outcomeDateString = document.getElementById("outcomeDate").value;
 		
-		if(document.getElementById("actionOutcome").value!="" && outcomeDateString=="") {
+		if(document.getElementById("actionOutcome").value!="" && document.getElementById("actionOutcome").value!=731 && outcomeDateString=="") {
 			
 			errorText = ""  + '<spring:message code="mdrtb.pv.missingOutcomeDate"/>' + "";
 			alert(errorText);
@@ -363,13 +508,13 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.pv.suspectedDrug" text="Drugz"/>:</td>
-<td>${aeForm.suspectedDrug}</td>
+<td><spring:message code="mdrtb.pv.treatmentRegimenAtOnset" text="regz"/>:</td>
+<td>${aeForm.treatmentRegimenAtOnset}</td>
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.pv.treatmentRegimenAtOnset" text="regz"/>:</td>
-<td>${aeForm.treatmentRegimenAtOnset}</td>
+<td><spring:message code="mdrtb.pv.suspectedDrug" text="Drugz"/>:</td>
+<td>${aeForm.suspectedDrug}</td>
 </tr>
 
 <tr>
@@ -385,6 +530,16 @@
 <tr>
 <td><spring:message code="mdrtb.pv.typeOfSpecialEvent" text="Specialz"/>:</td>
 <td>${aeForm.typeOfSpecialEvent.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.requiresAncillaryDrugs" text="Ancz"/>:</td>
+<td>${aeForm.requiresAncillaryDrugs.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.requiresDoseChange" text="dosez"/>:</td>
+<td>${aeForm.requiresDoseChange.displayString}</td>
 </tr>
 
 <tr>
@@ -415,7 +570,7 @@
 
 <tr>
 <td><spring:message code="mdrtb.pv.actionTaken" text="Actionz"/>:</td>
-<td>${aeForm.actionTaken.displayString}</td>
+<td>${aeForm.actionTakenSummary}</td>
 </tr>
 
 <tr>
@@ -583,14 +738,9 @@
 </tr>
 
 <tr>
-<td><spring:message code="mdrtb.pv.suspectedDrug" text="Drugz"/>:</td>
-<td><input name="suspectedDrug" id="suspectedDrug" size="25" value="${aeForm.suspectedDrug}"/></td>
-</tr>
-
-<tr>
 <td><spring:message code="mdrtb.pv.treatmentRegimenAtOnset" text="regimenz"/>:</td>
 <td>
-<select name="treatmentRegimenAtOnset" id="treatmentRegimenAtOnset">
+<select name="treatmentRegimenAtOnset" id="treatmentRegimenAtOnset" onChange="drugToggle()">
 <option value=""></option>
 <c:forEach var="regimen" items="${regimens}">
 	<option value="${regimen}" <c:if test="${aeForm.treatmentRegimenAtOnset == regimen}">selected</c:if> >${regimen}</option>
@@ -598,6 +748,11 @@
 </select>
 </td>
 </tr>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.suspectedDrug" text="Drugz"/>:</td>
+<td><input name="suspectedDrug" id="suspectedDrug" size="25" value="${aeForm.suspectedDrug}"/></td>
 </tr>
 
 <tr>
@@ -639,6 +794,32 @@
 </tr>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.pv.requiresAncillaryDrugs" text="Ancez"/>:</td>
+<td>
+<select name="requiresAncillaryDrugs" id="requiresAncillaryDrugs">
+<option value=""></option>
+<c:forEach var="ancOption" items="${yesno}">
+	<option value="${ancOption.answerConcept.id}" <c:if test="${aeForm.requiresAncillaryDrugs == ancOption.answerConcept}">selected</c:if> >${ancOption.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.requiresDoseChange" text="Dosez"/>:</td>
+<td>
+<select name="requiresDoseChange" id="requiresDoseChange">
+<option value=""></option>
+<c:forEach var="changeOption" items="${yesno}">
+	<option value="${changeOption.answerConcept.id}" <c:if test="${aeForm.requiresDoseChange == changeOption.answerConcept}">selected</c:if> >${changeOption.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+</tr>
+
 
 <tr>
 <td><spring:message code="mdrtb.pv.yellowCardDate" text="Yellowz"/>:</td>
@@ -648,7 +829,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.causalityDrug1" text="CD1z"/>:</td>
 <td>
-<select name="causalityDrug1" id="causalityDrug1">
+<select name="causalityDrug1" id="causalityDrug1" onChange="car1Toggle()">
 <option value=""></option>
 <c:forEach var="cdOption" items="${cdOptions}">
 	<option value="${cdOption.answerConcept.id}" <c:if test="${aeForm.causalityDrug1 == cdOption.answerConcept}">selected</c:if> >${cdOption.answerConcept.displayString}</option>
@@ -657,7 +838,7 @@
 </td>
 <td><spring:message code="mdrtb.pv.causalityAssessmentResult1" text="CAR1z"/>:</td>
 <td>
-<select name="causalityAssessmentResult1" id="causalityAssessmentResult1">
+<select name="causalityAssessmentResult1" id="causalityAssessmentResult1" >
 <option value=""></option>
 <c:forEach var="carOption" items="${carOptions}">
 	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult1 == carOption.answerConcept}">selected</c:if> >${carOption.answerConcept.displayString}</option>
@@ -669,7 +850,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.causalityDrug2" text="CD2z"/>:</td>
 <td>
-<select name="causalityDrug2" id="causalityDrug2">
+<select name="causalityDrug2" id="causalityDrug2" onChange="car2Toggle()">
 <option value=""></option>
 <c:forEach var="cdOption" items="${cdOptions}">
 	<option value="${cdOption.answerConcept.id}" <c:if test="${aeForm.causalityDrug2 == cdOption.answerConcept}">selected</c:if> >${cdOption.answerConcept.displayString}</option>
@@ -690,7 +871,7 @@
 <tr>
 <td><spring:message code="mdrtb.pv.causalityDrug3" text="CD3z"/>:</td>
 <td>
-<select name="causalityDrug3" id="causalityDrug3">
+<select name="causalityDrug3" id="causalityDrug3" onChange="car3Toggle()">
 <option value=""></option>
 <c:forEach var="cdOption" items="${cdOptions}">
 	<option value="${cdOption.answerConcept.id}" <c:if test="${aeForm.causalityDrug3 == cdOption.answerConcept}">selected</c:if> >${cdOption.answerConcept.displayString}</option>
@@ -721,9 +902,46 @@
 </tr>
 
 <tr>
+<td><spring:message code="mdrtb.pv.actionTaken" text="Actionz"/>:</td>
+<td>
+<select name="actionTaken2" id="actionTaken2">
+<option value=""></option>
+<c:forEach var="action" items="${actions}">
+	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken2 == action.answerConcept}">selected</c:if> >${action.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.actionTaken" text="Actionz"/>:</td>
+<td>
+<select name="actionTaken3" id="actionTaken3">
+<option value=""></option>
+<c:forEach var="action" items="${actions}">
+	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken3 == action.answerConcept}">selected</c:if> >${action.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.actionTaken" text="Actionz"/>:</td>
+<td>
+<select name="actionTaken4" id="actionTaken4">
+<option value=""></option>
+<c:forEach var="action" items="${actions}">
+	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken4 == action.answerConcept}">selected</c:if> >${action.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+
+<tr>
 <td><spring:message code="mdrtb.pv.actionOutcome" text="Actionz"/>:</td>
 <td>
-<select name="actionOutcome" id="actionOutcome">
+<select name="actionOutcome" id="actionOutcome" onChange="dateToggle()">
 <option value=""></option>
 <c:forEach var="outcome" items="${outcomes}">
 	<option value="${outcome.answerConcept.id}" <c:if test="${aeForm.actionOutcome == outcome.answerConcept}">selected</c:if> >${outcome.answerConcept.displayString}</option>

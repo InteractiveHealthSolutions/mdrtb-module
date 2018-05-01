@@ -185,7 +185,7 @@ public class AERegisterData implements Comparable <AERegisterData>{
 	}
 	
 	public String getAncillaryDrugs() {
-		if(aeForm==null)
+		/*if(aeForm==null)
 			return null;
 		
 		Concept q = aeForm.getActionTaken();
@@ -199,11 +199,20 @@ public class AERegisterData implements Comparable <AERegisterData>{
 		
 		else {
 			return Context.getMessageSourceService().getMessage("mdrtb.no");
-		}
+		}*/
+		if(aeForm==null)
+			return null;
+		
+		Concept q = aeForm.getRequiresAncillaryDrugs();
+		
+		if(q==null)
+			return null;
+		
+		return q.getName().getName();
 	}
 	
 	public String getDoseChanged() {
-		if(aeForm==null)
+		/*if(aeForm==null)
 			return null;
 		
 		Concept q = aeForm.getActionTaken();
@@ -219,7 +228,16 @@ public class AERegisterData implements Comparable <AERegisterData>{
 		
 		else {
 			return Context.getMessageSourceService().getMessage("mdrtb.no");
-		}
+		}*/
+		if(aeForm==null)
+			return null;
+		
+		Concept q = aeForm.getRequiresDoseChange();
+		
+		if(q==null)
+			return null;
+		
+		return q.getName().getName();
 	}
 	
 	public String getSuspectedDrug() {
@@ -294,16 +312,35 @@ public class AERegisterData implements Comparable <AERegisterData>{
 	
 	public String getActionTaken() {
 
+		String at = "";
+		
 		if(aeForm==null)
 			return null;
 		
 		Concept q = aeForm.getActionTaken();
-		if(q==null) {
-			return null;
+		if(q!=null) {
+			at =  q.getName().getName();
+		}
+	
+		q = aeForm.getActionTaken2();
+		if(q!=null) {
+			at += ", " + q.getName().getName();
+		}
+		
+		q = aeForm.getActionTaken3();
+		if(q!=null) {
+			at += ", " + q.getName().getName();
+		}
+		
+		q = aeForm.getActionTaken4();
+		if(q!=null) {
+			at += ", " + q.getName().getName();
 		}
 		
 		
-		return q.getName().getName();
+		return at;
+		
+		
 	}
 	
 	public String getTxRegimen() {
@@ -364,7 +401,8 @@ public class AERegisterData implements Comparable <AERegisterData>{
 			return null;
 
 		Date ycd = aeForm.getYellowCardDate();
-		
+		if(ycd==null)
+			return null;
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		sdf.applyPattern("yyyy.MM.dd");
 		

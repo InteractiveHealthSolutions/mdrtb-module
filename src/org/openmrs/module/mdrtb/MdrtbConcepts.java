@@ -374,12 +374,18 @@ public class MdrtbConcepts {
     public final static String[] NOT_CLASSIFIED  = {"NOT CLASSIFIED"};
     
     public final static String[] AE_ACTION  = {"AE ACTION"};
+    public final static String[] AE_ACTION_2  = {"AE ACTION 2"};
+    public final static String[] AE_ACTION_3  = {"AE ACTION 3"};
+    public final static String[] AE_ACTION_4  = {"AE ACTION 4"};
     public final static String[] DOSE_NOT_CHANGED   = {"DOSE NOT CHANGED"};
     public final static String[] DOSE_REDUCED  = {"DOSE REDUCED"};
     public final static String[] DRUG_INTERRUPTED   = {"DRUG INTERRUPTED "};
     public final static String[] DRUG_WITHDRAWN  = {"DRUG WITHDRAWN"};
     public final static String[] ANCILLARY_DRUG_GIVEN  = {"ANCILLARY DRUG GIVEN"};
     public final static String[] ADDITIONAL_EXAMINATION  = {"ADDITIONAL EXAMINATION"};
+    
+    public final static String[] REQUIRES_ANCILLARY_DRUGS = {"REQUIRES ANCILLARY DRUGS"};
+    public final static String[] REQUIRES_DOSE_CHANGE = {"REQUIRES DOSE CHANGE"};
     
     public final static String[] AE_OUTCOME  = {"AE OUTCOME"};
     public final static String[] RESOLVED  = {"RESOLVED"};
@@ -410,6 +416,9 @@ public class MdrtbConcepts {
     public final static String[] ENDOCRINE_DISORDER   = {"ENDOCRINE DISORDER "};
     public final static String[] CARDIAC_DISORDER   = {"CARDIAC DISORDER"};
     
+    
+    public final static String[] YES = {"YES"};
+    public final static String[] NO = {"NO"};
     
     
 }

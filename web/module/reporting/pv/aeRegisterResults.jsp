@@ -21,6 +21,26 @@ response.setDateHeader ("Expires", -1);
 		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/base64.js"></script>
 		
 		<script type="text/javascript">
+		function printForm() {
+			var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+		    mywindow.document.write('<html><head><title><spring:message code="mdrtb.pv.register.title" text="AE Register"/></title>');
+		    mywindow.document.write('</head><body >');
+		   // mywindow.document.write('<h1><spring:message code="mdrtb.pv.aeForm" text="AE"/></h1>');
+		    mywindow.document.write(document.getElementById("ae").innerHTML);
+		    
+		    mywindow.document.write('</body></html>');
+
+		    mywindow.document.close(); // necessary for IE >= 10
+		    mywindow.focus(); // necessary for IE >= 10*/
+
+		    mywindow.print();
+		    mywindow.close();
+
+		    return true;
+		}
+		
+		
 			var tableToExcel = (function() {
 			  var uri = 'data:application/vnd.ms-excel;base64,'
 			    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>TB07</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
@@ -175,13 +195,15 @@ response.setDateHeader ("Expires", -1);
 <table width="100%" border="1">
 <tr>
 <td>
-<spring:message code="dotsreports.tb07.nameOfFacility"/> <u>&nbsp; ${fName} &nbsp;</u><br/>
-<spring:message code="dotsreports.tb07.regionCityDistrict"/> <u> ${oName}/${dName} </u><br/>
+<spring:message code="dotsreports.tb07.nameOfFacility"/>: <u>${fName}</u><br/>
+<spring:message code="dotsreports.tb07.regionCityDistrict"/>: <u> ${oName}/${dName} </u><br/>
+<spring:message code="dotsreports.tb07.tbCoordinatorName"/>: ___________________ </br>
+<spring:message code="dotsreports.tb07.signature"/>: _________________
 </td>
 
 <td>
-<spring:message code="mdrtb.pv.year" /> <u>&nbsp;${year}</u>
-<spring:message code="mdrtb.pv.quarter" /><u>&nbsp; ${quarter}</u>
+<spring:message code="mdrtb.pv.quarter" />,<spring:message code="mdrtb.pv.year" />: <u>${quarter}, ${year}</u></br>
+<spring:message code="mdrtb.pv.reportDate" />:<u>&nbsp; ${reportDate}</u>
 </td>
 </tr>
 
@@ -197,7 +219,7 @@ response.setDateHeader ("Expires", -1);
 							text="serialz" /></th>
 					<th rowspan="2"><spring:message code="mdrtb.pv.register.patientId" text="patz" /></th>
 					<th rowspan="2"><spring:message code="mdrtb.pv.register.patientName" text="namez" /></th>
-					<th rowspan="2"><spring:message code="mdrtb.pv.register.patientBirthDate"
+					<th rowspan="2"><spring:message code="mdrtb.pv.register.patientBirthdate"
 							text="dobz" /></th>
 					<th rowspan="2"><spring:message code="mdrtb.pv.register.onsetDate" text="datez" /></th>
 					<th rowspan="2"><spring:message code="mdrtb.pv.register.adverseEvent" text="aez" /></th>
@@ -263,7 +285,7 @@ response.setDateHeader ("Expires", -1);
 				<c:forEach var="form" items="${forms}" varStatus="loop">
 					<tr>
 						<td><a
-							href="${pageContext.request.contextPath}//module/mdrtb/form/ae.form?encounterId=${form.AEForm.encounter.id}&patientProgramId=${patientProgramId}"
+							href="${pageContext.request.contextPath}/module/mdrtb/form/ae.form?encounterId=${form.AEForm.encounter.id}&patientProgramId=${form.AEForm.patProgId}"
 							target="_blank">${loop.index+1}</a></td>
 						<td align="left">${form.identifier}</td>
 						<td align="left">${form.patientName}</td>
@@ -299,7 +321,7 @@ response.setDateHeader ("Expires", -1);
 		<input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='dotsreports.closeReportBtn' />" />
 		</openmrs:hasPrivilege>
 		<input type="button" id="back" name="back" value="<spring:message code='dotsreports.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
-
+		<input type="button" onclick="printForm()" value="<spring:message code='mdrtb.print' />" />
 		
 		<script> 
 			console.log("${reportStatus}");
