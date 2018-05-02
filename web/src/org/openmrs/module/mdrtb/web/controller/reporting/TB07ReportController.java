@@ -1761,49 +1761,55 @@ public class TB07ReportController {
     	table1.setNewPulmonaryCD(table1.getNewMalePulmonaryCD() + table1.getNewFemalePulmonaryCD());
     	table1.setNewPulmonaryCDHIV(table1.getNewMalePulmonaryCDHIV() + table1.getNewFemalePulmonaryCDHIV());
     	table1.setNewExtrapulmonary(table1.getNewMaleExtrapulmonary() + table1.getNewFemaleExtrapulmonary());
-    	table1.setNewPulmonaryBCHIV(table1.getNewMaleExtrapulmonaryHIV() + table1.getNewFemaleExtrapulmonaryHIV());
+    	table1.setNewExtrapulmonaryHIV(table1.getNewMaleExtrapulmonaryHIV() + table1.getNewFemaleExtrapulmonaryHIV());
     	
     	table1.setRelapsePulmonaryBC(table1.getRelapseMalePulmonaryBC() + table1.getRelapseFemalePulmonaryBC());
     	table1.setRelapsePulmonaryBCHIV(table1.getRelapseMalePulmonaryBCHIV() + table1.getRelapseFemalePulmonaryBCHIV());
     	table1.setRelapsePulmonaryCD(table1.getRelapseMalePulmonaryCD() + table1.getRelapseFemalePulmonaryCD());
     	table1.setRelapsePulmonaryCDHIV(table1.getRelapseMalePulmonaryCDHIV() + table1.getRelapseFemalePulmonaryCDHIV());
     	table1.setRelapseExtrapulmonary(table1.getRelapseMaleExtrapulmonary() + table1.getRelapseFemaleExtrapulmonary());
-    	table1.setRelapsePulmonaryBCHIV(table1.getRelapseMaleExtrapulmonaryHIV() + table1.getRelapseFemaleExtrapulmonaryHIV());
+    	table1.setRelapseExtrapulmonaryHIV(table1.getRelapseMaleExtrapulmonaryHIV() + table1.getRelapseFemaleExtrapulmonaryHIV());
     	
     	table1.setFailurePulmonaryBC(table1.getFailureMalePulmonaryBC() + table1.getFailureFemalePulmonaryBC());
     	table1.setFailurePulmonaryBCHIV(table1.getFailureMalePulmonaryBCHIV() + table1.getFailureFemalePulmonaryBCHIV());
     	table1.setFailurePulmonaryCD(table1.getFailureMalePulmonaryCD() + table1.getFailureFemalePulmonaryCD());
     	table1.setFailurePulmonaryCDHIV(table1.getFailureMalePulmonaryCDHIV() + table1.getFailureFemalePulmonaryCDHIV());
     	table1.setFailureExtrapulmonary(table1.getFailureMaleExtrapulmonary() + table1.getFailureFemaleExtrapulmonary());
-    	table1.setFailurePulmonaryBCHIV(table1.getFailureMaleExtrapulmonaryHIV() + table1.getFailureFemaleExtrapulmonaryHIV());
+    	table1.setFailureExtrapulmonaryHIV(table1.getFailureMaleExtrapulmonaryHIV() + table1.getFailureFemaleExtrapulmonaryHIV());
     	
     	table1.setDefaultPulmonaryBC(table1.getDefaultMalePulmonaryBC() + table1.getDefaultFemalePulmonaryBC());
     	table1.setDefaultPulmonaryBCHIV(table1.getDefaultMalePulmonaryBCHIV() + table1.getDefaultFemalePulmonaryBCHIV());
     	table1.setDefaultPulmonaryCD(table1.getDefaultMalePulmonaryCD() + table1.getDefaultFemalePulmonaryCD());
     	table1.setDefaultPulmonaryCDHIV(table1.getDefaultMalePulmonaryCDHIV() + table1.getDefaultFemalePulmonaryCDHIV());
     	table1.setDefaultExtrapulmonary(table1.getDefaultMaleExtrapulmonary() + table1.getDefaultFemaleExtrapulmonary());
-    	table1.setDefaultPulmonaryBCHIV(table1.getDefaultMaleExtrapulmonaryHIV() + table1.getDefaultFemaleExtrapulmonaryHIV());
+    	table1.setDefaultExtrapulmonaryHIV(table1.getDefaultMaleExtrapulmonaryHIV() + table1.getDefaultFemaleExtrapulmonaryHIV());
     	
     	table1.setOtherPulmonaryBC(table1.getOtherMalePulmonaryBC() + table1.getOtherFemalePulmonaryBC());
     	table1.setOtherPulmonaryBCHIV(table1.getOtherMalePulmonaryBCHIV() + table1.getOtherFemalePulmonaryBCHIV());
     	table1.setOtherPulmonaryCD(table1.getOtherMalePulmonaryCD() + table1.getOtherFemalePulmonaryCD());
     	table1.setOtherPulmonaryCDHIV(table1.getOtherMalePulmonaryCDHIV() + table1.getOtherFemalePulmonaryCDHIV());
     	table1.setOtherExtrapulmonary(table1.getOtherMaleExtrapulmonary() + table1.getOtherFemaleExtrapulmonary());
-    	table1.setOtherPulmonaryBCHIV(table1.getOtherMaleExtrapulmonaryHIV() + table1.getOtherFemaleExtrapulmonaryHIV());
+    	table1.setOtherExtrapulmonaryHIV(table1.getOtherMaleExtrapulmonaryHIV() + table1.getOtherFemaleExtrapulmonaryHIV());
     	
     	//RETREATMENT TOTAL
     	table1.setRetreatmentMalePulmonaryBC(table1.getFailureMalePulmonaryBC() + table1.getDefaultMalePulmonaryBC() + table1.getOtherMalePulmonaryBC()); 
     	table1.setRetreatmentFemalePulmonaryBC(table1.getFailureFemalePulmonaryBC() + table1.getDefaultFemalePulmonaryBC() + table1.getOtherFemalePulmonaryBC());
+    	table1.setRetreatmentPulmonaryBC(table1.getRetreatmentMalePulmonaryBC() + table1.getRetreatmentFemalePulmonaryBC());
     	table1.setRetreatmentMalePulmonaryBCHIV(table1.getFailureMalePulmonaryBCHIV() + table1.getDefaultMalePulmonaryBCHIV() + table1.getOtherMalePulmonaryBCHIV()); 
     	table1.setRetreatmentFemalePulmonaryBCHIV(table1.getFailureFemalePulmonaryBCHIV() + table1.getDefaultFemalePulmonaryBCHIV() + table1.getOtherFemalePulmonaryBCHIV());
+    	table1.setRetreatmentPulmonaryBCHIV(table1.getRetreatmentMalePulmonaryBCHIV() + table1.getRetreatmentFemalePulmonaryBCHIV());
     	table1.setRetreatmentMalePulmonaryCD(table1.getFailureMalePulmonaryCD() + table1.getDefaultMalePulmonaryCD() + table1.getOtherMalePulmonaryCD()); 
     	table1.setRetreatmentFemalePulmonaryCD(table1.getFailureFemalePulmonaryCD() + table1.getDefaultFemalePulmonaryCD() + table1.getOtherFemalePulmonaryCD());
+    	table1.setRetreatmentPulmonaryCD(table1.getRetreatmentMalePulmonaryCD() + table1.getRetreatmentFemalePulmonaryCD());
     	table1.setRetreatmentMalePulmonaryCDHIV(table1.getFailureMalePulmonaryCDHIV() + table1.getDefaultMalePulmonaryCDHIV() + table1.getOtherMalePulmonaryCDHIV()); 
     	table1.setRetreatmentFemalePulmonaryCDHIV(table1.getFailureFemalePulmonaryCDHIV() + table1.getDefaultFemalePulmonaryCDHIV() + table1.getOtherFemalePulmonaryCDHIV());
+    	table1.setRetreatmentPulmonaryCDHIV(table1.getRetreatmentMalePulmonaryCDHIV() + table1.getRetreatmentFemalePulmonaryCDHIV());
     	table1.setRetreatmentMaleExtrapulmonary(table1.getFailureMaleExtrapulmonary() + table1.getDefaultMaleExtrapulmonary() + table1.getOtherMaleExtrapulmonary()); 
     	table1.setRetreatmentFemaleExtrapulmonary(table1.getFailureFemaleExtrapulmonary() + table1.getDefaultFemaleExtrapulmonary() + table1.getOtherFemaleExtrapulmonary());
+    	table1.setRetreatmentExtrapulmonary(table1.getRetreatmentMaleExtrapulmonary() + table1.getRetreatmentFemaleExtrapulmonary());
     	table1.setRetreatmentMaleExtrapulmonaryHIV(table1.getFailureMaleExtrapulmonaryHIV() + table1.getDefaultMaleExtrapulmonaryHIV() + table1.getOtherMaleExtrapulmonaryHIV()); 
     	table1.setRetreatmentFemaleExtrapulmonaryHIV(table1.getFailureFemaleExtrapulmonaryHIV() + table1.getDefaultFemaleExtrapulmonaryHIV() + table1.getOtherFemaleExtrapulmonaryHIV());
+    	table1.setRetreatmentExtrapulmonaryHIV(table1.getRetreatmentMaleExtrapulmonaryHIV() + table1.getRetreatmentFemaleExtrapulmonaryHIV());
     	
     	//GRAND TOTALS
     	table1.setTotalMalePulmonaryBC(table1.getNewMalePulmonaryBC() + table1.getRelapseMalePulmonaryBC() + table1.getRetreatmentMalePulmonaryBC());
