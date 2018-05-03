@@ -47,7 +47,7 @@ $(document).ready(function(){
 </script>
 
 <form method="post">
-	<h2>TB08u parameters</h2>
+	<h2><spring:message code="mdrtb.tb08uParameters" /></h2>
 	
 	<br/>
 	

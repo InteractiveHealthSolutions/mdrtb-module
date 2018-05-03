@@ -43,7 +43,7 @@ $(document).ready(function(){
 
 
 <form method="post">
-	<h2>TB03 parameters</h2>
+	<h2><spring:message code="mdrtb.tb03Parameters" /></h2>
 	
 	<br/>
 	

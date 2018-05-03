@@ -998,7 +998,7 @@ ${regimen.displayString}
 
 
 
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.regimens" text="Regimens"/>
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.pv.regimens" text="Regimens"/>
 </b>
 
 <div class="box" style="margin:0px;">

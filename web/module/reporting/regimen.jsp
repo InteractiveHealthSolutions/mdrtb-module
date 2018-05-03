@@ -42,7 +42,7 @@ $(document).ready(function(){
 </script>
 
 <form method="post">
-	<h2><spring:message code="mdrtb.dq.title" /></h2>
+	<h2><spring:message code="mdrtb.reportParameters" /></h2>
 	
 	<br/>
 	

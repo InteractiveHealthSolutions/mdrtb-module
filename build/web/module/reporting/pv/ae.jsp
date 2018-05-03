@@ -47,7 +47,7 @@ $(document).ready(function(){
 </script>
 
 <form method="post">
-	<h2>Report parameters</h2>
+	<h2><spring:message code="mdrtb.reportParameters" /></h2>
 	
 	<br/>
 	

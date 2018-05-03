@@ -2,7 +2,7 @@
 <%@ include file="../mdrtbHeader.jsp"%>
 
 <form method="post">
-	<h2>TB07u parameters</h2>
+	<h2><spring:message code="mdrtb.tb07uParameters" /></h2>
 	
 	<br/>
 	
