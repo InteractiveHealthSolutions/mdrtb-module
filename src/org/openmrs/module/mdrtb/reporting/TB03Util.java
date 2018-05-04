@@ -16,6 +16,8 @@ import org.openmrs.module.mdrtb.specimen.CultureImpl;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.DstImpl;
 import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.HAIN2;
+import org.openmrs.module.mdrtb.specimen.HAIN2Impl;
 import org.openmrs.module.mdrtb.specimen.HAINImpl;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Culture;
@@ -27,6 +29,7 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.form.CultureForm;
 import org.openmrs.module.mdrtb.form.DSTForm;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
@@ -112,6 +115,34 @@ public class TB03Util {
 		HAINForm c = null;
 		
 		List<HAINForm> hains = tf.getHains();
+		//, startDateCollected, endDateCollected)) {
+			if(hains!=null && hains.size() > 0) {
+					c = hains.get(0);// new HAINImpl(hains.get(0).getEncounter());
+					
+				}
+	
+		
+		return c;
+	}
+	
+	public static HAIN2 getFirstHAIN2(TB03Form tf) {
+		HAIN2 c = null;
+		
+		List<HAIN2Form> hains = tf.getHain2s();
+		//, startDateCollected, endDateCollected)) {
+			if(hains!=null && hains.size() > 0) {
+					c = new HAIN2Impl(hains.get(0).getEncounter());
+					
+				}
+	
+		
+		return c;
+	}
+	
+	public static HAIN2Form getFirstHAIN2Form(TB03Form tf) {
+		HAIN2Form c = null;
+		
+		List<HAIN2Form> hains = tf.getHain2s();
 		//, startDateCollected, endDateCollected)) {
 			if(hains!=null && hains.size() > 0) {
 					c = hains.get(0);// new HAINImpl(hains.get(0).getEncounter());

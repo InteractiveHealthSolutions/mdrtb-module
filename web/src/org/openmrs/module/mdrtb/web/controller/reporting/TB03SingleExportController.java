@@ -24,6 +24,7 @@ import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
@@ -430,6 +431,24 @@ public class TB03SingleExportController {
     	    		tb03Data.setHainTestDate(sdf.format(firstHAIN.getEncounterDatetime()));
     	    	
     	    	tb03Data.setHainTestNumber(firstHAIN.getSpecimenId());
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG HAIN");
+    	    }
+    	    
+    	    HAIN2Form firstHAIN2 = TB03Util.getFirstHAIN2Form(tf);
+    	    if(firstHAIN2!=null) {
+    	    	if(firstHAIN2.getMtbResult()!=null)
+    	    		tb03Data.setHain2MTBResult(firstHAIN2.getMtbResult().getName().getShortName());
+    	    	if(firstHAIN2.getFqResult()!=null)
+    	    		tb03Data.setHain2FqResult(firstHAIN2.getFqResult().getName().getShortName());
+    	    	if(firstHAIN2.getInjResult()!=null)
+    	    		tb03Data.setHain2InjResult(firstHAIN2.getInjResult().getName().getShortName());
+    	    	if(firstHAIN2.getEncounterDatetime()!=null)
+    	    		tb03Data.setHain2TestDate(sdf.format(firstHAIN2.getEncounterDatetime()));
+    	    	
+    	    	tb03Data.setHain2TestNumber(firstHAIN2.getSpecimenId());
     	    }
     	    
     	    else {

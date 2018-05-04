@@ -1003,7 +1003,7 @@ ${regimen.displayString}
 
 <div class="box" style="margin:0px;">
 <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-<a href="${pageContext.request.contextPath}/module/mdrtb/regimen/regimenView.form?patientProgramId=${program.id}&patientId=${patientId}"><spring:message code="mdrtb.manageRegimens" text="Manage Regimen"/></a>
+<a href="${pageContext.request.contextPath}/module/mdrtb/regimen/regimenView.form?patientProgramId=${program.id}&patientId=${patientId}"><spring:message code="mdrtb.pv.regimens" text="Manage Regimen"/></a>
 </openmrs:hasPrivilege>
 </div>
 

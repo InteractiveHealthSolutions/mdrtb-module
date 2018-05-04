@@ -779,7 +779,7 @@ response.setDateHeader ("Expires", -1);
 			</tbody>
 	     </table>
 	     
-	    <%--  <br/><br/>
+	    <br/><br/>
 		<h5><spring:message code="mdrtb.pv.table4.title"/></h5>
 		<table border="1" cellpadding="1" cellspacing="1" dir="ltr"
 			style="width: 980px;">
@@ -886,7 +886,7 @@ response.setDateHeader ("Expires", -1);
 				</tr>
 				
 			</tbody>
-	     </table> --%>
+	     </table>
 	     
 	     <br/><br/>
 		

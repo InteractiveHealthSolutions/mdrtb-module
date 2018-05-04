@@ -35,6 +35,13 @@ public class TB03Data implements Comparable <TB03Data>{
 	private String hainRIFResult;
 	private String hainTestDate;
 	private String hainTestNumber;
+	
+	private String hain2MTBResult;
+	private String hain2InjResult;
+	private String hain2FqResult;
+	private String hain2TestDate;
+	private String hain2TestNumber;
+	
 	private String cultureResult;
 	private String cultureTestDate;
 	private String cultureTestNumber;
@@ -790,6 +797,46 @@ public class TB03Data implements Comparable <TB03Data>{
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public String getHain2MTBResult() {
+		return hain2MTBResult;
+	}
+
+	public void setHain2MTBResult(String hain2mtbResult) {
+		hain2MTBResult = hain2mtbResult;
+	}
+
+	public String getHain2InjResult() {
+		return hain2InjResult;
+	}
+
+	public void setHain2InjResult(String hain2InjResult) {
+		this.hain2InjResult = hain2InjResult;
+	}
+
+	public String getHain2FqResult() {
+		return hain2FqResult;
+	}
+
+	public void setHain2FqResult(String hain2FqResult) {
+		this.hain2FqResult = hain2FqResult;
+	}
+
+	public String getHain2TestDate() {
+		return hain2TestDate;
+	}
+
+	public void setHain2TestDate(String hain2TestDate) {
+		this.hain2TestDate = hain2TestDate;
+	}
+
+	public String getHain2TestNumber() {
+		return hain2TestNumber;
+	}
+
+	public void setHain2TestNumber(String hain2TestNumber) {
+		this.hain2TestNumber = hain2TestNumber;
 	}
 	
 		

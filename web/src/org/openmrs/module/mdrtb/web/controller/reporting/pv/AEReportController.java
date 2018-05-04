@@ -1624,14 +1624,15 @@ public class AEReportController {
     	for(AEForm ae : aeForms) {	
     		
     		// TABLE 4
-    		Concept q = ae.getActionTaken();
+    		//Concept q = ae.getActionTaken();
+    		Concept q = ae.getRequiresAncillaryDrugs();
     		Integer id = null;
     		
     		if(q!=null) {
     			
     			id = q.getId();
     			System.out.println("ID1: " + id);
-    			if(id!=null && id.intValue()==ancillaryDrugsId.intValue()) {
+    			if(id!=null && id.intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.YES).getId().intValue()) {
     				
     				q = ae.getAdverseEvent();
     				
