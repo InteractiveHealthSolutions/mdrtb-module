@@ -11,6 +11,11 @@ public class PVDataTable3 {
 	private Integer saeCm;
 	private Integer saeMfx;
 	private Integer saeLfx;
+	private Integer saeCyc;
+	private Integer saePas;
+	private Integer saePto;
+	private Integer saeZ;
+	private Integer saeE;
 	private Integer saeTotal;
 	
 	private Integer deathBdq;
@@ -21,6 +26,11 @@ public class PVDataTable3 {
 	private Integer deathCm;
 	private Integer deathMfx;
 	private Integer deathLfx;
+	private Integer deathCyc;
+	private Integer deathPas;
+	private Integer deathPto;
+	private Integer deathZ;
+	private Integer deathE;
 	private Integer deathTotal;
 	
 	private Integer hospitalizationBdq;
@@ -31,6 +41,11 @@ public class PVDataTable3 {
 	private Integer hospitalizationCm;
 	private Integer hospitalizationMfx;
 	private Integer hospitalizationLfx;
+	private Integer hospitalizationCyc;
+	private Integer hospitalizationPas;
+	private Integer hospitalizationPto;
+	private Integer hospitalizationZ;
+	private Integer hospitalizationE;
 	private Integer hospitalizationTotal;
 	
 	private Integer disabilityBdq;
@@ -41,6 +56,11 @@ public class PVDataTable3 {
 	private Integer disabilityCm;
 	private Integer disabilityMfx;
 	private Integer disabilityLfx;
+	private Integer disabilityCyc;
+	private Integer disabilityPas;
+	private Integer disabilityPto;
+	private Integer disabilityZ;
+	private Integer disabilityE;
 	private Integer disabilityTotal;
 	
 	private Integer congenitalAbnormalityBdq;
@@ -51,6 +71,11 @@ public class PVDataTable3 {
 	private Integer congenitalAbnormalityCm;
 	private Integer congenitalAbnormalityMfx;
 	private Integer congenitalAbnormalityLfx;	
+	private Integer congenitalAbnormalityCyc;
+	private Integer congenitalAbnormalityPas;
+	private Integer congenitalAbnormalityPto;
+	private Integer congenitalAbnormalityZ;
+	private Integer congenitalAbnormalityE;
 	private Integer congenitalAbnormalityTotal;
 	
 	private Integer lifeThreateningExperienceBdq;
@@ -61,6 +86,11 @@ public class PVDataTable3 {
 	private Integer lifeThreateningExperienceCm;
 	private Integer lifeThreateningExperienceMfx;
 	private Integer lifeThreateningExperienceLfx;
+	private Integer lifeThreateningExperienceCyc;
+	private Integer lifeThreateningExperiencePas;
+	private Integer lifeThreateningExperiencePto;
+	private Integer lifeThreateningExperienceZ;
+	private Integer lifeThreateningExperienceE;
 	private Integer lifeThreateningExperienceTotal;
 	
 	private Integer specialInterestBdq;
@@ -71,6 +101,11 @@ public class PVDataTable3 {
 	private Integer specialInterestCm;
 	private Integer specialInterestMfx;
 	private Integer specialInterestLfx;
+	private Integer specialInterestCyc;
+	private Integer specialInterestPas;
+	private Integer specialInterestPto;
+	private Integer specialInterestZ;
+	private Integer specialInterestE;
 	private Integer specialInterestTotal;
 	
 	private Integer peripheralNeuropathyBdq;
@@ -81,6 +116,11 @@ public class PVDataTable3 {
 	private Integer peripheralNeuropathyCm;
 	private Integer peripheralNeuropathyMfx;
 	private Integer peripheralNeuropathyLfx;
+	private Integer peripheralNeuropathyCyc;
+	private Integer peripheralNeuropathyPas;
+	private Integer peripheralNeuropathyPto;
+	private Integer peripheralNeuropathyZ;
+	private Integer peripheralNeuropathyE;
 	private Integer peripheralNeuropathyTotal;
 	
 	private Integer psychiatricDisorderBdq;
@@ -91,6 +131,11 @@ public class PVDataTable3 {
 	private Integer psychiatricDisorderCm;
 	private Integer psychiatricDisorderMfx;
 	private Integer psychiatricDisorderLfx;
+	private Integer psychiatricDisorderCyc;
+	private Integer psychiatricDisorderPas;
+	private Integer psychiatricDisorderPto;
+	private Integer psychiatricDisorderZ;
+	private Integer psychiatricDisorderE;
 	private Integer psychiatricDisorderTotal;
 	
 	private Integer opticNerveDisorderBdq;
@@ -101,6 +146,11 @@ public class PVDataTable3 {
 	private Integer opticNerveDisorderCm;
 	private Integer opticNerveDisorderMfx;
 	private Integer opticNerveDisorderLfx;
+	private Integer opticNerveDisorderCyc;
+	private Integer opticNerveDisorderPas;
+	private Integer opticNerveDisorderPto;
+	private Integer opticNerveDisorderZ;
+	private Integer opticNerveDisorderE;
 	private Integer opticNerveDisorderTotal;
 	
 	private Integer ototoxicityBdq;
@@ -111,6 +161,11 @@ public class PVDataTable3 {
 	private Integer ototoxicityCm;
 	private Integer ototoxicityMfx;
 	private Integer ototoxicityLfx;
+	private Integer ototoxicityCyc;
+	private Integer ototoxicityPas;
+	private Integer ototoxicityPto;
+	private Integer ototoxicityZ;
+	private Integer ototoxicityE;
 	private Integer ototoxicityTotal;
 	
 	private Integer myelosuppressionBdq;
@@ -121,6 +176,11 @@ public class PVDataTable3 {
 	private Integer myelosuppressionCm;
 	private Integer myelosuppressionMfx;
 	private Integer myelosuppressionLfx;
+	private Integer myelosuppressionCyc;
+	private Integer myelosuppressionPas;
+	private Integer myelosuppressionPto;
+	private Integer myelosuppressionZ;
+	private Integer myelosuppressionE;
 	private Integer myelosuppressionTotal;
 
 	private Integer qtProlongationBdq;
@@ -131,6 +191,11 @@ public class PVDataTable3 {
 	private Integer qtProlongationCm;
 	private Integer qtProlongationMfx;
 	private Integer qtProlongationLfx;
+	private Integer qtProlongationCyc;
+	private Integer qtProlongationPas;
+	private Integer qtProlongationPto;
+	private Integer qtProlongationZ;
+	private Integer qtProlongationE;
 	private Integer qtProlongationTotal;
 	
 	private Integer lacticAcidosisBdq;
@@ -141,6 +206,11 @@ public class PVDataTable3 {
 	private Integer lacticAcidosisCm;
 	private Integer lacticAcidosisMfx;
 	private Integer lacticAcidosisLfx;
+	private Integer lacticAcidosisCyc;
+	private Integer lacticAcidosisPas;
+	private Integer lacticAcidosisPto;
+	private Integer lacticAcidosisZ;
+	private Integer lacticAcidosisE;
 	private Integer lacticAcidosisTotal;
 	
 	private Integer hepatitisBdq;
@@ -151,6 +221,11 @@ public class PVDataTable3 {
 	private Integer hepatitisCm;
 	private Integer hepatitisMfx;
 	private Integer hepatitisLfx;
+	private Integer hepatitisCyc;
+	private Integer hepatitisPas;
+	private Integer hepatitisPto;
+	private Integer hepatitisZ;
+	private Integer hepatitisE;
 	private Integer hepatitisTotal;
 	
 	private Integer hypothyroidismBdq;
@@ -161,6 +236,11 @@ public class PVDataTable3 {
 	private Integer hypothyroidismCm;
 	private Integer hypothyroidismMfx;
 	private Integer hypothyroidismLfx;
+	private Integer hypothyroidismCyc;
+	private Integer hypothyroidismPas;
+	private Integer hypothyroidismPto;
+	private Integer hypothyroidismZ;
+	private Integer hypothyroidismE;
 	private Integer hypothyroidismTotal;
 	
 	private Integer hypokalemiaBdq;
@@ -171,6 +251,11 @@ public class PVDataTable3 {
 	private Integer hypokalemiaCm;
 	private Integer hypokalemiaMfx;
 	private Integer hypokalemiaLfx;
+	private Integer hypokalemiaCyc;
+	private Integer hypokalemiaPas;
+	private Integer hypokalemiaPto;
+	private Integer hypokalemiaZ;
+	private Integer hypokalemiaE;
 	private Integer hypokalemiaTotal;
 	
 	private Integer pancreatitisBdq;
@@ -181,6 +266,11 @@ public class PVDataTable3 {
 	private Integer pancreatitisCm;
 	private Integer pancreatitisMfx;
 	private Integer pancreatitisLfx;
+	private Integer pancreatitisCyc;
+	private Integer pancreatitisPas;
+	private Integer pancreatitisPto;
+	private Integer pancreatitisZ;
+	private Integer pancreatitisE;
 	private Integer pancreatitisTotal;
 	
 	private Integer phospholipidosisBdq;
@@ -191,6 +281,11 @@ public class PVDataTable3 {
 	private Integer phospholipidosisCm;
 	private Integer phospholipidosisMfx;
 	private Integer phospholipidosisLfx;
+	private Integer phospholipidosisCyc;
+	private Integer phospholipidosisPas;
+	private Integer phospholipidosisPto;
+	private Integer phospholipidosisZ;
+	private Integer phospholipidosisE;
 	private Integer phospholipidosisTotal;
 	
 	private Integer renalFailureBdq;
@@ -201,6 +296,11 @@ public class PVDataTable3 {
 	private Integer renalFailureCm;
 	private Integer renalFailureMfx;
 	private Integer renalFailureLfx;
+	private Integer renalFailureCyc;
+	private Integer renalFailurePas;
+	private Integer renalFailurePto;
+	private Integer renalFailureZ;
+	private Integer renalFailureE;
 	private Integer renalFailureTotal;
 	
 	private Integer totalBdq;
@@ -211,219 +311,329 @@ public class PVDataTable3 {
 	private Integer totalCm;
 	private Integer totalMfx;
 	private Integer totalLfx;
+	private Integer totalCyc;
+	private Integer totalPas;
+	private Integer totalPto;
+	private Integer totalZ;
+	private Integer totalE;
 	private Integer totalTotal;
 	
 	
 	public PVDataTable3() {
-		  saeBdq = 0;
-		  saeDlm = 0;
-		  saeCfz = 0;
-		  saeLzd = 0;
-		  saeAm = 0;
-		  saeCm = 0;
-		  saeMfx = 0;
-		  saeLfx = 0;
-		  saeTotal = 0;
+		 saeBdq = 0;
+		 saeDlm = 0;
+		 saeCfz = 0;
+		 saeLzd = 0;
+		 saeAm = 0;
+		 saeCm = 0;
+		 saeMfx = 0;
+		 saeLfx = 0;
+		 saeCyc = 0;
+		 saePas = 0;
+		 saePto = 0;
+		 saeZ = 0;
+		 saeE = 0;
+		 saeTotal = 0;
 		
-		  deathBdq = 0;
-		  deathDlm = 0;
-		  deathCfz = 0;
-		  deathLzd = 0;
-		  deathAm = 0;
-		  deathCm = 0;
-		  deathMfx = 0;
-		  deathLfx = 0;
-		  deathTotal = 0;
+		 deathBdq = 0;
+		 deathDlm = 0;
+		 deathCfz = 0;
+		 deathLzd = 0;
+		 deathAm = 0;
+		 deathCm = 0;
+		 deathMfx = 0;
+		 deathLfx = 0;
+		 deathCyc = 0;
+		 deathPas = 0;
+		 deathPto = 0;
+		 deathZ = 0;
+		 deathE = 0;
+		 deathTotal = 0;
 		
-		  hospitalizationBdq = 0;
-		  hospitalizationDlm = 0;
-		  hospitalizationCfz = 0;
-		  hospitalizationLzd = 0;
-		  hospitalizationAm = 0;
-		  hospitalizationCm = 0;
-		  hospitalizationMfx = 0;
-		  hospitalizationLfx = 0;
-		  hospitalizationTotal = 0;
+		 hospitalizationBdq = 0;
+		 hospitalizationDlm = 0;
+		 hospitalizationCfz = 0;
+		 hospitalizationLzd = 0;
+		 hospitalizationAm = 0;
+		 hospitalizationCm = 0;
+		 hospitalizationMfx = 0;
+		 hospitalizationLfx = 0;
+		 hospitalizationCyc = 0;
+		 hospitalizationPas = 0;
+		 hospitalizationPto = 0;
+		 hospitalizationZ = 0;
+		 hospitalizationE = 0;
+		 hospitalizationTotal = 0;
 		
-		  disabilityBdq = 0;
-		  disabilityDlm = 0;
-		  disabilityCfz = 0;
-		  disabilityLzd = 0;
-		  disabilityAm = 0;
-		  disabilityCm = 0;
-		  disabilityMfx = 0;
-		  disabilityLfx = 0;
-		  disabilityTotal = 0;
+		 disabilityBdq = 0;
+		 disabilityDlm = 0;
+		 disabilityCfz = 0;
+		 disabilityLzd = 0;
+		 disabilityAm = 0;
+		 disabilityCm = 0;
+		 disabilityMfx = 0;
+		 disabilityLfx = 0;
+		 disabilityCyc = 0;
+		 disabilityPas = 0;
+		 disabilityPto = 0;
+		 disabilityZ = 0;
+		 disabilityE = 0;
+		 disabilityTotal = 0;
 		
-		  congenitalAbnormalityBdq = 0;
-		  congenitalAbnormalityDlm = 0;
-		  congenitalAbnormalityCfz = 0;
-		  congenitalAbnormalityLzd = 0;
-		  congenitalAbnormalityAm = 0;
-		  congenitalAbnormalityCm = 0;
-		  congenitalAbnormalityMfx = 0;
-		  congenitalAbnormalityLfx = 0;	
-		  congenitalAbnormalityTotal = 0;
+		 congenitalAbnormalityBdq = 0;
+		 congenitalAbnormalityDlm = 0;
+		 congenitalAbnormalityCfz = 0;
+		 congenitalAbnormalityLzd = 0;
+		 congenitalAbnormalityAm = 0;
+		 congenitalAbnormalityCm = 0;
+		 congenitalAbnormalityMfx = 0;
+		 congenitalAbnormalityLfx = 0;	
+		 congenitalAbnormalityCyc = 0;
+		 congenitalAbnormalityPas = 0;
+		 congenitalAbnormalityPto = 0;
+		 congenitalAbnormalityZ = 0;
+		 congenitalAbnormalityE = 0;
+		 congenitalAbnormalityTotal = 0;
 		
-		  lifeThreateningExperienceBdq = 0;
-		  lifeThreateningExperienceDlm = 0;
-		  lifeThreateningExperienceCfz = 0;
-		  lifeThreateningExperienceLzd = 0;
-		  lifeThreateningExperienceAm = 0;
-		  lifeThreateningExperienceCm = 0;
-		  lifeThreateningExperienceMfx = 0;
-		  lifeThreateningExperienceLfx = 0;
-		  lifeThreateningExperienceTotal = 0;
+		 lifeThreateningExperienceBdq = 0;
+		 lifeThreateningExperienceDlm = 0;
+		 lifeThreateningExperienceCfz = 0;
+		 lifeThreateningExperienceLzd = 0;
+		 lifeThreateningExperienceAm = 0;
+		 lifeThreateningExperienceCm = 0;
+		 lifeThreateningExperienceMfx = 0;
+		 lifeThreateningExperienceLfx = 0;
+		 lifeThreateningExperienceCyc = 0;
+		 lifeThreateningExperiencePas = 0;
+		 lifeThreateningExperiencePto = 0;
+		 lifeThreateningExperienceZ = 0;
+		 lifeThreateningExperienceE = 0;
+		 lifeThreateningExperienceTotal = 0;
 		
-		  specialInterestBdq = 0;
-		  specialInterestDlm = 0;
-		  specialInterestCfz = 0;
-		  specialInterestLzd = 0;
-		  specialInterestAm = 0;
-		  specialInterestCm = 0;
-		  specialInterestMfx = 0;
-		  specialInterestLfx = 0;
-		  specialInterestTotal = 0;
+		 specialInterestBdq = 0;
+		 specialInterestDlm = 0;
+		 specialInterestCfz = 0;
+		 specialInterestLzd = 0;
+		 specialInterestAm = 0;
+		 specialInterestCm = 0;
+		 specialInterestMfx = 0;
+		 specialInterestLfx = 0;
+		 specialInterestCyc = 0;
+		 specialInterestPas = 0;
+		 specialInterestPto = 0;
+		 specialInterestZ = 0;
+		 specialInterestE = 0;
+		 specialInterestTotal = 0;
 		
-		  peripheralNeuropathyBdq = 0;
-		  peripheralNeuropathyDlm = 0;
-		  peripheralNeuropathyCfz = 0;
-		  peripheralNeuropathyLzd = 0;
-		  peripheralNeuropathyAm = 0;
-		  peripheralNeuropathyCm = 0;
-		  peripheralNeuropathyMfx = 0;
-		  peripheralNeuropathyLfx = 0;
-		  peripheralNeuropathyTotal = 0;
+		 peripheralNeuropathyBdq = 0;
+		 peripheralNeuropathyDlm = 0;
+		 peripheralNeuropathyCfz = 0;
+		 peripheralNeuropathyLzd = 0;
+		 peripheralNeuropathyAm = 0;
+		 peripheralNeuropathyCm = 0;
+		 peripheralNeuropathyMfx = 0;
+		 peripheralNeuropathyLfx = 0;
+		 peripheralNeuropathyCyc = 0;
+		 peripheralNeuropathyPas = 0;
+		 peripheralNeuropathyPto = 0;
+		 peripheralNeuropathyZ = 0;
+		 peripheralNeuropathyE = 0;
+		 peripheralNeuropathyTotal = 0;
 		
-		  psychiatricDisorderBdq = 0;
-		  psychiatricDisorderDlm = 0;
-		  psychiatricDisorderCfz = 0;
-		  psychiatricDisorderLzd = 0;
-		  psychiatricDisorderAm = 0;
-		  psychiatricDisorderCm = 0;
-		  psychiatricDisorderMfx = 0;
-		  psychiatricDisorderLfx = 0;
-		  psychiatricDisorderTotal = 0;
+		 psychiatricDisorderBdq = 0;
+		 psychiatricDisorderDlm = 0;
+		 psychiatricDisorderCfz = 0;
+		 psychiatricDisorderLzd = 0;
+		 psychiatricDisorderAm = 0;
+		 psychiatricDisorderCm = 0;
+		 psychiatricDisorderMfx = 0;
+		 psychiatricDisorderLfx = 0;
+		 psychiatricDisorderCyc = 0;
+		 psychiatricDisorderPas = 0;
+		 psychiatricDisorderPto = 0;
+		 psychiatricDisorderZ = 0;
+		 psychiatricDisorderE = 0;
+		 psychiatricDisorderTotal = 0;
 		
-		  opticNerveDisorderBdq = 0;
-		  opticNerveDisorderDlm = 0;
-		  opticNerveDisorderCfz = 0;
-		  opticNerveDisorderLzd = 0;
-		  opticNerveDisorderAm = 0;
-		  opticNerveDisorderCm = 0;
-		  opticNerveDisorderMfx = 0;
-		  opticNerveDisorderLfx = 0;
-		  opticNerveDisorderTotal = 0;
+		 opticNerveDisorderBdq = 0;
+		 opticNerveDisorderDlm = 0;
+		 opticNerveDisorderCfz = 0;
+		 opticNerveDisorderLzd = 0;
+		 opticNerveDisorderAm = 0;
+		 opticNerveDisorderCm = 0;
+		 opticNerveDisorderMfx = 0;
+		 opticNerveDisorderLfx = 0;
+		 opticNerveDisorderCyc = 0;
+		 opticNerveDisorderPas = 0;
+		 opticNerveDisorderPto = 0;
+		 opticNerveDisorderZ = 0;
+		 opticNerveDisorderE = 0;
+		 opticNerveDisorderTotal = 0;
 		
-		  ototoxicityBdq = 0;
-		  ototoxicityDlm = 0;
-		  ototoxicityCfz = 0;
-		  ototoxicityLzd = 0;
-		  ototoxicityAm = 0;
-		  ototoxicityCm = 0;
-		  ototoxicityMfx = 0;
-		  ototoxicityLfx = 0;
-		  ototoxicityTotal = 0;
+		 ototoxicityBdq = 0;
+		 ototoxicityDlm = 0;
+		 ototoxicityCfz = 0;
+		 ototoxicityLzd = 0;
+		 ototoxicityAm = 0;
+		 ototoxicityCm = 0;
+		 ototoxicityMfx = 0;
+		 ototoxicityLfx = 0;
+		 ototoxicityCyc = 0;
+		 ototoxicityPas = 0;
+		 ototoxicityPto = 0;
+		 ototoxicityZ = 0;
+		 ototoxicityE = 0;
+		 ototoxicityTotal = 0;
 		
-		  myelosuppressionBdq = 0;
-		  myelosuppressionDlm = 0;
-		  myelosuppressionCfz = 0;
-		  myelosuppressionLzd = 0;
-		  myelosuppressionAm = 0;
-		  myelosuppressionCm = 0;
-		  myelosuppressionMfx = 0;
-		  myelosuppressionLfx = 0;
-		  myelosuppressionTotal = 0;
+		 myelosuppressionBdq = 0;
+		 myelosuppressionDlm = 0;
+		 myelosuppressionCfz = 0;
+		 myelosuppressionLzd = 0;
+		 myelosuppressionAm = 0;
+		 myelosuppressionCm = 0;
+		 myelosuppressionMfx = 0;
+		 myelosuppressionLfx = 0;
+		 myelosuppressionCyc = 0;
+		 myelosuppressionPas = 0;
+		 myelosuppressionPto = 0;
+		 myelosuppressionZ = 0;
+		 myelosuppressionE = 0;
+		 myelosuppressionTotal = 0;
 
-		  qtProlongationBdq = 0;
-		  qtProlongationDlm = 0;
-		  qtProlongationCfz = 0;
-		  qtProlongationLzd = 0;
-		  qtProlongationAm = 0;
-		  qtProlongationCm = 0;
-		  qtProlongationMfx = 0;
-		  qtProlongationLfx = 0;
-		  qtProlongationTotal = 0;
+		 qtProlongationBdq = 0;
+		 qtProlongationDlm = 0;
+		 qtProlongationCfz = 0;
+		 qtProlongationLzd = 0;
+		 qtProlongationAm = 0;
+		 qtProlongationCm = 0;
+		 qtProlongationMfx = 0;
+		 qtProlongationLfx = 0;
+		 qtProlongationCyc = 0;
+		 qtProlongationPas = 0;
+		 qtProlongationPto = 0;
+		 qtProlongationZ = 0;
+		 qtProlongationE = 0;
+		 qtProlongationTotal = 0;
 		
-		  lacticAcidosisBdq = 0;
-		  lacticAcidosisDlm = 0;
-		  lacticAcidosisCfz = 0;
-		  lacticAcidosisLzd = 0;
-		  lacticAcidosisAm = 0;
-		  lacticAcidosisCm = 0;
-		  lacticAcidosisMfx = 0;
-		  lacticAcidosisLfx = 0;
-		  lacticAcidosisTotal = 0;
+		 lacticAcidosisBdq = 0;
+		 lacticAcidosisDlm = 0;
+		 lacticAcidosisCfz = 0;
+		 lacticAcidosisLzd = 0;
+		 lacticAcidosisAm = 0;
+		 lacticAcidosisCm = 0;
+		 lacticAcidosisMfx = 0;
+		 lacticAcidosisLfx = 0;
+		 lacticAcidosisCyc = 0;
+		 lacticAcidosisPas = 0;
+		 lacticAcidosisPto = 0;
+		 lacticAcidosisZ = 0;
+		 lacticAcidosisE = 0;
+		 lacticAcidosisTotal = 0;
 		
-		  hepatitisBdq = 0;
-		  hepatitisDlm = 0;
-		  hepatitisCfz = 0;
-		  hepatitisLzd = 0;
-		  hepatitisAm = 0;
-		  hepatitisCm = 0;
-		  hepatitisMfx = 0;
-		  hepatitisLfx = 0;
-		  hepatitisTotal = 0;
+		 hepatitisBdq = 0;
+		 hepatitisDlm = 0;
+		 hepatitisCfz = 0;
+		 hepatitisLzd = 0;
+		 hepatitisAm = 0;
+		 hepatitisCm = 0;
+		 hepatitisMfx = 0;
+		 hepatitisLfx = 0;
+		 hepatitisCyc = 0;
+		 hepatitisPas = 0;
+		 hepatitisPto = 0;
+		 hepatitisZ = 0;
+		 hepatitisE = 0;
+		 hepatitisTotal = 0;
 		
-		  hypothyroidismBdq = 0;
-		  hypothyroidismDlm = 0;
-		  hypothyroidismCfz = 0;
-		  hypothyroidismLzd = 0;
-		  hypothyroidismAm = 0;
-		  hypothyroidismCm = 0;
-		  hypothyroidismMfx = 0;
-		  hypothyroidismLfx = 0;
-		  hypothyroidismTotal = 0;
+		 hypothyroidismBdq = 0;
+		 hypothyroidismDlm = 0;
+		 hypothyroidismCfz = 0;
+		 hypothyroidismLzd = 0;
+		 hypothyroidismAm = 0;
+		 hypothyroidismCm = 0;
+		 hypothyroidismMfx = 0;
+		 hypothyroidismLfx = 0;
+		 hypothyroidismCyc = 0;
+		 hypothyroidismPas = 0;
+		 hypothyroidismPto = 0;
+		 hypothyroidismZ = 0;
+		 hypothyroidismE = 0;
+		 hypothyroidismTotal = 0;
 		
-		  hypokalemiaBdq = 0;
-		  hypokalemiaDlm = 0;
-		  hypokalemiaCfz = 0;
-		  hypokalemiaLzd = 0;
-		  hypokalemiaAm = 0;
-		  hypokalemiaCm = 0;
-		  hypokalemiaMfx = 0;
-		  hypokalemiaLfx = 0;
-		  hypokalemiaTotal = 0;
+		 hypokalemiaBdq = 0;
+		 hypokalemiaDlm = 0;
+		 hypokalemiaCfz = 0;
+		 hypokalemiaLzd = 0;
+		 hypokalemiaAm = 0;
+		 hypokalemiaCm = 0;
+		 hypokalemiaMfx = 0;
+		 hypokalemiaLfx = 0;
+		 hypokalemiaCyc = 0;
+		 hypokalemiaPas = 0;
+		 hypokalemiaPto = 0;
+		 hypokalemiaZ = 0;
+		 hypokalemiaE = 0;
+		 hypokalemiaTotal = 0;
 		
-		  pancreatitisBdq = 0;
-		  pancreatitisDlm = 0;
-		  pancreatitisCfz = 0;
-		  pancreatitisLzd = 0;
-		  pancreatitisAm = 0;
-		  pancreatitisCm = 0;
-		  pancreatitisMfx = 0;
-		  pancreatitisLfx = 0;
-		  pancreatitisTotal = 0;
+		 pancreatitisBdq = 0;
+		 pancreatitisDlm = 0;
+		 pancreatitisCfz = 0;
+		 pancreatitisLzd = 0;
+		 pancreatitisAm = 0;
+		 pancreatitisCm = 0;
+		 pancreatitisMfx = 0;
+		 pancreatitisLfx = 0;
+		 pancreatitisCyc = 0;
+		 pancreatitisPas = 0;
+		 pancreatitisPto = 0;
+		 pancreatitisZ = 0;
+		 pancreatitisE = 0;
+		 pancreatitisTotal = 0;
 		
-		  phospholipidosisBdq = 0;
-		  phospholipidosisDlm = 0;
-		  phospholipidosisCfz = 0;
-		  phospholipidosisLzd = 0;
-		  phospholipidosisAm = 0;
-		  phospholipidosisCm = 0;
-		  phospholipidosisMfx = 0;
-		  phospholipidosisLfx = 0;
-		  phospholipidosisTotal = 0;
+		 phospholipidosisBdq = 0;
+		 phospholipidosisDlm = 0;
+		 phospholipidosisCfz = 0;
+		 phospholipidosisLzd = 0;
+		 phospholipidosisAm = 0;
+		 phospholipidosisCm = 0;
+		 phospholipidosisMfx = 0;
+		 phospholipidosisLfx = 0;
+		 phospholipidosisCyc = 0;
+		 phospholipidosisPas = 0;
+		 phospholipidosisPto = 0;
+		 phospholipidosisZ = 0;
+		 phospholipidosisE = 0;
+		 phospholipidosisTotal = 0;
 		
-		  renalFailureBdq = 0;
-		  renalFailureDlm = 0;
-		  renalFailureCfz = 0;
-		  renalFailureLzd = 0;
-		  renalFailureAm = 0;
-		  renalFailureCm = 0;
-		  renalFailureMfx = 0;
-		  renalFailureLfx = 0;
-		  renalFailureTotal = 0;
+		 renalFailureBdq = 0;
+		 renalFailureDlm = 0;
+		 renalFailureCfz = 0;
+		 renalFailureLzd = 0;
+		 renalFailureAm = 0;
+		 renalFailureCm = 0;
+		 renalFailureMfx = 0;
+		 renalFailureLfx = 0;
+		 renalFailureCyc = 0;
+		 renalFailurePas = 0;
+		 renalFailurePto = 0;
+		 renalFailureZ = 0;
+		 renalFailureE = 0;
+		 renalFailureTotal = 0;
 		
-		  totalBdq = 0;
-		  totalDlm = 0;
-		  totalCfz = 0;
-		  totalLzd = 0;
-		  totalAm = 0;
-		  totalCm = 0;
-		  totalMfx = 0;
-		  totalLfx = 0;
-		  totalTotal = 0;
+		 totalBdq = 0;
+		 totalDlm = 0;
+		 totalCfz = 0;
+		 totalLzd = 0;
+		 totalAm = 0;
+		 totalCm = 0;
+		 totalMfx = 0;
+		 totalLfx = 0;
+		 totalCyc = 0;
+		 totalPas = 0;
+		 totalPto = 0;
+		 totalZ = 0;
+		 totalE = 0;
+		 totalTotal = 0;
 		
 	}
 	public Integer getSaeBdq() {
@@ -1568,6 +1778,636 @@ public class PVDataTable3 {
 	}
 	public void setTotalLfx(Integer totalLfx) {
 		this.totalLfx = totalLfx;
+	}
+	public Integer getSaeCyc() {
+		return saeCyc;
+	}
+	public void setSaeCyc(Integer saeCyc) {
+		this.saeCyc = saeCyc;
+	}
+	public Integer getSaePas() {
+		return saePas;
+	}
+	public void setSaePas(Integer saePas) {
+		this.saePas = saePas;
+	}
+	public Integer getSaePto() {
+		return saePto;
+	}
+	public void setSaePto(Integer saePto) {
+		this.saePto = saePto;
+	}
+	public Integer getSaeZ() {
+		return saeZ;
+	}
+	public void setSaeZ(Integer saeZ) {
+		this.saeZ = saeZ;
+	}
+	public Integer getSaeE() {
+		return saeE;
+	}
+	public void setSaeE(Integer saeE) {
+		this.saeE = saeE;
+	}
+	public Integer getDeathCyc() {
+		return deathCyc;
+	}
+	public void setDeathCyc(Integer deathCyc) {
+		this.deathCyc = deathCyc;
+	}
+	public Integer getDeathPas() {
+		return deathPas;
+	}
+	public void setDeathPas(Integer deathPas) {
+		this.deathPas = deathPas;
+	}
+	public Integer getDeathPto() {
+		return deathPto;
+	}
+	public void setDeathPto(Integer deathPto) {
+		this.deathPto = deathPto;
+	}
+	public Integer getDeathZ() {
+		return deathZ;
+	}
+	public void setDeathZ(Integer deathZ) {
+		this.deathZ = deathZ;
+	}
+	public Integer getDeathE() {
+		return deathE;
+	}
+	public void setDeathE(Integer deathE) {
+		this.deathE = deathE;
+	}
+	public Integer getHospitalizationCyc() {
+		return hospitalizationCyc;
+	}
+	public void setHospitalizationCyc(Integer hosptializationCyc) {
+		this.hospitalizationCyc = hosptializationCyc;
+	}
+	public Integer getHospitalizationPas() {
+		return hospitalizationPas;
+	}
+	public void setHospitalizationPas(Integer hosptializationPas) {
+		this.hospitalizationPas = hosptializationPas;
+	}
+	public Integer getHospitalizationPto() {
+		return hospitalizationPto;
+	}
+	public void setHospitalizationPto(Integer hosptializationPto) {
+		this.hospitalizationPto = hosptializationPto;
+	}
+	public Integer getHospitalizationZ() {
+		return hospitalizationZ;
+	}
+	public void setHospitalizationZ(Integer hosptializationZ) {
+		this.hospitalizationZ = hosptializationZ;
+	}
+	public Integer getHospitalizationE() {
+		return hospitalizationE;
+	}
+	public void setHospitalizationE(Integer hosptializationE) {
+		this.hospitalizationE = hosptializationE;
+	}
+	public Integer getDisabilityCyc() {
+		return disabilityCyc;
+	}
+	public void setDisabilityCyc(Integer disabilityCyc) {
+		this.disabilityCyc = disabilityCyc;
+	}
+	public Integer getDisabilityPas() {
+		return disabilityPas;
+	}
+	public void setDisabilityPas(Integer disabilityPas) {
+		this.disabilityPas = disabilityPas;
+	}
+	public Integer getDisabilityPto() {
+		return disabilityPto;
+	}
+	public void setDisabilityPto(Integer disabilityPto) {
+		this.disabilityPto = disabilityPto;
+	}
+	public Integer getDisabilityZ() {
+		return disabilityZ;
+	}
+	public void setDisabilityZ(Integer disabilityZ) {
+		this.disabilityZ = disabilityZ;
+	}
+	public Integer getDisabilityE() {
+		return disabilityE;
+	}
+	public void setDisabilityE(Integer disabilityE) {
+		this.disabilityE = disabilityE;
+	}
+	public Integer getCongenitalAbnormalityCyc() {
+		return congenitalAbnormalityCyc;
+	}
+	public void setCongenitalAbnormalityCyc(Integer congenitalAbnormalityCyc) {
+		this.congenitalAbnormalityCyc = congenitalAbnormalityCyc;
+	}
+	public Integer getCongenitalAbnormalityPas() {
+		return congenitalAbnormalityPas;
+	}
+	public void setCongenitalAbnormalityPas(Integer congenitalAbnormalityPas) {
+		this.congenitalAbnormalityPas = congenitalAbnormalityPas;
+	}
+	public Integer getCongenitalAbnormalityPto() {
+		return congenitalAbnormalityPto;
+	}
+	public void setCongenitalAbnormalityPto(Integer congenitalAbnormalityPto) {
+		this.congenitalAbnormalityPto = congenitalAbnormalityPto;
+	}
+	public Integer getCongenitalAbnormalityZ() {
+		return congenitalAbnormalityZ;
+	}
+	public void setCongenitalAbnormalityZ(Integer congenitalAbnormalityZ) {
+		this.congenitalAbnormalityZ = congenitalAbnormalityZ;
+	}
+	public Integer getCongenitalAbnormalityE() {
+		return congenitalAbnormalityE;
+	}
+	public void setCongenitalAbnormalityE(Integer congenitalAbnormailityE) {
+		this.congenitalAbnormalityE = congenitalAbnormailityE;
+	}
+	public Integer getLifeThreateningExperienceCyc() {
+		return lifeThreateningExperienceCyc;
+	}
+	public void setLifeThreateningExperienceCyc(Integer lifeThreateningExperienceCyc) {
+		this.lifeThreateningExperienceCyc = lifeThreateningExperienceCyc;
+	}
+	public Integer getLifeThreateningExperiencePas() {
+		return lifeThreateningExperiencePas;
+	}
+	public void setLifeThreateningExperiencePas(Integer lifeThreateningExperiencePas) {
+		this.lifeThreateningExperiencePas = lifeThreateningExperiencePas;
+	}
+	public Integer getLifeThreateningExperiencePto() {
+		return lifeThreateningExperiencePto;
+	}
+	public void setLifeThreateningExperiencePto(Integer lifeThreateningExperiencePto) {
+		this.lifeThreateningExperiencePto = lifeThreateningExperiencePto;
+	}
+	public Integer getLifeThreateningExperienceZ() {
+		return lifeThreateningExperienceZ;
+	}
+	public void setLifeThreateningExperienceZ(Integer lifeThreateningExperienceZ) {
+		this.lifeThreateningExperienceZ = lifeThreateningExperienceZ;
+	}
+	public Integer getLifeThreateningExperienceE() {
+		return lifeThreateningExperienceE;
+	}
+	public void setLifeThreateningExperienceE(Integer lifeThreateningExperienceE) {
+		this.lifeThreateningExperienceE = lifeThreateningExperienceE;
+	}
+	public Integer getSpecialInterestCyc() {
+		return specialInterestCyc;
+	}
+	public void setSpecialInterestCyc(Integer specialInterestCyc) {
+		this.specialInterestCyc = specialInterestCyc;
+	}
+	public Integer getSpecialInterestPas() {
+		return specialInterestPas;
+	}
+	public void setSpecialInterestPas(Integer specialInterestPas) {
+		this.specialInterestPas = specialInterestPas;
+	}
+	public Integer getSpecialInterestPto() {
+		return specialInterestPto;
+	}
+	public void setSpecialInterestPto(Integer specialInterestPto) {
+		this.specialInterestPto = specialInterestPto;
+	}
+	public Integer getSpecialInterestZ() {
+		return specialInterestZ;
+	}
+	public void setSpecialInterestZ(Integer specialInterestZ) {
+		this.specialInterestZ = specialInterestZ;
+	}
+	public Integer getSpecialInterestE() {
+		return specialInterestE;
+	}
+	public void setSpecialInterestE(Integer specialInterestE) {
+		this.specialInterestE = specialInterestE;
+	}
+	public Integer getPeripheralNeuropathyCyc() {
+		return peripheralNeuropathyCyc;
+	}
+	public void setPeripheralNeuropathyCyc(Integer peripheralNeuropathyCyc) {
+		this.peripheralNeuropathyCyc = peripheralNeuropathyCyc;
+	}
+	public Integer getPeripheralNeuropathyPas() {
+		return peripheralNeuropathyPas;
+	}
+	public void setPeripheralNeuropathyPas(Integer peripheralNeuropathyPas) {
+		this.peripheralNeuropathyPas = peripheralNeuropathyPas;
+	}
+	public Integer getPeripheralNeuropathyPto() {
+		return peripheralNeuropathyPto;
+	}
+	public void setPeripheralNeuropathyPto(Integer peripheralNeuropathyPto) {
+		this.peripheralNeuropathyPto = peripheralNeuropathyPto;
+	}
+	public Integer getPeripheralNeuropathyZ() {
+		return peripheralNeuropathyZ;
+	}
+	public void setPeripheralNeuropathyZ(Integer peripheralNeuropathyZ) {
+		this.peripheralNeuropathyZ = peripheralNeuropathyZ;
+	}
+	public Integer getPeripheralNeuropathyE() {
+		return peripheralNeuropathyE;
+	}
+	public void setPeripheralNeuropathyE(Integer peripheralNeuropathyE) {
+		this.peripheralNeuropathyE = peripheralNeuropathyE;
+	}
+	public Integer getPsychiatricDisorderCyc() {
+		return psychiatricDisorderCyc;
+	}
+	public void setPsychiatricDisorderCyc(Integer psychiatricDisorderCyc) {
+		this.psychiatricDisorderCyc = psychiatricDisorderCyc;
+	}
+	public Integer getPsychiatricDisorderPas() {
+		return psychiatricDisorderPas;
+	}
+	public void setPsychiatricDisorderPas(Integer psychiatricDisorderPas) {
+		this.psychiatricDisorderPas = psychiatricDisorderPas;
+	}
+	public Integer getPsychiatricDisorderPto() {
+		return psychiatricDisorderPto;
+	}
+	public void setPsychiatricDisorderPto(Integer psychiatricDisorderPto) {
+		this.psychiatricDisorderPto = psychiatricDisorderPto;
+	}
+	public Integer getPsychiatricDisorderZ() {
+		return psychiatricDisorderZ;
+	}
+	public void setPsychiatricDisorderZ(Integer psychiatricDisorderZ) {
+		this.psychiatricDisorderZ = psychiatricDisorderZ;
+	}
+	public Integer getPsychiatricDisorderE() {
+		return psychiatricDisorderE;
+	}
+	public void setPsychiatricDisorderE(Integer psychiatricDisorderE) {
+		this.psychiatricDisorderE = psychiatricDisorderE;
+	}
+	public Integer getOpticNerveDisorderCyc() {
+		return opticNerveDisorderCyc;
+	}
+	public void setOpticNerveDisorderCyc(Integer opticNerveDisorderCyc) {
+		this.opticNerveDisorderCyc = opticNerveDisorderCyc;
+	}
+	public Integer getOpticNerveDisorderPas() {
+		return opticNerveDisorderPas;
+	}
+	public void setOpticNerveDisorderPas(Integer opticNerveDisorderPas) {
+		this.opticNerveDisorderPas = opticNerveDisorderPas;
+	}
+	public Integer getOpticNerveDisorderPto() {
+		return opticNerveDisorderPto;
+	}
+	public void setOpticNerveDisorderPto(Integer opticNerveDisorderPto) {
+		this.opticNerveDisorderPto = opticNerveDisorderPto;
+	}
+	public Integer getOpticNerveDisorderZ() {
+		return opticNerveDisorderZ;
+	}
+	public void setOpticNerveDisorderZ(Integer opticNerveDisorderZ) {
+		this.opticNerveDisorderZ = opticNerveDisorderZ;
+	}
+	public Integer getOpticNerveDisorderE() {
+		return opticNerveDisorderE;
+	}
+	public void setOpticNerveDisorderE(Integer opticNerveDisorderE) {
+		this.opticNerveDisorderE = opticNerveDisorderE;
+	}
+	public Integer getOtotoxicityCyc() {
+		return ototoxicityCyc;
+	}
+	public void setOtotoxicityCyc(Integer ototoxicityCyc) {
+		this.ototoxicityCyc = ototoxicityCyc;
+	}
+	public Integer getOtotoxicityPas() {
+		return ototoxicityPas;
+	}
+	public void setOtotoxicityPas(Integer ototoxicityPas) {
+		this.ototoxicityPas = ototoxicityPas;
+	}
+	public Integer getOtotoxicityPto() {
+		return ototoxicityPto;
+	}
+	public void setOtotoxicityPto(Integer ototoxicityPto) {
+		this.ototoxicityPto = ototoxicityPto;
+	}
+	public Integer getOtotoxicityZ() {
+		return ototoxicityZ;
+	}
+	public void setOtotoxicityZ(Integer ototoxicityZ) {
+		this.ototoxicityZ = ototoxicityZ;
+	}
+	public Integer getOtotoxicityE() {
+		return ototoxicityE;
+	}
+	public void setOtotoxicityE(Integer ototoxicityE) {
+		this.ototoxicityE = ototoxicityE;
+	}
+	public Integer getMyelosuppressionCyc() {
+		return myelosuppressionCyc;
+	}
+	public void setMyelosuppressionCyc(Integer myelosuppressionCyc) {
+		this.myelosuppressionCyc = myelosuppressionCyc;
+	}
+	public Integer getMyelosuppressionPas() {
+		return myelosuppressionPas;
+	}
+	public void setMyelosuppressionPas(Integer myelosuppressionPas) {
+		this.myelosuppressionPas = myelosuppressionPas;
+	}
+	public Integer getMyelosuppressionPto() {
+		return myelosuppressionPto;
+	}
+	public void setMyelosuppressionPto(Integer myelosuppressionPto) {
+		this.myelosuppressionPto = myelosuppressionPto;
+	}
+	public Integer getMyelosuppressionZ() {
+		return myelosuppressionZ;
+	}
+	public void setMyelosuppressionZ(Integer myelosuppressionZ) {
+		this.myelosuppressionZ = myelosuppressionZ;
+	}
+	public Integer getMyelosuppressionE() {
+		return myelosuppressionE;
+	}
+	public void setMyelosuppressionE(Integer myelosuppressionE) {
+		this.myelosuppressionE = myelosuppressionE;
+	}
+	public Integer getQtProlongationCyc() {
+		return qtProlongationCyc;
+	}
+	public void setQtProlongationCyc(Integer qtProlongationCyc) {
+		this.qtProlongationCyc = qtProlongationCyc;
+	}
+	public Integer getQtProlongationPas() {
+		return qtProlongationPas;
+	}
+	public void setQtProlongationPas(Integer qtProlongationPas) {
+		this.qtProlongationPas = qtProlongationPas;
+	}
+	public Integer getQtProlongationPto() {
+		return qtProlongationPto;
+	}
+	public void setQtProlongationPto(Integer qtProlongationPto) {
+		this.qtProlongationPto = qtProlongationPto;
+	}
+	public Integer getQtProlongationZ() {
+		return qtProlongationZ;
+	}
+	public void setQtProlongationZ(Integer qtProlongationZ) {
+		this.qtProlongationZ = qtProlongationZ;
+	}
+	public Integer getQtProlongationE() {
+		return qtProlongationE;
+	}
+	public void setQtProlongationE(Integer qtProlongationE) {
+		this.qtProlongationE = qtProlongationE;
+	}
+	public Integer getLacticAcidosisCyc() {
+		return lacticAcidosisCyc;
+	}
+	public void setLacticAcidosisCyc(Integer lacticAcidosisCyc) {
+		this.lacticAcidosisCyc = lacticAcidosisCyc;
+	}
+	public Integer getLacticAcidosisPas() {
+		return lacticAcidosisPas;
+	}
+	public void setLacticAcidosisPas(Integer lacticAcidosisPas) {
+		this.lacticAcidosisPas = lacticAcidosisPas;
+	}
+	public Integer getLacticAcidosisPto() {
+		return lacticAcidosisPto;
+	}
+	public void setLacticAcidosisPto(Integer lacticAcidosisPto) {
+		this.lacticAcidosisPto = lacticAcidosisPto;
+	}
+	public Integer getLacticAcidosisZ() {
+		return lacticAcidosisZ;
+	}
+	public void setLacticAcidosisZ(Integer lacticAcidosisZ) {
+		this.lacticAcidosisZ = lacticAcidosisZ;
+	}
+	public Integer getLacticAcidosisE() {
+		return lacticAcidosisE;
+	}
+	public void setLacticAcidosisE(Integer lacticAcidosisE) {
+		this.lacticAcidosisE = lacticAcidosisE;
+	}
+	public Integer getHepatitisCyc() {
+		return hepatitisCyc;
+	}
+	public void setHepatitisCyc(Integer hepatitisCyc) {
+		this.hepatitisCyc = hepatitisCyc;
+	}
+	public Integer getHepatitisPas() {
+		return hepatitisPas;
+	}
+	public void setHepatitisPas(Integer hepatitisPas) {
+		this.hepatitisPas = hepatitisPas;
+	}
+	public Integer getHepatitisPto() {
+		return hepatitisPto;
+	}
+	public void setHepatitisPto(Integer hepatitisPto) {
+		this.hepatitisPto = hepatitisPto;
+	}
+	public Integer getHepatitisZ() {
+		return hepatitisZ;
+	}
+	public void setHepatitisZ(Integer hepatitisZ) {
+		this.hepatitisZ = hepatitisZ;
+	}
+	public Integer getHepatitisE() {
+		return hepatitisE;
+	}
+	public void setHepatitisE(Integer hepatitisE) {
+		this.hepatitisE = hepatitisE;
+	}
+	public Integer getHypothyroidismCyc() {
+		return hypothyroidismCyc;
+	}
+	public void setHypothyroidismCyc(Integer hypothyroidismCyc) {
+		this.hypothyroidismCyc = hypothyroidismCyc;
+	}
+	public Integer getHypothyroidismPas() {
+		return hypothyroidismPas;
+	}
+	public void setHypothyroidismPas(Integer hypothyroidismPas) {
+		this.hypothyroidismPas = hypothyroidismPas;
+	}
+	public Integer getHypothyroidismPto() {
+		return hypothyroidismPto;
+	}
+	public void setHypothyroidismPto(Integer hypothyroidismPto) {
+		this.hypothyroidismPto = hypothyroidismPto;
+	}
+	public Integer getHypothyroidismZ() {
+		return hypothyroidismZ;
+	}
+	public void setHypothyroidismZ(Integer hypothyroidismZ) {
+		this.hypothyroidismZ = hypothyroidismZ;
+	}
+	public Integer getHypothyroidismE() {
+		return hypothyroidismE;
+	}
+	public void setHypothyroidismE(Integer hypothyroidismE) {
+		this.hypothyroidismE = hypothyroidismE;
+	}
+	public Integer getHypokalemiaCyc() {
+		return hypokalemiaCyc;
+	}
+	public void setHypokalemiaCyc(Integer hypokalemiaCyc) {
+		this.hypokalemiaCyc = hypokalemiaCyc;
+	}
+	public Integer getHypokalemiaPas() {
+		return hypokalemiaPas;
+	}
+	public void setHypokalemiaPas(Integer hypokalemiaPas) {
+		this.hypokalemiaPas = hypokalemiaPas;
+	}
+	public Integer getHypokalemiaPto() {
+		return hypokalemiaPto;
+	}
+	public void setHypokalemiaPto(Integer hypokalemiaPto) {
+		this.hypokalemiaPto = hypokalemiaPto;
+	}
+	public Integer getHypokalemiaZ() {
+		return hypokalemiaZ;
+	}
+	public void setHypokalemiaZ(Integer hypokalemiaZ) {
+		this.hypokalemiaZ = hypokalemiaZ;
+	}
+	public Integer getHypokalemiaE() {
+		return hypokalemiaE;
+	}
+	public void setHypokalemiaE(Integer hypokalemiaE) {
+		this.hypokalemiaE = hypokalemiaE;
+	}
+	public Integer getPancreatitisCyc() {
+		return pancreatitisCyc;
+	}
+	public void setPancreatitisCyc(Integer pancreatitisCyc) {
+		this.pancreatitisCyc = pancreatitisCyc;
+	}
+	public Integer getPancreatitisPas() {
+		return pancreatitisPas;
+	}
+	public void setPancreatitisPas(Integer pancreatitisPas) {
+		this.pancreatitisPas = pancreatitisPas;
+	}
+	public Integer getPancreatitisPto() {
+		return pancreatitisPto;
+	}
+	public void setPancreatitisPto(Integer pancreatitisPto) {
+		this.pancreatitisPto = pancreatitisPto;
+	}
+	public Integer getPancreatitisZ() {
+		return pancreatitisZ;
+	}
+	public void setPancreatitisZ(Integer pancreatitisZ) {
+		this.pancreatitisZ = pancreatitisZ;
+	}
+	public Integer getPancreatitisE() {
+		return pancreatitisE;
+	}
+	public void setPancreatitisE(Integer pancreatitisE) {
+		this.pancreatitisE = pancreatitisE;
+	}
+	public Integer getPhospholipidosisCyc() {
+		return phospholipidosisCyc;
+	}
+	public void setPhospholipidosisCyc(Integer phospholipidosisCyc) {
+		this.phospholipidosisCyc = phospholipidosisCyc;
+	}
+	public Integer getPhospholipidosisPas() {
+		return phospholipidosisPas;
+	}
+	public void setPhospholipidosisPas(Integer phospholipidosisPas) {
+		this.phospholipidosisPas = phospholipidosisPas;
+	}
+	public Integer getPhospholipidosisPto() {
+		return phospholipidosisPto;
+	}
+	public void setPhospholipidosisPto(Integer phospholipidosisPto) {
+		this.phospholipidosisPto = phospholipidosisPto;
+	}
+	public Integer getPhospholipidosisZ() {
+		return phospholipidosisZ;
+	}
+	public void setPhospholipidosisZ(Integer phospholipidosisZ) {
+		this.phospholipidosisZ = phospholipidosisZ;
+	}
+	public Integer getPhospholipidosisE() {
+		return phospholipidosisE;
+	}
+	public void setPhospholipidosisE(Integer phopholipidosisE) {
+		this.phospholipidosisE = phospholipidosisE;
+	}
+	public Integer getRenalFailureCyc() {
+		return renalFailureCyc;
+	}
+	public void setRenalFailureCyc(Integer renalFailureCyc) {
+		this.renalFailureCyc = renalFailureCyc;
+	}
+	public Integer getRenalFailurePas() {
+		return renalFailurePas;
+	}
+	public void setRenalFailurePas(Integer renalFailurePas) {
+		this.renalFailurePas = renalFailurePas;
+	}
+	public Integer getRenalFailurePto() {
+		return renalFailurePto;
+	}
+	public void setRenalFailurePto(Integer renalFailurePto) {
+		this.renalFailurePto = renalFailurePto;
+	}
+	public Integer getRenalFailureZ() {
+		return renalFailureZ;
+	}
+	public void setRenalFailureZ(Integer renalFailureZ) {
+		this.renalFailureZ = renalFailureZ;
+	}
+	public Integer getRenalFailureE() {
+		return renalFailureE;
+	}
+	public void setRenalFailureE(Integer renalFailureE) {
+		this.renalFailureE = renalFailureE;
+	}
+	public Integer getTotalCyc() {
+		return totalCyc;
+	}
+	public void setTotalCyc(Integer totalCyc) {
+		this.totalCyc = totalCyc;
+	}
+	public Integer getTotalPas() {
+		return totalPas;
+	}
+	public void setTotalPas(Integer totalPas) {
+		this.totalPas = totalPas;
+	}
+	public Integer getTotalPto() {
+		return totalPto;
+	}
+	public void setTotalPto(Integer totalPto) {
+		this.totalPto = totalPto;
+	}
+	public Integer getTotalZ() {
+		return totalZ;
+	}
+	public void setTotalZ(Integer totalZ) {
+		this.totalZ = totalZ;
+	}
+	public Integer getTotalE() {
+		return totalE;
+	}
+	public void setTotalE(Integer totalE) {
+		this.totalE = totalE;
 	}
 	
 }

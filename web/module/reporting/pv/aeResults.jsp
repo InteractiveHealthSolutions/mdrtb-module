@@ -522,6 +522,11 @@ response.setDateHeader ("Expires", -1);
 			    <th align="center"><spring:message code="mdrtb.pv.cm"/></th>
 			    <th align="center"><spring:message code="mdrtb.pv.mfx"/></th>
 			    <th align="center"><spring:message code="mdrtb.pv.lfx"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.cyc"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.pas"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.pto"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.z"/></th>
+			    <th align="center"><spring:message code="mdrtb.pv.e"/></th>
 			    <th align="center"><spring:message code="mdrtb.pv.total"/></th>
 			  </tr>
 			  <tr>
@@ -534,6 +539,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.saeCm}</td>
 			   	<td align="center">${table3.saeMfx}</td>
 			   	<td align="center">${table3.saeLfx}</td>
+			   	<td align="center">${table3.saeCyc}</td>
+			   	<td align="center">${table3.saePas}</td>
+			   	<td align="center">${table3.saePto}</td>
+			   	<td align="center">${table3.saeZ}</td>
+			   	<td align="center">${table3.saeE}</td>
 			   	<td align="center">${table3.saeTotal}</td>
 			  </tr>
 			  <tr>
@@ -546,6 +556,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.deathCm}</td>
 			   	<td align="center">${table3.deathMfx}</td>
 			   	<td align="center">${table3.deathLfx}</td>
+			   	<td align="center">${table3.deathCyc}</td>
+			   	<td align="center">${table3.deathPas}</td>
+			   	<td align="center">${table3.deathPto}</td>
+			   	<td align="center">${table3.deathZ}</td>
+			   	<td align="center">${table3.deathE}</td>
 			   	<td align="center">${table3.deathTotal}</td>
 			  </tr>
 			  <tr>
@@ -558,6 +573,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.hospitalizationCm}</td>
 			   	<td align="center">${table3.hospitalizationMfx}</td>
 			   	<td align="center">${table3.hospitalizationLfx}</td>
+			   	<td align="center">${table3.hospitalizationCyc}</td>
+			   	<td align="center">${table3.hospitalizationPas}</td>
+			   	<td align="center">${table3.hospitalizationPto}</td>
+			   	<td align="center">${table3.hospitalizationZ}</td>
+			   	<td align="center">${table3.hospitalizationE}</td>
 			   	<td align="center">${table3.hospitalizationTotal}</td>
 			  </tr>
 			  <tr>
@@ -570,6 +590,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.disabilityCm}</td>
 			   	<td align="center">${table3.disabilityMfx}</td>
 			   	<td align="center">${table3.disabilityLfx}</td>
+			   	<td align="center">${table3.disabilityCyc}</td>
+			   	<td align="center">${table3.disabilityPas}</td>
+			   	<td align="center">${table3.disabilityPto}</td>
+			   	<td align="center">${table3.disabilityZ}</td>
+			   	<td align="center">${table3.disabilityE}</td>
 			   	<td align="center">${table3.disabilityTotal}</td>
 			  </tr>
 			  <tr>
@@ -582,6 +607,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.congenitalAbnormalityCm}</td>
 			   	<td align="center">${table3.congenitalAbnormalityMfx}</td>
 			   	<td align="center">${table3.congenitalAbnormalityLfx}</td>
+			   	<td align="center">${table3.congenitalAbnormalityCyc}</td>
+			   	<td align="center">${table3.congenitalAbnormalityPas}</td>
+			   	<td align="center">${table3.congenitalAbnormalityPto}</td>
+			   	<td align="center">${table3.congenitalAbnormalityZ}</td>
+			   	<td align="center">${table3.congenitalAbnormalityE}</td>
 			   	<td align="center">${table3.congenitalAbnormalityTotal}</td>
 			  </tr>
 			  <tr>
@@ -594,6 +624,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.lifeThreateningExperienceCm}</td>
 			   	<td align="center">${table3.lifeThreateningExperienceMfx}</td>
 			   	<td align="center">${table3.lifeThreateningExperienceLfx}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceCyc}</td>
+			   	<td align="center">${table3.lifeThreateningExperiencePas}</td>
+			   	<td align="center">${table3.lifeThreateningExperiencePto}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceZ}</td>
+			   	<td align="center">${table3.lifeThreateningExperienceE}</td>
 			   	<td align="center">${table3.lifeThreateningExperienceTotal}</td>
 			  </tr>
 			  <tr>
@@ -606,6 +641,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.specialInterestCm}</td>
 			   	<td align="center">${table3.specialInterestMfx}</td>
 			   	<td align="center">${table3.specialInterestLfx}</td>
+			   	<td align="center">${table3.specialInterestCyc}</td>
+			   	<td align="center">${table3.specialInterestPas}</td>
+			   	<td align="center">${table3.specialInterestPto}</td>
+			   	<td align="center">${table3.specialInterestZ}</td>
+			   	<td align="center">${table3.specialInterestE}</td>
 			   	<td align="center">${table3.specialInterestTotal}</td>
 			  </tr>
 			  <tr>
@@ -618,6 +658,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.peripheralNeuropathyCm}</td>
 			   	<td align="center">${table3.peripheralNeuropathyMfx}</td>
 			   	<td align="center">${table3.peripheralNeuropathyLfx}</td>
+			   	<td align="center">${table3.peripheralNeuropathyCyc}</td>
+			   	<td align="center">${table3.peripheralNeuropathyPas}</td>
+			   	<td align="center">${table3.peripheralNeuropathyPto}</td>
+			   	<td align="center">${table3.peripheralNeuropathyZ}</td>
+			   	<td align="center">${table3.peripheralNeuropathyE}</td>
 			   	<td align="center">${table3.peripheralNeuropathyTotal}</td>
 			  </tr>
 			  <tr>
@@ -630,6 +675,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.psychiatricDisorderCm}</td>
 			   	<td align="center">${table3.psychiatricDisorderMfx}</td>
 			   	<td align="center">${table3.psychiatricDisorderLfx}</td>
+			   	<td align="center">${table3.psychiatricDisorderCyc}</td>
+			   	<td align="center">${table3.psychiatricDisorderPas}</td>
+			   	<td align="center">${table3.psychiatricDisorderPto}</td>
+			   	<td align="center">${table3.psychiatricDisorderZ}</td>
+			   	<td align="center">${table3.psychiatricDisorderE}</td>
 			   	<td align="center">${table3.psychiatricDisorderTotal}</td>
 			  </tr>
 			  <tr>
@@ -642,6 +692,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.opticNerveDisorderCm}</td>
 			   	<td align="center">${table3.opticNerveDisorderMfx}</td>
 			   	<td align="center">${table3.opticNerveDisorderLfx}</td>
+			   	<td align="center">${table3.opticNerveDisorderCyc}</td>
+			   	<td align="center">${table3.opticNerveDisorderPas}</td>
+			   	<td align="center">${table3.opticNerveDisorderPto}</td>
+			   	<td align="center">${table3.opticNerveDisorderZ}</td>
+			   	<td align="center">${table3.opticNerveDisorderE}</td>
 			   	<td align="center">${table3.opticNerveDisorderTotal}</td>
 			  </tr>
 			  <tr>
@@ -654,6 +709,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.ototoxicityCm}</td>
 			   	<td align="center">${table3.ototoxicityMfx}</td>
 			   	<td align="center">${table3.ototoxicityLfx}</td>
+			   	<td align="center">${table3.ototoxicityCyc}</td>
+			   	<td align="center">${table3.ototoxicityPas}</td>
+			   	<td align="center">${table3.ototoxicityPto}</td>
+			   	<td align="center">${table3.ototoxicityZ}</td>
+			   	<td align="center">${table3.ototoxicityE}</td>
 			   	<td align="center">${table3.ototoxicityTotal}</td>
 			  </tr>
 			   <tr>
@@ -666,6 +726,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.myelosuppressionCm}</td>
 			   	<td align="center">${table3.myelosuppressionMfx}</td>
 			   	<td align="center">${table3.myelosuppressionLfx}</td>
+			   	<td align="center">${table3.myelosuppressionCyc}</td>
+			   	<td align="center">${table3.myelosuppressionPas}</td>
+			   	<td align="center">${table3.myelosuppressionPto}</td>
+			   	<td align="center">${table3.myelosuppressionZ}</td>
+			   	<td align="center">${table3.myelosuppressionE}</td>
 			   	<td align="center">${table3.myelosuppressionTotal}</td>
 			  </tr>
 			   <tr>
@@ -678,6 +743,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.qtProlongationCm}</td>
 			   	<td align="center">${table3.qtProlongationMfx}</td>
 			   	<td align="center">${table3.qtProlongationLfx}</td>
+			   	<td align="center">${table3.qtProlongationCyc}</td>
+			   	<td align="center">${table3.qtProlongationPas}</td>
+			   	<td align="center">${table3.qtProlongationPto}</td>
+			   	<td align="center">${table3.qtProlongationZ}</td>
+			   	<td align="center">${table3.qtProlongationE}</td>
 			   	<td align="center">${table3.qtProlongationTotal}</td>
 			  </tr>
 			   <tr>
@@ -690,6 +760,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.lacticAcidosisCm}</td>
 			   	<td align="center">${table3.lacticAcidosisMfx}</td>
 			   	<td align="center">${table3.lacticAcidosisLfx}</td>
+			   	<td align="center">${table3.lacticAcidosisCyc}</td>
+			   	<td align="center">${table3.lacticAcidosisPas}</td>
+			   	<td align="center">${table3.lacticAcidosisPto}</td>
+			   	<td align="center">${table3.lacticAcidosisZ}</td>
+			   	<td align="center">${table3.lacticAcidosisE}</td>
 			   	<td align="center">${table3.lacticAcidosisTotal}</td>
 			  </tr>
 			   <tr>
@@ -702,6 +777,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.hepatitisCm}</td>
 			   	<td align="center">${table3.hepatitisMfx}</td>
 			   	<td align="center">${table3.hepatitisLfx}</td>
+			   	<td align="center">${table3.hepatitisCyc}</td>
+			   	<td align="center">${table3.hepatitisPas}</td>
+			   	<td align="center">${table3.hepatitisPto}</td>
+			   	<td align="center">${table3.hepatitisZ}</td>
+			   	<td align="center">${table3.hepatitisE}</td>
 			   	<td align="center">${table3.hepatitisTotal}</td>
 			  </tr>
 			   <tr>
@@ -714,6 +794,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.hypothyroidismCm}</td>
 			   	<td align="center">${table3.hypothyroidismMfx}</td>
 			   	<td align="center">${table3.hypothyroidismLfx}</td>
+			   	<td align="center">${table3.hypothyroidismCyc}</td>
+			   	<td align="center">${table3.hypothyroidismPas}</td>
+			   	<td align="center">${table3.hypothyroidismPto}</td>
+			   	<td align="center">${table3.hypothyroidismZ}</td>
+			   	<td align="center">${table3.hypothyroidismE}</td>
 			   	<td align="center">${table3.hypothyroidismTotal}</td>
 			  </tr>
 			   <tr>
@@ -726,6 +811,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.hypokalemiaCm}</td>
 			   	<td align="center">${table3.hypokalemiaMfx}</td>
 			   	<td align="center">${table3.hypokalemiaLfx}</td>
+			   	<td align="center">${table3.hypokalemiaCyc}</td>
+			   	<td align="center">${table3.hypokalemiaPas}</td>
+			   	<td align="center">${table3.hypokalemiaPto}</td>
+			   	<td align="center">${table3.hypokalemiaZ}</td>
+			   	<td align="center">${table3.hypokalemiaE}</td>
 			   	<td align="center">${table3.hypokalemiaTotal}</td>
 			  </tr>
 			   <tr>
@@ -738,6 +828,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.pancreatitisCm}</td>
 			   	<td align="center">${table3.pancreatitisMfx}</td>
 			   	<td align="center">${table3.pancreatitisLfx}</td>
+			   	<td align="center">${table3.pancreatitisCyc}</td>
+			   	<td align="center">${table3.pancreatitisPas}</td>
+			   	<td align="center">${table3.pancreatitisPto}</td>
+			   	<td align="center">${table3.pancreatitisZ}</td>
+			   	<td align="center">${table3.pancreatitisE}</td>
 			   	<td align="center">${table3.pancreatitisTotal}</td>
 			  </tr>
 			   <tr>
@@ -750,6 +845,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.phospholipidosisCm}</td>
 			   	<td align="center">${table3.phospholipidosisMfx}</td>
 			   	<td align="center">${table3.phospholipidosisLfx}</td>
+			   	<td align="center">${table3.phospholipidosisCyc}</td>
+			   	<td align="center">${table3.phospholipidosisPas}</td>
+			   	<td align="center">${table3.phospholipidosisPto}</td>
+			   	<td align="center">${table3.phospholipidosisZ}</td>
+			   	<td align="center">${table3.phospholipidosisE}</td>
 			   	<td align="center">${table3.phospholipidosisTotal}</td>
 			  </tr>
 			  <tr>
@@ -762,6 +862,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.renalFailureCm}</td>
 			   	<td align="center">${table3.renalFailureMfx}</td>
 			   	<td align="center">${table3.renalFailureLfx}</td>
+			   	<td align="center">${table3.renalFailureCyc}</td>
+			   	<td align="center">${table3.renalFailurePas}</td>
+			   	<td align="center">${table3.renalFailurePto}</td>
+			   	<td align="center">${table3.renalFailureZ}</td>
+			   	<td align="center">${table3.renalFailureE}</td>
 			   	<td align="center">${table3.renalFailureTotal}</td>
 			  </tr>
 			  <tr>
@@ -774,6 +879,11 @@ response.setDateHeader ("Expires", -1);
 			   	<td align="center">${table3.totalCm}</td>
 			   	<td align="center">${table3.totalMfx}</td>
 			   	<td align="center">${table3.totalLfx}</td>
+			   	<td align="center">${table3.totalCyc}</td>
+			   	<td align="center">${table3.totalPas}</td>
+			   	<td align="center">${table3.totalPto}</td>
+			   	<td align="center">${table3.totalZ}</td>
+			   	<td align="center">${table3.totalE}</td>
 			   	<td align="center">${table3.totalTotal}</td>
 			  </tr>
 			</tbody>
