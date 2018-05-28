@@ -326,7 +326,7 @@ $(document).ready(function(){
 	        
 	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
-	         <td align="center">${row.patient.gender}</td>
+	         <td align="center">${row.gender}</td>
 	    </tr>  
 	   </c:forEach>
 	    <tr><td colspan="3">&nbsp;</td></tr>
@@ -344,7 +344,7 @@ $(document).ready(function(){
 	        
 	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
-	        <td align="center">${row.patient.gender}</td>
+	        <td align="center">${row.gender}</td>
 	    </tr>  
 	  
 	  </c:forEach>
@@ -363,7 +363,7 @@ $(document).ready(function(){
 	        
 	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
-	         <td align="center">${row.patient.gender}</td>
+	         <td align="center">${row.gender}</td>
 	    </tr>  
 	  
 	  </c:forEach>
@@ -382,7 +382,7 @@ $(document).ready(function(){
 	        
 	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
-	        <td>${row.patient.gender}</td>
+	        <td>${row.gender}</td>
 	    </tr>  
 	  
 	  </c:forEach>
@@ -401,7 +401,7 @@ $(document).ready(function(){
 	        
 	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
-	         <td align="center">${row.patient.gender}</td>
+	         <td align="center">${row.gender}</td>
 	    </tr>  
 	  
 	  </c:forEach>
@@ -420,7 +420,7 @@ $(document).ready(function(){
 	        
 	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
-	         <td align="center">${row.patient.gender}</td>
+	         <td align="center">${row.gender}</td>
 	    </tr>  
 	  
 	  </c:forEach>
@@ -439,7 +439,7 @@ $(document).ready(function(){
 	        
 	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
-	         <td align="center">${row.patient.gender}</td>
+	         <td align="center">${row.gender}</td>
 	    </tr>  
 	  
 	  </c:forEach>
@@ -458,7 +458,7 @@ $(document).ready(function(){
 	        
 	        <td><a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
 	        <td>${row.dateOfBirth}</td>
-	        <td align="center">${row.patient.gender}</td>
+	        <td align="center">${row.gender}</td>
 	    </tr>  
 	  
 	  </c:forEach>

@@ -1943,7 +1943,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	
     	else {
     		for(Location loc : locations){ 
-    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName())) {
+    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) && loc.getRegion()==null) {
     				location = loc;
     				break;
     			}

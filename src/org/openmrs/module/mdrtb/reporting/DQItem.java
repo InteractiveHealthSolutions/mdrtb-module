@@ -3,6 +3,7 @@ package org.openmrs.module.mdrtb.reporting;
 import java.util.ArrayList;
 
 import org.openmrs.Patient;
+import org.openmrs.api.context.Context;
 
 public class DQItem {
 	
@@ -10,7 +11,6 @@ public class DQItem {
 	private String dateOfBirth;
 	private String locName;
 	private ArrayList<String> links;
-	
 	
 	public String getLocName() {
 		return locName;
@@ -34,7 +34,7 @@ public class DQItem {
 	public ArrayList<String> getLinks() {
 		return links;
 	}
-	public void setLink(ArrayList<String> links) {
+	public void setLinks(ArrayList<String> links) {
 		this.links = links;
 	}
 	
@@ -54,6 +54,23 @@ public class DQItem {
 		patient = null;
 		dateOfBirth = null;
 		links = new ArrayList<String>();
+		
 	}
-
+	
+	public String getGender() {
+		if(patient==null || patient.getGender()==null) {
+			return null;
+		}
+		
+		if(patient.getGender().equals("M")) {
+			return Context.getMessageSourceService().getMessage("mdrtb.tb03.gender.male");
+		}
+		
+		else if(patient.getGender().equals("F")) {
+			return	Context.getMessageSourceService().getMessage("mdrtb.tb03.gender.female");
+		}
+		
+		return null;
+	}
+	
 }

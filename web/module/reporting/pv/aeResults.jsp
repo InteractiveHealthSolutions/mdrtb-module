@@ -220,33 +220,33 @@ response.setDateHeader ("Expires", -1);
 				</tr>
 				<tr>
 					<td><spring:message code="mdrtb.pv.standardRegimen"/></td>
-					<td>${table1.standardRegimenStarting}</td>
-					<td>${table1.standardRegimenEver}</td>
+					<td align="center">${table1.standardRegimenStarting}</td>
+					<td align="center">${table1.standardRegimenEver}</td>
 				</tr>
 				<tr>
 					<td><spring:message code="mdrtb.pv.shortRegimen"/></td>
-					<td>${table1.shortRegimenStarting}</td>
-					<td>${table1.shortRegimenEver}</td>
+					<td align="center">${table1.shortRegimenStarting}</td>
+					<td align="center">${table1.shortRegimenEver}</td>
 				</tr>
 				<tr>
 					<td><spring:message code="mdrtb.pv.regimenWithBdq"/></td>
-					<td>${table1.regimenWithBdqStarting}</td>
-					<td>${table1.regimenWithBdqEver}</td>
+					<td align="center">${table1.regimenWithBdqStarting}</td>
+					<td align="center">${table1.regimenWithBdqEver}</td>
 				</tr>
 				<tr>
 					<td><spring:message code="mdrtb.pv.regimenWithDlm"/></td>
-					<td>${table1.regimenWithDlmStarting}</td>
-					<td>${table1.regimenWithDlmEver}</td>
+					<td align="center">${table1.regimenWithDlmStarting}</td>
+					<td align="center">${table1.regimenWithDlmEver}</td>
 				</tr>
 				<tr>
 					<td><spring:message code="mdrtb.pv.regimenWithBdqAndDlm"/></td>
-					<td>${table1.regimenWithBdqDlmStarting}</td>
-					<td>${table1.regimenWithBdqDlmEver}</td>
+					<td align="center">${table1.regimenWithBdqDlmStarting}</td>
+					<td align="center">${table1.regimenWithBdqDlmEver}</td>
 				</tr>
 				<tr>
 					<td><spring:message code="mdrtb.pv.regimenWithCfzLzd"/></td>
-					<td>${table1.regimenWithCfzLzdStarting}</td>
-					<td>${table1.regimenWithCfzLzdEver}</td>
+					<td align="center">${table1.regimenWithCfzLzdStarting}</td>
+					<td align="center">${table1.regimenWithCfzLzdEver}</td>
 				</tr>
 				<tr>
 					<td><spring:message code="mdrtb.pv.table1.otherRegimenSpecify"/></td>

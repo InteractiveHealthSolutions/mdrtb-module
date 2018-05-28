@@ -177,7 +177,7 @@ public class TB07ReportController {
 //		System.out.println("ED: " + endDate);
 			
     	ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
-		
+		System.out.println(locList.size());
 		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
 		System.out.println("list size:" + tb03List.size());
 		//CohortDefinition baseCohort = null;
