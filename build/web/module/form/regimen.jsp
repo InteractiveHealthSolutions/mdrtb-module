@@ -334,6 +334,11 @@
 <td>${regimenForm.otherDrug1Dose}</td>
 </tr>
 
+<tr>
+<td><spring:message code="mdrtb.pv.comments" text="commentz"/>:</td>
+<td>${regimenForm.comments}</td>
+</tr>
+
 
 </table>
 </td></tr>
@@ -615,6 +620,11 @@
 <tr>
 <td><spring:message code="mdrtb.pv.otherDrug1Dose" text="otherDrug1Dose"/>:</td>
 <td><input name="otherDrug1Dose" size="4" value="${regimenForm.otherDrug1Dose}"/></td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.comments" text="commentz"/>:</td>
+<td><textarea rows="4" cols="50" name="comments">${regimenForm.comments}</textarea></td>
 </tr>
 
 

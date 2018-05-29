@@ -1490,7 +1490,45 @@ public class RegimenForm extends AbstractSimpleForm implements Comparable<Regime
 		return this.getCouncilDate().compareTo(form.getCouncilDate());
 	}
 	
+	public String getComments() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CLINICIAN_NOTES), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueText();
+		}
+	}
 	
+	public void setComments(String comment) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CLINICIAN_NOTES), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && comment == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueText() == null || (comment == null && obs != null) || !obs.getValueText().equals(comment)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(comment != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CLINICIAN_NOTES), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueText(comment);
+				encounter.addObs(obs);
+			}
+		} 
+	}
+	
+	//////////////
 	
 	
 	

@@ -25,8 +25,6 @@
 			car1Toggle();
 			car2Toggle();
 			car3Toggle();
-			
-			
 		});
 
 		$j('#cancel').click(function(){
@@ -716,8 +714,8 @@
 <td>
 <select name="adverseEvent" id="adverseEvent">
 <option value=""></option>
-<c:forEach var="aeOption" items="${aeOptions}">
-	<option value="${aeOption.answerConcept.id}" <c:if test="${aeForm.adverseEvent == aeOption.answerConcept}">selected</c:if> >${aeOption.answerConcept.displayString}</option>
+<c:forEach var="aeOption" items="${aeOptions}" varStatus="loop">
+	<option value="${aeOption.answerConcept.id}" <c:if test="${aeForm.adverseEvent == aeOption.answerConcept}">selected</c:if> >${loop.index + 1}. ${aeOption.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -760,8 +758,8 @@
 <td>
 <select name="typeOfEvent" id="typeOfEvent" onChange="typeToggle()">
 <option value=""></option>
-<c:forEach var="typeOption" items="${typeOptions}">
-	<option value="${typeOption.answerConcept.id}" <c:if test="${aeForm.typeOfEvent == typeOption.answerConcept}">selected</c:if> >${typeOption.answerConcept.displayString}</option>
+<c:forEach var="typeOption" items="${typeOptions}" varStatus="loop">
+	<option value="${typeOption.answerConcept.id}" <c:if test="${aeForm.typeOfEvent == typeOption.answerConcept}">selected</c:if> >${loop.index + 1}. ${typeOption.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -773,8 +771,8 @@
 <td>
 <select name="typeOfSAE" id="typeOfSAE">
 <option value=""></option>
-<c:forEach var="saeOption" items="${saeOptions}">
-	<option value="${saeOption.answerConcept.id}" <c:if test="${aeForm.typeOfSAE == saeOption.answerConcept}">selected</c:if> >${saeOption.answerConcept.displayString}</option>
+<c:forEach var="saeOption" items="${saeOptions}" varStatus="loop">
+	<option value="${saeOption.answerConcept.id}" <c:if test="${aeForm.typeOfSAE == saeOption.answerConcept}">selected</c:if> >${loop.index + 1}. ${saeOption.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -786,8 +784,8 @@
 <td>
 <select name="typeOfSpecialEvent" id="typeOfSpecialEvent">
 <option value=""></option>
-<c:forEach var="specialOption" items="${specialOptions}">
-	<option value="${specialOption.answerConcept.id}" <c:if test="${aeForm.typeOfSpecialEvent == specialOption.answerConcept}">selected</c:if> >${specialOption.answerConcept.displayString}</option>
+<c:forEach var="specialOption" items="${specialOptions}" varStatus="loop">
+	<option value="${specialOption.answerConcept.id}" <c:if test="${aeForm.typeOfSpecialEvent == specialOption.answerConcept}">selected</c:if> >${loop.index + 1}. ${specialOption.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -812,7 +810,7 @@
 <td>
 <select name="requiresDoseChange" id="requiresDoseChange">
 <option value=""></option>
-<c:forEach var="changeOption" items="${yesno}">
+<c:forEach var="changeOption" items="${yesno}" varStatus="loop">
 	<option value="${changeOption.answerConcept.id}" <c:if test="${aeForm.requiresDoseChange == changeOption.answerConcept}">selected</c:if> >${changeOption.answerConcept.displayString}</option>
 </c:forEach>
 </select>
@@ -840,8 +838,8 @@
 <td>
 <select name="causalityAssessmentResult1" id="causalityAssessmentResult1" >
 <option value=""></option>
-<c:forEach var="carOption" items="${carOptions}">
-	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult1 == carOption.answerConcept}">selected</c:if> >${carOption.answerConcept.displayString}</option>
+<c:forEach var="carOption" items="${carOptions}" varStatus="loop">
+	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult1 == carOption.answerConcept}">selected</c:if> >${loop.index + 1}. ${carOption.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -861,8 +859,8 @@
 <td>
 <select name="causalityAssessmentResult2" id="causalityAssessmentResult2">
 <option value=""></option>
-<c:forEach var="carOption" items="${carOptions}">
-	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult2 == carOption.answerConcept}">selected</c:if> >${carOption.answerConcept.displayString}</option>
+<c:forEach var="carOption" items="${carOptions}" varStatus="loop">
+	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult2 == carOption.answerConcept}">selected</c:if> >${loop.index + 1}. ${carOption.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -882,8 +880,8 @@
 <td>
 <select name="causalityAssessmentResult3" id="causalityAssessmentResult3">
 <option value=""></option>
-<c:forEach var="carOption" items="${carOptions}">
-	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult3 == carOption.answerConcept}">selected</c:if> >${carOption.answerConcept.displayString}</option>
+<c:forEach var="carOption" items="${carOptions}" varStatus="loop">
+	<option value="${carOption.answerConcept.id}" <c:if test="${aeForm.causalityAssessmentResult3 == carOption.answerConcept}">selected</c:if> >${loop.index + 1}. ${carOption.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -894,8 +892,8 @@
 <td>
 <select name="actionTaken" id="actionTaken">
 <option value=""></option>
-<c:forEach var="action" items="${actions}">
-	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken == action.answerConcept}">selected</c:if> >${action.answerConcept.displayString}</option>
+<c:forEach var="action" items="${actions}" varStatus="loop">
+	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken == action.answerConcept}">selected</c:if> >${loop.index + 1}. ${action.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -906,8 +904,8 @@
 <td>
 <select name="actionTaken2" id="actionTaken2">
 <option value=""></option>
-<c:forEach var="action" items="${actions}">
-	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken2 == action.answerConcept}">selected</c:if> >${action.answerConcept.displayString}</option>
+<c:forEach var="action" items="${actions}" varStatus="loop">
+	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken2 == action.answerConcept}">selected</c:if> >${loop.index + 1}. ${action.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -918,8 +916,8 @@
 <td>
 <select name="actionTaken3" id="actionTaken3">
 <option value=""></option>
-<c:forEach var="action" items="${actions}">
-	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken3 == action.answerConcept}">selected</c:if> >${action.answerConcept.displayString}</option>
+<c:forEach var="action" items="${actions}" varStatus="loop">
+	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken3 == action.answerConcept}">selected</c:if> >${loop.index + 1}. ${action.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -930,8 +928,20 @@
 <td>
 <select name="actionTaken4" id="actionTaken4">
 <option value=""></option>
-<c:forEach var="action" items="${actions}">
-	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken4 == action.answerConcept}">selected</c:if> >${action.answerConcept.displayString}</option>
+<c:forEach var="action" items="${actions}" varStatus="loop">
+	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken4 == action.answerConcept}">selected</c:if> >${loop.index + 1}. ${action.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.actionTaken" text="Actionz"/>:</td>
+<td>
+<select name="actionTaken5" id="actionTaken5">
+<option value=""></option>
+<c:forEach var="action" items="${actions}" varStatus="loop">
+	<option value="${action.answerConcept.id}" <c:if test="${aeForm.actionTaken5 == action.answerConcept}">selected</c:if> >${loop.index + 1}. ${action.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -943,8 +953,8 @@
 <td>
 <select name="actionOutcome" id="actionOutcome" onChange="dateToggle()">
 <option value=""></option>
-<c:forEach var="outcome" items="${outcomes}">
-	<option value="${outcome.answerConcept.id}" <c:if test="${aeForm.actionOutcome == outcome.answerConcept}">selected</c:if> >${outcome.answerConcept.displayString}</option>
+<c:forEach var="outcome" items="${outcomes}" varStatus="loop">
+	<option value="${outcome.answerConcept.id}" <c:if test="${aeForm.actionOutcome == outcome.answerConcept}">selected</c:if> >${loop.index + 1}. ${outcome.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -960,8 +970,8 @@
 <td>
 <select name="meddraCode" id="meddraCode">
 <option value=""></option>
-<c:forEach var="code" items="${meddraCodes}">
-	<option value="${code.answerConcept.id}" <c:if test="${aeForm.meddraCode == code.answerConcept}">selected</c:if> >${code.answerConcept.displayString}</option>
+<c:forEach var="code" items="${meddraCodes}" varStatus="loop">
+	<option value="${code.answerConcept.id}" <c:if test="${aeForm.meddraCode == code.answerConcept}">selected</c:if> >${loop.index + 1}. ${code.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
@@ -972,8 +982,8 @@
 <td>
 <select name="drugRechallenge" id="drugRechallenge">
 <option value=""></option>
-<c:forEach var="dr" items="${drugRechallenges}">
-	<option value="${dr.answerConcept.id}" <c:if test="${aeForm.drugRechallenge == dr.answerConcept}">selected</c:if> >${dr.answerConcept.displayString}</option>
+<c:forEach var="dr" items="${drugRechallenges}" varStatus="loop">
+	<option value="${dr.answerConcept.id}" <c:if test="${aeForm.drugRechallenge == dr.answerConcept}">selected</c:if> >${loop.index + 1}. ${dr.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>

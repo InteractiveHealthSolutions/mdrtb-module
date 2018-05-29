@@ -526,7 +526,7 @@ public class AEFormController {
 	public Collection<ConceptAnswer> getPossibleEventType() {
 		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
 		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.AE_TYPE);
-		for(int i=0; i< 2; i++) {
+		for(int i=0; i< 3; i++) {
 			typeArray.add(null);
 		}
 		for(ConceptAnswer c : ca) {
@@ -537,7 +537,9 @@ public class AEFormController {
 			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OF_SPECIAL_INTEREST).getId().intValue()) {
 				typeArray.set(1, c);
 			}
-			
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.OTHER).getId().intValue()) {
+				typeArray.set(2, c);
+			}
 		}
 		
 		return typeArray;

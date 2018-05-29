@@ -377,6 +377,7 @@ public class MdrtbConcepts {
     public final static String[] AE_ACTION_2  = {"AE ACTION 2"};
     public final static String[] AE_ACTION_3  = {"AE ACTION 3"};
     public final static String[] AE_ACTION_4  = {"AE ACTION 4"};
+    public final static String[] AE_ACTION_5  = {"AE ACTION 5"};
     public final static String[] DOSE_NOT_CHANGED   = {"DOSE NOT CHANGED"};
     public final static String[] DOSE_REDUCED  = {"DOSE REDUCED"};
     public final static String[] DRUG_INTERRUPTED   = {"DRUG INTERRUPTED "};

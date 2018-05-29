@@ -126,9 +126,6 @@ public class MdrtbAEDrugsDWR {
 		
 		String drugArray[] = regimen.split("-");
 		
-		
-		
-		
 		for(int i=0; i < drugArray.length; i++) {
 			if(drugArray[i].equals("Cm")) {
 				drugs.add(getOptionTag(ms.getConcept(MdrtbConcepts.CAPREOMYCIN)));
@@ -140,6 +137,10 @@ public class MdrtbAEDrugsDWR {
 			
 			else if(drugArray[i].equals("Mfx")) {
 				drugs.add(getOptionTag(ms.getConcept(MdrtbConcepts.MOXIFLOXACIN)));
+			}
+			
+			else if(drugArray[i].equals("Lfx")) {
+				drugs.add(getOptionTag(ms.getConcept(MdrtbConcepts.LEVOFLOXACIN)));
 			}
 			
 			else if(drugArray[i].equals("Pto")) {
