@@ -571,7 +571,7 @@ $(document).ready(function(){
 <openmrs:hasPrivilege privilege="Manage Report Closing">
 <input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='dotsreports.closeReportBtn' />" />
 </openmrs:hasPrivilege>
-<input type="button" id="back" name="back" value="<spring:message code='dotsreports.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
+<input type="button" id="back" name="back" value="<spring:message code='mdrtb.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
 <input type="button" onclick="printForm()" value="<spring:message code='mdrtb.print' />" />
 
 <script> 

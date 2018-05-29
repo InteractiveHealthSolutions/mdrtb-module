@@ -559,6 +559,6 @@ $(document).ready(function(){
 </div>
 <input type="button" onclick="tableToExcel('tb03', 'TB03')" value="<spring:message code='dotsreports.exportToExcelBtn' />" />
 
-<input type="button" id="back" name="back" value="<spring:message code='dotsreports.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
+<input type="button" id="back" name="back" value="<spring:message code='mdrtb.back' />" onclick="document.location.href='${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form';" />
 <input type="button" onclick="printForm()" value="<spring:message code='mdrtb.print' />" />
 <%@ include file="../mdrtbFooter.jsp"%>
