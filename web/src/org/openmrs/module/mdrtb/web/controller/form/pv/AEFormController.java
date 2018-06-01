@@ -438,7 +438,7 @@ public class AEFormController {
 	
 	}
 	
-	@ModelAttribute("diOptions")
+	/*@ModelAttribute("diOptions")
 	public ArrayList<ConceptAnswer> getPossibleDiagnosticInvestigations() {
 		
 		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
@@ -520,7 +520,7 @@ public class AEFormController {
 		
 		return typeArray;
 	
-	}
+	}*/
 	
 	@ModelAttribute("typeOptions")
 	public Collection<ConceptAnswer> getPossibleEventType() {

@@ -1943,7 +1943,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	
     	else {
     		for(Location loc : locations){ 
-    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) && loc.getRegion()==null) {
+    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) ) {
     				location = loc;
     				break;
     			}
@@ -2607,6 +2607,7 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
     		locList.add(location);
     	}
     	
+    	System.out.println("LOCS:" + locList.size());
     	return locList;
 	}
 	

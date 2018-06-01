@@ -335,6 +335,30 @@ public class MdrtbConcepts {
     public final static String[] BLOOD_GLUCOSE  = {"BLOOD GLUCOSE"};
     public final static String[] THYROID_TEST  = {"THYROID TEST"};
     
+   
+    public final static String[] CLINICAL_SCREEN_DONE  = {"CLINICAL SCREEN DONE"};
+    public final static String[] VISUAL_ACUITY_DONE  = {"VISUAL ACUITY DONE"};
+    public final static String[] SIMPLE_HEARING_TEST_DONE  = {"SIMPLE HEARING TEST DONE"};
+    public final static String[] AUDIOGRAM_DONE  = {"AUDIOGRAM DONE"};
+    public final static String[] NEURO_INVESTIGATION_DONE  = {"NEURO INVESTIGATION DONE"};
+    public final static String[] CREATNINE_DONE   = {"CREATNINE DONE"};
+    public final static String[] ALT_DONE = {"ALT DONE"};
+    public final static String[] AST_DONE  = {"AST DONE"};
+    public final static String[] BILIRUBIN_DONE   = {"BILIRUBIN DONE"};
+    public final static String[] ALKALINE_PHOSPHATASE_DONE  = {"ALKALINE PHOSPHATASE DONE"};
+    public final static String[] YGT_DONE   = {"YGT DONE"};
+    public final static String[] ECG_DONE  = {"ECG DONE"};
+    public final static String[] LIPASE_DONE  = {"LIPASE DONE"};
+    public final static String[] AMYLASE_DONE  = {"AMYLASE DONE"};
+    public final static String[] POTASSIUM_DONE  = {"POTASSIUM DONE"};
+    public final static String[] MAGNESIUM_DONE  = {"MAGNESIUM DONE"};
+    public final static String[] CALCIUM_DONE  = {"CALCIUM DONE"};
+    public final static String[] ALBUMIN_DONE  = {"ALBUMIN DONE"};
+    public final static String[] CBC_DONE  = {"CBC DONE"};
+    public final static String[] BLOOD_GLUCOSE_DONE  = {"BLOOD GLUCOSE DONE"};
+    public final static String[] THYROID_TEST_DONE  = {"THYROID TEST DONE"};
+    public final static String[] OTHER_TEST_DONE  = {"OTHER TEST DONE"};
+    
     public final static String[] AE_REGIMEN  = {"AE REGIMEN"};
     
     public final static String[] AE_TYPE  = {"AE TYPE"};
@@ -420,6 +444,7 @@ public class MdrtbConcepts {
     
     public final static String[] YES = {"YES"};
     public final static String[] NO = {"NO"};
+	
     
     
 }

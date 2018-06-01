@@ -140,12 +140,8 @@ public class AERegisterData implements Comparable <AERegisterData>{
 		if(aeForm==null)
 			return null;
 		
-		Concept q = aeForm.getDiagnosticInvestigation();
-		
-		if(q==null)
-			return null;
-		
-		return q.getName().getName();
+		return aeForm.getDiagnosticSummary();
+	
 	}
 	
 	public String getSerious() {

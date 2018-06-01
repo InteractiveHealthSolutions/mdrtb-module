@@ -60,7 +60,7 @@
  <td><a href="${pageContext.request.contextPath}/module/mdrtb/form/ae.form?encounterId=${form.id}&patientProgramId=${patientProgramId}" target="_blank">${loop.index+1}</a></td>
  <td>${form.adverseEvent.displayString}</td>
  <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
- <td>${form.diagnosticInvestigation.displayString}</td>
+ <td>${form.diagnosticSummary}</td>
  <td>${form.suspectedDrug}</td>
  <td>${form.treatmentRegimenAtOnset}</td>
  <td>${form.typeOfEvent.displayString}</td>

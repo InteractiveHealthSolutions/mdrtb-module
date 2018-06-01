@@ -500,10 +500,125 @@
 <td>${aeForm.adverseEvent.displayString}</td>
 </tr>
 
+</table>
+
+<table>
 <tr>
-<td><spring:message code="mdrtb.pv.diagnosticInvestigation" text="AEz"/>:</td>
-<td>${aeForm.diagnosticInvestigation.displayString}</td>
+<td colspan="2"><spring:message code="mdrtb.pv.diagnosticInvestigation" text="AEz"/>:</td>
 </tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.clinicalScreen" text="Csz"/>:</td>
+<td>${aeForm.clinicalScreenDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.visualAcuity" text="Vaz"/>:</td>
+<td>${aeForm.visualAcuityDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.hearingTest" text="Htz"/>:</td>
+<td>${aeForm.simpleHearingTestDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.audiogram" text="Aud"/>:</td>
+<td>${aeForm.audiogramDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.neuroInvestigations" text="Niz"/>:</td>
+<td>${aeForm.neuroInvestigationDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.serumCreatnine" text="Scz"/>:</td>
+<td>${aeForm.serumCreatnineDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.alt" text="altz"/>:</td>
+<td>${aeForm.altDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.ast" text="astz"/>:</td>
+<td>${aeForm.astDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.bilirubin" text="Brb"/>:</td>
+<td>${aeForm.bilirubinDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.alkalinePhosphatase" text="akpz"/>:</td>
+<td>${aeForm.alkalinePhosphataseDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.ygt" text="ygtz"/>:</td>
+<td>${aeForm.ygtDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.ecg" text="ecgz"/>:</td>
+<td>${aeForm.ecgDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.lipase" text="lps"/>:</td>
+<td>${aeForm.lipaseDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.amylase" text="amz"/>:</td>
+<td>${aeForm.amylaseDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.potassium" text="pz"/>:</td>
+<td>${aeForm.potassiumDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.magnesium" text="mgz"/>:</td>
+<td>${aeForm.magnesiumDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.calcium" text="cz"/>:</td>
+<td>${aeForm.calciumDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.albumin" text="alb"/>:</td>
+<td>${aeForm.albuminDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.cbc" text="cbcz"/>:</td>
+<td>${aeForm.cbcDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.bloodGlucose" text="bgz"/>:</td>
+<td>${aeForm.bloodGlucoseDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.thyroidTest" text="ttz"/>:</td>
+<td>${aeForm.thyroidTestDone.displayString}</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.other" text="otz"/>:</td>
+<td>${aeForm.otherTestDone.displayString}</td>
+</tr>
+
+</table>
+<table>
 
 <tr>
 <td><spring:message code="mdrtb.pv.treatmentRegimenAtOnset" text="regz"/>:</td>
@@ -722,18 +837,280 @@
 </tr>
 </tr>
 
+</table>
+
+<table>
 <tr>
-<td><spring:message code="mdrtb.pv.diagnosticInvestigation" text="DIz"/>:</td>
+<td colspan="2"><spring:message code="mdrtb.pv.diagnosticInvestigation" text="AEz"/>:</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.clinicalScreen" text="Csz"/>:</td>
 <td>
-<select name="diagnosticInvestigation" id="diagnosticInvestigation">
+<select name="clinicalScreenDone" id="clinicalScreenDone">
 <option value=""></option>
-<c:forEach var="diOption" items="${diOptions}">
-	<option value="${diOption.answerConcept.id}" <c:if test="${aeForm.diagnosticInvestigation == diOption.answerConcept}">selected</c:if> >${diOption.answerConcept.displayString}</option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.clinicalScreenDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
 </c:forEach>
 </select>
 </td>
 </tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.visualAcuity" text="Vaz"/>:</td>
+<td>
+<select name="visualAcuityDone" id="visualAcuityDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.visualAcuityDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
 </tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.hearingTest" text="Htz"/>:</td>
+<td>
+<select name="simpleHearingTestDone" id="simpleHearingTestDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.simpleHearingTestDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.audiogram" text="Aud"/>:</td>
+<td>
+<select name="audiogramDone" id="audiogramDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.audiogramDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.neuroInvestigations" text="Niz"/>:</td>
+<td>
+<select name="neuroInvestigationDone" id="neuroInvestigationDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.neuroInvestigationDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.serumCreatnine" text="Scz"/>:</td>
+<td>
+<select name="serumCreatnineDone" id="serumCreatnineDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.serumCreatnineDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.alt" text="altz"/>:</td>
+<td>
+<select name="altDone" id="altDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.altDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.ast" text="astz"/>:</td>
+<td>
+<select name="astDone" id="astDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.astDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.bilirubin" text="Brb"/>:</td>
+<td>
+<select name="bilirubinDone" id="bilirubinDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.bilirubinDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.alkalinePhosphatase" text="akpz"/>:</td>
+<td>
+<select name="alkalinePhosphataseDone" id="alkalinePhosphataseDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.alkalinePhosphataseDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.ygt" text="ygtz"/>:</td>
+<td>
+<select name="ygtDone" id="ygtDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.ygtDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.ecg" text="ecgz"/>:</td>
+<td>
+<select name="ecgDone" id="ecgDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.ecgDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.lipase" text="lps"/>:</td>
+<td>
+<select name="lipaseDone" id="lipaseDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.lipaseDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.amylase" text="amz"/>:</td>
+<td>
+<select name="amylaseDone" id="amylaseDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.amylaseDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.potassium" text="pz"/>:</td>
+<td>
+<select name="potassiumDone" id="potassiumDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.potassiumDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.magnesium" text="mgz"/>:</td>
+<td>
+<select name="magnesiumDone" id="magnesiumDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.magnesiumDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.calcium" text="cz"/>:</td>
+<td>
+<select name="calciumDone" id="calciumDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.calciumDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.albumin" text="alb"/>:</td>
+<td>
+<select name="albuminDone" id="albuminDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.albuminDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.cbc" text="cbcz"/>:</td>
+<td>
+<select name="cbcDone" id="cbcDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.cbcDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.bloodGlucose" text="bgz"/>:</td>
+<td>
+<select name="bloodGlucoseDone" id="bloodGlucoseDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.bloodGlucoseDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.thyroidTest" text="ttz"/>:</td>
+<td>
+<select name="thyroidTestDone" id="thyroidTestDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.thyroidTestDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><spring:message code="mdrtb.pv.other" text="otz"/>:</td>
+<td>
+<select name="otherTestDone" id="otherTestDone">
+<option value=""></option>
+<c:forEach var="option" items="${yesno}">
+	<option value="${option.answerConcept.id}" <c:if test="${aeForm.otherTestDone == option.answerConcept}">selected</c:if> >${option.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+
+</table>
+
+<table>
 
 <tr>
 <td><spring:message code="mdrtb.pv.treatmentRegimenAtOnset" text="regimenz"/>:</td>
