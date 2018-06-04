@@ -65,6 +65,7 @@ $(document).ready(function(){
 </script>
 
 <a href="${pageContext.request.contextPath}/module/mdrtb/mdrtbIndex.form"><spring:message code="mdrtb.back" text="Backu"/></a>
+<br/><br/>
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.patientLists" text="Lists"/></b>
 <div class="box" style="margin:0px;">
 <br/>

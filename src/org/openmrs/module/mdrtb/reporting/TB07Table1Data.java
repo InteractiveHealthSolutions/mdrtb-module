@@ -523,6 +523,17 @@ public class TB07Table1Data {
 	private Integer totalFemaleHIV;
 	private Integer totalAllHIV;
 	
+	
+	private Integer womenOfChildBearingAge;
+	private Integer pregnant;
+	private Integer contacts;
+	private Integer migrants;
+	private Integer phcWorkers;
+	private Integer tbServicesWorkers;
+	private Integer died;
+	private Integer diedChildren;
+	private Integer diedWomenOfChildBearingAge;
+	
 	public TB07Table1Data() {
 		newMalePulmonaryBC04 = 0;
 		newFemalePulmonaryBC04 = 0;
@@ -1045,6 +1056,16 @@ public class TB07Table1Data {
 		totalFemaleHIV = 0;
 		totalAllHIV = 0;
 		
+		womenOfChildBearingAge = 0;
+		pregnant = 0;
+		contacts = 0;
+		migrants = 0;
+		phcWorkers = 0;
+		tbServicesWorkers = 0;
+		died = 0;
+		diedChildren = 0;
+		diedWomenOfChildBearingAge = 0;
+
 	}
 
 	public Integer getNewMalePulmonaryBC04() {
@@ -4840,6 +4861,78 @@ public class TB07Table1Data {
 		this.setTotalAllHIV(this.getTotalAllHIV() + table.getTotalAllHIV());
 
 		
+	}
+
+	public Integer getWomenOfChildBearingAge() {
+		return womenOfChildBearingAge;
+	}
+
+	public void setWomenOfChildBearingAge(Integer womenOfChildBearingAge) {
+		this.womenOfChildBearingAge = womenOfChildBearingAge;
+	}
+
+	public Integer getPregnant() {
+		return pregnant;
+	}
+
+	public void setPregnant(Integer pregnant) {
+		this.pregnant = pregnant;
+	}
+
+	public Integer getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(Integer contacts) {
+		this.contacts = contacts;
+	}
+
+	public Integer getMigrants() {
+		return migrants;
+	}
+
+	public void setMigrants(Integer migrants) {
+		this.migrants = migrants;
+	}
+
+	public Integer getPhcWorkers() {
+		return phcWorkers;
+	}
+
+	public void setPhcWorkers(Integer phcWorkers) {
+		this.phcWorkers = phcWorkers;
+	}
+
+	public Integer getTbServicesWorkers() {
+		return tbServicesWorkers;
+	}
+
+	public void setTbServicesWorkers(Integer tbServicesWorkers) {
+		this.tbServicesWorkers = tbServicesWorkers;
+	}
+
+	public Integer getDied() {
+		return died;
+	}
+
+	public void setDied(Integer died) {
+		this.died = died;
+	}
+
+	public Integer getDiedChildren() {
+		return diedChildren;
+	}
+
+	public void setDiedChildren(Integer diedChildren) {
+		this.diedChildren = diedChildren;
+	}
+
+	public Integer getDiedWomenOfChildBearingAge() {
+		return diedWomenOfChildBearingAge;
+	}
+
+	public void setDiedWomenOfChildBearingAge(Integer diedWomenOfChildBearingAge) {
+		this.diedWomenOfChildBearingAge = diedWomenOfChildBearingAge;
 	}
 	
 }

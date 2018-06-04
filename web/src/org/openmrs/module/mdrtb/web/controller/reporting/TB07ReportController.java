@@ -24,7 +24,9 @@ import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.form.Form89;
 import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.reporting.TB07Table1Data;
@@ -249,6 +251,10 @@ public class TB07ReportController {
     	/*Concept hivDateConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_HIV_TEST);
     	Concept artStartConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_ART_TREATMENT_START);
     	Concept pctStartConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.DATE_OF_PCT_TREATMENT_START);*/
+    	Concept contact = Context.getService(MdrtbService.class).getConcept(TbConcepts.CONTACT);
+    	Concept migrant = Context.getService(MdrtbService.class).getConcept(TbConcepts.MIGRANT);
+    	Concept phcWorker = Context.getService(MdrtbService.class).getConcept(TbConcepts.PHC_WORKER);
+    	Concept tbServices = Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_SERVICES_WORKER);
     	
     	Boolean pulmonary = null;
     	Boolean bacPositive = null;
@@ -264,6 +270,18 @@ public class TB07ReportController {
     		bacPositive = null;
     		hivPositive = null;
     		
+    		Integer programId = tf.getPatProgId();
+    		
+    		TbPatientProgram tpp = null;
+    		Form89 f89 = null;
+    		
+    		if(programId!=null) {
+    			tpp = Context.getService(MdrtbService.class).getTbPatientProgram(programId);
+    			if(tpp!=null) {
+    				f89 = tpp.getForm89();
+    				//f89.
+    			}
+    		}
     		
     		
     		Patient patient = tf.getPatient();
@@ -378,6 +396,17 @@ public class TB07ReportController {
     	    
     	    if(q!=null) {
     	    	
+    	    	if(tf.getPatient().isDead()) {
+    	    		table1.setDied(table1.getDied() + 1);
+    	    		if(ageAtRegistration < 15) {
+    	    			table1.setDiedChildren(table1.getDiedChildren() + 1);
+    	    		}
+    	    		
+    	    		else if (ageAtRegistration >= 15 && ageAtRegistration <=49) {
+    	    			table1.setDiedWomenOfChildBearingAge(table1.getDiedWomenOfChildBearingAge() + 1);
+    	    		}
+    	    	}
+    	    	
     	    	//NEW
     	    	if(q.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
     	    		
@@ -443,6 +472,40 @@ public class TB07ReportController {
 	    					if(hivPositive)
 	    						table1.setNewMaleHIV65(table1.getNewMaleHIV65()+1);
 	    				}
+    	    			
+    	    			///
+    	    			if(ageAtRegistration >=15 && ageAtRegistration <= 49) {
+    	    				table1.setWomenOfChildBearingAge(table1.getWomenOfChildBearingAge()+1);
+    	    			}
+    	    			
+    	    			if(f89!=null) {
+    	    				Concept x = f89.getCircumstancesOfDetection();
+    	    				
+    	    				if(x!=null) {
+    	    					if(x.getId().intValue()==contact.getId().intValue()) {
+    	    						table1.setContacts(table1.getContacts()+1);
+    	    					}
+    	    					
+    	    					else if(x.getId().intValue()==migrant.getId().intValue()) {
+    	    						table1.setMigrants(table1.getMigrants()+1);
+    	    					}
+    	    				}
+    	    				
+    	    				x = f89.getProfession();
+    	    				
+    	    				if(x!=null) {
+    	    					if(x.getId().intValue()==phcWorker.getId().intValue()) {
+    	    						table1.setPhcWorkers(table1.getPhcWorkers()+1);
+    	    					}
+    	    					
+    	    					else if(x.getId().intValue()==tbServices.getId().intValue()) {
+    	    						table1.setTbServicesWorkers(table1.getTbServicesWorkers()+1);
+    	    					}
+    	    				}
+    	    				
+    	    			}
+    	    			
+    	    			///
     	    			
     	    			
     	    			//P

@@ -1222,7 +1222,7 @@ response.setDateHeader ("Expires", -1);
 
 			</tbody>
 		</table>
-<p><spring:message code="mdrtb.tb07.table1.footnote" /> </p>
+<p><spring:message code="mdrtb.tb07.table1.footnote" arguments="${table1.womenOfChildBearingAge},${table1.pregnant},${table1.contacts},${table1.migrants},${table1.phcWorkers},${table1.tbServicesWorkers},${table1.died},${table1.diedChildren},${table1.diedWomenOfChildBearingAge }" /> </p>
 		
 
 
