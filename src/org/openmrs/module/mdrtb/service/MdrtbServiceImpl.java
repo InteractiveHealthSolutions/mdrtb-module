@@ -1369,7 +1369,7 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	dao.unlockReport(oblast, location, year, quarter, month, name, date);
     }*/
     
-    public void unlockReport(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String type) {
+    public void unlockReport(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String type) {    	
     	dao.unlockReport(oblast, district, facility, year, quarter, month, name, date,type);
     }
     

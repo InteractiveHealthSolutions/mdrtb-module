@@ -264,7 +264,7 @@ $(document).ready(function(){
 		}
 	</style>
 
-	<table class="resultsTable">
+	<table class="resultsTable" border="1" cellspacing="0">
 	   <tr>
 	     <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.registrationNumber"/></span></div></th>
 	     <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.dateOfRegistration"/></span></div></th>

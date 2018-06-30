@@ -271,15 +271,18 @@ public class TB07ReportController {
     		pulmonary = null;
     		bacPositive = null;
     		hivPositive = null;
-    		
+    		System.out.println("PID:" + tf.getPatient().getPatientId());
     		Integer programId = tf.getPatProgId();
     		
     		TbPatientProgram tpp = null;
     		Form89 f89 = null;
     		
     		if(programId!=null) {
+    			System.out.println("ProgID:" + programId);
     			tpp = Context.getService(MdrtbService.class).getTbPatientProgram(programId);
+    			
     			if(tpp!=null) {
+    				
     				f89 = tpp.getForm89();
     				//f89.
     			}
@@ -307,24 +310,24 @@ public class TB07ReportController {
     	    if(q!=null) {
     	    	if(q.getConceptId().intValue()==pulmonaryConcept.getConceptId().intValue()) {
     	    		pulmonary = Boolean.TRUE;
-    	    		System.out.println("PULMONARY");
+    	    		//System.out.println("PULMONARY");
     	    	}
     	    	
     	    	else if (q.getConceptId().intValue()==extrapulmonaryConcept.getConceptId().intValue()) {
     	    		pulmonary = Boolean.FALSE;
-    	    		System.out.println("EXTRAPULMONARY");
+    	    		//System.out.println("EXTRAPULMONARY");
     	    	}
     	    	
     	    	else {
     	    		
-    	    		System.out.println("PULMONARY NULL");
+    	    		//System.out.println("PULMONARY NULL");
     	    		pulmonary = null;
     	    	}
     	    	
     	    }
     	    
     	    else {
-    	    	System.out.println("NO SITE");
+    	    	//System.out.println("NO SITE");
     	    	continue;
     	    }
     	    
@@ -340,24 +343,24 @@ public class TB07ReportController {
     	    		hivPositive = Boolean.TRUE;
     	    		table1.setHivPositive(table1.getHivPositive() + 1);
     	    		table1.setHivTested(table1.getHivTested() + 1);
-    	    		System.out.println("HIV +");
+    	    		//System.out.println("HIV +");
     	    	}
     	    	
     	    	else if(q.getConceptId().intValue()==negativeConcept.getConceptId().intValue()) {
     	    		hivPositive = Boolean.FALSE;
     	    		table1.setHivTested(table1.getHivTested() + 1);
-    	    		System.out.println("HIV -");
+    	    		//System.out.println("HIV -");
     	    	}
     	    	
     	    	else {
     	    		hivPositive = Boolean.FALSE;
-    	    		System.out.println("NOT TESTED");
+    	    		//System.out.println("NOT TESTED");
     	    	}
     	    }
     	    
     	    else {
     	    	hivPositive = Boolean.FALSE;
-	    		System.out.println("HIV NOT ENTERED");
+	    		//System.out.println("HIV NOT ENTERED");
     	    }
     	    
     	   
@@ -445,7 +448,7 @@ public class TB07ReportController {
 	    			if(hivPositive)
 	    				table1.setNewAllHIV(table1.getNewAllHIV() + 1);
     	    		
-	    			System.out.println("NEW MALE");
+	    			//System.out.println("NEW MALE");
     	    		
     	    		if(patient.getGender().equals("M")) {
     	    			
@@ -781,8 +784,11 @@ public class TB07ReportController {
     	    				
     	    				if(f89!=null) {
     	    					Concept c = f89.getPregnant();
-    	    					
-    	    					if(c!=null && c.getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PREGNANT).getId().intValue()) {
+    	    					if(c!=null)
+    	    						System.out.println("NAME:"+c.getName().getName());
+    	    					else
+    	    						System.out.println("NAME: NULL");
+    	    					if(c!=null && c.getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.YES).getId().intValue()) {
     	    						table1.setPregnant(table1.getPregnant() + 1);
     	    					}
     	    				}
@@ -1820,7 +1826,7 @@ public class TB07ReportController {
     	    }
     	    
     	    else {
-    	    	System.out.println("NO GROUP");
+    	    	//System.out.println("NO GROUP");
     	    	continue;
     	    }
 

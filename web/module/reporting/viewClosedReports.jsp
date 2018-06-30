@@ -107,7 +107,9 @@
 					var cell = row.insertCell(-1);
 					cell.id="quarter_${reportIdLoop.index}";
 					cell.innerHTML = "${quarters[reportIdLoop.index]}";
-					
+					<c:if test="${quarters[reportIdLoop.index]==''}">
+						cell.innerHTML = '<spring:message code="mdrtb.annual" />';
+					</c:if>
 					//MONTH
 					var cell = row.insertCell(-1);
 					cell.id="month_${reportIdLoop.index}";
