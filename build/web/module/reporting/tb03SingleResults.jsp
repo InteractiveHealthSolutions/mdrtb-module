@@ -264,7 +264,7 @@ $(document).ready(function(){
 		}
 	</style>
 
-	<table class="resultsTable">
+	<table border="1" cellspacing="0">
 	   <tr>
 	     <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.registrationNumber"/></span></div></th>
 	     <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.dateOfRegistration"/></span></div></th>
@@ -272,6 +272,8 @@ $(document).ready(function(){
 	     <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.gender"/></span></div></th>
 	     <th class="normal" rowspan="4"><spring:message code="dotsreports.tb03.age"/></th>
 	     <th class="normal" rowspan="4"><spring:message code="dotsreports.tb03.dateOfBirth"/></th>
+	     <th rowspan="4"><spring:message code="mdrtb.oblast"/></th>
+	     <th rowspan="4"><spring:message code="mdrtb.district"/></th>
 	     <th rowspan="4"><spring:message code="dotsreports.tb03.address"/></th>
 	     <th class="normal" rowspan="4"><spring:message code="dotsreports.tb03.mfForIP"/></th>
 	     <th class="normal" rowspan="4"><spring:message code="dotsreports.tb03.mfForFP"/></th>
@@ -435,7 +437,9 @@ $(document).ready(function(){
 	 <td align="center">${row.gender}</td>
 	 <td align="center">${row.ageAtTB03Registration }</td>
 	 <td>${row.dateOfBirth}</td>
-	 <td>${row.patient.personAddress.stateProvince},<br/>${row.patient.personAddress.countyDistrict},${row.patient.personAddress.address1}</td> 
+	 <td>${row.patient.personAddress.stateProvince}</td>
+	 <td>${row.patient.personAddress.countyDistrict}</td>
+	 <td>${row.patient.personAddress.address1}</td> 
 	 <td>${row.intensivePhaseFacility }</td>
 	 <td>${row.continuationPhaseFacility }</td>
 	 <td>${row.treatmentRegimen }</td>
@@ -548,11 +552,10 @@ $(document).ready(function(){
 	</c:forEach>
 	  <td>${row.notes }</td>
 	 </tr>
-	 <tr>
+	 
 	 	
 	
 	</c:forEach>
-	
 	</table>
 
 	<c:if test="${locale == 'tj' }"></font></c:if>

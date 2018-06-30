@@ -20,6 +20,7 @@ import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
@@ -256,6 +257,7 @@ public class TB07ReportController {
     	Concept phcWorker = Context.getService(MdrtbService.class).getConcept(TbConcepts.PHC_WORKER);
     	Concept tbServices = Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_SERVICES_WORKER);
     	
+    	
     	Boolean pulmonary = null;
     	Boolean bacPositive = null;
     	Boolean hivPositive = null;
@@ -402,13 +404,42 @@ public class TB07ReportController {
     	    			table1.setDiedChildren(table1.getDiedChildren() + 1);
     	    		}
     	    		
-    	    		else if (ageAtRegistration >= 15 && ageAtRegistration <=49) {
+    	    		else if (ageAtRegistration >= 15 && ageAtRegistration <=49 && tf.getPatient().getGender().equals("F")) {
     	    			table1.setDiedWomenOfChildBearingAge(table1.getDiedWomenOfChildBearingAge() + 1);
     	    		}
     	    	}
     	    	
+    	    	
+    	    	
     	    	//NEW
     	    	if(q.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
+    	    		
+    	    		if(f89!=null) {
+        				Concept x = f89.getCircumstancesOfDetection();
+        				
+        				if(x!=null) {
+        					if(x.getId().intValue()==contact.getId().intValue()) {
+        						table1.setContacts(table1.getContacts()+1);
+        					}
+        					
+        					else if(x.getId().intValue()==migrant.getId().intValue()) {
+        						table1.setMigrants(table1.getMigrants()+1);
+        					}
+        				}
+        				
+        				x = f89.getProfession();
+        				
+        				if(x!=null) {
+        					if(x.getId().intValue()==phcWorker.getId().intValue()) {
+        						table1.setPhcWorkers(table1.getPhcWorkers()+1);
+        					}
+        					
+        					else if(x.getId().intValue()==tbServices.getId().intValue()) {
+        						table1.setTbServicesWorkers(table1.getTbServicesWorkers()+1);
+        					}
+        				}
+        				
+        			}
     	    		
     	    		table1.setNewAll(table1.getNewAll() + 1);
 	    			if(hivPositive)
@@ -474,36 +505,9 @@ public class TB07ReportController {
 	    				}
     	    			
     	    			///
-    	    			if(ageAtRegistration >=15 && ageAtRegistration <= 49) {
-    	    				table1.setWomenOfChildBearingAge(table1.getWomenOfChildBearingAge()+1);
-    	    			}
     	    			
-    	    			if(f89!=null) {
-    	    				Concept x = f89.getCircumstancesOfDetection();
-    	    				
-    	    				if(x!=null) {
-    	    					if(x.getId().intValue()==contact.getId().intValue()) {
-    	    						table1.setContacts(table1.getContacts()+1);
-    	    					}
-    	    					
-    	    					else if(x.getId().intValue()==migrant.getId().intValue()) {
-    	    						table1.setMigrants(table1.getMigrants()+1);
-    	    					}
-    	    				}
-    	    				
-    	    				x = f89.getProfession();
-    	    				
-    	    				if(x!=null) {
-    	    					if(x.getId().intValue()==phcWorker.getId().intValue()) {
-    	    						table1.setPhcWorkers(table1.getPhcWorkers()+1);
-    	    					}
-    	    					
-    	    					else if(x.getId().intValue()==tbServices.getId().intValue()) {
-    	    						table1.setTbServicesWorkers(table1.getTbServicesWorkers()+1);
-    	    					}
-    	    				}
-    	    				
-    	    			}
+    	    			
+    	    			
     	    			
     	    			///
     	    			
@@ -714,8 +718,6 @@ public class TB07ReportController {
     	    				}
     	    			}
     	    		}
-    	    			
-    	    		
     	    		
     	    		else if(patient.getGender().equals("F")) {
     	    			table1.setNewFemale(table1.getNewFemale() + 1);
@@ -774,13 +776,21 @@ public class TB07ReportController {
 	    						table1.setNewFemaleHIV65(table1.getNewFemaleHIV65()+1);
 	    				}
     	    			
+    	    			if(ageAtRegistration >=15 && ageAtRegistration <= 49) {
+    	    				table1.setWomenOfChildBearingAge(table1.getWomenOfChildBearingAge()+1);
+    	    				
+    	    				if(f89!=null) {
+    	    					Concept c = f89.getPregnant();
+    	    					
+    	    					if(c!=null && c.getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PREGNANT).getId().intValue()) {
+    	    						table1.setPregnant(table1.getPregnant() + 1);
+    	    					}
+    	    				}
+    	    			}
+    	    			
     	    			//P
     	    			if(pulmonary != null &&  pulmonary) {
-    	    				
-    	    				
-    	    				
-    	    				
-    	    				
+
     	    				//BC
     	    				if(bacPositive) {
     	    					

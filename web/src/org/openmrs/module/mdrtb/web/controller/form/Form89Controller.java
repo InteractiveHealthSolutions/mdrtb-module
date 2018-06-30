@@ -22,6 +22,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
@@ -202,6 +203,7 @@ public class Form89Controller {
         }
         
         model.addAttribute("encounterId", encounterId);
+        
         if(mode!=null && mode.length()!=0) {
         	model.addAttribute("mode", mode);
         }
@@ -519,5 +521,27 @@ public class Form89Controller {
 	@ModelAttribute("cecOptions")
 	public Collection<ConceptAnswer> getPossibleCMACPlace() {
 		return Context.getService(MdrtbService.class).getPossibleConceptAnswers(TbConcepts.PLACE_OF_ELECTORAL_COMMISSION);
+	}
+	
+	@ModelAttribute("yesno")
+	public ArrayList<ConceptAnswer> getYesno() {
+		
+		ArrayList<ConceptAnswer> typeArray = new ArrayList<ConceptAnswer>();
+		Collection<ConceptAnswer> ca= Context.getService(MdrtbService.class).getPossibleConceptAnswers(MdrtbConcepts.REQUIRES_ANCILLARY_DRUGS);
+		for(int i=0; i< 2; i++) {
+			typeArray.add(null);
+		}
+		for(ConceptAnswer c : ca) {
+			
+			if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.NO).getId().intValue()) {
+				typeArray.set(0, c);
+			}
+			else if(c.getAnswerConcept().getId().intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.YES).getId().intValue()) {
+				typeArray.set(1, c);
+			}
+			
+		}
+		
+		return typeArray;
 	}
 }

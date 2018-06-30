@@ -1943,7 +1943,15 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
     	
     	else {
     		for(Location loc : locations){ 
-    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) ) {
+    			/*System.out.println("////////////////");
+    			System.out.println(loc.getStateProvince() + "/" + loc.getCountyDistrict() + "/" + loc.getRegion());
+    			if(loc.getRegion()==null) {
+    				System.out.println("NULL REGION");
+    			}
+    			else {
+    				System.out.println("REGLEN: " + loc.getRegion().length());
+    			}*/
+    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) && (loc.getRegion()==null || loc.getRegion().length()==0) ) {
     				location = loc;
     				break;
     			}

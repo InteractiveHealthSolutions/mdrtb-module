@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.databene.domain.person.Person;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -20,7 +19,6 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.MdrtbService;
-import org.openmrs.module.mdrtb.status.StatusItem;
 
 
 public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
@@ -1492,6 +1490,21 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 		
 	}
 	
+	public Boolean getIsChildbearingAge() {
+		Boolean result = null;
+		
+		if(encounter.getPatient().getGender().equals("F") && getAgeAtRegistration() >=15 && getAgeAtRegistration()<= 49){
+			result = new Boolean(true);
+		}
+		
+		else {
+			result = new Boolean(false);
+		}
+		
+		return result;
+		
+	}
+	
 	public String getNameOfDoctor() {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.NAME_OF_DOCTOR), encounter);
 		
@@ -1802,6 +1815,44 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 			return -1;
 		
 		return this.getRegistrationNumber().compareTo(form.getRegistrationNumber());
+	}
+	
+	public Concept getPregnant() {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PREGNANT), encounter);
+		
+		if (obs == null) {
+			return null;
+		}
+		else {
+			return obs.getValueCoded();
+		}
+	}
+	
+	public void setPregnant(Concept type) {
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PREGNANT), encounter);
+		
+		// if this obs have not been created, and there is no data to add, do nothing
+		if (obs == null && type == null) {
+			return;
+		}
+		
+		// we only need to update this if this is a new obs or if the value has changed.
+		if (obs == null || obs.getValueCoded() == null || !obs.getValueCoded().equals(type)) {
+			
+			// void the existing obs if it exists
+			// (we have to do this manually because openmrs doesn't void obs when saved via encounters)
+			if (obs != null) {
+				obs.setVoided(true);
+				obs.setVoidReason("voided by Mdr-tb module specimen tracking UI");
+			}
+				
+			// now create the new Obs and add it to the encounter	
+			if(type != null) {
+				obs = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PREGNANT), encounter.getEncounterDatetime(), encounter.getLocation());
+				obs.setValueCoded(type);
+				encounter.addObs(obs);
+			}
+		} 
 	}
 	
 }

@@ -444,6 +444,8 @@ public class MdrtbConcepts {
     
     public final static String[] YES = {"YES"};
     public final static String[] NO = {"NO"};
+    
+    public final static String[] PREGNANT = {"PREGNANT"};
 	
     
     

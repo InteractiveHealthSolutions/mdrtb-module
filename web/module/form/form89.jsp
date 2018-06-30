@@ -273,12 +273,17 @@
 <td><openmrs:formatDate date="${form89.dateOfBirth}" format="${_dateFormatDisplay}"/></td>
 </tr>
  
-
-
 <tr>
 <td><spring:message code="mdrtb.tb03.address" text="Residential Address"/>:</td>
 <td>${form89.address }</td>
 </tr>
+
+<c:if test="${form89.isChildbearingAge eq true}">
+<tr>
+<td><spring:message code="mdrtb.pregnant" text="pregz"/>:</td>
+<td>${form89.pregnant.displayString }</td>
+</tr>
+</c:if>
 
 <tr>
 <td><spring:message code="mdrtb.form89.locationType" text="Resident"/>:</td>
@@ -708,6 +713,19 @@
 <td><spring:message code="mdrtb.tb03.address" text="Residential Address"/>:</td>
 <td>${form89.address }</td>
 </tr>
+
+<c:if test="${form89.isChildbearingAge eq true}">
+<tr>
+<td><spring:message code="mdrtb.pregnant" text="pregz"/>:</td>
+<td><select name="pregnant">
+<option value=""></option>
+<c:forEach var="opt" items="${yesno}">
+	<option value="${opt.answerConcept.id}" <c:if test="${form89.pregnant == opt.answerConcept}">selected</c:if> >${opt.answerConcept.displayString}</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+</c:if>
 
 <tr>
 <td><spring:message code="mdrtb.form89.locationType" text="Resident"/>:</td>
