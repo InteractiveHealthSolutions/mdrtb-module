@@ -419,8 +419,8 @@ $(document).ready(function(){
 	   </tr>
 	   
 	
-	<c:forEach var="row" items="${patientSet}">
-	 <tr>
+	<c:forEach var="row" items="${patientSet}" varStatus="loopVar">
+	 <tr <c:if test="${loopVar.index%2==0}"> bgcolor="#D3D3D3" </c:if>>
 	 <td rowspan="2"><div><span>${row.identifierMDR}</span></div></td>
 	 <td rowspan="2">${row.tb03uRegistrationDate}</td>
 	 <td rowspan="1">${row.dotsYear}</td>
@@ -460,8 +460,8 @@ $(document).ready(function(){
 	 <td rowspan="2"align="center">${ row.dstDlm }</td>
 	  
 	  <td rowspan="1">${row.drugResistance }</td>
-	   <td rowspan="2">${row.hivTestResult }</td>
 	   <td rowspan="2">${row.hivTestDate }</td>
+	   <td rowspan="2">${row.hivTestResult }</td>
 	  <td rowspan="2">${row.artStartDate }</td>
 	 <td rowspan="2">${row.cpStartDate }</td>
 	 <td rowspan="1">${row.month0SmearResult }</td>
@@ -515,7 +515,7 @@ $(document).ready(function(){
 	<td rowspan="2">${row.notes }</td>
 	  
 	 </tr>
-	 <tr>
+	 <tr <c:if test="${loopVar.index%2==0}"> bgcolor="#D3D3D3" </c:if>>
 	
 	     <td rowspan="1">${row.identifierDOTS}</td>
 	     <td rowspan="1">${row.patient.personName.givenName}</td>

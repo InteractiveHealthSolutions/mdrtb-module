@@ -262,6 +262,11 @@ public class TB03uController {
     	    if(obsList.size()>0 && obsList.get(0)!=null)
     	    	tb03Data.setAgeAtTB03uRegistration(obsList.get(0).getValueNumeric().intValue());*/
     	    
+    	   Integer ageAtReg = tf.getAgeAtMDRRegistration();
+    	   if(ageAtReg!=null) {
+    		   tb03uData.setAgeAtTB03uRegistration(ageAtReg);
+    	   }
+    	    
     	    if(patient.getBirthdate()!=null)
     	    	tb03uData.setDateOfBirth(sdf.format(patient.getBirthdate()));
     	    

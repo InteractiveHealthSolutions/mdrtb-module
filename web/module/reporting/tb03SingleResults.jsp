@@ -274,6 +274,7 @@ $(document).ready(function(){
 	     <th class="normal" rowspan="4"><spring:message code="dotsreports.tb03.dateOfBirth"/></th>
 	     <th rowspan="4"><spring:message code="mdrtb.oblast"/></th>
 	     <th rowspan="4"><spring:message code="mdrtb.district"/></th>
+	     <th rowspan="4"><spring:message code="mdrtb.facility"/></th>
 	     <th rowspan="4"><spring:message code="dotsreports.tb03.address"/></th>
 	     <th class="normal" rowspan="4"><spring:message code="dotsreports.tb03.mfForIP"/></th>
 	     <th class="normal" rowspan="4"><spring:message code="dotsreports.tb03.mfForFP"/></th>
@@ -429,8 +430,8 @@ $(document).ready(function(){
 	   </tr>
 	
 	
-<c:forEach var="row" items="${patientSet}">
-	 <tr>
+<c:forEach var="row" items="${patientSet}" varStatus="loopVar">
+	 <tr <c:if test="${loopVar.index%2==0}"> bgcolor="#D3D3D3" </c:if>>
 	 <td><div><span>${row.identifier}</span></div></td>
 	 <td>${row.tb03RegistrationDate}</td>
 	 <td>${row.patient.personName.familyName}, ${row.patient.personName.givenName}</td>
@@ -439,6 +440,7 @@ $(document).ready(function(){
 	 <td>${row.dateOfBirth}</td>
 	 <td>${row.patient.personAddress.stateProvince}</td>
 	 <td>${row.patient.personAddress.countyDistrict}</td>
+	  <td>${row.patient.personAddress.region}</td>
 	 <td>${row.patient.personAddress.address1}</td> 
 	 <td>${row.intensivePhaseFacility }</td>
 	 <td>${row.continuationPhaseFacility }</td>

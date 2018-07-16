@@ -297,9 +297,11 @@ public class TB03SingleExportController {
     	    if(q!=null)
     	    	tb03Data.setHivTestResult(q.getName().getName());
 
-    	   /* //DATE OF HIV TEST
-    	    Date hivTestDate = tf.get
-    	    conceptQuestionList.clear();
+    	    //DATE OF HIV TEST
+    	    Date hivTestDate = tf.getHivTestDate();
+    	    if(hivTestDate!=null)
+    	    	tb03Data.setHivTestDate(sdf.format(hivTestDate));
+    	   /* conceptQuestionList.clear();
     	    conceptQuestionList.add(q);
     	    
     	    obsList = Context.getObsService().getObservations(patientList, null, conceptQuestionList, null, null, null, null, null, null, startDate, endDate, false);

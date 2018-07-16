@@ -414,8 +414,8 @@ $(document).ready(function(){
 	   		<th><spring:message code="dotsreports.tb03.date"/></th>
 	   		<th><spring:message code="dotsreports.tb03.testNumber"/></th>
 	   </tr>
-	<c:forEach var="row" items="${patientSet}">
-	 <tr>
+	<c:forEach var="row" items="${patientSet}" varStatus="loopVar" >
+	 <tr <c:if test="${loopVar.index%2==0}"> bgcolor="#D3D3D3" </c:if>>
 	 <td rowspan="2"><div><span>${row.identifier}</span></div></td>
 	 <td rowspan="2">${row.tb03RegistrationDate}</td>
 	 <td rowspan="2">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</td>
@@ -498,7 +498,7 @@ $(document).ready(function(){
 	</c:forEach>
 	  <td rowspan="2">${row.notes }</td>
 	 </tr>
-	 <tr>
+	  <tr <c:if test="${loopVar.index%2==0}"> bgcolor="#D3D3D3" </c:if>>
 	 	<td>${row.dateOfBirth}</td>
 	 	<td>${row.continuationPhaseFacility }</td>
 	 	<td>${row.tb03TreatmentStartDate }</td>
