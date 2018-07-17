@@ -398,6 +398,17 @@ public class TB03SingleExportController {
     	    		tb03Data.setDiagnosticSmearTestNumber(diagnosticSmear.getSpecimenId());
     	    		//System.out.println("SPEC ID:" + diagnosticSmear.getRealSpecimenId());
     	    		
+    	    		Location loc = diagnosticSmear.getLocation();
+    	    		if(loc!=null) {
+    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    				tb03Data.setDiagnosticSmearLab(loc.getRegion());
+    	    			}
+    	    			
+    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    				tb03Data.setDiagnosticSmearLab(loc.getCountyDistrict());
+    	    			}
+    	    		}
+    	    		
     	    		System.out.println(tb03Data.getDiagnosticSmearResult() + "," + tb03Data.getDiagnosticSmearDate() + "," + tb03Data.getDiagnosticSmearTestNumber());
     	    }
     	    
@@ -415,6 +426,17 @@ public class TB03SingleExportController {
     	    		tb03Data.setXpertTestDate(sdf.format(firstXpert.getEncounterDatetime()));
     	    	
     	    	tb03Data.setXpertTestNumber(firstXpert.getSpecimenId());
+    	    	
+    	    	Location loc = firstXpert.getLocation();
+	    		if(loc!=null) {
+	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+	    				tb03Data.setXpertLab(loc.getRegion());
+	    			}
+	    			
+	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+	    				tb03Data.setXpertLab(loc.getCountyDistrict());
+	    			}
+	    		}
     	    }
     	    
     	    else {
@@ -433,6 +455,17 @@ public class TB03SingleExportController {
     	    		tb03Data.setHainTestDate(sdf.format(firstHAIN.getEncounterDatetime()));
     	    	
     	    	tb03Data.setHainTestNumber(firstHAIN.getSpecimenId());
+    	    	
+    	    	Location loc = firstHAIN.getLocation();
+	    		if(loc!=null) {
+	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+	    				tb03Data.setHainLab(loc.getRegion());
+	    			}
+	    			
+	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+	    				tb03Data.setHainLab(loc.getCountyDistrict());
+	    			}
+	    		}
     	    }
     	    
     	    else {
@@ -451,6 +484,16 @@ public class TB03SingleExportController {
     	    		tb03Data.setHain2TestDate(sdf.format(firstHAIN2.getEncounterDatetime()));
     	    	
     	    	tb03Data.setHain2TestNumber(firstHAIN2.getSpecimenId());
+    	    	Location loc = firstHAIN2.getLocation();
+	    		if(loc!=null) {
+	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+	    				tb03Data.setHain2Lab(loc.getRegion());
+	    			}
+	    			
+	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+	    				tb03Data.setHain2Lab(loc.getCountyDistrict());
+	    			}
+	    		}
     	    }
     	    
     	    else {
@@ -464,6 +507,17 @@ public class TB03SingleExportController {
     	    	if(diagnosticCulture.getEncounterDatetime()!=null)
     	    		tb03Data.setCultureTestDate(sdf.format(diagnosticCulture.getEncounterDatetime()));
     	    	tb03Data.setCultureTestNumber(diagnosticCulture.getSpecimenId());
+    	    	
+    	    	Location loc = diagnosticCulture.getLocation();
+	    		if(loc!=null) {
+	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+	    				tb03Data.setCultureLab(loc.getRegion());
+	    			}
+	    			
+	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+	    				tb03Data.setCultureLab(loc.getCountyDistrict());
+	    			}
+	    		}
     	    }
     	    
     	    else {

@@ -284,7 +284,7 @@ $(document).ready(function(){
 		 <th class="reggroup" colspan="8" ><spring:message code="dotsreports.tb03.registrationGroup"/></th>
 		 <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.transferFrom"/></span></div></th>
 		 <th class="reggroup" colspan="4" ><spring:message code="dotsreports.tb03.tbHivActivities"/></th>
-		 <th class="reggroup" colspan="19" ><spring:message code="dotsreports.tb03.diagnosticTestResults"/></th>
+		 <th class="reggroup" colspan="24" ><spring:message code="dotsreports.tb03.diagnosticTestResults"/></th>
 		 <th class="normal" rowspan="4" rowspan="2"><spring:message code="dotsreports.tb03.dstSampleCollectionDate"/></th>
 		 <th class="normal" rowspan="4"><spring:message code="dotsreports.tb03.dstResultDate"/></th>
 		 <th class="reggroup" colspan="17" rowspan="1"><spring:message code="dotsreports.tb03.dst"/></th>
@@ -313,11 +313,11 @@ $(document).ready(function(){
 	   	 <th class="subrotate" rowspan="3"><div><span><spring:message code="dotsreports.tb03.artTest"/><br/><spring:message code="dotsreports.tb03.startDate"/></span></div></th>
 	   	 <th class="subrotate" rowspan="3"><div><span><spring:message code="dotsreports.tb03.cpTest"/><br/><spring:message code="dotsreports.tb03.startDate"/></span></div></th>
 	   	 
-	   	 <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.microscopy"/></th>
-	   	 <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.genexpert"/></th>
-	   	 <th class="normal" colspan="5"><spring:message code="dotsreports.tb03.hain"/></th>
-	   	 <th class="normal" colspan="5"><spring:message code="mdrtb.tb03.hain2"/></th>
-	   	 <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.culture"/></th>
+	   	 <th class="normal" colspan="4"><spring:message code="dotsreports.tb03.microscopy"/></th>
+	   	 <th class="normal" colspan="4"><spring:message code="dotsreports.tb03.genexpert"/></th>
+	   	 <th class="normal" colspan="6"><spring:message code="dotsreports.tb03.hain"/></th>
+	   	 <th class="normal" colspan="6"><spring:message code="mdrtb.tb03.hain2"/></th>
+	   	 <th class="normal" colspan="4"><spring:message code="dotsreports.tb03.culture"/></th>
 	   	 <th class="dst" rowspan="3"><div>R</div></th>
 	   	 <th class="dst" rowspan="3"><div>H</div></th>
 	   	 <th class="dst" rowspan="3"><div>E</div></th>
@@ -359,22 +359,27 @@ $(document).ready(function(){
 	       <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.microscopyResult"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.testNumber"/></th>
+	   	   <th class="normal" rowspan="2"><spring:message code="mdrtb.lab"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.xpertResult"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.testNumber"/></th>
+	   	    <th class="normal" rowspan="2"><spring:message code="mdrtb.lab"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.testNumber"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.hResult"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.rResult"/></th>
+	   	    <th class="normal" rowspan="2"><spring:message code="mdrtb.lab"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.testNumber"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.iResult"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.fResult"/></th>
+	   	   <th class="normal" rowspan="2"><spring:message code="mdrtb.lab"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.testNumber"/></th>
+	   	   <th class="normal" rowspan="2"><spring:message code="mdrtb.lab"/></th>
 	   	    
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.result"/></th>
 	   	    <th rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
@@ -459,22 +464,27 @@ $(document).ready(function(){
 	 <td align="center">${row.diagnosticSmearResult }</td>
 	 <td>${row.diagnosticSmearDate }</td>
 	 <td>${row.diagnosticSmearTestNumber }</td>
+	 <td>${row.diagnosticSmearLab }</td>
 	 <td align="center">${row.xpertMTBResult } ${row.xpertRIFResult } </td>
 	 <td>${row.xpertTestDate }</td>
 	 <td>${row.xpertTestNumber }</td>
+	 <td>${row.xpertLab }</td>
 	 <td align="center">${row.hainTestDate } </td>
 	 <td>${row.hainTestNumber }</td>
 	 <td align="center">${row.hainMTBResult }</td>
 	 <td align="center">${row.hainINHResult }</td>
 	 <td align="center">${row.hainRIFResult }</td>
+	 <td>${row.hainLab }</td>
 	 <td align="center">${row.hain2TestDate } </td>
 	 <td>${row.hain2TestNumber }</td>
 	 <td align="center">${row.hain2MTBResult }</td>
 	 <td align="center">${row.hain2InjResult }</td>
 	 <td align="center">${row.hain2FqResult }</td>
+	 <td>${row.hain2Lab }</td>
 	 <td align="center">${row.cultureResult }</td>
 	 <td>${row.cultureTestDate }</td>
 	 <td>${row.cultureTestNumber }</td>
+	 <td>${row.cultureLab }</td>
 	  <td>${ row.dstCollectionDate}</td>
 	  <td>${ row.dstResultDate}</td>
 	  <td  align="center">${ row.dstR}</td>
