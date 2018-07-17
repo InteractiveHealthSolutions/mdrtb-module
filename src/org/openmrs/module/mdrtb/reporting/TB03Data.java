@@ -26,25 +26,31 @@ public class TB03Data implements Comparable <TB03Data>{
 	private String diagnosticSmearResult;
 	private String diagnosticSmearTestNumber;
 	private String diagnosticSmearDate;
+	private String diagnosticSmearLab;
 	private String xpertMTBResult;
 	private String xpertRIFResult;
 	private String xpertTestDate;
 	private String xpertTestNumber;
+	private String xpertLab;
 	private String hainMTBResult;
 	private String hainINHResult;
 	private String hainRIFResult;
 	private String hainTestDate;
 	private String hainTestNumber;
+	private String hainLab;
 	
 	private String hain2MTBResult;
 	private String hain2InjResult;
 	private String hain2FqResult;
 	private String hain2TestDate;
 	private String hain2TestNumber;
+	private String hain2Lab;
 	
 	private String cultureResult;
 	private String cultureTestDate;
 	private String cultureTestNumber;
+	private String cultureLab;
+	
 	private String drugResistance;
 	private String month2SmearResult;
 	private String month2SmearDate;
@@ -837,6 +843,46 @@ public class TB03Data implements Comparable <TB03Data>{
 
 	public void setHain2TestNumber(String hain2TestNumber) {
 		this.hain2TestNumber = hain2TestNumber;
+	}
+
+	public String getDiagnosticSmearLab() {
+		return diagnosticSmearLab;
+	}
+
+	public void setDiagnosticSmearLab(String diagnosticSmearLab) {
+		this.diagnosticSmearLab = diagnosticSmearLab;
+	}
+
+	public String getXpertLab() {
+		return xpertLab;
+	}
+
+	public void setXpertLab(String xpertLab) {
+		this.xpertLab = xpertLab;
+	}
+
+	public String getHainLab() {
+		return hainLab;
+	}
+
+	public void setHainLab(String hainLab) {
+		this.hainLab = hainLab;
+	}
+
+	public String getHain2Lab() {
+		return hain2Lab;
+	}
+
+	public void setHain2Lab(String hain2Lab) {
+		this.hain2Lab = hain2Lab;
+	}
+
+	public String getCultureLab() {
+		return cultureLab;
+	}
+
+	public void setCultureLab(String cultureLab) {
+		this.cultureLab = cultureLab;
 	}
 	
 		
