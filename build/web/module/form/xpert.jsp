@@ -88,6 +88,43 @@
 		if(val2!="")
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty xpert.id ? xpert.id : -1})
 	}
+	
+	function validate() 
+	{
+		var encDate = document.getElementById("encounterDatetime").value;
+		var errorText = "";
+		if(encDate=="") {
+			errorText = ""  + '<spring:message code="mdrtb.error.missingCollectionDate"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		
+		
+		encDate = encDate.replace(/\//g,".");
+		
+		
+		var parts = encDate.split(".");
+		var day = parts[0];
+		var month = parts[1]-1;
+		var year = parts[2];
+		
+		
+		
+		var dateCollected = new Date(year,month,day);
+
+		var now = new Date();
+		
+		if(dateCollected.getTime() > now.getTime()) {
+			errorText = ""  + '<spring:message code="mdrtb.error.collectionDateInFuture"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		
+		
+		return true;
+	}
 
 
 -->
@@ -186,7 +223,7 @@
 	<br/>
 </c:if>
 
-<form name="xpert" action="xpert.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty xpert.id ? xpert.id : -1}" method="post">
+<form name="xpert" action="xpert.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty xpert.id ? xpert.id : -1}" method="post" onSubmit="return validate()">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="45" />

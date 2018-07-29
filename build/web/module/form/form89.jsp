@@ -184,6 +184,8 @@
 		if(val2!="")
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/form89.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty form89.id ? form89.id : -1})
 	}
+	
+	
 
 -->
 

@@ -1072,7 +1072,52 @@ public class MdrtbUtil {
 			
 			// Check is already in use by another patient
 			String id = pi.getIdentifier();
+			System.out.println("VAL_ID:" + id);
+			GregorianCalendar now = new GregorianCalendar();
+			int year = now.get(GregorianCalendar.YEAR);
+			String yearString = "" + year;
+			String firstTwoDigits = yearString.substring(0,2);
+			System.out.println("FTD:" + firstTwoDigits);
+			int centuryYear = Integer.parseInt(firstTwoDigits) * 100;
+			System.out.println("CY:" + centuryYear);
+			int yearFromId = Integer.parseInt(id.substring(2,4)) + centuryYear;
+			System.out.println("YFI:" + yearFromId);
 			
+			if(yearFromId > year) {
+				errors.reject(Context.getMessageSourceService().getMessage("mdrtb.yearInIdInFuture"));
+			}
+			
+			/*if(programStartDate!=null) {
+			{
+				GregorianCalendar stDateCal = new GregorianCalendar();	
+				stDateCal.setTimeInMillis(programStartDate.getTime());
+				int stDateYear = stDateCal.get(GregorianCalendar.YEAR);
+			
+				if(yearFromId != stDateYear) {
+					Context.getMessageSourceService().getMessage("mdrtb.yearInIdMismatch");
+				}
+			}*/
+			
+			
+			
+		
+		}
+	}
+	
+	public static void validateIdentifierString(String id, Errors errors) throws PatientIdentifierException {
+		
+		// Validate that the identifier is non-null
+		if (id==null) {
+			errors.reject(Context.getMessageSourceService().getMessage("mdrtb.emptyId"));
+			// BlankIdentifierException("Patient Identifier cannot be null.");
+		}
+		
+		// Only validate if the PatientIdentifier is not voided
+		else {
+			
+			// Check is already in use by another patient
+			
+			System.out.println("VAL_ID:" + id);
 			GregorianCalendar now = new GregorianCalendar();
 			int year = now.get(GregorianCalendar.YEAR);
 			String yearString = "" + year;

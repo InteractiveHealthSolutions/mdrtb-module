@@ -30,7 +30,7 @@ $j(document).ready(function(){
 	$('#oblast').val(${oblastSelected});
 	$('#district').val(${districtSelected});
 	$('#facility').val(${facilitySelected});
-	$('#identifierValue').val(${idSelected});
+	$('#identifierValue').val("${idSelected}");
 	<c:if test="${! empty dateEnrolled}">
 		$('#dateEnrolled').val("" + ${dateEnrolled});
 	</c:if>

@@ -53,7 +53,7 @@
 
 		<tr>
 			<td align="right"></td>
-			<td>&nbsp;<br/><input type="submit" value="<spring:message code="mdrtb.submit" />"/></td>
+			<td>&nbsp;<br/><input type="submit" value="<spring:message code="mdrtb.display" />"/></td>
 		</tr>
 	</table>
 

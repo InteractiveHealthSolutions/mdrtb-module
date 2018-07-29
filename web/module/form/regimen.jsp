@@ -129,6 +129,62 @@
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/regimen.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty regimenForm.id ? regimenForm.id : -1})
 	} */
 
+	
+	function validate() 
+	{
+		var encDate = document.getElementById("encounterDatetime").value;
+		var cmacDate = document.getElementById("councilDate").value;
+		var errorText = "";
+		
+		if(encDate=="") {
+			errorText = ""  + '<spring:message code="mdrtb.error.missingRegimenDate"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		if(cmacDate=="") {
+			errorText = ""  + '<spring:message code="mdrtb.error.missingCmacDate"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		
+		
+		encDate = encDate.replace(/\//g,".");
+		
+		
+		var parts = encDate.split(".");
+		var day = parts[0];
+		var month = parts[1]-1;
+		var year = parts[2];
+		
+		var regimenDate = new Date(year,month,day);
+		
+		parts = cmacDate.split(".");
+		day = parts[0];
+		month = parts[1]-1;
+		year = parts[2];
+		
+		var councilDate = new Date(year,month,day);
+
+		var now = new Date();
+		
+		if(regimenDate.getTime() > now.getTime()) {
+			errorText = ""  + '<spring:message code="mdrtb.error.regimenDateInFuture"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		if(councilDate.getTime() > now.getTime()) {
+			errorText = ""  + '<spring:message code="mdrtb.error.cmacDateInFuture"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		
+		
+		return true;
+	}
 -->
 
 </script>
@@ -362,7 +418,7 @@
 	<br/>
 </c:if>
 
-<form name="regimenForm" name="regimenForm" action="regimen.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty regimenForm.id ? regimenForm.id : -1}" method="post">
+<form name="regimenForm" name="regimenForm" action="regimen.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty regimenForm.id ? regimenForm.id : -1}" method="post" onSubmit="return validate()">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />

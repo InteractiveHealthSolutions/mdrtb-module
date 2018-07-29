@@ -25,6 +25,7 @@ import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
+import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
@@ -582,12 +583,13 @@ public class ProgramController {
 										  @RequestParam(value="dateEnrolled", required=false) String dateEnrolled,
 										  @RequestParam(value="patGroup", required=false) Integer patGroup,
 										  @RequestParam(value="drugGroup", required=false) Integer drugGroup,
-										  @RequestParam(value="idSelected", required=false) Integer idSelected,
+										  @RequestParam(value="idSelected", required=false) String idSelected,
 									   @RequestParam(required = false, value = "programStartDate") String programStartDate,
+									  
 									  /* @RequestParam(required = false, value = "previousProgramId") Integer previousProgramId,*/
 	                                         ModelMap map) {
 
-		    System.out.println("SOE: " + patientId + ":" + type);
+		    System.out.println("SOE: " + patientId + ":" + type + ":" + idSelected);
 			Patient patient = Context.getPatientService().getPatient(patientId);
 			if (patient == null) {
 				System.out.println("bad patient");
@@ -675,6 +677,8 @@ public class ProgramController {
         	map.addAttribute("patientGroup", patGroup);
         	map.addAttribute("previousDrugUse", drugGroup);
         	map.addAttribute("idSelected", idSelected);
+        	System.out.println("IDS:"+ idSelected);
+        	
 		/*	if(previousProgramId!=null) {
 				map.put("previousProgramId", previousProgramId);
 			}*/
@@ -705,7 +709,7 @@ public class ProgramController {
 		Location location=null;
     	
     	
-    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId);
+    	System.out.println("PARAMS:\nob: " + oblastId + "\ndist: " + districtId + "\nfac: " + facilityId + "\nID: " + identifierValue);
     	
     	if(facilityId!=null && facilityId.length()!=0)
     		location = Context.getService(MdrtbService.class).getLocation(Integer.parseInt(oblastId),Integer.parseInt(districtId),Integer.parseInt(facilityId));
@@ -721,6 +725,42 @@ public class ProgramController {
 		if(program.getLocation()==null || !location.equals(program.getLocation())) {
 			System.out.println("setting loc");
 			program.setLocation(location);
+		}
+		
+		MdrtbUtil.validateIdentifierString(identifierValue, errors);
+		
+		if (errors.hasErrors()) {
+			System.out.println("errors");
+			MdrtbPatientProgram mostRecentProgram = Context.getService(MdrtbService.class).getMostRecentMdrtbPatientProgram(patient);
+			map.put("hasActiveProgram", mostRecentProgram != null && mostRecentProgram.getActive() ? true : false);
+			map.put("patientId", patientId);
+			map.put("errors", errors);
+			map.put("type", "mdr");
+			map.put("ob",oblastId);
+			map.put("loc",districtId);
+			
+			
+			map.put("idSelected", identifierValue);
+			map.put("dateEnrolled", program.getDateEnrolled());
+			
+			if(program.getClassificationAccordingToPreviousDrugUse()!=null) {
+				map.put("previousDrugUse", program.getClassificationAccordingToPreviousDrugUse().getConcept().getId());
+			}
+			
+			
+			
+			if(program.getClassificationAccordingToPreviousTreatment()!=null) {
+				map.put("patientGroup", program.getClassificationAccordingToPreviousTreatment().getConcept().getId());
+			}
+		
+			for(Object err  : errors.getAllErrors())
+				System.out.println(err.toString());
+			
+			map.put("errors", errors);
+			
+				return new ModelAndView("/module/mdrtb/program/otherEnrollment.form?patientId=" + patientId + "&type=mdr", map);
+			
+			
 		}
 		
 		PatientIdentifier identifier = new PatientIdentifier(identifierValue, getMdrIdentifier(), program.getLocation());
@@ -760,10 +800,42 @@ public class ProgramController {
 			map.put("patientId", patientId);
 			map.put("errors", errors);
 			map.put("type", "mdr");
+			map.put("ob",oblastId);
+			map.put("loc",districtId);
+			
+			
+			//List<Oblast> oblasts = Context.getService(MdrtbService.class).getOblasts();
+        	//List<District> districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblastId));
+        	//List<Facility> facilities = Context.getService(MdrtbService.class).getRegFacilities(Integer.parseInt(districtId));
+			/*if(facilityId!=null) {
+				map.put("facility", facilityId);
+			}*/
+			//map.put("oblasts", oblasts);
+			//map.put("districts", districts);
+			//map.put("facilities", facilities);
+			map.put("idSelected", identifierValue);
+			map.put("dateEnrolled", program.getDateEnrolled());
+			
+			if(program.getClassificationAccordingToPreviousDrugUse()!=null) {
+				map.put("previousDrugUse", program.getClassificationAccordingToPreviousDrugUse().getConcept().getId());
+			}
+			
+			
+			
+			if(program.getClassificationAccordingToPreviousTreatment()!=null) {
+				map.put("patientGroup", program.getClassificationAccordingToPreviousTreatment().getConcept().getId());
+			}
+		
 			for(Object err  : errors.getAllErrors())
 				System.out.println(err.toString());
-			return new ModelAndView("/module/mdrtb/program/otherEnrollmentMdrtb.form?patientId=" + patientId + "&type=mdr", map);
+			
+			map.put("errors", errors);
+			
+				return new ModelAndView("/module/mdrtb/program/otherEnrollment.form?patientId=" + patientId + "&type=mdr", map);
+			
+			
 		}
+		
 		
 		
 		
