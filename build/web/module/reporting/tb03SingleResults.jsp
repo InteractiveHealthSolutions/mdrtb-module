@@ -290,7 +290,7 @@ $(document).ready(function(){
 		 <th class="reggroup" colspan="17" rowspan="1"><spring:message code="dotsreports.tb03.dst"/></th>
 		 
 		 <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.drugResistance"/></span></div></th>
-		 <th class="reggroup" colspan="9" ><spring:message code="dotsreports.tb03.smearMonitoring"/></th>
+		 <th class="reggroup" colspan="12" ><spring:message code="dotsreports.tb03.smearMonitoring"/></th>
 		 <th class="reggroup" colspan="6" ><spring:message code="dotsreports.tb03.treatmentOutcome"/></th>
 		 <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.canceled"/></span></div></th>
 		 <th class="rotate" rowspan="4"><div><span><spring:message code="dotsreports.tb03.startedRegimen2"/></span></div></th>
@@ -335,9 +335,9 @@ $(document).ready(function(){
 	   	 <th class="dst" rowspan="3"><div>Cfz</div></th>
 	   	 <th class="dst" rowspan="3"><div>Bdq</div></th>
 	   	 <th class="dst" rowspan="3"><div>Dlm</div></th>
-	   	 <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.m234"/><br style="mso-data-placement:same-cell;" /><spring:message code="dotsreports.tb03.month"/></th>
-	   	 <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.five"/> <spring:message code="dotsreports.tb03.month"/></th>
-	   	 <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.m68"/> <spring:message code="dotsreports.tb03.month"/></th>
+	   	 <th class="normal" colspan="4"><spring:message code="dotsreports.tb03.m234"/><br style="mso-data-placement:same-cell;" /><spring:message code="dotsreports.tb03.month"/></th>
+	   	 <th class="normal" colspan="4"><spring:message code="dotsreports.tb03.five"/> <spring:message code="dotsreports.tb03.month"/></th>
+	   	 <th class="normal" colspan="4"><spring:message code="dotsreports.tb03.m68"/> <spring:message code="dotsreports.tb03.month"/></th>
 	   	  <th class="subrotate" rowspan="3"><div><span><spring:message code="dotsreports.tb03.cured"/></span></div></th>
 	   	   <th class="subrotate" rowspan="3"><div><span><spring:message code="dotsreports.tb03.txCompleted"/></span></div></th>
 	   	   <th class="subrotate" rowspan="3"><div><span><spring:message code="dotsreports.tb03.failure"/></span></div></th>
@@ -384,12 +384,15 @@ $(document).ready(function(){
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.result"/></th>
 	   	    <th rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
 	   		<th rowspan="2"><spring:message code="dotsreports.tb03.testNumber"/></th>
+	   		<th rowspan="2"><spring:message code="mdrtb.lab"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.result"/></th>
 	   	   <th rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
 	   		<th rowspan="2"><spring:message code="dotsreports.tb03.testNumber"/></th>
+	   		<th rowspan="2"><spring:message code="mdrtb.lab"/></th>
 	   	   <th class="normal" rowspan="2"><spring:message code="dotsreports.tb03.result"/></th>
 	   	  <th rowspan="2"><spring:message code="dotsreports.tb03.date"/></th>
 	   		<th rowspan="2"><spring:message code="dotsreports.tb03.testNumber"/></th>
+	   		<th rowspan="2"><spring:message code="mdrtb.lab"/></th>
 	   		
 	   		
 	   	
@@ -513,8 +516,10 @@ $(document).ready(function(){
 	  				<td align="center">${row.month2SmearResult} / ${row.month3SmearResult}</td>
 	  				<td align="center">${row.month2SmearDate} / ${row.month3SmearDate}</td>
 	  				<td align="center">${row.month2TestNumber} / ${row.month3TestNumber}</td>
+	  				<td align="center">${row.month2TestlAB} / ${row.month3TestLab}</td>
 	  			</c:when>
 	  			<c:otherwise>
+	  			   <td>&nbsp;</td>
 	  			   <td>&nbsp;</td>
 	  			   <td>&nbsp;</td>
 	  			   <td>&nbsp;</td>
@@ -523,9 +528,11 @@ $(document).ready(function(){
 	  		<td align="center">${row.month5SmearResult}</td>
 	  		<td align="center">${row.month5SmearDate}</td>
 	  		<td align="center">${row.month5TestNumber}</td>
+	  		<td align="center">${row.month5TestLab}</td>
 	  		<td align="center">${row.month6SmearResult}</td>
 	  		<td align="center">${row.month6SmearDate}</td>
 	  		<td align="center">${row.month6TestNumber}</td>
+	  		<td align="center">${row.month6TestLab}</td>
 	  	</c:when>
 	  	<c:when test="${row.reg1Rtx}">
 	  		<c:choose>
@@ -533,28 +540,37 @@ $(document).ready(function(){
 	  				<td align="center">${row.month3SmearResult} / ${row.month4SmearResult}</td>
 	  				<td align="center">${row.month3SmearDate} / ${row.month4SmearDate}</td>
 	  				<td align="center">${row.month3TestNumber} / ${row.month4TestNumber}</td>
+	  				<td align="center">${row.month3TestLab} / ${row.month4TestLab}</td>
 	  			</c:when>
 	  			<c:otherwise>
+	  			   <td>&nbsp;</td>
+	  			   <td>&nbsp;</td>
+	  			   <td>&nbsp;</td>
 	  			    <td>&nbsp;</td>
-	  			   <td>&nbsp;</td>
-	  			   <td>&nbsp;</td>
 	  			</c:otherwise>
 	  		</c:choose>
 	  		<td align="center">${row.month5SmearResult}</td>
 	  		<td align="center">${row.month5SmearDate}</td>
 	  		<td align="center">${row.month5TestNumber}</td>
-	  		
+	  		<td align="center">${row.month5TestLab}</td>
 	  		<td align="center">${row.month8SmearResult}</td>
 	  		<td align="center">${row.month8SmearDate}</td>
 	  		<td align="center">${row.month8TestNumber}</td>
+	  		<td align="center">${row.month8TestLab}</td>
 	  	</c:when>
 	  	<c:otherwise>
-	  	 <td>&nbsp;</td>
-	  			   <td>&nbsp;</td>
-	  			   <td>&nbsp;</td>
-	  			    <td>&nbsp;</td>
-	  			   <td>&nbsp;</td>
-	  			   <td>&nbsp;</td>
+	  	    <td>&nbsp;</td>
+	  		<td>&nbsp;</td>
+	  		<td>&nbsp;</td>
+	  		<td>&nbsp;</td>
+	  	    <td>&nbsp;</td>
+	  	    <td>&nbsp;</td>
+	  	    <td>&nbsp;</td>
+	        <td>&nbsp;</td>
+	        <td>&nbsp;</td>
+	  	    <td>&nbsp;</td>
+	  	    <td>&nbsp;</td>
+	        <td>&nbsp;</td>
 	  	</c:otherwise>
 	  </c:choose>
 	  <c:forEach begin="0" end="8" varStatus="loop">

@@ -55,21 +55,27 @@ public class TB03Data implements Comparable <TB03Data>{
 	private String month2SmearResult;
 	private String month2SmearDate;
 	private String month2TestNumber;
+	private String month2TestLab;
 	private String month3SmearResult;
 	private String month3SmearDate;
 	private String month3TestNumber;
+	private String month3TestLab;
 	private String month4SmearResult;
 	private String month4SmearDate;
 	private String month4TestNumber;
+	private String month4TestLab;
 	private String month5SmearResult;
 	private String month5SmearDate;
 	private String month5TestNumber;
+	private String month5TestLab;
 	private String month6SmearResult;
 	private String month6SmearDate;
 	private String month6TestNumber;
+	private String month6TestLab;
 	private String month8SmearResult;
 	private String month8SmearDate;
 	private String month8TestNumber;
+	private String month8TestLab;
 	private Integer tb03TreatmentOutcome;
 	private String tb03TreatmentOutcomeDate;
 	private Boolean diedOfTB;
@@ -883,6 +889,54 @@ public class TB03Data implements Comparable <TB03Data>{
 
 	public void setCultureLab(String cultureLab) {
 		this.cultureLab = cultureLab;
+	}
+
+	public String getMonth2TestLab() {
+		return month2TestLab;
+	}
+
+	public void setMonth2TestLab(String month2TestLab) {
+		this.month2TestLab = month2TestLab;
+	}
+
+	public String getMonth3TestLab() {
+		return month3TestLab;
+	}
+
+	public void setMonth3TestLab(String month3TestLab) {
+		this.month3TestLab = month3TestLab;
+	}
+
+	public String getMonth4TestLab() {
+		return month4TestLab;
+	}
+
+	public void setMonth4TestLab(String month4TestLab) {
+		this.month4TestLab = month4TestLab;
+	}
+
+	public String getMonth5TestLab() {
+		return month5TestLab;
+	}
+
+	public void setMonth5TestLab(String month5TestLab) {
+		this.month5TestLab = month5TestLab;
+	}
+
+	public String getMonth6TestLab() {
+		return month6TestLab;
+	}
+
+	public void setMonth6TestLab(String month6TestLab) {
+		this.month6TestLab = month6TestLab;
+	}
+
+	public String getMonth8TestLab() {
+		return month8TestLab;
+	}
+
+	public void setMonth8TestLab(String month8TestLab) {
+		this.month8TestLab = month8TestLab;
 	}
 	
 		

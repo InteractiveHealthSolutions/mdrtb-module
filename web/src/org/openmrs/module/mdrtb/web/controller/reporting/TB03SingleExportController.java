@@ -674,6 +674,16 @@ public class TB03SingleExportController {
     	    	    			tb03Data.setMonth2SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
     	    	    		tb03Data.setMonth2TestNumber(followupSmear.getSpecimenId());
+    	    	    		Location loc = followupSmear.getLocation();
+    	    	    		if(loc!=null) {
+    	    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    	    				tb03Data.setMonth2TestLab(loc.getRegion());
+    	    	    			}
+    	    	    			
+    	    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    	    				tb03Data.setMonth2TestLab(loc.getCountyDistrict());
+    	    	    			}
+    	    	    		}
     	    	    }
     	    	    
     	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 3);
@@ -684,6 +694,16 @@ public class TB03SingleExportController {
     	    	    			tb03Data.setMonth3SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
     	    	    		tb03Data.setMonth3TestNumber(followupSmear.getSpecimenId());
+    	    	    		Location loc = followupSmear.getLocation();
+    	    	    		if(loc!=null) {
+    	    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    	    				tb03Data.setMonth3TestLab(loc.getRegion());
+    	    	    			}
+    	    	    			
+    	    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    	    				tb03Data.setMonth3TestLab(loc.getCountyDistrict());
+    	    	    			}
+    	    	    		}
     	    	    }
     	    	    
     	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 5);
@@ -694,6 +714,16 @@ public class TB03SingleExportController {
     	    	    			tb03Data.setMonth5SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
     	    	    		tb03Data.setMonth5TestNumber(followupSmear.getSpecimenId());
+    	    	    		Location loc = followupSmear.getLocation();
+    	    	    		if(loc!=null) {
+    	    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    	    				tb03Data.setMonth5TestLab(loc.getRegion());
+    	    	    			}
+    	    	    			
+    	    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    	    				tb03Data.setMonth5TestLab(loc.getCountyDistrict());
+    	    	    			}
+    	    	    		}
     	    	    }
     	    	    
     	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 6);
@@ -704,6 +734,16 @@ public class TB03SingleExportController {
     	    	    			tb03Data.setMonth6SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
     	    	    		tb03Data.setMonth6TestNumber(followupSmear.getSpecimenId());
+    	    	    		Location loc = followupSmear.getLocation();
+    	    	    		if(loc!=null) {
+    	    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    	    				tb03Data.setMonth6TestLab(loc.getRegion());
+    	    	    			}
+    	    	    			
+    	    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    	    				tb03Data.setMonth6TestLab(loc.getCountyDistrict());
+    	    	    			}
+    	    	    		}
     	    	    }
     	    	}
     	    	
@@ -717,6 +757,16 @@ public class TB03SingleExportController {
      	    	    			tb03Data.setMonth3SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
      	    	    		
      	    	    		tb03Data.setMonth3TestNumber(followupSmear.getSpecimenId());
+     	    	    		Location loc = followupSmear.getLocation();
+    	    	    		if(loc!=null) {
+    	    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    	    				tb03Data.setMonth3TestLab(loc.getRegion());
+    	    	    			}
+    	    	    			
+    	    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    	    				tb03Data.setMonth3TestLab(loc.getCountyDistrict());
+    	    	    			}
+    	    	    		}
      	    	    }
     	    	    
     	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 4);
@@ -727,6 +777,16 @@ public class TB03SingleExportController {
     	    	    			tb03Data.setMonth4SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
     	    	    		tb03Data.setMonth4TestNumber(followupSmear.getSpecimenId());
+    	    	    		Location loc = followupSmear.getLocation();
+    	    	    		if(loc!=null) {
+    	    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    	    				tb03Data.setMonth4TestLab(loc.getRegion());
+    	    	    			}
+    	    	    			
+    	    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    	    				tb03Data.setMonth4TestLab(loc.getCountyDistrict());
+    	    	    			}
+    	    	    		}
     	    	    }
     	    	    
     	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 5);
@@ -737,6 +797,16 @@ public class TB03SingleExportController {
     	    	    			tb03Data.setMonth5SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
     	    	    		tb03Data.setMonth5TestNumber(followupSmear.getSpecimenId());
+    	    	    		Location loc = followupSmear.getLocation();
+    	    	    		if(loc!=null) {
+    	    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    	    				tb03Data.setMonth5TestLab(loc.getRegion());
+    	    	    			}
+    	    	    			
+    	    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    	    				tb03Data.setMonth5TestLab(loc.getCountyDistrict());
+    	    	    			}
+    	    	    		}
     	    	    }
     	    	    
     	    	    followupSmear = TB03Util.getFollowupSmearForm(tf, 8);
@@ -747,6 +817,16 @@ public class TB03SingleExportController {
     	    	    			tb03Data.setMonth8SmearDate(sdf.format(followupSmear.getEncounterDatetime()));
     	    	    		
     	    	    		tb03Data.setMonth8TestNumber(followupSmear.getSpecimenId());
+    	    	    		Location loc = followupSmear.getLocation();
+    	    	    		if(loc!=null) {
+    	    	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+    	    	    				tb03Data.setMonth8TestLab(loc.getRegion());
+    	    	    			}
+    	    	    			
+    	    	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+    	    	    				tb03Data.setMonth8TestLab(loc.getCountyDistrict());
+    	    	    			}
+    	    	    		}
     	    	    }
     	    	}
     	    }

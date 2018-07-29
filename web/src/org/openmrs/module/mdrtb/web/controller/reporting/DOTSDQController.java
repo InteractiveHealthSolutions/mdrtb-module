@@ -592,7 +592,7 @@ public class DOTSDQController {
     		}
     	}
     	
-    	Integer num = tb03List.size() + tofList.size();
+    	Integer num = tb03List.size();// + tofList.size();
     	Integer errorPercentage = null;
     	if(num==0)
     		errorPercentage = 0;
