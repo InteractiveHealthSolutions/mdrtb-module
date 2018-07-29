@@ -516,7 +516,7 @@ $(document).ready(function(){
 	  				<td align="center">${row.month2SmearResult} / ${row.month3SmearResult}</td>
 	  				<td align="center">${row.month2SmearDate} / ${row.month3SmearDate}</td>
 	  				<td align="center">${row.month2TestNumber} / ${row.month3TestNumber}</td>
-	  				<td align="center">${row.month2TestlAB} / ${row.month3TestLab}</td>
+	  				<td align="center">${row.month2TestLab} / ${row.month3TestLab}</td>
 	  			</c:when>
 	  			<c:otherwise>
 	  			   <td>&nbsp;</td>
