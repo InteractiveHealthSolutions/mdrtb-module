@@ -161,10 +161,10 @@ $(document).ready(function(){
 		    <td><button onClick="submitForm('menOfConscriptAge');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
-		    <tr>
+		    <!-- <tr>
 		    <td><spring:message code="mdrtb.detectedFromContact" /></td>
 		    <td><button onClick="submitForm('detectedFromContact');"><spring:message code="mdrtb.generate"/></button></td>
-		    </tr>
+		    </tr> -->
 		    
 		    <tr>
 		    <td><spring:message code="mdrtb.withConcomitantDisease" /></td>
