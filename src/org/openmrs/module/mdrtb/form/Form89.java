@@ -1801,11 +1801,20 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 	
 	public String getRegistrationNumber() {
 		
-			if(tb03==null)
-				return null;
+			if(tb03==null) {
+				if(this.getPatProgId()==null) {
+					return null;
+				}
+				
+				else {
+					initTB03(this.getPatProgId());
+					if(tb03!=null) {
+						return tb03.getRegistrationNumber();
+					}
+				}
+			}
 			
 			return tb03.getRegistrationNumber();
-
 	}
 	
 	public int compareTo(Form89 form) {

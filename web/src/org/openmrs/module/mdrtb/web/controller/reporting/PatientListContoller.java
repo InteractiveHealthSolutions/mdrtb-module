@@ -165,16 +165,16 @@ public class PatientListContoller {
     		report += openTD() + getMessage("mdrtb.tb03.treatmentStartDate") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.treatmentSiteIP") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
-    		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.tbLocalization") + closeTD();
     		report += openTD() + getMessage("mdrtb.lists.caseDefinition") + closeTD();
     		//report += openTD() + getMessage("mdrtb.tb03.tbLocalization") + closeTD();
     		report += openTD() + getMessage("mdrtb.lists.microscopy") + closeTD();
     		report += openTD() + getMessage("mdrtb.xpert") + closeTD();
-    		report += "<td align=\"center\" colspan=\"2\">" + getMessage("mdrtb.hain1") + closeTD();
-    		report += "<td align=\"center\" colspan=\"2\">" + getMessage("mdrtb.hain2") + closeTD();
+    		report += "<td align=\"center\" colspan=\"3\">" + getMessage("mdrtb.hain1") + closeTD();
+    		report += "<td align=\"center\" colspan=\"3\">" + getMessage("mdrtb.hain2") + closeTD();
     		report += openTD() + getMessage("mdrtb.culture") + closeTD();
     		report += openTD() + getMessage("mdrtb.lists.drugResistance") + closeTD();
     		report += openTD() + getMessage("mdrtb.lists.resistantTo") + closeTD();
@@ -200,10 +200,12 @@ public class PatientListContoller {
     		report += openTD() + "" + closeTD();
     		report += openTD() + "" + closeTD();
     		report += openTD() + "" + closeTD();
-    		report += openTD() + getMessage("mdrtb.resistantShort") + closeTD();
-    		report += openTD() + getMessage("mdrtb.sensitiveShort") + closeTD();
-    		report += openTD() + getMessage("mdrtb.resistantShort") + closeTD();
-    		report += openTD() + getMessage("mdrtb.sensitiveShort") + closeTD();
+    		report += openTD() + getMessage("mdrtb.result") + closeTD();
+    		report += openTD() + getMessage("mdrtb.lists.inhShort") + closeTD();
+    		report += openTD() + getMessage("mdrtb.lists.rifShort") + closeTD();
+    		report += openTD() + getMessage("mdrtb.result") + closeTD();
+    		report += openTD() + getMessage("mdrtb.lists.injectablesShort") + closeTD();
+    		report += openTD() + getMessage("mdrtb.lists.quinShort") + closeTD();
     		report += openTD() + "" + closeTD();
     		report += openTD() + "" + closeTD();
     		report += openTD() + "" + closeTD();
@@ -240,12 +242,29 @@ public class PatientListContoller {
     					report += openTD() + "" +  closeTD();
     				
     				report += openTD() + p.getFamilyName() + "," + p.getGivenName() + closeTD();
+    				report += openTD() + getGender(p) + closeTD();
     		    	report += openTD() + sdf.format(p.getBirthdate()) + closeTD();
     		    	report += openTD() + tf.getAgeAtTB03Registration() + closeTD();
-    		    	report += openTD() + getGender(p) + closeTD();
     		    	
-    		    	if( tf.getAnatomicalSite()!=null)
-    		    		report += openTD() + tf.getAnatomicalSite().getName().getName().charAt(0) + closeTD();
+    		    	
+    		    	if( tf.getAnatomicalSite()!=null) {
+    		    		Integer asId = tf.getAnatomicalSite().getConceptId();
+    		    		if(asId==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PULMONARY_TB).getConceptId()) {
+    		    			report += openTD() + getMessage("mdrtb.lists.pulmonaryShort") + closeTD();
+    		    		}
+    		    		
+    		    		else if (asId==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.EXTRA_PULMONARY_TB).getConceptId()) {
+    		    			report += openTD() + getMessage("mdrtb.lists.extrapulmonaryShort") + closeTD();
+    		    		}
+    		    		
+    		    		else {
+    		    			report += openTD() + "" +  closeTD();
+    		    		}
+    		    		//report += openTD() + tf.getAnatomicalSite().getName().getName().charAt(0) + closeTD();
+    		    	}
+    		    	
+    		    	
+    		    		
     		    	else
     					report += openTD() + "" +  closeTD();
     		    	
@@ -352,11 +371,30 @@ public class PatientListContoller {
     		    		
     		    		Concept ih = h.getInhResult();
     		    		Concept rh = h.getRifResult();
-    		    		
-    		    		String res = "";
-    		    		String sen = "";
+    		    		Concept res = h.getMtbResult();
+
+    		    		if(res!=null) {
+    		    			report += openTD() + res.getName().getName() + closeTD();
+    		    		}
+    		    		else {
+    		    			report += openTD() + "" + closeTD();
+    		    		}
     		    		
     		    		if(ih!=null) {
+    		    			report += openTD() + ih.getName().getName() + closeTD();
+    		    		}
+    		    		else {
+    		    			report += openTD() + "" + closeTD();
+    		    		}
+    		    		
+    		    		if(rh!=null) {
+    		    			report += openTD() + rh.getName().getName() + closeTD();
+    		    		}
+    		    		else {
+    		    			report += openTD() + "" + closeTD();
+    		    		}
+    		    		
+    		    		/*if(ih!=null) {
     		    			int concId = ih.getConceptId().intValue();
     		    			
     		    			if(concId==ms.getConcept(TbConcepts.DETECTED).getConceptId().intValue()) {
@@ -387,10 +425,11 @@ public class PatientListContoller {
     		    		}
     		    		
     		    		report += openTD() + res + closeTD();
-    		    		report += openTD() + sen + closeTD();
+    		    		report += openTD() + sen + closeTD();*/
     		    	}
     		    	
     		    	else {
+    		    		report += openTD() + "" + closeTD();
     		    		report += openTD() + "" + closeTD();
     		    		report += openTD() + "" + closeTD();
     		    	}
@@ -404,6 +443,31 @@ public class PatientListContoller {
     		    		HAIN2Form h = hain2s.get(0);
     		    		
     		    		Concept ih = h.getInjResult();
+    		    		Concept fq = h.getFqResult();
+    		    		Concept res = h.getMtbResult();
+
+    		    		if(res!=null) {
+    		    			report += openTD() + res.getName().getName() + closeTD();
+    		    		}
+    		    		else {
+    		    			report += openTD() + "" + closeTD();
+    		    		}
+    		    		
+    		    		if(ih!=null) {
+    		    			report += openTD() + ih.getName().getName() + closeTD();
+    		    		}
+    		    		else {
+    		    			report += openTD() + "" + closeTD();
+    		    		}
+    		    		
+    		    		if(fq!=null) {
+    		    			report += openTD() + fq.getName().getName() + closeTD();
+    		    		}
+    		    		else {
+    		    			report += openTD() + "" + closeTD();
+    		    		}
+    		    		
+    		    		/*Concept ih = h.getInjResult();
     		    		Concept fh = h.getFqResult();
     		    		
     		    		String res = "";
@@ -440,10 +504,11 @@ public class PatientListContoller {
     		    		}
     		    		
     		    		report += openTD() + res + closeTD();
-    		    		report += openTD() + sen + closeTD();
+    		    		report += openTD() + sen + closeTD();*/
     		    	}
     		    	
     		    	else {
+    		    		report += openTD() + "" + closeTD();
     		    		report += openTD() + "" + closeTD();
     		    		report += openTD() + "" + closeTD();
     		    	}
@@ -678,12 +743,11 @@ public class PatientListContoller {
     		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
     		report += "<br/>";
     		
-    		//Retreament
+    		//AfterDefault
     		Concept default1Concept = ms.getConcept(TbConcepts.DEFAULT_AFTER_REGIMEN_1);
     		Concept default2Concept = ms.getConcept(TbConcepts.DEFAULT_AFTER_REGIMEN_2);
-    		Concept failure1Concept = ms.getConcept(TbConcepts.AFTER_FAILURE_REGIMEN_1);
-    		Concept failure2Concept = ms.getConcept(TbConcepts.AFTER_FAILURE_REGIMEN_1);
-    		report += "<h4>" + getMessage("mdrtb.lists.retreatment") + "</h4>";
+    		
+    		report += "<h4>" + getMessage("mdrtb.tb03.ltfu") + "</h4>";
     		report += openTable();
     		report += openTR();
     		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
@@ -706,10 +770,53 @@ public class PatientListContoller {
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && 
     					(temp.getValueCoded().getId().intValue()==default1Concept.getId().intValue() ||
-    					temp.getValueCoded().getId().intValue()==default2Concept.getId().intValue() || 
-    					temp.getValueCoded().getId().intValue()==failure1Concept.getId().intValue() ||
-    					temp.getValueCoded().getId().intValue()==failure2Concept.getId().intValue())
-    					) {
+    					temp.getValueCoded().getId().intValue()==default2Concept.getId().intValue())) {
+    				
+    				i++;
+    				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+    				report += openTR();
+    				report += openTD() + i +  closeTD();
+    				report += openTD() + getRegistrationNumber(tf) +  closeTD();
+    				report += renderPerson(p, true);
+    				report += openTD() + tf.getAgeAtTB03Registration() +  closeTD();
+    				report += openTD() + getPatientLink(tf) + closeTD(); 
+    				report += closeTR();
+    				
+    			}
+    		}
+    				
+    		report += closeTable();
+    		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+    		report += "<br/>";
+    		
+    		//AfterFailure
+    		Concept failure1Concept = ms.getConcept(TbConcepts.AFTER_FAILURE_REGIMEN_1);
+    		Concept failure2Concept = ms.getConcept(TbConcepts.AFTER_FAILURE_REGIMEN_2);
+    		
+    		report += "<h4>" + getMessage("mdrtb.tb03.failure") + "</h4>";
+    		report += openTable();
+    		report += openTR();
+    		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + "" + closeTD();
+    		report += closeTR();
+    		
+    		temp = null;
+    		
+    		p = null;
+    		i=0;
+    		for(TB03Form tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
+    			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
+    			if(temp!=null && temp.getValueCoded()!=null && 
+    					(temp.getValueCoded().getId().intValue()==failure1Concept.getId().intValue() ||
+    					temp.getValueCoded().getId().intValue()==failure2Concept.getId().intValue())) {
     				
     				i++;
     				p = Context.getPersonService().getPerson(tf.getPatient().getId());
@@ -773,6 +880,46 @@ public class PatientListContoller {
     				
     		report += closeTable();
     		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+    		
+    		//OTHER CASES 
+    		Concept otherConcept = ms.getConcept(TbConcepts.OTHER);
+    		report += "<h4>" + getMessage("mdrtb.tb03.other") + "</h4>";
+    		report += openTable();
+    		report += openTR();
+    		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + "" + closeTD();
+    		report += closeTR();
+    		
+    		temp = null;
+    		p = null;
+    		i = 0;
+    		for(TB03Form tf : tb03s) {
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
+    			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
+    			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==otherConcept.getId().intValue()) {
+    				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+    				i++;
+    				report += openTR();
+    				report += openTD() + i +  closeTD();
+    				report += openTD() + getRegistrationNumber(tf) +  closeTD();
+    				report += renderPerson(p, true);
+    				report += openTD() + tf.getAgeAtTB03Registration() +  closeTD();
+    				report += openTD() + getPatientLink(tf) + closeTD(); 
+    				report += closeTR();
+    				
+    			}
+    		}
+    				
+    		report += closeTable();
+    		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+    		report += "<br/>";
     		
     		model.addAttribute("report",report);
     		return "/module/mdrtb/reporting/patientListsResults";
@@ -1528,12 +1675,13 @@ public class PatientListContoller {
     			
     			if(tf.getPatient()==null || tf.getPatient().isVoided())
     				continue;
-    			i++;
+    			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==newConcept.getId().intValue()) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
     					if(MdrtbUtil.isBacPositive(tf)) {
+    						i++;
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						report += openTR();
     						report += openTD() + i +  closeTD();
@@ -1699,6 +1847,7 @@ public class PatientListContoller {
     		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + getMessage("mdrtb.lists.caseDefinition") + closeTD();
     		report += openTD() + "" + closeTD();
     		report += closeTR();
     		
@@ -1729,6 +1878,7 @@ public class PatientListContoller {
     						report += openTD() + getRegistrationNumber(tf) +  closeTD();
     						report += renderPerson(p, true);
     						report +=  openTD() + tf.getAgeAtTB03Registration() + closeTD();
+    						report += openTD() + getRegistrationGroup(tf) + closeTD();
     						report += openTD() + getPatientLink(tf) + closeTD(); 
     						report += closeTR();
     					}
@@ -1748,7 +1898,9 @@ public class PatientListContoller {
     		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
-    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + getMessage("mdrtb.lists.caseDefinition") + closeTD();
     		report += openTD() + "" + closeTD();
     		report += closeTR();
     		
@@ -1779,6 +1931,7 @@ public class PatientListContoller {
     						report += openTD() + getRegistrationNumber(tf) +  closeTD();
     						report += renderPerson(p, true);
     						report +=  openTD() + tf.getAgeAtTB03Registration() + closeTD();
+    						report +=  openTD() + getRegistrationGroup(tf) + closeTD();
     						report += openTD() + getPatientLink(tf) + closeTD(); 
     						report += closeTR();
     					}
@@ -2305,12 +2458,17 @@ public class PatientListContoller {
     		String report = "";
     		
     		Concept groupConcept = ms.getConcept(TbConcepts.AGE_AT_FORM89_REGISTRATION);
-    		
-    		
-    		
+
     		ArrayList<Form89> forms = Context.getService(MdrtbService.class).getForm89FormsFilled(locList,year,quarter,month);
     		
     		Collections.sort(forms);
+    		
+    	/*	System.out.println("XXXXXXX");
+    		for(int j=0; j<forms.size();j++) {
+    			//System.out.println(forms.get(j).getRegistrationNumber());
+    			forms.
+    		}
+    		System.out.println("XXXXXXX");*/
     		/*Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
  	
     		Date startDate = (Date)(dateMap.get("startDate"));
@@ -2323,8 +2481,9 @@ public class PatientListContoller {
     		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
-    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
-    		
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + getMessage("mdrtb.lists.caseDefinition") + closeTD();
     		report += openTD() + "" + closeTD();
     		report += closeTR();
     		
@@ -2353,6 +2512,10 @@ public class PatientListContoller {
     					report += openTD() + getRegistrationNumber(tb03) +  closeTD();
     					report += renderPerson(p, false);
     					report += openTD() + age +  closeTD();
+    					if(tb03.getRegistrationGroup()!=null)
+							report += openTD() + tb03.getRegistrationGroup().getName().getName() +  closeTD();
+						else
+							report += openTD() + "" + closeTD();
     					report += openTD() + getPatientLink(tf) + closeTD(); 
     					report += closeTR();
     				}
@@ -2919,7 +3082,7 @@ report += "<br/>";
     		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
 report += "<br/>";
 			
-    		groupConcept = ms.getConcept(TbConcepts.CNSDL);
+    		/*groupConcept = ms.getConcept(TbConcepts.CNSDL);
     		report += "<h4>" + getMessage("mdrtb.withCOPD") + "</h4>";
     		report += openTable();
     		report += openTR();
@@ -2964,7 +3127,7 @@ report += "<br/>";
     				
     		report += closeTable();
     		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
-report += "<br/>";
+report += "<br/>";*/
 			
     		groupConcept = ms.getConcept(TbConcepts.ICD20);
     		report += "<h4>" + getMessage("mdrtb.withHIV") + "</h4>";
@@ -5171,7 +5334,10 @@ report += "<br/>";
     		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
-    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + getMessage("mdrtb.form89.countryOfOrigin") + closeTD();
+    		
     		report += openTD() + "" + closeTD();
     		report += closeTR();
     		
@@ -5199,6 +5365,7 @@ report += "<br/>";
     				report += openTD() + getRegistrationNumber(tb03) +  closeTD();
     				report += renderPerson(p, true);
     				report += openTD() + age + closeTD();
+    				report += openTD() + tf.getCountryOfOrigin() + closeTD();
     				report += openTD() + getPatientLink(tf) + closeTD(); 
     				report += closeTR();
     			}	
@@ -6069,7 +6236,10 @@ report += "<br/>";
     		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
     		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
-    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + getMessage("mdrtb.form89.cityOfOrigin") + closeTD();
+    		report += openTD() + getMessage("mdrtb.form89.dateOfReturn") + closeTD();
     		report += openTD() + "" + closeTD();
     		report += closeTR();
     		
@@ -6097,6 +6267,9 @@ report += "<br/>";
     				report += openTD() + getRegistrationNumber(tb03) +  closeTD();
     				report += renderPerson(p, true);
     				report += openTD() + age + closeTD();
+    				report += openTD() + tf.getCityOfOrigin() + closeTD();
+    				report += openTD() + renderDate(tf.getDateOfReturn()) + closeTD();
+    				
     				report += openTD() + getPatientLink(tf) + closeTD(); 
     				report += closeTR();
     			}
@@ -6765,6 +6938,7 @@ report += "<br/>";
 
 		temp = null;
 		p = null;
+		i =0;
 		for (Form89 tf : tb03s) {
 			if(tf.getPatient()==null || tf.getPatient().isVoided())
 				continue;
@@ -7274,7 +7448,7 @@ report += "<br/>";
 
 		String report = "";
 
-		Concept groupConcept = ms.getConcept(TbConcepts.PTB_SITE);
+		Concept groupConcept = ms.getConcept(TbConcepts.EPTB_SITE);
 
 		ArrayList<Form89> tb03s = Context.getService(MdrtbService.class)
 				.getForm89FormsFilled(locList, year, quarter, month);
@@ -7895,6 +8069,16 @@ report += "<br/>";
     	
     	return ret;
     	
+    }
+    
+    private String renderDate(Date date) {
+    	if(date==null)
+    		return "";
+    	
+    	SimpleDateFormat dateFormat = Context.getDateFormat();
+    	dateFormat.setLenient(false);
+    	
+    	return dateFormat.format(date);
     }
     
     /*private String renderPerson(Person p) {
