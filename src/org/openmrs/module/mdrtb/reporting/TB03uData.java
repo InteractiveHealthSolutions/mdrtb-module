@@ -195,13 +195,13 @@ public class TB03uData implements Comparable <TB03uData> {
 		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txCompleted.conceptId")))
 			this.tb03uTreatmentOutcome = 1;
 		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txFailure.conceptId")))
-			this.tb03uTreatmentOutcome = 2;
+			this.tb03uTreatmentOutcome = 4;
 		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")))
 		{
 			if(diedOfTB)
-				this.tb03uTreatmentOutcome = 3;
+				this.tb03uTreatmentOutcome = 2;
 			else
-				this.tb03uTreatmentOutcome = 4;
+				this.tb03uTreatmentOutcome = 3;
 		}
 			
 		
