@@ -190,13 +190,13 @@ public class TB03uData implements Comparable <TB03uData> {
 
 	public void setTb03uTreatmentOutcome(Integer tb03uTreatmentOutcome) {
 		//System.out.println("---->" + tb03uTreatmentOutcome);
-		if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.cured.conceptId")))
+		if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.cured.conceptId")))
 			this.tb03uTreatmentOutcome = 0;
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txCompleted.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txCompleted.conceptId")))
 			this.tb03uTreatmentOutcome = 1;
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txFailure.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txFailure.conceptId")))
 			this.tb03uTreatmentOutcome = 2;
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")))
 		{
 			if(diedOfTB)
 				this.tb03uTreatmentOutcome = 3;
@@ -205,13 +205,13 @@ public class TB03uData implements Comparable <TB03uData> {
 		}
 			
 		
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.ltfu.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.ltfu.conceptId")))
 			this.tb03uTreatmentOutcome = 5;
 		/*else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.canceled.conceptId")))
 			this.tb03uTreatmentOutcome = 6;
 		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.outcome.sld2.conceptId")))
 			this.tb03uTreatmentOutcome = 7;*/
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.transferout.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.transferout.conceptId")))
 			this.tb03uTreatmentOutcome = 6;
 		
 		//System.out.println("---->" + this.tb03uTreatmentOutcome);
