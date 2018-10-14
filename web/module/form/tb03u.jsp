@@ -105,14 +105,12 @@
 	
 	function enable() {
 		
-		
 		$('#oblast').prop('disabled',false);
 		$('#district').prop('disabled',false);
 		$('#facility').prop('disabled',false);
 		$('#encounterDatetime').prop('disabled',false);
-
 	
-}
+	}
 	
 	var tableToExcel = (function() {
 		  var uri = 'data:application/vnd.ms-excel;base64,'
@@ -162,6 +160,193 @@
 		
 		if(val2!="")
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/tb03u.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty tb03u.id ? tb03u.id : -1})
+	}
+	
+	function validate() 
+	{
+		var encDate = document.getElementById("encounterDatetime").value;
+		var errorText = "";
+		if(encDate=="") {
+			errorText = ""  + '<spring:message code="mdrtb.error.missingRegistrationDate"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		
+		
+		encDate = encDate.replace(/\//g,".");
+		
+		
+		var parts = encDate.split(".");
+		var day = parts[0];
+		var month = parts[1]-1;
+		var year = parts[2];
+		
+		
+		
+		var regDate = new Date(year,month,day);
+
+		var now = new Date();
+		
+		if(regDate.getTime() > now.getTime()) {
+			errorText = ""  + '<spring:message code="mdrtb.error.registrationDateInFuture"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		var confDate = document.getElementById("confirmationDate").value;
+		
+		
+		if(confDate!="") {
+			confDate = confDate.replace(/\//g,".");
+			parts = confDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var confirmationDate = new Date(year,month,day);
+			
+
+			if(confirmationDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.confirmationDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		var txDate = document.getElementById("mdrTreatmentStartDate").value;
+		
+		if(txDate!="") {
+			txDate = txDate.replace(/\//g,".");
+			parts = txDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var txStartDate = new Date(year,month,day);
+			
+
+			if(txStartDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.treatmentStartDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		var hivDate = document.getElementById("hivTestDate").value;
+		
+		if(hivDate!="") {
+			hivDate = hivDate.replace(/\//g,".");
+			parts = hivDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var hivTestDate = new Date(year,month,day);
+			
+
+			if(hivTestDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.hivTestDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		var artDate = document.getElementById("artStartDate").value;
+		
+		if(artDate!="") {
+			artDate = artDate.replace(/\//g,".");
+			parts = artDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var artStartDate = new Date(year,month,day);
+			
+
+			if(artStartDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.artStartDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		var pctDate = document.getElementById("pctStartDate").value;
+		
+		if(pctDate!="") {
+			pctDate = pctDate.replace(/\//g,".");
+			parts = pctDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var pctStartDate = new Date(year,month,day);
+			
+
+			if(pctStartDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.pctStartDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+	
+		
+	var txOutcomeDate = document.getElementById("treatmentOutcomeDate").value;
+		
+		if(txOutcomeDate!="") {
+			txOutcomeDate = txOutcomeDate.replace(/\//g,".");
+			parts = txOutcomeDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var treatmentOutcomeDate = new Date(year,month,day);
+			
+
+			if(treatmentOutcomeDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.treatmentOutcomeDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+	var deathDate = document.getElementById("dateOfDeathAfterOutcome").value;
+		
+		if(deathDate!="") {
+			deathDate = deathDate.replace(/\//g,".");
+			parts = deathDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var deathAfterOutcomeDate = new Date(year,month,day);
+			
+
+			if(deathAfterOutcomeDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.deathDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		
+		enable();
+		return true;
 	}
 
 -->
@@ -512,7 +697,7 @@
 	<br/>
 </c:if>
 
-<form name="tb03u" action="tb03u.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty tb03u.id ? tb03u.id : -1}" method="post" onSubmit="enable()">
+<form name="tb03u" action="tb03u.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty tb03u.id ? tb03u.id : -1}" method="post" onSubmit="return validate()">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />

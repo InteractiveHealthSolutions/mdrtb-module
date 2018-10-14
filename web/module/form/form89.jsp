@@ -185,6 +185,146 @@
 			window.location.replace("${pageContext.request.contextPath}/module/mdrtb/form/form89.form?mode=edit&loc="+val2+"&ob="+val1+"&patientProgramId="+${patientProgramId}+"&encounterId=" + ${!empty form89.id ? form89.id : -1})
 	}
 	
+	function validate() 
+	{
+		var encDate = document.getElementById("encounterDatetime").value;
+		var errorText = "";
+		if(encDate=="") {
+			errorText = ""  + '<spring:message code="mdrtb.error.missingRegistrationDate"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		
+		
+		encDate = encDate.replace(/\//g,".");
+		
+		
+		var parts = encDate.split(".");
+		var day = parts[0];
+		var month = parts[1]-1;
+		var year = parts[2];
+		
+		
+		
+		var regDate = new Date(year,month,day);
+
+		var now = new Date();
+		
+		if(regDate.getTime() > now.getTime()) {
+			errorText = ""  + '<spring:message code="mdrtb.error.registrationDateInFuture"/>' + "";
+			alert(errorText);
+			return false;
+		}
+		
+		var firstDate = document.getElementById("dateFirstSeekingHelp").value;
+		
+		
+		if(firstDate!="") {
+			firstDate = firstDate.replace(/\//g,".");
+			parts = firstDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var firstEncDate = new Date(year,month,day);
+			
+
+			if(firstEncDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.firstEncounterDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		var returnDate = document.getElementById("dateOfReturn").value;
+		
+		if(returnDate!="") {
+			returnDate = returnDate.replace(/\//g,".");
+			parts = returnDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var dateOfReturn = new Date(year,month,day);
+			
+
+			if(dateOfReturn.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.dateOfReturnInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		var surveyDate = document.getElementById("dateOfDecaySurvey").value;
+		
+		if(surveyDate!="") {
+			surveyDate = surveyDate.replace(/\//g,".");
+			parts = surveyDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var dateOfDecaySurvey = new Date(year,month,day);
+			
+
+			if(dateOfDecaySurvey.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.dateOfDecaySurveyInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		var cmacDate = document.getElementById("cmacDate").value;
+		
+		if(cmacDate!="") {
+			cmacDate = cmacDate.replace(/\//g,".");
+			parts = cmacDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var confDate = new Date(year,month,day);
+			
+
+			if(confDate.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.confirmationDateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		
+		var formDate = document.getElementById("form89Date").value;
+		
+		if(formDate!="") {
+			formDate = formDate.replace(/\//g,".");
+			parts = formDate.split(".");
+			day = parts[0];
+			month = parts[1]-1;
+			year = parts[2];
+			
+			var form89Date = new Date(year,month,day);
+			
+
+			if(form89Date.getTime() > now.getTime()) {
+				errorText = ""  + '<spring:message code="mdrtb.error.form89DateInFuture"/>' + "";
+				alert(errorText);
+				return false;
+			}
+			
+			
+		}
+		enable();
+		return true;
+	}
 	
 
 -->
@@ -604,7 +744,7 @@
 	<br/>
 </c:if>
 
-<form name="form89" action="form89.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty form89.id ? form89.id : -1}" method="post" onSubmit="enable()">
+<form name="form89" action="form89.form?patientId=${patientId}&patientProgramId=${patientProgramId}&encounterId=${!empty form89.id ? form89.id : -1}" method="post" onSubmit="return validate()">
 <input type="hidden" name="returnUrl" value="${returnUrl}" />
 <input type="hidden" name="patProgId" value="${patientProgramId}" />
 <input type="hidden" name="provider" value="47" />
