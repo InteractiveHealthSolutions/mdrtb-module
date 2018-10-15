@@ -1141,7 +1141,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	        oblast = new Oblast(name, id);
 	        break;
 	    }*/
-	
+		if(oblastId==null)
+			return null;
 		
 		AddressHierarchyEntry add = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntry(oblastId.intValue());
 		 
@@ -1658,6 +1659,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	@Override
 	public List<District> getDistricts(int parentId){
 		
+	
+		
 		List<District> districtList = new ArrayList<District>();
 		
 		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and parent_id="+parentId, true);
@@ -1692,6 +1695,8 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	@Override
 	public List<District> getRegDistricts(int parentId){
 		
+		
+		
 		List<District> districtList = new ArrayList<District>();
 		
 		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
@@ -1720,6 +1725,9 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	
 	public District getDistrict(Integer districtId){
 		District district = null;
+		
+		if(districtId==null)
+			return null;
 				
 		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
 		for (List<Object> temp : result) {
@@ -1754,6 +1762,9 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 	
 	public District getDistrict(String dName){
 		District district = null;
+		
+		if(dName==null)
+			return null;
 		/*String query="Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '"+ dname+"'";
 		System.out.println(query);
 		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '" +dname+"'", true);
@@ -1864,6 +1875,10 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 
     public Facility getFacility(Integer facilityId)
     {
+    	
+    	if(facilityId==null)
+    		return null;
+    	
     	Facility facility = null;
 		
 		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and address_hierarchy_entry_id = " +  facilityId + ";", true);
@@ -2087,12 +2102,22 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		typeList.add(eType);
 		
 		List<Encounter> temp = null;
-		for(Location l: locList) {
-			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+		
+		if(locList!=null && locList.size()!=0) {
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new TB03Form(e));
+				}
+			
+			}
+		}
+		
+		else {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
 			for(Encounter e : temp) {
 				forms.add(new TB03Form(e));
 			}
-			
 		}
 		
 		return forms;
@@ -2192,10 +2217,20 @@ public ArrayList<TB03uForm> getTB03uFormsFilled(ArrayList<Location> locList, Int
 				
 		
 		List<Encounter> temp = null;
-		for(Location l: locList) {
-			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
 			for(Encounter e : temp) {
 				forms.add(new TB03uForm(e));
+			}
+		}
+		
+		else {
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new TB03uForm(e));
+				}
 			}
 			
 		}
@@ -2222,13 +2257,29 @@ public ArrayList<TB03uForm> getTB03uFormsFilled(ArrayList<Location> locList, Int
 			
 	
 	List<Encounter> temp = null;
-	for(Location l: locList) {
-		temp = Context.getEncounterService().getEncounters(null, l, null, null, null, typeList, null, false);
-		for(Encounter e : temp) {
-			
+	
+	//CHECK
+	
+	if(locList==null || locList.size()==0) {
+		temp = Context.getEncounterService().getEncounters(null, null, null, null, null, typeList, null, false);
+		for(Encounter e : temp) {	
 			Obs o = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TREATMENT_START_DATE), e);
 			if(o!=null && o.getValueDatetime()!=null && (o.getValueDatetime().equals(startDate) || o.getValueDatetime().after(startDate)) && (o.getValueDatetime().equals(endDate) || o.getValueDatetime().before(endDate))) {
 				forms.add(new TB03uForm(e));
+			}
+		}
+	
+	}
+	
+	else {
+		
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, null, null, null, typeList, null, false);
+			for(Encounter e : temp) {
+				Obs o = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TREATMENT_START_DATE), e);
+				if(o!=null && o.getValueDatetime()!=null && (o.getValueDatetime().equals(startDate) || o.getValueDatetime().after(startDate)) && (o.getValueDatetime().equals(endDate) || o.getValueDatetime().before(endDate))) {
+					forms.add(new TB03uForm(e));
+				}
 			}
 		}
 		
@@ -2341,10 +2392,20 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 			
 	
 	List<Encounter> temp = null;
-	for(Location l: locList) {
-		temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+	
+	if(locList==null || locList.size()==0) {
+		temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
 		for(Encounter e : temp) {
 			forms.add(new Form89(e));
+		}
+	}
+	
+	else {
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new Form89(e));
+			}
 		}
 		
 	}
@@ -2369,12 +2430,21 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 				
 		
 		List<Encounter> temp = null;
-		for(Location l: locList) {
-			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
 			for(Encounter e : temp) {
 				forms.add(new TransferOutForm(e));
 			}
-			
+		}
+		
+		else {
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new TransferOutForm(e));
+				}
+			}
 		}
 		
 		return forms;
@@ -2399,13 +2469,22 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 		
 		List<Encounter> temp = null;
 		
-		for(Location l: locList) {
-				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
-				for(Encounter e : temp) {
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
 				forms.add(new TransferInForm(e));
-				}
-			
 			}
+		}
+		
+		else {	
+			for(Location l: locList) {
+					temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+					for(Encounter e : temp) {
+						forms.add(new TransferInForm(e));
+					}
+			}
+		}
 		
 		
 		
@@ -2570,6 +2649,13 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 	public ArrayList<Location> getLocationList(Integer oblastId, Integer districtId, Integer facilityId) {
 		ArrayList<Location> locList = new ArrayList<Location>();
     	Location location = null;
+    	System.out.println("_______");
+    	System.out.println(oblastId);
+    	System.out.println(districtId);
+    	System.out.println(facilityId);
+    	System.out.println("_______");
+    	if(oblastId==null && districtId==null && facilityId==null)
+    		return null;
     	
     	if(districtId == null) { //means they stopped at oblast
     		List<District> distList = getDistricts(oblastId);
@@ -2593,10 +2679,18 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
     	}
     	
     	else if(facilityId == null) {//means they stopped at district either a single district or a set of facilities
+    		System.out.println("NULL FAC ID");
     		location = Context.getService(MdrtbService.class).getLocation(oblastId, districtId, null);
     		
     		if(location==null) { // district that has a set of facilities under it
+    			System.out.println("NULL LOC");
     			List<Facility> facs = Context.getService(MdrtbService.class).getFacilities(districtId.intValue());
+    			if(facs==null) {
+    				System.out.println("NULL FACS");
+    			}
+    			else {
+    				System.out.println("FACS LENGTH=" + facs.size());
+    			}
     			for(Facility f : facs) {
     				location = Context.getService(MdrtbService.class).getLocation(oblastId,districtId,f.getId());
     				if(location!=null) {
@@ -2606,12 +2700,15 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
     		}
     		
     		else {
+    			System.out.println("NOT NULL LOC:" + location.getLocationId());
     			locList.add(location);
     		}
     	}
     	
     	else { //single location
+    		
     		location = Context.getService(MdrtbService.class).getLocation(oblastId, districtId, facilityId);
+    		System.out.println("SINGLE LOC:" + location.getLocationId());
     		locList.add(location);
     	}
     	
