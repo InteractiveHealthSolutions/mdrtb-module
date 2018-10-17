@@ -74,6 +74,8 @@ public class TB07ReportController {
     	List<Oblast> oblasts;
         List<Facility> facilities;
         List<District> districts;
+        
+       
     	
     	if(oblast==null) {
     		oblasts = Context.getService(MdrtbService.class).getOblasts();
@@ -83,6 +85,16 @@ public class TB07ReportController {
     	
     	else if(district==null)
          { 
+    		/*//DUSHANBE
+    		if(Integer.parseInt(oblast)==186) {
+    			oblasts = Context.getService(MdrtbService.class).getOblasts();
+    			districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+    		}*/
+    		
+    		
+    		/*
+    		 * if oblast is dushanbe, return both districts and facilities
+    		 */
          	oblasts = Context.getService(MdrtbService.class).getOblasts();
          	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
          	model.addAttribute("oblastSelected", oblast);
@@ -91,6 +103,10 @@ public class TB07ReportController {
          }
          else
          {
+        	 /*
+     		 * if oblast is dushanbe, return both districts and facilities
+     		 */
+        	 
          	oblasts = Context.getService(MdrtbService.class).getOblasts();
          	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
          	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));

@@ -726,6 +726,8 @@ public interface MdrtbService extends OpenmrsService {
 	
 	public ArrayList<AEForm> getAEFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month);
 	public ArrayList<AEForm> getAEFormsForProgram(Patient p, Integer patientProgId);
+	
+	public ArrayList<Location> getLocationListForDushanbe(Integer oblastId, Integer districtId, Integer facilityId);
 }
 
 

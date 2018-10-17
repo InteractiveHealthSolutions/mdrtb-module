@@ -2647,6 +2647,24 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 	}
 	
 	public ArrayList<Location> getLocationList(Integer oblastId, Integer districtId, Integer facilityId) {
+		
+		/*
+		if oblast is Dushanbe
+		{
+			if facility is not null, return all facilities with matching name
+			
+			if district is not null return all facilities in that district (normal)
+			
+			if both district and facility are null, normal
+			
+			
+		}
+		
+		
+		*/
+		
+		
+		
 		ArrayList<Location> locList = new ArrayList<Location>();
     	Location location = null;
     	System.out.println("_______");
@@ -3052,5 +3070,86 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 		
 		
 	}
+	
+	public ArrayList<Location> getLocationListForDushanbe(Integer oblastId, Integer districtId, Integer facilityId) {
+		
+
+		ArrayList<Location> locList = new ArrayList<Location>();
+    	Location location = null;
+    	System.out.println("_______");
+    	System.out.println(oblastId);
+    	System.out.println(districtId);
+    	System.out.println(facilityId);
+    	System.out.println("_______");
+    	
+    	if(oblastId==null && districtId==null && facilityId==null)
+    		return null;
+    	
+    	if(districtId == null && facilityId == null) { //means they stopped at oblast ??
+    		List<District> distList = getDistricts(oblastId);
+    		
+    		for(District d : distList) {
+    			location = getLocation(oblastId, d.getId(), null);
+    			if(location == null) {
+    				List<Facility> facs = getFacilities(d.getId().intValue());
+        			for(Facility f : facs) {
+        				location = getLocation(oblastId,d.getId(),f.getId());
+        				if(location!=null) {
+        					locList.add(location);
+        				}
+        			}
+    			}
+    			
+    			else {
+    				locList.add(location);
+    			}
+    		}
+    	}
+    	
+    	else if(facilityId == null) {//means they stopped at district - so fetch all facility data
+    		System.out.println("NULL FAC ID");
+    		location = Context.getService(MdrtbService.class).getLocation(oblastId, districtId, null);
+    		
+    		if(location==null) { // district that has a set of facilities under it
+    			System.out.println("NULL LOC");
+    			List<Facility> facs = Context.getService(MdrtbService.class).getFacilities(districtId.intValue());
+    			if(facs==null) {
+    				System.out.println("NULL FACS");
+    			}
+    			else {
+    				System.out.println("FACS LENGTH=" + facs.size());
+    			}
+    			for(Facility f : facs) {
+    				location = Context.getService(MdrtbService.class).getLocation(oblastId,districtId,f.getId());
+    				if(location!=null) {
+    					locList.add(location);
+    				}
+    			}
+    		}
+    		
+    		else {
+    			System.out.println("NOT NULL LOC:" + location.getLocationId());
+    			locList.add(location);
+    		}
+    	}
+    	
+    	else if (districtId==null) { // they chose a facility so get all facilities with this name
+    		Facility fac = Context.getService(MdrtbService.class).getFacility(facilityId);
+    		if(fac==null)
+    			return null;
+    		
+    		String facName = fac.getName();
+    		List<Location> locs = Context.getLocationService().getAllLocations(false);
+    		for(Location l : locs) {
+    			if(MdrtbUtil.areRussianStringsEqual(l.getName(), facName)) {
+    				locList.add(l);
+    			}
+    		}
+    	}
+    	
+    	System.out.println("LOCS:" + locList.size());
+    	return locList;
+	}
+
 
 }
