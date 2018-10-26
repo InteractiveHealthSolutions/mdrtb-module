@@ -3076,7 +3076,7 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 
 		ArrayList<Location> locList = new ArrayList<Location>();
     	Location location = null;
-    	System.out.println("_______");
+    	System.out.println("DYU_______");
     	System.out.println(oblastId);
     	System.out.println(districtId);
     	System.out.println(facilityId);
@@ -3087,7 +3087,12 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
     	
     	if(districtId == null && facilityId == null) { //means they stopped at oblast ??
     		List<District> distList = getDistricts(oblastId);
-    		
+    		if(distList!=null && distList.size()!=0) {
+    			System.out.println("DIST:" + distList.size());
+    		}
+    		else {
+    			System.out.println("DIST: EMPTY");
+    		}
     		for(District d : distList) {
     			location = getLocation(oblastId, d.getId(), null);
     			if(location == null) {
