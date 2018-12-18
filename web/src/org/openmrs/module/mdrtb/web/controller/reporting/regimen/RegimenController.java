@@ -205,6 +205,8 @@ public class RegimenController {
     			continue;
     		}
     		
+    		
+    		//check this
     		RegimenHistory rh = RegimenUtils.getTbRegimenHistory(p);
     		rrr = new RegimenReportRow();
 			rrr.setP(p);
