@@ -78,22 +78,50 @@ public class TB08ReportController {
     	
     	else if(district==null)
          { 
-         	oblasts = Context.getService(MdrtbService.class).getOblasts();
-         	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
-         	model.addAttribute("oblastSelected", oblast);
-             model.addAttribute("oblasts", oblasts);
-             model.addAttribute("districts", districts);
+    		//DUSHANBE
+    		if(Integer.parseInt(oblast)==186) {
+    			oblasts = Context.getService(MdrtbService.class).getOblasts();
+    			districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+    			District d = districts.get(0);
+    			facilities = Context.getService(MdrtbService.class).getFacilities(d.getId());
+    			model.addAttribute("oblastSelected", oblast);
+    			model.addAttribute("oblasts", oblasts);
+           	 	model.addAttribute("districts", districts);
+           	 	model.addAttribute("facilities", facilities);
+           	 	model.addAttribute("dushanbe", 186);
+    		}
+         	
+    		else {oblasts = Context.getService(MdrtbService.class).getOblasts();
+    			districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+    			model.addAttribute("oblastSelected", oblast);
+    			model.addAttribute("oblasts", oblasts);
+    			model.addAttribute("districts", districts);
+    		}
          }
          else
          {
-         	oblasts = Context.getService(MdrtbService.class).getOblasts();
-         	districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
-         	facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
-             model.addAttribute("oblastSelected", oblast);
-             model.addAttribute("oblasts", oblasts);
-             model.addAttribute("districts", districts);
-             model.addAttribute("districtSelected", district);
-             model.addAttribute("facilities", facilities);
+        	 if(Integer.parseInt(oblast)==186) {
+     			oblasts = Context.getService(MdrtbService.class).getOblasts();
+     			districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+     			District d = districts.get(0);
+     			facilities = Context.getService(MdrtbService.class).getFacilities(d.getId());
+     			model.addAttribute("oblastSelected", oblast);
+     			model.addAttribute("oblasts", oblasts);
+            	model.addAttribute("districts", districts);
+            	model.addAttribute("facilities", facilities);
+           	 	model.addAttribute("dushanbe", 186);
+     		}
+         	
+        	 else {
+        		 oblasts = Context.getService(MdrtbService.class).getOblasts();
+        		 districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+        		 facilities = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(district));
+        		 model.addAttribute("oblastSelected", oblast);
+        		 model.addAttribute("oblasts", oblasts);
+        		 model.addAttribute("districts", districts);
+        		 model.addAttribute("districtSelected", district);
+        		 model.addAttribute("facilities", facilities);
+        	 }
          }
     	
     	 model.addAttribute("yearSelected", year);
@@ -131,8 +159,13 @@ public class TB08ReportController {
     	if(oblast!=null && !oblast.equals("") && location == null)
 			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
 		*/
-    	ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
-		
+    	ArrayList<Location> locList = null;
+    	if(oblastId.intValue()==186) {
+			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+		}
+    	else {
+    		locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    	}
 		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
 		System.out.println("list size:" + tb03List.size());
 		/*if(o != null && location == null)

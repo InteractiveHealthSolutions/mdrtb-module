@@ -82,15 +82,48 @@ public class TB03uController {
 		}
 
 		else if (district == null) {
+			
+			//DUSHANBE
+    		if(Integer.parseInt(oblast)==186) {
+    			oblasts = Context.getService(MdrtbService.class).getOblasts();
+    			districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+    			District d = districts.get(0);
+    			facilities = Context.getService(MdrtbService.class).getFacilities(d.getId());
+    			model.addAttribute("oblastSelected", oblast);
+    			model.addAttribute("oblasts", oblasts);
+           	 	model.addAttribute("districts", districts);
+           	 	model.addAttribute("facilities", facilities);
+           	 	model.addAttribute("dushanbe", 186);
+    		}
+    		
+    		else {
 			oblasts = Context.getService(MdrtbService.class).getOblasts();
 			districts = Context.getService(MdrtbService.class).getDistricts(
 					Integer.parseInt(oblast));
 			model.addAttribute("oblastSelected", oblast);
 			model.addAttribute("oblasts", oblasts);
 			model.addAttribute("districts", districts);
+    		}
 		} 
 		
 		else {
+			
+			 /*
+     		 * if oblast is dushanbe, return both districts and facilities
+     		 */
+    		if(Integer.parseInt(oblast)==186) {
+    			oblasts = Context.getService(MdrtbService.class).getOblasts();
+    			districts= Context.getService(MdrtbService.class).getDistricts(Integer.parseInt(oblast));
+    			District d = districts.get(0);
+    			facilities = Context.getService(MdrtbService.class).getFacilities(d.getId());
+    			model.addAttribute("oblastSelected", oblast);
+    			model.addAttribute("oblasts", oblasts);
+           	 	model.addAttribute("districts", districts);
+           	 	model.addAttribute("facilities", facilities);
+           	 	model.addAttribute("dushanbe", 186);
+    		}
+    		
+    		else {
 			oblasts = Context.getService(MdrtbService.class).getOblasts();
 			districts = Context.getService(MdrtbService.class).getDistricts(
 					Integer.parseInt(oblast));
@@ -101,6 +134,7 @@ public class TB03uController {
 			model.addAttribute("districts", districts);
 			model.addAttribute("districtSelected", district);
 			model.addAttribute("facilities", facilities);
+    		}
 		}
 
 		model.addAttribute("yearSelected", year);
@@ -147,7 +181,15 @@ public class TB03uController {
 		System.out.println("---POST-----");
     	System.out.println("PARAMS:" + oblastId + " " + districtId + " " + facilityId + " " + year + " " + quarter + " " + month);
     	
-		ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+		//ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    	ArrayList<Location> locList = null;
+		
+    	if(oblastId.intValue()==186) {
+			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+		}
+		else {
+			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+		}
     	
     	ArrayList<TB03uForm> tb03uList = Context.getService(MdrtbService.class).getTB03uFormsFilled(locList, year, quarter, month);
 		

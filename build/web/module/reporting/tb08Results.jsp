@@ -656,7 +656,7 @@ response.setDateHeader ("Expires", -1);
 					<td>
 						${table1.newExtrapulmonaryDiedTB0514 }</td>
 					<td>
-						${table1.newExtrapulmonaryDiedNotTB514}</td>
+						${table1.newExtrapulmonaryDiedNotTB0514}</td>
 					<td>
 						${table1.newExtrapulmonaryFailed0514 }</td>
 					<td>

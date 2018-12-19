@@ -44,10 +44,43 @@ function fun2()
 	var e = document.getElementById("district");
 	var val2 = e.options[e.selectedIndex].value;
 	var year = document.getElementById("year").value;
+	
+	if(val1==186) {
+		
+		if(val2!="") {
+			document.getElementById("facility").selectedIndex = 0;
+		}
+		
+		return;
+	}
+	
+	
 	var quarter = "\"" + document.getElementById("quarter").value +  "\"";
 	var month =  "\"" + document.getElementById("month").value +  "\"";
 	if(val2!="")
 		window.location.replace("${pageContext.request.contextPath}/module/mdrtb/reporting/patientLists.form?loc="+val2+"&ob="+val1+"&yearSelected="+year+"&quarterSelected="+quarter+"&monthSelected="+month)
+}
+
+function fun3() {
+  	var e = document.getElementById("oblast");
+	var val1 = e.options[e.selectedIndex].value;
+	var e = document.getElementById("district");
+	var val2 = e.options[e.selectedIndex].value;
+	var e = document.getElementById("facility");
+	var val3 = e.options[e.selectedIndex].value;
+	
+	
+	if(val1==186) {
+		
+		if(val3!="") {
+			document.getElementById("district").selectedIndex = 0;
+		}
+		
+	
+	}
+	
+	return;
+  
 }
 </script>
 <script
@@ -96,7 +129,7 @@ $(document).ready(function(){
 		</tr>
 		<tr id="facilityDiv">
 			<td align="right"><spring:message code="mdrtb.facility" /></td>
-			<td><select name="facility" id="facility">
+			<td><select name="facility" id="facility" onchange="fun3()">
 					<option value=""></option>
 					<c:forEach var="f" items="${facilities}">
 						<option value="${f.id}">${f.name}</option>
