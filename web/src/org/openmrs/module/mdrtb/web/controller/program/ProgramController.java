@@ -373,10 +373,22 @@ public class ProgramController {
 	        		District locDist = null; //= new District();
 	        		Facility locFac = null;// = new Facility();
 	        		PatientIdentifier pi = Context.getService(MdrtbService.class).getPatientIdentifierById(idId);
+	        		
+	        		/////
+	        		Integer prefixInt = 0;
+	        		int prefInt = 0;
+	        		/////
+	        		
 	        		if(pi!=null) {
 	        			prefix = pi.getIdentifier().substring(0,2);
+	        			///////
+	        			prefixInt = Integer.parseInt(prefix);
+	        			prefInt = prefixInt.intValue();
+	        			//////
 	        			prefix = "(" + prefix + ")";
 	        			Location idLoc = null;
+	        			
+	        			
 	        			List<Location> locList = Context.getLocationService().getAllLocations(false);
 	        			for(Location l : locList) {
 	        				if(l.getName().trim().endsWith(prefix)) {
@@ -384,6 +396,7 @@ public class ProgramController {
 	        					break;
 	        				}
 	        			}
+	        			
 	        			
 	        			if(idLoc!=null) {
 	        				String obName = idLoc.getStateProvince();
@@ -398,7 +411,9 @@ public class ProgramController {
 	        				/*if(locOb!=null && idLoc.getCountyDistrict()!=null && locOb.getId().intValue()!=Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.dushanbe.entryId")) ) {
 	        					locDist = null;
 	        				}*/
-	        				
+	        				if(prefInt!=1 && prefInt!=95 && prefInt != 60 && prefInt!=11 && prefInt!=14 && prefInt!=12 && 
+		        					prefInt!=96 && prefInt!=97 && prefInt!=52 && prefInt!=34 && prefInt!=85 && prefInt!=98
+		        					&& prefInt!=99 && prefInt!=15 && prefInt!=93 && prefInt!=92) {
 	        				if(locOb!=null && idLoc.getCountyDistrict()!=null) {
 	        					List<District> distList = Context.getService(MdrtbService.class).getDistricts(locOb.getId());
 	        					for(District d : distList) {
@@ -419,7 +434,9 @@ public class ProgramController {
 	        					}
 	        				}
 	        				
-	        				
+	        				////
+	        				}
+	        				/////
 	        				
 	        			}
 	        		}
@@ -491,6 +508,7 @@ public class ProgramController {
 	            map.addAttribute("oblasts", oblasts);
 	            map.addAttribute("districts", districts);
 	            map.addAttribute("districtSelected", district);
+	          
 	            map.addAttribute("facilities", facilities);
 	        }
 

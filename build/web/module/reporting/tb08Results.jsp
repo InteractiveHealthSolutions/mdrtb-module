@@ -626,7 +626,7 @@ response.setDateHeader ("Expires", -1);
 					<td>
 						${table1.newExtrapulmonaryDiedTB04 }</td>
 					<td>
-						${table1.newExtrapulmonaryDiedNotTB}</td>
+						${table1.newExtrapulmonaryDiedNotTB04}</td>
 					<td>
 						${table1.newExtrapulmonaryFailed04 }</td>
 					<td>
@@ -656,7 +656,7 @@ response.setDateHeader ("Expires", -1);
 					<td>
 						${table1.newExtrapulmonaryDiedTB0514 }</td>
 					<td>
-						${table1.newExtrapulmonaryDiedNotTB}</td>
+						${table1.newExtrapulmonaryDiedNotTB514}</td>
 					<td>
 						${table1.newExtrapulmonaryFailed0514 }</td>
 					<td>
@@ -688,7 +688,7 @@ response.setDateHeader ("Expires", -1);
 					<td>
 						${table1.newExtrapulmonaryDiedTB1517 }</td>
 					<td>
-						${table1.newExtrapulmonaryDiedNotTB}</td>
+						${table1.newExtrapulmonaryDiedNotTB1517}</td>
 					<td>
 						${table1.newExtrapulmonaryFailed1517 }</td>
 					<td>
