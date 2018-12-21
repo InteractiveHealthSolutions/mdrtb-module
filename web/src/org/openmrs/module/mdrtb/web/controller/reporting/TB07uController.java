@@ -110,22 +110,16 @@ public class TB07uController {
             @RequestParam(value="month", required=false) String month,
             ModelMap model) throws EvaluationException {
     	System.out.println("---POST-----");
-    //	System.out.println("PARAMS:" + location + " " + oblast + " " + year + " " + quarter + " " + month);
+   
     	
     	SimpleDateFormat sdf = new SimpleDateFormat();
     	sdf.applyPattern("dd.MM.yyyy");
     	SimpleDateFormat rdateSDF = new SimpleDateFormat();
     	rdateSDF.applyPattern("dd.MM.yyyy HH:mm:ss");
     	
-    /*	Oblast o = null;
-    	if(oblast!=null && !oblast.equals("") && location == null)
-			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
-		*/
+   
 		ArrayList<Location> locList = new ArrayList<Location>();
-	/*	if(o != null && location == null)
-			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
-		else if (location != null)
-			locList.add(location);*/
+	
 		
 		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
 		
@@ -178,7 +172,7 @@ public class TB07uController {
     	Boolean sld = null;
     	Boolean txStarted = null;
     	
-    	for (Integer i : idSet) {
+    	/*for (Integer i : idSet) {
     		
     		cured = null;
     		txCompleted = null;
@@ -636,21 +630,16 @@ public class TB07uController {
     	    	}
     	    	
     	    }
-    	}
+    	}*/
     	
     	
-    	// TO CHECK WHETHER REPORT IS CLOSED OR NOT
-    	/*Integer report_oblast = null; Integer report_quarter = null; Integer report_month = null;
-		if(new PDFHelper().isInt(oblast)) { report_oblast = Integer.parseInt(oblast); }
-		if(new PDFHelper().isInt(quarter)) { report_quarter = Integer.parseInt(quarter); }
-		if(new PDFHelper().isInt(month)) { report_month = Integer.parseInt(month); }*/
+    	
 		
     	boolean reportStatus = Context.getService(MdrtbService.class).readReportStatus(oblastId, districtId, facilityId, year, quarter, month, "TB-07u","MDRTB");
 		System.out.println(reportStatus);
 		
 		model.addAttribute("table1", table1);
-    /*	model.addAttribute("oblast", oblast);
-    	model.addAttribute("location", location);*/
+   
     	model.addAttribute("year", year);
     	model.addAttribute("quarter", quarter);
     	model.addAttribute("reportDate", rdateSDF.format(new Date()));
