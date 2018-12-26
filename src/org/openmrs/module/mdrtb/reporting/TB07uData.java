@@ -25,8 +25,6 @@ public class TB07uData  {
 	private Integer newStandardMdr1517;
 	private Integer newStandardMdrHiv;
 	
-	
-	
 	private Integer relapse1Mdr;
 	private Integer relapse1Mdr04;
 	private Integer relapse1Mdr0514;
@@ -45,8 +43,8 @@ public class TB07uData  {
 	
 	private Integer relapse2Mdr;
 	private Integer relapse2Mdr04;
-	private Integer relapse2Mdr0524;
-	private Integer relapse2Mdr2527;
+	private Integer relapse2Mdr0514;
+	private Integer relapse2Mdr1517;
 	private Integer relapse2MdrHiv;
 	private Integer relapse2ShortMdr;
 	private Integer relapse2ShortMdr04;
@@ -77,8 +75,8 @@ public class TB07uData  {
 	
 	private Integer default2Mdr;
 	private Integer default2Mdr04;
-	private Integer default2Mdr0524;
-	private Integer default2Mdr2527;
+	private Integer default2Mdr0514;
+	private Integer default2Mdr1517;
 	private Integer default2MdrHiv;
 	private Integer default2ShortMdr;
 	private Integer default2ShortMdr04;
@@ -109,8 +107,8 @@ public class TB07uData  {
 	
 	private Integer failure2Mdr;
 	private Integer failure2Mdr04;
-	private Integer failure2Mdr0524;
-	private Integer failure2Mdr2527;
+	private Integer failure2Mdr0514;
+	private Integer failure2Mdr1517;
 	private Integer failure2MdrHiv;
 	private Integer failure2ShortMdr;
 	private Integer failure2ShortMdr04;
@@ -169,8 +167,8 @@ public class TB07uData  {
 	
 	private Integer relapse2Pdr;
 	private Integer relapse2Pdr04;
-	private Integer relapse2Pdr0524;
-	private Integer relapse2Pdr2527;
+	private Integer relapse2Pdr0514;
+	private Integer relapse2Pdr1517;
 	private Integer relapse2PdrHiv;
 		
 	private Integer default1Pdr;
@@ -181,8 +179,8 @@ public class TB07uData  {
 	
 	private Integer default2Pdr;
 	private Integer default2Pdr04;
-	private Integer default2Pdr0524;
-	private Integer default2Pdr2527;
+	private Integer default2Pdr0514;
+	private Integer default2Pdr1517;
 	private Integer default2PdrHiv;
 	
 	private Integer failure1Pdr;
@@ -193,8 +191,8 @@ public class TB07uData  {
 	
 	private Integer failure2Pdr;
 	private Integer failure2Pdr04;
-	private Integer failure2Pdr0524;
-	private Integer failure2Pdr2527;
+	private Integer failure2Pdr0514;
+	private Integer failure2Pdr1517;
 	private Integer failure2PdrHiv;
 	
 	private Integer otherPdr;
@@ -209,113 +207,293 @@ public class TB07uData  {
 	private Integer totalPdr1517;
 	private Integer totalPdrHiv;
 	
-	private Integer newpreXdr;
-	private Integer newpreXdr04;
-	private Integer newpreXdr0514;
-	private Integer newpreXdr1517;
-	private Integer newpreXdrHiv;
+	private Integer newPreXdr;
+	private Integer newPreXdr04;
+	private Integer newPreXdr0514;
+	private Integer newPreXdr1517;
+	private Integer newPreXdrHiv;
+	/*private Integer newIndLzdPreXdr;
+	private Integer newIndLzdPreXdr04;
+	private Integer newIndLzdPreXdr0514;
+	private Integer newIndLzdPreXdr1517;
+	private Integer newIndLzdPreXdrHiv;
+	private Integer newIndBdqPreXdr;
+	private Integer newIndBdqPreXdr04;
+	private Integer newIndBdqPreXdr0514;
+	private Integer newIndBdqPreXdr1517;
+	private Integer newIndBdqPreXdrHiv;*/
 	
-	private Integer relapse1preXdr;
-	private Integer relapse1preXdr04;
-	private Integer relapse1preXdr0514;
-	private Integer relapse1preXdr1517;
-	private Integer relapse1preXdrHiv;
+	private Integer relapse1PreXdr;
+	private Integer relapse1PreXdr04;
+	private Integer relapse1PreXdr0514;
+	private Integer relapse1PreXdr1517;
+	private Integer relapse1PreXdrHiv;
+	/*private Integer relapse1IndLzdPreXdr;
+	private Integer relapse1IndLzdPreXdr04;
+	private Integer relapse1IndLzdPreXdr0514;
+	private Integer relapse1IndLzdPreXdr1517;
+	private Integer relapse1IndLzdPreXdrHiv;
+	private Integer relapse1IndBdqPreXdr;
+	private Integer relapse1IndBdqPreXdr04;
+	private Integer relapse1IndBdqPreXdr0514;
+	private Integer relapse1IndBdqPreXdr1517;
+	private Integer relapse1IndBdqPreXdrHiv;*/
 	
-	private Integer relapse2preXdr;
-	private Integer relapse2preXdr04;
-	private Integer relapse2preXdr0524;
-	private Integer relapse2preXdr2527;
-	private Integer relapse2preXdrHiv;
+	private Integer relapse2PreXdr;
+	private Integer relapse2PreXdr04;
+	private Integer relapse2PreXdr0514;
+	private Integer relapse2PreXdr1517;
+	private Integer relapse2PreXdrHiv;
+/*	private Integer relapse2IndLzdPreXdr;
+	private Integer relapse2IndLzdPreXdr04;
+	private Integer relapse2IndLzdPreXdr0514;
+	private Integer relapse2IndLzdPreXdr1517;
+	private Integer relapse2IndLzdPreXdrHiv;
+	private Integer relapse2IndBdqPreXdr;
+	private Integer relapse2IndBdqPreXdr04;
+	private Integer relapse2IndBdqPreXdr0514;
+	private Integer relapse2IndBdqPreXdr1517;
+	private Integer relapse2IndBdqPreXdrHiv;*/
 		
-	private Integer default1preXdr;
-	private Integer default1preXdr04;
-	private Integer default1preXdr0514;
-	private Integer default1preXdr1517;
-	private Integer default1preXdrHiv;
+	private Integer default1PreXdr;
+	private Integer default1PreXdr04;
+	private Integer default1PreXdr0514;
+	private Integer default1PreXdr1517;
+	private Integer default1PreXdrHiv;
+	/*private Integer default1IndLzdPreXdr;
+	private Integer default1IndLzdPreXdr04;
+	private Integer default1IndLzdPreXdr0514;
+	private Integer default1IndLzdPreXdr1517;
+	private Integer default1IndLzdPreXdrHiv;
+	private Integer default1IndBdqPreXdr;
+	private Integer default1IndBdqPreXdr04;
+	private Integer default1IndBdqPreXdr0514;
+	private Integer default1IndBdqPreXdr1517;
+	private Integer default1IndBdqPreXdrHiv;*/
 	
-	private Integer default2preXdr;
-	private Integer default2preXdr04;
-	private Integer default2preXdr0524;
-	private Integer default2preXdr2527;
-	private Integer default2preXdrHiv;
+	private Integer default2PreXdr;
+	private Integer default2PreXdr04;
+	private Integer default2PreXdr0514;
+	private Integer default2PreXdr1517;
+	private Integer default2PreXdrHiv;
+	/*private Integer default2IndLzdPreXdr;
+	private Integer default2IndLzdPreXdr04;
+	private Integer default2IndLzdPreXdr0514;
+	private Integer default2IndLzdPreXdr1517;
+	private Integer default2IndLzdPreXdrHiv;
+	private Integer default2IndBdqPreXdr;
+	private Integer default2IndBdqPreXdr04;
+	private Integer default2IndBdqPreXdr0514;
+	private Integer default2IndBdqPreXdr1517;
+	private Integer default2IndBdqPreXdrHiv;*/
 	
-	private Integer failure1preXdr;
-	private Integer failure1preXdr04;
-	private Integer failure1preXdr0514;
-	private Integer failure1preXdr1517;
-	private Integer failure1preXdrHiv;
+	private Integer failure1PreXdr;
+	private Integer failure1PreXdr04;
+	private Integer failure1PreXdr0514;
+	private Integer failure1PreXdr1517;
+	private Integer failure1PreXdrHiv;
+	/*private Integer failure1IndLzdPreXdr;
+	private Integer failure1IndLzdPreXdr04;
+	private Integer failure1IndLzdPreXdr0514;
+	private Integer failure1IndLzdPreXdr1517;
+	private Integer failure1IndLzdPreXdrHiv;
+	private Integer failure1IndBdqPreXdr;
+	private Integer failure1IndBdqPreXdr04;
+	private Integer failure1IndBdqPreXdr0514;
+	private Integer failure1IndBdqPreXdr1517;
+	private Integer failure1IndBdqPreXdrHiv;*/
 	
-	private Integer failure2preXdr;
-	private Integer failure2preXdr04;
-	private Integer failure2preXdr0524;
-	private Integer failure2preXdr2527;
-	private Integer failure2preXdrHiv;
+	private Integer failure2PreXdr;
+	private Integer failure2PreXdr04;
+	private Integer failure2PreXdr0514;
+	private Integer failure2PreXdr1517;
+	private Integer failure2PreXdrHiv;
+	/*private Integer failure2IndLzdPreXdr;
+	private Integer failure2IndLzdPreXdr04;
+	private Integer failure2IndLzdPreXdr0514;
+	private Integer failure2IndLzdPreXdr1517;
+	private Integer failure2IndLzdPreXdrHiv;
+	private Integer failure2IndBdqPreXdr;
+	private Integer failure2IndBdqPreXdr04;
+	private Integer failure2IndBdqPreXdr0514;
+	private Integer failure2IndBdqPreXdr1517;
+	private Integer failure2IndBdqPreXdrHiv;*/
 	
-	private Integer otherpreXdr;
-	private Integer otherpreXdr04;
-	private Integer otherpreXdr0514;
-	private Integer otherpreXdr1517;
-	private Integer otherpreXdrHiv;
+	private Integer otherPreXdr;
+	private Integer otherPreXdr04;
+	private Integer otherPreXdr0514;
+	private Integer otherPreXdr1517;
+	private Integer otherPreXdrHiv;
+	/*private Integer otherIndLzdPreXdr;
+	private Integer otherIndLzdPreXdr04;
+	private Integer otherIndLzdPreXdr0514;
+	private Integer otherIndLzdPreXdr1517;
+	private Integer otherIndLzdPreXdrHiv;
+	private Integer otherIndBdqPreXdr;
+	private Integer otherIndBdqPreXdr04;
+	private Integer otherIndBdqPreXdr0514;
+	private Integer otherIndBdqPreXdr1517;
+	private Integer otherIndBdqPreXdrHiv;*/
 	
-	private Integer totalpreXdr;
-	private Integer totalpreXdr04;
-	private Integer totalpreXdr0514;
-	private Integer totalpreXdr1517;
-	private Integer totalpreXdrHiv;
+	private Integer totalPreXdr;
+	private Integer totalPreXdr04;
+	private Integer totalPreXdr0514;
+	private Integer totalPreXdr1517;
+	private Integer totalPreXdrHiv;
+	/*private Integer totalIndLzdPreXdr;
+	private Integer totalIndLzdPreXdr04;
+	private Integer totalIndLzdPreXdr0514;
+	private Integer totalIndLzdPreXdr1517;
+	private Integer totalIndLzdPreXdrHiv;
+	private Integer totalIndBdqPreXdr;
+	private Integer totalIndBdqPreXdr04;
+	private Integer totalIndBdqPreXdr0514;
+	private Integer totalIndBdqPreXdr1517;
+	private Integer totalIndBdqPreXdrHiv;*/
 	
 	private Integer newXdr;
 	private Integer newXdr04;
 	private Integer newXdr0514;
 	private Integer newXdr1517;
 	private Integer newXdrHiv;
+	/*private Integer newIndLzdXdr;
+	private Integer newIndLzdXdr04;
+	private Integer newIndLzdXdr0514;
+	private Integer newIndLzdXdr1517;
+	private Integer newIndLzdXdrHiv;
+	private Integer newIndBdqXdr;
+	private Integer newIndBdqXdr04;
+	private Integer newIndBdqXdr0514;
+	private Integer newIndBdqXdr1517;
+	private Integer newIndBdqXdrHiv;*/
 	
 	private Integer relapse1Xdr;
 	private Integer relapse1Xdr04;
 	private Integer relapse1Xdr0514;
 	private Integer relapse1Xdr1517;
 	private Integer relapse1XdrHiv;
+	/*private Integer relapse1IndLzdXdr;
+	private Integer relapse1IndLzdXdr04;
+	private Integer relapse1IndLzdXdr0514;
+	private Integer relapse1IndLzdXdr1517;
+	private Integer relapse1IndLzdXdrHiv;
+	private Integer relapse1IndBdqXdr;
+	private Integer relapse1IndBdqXdr04;
+	private Integer relapse1IndBdqXdr0514;
+	private Integer relapse1IndBdqXdr1517;
+	private Integer relapse1IndBdqXdrHiv;*/
 	
 	private Integer relapse2Xdr;
 	private Integer relapse2Xdr04;
-	private Integer relapse2Xdr0524;
-	private Integer relapse2Xdr2527;
+	private Integer relapse2Xdr0514;
+	private Integer relapse2Xdr1517;
 	private Integer relapse2XdrHiv;
+	/*private Integer relapse2IndLzdXdr;
+	private Integer relapse2IndLzdXdr04;
+	private Integer relapse2IndLzdXdr0514;
+	private Integer relapse2IndLzdXdr1517;
+	private Integer relapse2IndLzdXdrHiv;
+	private Integer relapse2IndBdqXdr;
+	private Integer relapse2IndBdqXdr04;
+	private Integer relapse2IndBdqXdr0514;
+	private Integer relapse2IndBdqXdr1517;
+	private Integer relapse2IndBdqXdrHiv;*/
 		
 	private Integer default1Xdr;
 	private Integer default1Xdr04;
 	private Integer default1Xdr0514;
 	private Integer default1Xdr1517;
 	private Integer default1XdrHiv;
+	/*private Integer default1IndLzdXdr;
+	private Integer default1IndLzdXdr04;
+	private Integer default1IndLzdXdr0514;
+	private Integer default1IndLzdXdr1517;
+	private Integer default1IndLzdXdrHiv;
+	private Integer default1IndBdqXdr;
+	private Integer default1IndBdqXdr04;
+	private Integer default1IndBdqXdr0514;
+	private Integer default1IndBdqXdr1517;
+	private Integer default1IndBdqXdrHiv;*/
 	
 	private Integer default2Xdr;
 	private Integer default2Xdr04;
-	private Integer default2Xdr0524;
-	private Integer default2Xdr2527;
+	private Integer default2Xdr0514;
+	private Integer default2Xdr1517;
 	private Integer default2XdrHiv;
+	/*private Integer default2IndLzdXdr;
+	private Integer default2IndLzdXdr04;
+	private Integer default2IndLzdXdr0514;
+	private Integer default2IndLzdXdr1517;
+	private Integer default2IndLzdXdrHiv;
+	private Integer default2IndBdqXdr;
+	private Integer default2IndBdqXdr04;
+	private Integer default2IndBdqXdr0514;
+	private Integer default2IndBdqXdr1517;
+	private Integer default2IndBdqXdrHiv;*/
 	
 	private Integer failure1Xdr;
 	private Integer failure1Xdr04;
 	private Integer failure1Xdr0514;
 	private Integer failure1Xdr1517;
 	private Integer failure1XdrHiv;
+	/*private Integer failure1IndLzdXdr;
+	private Integer failure1IndLzdXdr04;
+	private Integer failure1IndLzdXdr0514;
+	private Integer failure1IndLzdXdr1517;
+	private Integer failure1IndLzdXdrHiv;
+	private Integer failure1IndBdqXdr;
+	private Integer failure1IndBdqXdr04;
+	private Integer failure1IndBdqXdr0514;
+	private Integer failure1IndBdqXdr1517;
+	private Integer failure1IndBdqXdrHiv;*/
 	
 	private Integer failure2Xdr;
 	private Integer failure2Xdr04;
-	private Integer failure2Xdr0524;
-	private Integer failure2Xdr2527;
+	private Integer failure2Xdr0514;
+	private Integer failure2Xdr1517;
 	private Integer failure2XdrHiv;
+	/*private Integer failure2IndLzdXdr;
+	private Integer failure2IndLzdXdr04;
+	private Integer failure2IndLzdXdr0514;
+	private Integer failure2IndLzdXdr1517;
+	private Integer failure2IndLzdXdrHiv;
+	private Integer failure2IndBdqXdr;
+	private Integer failure2IndBdqXdr04;
+	private Integer failure2IndBdqXdr0514;
+	private Integer failure2IndBdqXdr1517;
+	private Integer failure2IndBdqXdrHiv;*/
 	
 	private Integer otherXdr;
 	private Integer otherXdr04;
 	private Integer otherXdr0514;
 	private Integer otherXdr1517;
 	private Integer otherXdrHiv;
+	/*private Integer otherIndLzdXdr;
+	private Integer otherIndLzdXdr04;
+	private Integer otherIndLzdXdr0514;
+	private Integer otherIndLzdXdr1517;
+	private Integer otherIndLzdXdrHiv;
+	private Integer otherIndBdqXdr;
+	private Integer otherIndBdqXdr04;
+	private Integer otherIndBdqXdr0514;
+	private Integer otherIndBdqXdr1517;
+	private Integer otherIndBdqXdrHiv;*/
 	
 	private Integer totalXdr;
 	private Integer totalXdr04;
 	private Integer totalXdr0514;
 	private Integer totalXdr1517;
 	private Integer totalXdrHiv;
+	/*private Integer totalIndLzdXdr;
+	private Integer totalIndLzdXdr04;
+	private Integer totalIndLzdXdr0514;
+	private Integer totalIndLzdXdr1517;
+	private Integer totalIndLzdXdrHiv;
+	private Integer totalIndBdqXdr;
+	private Integer totalIndBdqXdr04;
+	private Integer totalIndBdqXdr0514;
+	private Integer totalIndBdqXdr1517;
+	private Integer totalIndBdqXdrHiv;*/
 	
 	private Integer newTotal;
 	private Integer newTotal04;
@@ -331,8 +509,8 @@ public class TB07uData  {
 	
 	private Integer relapse2Total;
 	private Integer relapse2Total04;
-	private Integer relapse2Total0524;
-	private Integer relapse2Total2527;
+	private Integer relapse2Total0514;
+	private Integer relapse2Total1517;
 	private Integer relapse2TotalHiv;
 		
 	private Integer default1Total;
@@ -343,8 +521,8 @@ public class TB07uData  {
 	
 	private Integer default2Total;
 	private Integer default2Total04;
-	private Integer default2Total0524;
-	private Integer default2Total2527;
+	private Integer default2Total0514;
+	private Integer default2Total1517;
 	private Integer default2TotalHiv;
 	
 	private Integer failure1Total;
@@ -355,8 +533,8 @@ public class TB07uData  {
 	
 	private Integer failure2Total;
 	private Integer failure2Total04;
-	private Integer failure2Total0524;
-	private Integer failure2Total2527;
+	private Integer failure2Total0514;
+	private Integer failure2Total1517;
 	private Integer failure2TotalHiv;
 	
 	private Integer otherTotal;
@@ -371,104 +549,104 @@ public class TB07uData  {
 	private Integer totalTotal1517;
 	private Integer totalTotalHiv;
 	
-	private Integer newIndXdrPreXdr;
-	private Integer newIndXdrPreXdr04;
-	private Integer newIndXdrPreXdr0514;
-	private Integer newIndXdrPreXdr1517;
-	private Integer newIndXdrPreXdrHiv;
-	private Integer newStdXdrPreXdr;
-	private Integer newStdXdrPreXdr04;
-	private Integer newStdXdrPreXdr0514;
-	private Integer newStdXdrPreXdr1517;
-	private Integer newStdXdrPreXdrHiv;
+	private Integer newIndLzdXdrPreXdr;
+	private Integer newIndLzdXdrPreXdr04;
+	private Integer newIndLzdXdrPreXdr0514;
+	private Integer newIndLzdXdrPreXdr1517;
+	private Integer newIndLzdXdrPreXdrHiv;
+	private Integer newIndBdqXdrPreXdr;
+	private Integer newIndBdqXdrPreXdr04;
+	private Integer newIndBdqXdrPreXdr0514;
+	private Integer newIndBdqXdrPreXdr1517;
+	private Integer newIndBdqXdrPreXdrHiv;
 	
-	private Integer relapse1IndXdrPreXdr;
-	private Integer relapse1IndXdrPreXdr04;
-	private Integer relapse1IndXdrPreXdr0514;
-	private Integer relapse1IndXdrPreXdr1517;
-	private Integer relapse1IndXdrPreXdrHiv;
-	private Integer relapse1StdXdrPreXdr;
-	private Integer relapse1StdXdrPreXdr04;
-	private Integer relapse1StdXdrPreXdr0514;
-	private Integer relapse1StdXdrPreXdr1517;
-	private Integer relapse1StdXdrPreXdrHiv;
+	private Integer relapse1IndLzdXdrPreXdr;
+	private Integer relapse1IndLzdXdrPreXdr04;
+	private Integer relapse1IndLzdXdrPreXdr0514;
+	private Integer relapse1IndLzdXdrPreXdr1517;
+	private Integer relapse1IndLzdXdrPreXdrHiv;
+	private Integer relapse1IndBdqXdrPreXdr;
+	private Integer relapse1IndBdqXdrPreXdr04;
+	private Integer relapse1IndBdqXdrPreXdr0514;
+	private Integer relapse1IndBdqXdrPreXdr1517;
+	private Integer relapse1IndBdqXdrPreXdrHiv;
 	
-	private Integer relapse2IndXdrPreXdr;
-	private Integer relapse2IndXdrPreXdr04;
-	private Integer relapse2IndXdrPreXdr0524;
-	private Integer relapse2IndXdrPreXdr2527;
-	private Integer relapse2IndXdrPreXdrHiv;
-	private Integer relapse2StdXdrPreXdr;
-	private Integer relapse2StdXdrPreXdr04;
-	private Integer relapse2StdXdrPreXdr0524;
-	private Integer relapse2StdXdrPreXdr2527;
-	private Integer relapse2StdXdrPreXdrHiv;
+	private Integer relapse2IndLzdXdrPreXdr;
+	private Integer relapse2IndLzdXdrPreXdr04;
+	private Integer relapse2IndLzdXdrPreXdr0514;
+	private Integer relapse2IndLzdXdrPreXdr1517;
+	private Integer relapse2IndLzdXdrPreXdrHiv;
+	private Integer relapse2IndBdqXdrPreXdr;
+	private Integer relapse2IndBdqXdrPreXdr04;
+	private Integer relapse2IndBdqXdrPreXdr0514;
+	private Integer relapse2IndBdqXdrPreXdr1517;
+	private Integer relapse2IndBdqXdrPreXdrHiv;
 	
-	private Integer default1IndXdrPreXdr;
-	private Integer default1IndXdrPreXdr04;
-	private Integer default1IndXdrPreXdr0514;
-	private Integer default1IndXdrPreXdr1517;
-	private Integer default1IndXdrPreXdrHiv;
-	private Integer default1StdXdrPreXdr;
-	private Integer default1StdXdrPreXdr04;
-	private Integer default1StdXdrPreXdr0514;
-	private Integer default1StdXdrPreXdr1517;
-	private Integer default1StdXdrPreXdrHiv;
+	private Integer default1IndLzdXdrPreXdr;
+	private Integer default1IndLzdXdrPreXdr04;
+	private Integer default1IndLzdXdrPreXdr0514;
+	private Integer default1IndLzdXdrPreXdr1517;
+	private Integer default1IndLzdXdrPreXdrHiv;
+	private Integer default1IndBdqXdrPreXdr;
+	private Integer default1IndBdqXdrPreXdr04;
+	private Integer default1IndBdqXdrPreXdr0514;
+	private Integer default1IndBdqXdrPreXdr1517;
+	private Integer default1IndBdqXdrPreXdrHiv;
 	
-	private Integer default2IndXdrPreXdr;
-	private Integer default2IndXdrPreXdr04;
-	private Integer default2IndXdrPreXdr0524;
-	private Integer default2IndXdrPreXdr2527;
-	private Integer default2IndXdrPreXdrHiv;
-	private Integer default2StdXdrPreXdr;
-	private Integer default2StdXdrPreXdr04;
-	private Integer default2StdXdrPreXdr0524;
-	private Integer default2StdXdrPreXdr2527;
-	private Integer default2StdXdrPreXdrHiv;
+	private Integer default2IndLzdXdrPreXdr;
+	private Integer default2IndLzdXdrPreXdr04;
+	private Integer default2IndLzdXdrPreXdr0514;
+	private Integer default2IndLzdXdrPreXdr1517;
+	private Integer default2IndLzdXdrPreXdrHiv;
+	private Integer default2IndBdqXdrPreXdr;
+	private Integer default2IndBdqXdrPreXdr04;
+	private Integer default2IndBdqXdrPreXdr0514;
+	private Integer default2IndBdqXdrPreXdr1517;
+	private Integer default2IndBdqXdrPreXdrHiv;
 	
-	private Integer failure1IndXdrPreXdr;
-	private Integer failure1IndXdrPreXdr04;
-	private Integer failure1IndXdrPreXdr0514;
-	private Integer failure1IndXdrPreXdr1517;
-	private Integer failure1IndXdrPreXdrHiv;
-	private Integer failure1StdXdrPreXdr;
-	private Integer failure1StdXdrPreXdr04;
-	private Integer failure1StdXdrPreXdr0514;
-	private Integer failure1StdXdrPreXdr1517;
-	private Integer failure1StdXdrPreXdrHiv;
+	private Integer failure1IndLzdXdrPreXdr;
+	private Integer failure1IndLzdXdrPreXdr04;
+	private Integer failure1IndLzdXdrPreXdr0514;
+	private Integer failure1IndLzdXdrPreXdr1517;
+	private Integer failure1IndLzdXdrPreXdrHiv;
+	private Integer failure1IndBdqXdrPreXdr;
+	private Integer failure1IndBdqXdrPreXdr04;
+	private Integer failure1IndBdqXdrPreXdr0514;
+	private Integer failure1IndBdqXdrPreXdr1517;
+	private Integer failure1IndBdqXdrPreXdrHiv;
 	
-	private Integer failure2IndXdrPreXdr;
-	private Integer failure2IndXdrPreXdr04;
-	private Integer failure2IndXdrPreXdr0524;
-	private Integer failure2IndXdrPreXdr2527;
-	private Integer failure2IndXdrPreXdrHiv;
-	private Integer failure2StdXdrPreXdr;
-	private Integer failure2StdXdrPreXdr04;
-	private Integer failure2StdXdrPreXdr0524;
-	private Integer failure2StdXdrPreXdr2527;
-	private Integer failure2StdXdrPreXdrHiv;
+	private Integer failure2IndLzdXdrPreXdr;
+	private Integer failure2IndLzdXdrPreXdr04;
+	private Integer failure2IndLzdXdrPreXdr0514;
+	private Integer failure2IndLzdXdrPreXdr1517;
+	private Integer failure2IndLzdXdrPreXdrHiv;
+	private Integer failure2IndBdqXdrPreXdr;
+	private Integer failure2IndBdqXdrPreXdr04;
+	private Integer failure2IndBdqXdrPreXdr0514;
+	private Integer failure2IndBdqXdrPreXdr1517;
+	private Integer failure2IndBdqXdrPreXdrHiv;
 	
-	private Integer otherIndXdrPreXdr;
-	private Integer otherIndXdrPreXdr04;
-	private Integer otherIndXdrPreXdr0524;
-	private Integer otherIndXdrPreXdr2527;
-	private Integer otherIndXdrPreXdrHiv;
-	private Integer otherStdXdrPreXdr;
-	private Integer otherStdXdrPreXdr04;
-	private Integer otherStdXdrPreXdr0524;
-	private Integer otherStdXdrPreXdr2527;
-	private Integer otherStdXdrPreXdrHiv;
+	private Integer otherIndLzdXdrPreXdr;
+	private Integer otherIndLzdXdrPreXdr04;
+	private Integer otherIndLzdXdrPreXdr0514;
+	private Integer otherIndLzdXdrPreXdr1517;
+	private Integer otherIndLzdXdrPreXdrHiv;
+	private Integer otherIndBdqXdrPreXdr;
+	private Integer otherIndBdqXdrPreXdr04;
+	private Integer otherIndBdqXdrPreXdr0514;
+	private Integer otherIndBdqXdrPreXdr1517;
+	private Integer otherIndBdqXdrPreXdrHiv;
 	
-	private Integer totalIndXdrPreXdr;
-	private Integer totalIndXdrPreXdr04;
-	private Integer totalIndXdrPreXdr0524;
-	private Integer totalIndXdrPreXdr2527;
-	private Integer totalIndXdrPreXdrHiv;
-	private Integer totalStdXdrPreXdr;
-	private Integer totalStdXdrPreXdr04;
-	private Integer totalStdXdrPreXdr0524;
-	private Integer totalStdXdrPreXdr2527;
-	private Integer totalStdXdrPreXdrHiv;
+	private Integer totalIndLzdXdrPreXdr;
+	private Integer totalIndLzdXdrPreXdr04;
+	private Integer totalIndLzdXdrPreXdr0514;
+	private Integer totalIndLzdXdrPreXdr1517;
+	private Integer totalIndLzdXdrPreXdrHiv;
+	private Integer totalIndBdqXdrPreXdr;
+	private Integer totalIndBdqXdrPreXdr04;
+	private Integer totalIndBdqXdrPreXdr0514;
+	private Integer totalIndBdqXdrPreXdr1517;
+	private Integer totalIndBdqXdrPreXdrHiv;
 	
 	public TB07uData () {
 		 totalDetections = 0;
@@ -513,8 +691,8 @@ public class TB07uData  {
 		
 		 relapse2Mdr = 0;
 		 relapse2Mdr04 = 0;
-		 relapse2Mdr0524 = 0;
-		 relapse2Mdr2527 = 0;
+		 relapse2Mdr0514 = 0;
+		 relapse2Mdr1517 = 0;
 		 relapse2MdrHiv = 0;
 		 relapse2ShortMdr = 0;
 		 relapse2ShortMdr04 = 0;
@@ -545,8 +723,8 @@ public class TB07uData  {
 		
 		 default2Mdr = 0;
 		 default2Mdr04 = 0;
-		 default2Mdr0524 = 0;
-		 default2Mdr2527 = 0;
+		 default2Mdr0514 = 0;
+		 default2Mdr1517 = 0;
 		 default2MdrHiv = 0;
 		 default2ShortMdr = 0;
 		 default2ShortMdr04 = 0;
@@ -577,8 +755,8 @@ public class TB07uData  {
 		
 		 failure2Mdr = 0;
 		 failure2Mdr04 = 0;
-		 failure2Mdr0524 = 0;
-		 failure2Mdr2527 = 0;
+		 failure2Mdr0514 = 0;
+		 failure2Mdr1517 = 0;
 		 failure2MdrHiv = 0;
 		 failure2ShortMdr = 0;
 		 failure2ShortMdr04 = 0;
@@ -637,8 +815,8 @@ public class TB07uData  {
 		
 		 relapse2Pdr = 0;
 		 relapse2Pdr04 = 0;
-		 relapse2Pdr0524 = 0;
-		 relapse2Pdr2527 = 0;
+		 relapse2Pdr0514 = 0;
+		 relapse2Pdr1517 = 0;
 		 relapse2PdrHiv = 0;
 			
 		 default1Pdr = 0;
@@ -649,8 +827,8 @@ public class TB07uData  {
 		
 		 default2Pdr = 0;
 		 default2Pdr04 = 0;
-		 default2Pdr0524 = 0;
-		 default2Pdr2527 = 0;
+		 default2Pdr0514 = 0;
+		 default2Pdr1517 = 0;
 		 default2PdrHiv = 0;
 		
 		 failure1Pdr = 0;
@@ -661,8 +839,8 @@ public class TB07uData  {
 		
 		 failure2Pdr = 0;
 		 failure2Pdr04 = 0;
-		 failure2Pdr0524 = 0;
-		 failure2Pdr2527 = 0;
+		 failure2Pdr0514 = 0;
+		 failure2Pdr1517 = 0;
 		 failure2PdrHiv = 0;
 		
 		 otherPdr = 0;
@@ -677,59 +855,59 @@ public class TB07uData  {
 		 totalPdr1517 = 0;
 		 totalPdrHiv = 0;
 		
-		 newpreXdr = 0;
-		 newpreXdr04 = 0;
-		 newpreXdr0514 = 0;
-		 newpreXdr1517 = 0;
-		 newpreXdrHiv = 0;
+		 newPreXdr = 0;
+		 newPreXdr04 = 0;
+		 newPreXdr0514 = 0;
+		 newPreXdr1517 = 0;
+		 newPreXdrHiv = 0;
 		
-		 relapse1preXdr = 0;
-		 relapse1preXdr04 = 0;
-		 relapse1preXdr0514 = 0;
-		 relapse1preXdr1517 = 0;
-		 relapse1preXdrHiv = 0;
+		 relapse1PreXdr = 0;
+		 relapse1PreXdr04 = 0;
+		 relapse1PreXdr0514 = 0;
+		 relapse1PreXdr1517 = 0;
+		 relapse1PreXdrHiv = 0;
 		
-		 relapse2preXdr = 0;
-		 relapse2preXdr04 = 0;
-		 relapse2preXdr0524 = 0;
-		 relapse2preXdr2527 = 0;
-		 relapse2preXdrHiv = 0;
+		 relapse2PreXdr = 0;
+		 relapse2PreXdr04 = 0;
+		 relapse2PreXdr0514 = 0;
+		 relapse2PreXdr1517 = 0;
+		 relapse2PreXdrHiv = 0;
 			
-		 default1preXdr = 0;
-		 default1preXdr04 = 0;
-		 default1preXdr0514 = 0;
-		 default1preXdr1517 = 0;
-		 default1preXdrHiv = 0;
+		 default1PreXdr = 0;
+		 default1PreXdr04 = 0;
+		 default1PreXdr0514 = 0;
+		 default1PreXdr1517 = 0;
+		 default1PreXdrHiv = 0;
 		
-		 default2preXdr = 0;
-		 default2preXdr04 = 0;
-		 default2preXdr0524 = 0;
-		 default2preXdr2527 = 0;
-		 default2preXdrHiv = 0;
+		 default2PreXdr = 0;
+		 default2PreXdr04 = 0;
+		 default2PreXdr0514 = 0;
+		 default2PreXdr1517 = 0;
+		 default2PreXdrHiv = 0;
 		
-		 failure1preXdr = 0;
-		 failure1preXdr04 = 0;
-		 failure1preXdr0514 = 0;
-		 failure1preXdr1517 = 0;
-		 failure1preXdrHiv = 0;
+		 failure1PreXdr = 0;
+		 failure1PreXdr04 = 0;
+		 failure1PreXdr0514 = 0;
+		 failure1PreXdr1517 = 0;
+		 failure1PreXdrHiv = 0;
 		
-		 failure2preXdr = 0;
-		 failure2preXdr04 = 0;
-		 failure2preXdr0524 = 0;
-		 failure2preXdr2527 = 0;
-		 failure2preXdrHiv = 0;
+		 failure2PreXdr = 0;
+		 failure2PreXdr04 = 0;
+		 failure2PreXdr0514 = 0;
+		 failure2PreXdr1517 = 0;
+		 failure2PreXdrHiv = 0;
 		
-		 otherpreXdr = 0;
-		 otherpreXdr04 = 0;
-		 otherpreXdr0514 = 0;
-		 otherpreXdr1517 = 0;
-		 otherpreXdrHiv = 0;
+		 otherPreXdr = 0;
+		 otherPreXdr04 = 0;
+		 otherPreXdr0514 = 0;
+		 otherPreXdr1517 = 0;
+		 otherPreXdrHiv = 0;
 		
-		 totalpreXdr = 0;
-		 totalpreXdr04 = 0;
-		 totalpreXdr0514 = 0;
-		 totalpreXdr1517 = 0;
-		 totalpreXdrHiv = 0;
+		 totalPreXdr = 0;
+		 totalPreXdr04 = 0;
+		 totalPreXdr0514 = 0;
+		 totalPreXdr1517 = 0;
+		 totalPreXdrHiv = 0;
 		
 		 newXdr = 0;
 		 newXdr04 = 0;
@@ -745,8 +923,8 @@ public class TB07uData  {
 		
 		 relapse2Xdr = 0;
 		 relapse2Xdr04 = 0;
-		 relapse2Xdr0524 = 0;
-		 relapse2Xdr2527 = 0;
+		 relapse2Xdr0514 = 0;
+		 relapse2Xdr1517 = 0;
 		 relapse2XdrHiv = 0;
 			
 		 default1Xdr = 0;
@@ -757,8 +935,8 @@ public class TB07uData  {
 		
 		 default2Xdr = 0;
 		 default2Xdr04 = 0;
-		 default2Xdr0524 = 0;
-		 default2Xdr2527 = 0;
+		 default2Xdr0514 = 0;
+		 default2Xdr1517 = 0;
 		 default2XdrHiv = 0;
 		
 		 failure1Xdr = 0;
@@ -769,8 +947,8 @@ public class TB07uData  {
 		
 		 failure2Xdr = 0;
 		 failure2Xdr04 = 0;
-		 failure2Xdr0524 = 0;
-		 failure2Xdr2527 = 0;
+		 failure2Xdr0514 = 0;
+		 failure2Xdr1517 = 0;
 		 failure2XdrHiv = 0;
 		
 		 otherXdr = 0;
@@ -799,8 +977,8 @@ public class TB07uData  {
 		
 		 relapse2Total = 0;
 		 relapse2Total04 = 0;
-		 relapse2Total0524 = 0;
-		 relapse2Total2527 = 0;
+		 relapse2Total0514 = 0;
+		 relapse2Total1517 = 0;
 		 relapse2TotalHiv = 0;
 			
 		 default1Total = 0;
@@ -811,8 +989,8 @@ public class TB07uData  {
 		
 		 default2Total = 0;
 		 default2Total04 = 0;
-		 default2Total0524 = 0;
-		 default2Total2527 = 0;
+		 default2Total0514 = 0;
+		 default2Total1517 = 0;
 		 default2TotalHiv = 0;
 		
 		 failure1Total = 0;
@@ -823,8 +1001,8 @@ public class TB07uData  {
 		
 		 failure2Total = 0;
 		 failure2Total04 = 0;
-		 failure2Total0524 = 0;
-		 failure2Total2527 = 0;
+		 failure2Total0514 = 0;
+		 failure2Total1517 = 0;
 		 failure2TotalHiv = 0;
 		
 		 otherTotal = 0;
@@ -839,104 +1017,104 @@ public class TB07uData  {
 		 totalTotal1517 = 0;
 		 totalTotalHiv = 0;
 		
-		 newIndXdrPreXdr = 0;
-		 newIndXdrPreXdr04 = 0;
-		 newIndXdrPreXdr0514 = 0;
-		 newIndXdrPreXdr1517 = 0;
-		 newIndXdrPreXdrHiv = 0;
-		 newStdXdrPreXdr = 0;
-		 newStdXdrPreXdr04 = 0;
-		 newStdXdrPreXdr0514 = 0;
-		 newStdXdrPreXdr1517 = 0;
-		 newStdXdrPreXdrHiv = 0;
+		 newIndLzdXdrPreXdr = 0;
+		 newIndLzdXdrPreXdr04 = 0;
+		 newIndLzdXdrPreXdr0514 = 0;
+		 newIndLzdXdrPreXdr1517 = 0;
+		 newIndLzdXdrPreXdrHiv = 0;
+		 newIndBdqXdrPreXdr = 0;
+		 newIndBdqXdrPreXdr04 = 0;
+		 newIndBdqXdrPreXdr0514 = 0;
+		 newIndBdqXdrPreXdr1517 = 0;
+		 newIndBdqXdrPreXdrHiv = 0;
 		
-		 relapse1IndXdrPreXdr = 0;
-		 relapse1IndXdrPreXdr04 = 0;
-		 relapse1IndXdrPreXdr0514 = 0;
-		 relapse1IndXdrPreXdr1517 = 0;
-		 relapse1IndXdrPreXdrHiv = 0;
-		 relapse1StdXdrPreXdr = 0;
-		 relapse1StdXdrPreXdr04 = 0;
-		 relapse1StdXdrPreXdr0514 = 0;
-		 relapse1StdXdrPreXdr1517 = 0;
-		 relapse1StdXdrPreXdrHiv = 0;
+		 relapse1IndLzdXdrPreXdr = 0;
+		 relapse1IndLzdXdrPreXdr04 = 0;
+		 relapse1IndLzdXdrPreXdr0514 = 0;
+		 relapse1IndLzdXdrPreXdr1517 = 0;
+		 relapse1IndLzdXdrPreXdrHiv = 0;
+		 relapse1IndBdqXdrPreXdr = 0;
+		 relapse1IndBdqXdrPreXdr04 = 0;
+		 relapse1IndBdqXdrPreXdr0514 = 0;
+		 relapse1IndBdqXdrPreXdr1517 = 0;
+		 relapse1IndBdqXdrPreXdrHiv = 0;
 		
-		 relapse2IndXdrPreXdr = 0;
-		 relapse2IndXdrPreXdr04 = 0;
-		 relapse2IndXdrPreXdr0524 = 0;
-		 relapse2IndXdrPreXdr2527 = 0;
-		 relapse2IndXdrPreXdrHiv = 0;
-		 relapse2StdXdrPreXdr = 0;
-		 relapse2StdXdrPreXdr04 = 0;
-		 relapse2StdXdrPreXdr0524 = 0;
-		 relapse2StdXdrPreXdr2527 = 0;
-		 relapse2StdXdrPreXdrHiv = 0;
+		 relapse2IndLzdXdrPreXdr = 0;
+		 relapse2IndLzdXdrPreXdr04 = 0;
+		 relapse2IndLzdXdrPreXdr0514 = 0;
+		 relapse2IndLzdXdrPreXdr1517 = 0;
+		 relapse2IndLzdXdrPreXdrHiv = 0;
+		 relapse2IndBdqXdrPreXdr = 0;
+		 relapse2IndBdqXdrPreXdr04 = 0;
+		 relapse2IndBdqXdrPreXdr0514 = 0;
+		 relapse2IndBdqXdrPreXdr1517 = 0;
+		 relapse2IndBdqXdrPreXdrHiv = 0;
 		
-		 default1IndXdrPreXdr = 0;
-		 default1IndXdrPreXdr04 = 0;
-		 default1IndXdrPreXdr0514 = 0;
-		 default1IndXdrPreXdr1517 = 0;
-		 default1IndXdrPreXdrHiv = 0;
-		 default1StdXdrPreXdr = 0;
-		 default1StdXdrPreXdr04 = 0;
-		 default1StdXdrPreXdr0514 = 0;
-		 default1StdXdrPreXdr1517 = 0;
-		 default1StdXdrPreXdrHiv = 0;
+		 default1IndLzdXdrPreXdr = 0;
+		 default1IndLzdXdrPreXdr04 = 0;
+		 default1IndLzdXdrPreXdr0514 = 0;
+		 default1IndLzdXdrPreXdr1517 = 0;
+		 default1IndLzdXdrPreXdrHiv = 0;
+		 default1IndBdqXdrPreXdr = 0;
+		 default1IndBdqXdrPreXdr04 = 0;
+		 default1IndBdqXdrPreXdr0514 = 0;
+		 default1IndBdqXdrPreXdr1517 = 0;
+		 default1IndBdqXdrPreXdrHiv = 0;
 		
-		 default2IndXdrPreXdr = 0;
-		 default2IndXdrPreXdr04 = 0;
-		 default2IndXdrPreXdr0524 = 0;
-		 default2IndXdrPreXdr2527 = 0;
-		 default2IndXdrPreXdrHiv = 0;
-		 default2StdXdrPreXdr = 0;
-		 default2StdXdrPreXdr04 = 0;
-		 default2StdXdrPreXdr0524 = 0;
-		 default2StdXdrPreXdr2527 = 0;
-		 default2StdXdrPreXdrHiv = 0;
+		 default2IndLzdXdrPreXdr = 0;
+		 default2IndLzdXdrPreXdr04 = 0;
+		 default2IndLzdXdrPreXdr0514 = 0;
+		 default2IndLzdXdrPreXdr1517 = 0;
+		 default2IndLzdXdrPreXdrHiv = 0;
+		 default2IndBdqXdrPreXdr = 0;
+		 default2IndBdqXdrPreXdr04 = 0;
+		 default2IndBdqXdrPreXdr0514 = 0;
+		 default2IndBdqXdrPreXdr1517 = 0;
+		 default2IndBdqXdrPreXdrHiv = 0;
 		
-		 failure1IndXdrPreXdr = 0;
-		 failure1IndXdrPreXdr04 = 0;
-		 failure1IndXdrPreXdr0514 = 0;
-		 failure1IndXdrPreXdr1517 = 0;
-		 failure1IndXdrPreXdrHiv = 0;
-		 failure1StdXdrPreXdr = 0;
-		 failure1StdXdrPreXdr04 = 0;
-		 failure1StdXdrPreXdr0514 = 0;
-		 failure1StdXdrPreXdr1517 = 0;
-		 failure1StdXdrPreXdrHiv = 0;
+		 failure1IndLzdXdrPreXdr = 0;
+		 failure1IndLzdXdrPreXdr04 = 0;
+		 failure1IndLzdXdrPreXdr0514 = 0;
+		 failure1IndLzdXdrPreXdr1517 = 0;
+		 failure1IndLzdXdrPreXdrHiv = 0;
+		 failure1IndBdqXdrPreXdr = 0;
+		 failure1IndBdqXdrPreXdr04 = 0;
+		 failure1IndBdqXdrPreXdr0514 = 0;
+		 failure1IndBdqXdrPreXdr1517 = 0;
+		 failure1IndBdqXdrPreXdrHiv = 0;
 		
-		 failure2IndXdrPreXdr = 0;
-		 failure2IndXdrPreXdr04 = 0;
-		 failure2IndXdrPreXdr0524 = 0;
-		 failure2IndXdrPreXdr2527 = 0;
-		 failure2IndXdrPreXdrHiv = 0;
-		 failure2StdXdrPreXdr = 0;
-		 failure2StdXdrPreXdr04 = 0;
-		 failure2StdXdrPreXdr0524 = 0;
-		 failure2StdXdrPreXdr2527 = 0;
-		 failure2StdXdrPreXdrHiv = 0;
+		 failure2IndLzdXdrPreXdr = 0;
+		 failure2IndLzdXdrPreXdr04 = 0;
+		 failure2IndLzdXdrPreXdr0514 = 0;
+		 failure2IndLzdXdrPreXdr1517 = 0;
+		 failure2IndLzdXdrPreXdrHiv = 0;
+		 failure2IndBdqXdrPreXdr = 0;
+		 failure2IndBdqXdrPreXdr04 = 0;
+		 failure2IndBdqXdrPreXdr0514 = 0;
+		 failure2IndBdqXdrPreXdr1517 = 0;
+		 failure2IndBdqXdrPreXdrHiv = 0;
 		
-		 otherIndXdrPreXdr = 0;
-		 otherIndXdrPreXdr04 = 0;
-		 otherIndXdrPreXdr0524 = 0;
-		 otherIndXdrPreXdr2527 = 0;
-		 otherIndXdrPreXdrHiv = 0;
-		 otherStdXdrPreXdr = 0;
-		 otherStdXdrPreXdr04 = 0;
-		 otherStdXdrPreXdr0524 = 0;
-		 otherStdXdrPreXdr2527 = 0;
-		 otherStdXdrPreXdrHiv = 0;
+		 otherIndLzdXdrPreXdr = 0;
+		 otherIndLzdXdrPreXdr04 = 0;
+		 otherIndLzdXdrPreXdr0514 = 0;
+		 otherIndLzdXdrPreXdr1517 = 0;
+		 otherIndLzdXdrPreXdrHiv = 0;
+		 otherIndBdqXdrPreXdr = 0;
+		 otherIndBdqXdrPreXdr04 = 0;
+		 otherIndBdqXdrPreXdr0514 = 0;
+		 otherIndBdqXdrPreXdr1517 = 0;
+		 otherIndBdqXdrPreXdrHiv = 0;
 		
-		 totalIndXdrPreXdr = 0;
-		 totalIndXdrPreXdr04 = 0;
-		 totalIndXdrPreXdr0524 = 0;
-		 totalIndXdrPreXdr2527 = 0;
-		 totalIndXdrPreXdrHiv = 0;
-		 totalStdXdrPreXdr = 0;
-		 totalStdXdrPreXdr04 = 0;
-		 totalStdXdrPreXdr0524 = 0;
-		 totalStdXdrPreXdr2527 = 0;
-		 totalStdXdrPreXdrHiv = 0;
+		 totalIndLzdXdrPreXdr = 0;
+		 totalIndLzdXdrPreXdr04 = 0;
+		 totalIndLzdXdrPreXdr0514 = 0;
+		 totalIndLzdXdrPreXdr1517 = 0;
+		 totalIndLzdXdrPreXdrHiv = 0;
+		 totalIndBdqXdrPreXdr = 0;
+		 totalIndBdqXdrPreXdr04 = 0;
+		 totalIndBdqXdrPreXdr0514 = 0;
+		 totalIndBdqXdrPreXdr1517 = 0;
+		 totalIndBdqXdrPreXdrHiv = 0;
 	}
 
 	public Integer getTotalDetections() {
@@ -1075,20 +1253,20 @@ public class TB07uData  {
 		this.relapse2Mdr04 = relapse2Mdr04;
 	}
 
-	public Integer getRelapse2Mdr0524() {
-		return relapse2Mdr0524;
+	public Integer getRelapse2Mdr0514() {
+		return relapse2Mdr0514;
 	}
 
-	public void setRelapse2Mdr0524(Integer relapse2Mdr0524) {
-		this.relapse2Mdr0524 = relapse2Mdr0524;
+	public void setRelapse2Mdr0514(Integer relapse2Mdr0514) {
+		this.relapse2Mdr0514 = relapse2Mdr0514;
 	}
 
-	public Integer getRelapse2Mdr2527() {
-		return relapse2Mdr2527;
+	public Integer getRelapse2Mdr1517() {
+		return relapse2Mdr1517;
 	}
 
-	public void setRelapse2Mdr2527(Integer relapse2Mdr2527) {
-		this.relapse2Mdr2527 = relapse2Mdr2527;
+	public void setRelapse2Mdr1517(Integer relapse2Mdr1517) {
+		this.relapse2Mdr1517 = relapse2Mdr1517;
 	}
 
 	public Integer getRelapse2MdrHiv() {
@@ -1155,20 +1333,20 @@ public class TB07uData  {
 		this.default2Mdr04 = default2Mdr04;
 	}
 
-	public Integer getDefault2Mdr0524() {
-		return default2Mdr0524;
+	public Integer getDefault2Mdr0514() {
+		return default2Mdr0514;
 	}
 
-	public void setDefault2Mdr0524(Integer default2Mdr0524) {
-		this.default2Mdr0524 = default2Mdr0524;
+	public void setDefault2Mdr0514(Integer default2Mdr0514) {
+		this.default2Mdr0514 = default2Mdr0514;
 	}
 
-	public Integer getDefault2Mdr2527() {
-		return default2Mdr2527;
+	public Integer getDefault2Mdr1517() {
+		return default2Mdr1517;
 	}
 
-	public void setDefault2Mdr2527(Integer default2Mdr2527) {
-		this.default2Mdr2527 = default2Mdr2527;
+	public void setDefault2Mdr1517(Integer default2Mdr1517) {
+		this.default2Mdr1517 = default2Mdr1517;
 	}
 
 	public Integer getDefault2MdrHiv() {
@@ -1235,20 +1413,20 @@ public class TB07uData  {
 		this.failure2Mdr04 = failure2Mdr04;
 	}
 
-	public Integer getFailure2Mdr0524() {
-		return failure2Mdr0524;
+	public Integer getFailure2Mdr0514() {
+		return failure2Mdr0514;
 	}
 
-	public void setFailure2Mdr0524(Integer failure2Mdr0524) {
-		this.failure2Mdr0524 = failure2Mdr0524;
+	public void setFailure2Mdr0514(Integer failure2Mdr0514) {
+		this.failure2Mdr0514 = failure2Mdr0514;
 	}
 
-	public Integer getFailure2Mdr2527() {
-		return failure2Mdr2527;
+	public Integer getFailure2Mdr1517() {
+		return failure2Mdr1517;
 	}
 
-	public void setFailure2Mdr2527(Integer failure2Mdr2527) {
-		this.failure2Mdr2527 = failure2Mdr2527;
+	public void setFailure2Mdr1517(Integer failure2Mdr1517) {
+		this.failure2Mdr1517 = failure2Mdr1517;
 	}
 
 	public Integer getFailure2MdrHiv() {
@@ -1435,20 +1613,20 @@ public class TB07uData  {
 		this.relapse2Pdr04 = relapse2Pdr04;
 	}
 
-	public Integer getRelapse2Pdr0524() {
-		return relapse2Pdr0524;
+	public Integer getRelapse2Pdr0514() {
+		return relapse2Pdr0514;
 	}
 
-	public void setRelapse2Pdr0524(Integer relapse2Pdr0524) {
-		this.relapse2Pdr0524 = relapse2Pdr0524;
+	public void setRelapse2Pdr0514(Integer relapse2Pdr0514) {
+		this.relapse2Pdr0514 = relapse2Pdr0514;
 	}
 
-	public Integer getRelapse2Pdr2527() {
-		return relapse2Pdr2527;
+	public Integer getRelapse2Pdr1517() {
+		return relapse2Pdr1517;
 	}
 
-	public void setRelapse2Pdr2527(Integer relapse2Pdr2527) {
-		this.relapse2Pdr2527 = relapse2Pdr2527;
+	public void setRelapse2Pdr1517(Integer relapse2Pdr1517) {
+		this.relapse2Pdr1517 = relapse2Pdr1517;
 	}
 
 	public Integer getRelapse2PdrHiv() {
@@ -1515,20 +1693,20 @@ public class TB07uData  {
 		this.default2Pdr04 = default2Pdr04;
 	}
 
-	public Integer getDefault2Pdr0524() {
-		return default2Pdr0524;
+	public Integer getDefault2Pdr0514() {
+		return default2Pdr0514;
 	}
 
-	public void setDefault2Pdr0524(Integer default2Pdr0524) {
-		this.default2Pdr0524 = default2Pdr0524;
+	public void setDefault2Pdr0514(Integer default2Pdr0514) {
+		this.default2Pdr0514 = default2Pdr0514;
 	}
 
-	public Integer getDefault2Pdr2527() {
-		return default2Pdr2527;
+	public Integer getDefault2Pdr1517() {
+		return default2Pdr1517;
 	}
 
-	public void setDefault2Pdr2527(Integer default2Pdr2527) {
-		this.default2Pdr2527 = default2Pdr2527;
+	public void setDefault2Pdr1517(Integer default2Pdr1517) {
+		this.default2Pdr1517 = default2Pdr1517;
 	}
 
 	public Integer getDefault2PdrHiv() {
@@ -1595,20 +1773,20 @@ public class TB07uData  {
 		this.failure2Pdr04 = failure2Pdr04;
 	}
 
-	public Integer getFailure2Pdr0524() {
-		return failure2Pdr0524;
+	public Integer getFailure2Pdr0514() {
+		return failure2Pdr0514;
 	}
 
-	public void setFailure2Pdr0524(Integer failure2Pdr0524) {
-		this.failure2Pdr0524 = failure2Pdr0524;
+	public void setFailure2Pdr0514(Integer failure2Pdr0514) {
+		this.failure2Pdr0514 = failure2Pdr0514;
 	}
 
-	public Integer getFailure2Pdr2527() {
-		return failure2Pdr2527;
+	public Integer getFailure2Pdr1517() {
+		return failure2Pdr1517;
 	}
 
-	public void setFailure2Pdr2527(Integer failure2Pdr2527) {
-		this.failure2Pdr2527 = failure2Pdr2527;
+	public void setFailure2Pdr1517(Integer failure2Pdr1517) {
+		this.failure2Pdr1517 = failure2Pdr1517;
 	}
 
 	public Integer getFailure2PdrHiv() {
@@ -1699,364 +1877,364 @@ public class TB07uData  {
 		this.totalPdrHiv = totalPdrHiv;
 	}
 
-	public Integer getNewpreXdr() {
-		return newpreXdr;
+	public Integer getNewPreXdr() {
+		return newPreXdr;
 	}
 
-	public void setNewpreXdr(Integer newpreXdr) {
-		this.newpreXdr = newpreXdr;
+	public void setNewPreXdr(Integer newPreXdr) {
+		this.newPreXdr = newPreXdr;
 	}
 
-	public Integer getNewpreXdr04() {
-		return newpreXdr04;
+	public Integer getNewPreXdr04() {
+		return newPreXdr04;
 	}
 
-	public void setNewpreXdr04(Integer newpreXdr04) {
-		this.newpreXdr04 = newpreXdr04;
+	public void setNewPreXdr04(Integer newPreXdr04) {
+		this.newPreXdr04 = newPreXdr04;
 	}
 
-	public Integer getNewpreXdr0514() {
-		return newpreXdr0514;
+	public Integer getNewPreXdr0514() {
+		return newPreXdr0514;
 	}
 
-	public void setNewpreXdr0514(Integer newpreXdr0514) {
-		this.newpreXdr0514 = newpreXdr0514;
+	public void setNewPreXdr0514(Integer newPreXdr0514) {
+		this.newPreXdr0514 = newPreXdr0514;
 	}
 
-	public Integer getNewpreXdr1517() {
-		return newpreXdr1517;
+	public Integer getNewPreXdr1517() {
+		return newPreXdr1517;
 	}
 
-	public void setNewpreXdr1517(Integer newpreXdr1517) {
-		this.newpreXdr1517 = newpreXdr1517;
+	public void setNewPreXdr1517(Integer newPreXdr1517) {
+		this.newPreXdr1517 = newPreXdr1517;
 	}
 
-	public Integer getNewpreXdrHiv() {
-		return newpreXdrHiv;
+	public Integer getNewPreXdrHiv() {
+		return newPreXdrHiv;
 	}
 
-	public void setNewpreXdrHiv(Integer newpreXdrHiv) {
-		this.newpreXdrHiv = newpreXdrHiv;
+	public void setNewPreXdrHiv(Integer newPreXdrHiv) {
+		this.newPreXdrHiv = newPreXdrHiv;
 	}
 
-	public Integer getRelapse1preXdr() {
-		return relapse1preXdr;
+	public Integer getRelapse1PreXdr() {
+		return relapse1PreXdr;
 	}
 
-	public void setRelapse1preXdr(Integer relapse1preXdr) {
-		this.relapse1preXdr = relapse1preXdr;
+	public void setRelapse1PreXdr(Integer relapse1PreXdr) {
+		this.relapse1PreXdr = relapse1PreXdr;
 	}
 
-	public Integer getRelapse1preXdr04() {
-		return relapse1preXdr04;
+	public Integer getRelapse1PreXdr04() {
+		return relapse1PreXdr04;
 	}
 
-	public void setRelapse1preXdr04(Integer relapse1preXdr04) {
-		this.relapse1preXdr04 = relapse1preXdr04;
+	public void setRelapse1PreXdr04(Integer relapse1PreXdr04) {
+		this.relapse1PreXdr04 = relapse1PreXdr04;
 	}
 
-	public Integer getRelapse1preXdr0514() {
-		return relapse1preXdr0514;
+	public Integer getRelapse1PreXdr0514() {
+		return relapse1PreXdr0514;
 	}
 
-	public void setRelapse1preXdr0514(Integer relapse1preXdr0514) {
-		this.relapse1preXdr0514 = relapse1preXdr0514;
+	public void setRelapse1PreXdr0514(Integer relapse1PreXdr0514) {
+		this.relapse1PreXdr0514 = relapse1PreXdr0514;
 	}
 
-	public Integer getRelapse1preXdr1517() {
-		return relapse1preXdr1517;
+	public Integer getRelapse1PreXdr1517() {
+		return relapse1PreXdr1517;
 	}
 
-	public void setRelapse1preXdr1517(Integer relapse1preXdr1517) {
-		this.relapse1preXdr1517 = relapse1preXdr1517;
+	public void setRelapse1PreXdr1517(Integer relapse1PreXdr1517) {
+		this.relapse1PreXdr1517 = relapse1PreXdr1517;
 	}
 
-	public Integer getRelapse1preXdrHiv() {
-		return relapse1preXdrHiv;
+	public Integer getRelapse1PreXdrHiv() {
+		return relapse1PreXdrHiv;
 	}
 
-	public void setRelapse1preXdrHiv(Integer relapse1preXdrHiv) {
-		this.relapse1preXdrHiv = relapse1preXdrHiv;
+	public void setRelapse1PreXdrHiv(Integer relapse1PreXdrHiv) {
+		this.relapse1PreXdrHiv = relapse1PreXdrHiv;
 	}
 
-	public Integer getRelapse2preXdr() {
-		return relapse2preXdr;
+	public Integer getRelapse2PreXdr() {
+		return relapse2PreXdr;
 	}
 
-	public void setRelapse2preXdr(Integer relapse2preXdr) {
-		this.relapse2preXdr = relapse2preXdr;
+	public void setRelapse2PreXdr(Integer relapse2PreXdr) {
+		this.relapse2PreXdr = relapse2PreXdr;
 	}
 
-	public Integer getRelapse2preXdr04() {
-		return relapse2preXdr04;
+	public Integer getRelapse2PreXdr04() {
+		return relapse2PreXdr04;
 	}
 
-	public void setRelapse2preXdr04(Integer relapse2preXdr04) {
-		this.relapse2preXdr04 = relapse2preXdr04;
+	public void setRelapse2PreXdr04(Integer relapse2PreXdr04) {
+		this.relapse2PreXdr04 = relapse2PreXdr04;
 	}
 
-	public Integer getRelapse2preXdr0524() {
-		return relapse2preXdr0524;
+	public Integer getRelapse2PreXdr0514() {
+		return relapse2PreXdr0514;
 	}
 
-	public void setRelapse2preXdr0524(Integer relapse2preXdr0524) {
-		this.relapse2preXdr0524 = relapse2preXdr0524;
+	public void setRelapse2PreXdr0514(Integer relapse2PreXdr0514) {
+		this.relapse2PreXdr0514 = relapse2PreXdr0514;
 	}
 
-	public Integer getRelapse2preXdr2527() {
-		return relapse2preXdr2527;
+	public Integer getRelapse2PreXdr1517() {
+		return relapse2PreXdr1517;
 	}
 
-	public void setRelapse2preXdr2527(Integer relapse2preXdr2527) {
-		this.relapse2preXdr2527 = relapse2preXdr2527;
+	public void setRelapse2PreXdr1517(Integer relapse2PreXdr1517) {
+		this.relapse2PreXdr1517 = relapse2PreXdr1517;
 	}
 
-	public Integer getRelapse2preXdrHiv() {
-		return relapse2preXdrHiv;
+	public Integer getRelapse2PreXdrHiv() {
+		return relapse2PreXdrHiv;
 	}
 
-	public void setRelapse2preXdrHiv(Integer relapse2preXdrHiv) {
-		this.relapse2preXdrHiv = relapse2preXdrHiv;
+	public void setRelapse2PreXdrHiv(Integer relapse2PreXdrHiv) {
+		this.relapse2PreXdrHiv = relapse2PreXdrHiv;
 	}
 
-	public Integer getDefault1preXdr() {
-		return default1preXdr;
+	public Integer getDefault1PreXdr() {
+		return default1PreXdr;
 	}
 
-	public void setDefault1preXdr(Integer default1preXdr) {
-		this.default1preXdr = default1preXdr;
+	public void setDefault1PreXdr(Integer default1PreXdr) {
+		this.default1PreXdr = default1PreXdr;
 	}
 
-	public Integer getDefault1preXdr04() {
-		return default1preXdr04;
+	public Integer getDefault1PreXdr04() {
+		return default1PreXdr04;
 	}
 
-	public void setDefault1preXdr04(Integer default1preXdr04) {
-		this.default1preXdr04 = default1preXdr04;
+	public void setDefault1PreXdr04(Integer default1PreXdr04) {
+		this.default1PreXdr04 = default1PreXdr04;
 	}
 
-	public Integer getDefault1preXdr0514() {
-		return default1preXdr0514;
+	public Integer getDefault1PreXdr0514() {
+		return default1PreXdr0514;
 	}
 
-	public void setDefault1preXdr0514(Integer default1preXdr0514) {
-		this.default1preXdr0514 = default1preXdr0514;
+	public void setDefault1PreXdr0514(Integer default1PreXdr0514) {
+		this.default1PreXdr0514 = default1PreXdr0514;
 	}
 
-	public Integer getDefault1preXdr1517() {
-		return default1preXdr1517;
+	public Integer getDefault1PreXdr1517() {
+		return default1PreXdr1517;
 	}
 
-	public void setDefault1preXdr1517(Integer default1preXdr1517) {
-		this.default1preXdr1517 = default1preXdr1517;
+	public void setDefault1PreXdr1517(Integer default1PreXdr1517) {
+		this.default1PreXdr1517 = default1PreXdr1517;
 	}
 
-	public Integer getDefault1preXdrHiv() {
-		return default1preXdrHiv;
+	public Integer getDefault1PreXdrHiv() {
+		return default1PreXdrHiv;
 	}
 
-	public void setDefault1preXdrHiv(Integer default1preXdrHiv) {
-		this.default1preXdrHiv = default1preXdrHiv;
+	public void setDefault1PreXdrHiv(Integer default1PreXdrHiv) {
+		this.default1PreXdrHiv = default1PreXdrHiv;
 	}
 
-	public Integer getDefault2preXdr() {
-		return default2preXdr;
+	public Integer getDefault2PreXdr() {
+		return default2PreXdr;
 	}
 
-	public void setDefault2preXdr(Integer default2preXdr) {
-		this.default2preXdr = default2preXdr;
+	public void setDefault2PreXdr(Integer default2PreXdr) {
+		this.default2PreXdr = default2PreXdr;
 	}
 
-	public Integer getDefault2preXdr04() {
-		return default2preXdr04;
+	public Integer getDefault2PreXdr04() {
+		return default2PreXdr04;
 	}
 
-	public void setDefault2preXdr04(Integer default2preXdr04) {
-		this.default2preXdr04 = default2preXdr04;
+	public void setDefault2PreXdr04(Integer default2PreXdr04) {
+		this.default2PreXdr04 = default2PreXdr04;
 	}
 
-	public Integer getDefault2preXdr0524() {
-		return default2preXdr0524;
+	public Integer getDefault2PreXdr0514() {
+		return default2PreXdr0514;
 	}
 
-	public void setDefault2preXdr0524(Integer default2preXdr0524) {
-		this.default2preXdr0524 = default2preXdr0524;
+	public void setDefault2PreXdr0514(Integer default2PreXdr0514) {
+		this.default2PreXdr0514 = default2PreXdr0514;
 	}
 
-	public Integer getDefault2preXdr2527() {
-		return default2preXdr2527;
+	public Integer getDefault2PreXdr1517() {
+		return default2PreXdr1517;
 	}
 
-	public void setDefault2preXdr2527(Integer default2preXdr2527) {
-		this.default2preXdr2527 = default2preXdr2527;
+	public void setDefault2PreXdr1517(Integer default2PreXdr1517) {
+		this.default2PreXdr1517 = default2PreXdr1517;
 	}
 
-	public Integer getDefault2preXdrHiv() {
-		return default2preXdrHiv;
+	public Integer getDefault2PreXdrHiv() {
+		return default2PreXdrHiv;
 	}
 
-	public void setDefault2preXdrHiv(Integer default2preXdrHiv) {
-		this.default2preXdrHiv = default2preXdrHiv;
+	public void setDefault2PreXdrHiv(Integer default2PreXdrHiv) {
+		this.default2PreXdrHiv = default2PreXdrHiv;
 	}
 
-	public Integer getFailure1preXdr() {
-		return failure1preXdr;
+	public Integer getFailure1PreXdr() {
+		return failure1PreXdr;
 	}
 
-	public void setFailure1preXdr(Integer failure1preXdr) {
-		this.failure1preXdr = failure1preXdr;
+	public void setFailure1PreXdr(Integer failure1PreXdr) {
+		this.failure1PreXdr = failure1PreXdr;
 	}
 
-	public Integer getFailure1preXdr04() {
-		return failure1preXdr04;
+	public Integer getFailure1PreXdr04() {
+		return failure1PreXdr04;
 	}
 
-	public void setFailure1preXdr04(Integer failure1preXdr04) {
-		this.failure1preXdr04 = failure1preXdr04;
+	public void setFailure1PreXdr04(Integer failure1PreXdr04) {
+		this.failure1PreXdr04 = failure1PreXdr04;
 	}
 
-	public Integer getFailure1preXdr0514() {
-		return failure1preXdr0514;
+	public Integer getFailure1PreXdr0514() {
+		return failure1PreXdr0514;
 	}
 
-	public void setFailure1preXdr0514(Integer failure1preXdr0514) {
-		this.failure1preXdr0514 = failure1preXdr0514;
+	public void setFailure1PreXdr0514(Integer failure1PreXdr0514) {
+		this.failure1PreXdr0514 = failure1PreXdr0514;
 	}
 
-	public Integer getFailure1preXdr1517() {
-		return failure1preXdr1517;
+	public Integer getFailure1PreXdr1517() {
+		return failure1PreXdr1517;
 	}
 
-	public void setFailure1preXdr1517(Integer failure1preXdr1517) {
-		this.failure1preXdr1517 = failure1preXdr1517;
+	public void setFailure1PreXdr1517(Integer failure1PreXdr1517) {
+		this.failure1PreXdr1517 = failure1PreXdr1517;
 	}
 
-	public Integer getFailure1preXdrHiv() {
-		return failure1preXdrHiv;
+	public Integer getFailure1PreXdrHiv() {
+		return failure1PreXdrHiv;
 	}
 
-	public void setFailure1preXdrHiv(Integer failure1preXdrHiv) {
-		this.failure1preXdrHiv = failure1preXdrHiv;
+	public void setFailure1PreXdrHiv(Integer failure1PreXdrHiv) {
+		this.failure1PreXdrHiv = failure1PreXdrHiv;
 	}
 
-	public Integer getFailure2preXdr() {
-		return failure2preXdr;
+	public Integer getFailure2PreXdr() {
+		return failure2PreXdr;
 	}
 
-	public void setFailure2preXdr(Integer failure2preXdr) {
-		this.failure2preXdr = failure2preXdr;
+	public void setFailure2PreXdr(Integer failure2PreXdr) {
+		this.failure2PreXdr = failure2PreXdr;
 	}
 
-	public Integer getFailure2preXdr04() {
-		return failure2preXdr04;
+	public Integer getFailure2PreXdr04() {
+		return failure2PreXdr04;
 	}
 
-	public void setFailure2preXdr04(Integer failure2preXdr04) {
-		this.failure2preXdr04 = failure2preXdr04;
+	public void setFailure2PreXdr04(Integer failure2PreXdr04) {
+		this.failure2PreXdr04 = failure2PreXdr04;
 	}
 
-	public Integer getFailure2preXdr0524() {
-		return failure2preXdr0524;
+	public Integer getFailure2PreXdr0514() {
+		return failure2PreXdr0514;
 	}
 
-	public void setFailure2preXdr0524(Integer failure2preXdr0524) {
-		this.failure2preXdr0524 = failure2preXdr0524;
+	public void setFailure2PreXdr0514(Integer failure2PreXdr0514) {
+		this.failure2PreXdr0514 = failure2PreXdr0514;
 	}
 
-	public Integer getFailure2preXdr2527() {
-		return failure2preXdr2527;
+	public Integer getFailure2PreXdr1517() {
+		return failure2PreXdr1517;
 	}
 
-	public void setFailure2preXdr2527(Integer failure2preXdr2527) {
-		this.failure2preXdr2527 = failure2preXdr2527;
+	public void setFailure2PreXdr1517(Integer failure2PreXdr1517) {
+		this.failure2PreXdr1517 = failure2PreXdr1517;
 	}
 
-	public Integer getFailure2preXdrHiv() {
-		return failure2preXdrHiv;
+	public Integer getFailure2PreXdrHiv() {
+		return failure2PreXdrHiv;
 	}
 
-	public void setFailure2preXdrHiv(Integer failure2preXdrHiv) {
-		this.failure2preXdrHiv = failure2preXdrHiv;
+	public void setFailure2PreXdrHiv(Integer failure2PreXdrHiv) {
+		this.failure2PreXdrHiv = failure2PreXdrHiv;
 	}
 
-	public Integer getOtherpreXdr() {
-		return otherpreXdr;
+	public Integer getOtherPreXdr() {
+		return otherPreXdr;
 	}
 
-	public void setOtherpreXdr(Integer otherpreXdr) {
-		this.otherpreXdr = otherpreXdr;
+	public void setOtherPreXdr(Integer otherPreXdr) {
+		this.otherPreXdr = otherPreXdr;
 	}
 
-	public Integer getOtherpreXdr04() {
-		return otherpreXdr04;
+	public Integer getOtherPreXdr04() {
+		return otherPreXdr04;
 	}
 
-	public void setOtherpreXdr04(Integer otherpreXdr04) {
-		this.otherpreXdr04 = otherpreXdr04;
+	public void setOtherPreXdr04(Integer otherPreXdr04) {
+		this.otherPreXdr04 = otherPreXdr04;
 	}
 
-	public Integer getOtherpreXdr0514() {
-		return otherpreXdr0514;
+	public Integer getOtherPreXdr0514() {
+		return otherPreXdr0514;
 	}
 
-	public void setOtherpreXdr0514(Integer otherpreXdr0514) {
-		this.otherpreXdr0514 = otherpreXdr0514;
+	public void setOtherPreXdr0514(Integer otherPreXdr0514) {
+		this.otherPreXdr0514 = otherPreXdr0514;
 	}
 
-	public Integer getOtherpreXdr1517() {
-		return otherpreXdr1517;
+	public Integer getOtherPreXdr1517() {
+		return otherPreXdr1517;
 	}
 
-	public void setOtherpreXdr1517(Integer otherpreXdr1517) {
-		this.otherpreXdr1517 = otherpreXdr1517;
+	public void setOtherPreXdr1517(Integer otherPreXdr1517) {
+		this.otherPreXdr1517 = otherPreXdr1517;
 	}
 
-	public Integer getOtherpreXdrHiv() {
-		return otherpreXdrHiv;
+	public Integer getOtherPreXdrHiv() {
+		return otherPreXdrHiv;
 	}
 
-	public void setOtherpreXdrHiv(Integer otherpreXdrHiv) {
-		this.otherpreXdrHiv = otherpreXdrHiv;
+	public void setOtherPreXdrHiv(Integer otherPreXdrHiv) {
+		this.otherPreXdrHiv = otherPreXdrHiv;
 	}
 
-	public Integer getTotalpreXdr() {
-		return totalpreXdr;
+	public Integer getTotalPreXdr() {
+		return totalPreXdr;
 	}
 
-	public void setTotalpreXdr(Integer totalpreXdr) {
-		this.totalpreXdr = totalpreXdr;
+	public void setTotalPreXdr(Integer totalPreXdr) {
+		this.totalPreXdr = totalPreXdr;
 	}
 
-	public Integer getTotalpreXdr04() {
-		return totalpreXdr04;
+	public Integer getTotalPreXdr04() {
+		return totalPreXdr04;
 	}
 
-	public void setTotalpreXdr04(Integer totalpreXdr04) {
-		this.totalpreXdr04 = totalpreXdr04;
+	public void setTotalPreXdr04(Integer totalPreXdr04) {
+		this.totalPreXdr04 = totalPreXdr04;
 	}
 
-	public Integer getTotalpreXdr0514() {
-		return totalpreXdr0514;
+	public Integer getTotalPreXdr0514() {
+		return totalPreXdr0514;
 	}
 
-	public void setTotalpreXdr0514(Integer totalpreXdr0514) {
-		this.totalpreXdr0514 = totalpreXdr0514;
+	public void setTotalPreXdr0514(Integer totalPreXdr0514) {
+		this.totalPreXdr0514 = totalPreXdr0514;
 	}
 
-	public Integer getTotalpreXdr1517() {
-		return totalpreXdr1517;
+	public Integer getTotalPreXdr1517() {
+		return totalPreXdr1517;
 	}
 
-	public void setTotalpreXdr1517(Integer totalpreXdr1517) {
-		this.totalpreXdr1517 = totalpreXdr1517;
+	public void setTotalPreXdr1517(Integer totalPreXdr1517) {
+		this.totalPreXdr1517 = totalPreXdr1517;
 	}
 
-	public Integer getTotalpreXdrHiv() {
-		return totalpreXdrHiv;
+	public Integer getTotalPreXdrHiv() {
+		return totalPreXdrHiv;
 	}
 
-	public void setTotalpreXdrHiv(Integer totalpreXdrHiv) {
-		this.totalpreXdrHiv = totalpreXdrHiv;
+	public void setTotalPreXdrHiv(Integer totalPreXdrHiv) {
+		this.totalPreXdrHiv = totalPreXdrHiv;
 	}
 
 	public Integer getNewXdr() {
@@ -2155,20 +2333,20 @@ public class TB07uData  {
 		this.relapse2Xdr04 = relapse2Xdr04;
 	}
 
-	public Integer getRelapse2Xdr0524() {
-		return relapse2Xdr0524;
+	public Integer getRelapse2Xdr0514() {
+		return relapse2Xdr0514;
 	}
 
-	public void setRelapse2Xdr0524(Integer relapse2Xdr0524) {
-		this.relapse2Xdr0524 = relapse2Xdr0524;
+	public void setRelapse2Xdr0514(Integer relapse2Xdr0514) {
+		this.relapse2Xdr0514 = relapse2Xdr0514;
 	}
 
-	public Integer getRelapse2Xdr2527() {
-		return relapse2Xdr2527;
+	public Integer getRelapse2Xdr1517() {
+		return relapse2Xdr1517;
 	}
 
-	public void setRelapse2Xdr2527(Integer relapse2Xdr2527) {
-		this.relapse2Xdr2527 = relapse2Xdr2527;
+	public void setRelapse2Xdr1517(Integer relapse2Xdr1517) {
+		this.relapse2Xdr1517 = relapse2Xdr1517;
 	}
 
 	public Integer getRelapse2XdrHiv() {
@@ -2235,20 +2413,20 @@ public class TB07uData  {
 		this.default2Xdr04 = default2Xdr04;
 	}
 
-	public Integer getDefault2Xdr0524() {
-		return default2Xdr0524;
+	public Integer getDefault2Xdr0514() {
+		return default2Xdr0514;
 	}
 
-	public void setDefault2Xdr0524(Integer default2Xdr0524) {
-		this.default2Xdr0524 = default2Xdr0524;
+	public void setDefault2Xdr0514(Integer default2Xdr0514) {
+		this.default2Xdr0514 = default2Xdr0514;
 	}
 
-	public Integer getDefault2Xdr2527() {
-		return default2Xdr2527;
+	public Integer getDefault2Xdr1517() {
+		return default2Xdr1517;
 	}
 
-	public void setDefault2Xdr2527(Integer default2Xdr2527) {
-		this.default2Xdr2527 = default2Xdr2527;
+	public void setDefault2Xdr1517(Integer default2Xdr1517) {
+		this.default2Xdr1517 = default2Xdr1517;
 	}
 
 	public Integer getDefault2XdrHiv() {
@@ -2315,20 +2493,20 @@ public class TB07uData  {
 		this.failure2Xdr04 = failure2Xdr04;
 	}
 
-	public Integer getFailure2Xdr0524() {
-		return failure2Xdr0524;
+	public Integer getFailure2Xdr0514() {
+		return failure2Xdr0514;
 	}
 
-	public void setFailure2Xdr0524(Integer failure2Xdr0524) {
-		this.failure2Xdr0524 = failure2Xdr0524;
+	public void setFailure2Xdr0514(Integer failure2Xdr0514) {
+		this.failure2Xdr0514 = failure2Xdr0514;
 	}
 
-	public Integer getFailure2Xdr2527() {
-		return failure2Xdr2527;
+	public Integer getFailure2Xdr1517() {
+		return failure2Xdr1517;
 	}
 
-	public void setFailure2Xdr2527(Integer failure2Xdr2527) {
-		this.failure2Xdr2527 = failure2Xdr2527;
+	public void setFailure2Xdr1517(Integer failure2Xdr1517) {
+		this.failure2Xdr1517 = failure2Xdr1517;
 	}
 
 	public Integer getFailure2XdrHiv() {
@@ -2515,20 +2693,20 @@ public class TB07uData  {
 		this.relapse2Total04 = relapse2Total04;
 	}
 
-	public Integer getRelapse2Total0524() {
-		return relapse2Total0524;
+	public Integer getRelapse2Total0514() {
+		return relapse2Total0514;
 	}
 
-	public void setRelapse2Total0524(Integer relapse2Total0524) {
-		this.relapse2Total0524 = relapse2Total0524;
+	public void setRelapse2Total0514(Integer relapse2Total0514) {
+		this.relapse2Total0514 = relapse2Total0514;
 	}
 
-	public Integer getRelapse2Total2527() {
-		return relapse2Total2527;
+	public Integer getRelapse2Total1517() {
+		return relapse2Total1517;
 	}
 
-	public void setRelapse2Total2527(Integer relapse2Total2527) {
-		this.relapse2Total2527 = relapse2Total2527;
+	public void setRelapse2Total1517(Integer relapse2Total1517) {
+		this.relapse2Total1517 = relapse2Total1517;
 	}
 
 	public Integer getRelapse2TotalHiv() {
@@ -2595,20 +2773,20 @@ public class TB07uData  {
 		this.default2Total04 = default2Total04;
 	}
 
-	public Integer getDefault2Total0524() {
-		return default2Total0524;
+	public Integer getDefault2Total0514() {
+		return default2Total0514;
 	}
 
-	public void setDefault2Total0524(Integer default2Total0524) {
-		this.default2Total0524 = default2Total0524;
+	public void setDefault2Total0514(Integer default2Total0514) {
+		this.default2Total0514 = default2Total0514;
 	}
 
-	public Integer getDefault2Total2527() {
-		return default2Total2527;
+	public Integer getDefault2Total1517() {
+		return default2Total1517;
 	}
 
-	public void setDefault2Total2527(Integer default2Total2527) {
-		this.default2Total2527 = default2Total2527;
+	public void setDefault2Total1517(Integer default2Total1517) {
+		this.default2Total1517 = default2Total1517;
 	}
 
 	public Integer getDefault2TotalHiv() {
@@ -2675,20 +2853,20 @@ public class TB07uData  {
 		this.failure2Total04 = failure2Total04;
 	}
 
-	public Integer getFailure2Total0524() {
-		return failure2Total0524;
+	public Integer getFailure2Total0514() {
+		return failure2Total0514;
 	}
 
-	public void setFailure2Total0524(Integer failure2Total0524) {
-		this.failure2Total0524 = failure2Total0524;
+	public void setFailure2Total0514(Integer failure2Total0514) {
+		this.failure2Total0514 = failure2Total0514;
 	}
 
-	public Integer getFailure2Total2527() {
-		return failure2Total2527;
+	public Integer getFailure2Total1517() {
+		return failure2Total1517;
 	}
 
-	public void setFailure2Total2527(Integer failure2Total2527) {
-		this.failure2Total2527 = failure2Total2527;
+	public void setFailure2Total1517(Integer failure2Total1517) {
+		this.failure2Total1517 = failure2Total1517;
 	}
 
 	public Integer getFailure2TotalHiv() {
@@ -3499,724 +3677,724 @@ public class TB07uData  {
 		this.totalStandardMdrHiv = totalStandardMdrHiv;
 	}
 
-	public Integer getNewIndXdrPreXdr() {
-		return newIndXdrPreXdr;
+	public Integer getNewIndLzdXdrPreXdr() {
+		return newIndLzdXdrPreXdr;
 	}
 
-	public void setNewIndXdrPreXdr(Integer newIndXdrPreXdr) {
-		this.newIndXdrPreXdr = newIndXdrPreXdr;
+	public void setNewIndLzdXdrPreXdr(Integer newIndLzdXdrPreXdr) {
+		this.newIndLzdXdrPreXdr = newIndLzdXdrPreXdr;
 	}
 
-	public Integer getNewIndXdrPreXdr04() {
-		return newIndXdrPreXdr04;
+	public Integer getNewIndLzdXdrPreXdr04() {
+		return newIndLzdXdrPreXdr04;
 	}
 
-	public void setNewIndXdrPreXdr04(Integer newIndXdrPreXdr04) {
-		this.newIndXdrPreXdr04 = newIndXdrPreXdr04;
+	public void setNewIndLzdXdrPreXdr04(Integer newIndLzdXdrPreXdr04) {
+		this.newIndLzdXdrPreXdr04 = newIndLzdXdrPreXdr04;
 	}
 
-	public Integer getNewIndXdrPreXdr0514() {
-		return newIndXdrPreXdr0514;
+	public Integer getNewIndLzdXdrPreXdr0514() {
+		return newIndLzdXdrPreXdr0514;
 	}
 
-	public void setNewIndXdrPreXdr0514(Integer newIndXdrPreXdr0514) {
-		this.newIndXdrPreXdr0514 = newIndXdrPreXdr0514;
+	public void setNewIndLzdXdrPreXdr0514(Integer newIndLzdXdrPreXdr0514) {
+		this.newIndLzdXdrPreXdr0514 = newIndLzdXdrPreXdr0514;
 	}
 
-	public Integer getNewIndXdrPreXdr1517() {
-		return newIndXdrPreXdr1517;
+	public Integer getNewIndLzdXdrPreXdr1517() {
+		return newIndLzdXdrPreXdr1517;
 	}
 
-	public void setNewIndXdrPreXdr1517(Integer newIndXdrPreXdr1517) {
-		this.newIndXdrPreXdr1517 = newIndXdrPreXdr1517;
+	public void setNewIndLzdXdrPreXdr1517(Integer newIndLzdXdrPreXdr1517) {
+		this.newIndLzdXdrPreXdr1517 = newIndLzdXdrPreXdr1517;
 	}
 
-	public Integer getNewIndXdrPreXdrHiv() {
-		return newIndXdrPreXdrHiv;
+	public Integer getNewIndLzdXdrPreXdrHiv() {
+		return newIndLzdXdrPreXdrHiv;
 	}
 
-	public void setNewIndXdrPreXdrHiv(Integer newIndXdrPreXdrHiv) {
-		this.newIndXdrPreXdrHiv = newIndXdrPreXdrHiv;
+	public void setNewIndLzdXdrPreXdrHiv(Integer newIndLzdXdrPreXdrHiv) {
+		this.newIndLzdXdrPreXdrHiv = newIndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getNewStdXdrPreXdr() {
-		return newStdXdrPreXdr;
+	public Integer getNewIndBdqXdrPreXdr() {
+		return newIndBdqXdrPreXdr;
 	}
 
-	public void setNewStdXdrPreXdr(Integer newStdXdrPreXdr) {
-		this.newStdXdrPreXdr = newStdXdrPreXdr;
+	public void setNewIndBdqXdrPreXdr(Integer newIndBdqXdrPreXdr) {
+		this.newIndBdqXdrPreXdr = newIndBdqXdrPreXdr;
 	}
 
-	public Integer getNewStdXdrPreXdr04() {
-		return newStdXdrPreXdr04;
+	public Integer getNewIndBdqXdrPreXdr04() {
+		return newIndBdqXdrPreXdr04;
 	}
 
-	public void setNewStdXdrPreXdr04(Integer newStdXdrPreXdr04) {
-		this.newStdXdrPreXdr04 = newStdXdrPreXdr04;
+	public void setNewIndBdqXdrPreXdr04(Integer newIndBdqXdrPreXdr04) {
+		this.newIndBdqXdrPreXdr04 = newIndBdqXdrPreXdr04;
 	}
 
-	public Integer getNewStdXdrPreXdr0514() {
-		return newStdXdrPreXdr0514;
+	public Integer getNewIndBdqXdrPreXdr0514() {
+		return newIndBdqXdrPreXdr0514;
 	}
 
-	public void setNewStdXdrPreXdr0514(Integer newStdXdrPreXdr0514) {
-		this.newStdXdrPreXdr0514 = newStdXdrPreXdr0514;
+	public void setNewIndBdqXdrPreXdr0514(Integer newIndBdqXdrPreXdr0514) {
+		this.newIndBdqXdrPreXdr0514 = newIndBdqXdrPreXdr0514;
 	}
 
-	public Integer getNewStdXdrPreXdr1517() {
-		return newStdXdrPreXdr1517;
+	public Integer getNewIndBdqXdrPreXdr1517() {
+		return newIndBdqXdrPreXdr1517;
 	}
 
-	public void setNewStdXdrPreXdr1517(Integer newStdXdrPreXdr1517) {
-		this.newStdXdrPreXdr1517 = newStdXdrPreXdr1517;
+	public void setNewIndBdqXdrPreXdr1517(Integer newIndBdqXdrPreXdr1517) {
+		this.newIndBdqXdrPreXdr1517 = newIndBdqXdrPreXdr1517;
 	}
 
-	public Integer getNewStdXdrPreXdrHiv() {
-		return newStdXdrPreXdrHiv;
+	public Integer getNewIndBdqXdrPreXdrHiv() {
+		return newIndBdqXdrPreXdrHiv;
 	}
 
-	public void setNewStdXdrPreXdrHiv(Integer newStdXdrPreXdrHiv) {
-		this.newStdXdrPreXdrHiv = newStdXdrPreXdrHiv;
+	public void setNewIndBdqXdrPreXdrHiv(Integer newIndBdqXdrPreXdrHiv) {
+		this.newIndBdqXdrPreXdrHiv = newIndBdqXdrPreXdrHiv;
 	}
 
-	public Integer getRelapse1IndXdrPreXdr() {
-		return relapse1IndXdrPreXdr;
+	public Integer getRelapse1IndLzdXdrPreXdr() {
+		return relapse1IndLzdXdrPreXdr;
 	}
 
-	public void setRelapse1IndXdrPreXdr(Integer relapse1IndXdrPreXdr) {
-		this.relapse1IndXdrPreXdr = relapse1IndXdrPreXdr;
+	public void setRelapse1IndLzdXdrPreXdr(Integer relapse1IndLzdXdrPreXdr) {
+		this.relapse1IndLzdXdrPreXdr = relapse1IndLzdXdrPreXdr;
 	}
 
-	public Integer getRelapse1IndXdrPreXdr04() {
-		return relapse1IndXdrPreXdr04;
+	public Integer getRelapse1IndLzdXdrPreXdr04() {
+		return relapse1IndLzdXdrPreXdr04;
 	}
 
-	public void setRelapse1IndXdrPreXdr04(Integer relapse1IndXdrPreXdr04) {
-		this.relapse1IndXdrPreXdr04 = relapse1IndXdrPreXdr04;
+	public void setRelapse1IndLzdXdrPreXdr04(Integer relapse1IndLzdXdrPreXdr04) {
+		this.relapse1IndLzdXdrPreXdr04 = relapse1IndLzdXdrPreXdr04;
 	}
 
-	public Integer getRelapse1IndXdrPreXdr0514() {
-		return relapse1IndXdrPreXdr0514;
+	public Integer getRelapse1IndLzdXdrPreXdr0514() {
+		return relapse1IndLzdXdrPreXdr0514;
 	}
 
-	public void setRelapse1IndXdrPreXdr0514(Integer relapse1IndXdrPreXdr0514) {
-		this.relapse1IndXdrPreXdr0514 = relapse1IndXdrPreXdr0514;
+	public void setRelapse1IndLzdXdrPreXdr0514(Integer relapse1IndLzdXdrPreXdr0514) {
+		this.relapse1IndLzdXdrPreXdr0514 = relapse1IndLzdXdrPreXdr0514;
 	}
 
-	public Integer getRelapse1IndXdrPreXdr1517() {
-		return relapse1IndXdrPreXdr1517;
+	public Integer getRelapse1IndLzdXdrPreXdr1517() {
+		return relapse1IndLzdXdrPreXdr1517;
 	}
 
-	public void setRelapse1IndXdrPreXdr1517(Integer relapse1IndXdrPreXdr1517) {
-		this.relapse1IndXdrPreXdr1517 = relapse1IndXdrPreXdr1517;
+	public void setRelapse1IndLzdXdrPreXdr1517(Integer relapse1IndLzdXdrPreXdr1517) {
+		this.relapse1IndLzdXdrPreXdr1517 = relapse1IndLzdXdrPreXdr1517;
 	}
 
-	public Integer getRelapse1IndXdrPreXdrHiv() {
-		return relapse1IndXdrPreXdrHiv;
+	public Integer getRelapse1IndLzdXdrPreXdrHiv() {
+		return relapse1IndLzdXdrPreXdrHiv;
 	}
 
-	public void setRelapse1IndXdrPreXdrHiv(Integer relapse1IndXdrPreXdrHiv) {
-		this.relapse1IndXdrPreXdrHiv = relapse1IndXdrPreXdrHiv;
+	public void setRelapse1IndLzdXdrPreXdrHiv(Integer relapse1IndLzdXdrPreXdrHiv) {
+		this.relapse1IndLzdXdrPreXdrHiv = relapse1IndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getRelapse1StdXdrPreXdr() {
-		return relapse1StdXdrPreXdr;
+	public Integer getRelapse1IndBdqXdrPreXdr() {
+		return relapse1IndBdqXdrPreXdr;
 	}
 
-	public void setRelapse1StdXdrPreXdr(Integer relapse1StdXdrPreXdr) {
-		this.relapse1StdXdrPreXdr = relapse1StdXdrPreXdr;
+	public void setRelapse1IndBdqXdrPreXdr(Integer relapse1IndBdqXdrPreXdr) {
+		this.relapse1IndBdqXdrPreXdr = relapse1IndBdqXdrPreXdr;
 	}
 
-	public Integer getRelapse1StdXdrPreXdr04() {
-		return relapse1StdXdrPreXdr04;
+	public Integer getRelapse1IndBdqXdrPreXdr04() {
+		return relapse1IndBdqXdrPreXdr04;
 	}
 
-	public void setRelapse1StdXdrPreXdr04(Integer relapse1StdXdrPreXdr04) {
-		this.relapse1StdXdrPreXdr04 = relapse1StdXdrPreXdr04;
+	public void setRelapse1IndBdqXdrPreXdr04(Integer relapse1IndBdqXdrPreXdr04) {
+		this.relapse1IndBdqXdrPreXdr04 = relapse1IndBdqXdrPreXdr04;
 	}
 
-	public Integer getRelapse1StdXdrPreXdr0514() {
-		return relapse1StdXdrPreXdr0514;
+	public Integer getRelapse1IndBdqXdrPreXdr0514() {
+		return relapse1IndBdqXdrPreXdr0514;
 	}
 
-	public void setRelapse1StdXdrPreXdr0514(Integer relapse1StdXdrPreXdr0514) {
-		this.relapse1StdXdrPreXdr0514 = relapse1StdXdrPreXdr0514;
+	public void setRelapse1IndBdqXdrPreXdr0514(Integer relapse1IndBdqXdrPreXdr0514) {
+		this.relapse1IndBdqXdrPreXdr0514 = relapse1IndBdqXdrPreXdr0514;
 	}
 
-	public Integer getRelapse1StdXdrPreXdr1517() {
-		return relapse1StdXdrPreXdr1517;
+	public Integer getRelapse1IndBdqXdrPreXdr1517() {
+		return relapse1IndBdqXdrPreXdr1517;
 	}
 
-	public void setRelapse1StdXdrPreXdr1517(Integer relapse1StdXdrPreXdr1517) {
-		this.relapse1StdXdrPreXdr1517 = relapse1StdXdrPreXdr1517;
+	public void setRelapse1IndBdqXdrPreXdr1517(Integer relapse1IndBdqXdrPreXdr1517) {
+		this.relapse1IndBdqXdrPreXdr1517 = relapse1IndBdqXdrPreXdr1517;
 	}
 
-	public Integer getRelapse1StdXdrPreXdrHiv() {
-		return relapse1StdXdrPreXdrHiv;
+	public Integer getRelapse1IndBdqXdrPreXdrHiv() {
+		return relapse1IndBdqXdrPreXdrHiv;
 	}
 
-	public void setRelapse1StdXdrPreXdrHiv(Integer relapse1StdXdrPreXdrHiv) {
-		this.relapse1StdXdrPreXdrHiv = relapse1StdXdrPreXdrHiv;
+	public void setRelapse1IndBdqXdrPreXdrHiv(Integer relapse1IndBdqXdrPreXdrHiv) {
+		this.relapse1IndBdqXdrPreXdrHiv = relapse1IndBdqXdrPreXdrHiv;
 	}
 
-	public Integer getRelapse2IndXdrPreXdr() {
-		return relapse2IndXdrPreXdr;
+	public Integer getRelapse2IndLzdXdrPreXdr() {
+		return relapse2IndLzdXdrPreXdr;
 	}
 
-	public void setRelapse2IndXdrPreXdr(Integer relapse2IndXdrPreXdr) {
-		this.relapse2IndXdrPreXdr = relapse2IndXdrPreXdr;
+	public void setRelapse2IndLzdXdrPreXdr(Integer relapse2IndLzdXdrPreXdr) {
+		this.relapse2IndLzdXdrPreXdr = relapse2IndLzdXdrPreXdr;
 	}
 
-	public Integer getRelapse2IndXdrPreXdr04() {
-		return relapse2IndXdrPreXdr04;
+	public Integer getRelapse2IndLzdXdrPreXdr04() {
+		return relapse2IndLzdXdrPreXdr04;
 	}
 
-	public void setRelapse2IndXdrPreXdr04(Integer relapse2IndXdrPreXdr04) {
-		this.relapse2IndXdrPreXdr04 = relapse2IndXdrPreXdr04;
+	public void setRelapse2IndLzdXdrPreXdr04(Integer relapse2IndLzdXdrPreXdr04) {
+		this.relapse2IndLzdXdrPreXdr04 = relapse2IndLzdXdrPreXdr04;
 	}
 
-	public Integer getRelapse2IndXdrPreXdr0524() {
-		return relapse2IndXdrPreXdr0524;
+	public Integer getRelapse2IndLzdXdrPreXdr0514() {
+		return relapse2IndLzdXdrPreXdr0514;
 	}
 
-	public void setRelapse2IndXdrPreXdr0524(Integer relapse2IndXdrPreXdr0524) {
-		this.relapse2IndXdrPreXdr0524 = relapse2IndXdrPreXdr0524;
+	public void setRelapse2IndLzdXdrPreXdr0514(Integer relapse2IndLzdXdrPreXdr0514) {
+		this.relapse2IndLzdXdrPreXdr0514 = relapse2IndLzdXdrPreXdr0514;
 	}
 
-	public Integer getRelapse2IndXdrPreXdr2527() {
-		return relapse2IndXdrPreXdr2527;
+	public Integer getRelapse2IndLzdXdrPreXdr1517() {
+		return relapse2IndLzdXdrPreXdr1517;
 	}
 
-	public void setRelapse2IndXdrPreXdr2527(Integer relapse2IndXdrPreXdr2527) {
-		this.relapse2IndXdrPreXdr2527 = relapse2IndXdrPreXdr2527;
+	public void setRelapse2IndLzdXdrPreXdr1517(Integer relapse2IndLzdXdrPreXdr1517) {
+		this.relapse2IndLzdXdrPreXdr1517 = relapse2IndLzdXdrPreXdr1517;
 	}
 
-	public Integer getRelapse2IndXdrPreXdrHiv() {
-		return relapse2IndXdrPreXdrHiv;
+	public Integer getRelapse2IndLzdXdrPreXdrHiv() {
+		return relapse2IndLzdXdrPreXdrHiv;
 	}
 
-	public void setRelapse2IndXdrPreXdrHiv(Integer relapse2IndXdrPreXdrHiv) {
-		this.relapse2IndXdrPreXdrHiv = relapse2IndXdrPreXdrHiv;
+	public void setRelapse2IndLzdXdrPreXdrHiv(Integer relapse2IndLzdXdrPreXdrHiv) {
+		this.relapse2IndLzdXdrPreXdrHiv = relapse2IndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getRelapse2StdXdrPreXdr() {
-		return relapse2StdXdrPreXdr;
+	public Integer getRelapse2IndBdqXdrPreXdr() {
+		return relapse2IndBdqXdrPreXdr;
 	}
 
-	public void setRelapse2StdXdrPreXdr(Integer relapse2StdXdrPreXdr) {
-		this.relapse2StdXdrPreXdr = relapse2StdXdrPreXdr;
+	public void setRelapse2IndBdqXdrPreXdr(Integer relapse2IndBdqXdrPreXdr) {
+		this.relapse2IndBdqXdrPreXdr = relapse2IndBdqXdrPreXdr;
 	}
 
-	public Integer getRelapse2StdXdrPreXdr04() {
-		return relapse2StdXdrPreXdr04;
+	public Integer getRelapse2IndBdqXdrPreXdr04() {
+		return relapse2IndBdqXdrPreXdr04;
 	}
 
-	public void setRelapse2StdXdrPreXdr04(Integer relapse2StdXdrPreXdr04) {
-		this.relapse2StdXdrPreXdr04 = relapse2StdXdrPreXdr04;
+	public void setRelapse2IndBdqXdrPreXdr04(Integer relapse2IndBdqXdrPreXdr04) {
+		this.relapse2IndBdqXdrPreXdr04 = relapse2IndBdqXdrPreXdr04;
 	}
 
-	public Integer getRelapse2StdXdrPreXdr0524() {
-		return relapse2StdXdrPreXdr0524;
+	public Integer getRelapse2IndBdqXdrPreXdr0514() {
+		return relapse2IndBdqXdrPreXdr0514;
 	}
 
-	public void setRelapse2StdXdrPreXdr0524(Integer relapse2StdXdrPreXdr0524) {
-		this.relapse2StdXdrPreXdr0524 = relapse2StdXdrPreXdr0524;
+	public void setRelapse2IndBdqXdrPreXdr0514(Integer relapse2IndBdqXdrPreXdr0514) {
+		this.relapse2IndBdqXdrPreXdr0514 = relapse2IndBdqXdrPreXdr0514;
 	}
 
-	public Integer getRelapse2StdXdrPreXdr2527() {
-		return relapse2StdXdrPreXdr2527;
+	public Integer getRelapse2IndBdqXdrPreXdr1517() {
+		return relapse2IndBdqXdrPreXdr1517;
 	}
 
-	public void setRelapse2StdXdrPreXdr2527(Integer relapse2StdXdrPreXdr2527) {
-		this.relapse2StdXdrPreXdr2527 = relapse2StdXdrPreXdr2527;
+	public void setRelapse2IndBdqXdrPreXdr1517(Integer relapse2IndBdqXdrPreXdr1517) {
+		this.relapse2IndBdqXdrPreXdr1517 = relapse2IndBdqXdrPreXdr1517;
 	}
 
-	public Integer getRelapse2StdXdrPreXdrHiv() {
-		return relapse2StdXdrPreXdrHiv;
+	public Integer getRelapse2IndBdqXdrPreXdrHiv() {
+		return relapse2IndBdqXdrPreXdrHiv;
 	}
 
-	public void setRelapse2StdXdrPreXdrHiv(Integer relapse2StdXdrPreXdrHiv) {
-		this.relapse2StdXdrPreXdrHiv = relapse2StdXdrPreXdrHiv;
+	public void setRelapse2IndBdqXdrPreXdrHiv(Integer relapse2IndBdqXdrPreXdrHiv) {
+		this.relapse2IndBdqXdrPreXdrHiv = relapse2IndBdqXdrPreXdrHiv;
 	}
 
-	public Integer getDefault1IndXdrPreXdr() {
-		return default1IndXdrPreXdr;
+	public Integer getDefault1IndLzdXdrPreXdr() {
+		return default1IndLzdXdrPreXdr;
 	}
 
-	public void setDefault1IndXdrPreXdr(Integer default1IndXdrPreXdr) {
-		this.default1IndXdrPreXdr = default1IndXdrPreXdr;
+	public void setDefault1IndLzdXdrPreXdr(Integer default1IndLzdXdrPreXdr) {
+		this.default1IndLzdXdrPreXdr = default1IndLzdXdrPreXdr;
 	}
 
-	public Integer getDefault1IndXdrPreXdr04() {
-		return default1IndXdrPreXdr04;
+	public Integer getDefault1IndLzdXdrPreXdr04() {
+		return default1IndLzdXdrPreXdr04;
 	}
 
-	public void setDefault1IndXdrPreXdr04(Integer default1IndXdrPreXdr04) {
-		this.default1IndXdrPreXdr04 = default1IndXdrPreXdr04;
+	public void setDefault1IndLzdXdrPreXdr04(Integer default1IndLzdXdrPreXdr04) {
+		this.default1IndLzdXdrPreXdr04 = default1IndLzdXdrPreXdr04;
 	}
 
-	public Integer getDefault1IndXdrPreXdr0514() {
-		return default1IndXdrPreXdr0514;
+	public Integer getDefault1IndLzdXdrPreXdr0514() {
+		return default1IndLzdXdrPreXdr0514;
 	}
 
-	public void setDefault1IndXdrPreXdr0514(Integer default1IndXdrPreXdr0514) {
-		this.default1IndXdrPreXdr0514 = default1IndXdrPreXdr0514;
+	public void setDefault1IndLzdXdrPreXdr0514(Integer default1IndLzdXdrPreXdr0514) {
+		this.default1IndLzdXdrPreXdr0514 = default1IndLzdXdrPreXdr0514;
 	}
 
-	public Integer getDefault1IndXdrPreXdr1517() {
-		return default1IndXdrPreXdr1517;
+	public Integer getDefault1IndLzdXdrPreXdr1517() {
+		return default1IndLzdXdrPreXdr1517;
 	}
 
-	public void setDefault1IndXdrPreXdr1517(Integer default1IndXdrPreXdr1517) {
-		this.default1IndXdrPreXdr1517 = default1IndXdrPreXdr1517;
+	public void setDefault1IndLzdXdrPreXdr1517(Integer default1IndLzdXdrPreXdr1517) {
+		this.default1IndLzdXdrPreXdr1517 = default1IndLzdXdrPreXdr1517;
 	}
 
-	public Integer getDefault1IndXdrPreXdrHiv() {
-		return default1IndXdrPreXdrHiv;
+	public Integer getDefault1IndLzdXdrPreXdrHiv() {
+		return default1IndLzdXdrPreXdrHiv;
 	}
 
-	public void setDefault1IndXdrPreXdrHiv(Integer default1IndXdrPreXdrHiv) {
-		this.default1IndXdrPreXdrHiv = default1IndXdrPreXdrHiv;
+	public void setDefault1IndLzdXdrPreXdrHiv(Integer default1IndLzdXdrPreXdrHiv) {
+		this.default1IndLzdXdrPreXdrHiv = default1IndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getDefault1StdXdrPreXdr() {
-		return default1StdXdrPreXdr;
+	public Integer getDefault1IndBdqXdrPreXdr() {
+		return default1IndBdqXdrPreXdr;
 	}
 
-	public void setDefault1StdXdrPreXdr(Integer default1StdXdrPreXdr) {
-		this.default1StdXdrPreXdr = default1StdXdrPreXdr;
+	public void setDefault1IndBdqXdrPreXdr(Integer default1IndBdqXdrPreXdr) {
+		this.default1IndBdqXdrPreXdr = default1IndBdqXdrPreXdr;
 	}
 
-	public Integer getDefault1StdXdrPreXdr04() {
-		return default1StdXdrPreXdr04;
+	public Integer getDefault1IndBdqXdrPreXdr04() {
+		return default1IndBdqXdrPreXdr04;
 	}
 
-	public void setDefault1StdXdrPreXdr04(Integer default1StdXdrPreXdr04) {
-		this.default1StdXdrPreXdr04 = default1StdXdrPreXdr04;
+	public void setDefault1IndBdqXdrPreXdr04(Integer default1IndBdqXdrPreXdr04) {
+		this.default1IndBdqXdrPreXdr04 = default1IndBdqXdrPreXdr04;
 	}
 
-	public Integer getDefault1StdXdrPreXdr0514() {
-		return default1StdXdrPreXdr0514;
+	public Integer getDefault1IndBdqXdrPreXdr0514() {
+		return default1IndBdqXdrPreXdr0514;
 	}
 
-	public void setDefault1StdXdrPreXdr0514(Integer default1StdXdrPreXdr0514) {
-		this.default1StdXdrPreXdr0514 = default1StdXdrPreXdr0514;
+	public void setDefault1IndBdqXdrPreXdr0514(Integer default1IndBdqXdrPreXdr0514) {
+		this.default1IndBdqXdrPreXdr0514 = default1IndBdqXdrPreXdr0514;
 	}
 
-	public Integer getDefault1StdXdrPreXdr1517() {
-		return default1StdXdrPreXdr1517;
+	public Integer getDefault1IndBdqXdrPreXdr1517() {
+		return default1IndBdqXdrPreXdr1517;
 	}
 
-	public void setDefault1StdXdrPreXdr1517(Integer default1StdXdrPreXdr1517) {
-		this.default1StdXdrPreXdr1517 = default1StdXdrPreXdr1517;
+	public void setDefault1IndBdqXdrPreXdr1517(Integer default1IndBdqXdrPreXdr1517) {
+		this.default1IndBdqXdrPreXdr1517 = default1IndBdqXdrPreXdr1517;
 	}
 
-	public Integer getDefault1StdXdrPreXdrHiv() {
-		return default1StdXdrPreXdrHiv;
+	public Integer getDefault1IndBdqXdrPreXdrHiv() {
+		return default1IndBdqXdrPreXdrHiv;
 	}
 
-	public void setDefault1StdXdrPreXdrHiv(Integer default1StdXdrPreXdrHiv) {
-		this.default1StdXdrPreXdrHiv = default1StdXdrPreXdrHiv;
+	public void setDefault1IndBdqXdrPreXdrHiv(Integer default1IndBdqXdrPreXdrHiv) {
+		this.default1IndBdqXdrPreXdrHiv = default1IndBdqXdrPreXdrHiv;
 	}
 
-	public Integer getDefault2IndXdrPreXdr() {
-		return default2IndXdrPreXdr;
+	public Integer getDefault2IndLzdXdrPreXdr() {
+		return default2IndLzdXdrPreXdr;
 	}
 
-	public void setDefault2IndXdrPreXdr(Integer default2IndXdrPreXdr) {
-		this.default2IndXdrPreXdr = default2IndXdrPreXdr;
+	public void setDefault2IndLzdXdrPreXdr(Integer default2IndLzdXdrPreXdr) {
+		this.default2IndLzdXdrPreXdr = default2IndLzdXdrPreXdr;
 	}
 
-	public Integer getDefault2IndXdrPreXdr04() {
-		return default2IndXdrPreXdr04;
+	public Integer getDefault2IndLzdXdrPreXdr04() {
+		return default2IndLzdXdrPreXdr04;
 	}
 
-	public void setDefault2IndXdrPreXdr04(Integer default2IndXdrPreXdr04) {
-		this.default2IndXdrPreXdr04 = default2IndXdrPreXdr04;
+	public void setDefault2IndLzdXdrPreXdr04(Integer default2IndLzdXdrPreXdr04) {
+		this.default2IndLzdXdrPreXdr04 = default2IndLzdXdrPreXdr04;
 	}
 
-	public Integer getDefault2IndXdrPreXdr0524() {
-		return default2IndXdrPreXdr0524;
+	public Integer getDefault2IndLzdXdrPreXdr0514() {
+		return default2IndLzdXdrPreXdr0514;
 	}
 
-	public void setDefault2IndXdrPreXdr0524(Integer default2IndXdrPreXdr0524) {
-		this.default2IndXdrPreXdr0524 = default2IndXdrPreXdr0524;
+	public void setDefault2IndLzdXdrPreXdr0514(Integer default2IndLzdXdrPreXdr0514) {
+		this.default2IndLzdXdrPreXdr0514 = default2IndLzdXdrPreXdr0514;
 	}
 
-	public Integer getDefault2IndXdrPreXdr2527() {
-		return default2IndXdrPreXdr2527;
+	public Integer getDefault2IndLzdXdrPreXdr1517() {
+		return default2IndLzdXdrPreXdr1517;
 	}
 
-	public void setDefault2IndXdrPreXdr2527(Integer default2IndXdrPreXdr2527) {
-		this.default2IndXdrPreXdr2527 = default2IndXdrPreXdr2527;
+	public void setDefault2IndLzdXdrPreXdr1517(Integer default2IndLzdXdrPreXdr1517) {
+		this.default2IndLzdXdrPreXdr1517 = default2IndLzdXdrPreXdr1517;
 	}
 
-	public Integer getDefault2IndXdrPreXdrHiv() {
-		return default2IndXdrPreXdrHiv;
+	public Integer getDefault2IndLzdXdrPreXdrHiv() {
+		return default2IndLzdXdrPreXdrHiv;
 	}
 
-	public void setDefault2IndXdrPreXdrHiv(Integer default2IndXdrPreXdrHiv) {
-		this.default2IndXdrPreXdrHiv = default2IndXdrPreXdrHiv;
+	public void setDefault2IndLzdXdrPreXdrHiv(Integer default2IndLzdXdrPreXdrHiv) {
+		this.default2IndLzdXdrPreXdrHiv = default2IndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getDefault2StdXdrPreXdr() {
-		return default2StdXdrPreXdr;
+	public Integer getDefault2IndBdqXdrPreXdr() {
+		return default2IndBdqXdrPreXdr;
 	}
 
-	public void setDefault2StdXdrPreXdr(Integer default2StdXdrPreXdr) {
-		this.default2StdXdrPreXdr = default2StdXdrPreXdr;
+	public void setDefault2IndBdqXdrPreXdr(Integer default2IndBdqXdrPreXdr) {
+		this.default2IndBdqXdrPreXdr = default2IndBdqXdrPreXdr;
 	}
 
-	public Integer getDefault2StdXdrPreXdr04() {
-		return default2StdXdrPreXdr04;
+	public Integer getDefault2IndBdqXdrPreXdr04() {
+		return default2IndBdqXdrPreXdr04;
 	}
 
-	public void setDefault2StdXdrPreXdr04(Integer default2StdXdrPreXdr04) {
-		this.default2StdXdrPreXdr04 = default2StdXdrPreXdr04;
+	public void setDefault2IndBdqXdrPreXdr04(Integer default2IndBdqXdrPreXdr04) {
+		this.default2IndBdqXdrPreXdr04 = default2IndBdqXdrPreXdr04;
 	}
 
-	public Integer getDefault2StdXdrPreXdr0524() {
-		return default2StdXdrPreXdr0524;
+	public Integer getDefault2IndBdqXdrPreXdr0514() {
+		return default2IndBdqXdrPreXdr0514;
 	}
 
-	public void setDefault2StdXdrPreXdr0524(Integer default2StdXdrPreXdr0524) {
-		this.default2StdXdrPreXdr0524 = default2StdXdrPreXdr0524;
+	public void setDefault2IndBdqXdrPreXdr0514(Integer default2IndBdqXdrPreXdr0514) {
+		this.default2IndBdqXdrPreXdr0514 = default2IndBdqXdrPreXdr0514;
 	}
 
-	public Integer getDefault2StdXdrPreXdr2527() {
-		return default2StdXdrPreXdr2527;
+	public Integer getDefault2IndBdqXdrPreXdr1517() {
+		return default2IndBdqXdrPreXdr1517;
 	}
 
-	public void setDefault2StdXdrPreXdr2527(Integer default2StdXdrPreXdr2527) {
-		this.default2StdXdrPreXdr2527 = default2StdXdrPreXdr2527;
+	public void setDefault2IndBdqXdrPreXdr1517(Integer default2IndBdqXdrPreXdr1517) {
+		this.default2IndBdqXdrPreXdr1517 = default2IndBdqXdrPreXdr1517;
 	}
 
-	public Integer getDefault2StdXdrPreXdrHiv() {
-		return default2StdXdrPreXdrHiv;
+	public Integer getDefault2IndBdqXdrPreXdrHiv() {
+		return default2IndBdqXdrPreXdrHiv;
 	}
 
-	public void setDefault2StdXdrPreXdrHiv(Integer default2StdXdrPreXdrHiv) {
-		this.default2StdXdrPreXdrHiv = default2StdXdrPreXdrHiv;
+	public void setDefault2IndBdqXdrPreXdrHiv(Integer default2IndBdqXdrPreXdrHiv) {
+		this.default2IndBdqXdrPreXdrHiv = default2IndBdqXdrPreXdrHiv;
 	}
 
-	public Integer getFailure1IndXdrPreXdr() {
-		return failure1IndXdrPreXdr;
+	public Integer getFailure1IndLzdXdrPreXdr() {
+		return failure1IndLzdXdrPreXdr;
 	}
 
-	public void setFailure1IndXdrPreXdr(Integer failure1IndXdrPreXdr) {
-		this.failure1IndXdrPreXdr = failure1IndXdrPreXdr;
+	public void setFailure1IndLzdXdrPreXdr(Integer failure1IndLzdXdrPreXdr) {
+		this.failure1IndLzdXdrPreXdr = failure1IndLzdXdrPreXdr;
 	}
 
-	public Integer getFailure1IndXdrPreXdr04() {
-		return failure1IndXdrPreXdr04;
+	public Integer getFailure1IndLzdXdrPreXdr04() {
+		return failure1IndLzdXdrPreXdr04;
 	}
 
-	public void setFailure1IndXdrPreXdr04(Integer failure1IndXdrPreXdr04) {
-		this.failure1IndXdrPreXdr04 = failure1IndXdrPreXdr04;
+	public void setFailure1IndLzdXdrPreXdr04(Integer failure1IndLzdXdrPreXdr04) {
+		this.failure1IndLzdXdrPreXdr04 = failure1IndLzdXdrPreXdr04;
 	}
 
-	public Integer getFailure1IndXdrPreXdr0514() {
-		return failure1IndXdrPreXdr0514;
+	public Integer getFailure1IndLzdXdrPreXdr0514() {
+		return failure1IndLzdXdrPreXdr0514;
 	}
 
-	public void setFailure1IndXdrPreXdr0514(Integer failure1IndXdrPreXdr0514) {
-		this.failure1IndXdrPreXdr0514 = failure1IndXdrPreXdr0514;
+	public void setFailure1IndLzdXdrPreXdr0514(Integer failure1IndLzdXdrPreXdr0514) {
+		this.failure1IndLzdXdrPreXdr0514 = failure1IndLzdXdrPreXdr0514;
 	}
 
-	public Integer getFailure1IndXdrPreXdr1517() {
-		return failure1IndXdrPreXdr1517;
+	public Integer getFailure1IndLzdXdrPreXdr1517() {
+		return failure1IndLzdXdrPreXdr1517;
 	}
 
-	public void setFailure1IndXdrPreXdr1517(Integer failure1IndXdrPreXdr1517) {
-		this.failure1IndXdrPreXdr1517 = failure1IndXdrPreXdr1517;
+	public void setFailure1IndLzdXdrPreXdr1517(Integer failure1IndLzdXdrPreXdr1517) {
+		this.failure1IndLzdXdrPreXdr1517 = failure1IndLzdXdrPreXdr1517;
 	}
 
-	public Integer getFailure1IndXdrPreXdrHiv() {
-		return failure1IndXdrPreXdrHiv;
+	public Integer getFailure1IndLzdXdrPreXdrHiv() {
+		return failure1IndLzdXdrPreXdrHiv;
 	}
 
-	public void setFailure1IndXdrPreXdrHiv(Integer failure1IndXdrPreXdrHiv) {
-		this.failure1IndXdrPreXdrHiv = failure1IndXdrPreXdrHiv;
+	public void setFailure1IndLzdXdrPreXdrHiv(Integer failure1IndLzdXdrPreXdrHiv) {
+		this.failure1IndLzdXdrPreXdrHiv = failure1IndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getFailure1StdXdrPreXdr() {
-		return failure1StdXdrPreXdr;
+	public Integer getFailure1IndBdqXdrPreXdr() {
+		return failure1IndBdqXdrPreXdr;
 	}
 
-	public void setFailure1StdXdrPreXdr(Integer failure1StdXdrPreXdr) {
-		this.failure1StdXdrPreXdr = failure1StdXdrPreXdr;
+	public void setFailure1IndBdqXdrPreXdr(Integer failure1IndBdqXdrPreXdr) {
+		this.failure1IndBdqXdrPreXdr = failure1IndBdqXdrPreXdr;
 	}
 
-	public Integer getFailure1StdXdrPreXdr04() {
-		return failure1StdXdrPreXdr04;
+	public Integer getFailure1IndBdqXdrPreXdr04() {
+		return failure1IndBdqXdrPreXdr04;
 	}
 
-	public void setFailure1StdXdrPreXdr04(Integer failure1StdXdrPreXdr04) {
-		this.failure1StdXdrPreXdr04 = failure1StdXdrPreXdr04;
+	public void setFailure1IndBdqXdrPreXdr04(Integer failure1IndBdqXdrPreXdr04) {
+		this.failure1IndBdqXdrPreXdr04 = failure1IndBdqXdrPreXdr04;
 	}
 
-	public Integer getFailure1StdXdrPreXdr0514() {
-		return failure1StdXdrPreXdr0514;
+	public Integer getFailure1IndBdqXdrPreXdr0514() {
+		return failure1IndBdqXdrPreXdr0514;
 	}
 
-	public void setFailure1StdXdrPreXdr0514(Integer failure1StdXdrPreXdr0514) {
-		this.failure1StdXdrPreXdr0514 = failure1StdXdrPreXdr0514;
+	public void setFailure1IndBdqXdrPreXdr0514(Integer failure1IndBdqXdrPreXdr0514) {
+		this.failure1IndBdqXdrPreXdr0514 = failure1IndBdqXdrPreXdr0514;
 	}
 
-	public Integer getFailure1StdXdrPreXdr1517() {
-		return failure1StdXdrPreXdr1517;
+	public Integer getFailure1IndBdqXdrPreXdr1517() {
+		return failure1IndBdqXdrPreXdr1517;
 	}
 
-	public void setFailure1StdXdrPreXdr1517(Integer failure1StdXdrPreXdr1517) {
-		this.failure1StdXdrPreXdr1517 = failure1StdXdrPreXdr1517;
+	public void setFailure1IndBdqXdrPreXdr1517(Integer failure1IndBdqXdrPreXdr1517) {
+		this.failure1IndBdqXdrPreXdr1517 = failure1IndBdqXdrPreXdr1517;
 	}
 
-	public Integer getFailure1StdXdrPreXdrHiv() {
-		return failure1StdXdrPreXdrHiv;
+	public Integer getFailure1IndBdqXdrPreXdrHiv() {
+		return failure1IndBdqXdrPreXdrHiv;
 	}
 
-	public void setFailure1StdXdrPreXdrHiv(Integer failure1StdXdrPreXdrHiv) {
-		this.failure1StdXdrPreXdrHiv = failure1StdXdrPreXdrHiv;
+	public void setFailure1IndBdqXdrPreXdrHiv(Integer failure1IndBdqXdrPreXdrHiv) {
+		this.failure1IndBdqXdrPreXdrHiv = failure1IndBdqXdrPreXdrHiv;
 	}
 
-	public Integer getFailure2IndXdrPreXdr() {
-		return failure2IndXdrPreXdr;
+	public Integer getFailure2IndLzdXdrPreXdr() {
+		return failure2IndLzdXdrPreXdr;
 	}
 
-	public void setFailure2IndXdrPreXdr(Integer failure2IndXdrPreXdr) {
-		this.failure2IndXdrPreXdr = failure2IndXdrPreXdr;
+	public void setFailure2IndLzdXdrPreXdr(Integer failure2IndLzdXdrPreXdr) {
+		this.failure2IndLzdXdrPreXdr = failure2IndLzdXdrPreXdr;
 	}
 
-	public Integer getFailure2IndXdrPreXdr04() {
-		return failure2IndXdrPreXdr04;
+	public Integer getFailure2IndLzdXdrPreXdr04() {
+		return failure2IndLzdXdrPreXdr04;
 	}
 
-	public void setFailure2IndXdrPreXdr04(Integer failure2IndXdrPreXdr04) {
-		this.failure2IndXdrPreXdr04 = failure2IndXdrPreXdr04;
+	public void setFailure2IndLzdXdrPreXdr04(Integer failure2IndLzdXdrPreXdr04) {
+		this.failure2IndLzdXdrPreXdr04 = failure2IndLzdXdrPreXdr04;
 	}
 
-	public Integer getFailure2IndXdrPreXdr0524() {
-		return failure2IndXdrPreXdr0524;
+	public Integer getFailure2IndLzdXdrPreXdr0514() {
+		return failure2IndLzdXdrPreXdr0514;
 	}
 
-	public void setFailure2IndXdrPreXdr0524(Integer failure2IndXdrPreXdr0524) {
-		this.failure2IndXdrPreXdr0524 = failure2IndXdrPreXdr0524;
+	public void setFailure2IndLzdXdrPreXdr0514(Integer failure2IndLzdXdrPreXdr0514) {
+		this.failure2IndLzdXdrPreXdr0514 = failure2IndLzdXdrPreXdr0514;
 	}
 
-	public Integer getFailure2IndXdrPreXdr2527() {
-		return failure2IndXdrPreXdr2527;
+	public Integer getFailure2IndLzdXdrPreXdr1517() {
+		return failure2IndLzdXdrPreXdr1517;
 	}
 
-	public void setFailure2IndXdrPreXdr2527(Integer failure2IndXdrPreXdr2527) {
-		this.failure2IndXdrPreXdr2527 = failure2IndXdrPreXdr2527;
+	public void setFailure2IndLzdXdrPreXdr1517(Integer failure2IndLzdXdrPreXdr1517) {
+		this.failure2IndLzdXdrPreXdr1517 = failure2IndLzdXdrPreXdr1517;
 	}
 
-	public Integer getFailure2IndXdrPreXdrHiv() {
-		return failure2IndXdrPreXdrHiv;
+	public Integer getFailure2IndLzdXdrPreXdrHiv() {
+		return failure2IndLzdXdrPreXdrHiv;
 	}
 
-	public void setFailure2IndXdrPreXdrHiv(Integer failure2IndXdrPreXdrHiv) {
-		this.failure2IndXdrPreXdrHiv = failure2IndXdrPreXdrHiv;
+	public void setFailure2IndLzdXdrPreXdrHiv(Integer failure2IndLzdXdrPreXdrHiv) {
+		this.failure2IndLzdXdrPreXdrHiv = failure2IndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getFailure2StdXdrPreXdr() {
-		return failure2StdXdrPreXdr;
+	public Integer getFailure2IndBdqXdrPreXdr() {
+		return failure2IndBdqXdrPreXdr;
 	}
 
-	public void setFailure2StdXdrPreXdr(Integer failure2StdXdrPreXdr) {
-		this.failure2StdXdrPreXdr = failure2StdXdrPreXdr;
+	public void setFailure2IndBdqXdrPreXdr(Integer failure2IndBdqXdrPreXdr) {
+		this.failure2IndBdqXdrPreXdr = failure2IndBdqXdrPreXdr;
 	}
 
-	public Integer getFailure2StdXdrPreXdr04() {
-		return failure2StdXdrPreXdr04;
+	public Integer getFailure2IndBdqXdrPreXdr04() {
+		return failure2IndBdqXdrPreXdr04;
 	}
 
-	public void setFailure2StdXdrPreXdr04(Integer failure2StdXdrPreXdr04) {
-		this.failure2StdXdrPreXdr04 = failure2StdXdrPreXdr04;
+	public void setFailure2IndBdqXdrPreXdr04(Integer failure2IndBdqXdrPreXdr04) {
+		this.failure2IndBdqXdrPreXdr04 = failure2IndBdqXdrPreXdr04;
 	}
 
-	public Integer getFailure2StdXdrPreXdr0524() {
-		return failure2StdXdrPreXdr0524;
+	public Integer getFailure2IndBdqXdrPreXdr0514() {
+		return failure2IndBdqXdrPreXdr0514;
 	}
 
-	public void setFailure2StdXdrPreXdr0524(Integer failure2StdXdrPreXdr0524) {
-		this.failure2StdXdrPreXdr0524 = failure2StdXdrPreXdr0524;
+	public void setFailure2IndBdqXdrPreXdr0514(Integer failure2IndBdqXdrPreXdr0514) {
+		this.failure2IndBdqXdrPreXdr0514 = failure2IndBdqXdrPreXdr0514;
 	}
 
-	public Integer getFailure2StdXdrPreXdr2527() {
-		return failure2StdXdrPreXdr2527;
+	public Integer getFailure2IndBdqXdrPreXdr1517() {
+		return failure2IndBdqXdrPreXdr1517;
 	}
 
-	public void setFailure2StdXdrPreXdr2527(Integer failure2StdXdrPreXdr2527) {
-		this.failure2StdXdrPreXdr2527 = failure2StdXdrPreXdr2527;
+	public void setFailure2IndBdqXdrPreXdr1517(Integer failure2IndBdqXdrPreXdr1517) {
+		this.failure2IndBdqXdrPreXdr1517 = failure2IndBdqXdrPreXdr1517;
 	}
 
-	public Integer getFailure2StdXdrPreXdrHiv() {
-		return failure2StdXdrPreXdrHiv;
+	public Integer getFailure2IndBdqXdrPreXdrHiv() {
+		return failure2IndBdqXdrPreXdrHiv;
 	}
 
-	public void setFailure2StdXdrPreXdrHiv(Integer failure2StdXdrPreXdrHiv) {
-		this.failure2StdXdrPreXdrHiv = failure2StdXdrPreXdrHiv;
+	public void setFailure2IndBdqXdrPreXdrHiv(Integer failure2IndBdqXdrPreXdrHiv) {
+		this.failure2IndBdqXdrPreXdrHiv = failure2IndBdqXdrPreXdrHiv;
 	}
 
-	public Integer getOtherIndXdrPreXdr() {
-		return otherIndXdrPreXdr;
+	public Integer getOtherIndLzdXdrPreXdr() {
+		return otherIndLzdXdrPreXdr;
 	}
 
-	public void setOtherIndXdrPreXdr(Integer otherIndXdrPreXdr) {
-		this.otherIndXdrPreXdr = otherIndXdrPreXdr;
+	public void setOtherIndLzdXdrPreXdr(Integer otherIndLzdXdrPreXdr) {
+		this.otherIndLzdXdrPreXdr = otherIndLzdXdrPreXdr;
 	}
 
-	public Integer getOtherIndXdrPreXdr04() {
-		return otherIndXdrPreXdr04;
+	public Integer getOtherIndLzdXdrPreXdr04() {
+		return otherIndLzdXdrPreXdr04;
 	}
 
-	public void setOtherIndXdrPreXdr04(Integer otherIndXdrPreXdr04) {
-		this.otherIndXdrPreXdr04 = otherIndXdrPreXdr04;
+	public void setOtherIndLzdXdrPreXdr04(Integer otherIndLzdXdrPreXdr04) {
+		this.otherIndLzdXdrPreXdr04 = otherIndLzdXdrPreXdr04;
 	}
 
-	public Integer getOtherIndXdrPreXdr0524() {
-		return otherIndXdrPreXdr0524;
+	public Integer getOtherIndLzdXdrPreXdr0514() {
+		return otherIndLzdXdrPreXdr0514;
 	}
 
-	public void setOtherIndXdrPreXdr0524(Integer otherIndXdrPreXdr0524) {
-		this.otherIndXdrPreXdr0524 = otherIndXdrPreXdr0524;
+	public void setOtherIndLzdXdrPreXdr0514(Integer otherIndLzdXdrPreXdr0514) {
+		this.otherIndLzdXdrPreXdr0514 = otherIndLzdXdrPreXdr0514;
 	}
 
-	public Integer getOtherIndXdrPreXdr2527() {
-		return otherIndXdrPreXdr2527;
+	public Integer getOtherIndLzdXdrPreXdr1517() {
+		return otherIndLzdXdrPreXdr1517;
 	}
 
-	public void setOtherIndXdrPreXdr2527(Integer otherIndXdrPreXdr2527) {
-		this.otherIndXdrPreXdr2527 = otherIndXdrPreXdr2527;
+	public void setOtherIndLzdXdrPreXdr1517(Integer otherIndLzdXdrPreXdr1517) {
+		this.otherIndLzdXdrPreXdr1517 = otherIndLzdXdrPreXdr1517;
 	}
 
-	public Integer getOtherIndXdrPreXdrHiv() {
-		return otherIndXdrPreXdrHiv;
+	public Integer getOtherIndLzdXdrPreXdrHiv() {
+		return otherIndLzdXdrPreXdrHiv;
 	}
 
-	public void setOtherIndXdrPreXdrHiv(Integer otherIndXdrPreXdrHiv) {
-		this.otherIndXdrPreXdrHiv = otherIndXdrPreXdrHiv;
+	public void setOtherIndLzdXdrPreXdrHiv(Integer otherIndLzdXdrPreXdrHiv) {
+		this.otherIndLzdXdrPreXdrHiv = otherIndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getOtherStdXdrPreXdr() {
-		return otherStdXdrPreXdr;
+	public Integer getOtherIndBdqXdrPreXdr() {
+		return otherIndBdqXdrPreXdr;
 	}
 
-	public void setOtherStdXdrPreXdr(Integer otherStdXdrPreXdr) {
-		this.otherStdXdrPreXdr = otherStdXdrPreXdr;
+	public void setOtherIndBdqXdrPreXdr(Integer otherIndBdqXdrPreXdr) {
+		this.otherIndBdqXdrPreXdr = otherIndBdqXdrPreXdr;
 	}
 
-	public Integer getOtherStdXdrPreXdr04() {
-		return otherStdXdrPreXdr04;
+	public Integer getOtherIndBdqXdrPreXdr04() {
+		return otherIndBdqXdrPreXdr04;
 	}
 
-	public void setOtherStdXdrPreXdr04(Integer otherStdXdrPreXdr04) {
-		this.otherStdXdrPreXdr04 = otherStdXdrPreXdr04;
+	public void setOtherIndBdqXdrPreXdr04(Integer otherIndBdqXdrPreXdr04) {
+		this.otherIndBdqXdrPreXdr04 = otherIndBdqXdrPreXdr04;
 	}
 
-	public Integer getOtherStdXdrPreXdr0524() {
-		return otherStdXdrPreXdr0524;
+	public Integer getOtherIndBdqXdrPreXdr0514() {
+		return otherIndBdqXdrPreXdr0514;
 	}
 
-	public void setOtherStdXdrPreXdr0524(Integer otherStdXdrPreXdr0524) {
-		this.otherStdXdrPreXdr0524 = otherStdXdrPreXdr0524;
+	public void setOtherIndBdqXdrPreXdr0514(Integer otherIndBdqXdrPreXdr0514) {
+		this.otherIndBdqXdrPreXdr0514 = otherIndBdqXdrPreXdr0514;
 	}
 
-	public Integer getOtherStdXdrPreXdr2527() {
-		return otherStdXdrPreXdr2527;
+	public Integer getOtherIndBdqXdrPreXdr1517() {
+		return otherIndBdqXdrPreXdr1517;
 	}
 
-	public void setOtherStdXdrPreXdr2527(Integer otherStdXdrPreXdr2527) {
-		this.otherStdXdrPreXdr2527 = otherStdXdrPreXdr2527;
+	public void setOtherIndBdqXdrPreXdr1517(Integer otherIndBdqXdrPreXdr1517) {
+		this.otherIndBdqXdrPreXdr1517 = otherIndBdqXdrPreXdr1517;
 	}
 
-	public Integer getOtherStdXdrPreXdrHiv() {
-		return otherStdXdrPreXdrHiv;
+	public Integer getOtherIndBdqXdrPreXdrHiv() {
+		return otherIndBdqXdrPreXdrHiv;
 	}
 
-	public void setOtherStdXdrPreXdrHiv(Integer otherStdXdrPreXdrHiv) {
-		this.otherStdXdrPreXdrHiv = otherStdXdrPreXdrHiv;
+	public void setOtherIndBdqXdrPreXdrHiv(Integer otherIndBdqXdrPreXdrHiv) {
+		this.otherIndBdqXdrPreXdrHiv = otherIndBdqXdrPreXdrHiv;
 	}
 
-	public Integer getTotalIndXdrPreXdr() {
-		return totalIndXdrPreXdr;
+	public Integer getTotalIndLzdXdrPreXdr() {
+		return totalIndLzdXdrPreXdr;
 	}
 
-	public void setTotalIndXdrPreXdr(Integer totalIndXdrPreXdr) {
-		this.totalIndXdrPreXdr = totalIndXdrPreXdr;
+	public void setTotalIndLzdXdrPreXdr(Integer totalIndLzdXdrPreXdr) {
+		this.totalIndLzdXdrPreXdr = totalIndLzdXdrPreXdr;
 	}
 
-	public Integer getTotalIndXdrPreXdr04() {
-		return totalIndXdrPreXdr04;
+	public Integer getTotalIndLzdXdrPreXdr04() {
+		return totalIndLzdXdrPreXdr04;
 	}
 
-	public void setTotalIndXdrPreXdr04(Integer totalIndXdrPreXdr04) {
-		this.totalIndXdrPreXdr04 = totalIndXdrPreXdr04;
+	public void setTotalIndLzdXdrPreXdr04(Integer totalIndLzdXdrPreXdr04) {
+		this.totalIndLzdXdrPreXdr04 = totalIndLzdXdrPreXdr04;
 	}
 
-	public Integer getTotalIndXdrPreXdr0524() {
-		return totalIndXdrPreXdr0524;
+	public Integer getTotalIndLzdXdrPreXdr0514() {
+		return totalIndLzdXdrPreXdr0514;
 	}
 
-	public void setTotalIndXdrPreXdr0524(Integer totalIndXdrPreXdr0524) {
-		this.totalIndXdrPreXdr0524 = totalIndXdrPreXdr0524;
+	public void setTotalIndLzdXdrPreXdr0514(Integer totalIndLzdXdrPreXdr0514) {
+		this.totalIndLzdXdrPreXdr0514 = totalIndLzdXdrPreXdr0514;
 	}
 
-	public Integer getTotalIndXdrPreXdr2527() {
-		return totalIndXdrPreXdr2527;
+	public Integer getTotalIndLzdXdrPreXdr1517() {
+		return totalIndLzdXdrPreXdr1517;
 	}
 
-	public void setTotalIndXdrPreXdr2527(Integer totalIndXdrPreXdr2527) {
-		this.totalIndXdrPreXdr2527 = totalIndXdrPreXdr2527;
+	public void setTotalIndLzdXdrPreXdr1517(Integer totalIndLzdXdrPreXdr1517) {
+		this.totalIndLzdXdrPreXdr1517 = totalIndLzdXdrPreXdr1517;
 	}
 
-	public Integer getTotalIndXdrPreXdrHiv() {
-		return totalIndXdrPreXdrHiv;
+	public Integer getTotalIndLzdXdrPreXdrHiv() {
+		return totalIndLzdXdrPreXdrHiv;
 	}
 
-	public void setTotalIndXdrPreXdrHiv(Integer totalIndXdrPreXdrHiv) {
-		this.totalIndXdrPreXdrHiv = totalIndXdrPreXdrHiv;
+	public void setTotalIndLzdXdrPreXdrHiv(Integer totalIndLzdXdrPreXdrHiv) {
+		this.totalIndLzdXdrPreXdrHiv = totalIndLzdXdrPreXdrHiv;
 	}
 
-	public Integer getTotalStdXdrPreXdr() {
-		return totalStdXdrPreXdr;
+	public Integer getTotalIndBdqXdrPreXdr() {
+		return totalIndBdqXdrPreXdr;
 	}
 
-	public void setTotalStdXdrPreXdr(Integer totalStdXdrPreXdr) {
-		this.totalStdXdrPreXdr = totalStdXdrPreXdr;
+	public void setTotalIndBdqXdrPreXdr(Integer totalIndBdqXdrPreXdr) {
+		this.totalIndBdqXdrPreXdr = totalIndBdqXdrPreXdr;
 	}
 
-	public Integer getTotalStdXdrPreXdr04() {
-		return totalStdXdrPreXdr04;
+	public Integer getTotalIndBdqXdrPreXdr04() {
+		return totalIndBdqXdrPreXdr04;
 	}
 
-	public void setTotalStdXdrPreXdr04(Integer totalStdXdrPreXdr04) {
-		this.totalStdXdrPreXdr04 = totalStdXdrPreXdr04;
+	public void setTotalIndBdqXdrPreXdr04(Integer totalIndBdqXdrPreXdr04) {
+		this.totalIndBdqXdrPreXdr04 = totalIndBdqXdrPreXdr04;
 	}
 
-	public Integer getTotalStdXdrPreXdr0524() {
-		return totalStdXdrPreXdr0524;
+	public Integer getTotalIndBdqXdrPreXdr0514() {
+		return totalIndBdqXdrPreXdr0514;
 	}
 
-	public void setTotalStdXdrPreXdr0524(Integer totalStdXdrPreXdr0524) {
-		this.totalStdXdrPreXdr0524 = totalStdXdrPreXdr0524;
+	public void setTotalIndBdqXdrPreXdr0514(Integer totalIndBdqXdrPreXdr0514) {
+		this.totalIndBdqXdrPreXdr0514 = totalIndBdqXdrPreXdr0514;
 	}
 
-	public Integer getTotalStdXdrPreXdr2527() {
-		return totalStdXdrPreXdr2527;
+	public Integer getTotalIndBdqXdrPreXdr1517() {
+		return totalIndBdqXdrPreXdr1517;
 	}
 
-	public void setTotalStdXdrPreXdr2527(Integer totalStdXdrPreXdr2527) {
-		this.totalStdXdrPreXdr2527 = totalStdXdrPreXdr2527;
+	public void setTotalIndBdqXdrPreXdr1517(Integer totalIndBdqXdrPreXdr1517) {
+		this.totalIndBdqXdrPreXdr1517 = totalIndBdqXdrPreXdr1517;
 	}
 
-	public Integer getTotalStdXdrPreXdrHiv() {
-		return totalStdXdrPreXdrHiv;
+	public Integer getTotalIndBdqXdrPreXdrHiv() {
+		return totalIndBdqXdrPreXdrHiv;
 	}
 
-	public void setTotalStdXdrPreXdrHiv(Integer totalStdXdrPreXdrHiv) {
-		this.totalStdXdrPreXdrHiv = totalStdXdrPreXdrHiv;
+	public void setTotalIndBdqXdrPreXdrHiv(Integer totalIndBdqXdrPreXdrHiv) {
+		this.totalIndBdqXdrPreXdrHiv = totalIndBdqXdrPreXdrHiv;
 	}
 	
 	

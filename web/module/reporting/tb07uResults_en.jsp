@@ -170,10 +170,10 @@
 					    <td colspan="4" align="center">from them</td>
 					</tr>
 					<tr>
-						<td align="center">RR/MDR-TB</td>
 						<td align="center">PDR</td>
+						<td align="center">RR/MDR-TB</td>
 						<td align="center">Pre-XDR</td>
-						<td align="center">XDR</td>
+						<td align="center">XDR-TB</td>
 					</tr>
 					<tr>
 					    <td style="border: 1px solid black; width: 50px; height: 20px; text-align:center;">

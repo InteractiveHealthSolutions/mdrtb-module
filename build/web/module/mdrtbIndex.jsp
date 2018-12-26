@@ -173,14 +173,8 @@
 				</td></tr>
 				<tr class="${rowClass}"><td>
 					<a href="../mdrtb/reporting/viewClosedReports.form?type=MDRTB"><spring:message code="mdrtb.viewClosedReports" /></a><br/>
+					<a href="../mdrtb/reporting/tb07u.form"><spring:message code="mdrtb.tb07u" /></a><br/>
 					<a href="../mdrtb/reporting/tb08u.form"><spring:message code="mdrtb.tb08Fast" /></a><br/>
-					<c:forEach var="entry" items="${reports}" varStatus="varStatus">
-						<c:set var="reportsFound" value="t"/>
-						<a href="${pageContext.request.contextPath}/${entry.key}">
-							${entry.value}
-						</a><br/>
-					</c:forEach>
-					
 					<a href="../mdrtb/reporting/tb03u.form"><spring:message code="mdrtb.tb03uExport" /></a><br/>
 					<a href="../mdrtb/reporting/dq.form"><spring:message code="mdrtb.dq.title" /></a><br/>
 					<a href="../mdrtb/reporting/regimen.form"><spring:message code="mdrtb.sldreport" /><br/>

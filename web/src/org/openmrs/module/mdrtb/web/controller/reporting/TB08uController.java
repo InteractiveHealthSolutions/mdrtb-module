@@ -171,6 +171,9 @@ public class TB08uController {
     	
     	
 		ArrayList<TB03uForm> tb03uList = Context.getService(MdrtbService.class).getTB03uFormsFilled(locList, year, quarter, month);
+		
+		
+		
 		/*if(o != null && location == null)
 			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
 		else if (location != null)
