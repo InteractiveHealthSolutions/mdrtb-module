@@ -440,7 +440,7 @@ public class TB07uController {
 
 					table1.setNewPdr(table1.getNewPdr() + 1);
 					table1.setNewTotal(table1.getNewTotal() + 1);
-					table1.setNewTotal04(table1.getNewTotal04() + 1);
+					
 
 					if (age > 0 && age <= 4) {
 						table1.setNewPdr04(table1.getNewPdr04() + 1);
@@ -725,7 +725,7 @@ public class TB07uController {
 
 					table1.setNewMdr(table1.getNewMdr() + 1);
 					table1.setNewTotal(table1.getNewTotal() + 1);
-					table1.setNewTotal04(table1.getNewTotal04() + 1);
+					
 
 					if (age > 0 && age <= 4) {
 						table1.setNewMdr04(table1.getNewMdr04() + 1);
@@ -1487,7 +1487,7 @@ public class TB07uController {
 
 					table1.setNewPreXdr(table1.getNewPreXdr() + 1);
 					table1.setNewTotal(table1.getNewTotal() + 1);
-					table1.setNewTotal04(table1.getNewTotal04() + 1);
+					
 
 					if (age > 0 && age <= 4) {
 						table1.setNewPreXdr04(table1.getNewPreXdr04() + 1);
@@ -2255,7 +2255,7 @@ public class TB07uController {
 
 					table1.setNewXdr(table1.getNewXdr() + 1);
 					table1.setNewTotal(table1.getNewTotal() + 1);
-					table1.setNewTotal04(table1.getNewTotal04() + 1);
+					
 
 					if (age > 0 && age <= 4) {
 						table1.setNewXdr04(table1.getNewXdr04() + 1);
