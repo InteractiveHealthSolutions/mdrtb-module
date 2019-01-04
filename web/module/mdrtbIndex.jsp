@@ -165,7 +165,7 @@
 								
 				</td></tr>
 				
-				<c:set var="reportsFound" value="f"/>
+				<!-- <c:set var="reportsFound" value="f"/> -->
 				<tr><td style = "background-color:#8FABC7;padding:2px 2px 2px 2px;">
 					<b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">&nbsp;&nbsp;
 						<spring:message code="mdrtb.mdrreports"/>&nbsp;&nbsp;
@@ -178,7 +178,7 @@
 					<a href="../mdrtb/reporting/tb03u.form"><spring:message code="mdrtb.tb03uExport" /></a><br/>
 					<a href="../mdrtb/reporting/dq.form"><spring:message code="mdrtb.dq.title" /></a><br/>
 					<a href="../mdrtb/reporting/regimen.form"><spring:message code="mdrtb.sldreport" /><br/>
-					<openmrs:extensionPoint pointId="org.openmrs.mdrtb.linksList.reportLinks" type="html">
+					<%-- <openmrs:extensionPoint pointId="org.openmrs.mdrtb.linksList.reportLinks" type="html">
 						<openmrs:hasPrivilege privilege="${extension.requiredPrivilege}">
 							<c:forEach items="${extension.links}" var="link">
 								<c:set var="reportsFound" value="t"/>
@@ -190,7 +190,7 @@
 					</openmrs:extensionPoint>
 					<c:if test="${reportsFound == 'f'}">
 						<i> &nbsp; <spring:message code="mdrtb.noReports"/></i><br/>
-					</c:if>
+					</c:if> --%>
 				</td></tr>
 				
 				

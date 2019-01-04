@@ -289,11 +289,11 @@ public class PatientListContoller {
     		    	
     		    	if( tf.getAnatomicalSite()!=null) {
     		    		Integer asId = tf.getAnatomicalSite().getConceptId();
-    		    		if(asId==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PULMONARY_TB).getConceptId()) {
+    		    		if(asId.intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PULMONARY_TB).getConceptId().intValue()) {
     		    			report += openTD() + getMessage("mdrtb.lists.pulmonaryShort") + closeTD();
     		    		}
     		    		
-    		    		else if (asId==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.EXTRA_PULMONARY_TB).getConceptId()) {
+    		    		else if (asId.intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.EXTRA_PULMONARY_TB).getConceptId().intValue()) {
     		    			report += openTD() + getMessage("mdrtb.lists.extrapulmonaryShort") + closeTD();
     		    		}
     		    		

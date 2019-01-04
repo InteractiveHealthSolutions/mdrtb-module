@@ -98,7 +98,13 @@
 			return false;
 		}
 		
+		var txMonth = document.getElementById("monthOfTreatment").value;
 		
+		if(txMonth=="") {
+			errorText = ""  + '<spring:message code="mdrtb.error.missingTreatmentMonth"/>' + "";
+			alert(errorText);
+			return false;
+		}
 		
 		return true;
 	}
@@ -219,7 +225,7 @@
 
 <tr>
 <td valign="top"><spring:message code="mdrtb.monthOfTreatment" text="TxMonth"/>:</td>
-<td><input name="monthOfTreatment" size="2" value="${smear.monthOfTreatment}"/></td>
+<td><input id="monthOfTreatment" name="monthOfTreatment" size="2" value="${smear.monthOfTreatment}"/></td>
 </tr>
 
 </table>
