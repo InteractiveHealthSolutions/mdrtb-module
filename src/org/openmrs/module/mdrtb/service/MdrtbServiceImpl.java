@@ -2538,7 +2538,7 @@ public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, 
 	 TB03Form ret = null;
 	 Integer encounterId = null;
 	 EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
-	 String query = "select encounter_id from encounter where location_id=" + location.getId() + " AND encounter_datetime <= '" + encounterDate + "' AND patient_id=" + patient.getId() + " AND encounter_type=" + intakeType.getId() + " ORDER BY encounter_datetime DESC";
+	 String query = "select encounter_id from encounter where location_id=" + location.getId() + " AND encounter_datetime <= '" + encounterDate + "' AND patient_id=" + patient.getId() + " AND encounter_type=" + intakeType.getId() + " AND voided=0 ORDER BY encounter_datetime DESC";
 	 List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
 	 if(result!=null && result.size()>0) {
 		 List<Object> resp = result.get(0);

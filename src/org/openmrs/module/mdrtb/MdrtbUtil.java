@@ -1030,6 +1030,69 @@ public class MdrtbUtil {
 		   return ret;
 	   }
 	
+	
+	public static Boolean isDiagnosticBacPositive(TB03Form tf) {
+		   Boolean ret = false;
+		   List<SmearForm> smears = tf.getSmears();
+		   
+		   for(SmearForm sf : smears) {
+			   if(sf.getMonthOfTreatment()!=null && sf.getMonthOfTreatment().intValue()==0 && MdrtbUtil.getPositiveResultConcepts().contains(sf.getSmearResult())) {
+				   return true;
+			   }
+		   }
+		   
+		   List<CultureForm> cultures = tf.getCultures();
+		   
+		   for(CultureForm cf : cultures) {
+			   if(cf.getMonthOfTreatment()!=null && cf.getMonthOfTreatment().intValue()==0 && MdrtbUtil.getPositiveResultConcepts().contains(cf.getCultureResult())) {
+				   return true;
+			   }
+		   }
+		   
+		   List<XpertForm> xperts = tf.getXperts();
+		   Concept positive = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_POSITIVE);
+		   Concept mtbResult = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT);
+		   Concept xpertConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT);
+		   Obs constructObs = null;
+		   Obs resultObs = null;
+		   for(XpertForm xf : xperts) {
+			   
+			   if(xf.getMonthOfTreatment()!=null && xf.getMonthOfTreatment().intValue()==0) {
+				   resultObs = null;
+				   constructObs = MdrtbUtil.getObsFromEncounter(xpertConstructs, xf.getEncounter());
+				   if(constructObs!=null) {
+					   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+					   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+						   return true;
+					   }
+				   }
+			   }
+		   }
+		   
+		   List<HAINForm> hains = tf.getHains();
+		  
+		   Concept hainConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT);
+		   constructObs = null;
+		   resultObs = null;
+		   for(HAINForm hf : hains) {
+			   if(hf.getMonthOfTreatment()!=null && hf.getMonthOfTreatment().intValue()==0) {
+			   
+			   resultObs = null;
+			   constructObs = MdrtbUtil.getObsFromEncounter(hainConstructs, hf.getEncounter());
+			   if(constructObs!=null) {
+				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+					   return true;
+				   }
+			   }
+			 
+			  }
+			  
+		   }
+		   
+		   return ret;
+	   }
+	
 	public static Integer calculateAge(Date fromDate, Date toDate) {
 		Integer ret = null;
 		GregorianCalendar fromCal = new GregorianCalendar();
