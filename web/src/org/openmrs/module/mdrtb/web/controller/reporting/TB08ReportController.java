@@ -366,7 +366,7 @@ public class TB08ReportController {
     	    	continue;
     	    }
     	    
-    	    bacPositive = MdrtbUtil.isBacPositive(tf);
+    	    bacPositive = MdrtbUtil.isDiagnosticBacPositive(tf);
     	    
     	    //OUTCOMES
     	    q = tf.getTreatmentOutcome();

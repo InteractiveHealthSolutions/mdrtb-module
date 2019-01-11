@@ -265,22 +265,22 @@ public class TB03uForm extends AbstractSimpleForm {
 	
 	
 	public Concept getAnatomicalSite() {
-		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB), encounter);
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB), encounter);
 		
 		if (obs == null) {
 			return null;
 		}
 		else {
 			return obs.getValueCoded();
-		}*/
-		TB03Form tb03 = getTb03();
-		if(tb03!=null)
-			return tb03.getAnatomicalSite();
-		else
-			return null;
+		}
+//		TB03Form tb03 = getTb03();
+//		if(tb03!=null)
+//			return tb03.getAnatomicalSite();
+//		else
+//			return null;
 	}
 	
-	/*public void setAnatomicalSite(Concept site) {
+	public void setAnatomicalSite(Concept site) {
 		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB), encounter);
 		
 		// if this obs have not been created, and there is no data to add, do nothing
@@ -305,7 +305,7 @@ public class TB03uForm extends AbstractSimpleForm {
 				encounter.addObs(obs);
 			}
 		} 
-	}*/
+	}
 	
 	public Concept getRegistrationGroup() {
 		/*Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX), encounter);

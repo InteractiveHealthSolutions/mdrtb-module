@@ -304,6 +304,9 @@ public class TbConcepts {
  	public final static String[] SCHOOLCHILD = {"SCHOOLCHILD"};
  	public final static String[] TB_SERVICES_WORKER  = {"TB SERVICES WORKER"};
  	public final static String[] HOUSEWIFE  = {"HOUSEWIFE"};	
+ 	public final static String[] PRESCHOOL_CHILD = {"PRESCHOOL CHILD"};
+ 	public final static String[] PENSIONER = {"PENSIONER"};
+ 	
  	
  	public final static String[] RESIDENT_OF_TERRITORY = {"RESIDENT OF TERRITORY"};
  	public final static String[] RESIDENT_OTHER_TERRITORY = {"RESIDENT OTHER TERRITORY"};

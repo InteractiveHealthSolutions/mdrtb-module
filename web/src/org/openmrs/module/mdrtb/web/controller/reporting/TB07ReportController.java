@@ -375,7 +375,7 @@ public class TB07ReportController {
     	    
     	    
     	    
-    	    bacPositive = MdrtbUtil.isBacPositive(tf);
+    	    bacPositive = MdrtbUtil.isDiagnosticBacPositive(tf);
     	    
     	    
     	    q = tf.getHivStatus();//Context.getService(MdrtbService.class).getConcept(TbConcepts.RESULT_OF_HIV_TEST);

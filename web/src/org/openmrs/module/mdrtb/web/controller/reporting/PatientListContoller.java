@@ -1755,7 +1755,7 @@ public class PatientListContoller {
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==newConcept.getId().intValue()) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(MdrtbUtil.isBacPositive(tf)) {
+    					if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
     						i++;
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						report += openTR();
@@ -1801,7 +1801,7 @@ public class PatientListContoller {
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==newConcept.getId().intValue()) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(!MdrtbUtil.isBacPositive(tf)) {
+    					if(!MdrtbUtil.isDiagnosticBacPositive(tf)) {
     						i++;
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						report += openTR();
@@ -1845,7 +1845,7 @@ public class PatientListContoller {
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && (temp.getValueCoded().getId().intValue()==relapse1Concept.getId().intValue() || temp.getValueCoded().getId().intValue()==relapse2Concept.getId().intValue())) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(MdrtbUtil.isBacPositive(tf)) {
+    					if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
     							p = Context.getPersonService().getPerson(tf.getPatient().getId());
     							i++;
     							report += openTR();
@@ -1889,7 +1889,7 @@ public class PatientListContoller {
     			temp2 = MdrtbUtil.getObsFromEncounter(siteConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && (temp.getValueCoded().getId().intValue()==relapse1Concept.getId().intValue() || temp.getValueCoded().getId().intValue()==relapse2Concept.getId().intValue())) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(!MdrtbUtil.isBacPositive(tf)) {
+    					if(!MdrtbUtil.isDiagnosticBacPositive(tf)) {
     							p = Context.getPersonService().getPerson(tf.getPatient().getId());
     							i++;
     							report += openTR();
@@ -1944,7 +1944,7 @@ public class PatientListContoller {
     					temp.getValueCoded().getId().intValue()==failure2Concept.getId().intValue())
     					) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(!MdrtbUtil.isBacPositive(tf)) {
+    					if(!MdrtbUtil.isDiagnosticBacPositive(tf)) {
     				
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						i++;
@@ -1997,7 +1997,7 @@ public class PatientListContoller {
     					temp.getValueCoded().getId().intValue()==failure2Concept.getId().intValue())
     					) {
     				if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    					if(MdrtbUtil.isBacPositive(tf)) {
+    					if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
     				
     						p = Context.getPersonService().getPerson(tf.getPatient().getId());
     						i++;
@@ -2047,7 +2047,7 @@ public class PatientListContoller {
     					temp.getValueCoded().getId().intValue()==transferInConcept.getId().intValue())
     					 {
     					if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    						if(MdrtbUtil.isBacPositive(tf)) {
+    						if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
     							
     							p = Context.getPersonService().getPerson(tf.getPatient().getId());
     							i++;
@@ -2096,7 +2096,7 @@ public class PatientListContoller {
     					temp.getValueCoded().getId().intValue()==transferInConcept.getId().intValue())
     					 {
     					if(temp2!=null && temp2.getValueCoded()!=null && temp2.getValueCoded().getId().intValue()==pulConcept.getId().intValue()) {
-    						if(!MdrtbUtil.isBacPositive(tf)) {
+    						if(!MdrtbUtil.isDiagnosticBacPositive(tf)) {
     							
     							p = Context.getPersonService().getPerson(tf.getPatient().getId());
     							i++;
@@ -3272,9 +3272,11 @@ report += "<br/>";*/
 				
 				if(tb03!=null) {
 					Integer age = tb03.getAgeAtTB03Registration();
-    			
-    				temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
-    				if(temp!=null && (temp.getValueCoded().getId().intValue()  == yes.getId().intValue())) {
+					
+					Concept c = tf.getIbc20();
+					
+    				//temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
+    				if(c!=null && (c.getConceptId().intValue()  == yes.getConceptId().intValue())) {
     					p = Context.getPersonService().getPerson(tf.getPatient().getId());
     					i++;
     					report += openTR();
@@ -5362,10 +5364,103 @@ report += "<br/>";
     				
     		report += closeTable();
     		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
-    		/*report += "<br/>";
+    		report += "<br/>";
     		
-    		report += closeTable();*/
+    		//PRE-SCHOOL CHILD
+    		q = ms.getConcept(TbConcepts.PRESCHOOL_CHILD);
+    		report += "<h4>" + q.getName().getName() + "</h4>";
+    		report += openTable();
+    		report += openTR();
+    		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + "" + closeTD();
+    		report += closeTR();
     		
+    		temp = null;
+    		p = null;
+    		i = 0;
+    		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
+    			TB03Form tb03 = null;
+    			tf.initTB03(tf.getPatProgId());
+    			tb03 = tf.getTB03();
+    			
+    			if(tb03!=null) {
+    				Integer age = tb03.getAgeAtTB03Registration();
+    			
+    			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
+    			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
+    				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+    				i++;
+    				report += openTR();
+    				report += openTD() + i +  closeTD();
+    				report += openTD() + getRegistrationNumber(tb03) +  closeTD();
+    				report += renderPerson(p, true);
+    				report += openTD() + age + closeTD();
+    				report += openTD() + getPatientLink(tf) + closeTD(); 
+    				report += closeTR();
+    			}
+    				
+    			}
+    		}
+    				
+    		report += closeTable();
+    		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+    		report += "<br/>";
+    		
+    		//PENSIONER
+    		q = ms.getConcept(TbConcepts.PENSIONER);
+    		report += "<h4>" + q.getName().getName() + "</h4>";
+    		report += openTable();
+    		report += openTR();
+    		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+    		report += openTD() + "" + closeTD();
+    		report += closeTR();
+    		
+    		temp = null;
+    		p = null;
+    		i = 0;
+    		for(Form89 tf : tb03s) {
+    			
+    			if(tf.getPatient()==null || tf.getPatient().isVoided())
+    				continue;
+    			
+    			TB03Form tb03 = null;
+    			tf.initTB03(tf.getPatProgId());
+    			tb03 = tf.getTB03();
+    			
+    			if(tb03!=null) {
+    				Integer age = tb03.getAgeAtTB03Registration();
+    			
+    			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
+    			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
+    				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+    				i++;
+    				report += openTR();
+    				report += openTD() + i +  closeTD();
+    				report += openTD() + getRegistrationNumber(tb03) +  closeTD();
+    				report += renderPerson(p, true);
+    				report += openTD() + age + closeTD();
+    				report += openTD() + getPatientLink(tf) + closeTD(); 
+    				report += closeTR();
+    			}
+    				
+    			}
+    		}
+    				
+    		report += closeTable();
+    		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+    		report += "<br/>";
     		
     		model.addAttribute("report",report);
     		return "/module/mdrtb/reporting/patientListsResults";

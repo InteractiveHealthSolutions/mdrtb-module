@@ -816,7 +816,7 @@
 <td><input name="sldRegisterNumber" size="10" value="${tb03u.sldRegisterNumber}"/></td>
 </tr>
 
-<%-- <tr>
+<tr>
 <td><spring:message code="mdrtb.tb03.siteOfDisease" text="Anatomical Type"/>:</td>
 <td>
 <select name="anatomicalSite">
@@ -826,12 +826,12 @@
 </c:forEach>
 </select>
 </td>
-</tr> --%>
+</tr>
 
-<tr>
+<%-- <tr>
 <td><spring:message code="mdrtb.tb03.siteOfDisease" text="Anatomical Type"/>:</td>
 <td>${tb03u.anatomicalSite.displayString}</td>
-</tr>
+</tr> --%>
 
 <%-- <tr>
 <td><spring:message code="mdrtb.tb03.registrationGroup" text="Registration Group"/>:</td>
