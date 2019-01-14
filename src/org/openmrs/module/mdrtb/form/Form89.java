@@ -1800,7 +1800,7 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 	}
 	
 	public String getRegistrationNumber() {
-		
+			System.out.println(this.getPatient().getPatientId());
 			if(tb03==null) {
 				if(this.getPatProgId()==null) {
 					return null;
@@ -1811,6 +1811,9 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 					if(tb03!=null) {
 						return tb03.getRegistrationNumber();
 					}
+				
+					else
+						return null;
 				}
 			}
 			
