@@ -1069,28 +1069,28 @@ response.setDateHeader ("Expires", -1);
 					<td>
 						15-17</td>
 					<td>
-						${table1.relapseExtrapulmonaryDetected1517 }</td>
+						${table1.relapsePulmonaryCDDetected1517 }</td>
 					<td>
-						${table1.relapseExtrapulmonaryEligible1517 }</td>
+						${table1.relapsePulmonaryCDEligible1517 }</td>
 					<td>
-						${table1.relapseExtrapulmonaryCured1517 }</td>
+						${table1.relapsePulmonaryCDCured1517 }</td>
 					<td>
-						${table1.relapseExtrapulmonaryCompleted1517 }</td>
+						${table1.relapsePulmonaryCDCompleted1517 }</td>
 					<td>
-						${table1.relapseExtrapulmonaryDiedTB1517 }</td>
+						${table1.relapsePulmonaryCDDiedTB1517 }</td>
 					<td>
-						${table1.relapseExtrapulmonaryDiedNotTB1517}</td>
+						${table1.relapsePulmonaryCDDiedNotTB1517}</td>
 					<td>
-						${table1.relapseExtrapulmonaryFailed1517 }</td>
+						${table1.relapsePulmonaryCDFailed1517 }</td>
 					<td>
-						${table1.relapseExtrapulmonaryDefaulted1517 }</td>
+						${table1.relapsePulmonaryCDDefaulted1517 }</td>
 					<td>
-						${table1.relapseExtrapulmonaryEligible1517 }</td>
+						${table1.relapsePulmonaryCDEligible1517 }</td>
 					
 					<td>
-						${table1.relapseExtrapulmonarySLD1517 }</td>
+						${table1.relapsePulmonaryCDSLD1517 }</td>
 					<td>
-						${table1.relapseExtrapulmonaryCanceled1517 }</td>
+						${table1.relapsePulmonaryCDCanceled1517 }</td>
 					<td>
 						${table1.relapsePulmonaryCDDetected1517 - (table1.relapsePulmonaryCDEligible1517 + table1.relapsePulmonaryCDSLD1517 + table1.relapsePulmonaryCDCanceled1517) }</td>
 					

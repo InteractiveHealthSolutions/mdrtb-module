@@ -407,7 +407,7 @@ public class DOTSDQController {
     	    
     	    
     	    else if(tf.getRegistrationGroup().getId().intValue()== (Context.getService(MdrtbService.class).getConcept(TbConcepts.NEW).getId().intValue())) {
-    	    	ArrayList<Form89> f89 = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tf.getPatient(), tf.getLocation(), tf.getPatProgId(), year, quarter, month);
+    	    	ArrayList<Form89> f89 = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tf.getPatient(), null, tf.getPatProgId(), year, quarter, month);
     	    	if(f89==null || f89.size()==0) {
     	    		noForm89.add(dqi);
     	    		errorFlag = Boolean.TRUE;

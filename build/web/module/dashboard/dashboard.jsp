@@ -19,24 +19,7 @@
 	</div>
 </c:if>
 
-<c:if test="${program.patient.dead}">
-	<div id="patientDashboardDeceased" class="retiredMessage">
-		<div>
-			<spring:message code="Patient.patientDeceased"/>
-			<c:if test="${not empty program.patient.deathDate}">
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				<spring:message code="Person.deathDate"/>: <openmrs:formatDate date="${program.patient.deathDate}"/>
-			</c:if>
-			<c:if test="${not empty program.patient.causeOfDeath}">
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				<spring:message code="Person.causeOfDeath"/>: <openmrs:format concept="${program.patient.causeOfDeath}"/>
-				<c:if test="${not empty causeOfDeathOther}"> 
-					  &nbsp;:&nbsp;<c:out value="${causeOfDeathOther}"></c:out>
-				</c:if>
-			</c:if>
-		</div>
-	</div>
-</c:if>
+
 
 <c:if test="${! empty patientId && patientId != -1}">
 	<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
