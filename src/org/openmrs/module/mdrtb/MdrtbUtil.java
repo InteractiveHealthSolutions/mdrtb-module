@@ -39,6 +39,7 @@ import org.openmrs.module.mdrtb.reporting.definition.AgeAtMDRRegistrationCohortD
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
@@ -1079,6 +1080,27 @@ public class MdrtbUtil {
 			   
 			   resultObs = null;
 			   constructObs = MdrtbUtil.getObsFromEncounter(hainConstructs, hf.getEncounter());
+			   if(constructObs!=null) {
+				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+					   return true;
+				   }
+			   }
+			 
+			  }
+			  
+		   }
+		   
+		   List<HAIN2Form> hain2s = tf.getHain2s();
+			  
+		   Concept hain2Constructs = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HAIN2_CONSTRUCT);
+		   constructObs = null;
+		   resultObs = null;
+		   for(HAIN2Form hf : hain2s) {
+			   if(hf.getMonthOfTreatment()!=null && hf.getMonthOfTreatment().intValue()==0) {
+			   
+			   resultObs = null;
+			   constructObs = MdrtbUtil.getObsFromEncounter(hain2Constructs, hf.getEncounter());
 			   if(constructObs!=null) {
 				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
 				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {

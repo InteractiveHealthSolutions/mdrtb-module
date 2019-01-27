@@ -7223,6 +7223,7 @@ report += "<br/>";
 			
 			if(tf.getPatient()==null || tf.getPatient().isVoided())
 				continue;
+			System.out.println(">>>>" + tf.getPatient().getPatientId());
 			TB03Form tb03 = null;
 			tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();

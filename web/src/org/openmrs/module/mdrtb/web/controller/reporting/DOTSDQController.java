@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -302,7 +303,7 @@ public class DOTSDQController {
     	ArrayList<TransferInForm> tifList = Context.getService(MdrtbService.class).getTransferInFormsFilled(locList, year, quarter, month);
     	ArrayList<TransferOutForm> allTofs = null;// Context.getService(MdrtbService.class).getTransferOutFormsFilled(locList, year, quarter, month);
     	ArrayList<TransferInForm> allTifs = null;// Context.getService(MdrtbService.class).getTransferInFormsFilled(locList, year, quarter, month);
-    	
+    	HashMap<Integer, Integer> dupMap = new HashMap<Integer,Integer>();
     	for (TB03Form  tf : tb03List) {
     		
     		 //INIT
@@ -354,7 +355,8 @@ public class DOTSDQController {
     	    
     	    patProgId = tf.getPatProgId();
     	    Boolean found = Boolean.FALSE;
-    	    if(patProgId!=null) {
+    	 //   HashMap<Integer,Integer> pp = new HashMap<Integer,Integer>();
+    	    if(patProgId!=null && !dupMap.containsKey(patProgId)) {
     	    	List<TB03Form> dupList = Context.getService(MdrtbService.class).getTB03FormsForProgram(patient, patProgId);
     	    	
     	    	if(dupList!=null) {
@@ -371,6 +373,7 @@ public class DOTSDQController {
     	    	}
     	    	
     	    	if(found) {
+    	    		dupMap.put(patProgId, patProgId);
     	    		errorFlag = Boolean.TRUE;
     	    		duplicateTB03.add(dqi);
     	    	}
