@@ -2294,10 +2294,19 @@ public ArrayList<Form89> getForm89FormsFilledForPatientProgram(Patient p, Locati
 	
 	ArrayList<Form89> forms = new ArrayList<Form89>();
 
-	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	Map<String, Date> dateMap = null;
 	
-	Date startDate = (Date)(dateMap.get("startDate"));
-	Date endDate = (Date)(dateMap.get("endDate"));
+	if(year!=null && (quarter!=null || month!=null))
+			dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+	Date startDate = null;
+	Date endDate = null;
+	
+	if(dateMap!=null) {
+		startDate = (Date)(dateMap.get("startDate"));
+		endDate = (Date)(dateMap.get("endDate"));
+	}
+		
 	Concept ppid = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
 	EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
 	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
@@ -2315,6 +2324,32 @@ public ArrayList<Form89> getForm89FormsFilledForPatientProgram(Patient p, Locati
 			}
 		}
 	}
+	
+	/*public ArrayList<Form89> getForm89FormsFilledForPatientProgram(Patient p, Integer patProgId) {
+		
+		ArrayList<Form89> forms = new ArrayList<Form89>();
+
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		Concept ppid = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		List<Encounter> temp = Context.getEncounterService().getEncounters(p, location, startDate, endDate, null, typeList, null, false);
+		if(temp!=null) {
+			for(Encounter e : temp) {
+				Obs ppObs = MdrtbUtil.getObsFromEncounter(ppid, e);
+				if(ppObs!=null) {
+					if(ppObs.getValueNumeric()!=null && (ppObs.getValueNumeric().intValue() == patProgId.intValue())) {
+						forms.add(new Form89(e));
+					}
+					
+				}
+			}
+		}*/
 	/*Oblast o = null;
 	if(!oblast.equals("") && location == null)
 		o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));

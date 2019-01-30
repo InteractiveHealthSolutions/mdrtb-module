@@ -205,7 +205,7 @@
 					<!-- <a href="drugforecast/simpleUsage.list"><spring:message code="mdrtb.simpleDrugUsage"/></a><br/>
 					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/>
 					<a href="drugforecast/patientsOnSLD.list"><spring:message code="mdrtb.sldreport" /></a><br/> -->
-					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.Form8"><spring:message code="mdrtb.dotsreportform08" /></a><br/>
+					<a href="../mdrtb/reporting/form8.form"><spring:message code="mdrtb.form8.title" /></a><br/>
 					<a href="../mdrtb/reporting/pv/ae.form"><spring:message code="mdrtb.pv.qtrReportTitle" /></a><br/>
 					<a href="../mdrtb/reporting/pv/aeRegister.form"><spring:message code="mdrtb.pv.register.title" /></a><br/>
 					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTSMDRReport"><spring:message code="mdrtb.dotsmdrreport" /></a><br/> -->
