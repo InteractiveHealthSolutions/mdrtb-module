@@ -810,6 +810,212 @@ response.setDateHeader ("Expires", -1);
 		</table>	
 		<br/><br/>
 		
+		<h5 align="center">2.	Patient population</h5>
+		
+		<table width="100%" border="1">
+		<tr align="center">
+			<td rowspan="3">Title</td>
+			<td rowspan="3">No.</td>
+			<td rowspan="3">ICD-10<br/>Code</td>
+			<td rowspan="3">Registered<br/>at the<br/>of the year</td>
+			<td colspan="5">Registered</td>
+			<td colspan="4">De-registered</td>
+			<td colspan="4">Patients at the end of the year</td>
+		</tr>
+		<tr align="center">
+			<td rowspan="2">Total</td>
+			<td rowspan="2">including<br/>diagnosed<br/>by PHC<br/>staff</td>
+			<td colspan="3">including:<br/>
+			<td rowspan="2">Total:<br/>
+			<td colspan="3">including:<br/>
+			<td rowspan="2">Total:<br/>
+			<td colspan="3">including:<br/>
+		</tr>
+		<tr align="center">
+			<td>0-14</td>
+			<td>15-17</td>
+			<td>18-19</td>
+			<td>0-14</td>
+			<td>15-17</td>
+			<td>18-19</td>
+			<td>0-14</td>
+			<td>15-17</td>
+			<td>18-19</td>
+		</tr>
+		<tr align="center">
+			<td>A</td>
+			<td>&nbsp;</td>
+			<td>B</td>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+			<td>4</td>
+			<td>5</td>
+			<td>6</td>
+			<td>7</td>
+			<td>8</td>
+			<td>9</td>
+			<td>10</td>
+			<td>11</td>
+			<td>12</td>
+			<td>13</td>
+			<td>14</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><b>TB cases - total</b></td>
+			<td>01</td>
+			<td>A15-19</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><b>Including<br/></b>Respiratory TB</td>
+			<td>02</td>
+			<td>A15-16</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td>- pulmonary</td>
+			<td>03</td>
+			<td>A15.0<br/>A15.1-15.3<br/>A16.0-16.2</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td>- - SS+</td>
+			<td>04</td>
+			<td>A15.0-15.1<br/>A15.5-15.9</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td>- - in degradation phase</td>
+			<td>05</td>
+			<td>A15.0<br/>A15.1-15.3<br/>A16.0-16.2</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align=left><b>Nervous System</b></td>
+			<td>06</td>
+			<td>A17</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align=left><b>Other Organs</b></td>
+			<td>07</td>
+			<td>A18</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align=left><b>Miliary</b></td>
+			<td>09</td>
+			<td>A19</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		</table>
+		<br/><br/>
+		
 		<center><h5><spring:message code="mdrtb.form8.table6.title"/></h5></center>
 		<table border="1" cellpadding="1" cellspacing="1" style="width: 100%;">
 			<tbody>

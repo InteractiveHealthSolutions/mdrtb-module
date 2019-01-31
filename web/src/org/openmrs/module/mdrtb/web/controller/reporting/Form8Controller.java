@@ -5,20 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.openmrs.Cohort;
 import org.openmrs.Concept;
-import org.openmrs.Form;
 import org.openmrs.Location;
-import org.openmrs.Obs;
 import org.openmrs.Patient;
-import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
-import org.openmrs.module.mdrtb.MdrtbConstants;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
@@ -29,15 +22,8 @@ import org.openmrs.module.mdrtb.reporting.Form8Table2Data;
 import org.openmrs.module.mdrtb.reporting.Form8Table3Data;
 import org.openmrs.module.mdrtb.reporting.Form8Table4Data;
 import org.openmrs.module.mdrtb.reporting.Form8Table5aData;
-import org.openmrs.module.mdrtb.reporting.PDFHelper;
-import org.openmrs.module.mdrtb.reporting.ReportUtil;
-import org.openmrs.module.mdrtb.reporting.TB07Util;
 import org.openmrs.module.mdrtb.reporting.TB08Data;
-import org.openmrs.module.mdrtb.reporting.data.Cohorts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
-import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.propertyeditor.ConceptEditor;
 import org.openmrs.propertyeditor.LocationEditor;
@@ -179,10 +165,10 @@ public class Form8Controller {
     	Concept extrapulmonaryConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.EXTRA_PULMONARY_TB);
     	Concept positiveConcept =  Context.getService(MdrtbService.class).getConcept(TbConcepts.POSITIVE);
     	Concept negativeConcept =  Context.getService(MdrtbService.class).getConcept(TbConcepts.NEGATIVE);
-    	Concept contact = Context.getService(MdrtbService.class).getConcept(TbConcepts.CONTACT);
-    	Concept migrant = Context.getService(MdrtbService.class).getConcept(TbConcepts.MIGRANT);
-    	Concept phcWorker = Context.getService(MdrtbService.class).getConcept(TbConcepts.PHC_WORKER);
-    	Concept tbServices = Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_SERVICES_WORKER);
+    	//Concept contact = Context.getService(MdrtbService.class).getConcept(TbConcepts.CONTACT);
+    	//Concept migrant = Context.getService(MdrtbService.class).getConcept(TbConcepts.MIGRANT);
+    	//Concept phcWorker = Context.getService(MdrtbService.class).getConcept(TbConcepts.PHC_WORKER);
+    	//Concept privateSectorFacility = Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_SERVICES_WORKER);
     	
     	String gender = null;
     	
@@ -218,26 +204,72 @@ public class Form8Controller {
     	int ruralId = ruralConcept.getConceptId().intValue();
     	Concept locationType = null;
     	
+    	/*Boolean bacEx = null;
+    	Boolean phc = null;
+    	*/
+    	Boolean miliary = null;
+    	Boolean focal = null;
+    	Boolean infiltrative = null;
+    	Boolean disseminated = null;
+    	Boolean cavernous = null;
+    	Boolean fibroCav = null;
+    	Boolean cirrhotic = null;
+    	Boolean tbComplex = null;
+    	Boolean tuberculoma = null;
+    	Boolean bronchi = null;
+    	
     	Boolean plevritis = null;
     	Boolean itLymph = null;
-    	Boolean bacEx = null;
-    	Boolean fibroCav = null;
     	Boolean cns = null;
     	Boolean osteoArticular = null;
     	Boolean urogenital = null;
     	Boolean peripheralLymphNodes = null;
     	Boolean abdominal = null;
     	Boolean eye = null;
-    	Boolean miliary = null;
+    	Boolean liver = null;
+    	Boolean skin = null;
+    	
     	Boolean resistant = null;
     	Boolean hivPositive = null;
     	
+    	Boolean phcFacility = null;
+    	Boolean tbFacility = null;
+    	Boolean privateSectorFacility = null;
+    	Boolean otherFacility = null;
+    	Boolean phcWorker = null;
+    	Boolean tbServicesWorker = null;
+    	Boolean contact = null;
+    	Boolean migrant = null;
+    	
+    	
+    	
+    	//PULMONARY
+    	Concept fibroCavConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.FIBROUS_CAVERNOUS);
+    	int fibroCavId = fibroCavConcept.getConceptId().intValue();
+    	Concept miliaryConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.MILIARY);
+    	int miliaryId = miliaryConcept.getConceptId().intValue();
+    	Concept focalConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.FOCAL);
+    	int focalId = focalConcept.getConceptId().intValue();
+    	Concept infiltrativeConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.INFILTRATIVE);
+    	int infiltrativeId = infiltrativeConcept.getConceptId().intValue();
+    	Concept disseminatedConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.DISSEMINATED);
+    	int disseminatedId = disseminatedConcept.getConceptId().intValue();
+    	Concept cavernousConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.CAVERNOUS);
+    	int cavernousId = cavernousConcept.getConceptId().intValue();
+    	Concept cirrhoticConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.CIRRHOTIC);
+    	int cirrhoticId = cirrhoticConcept.getConceptId().intValue();
+    	Concept primaryComplexConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_PRIMARY_COMPLEX);
+    	int primaryComplexId = primaryComplexConcept.getConceptId().intValue();
+    	Concept tuberculomaConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.TUBERCULOMA);
+    	int tuberculomaId = tuberculomaConcept.getConceptId().intValue();
+    	Concept bronchiConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.BRONCHUS);
+    	int bronchiId = bronchiConcept.getConceptId().intValue();
+    	
+    	//EP TB
     	Concept plevConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PLEVRITIS);
     	int plevId = plevConcept.getConceptId().intValue();
     	Concept itLymphConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OF_LYMPH_NODES);
     	int itLymphId = itLymphConcept.getConceptId().intValue();
-    	Concept fibroCavConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.FIBROUS_CAVERNOUS);
-    	int fibroCavId = fibroCavConcept.getConceptId().intValue();
     	Concept cnsConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.CNSDL);
     	int cnsId = cnsConcept.getConceptId().intValue();
     	Concept osteoArticularConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OSTEOARTICULAR);
@@ -250,8 +282,32 @@ public class Form8Controller {
     	int abdominalId = abdominalConcept.getConceptId().intValue();
     	Concept eyeConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OCULAR);
     	int eyeId = eyeConcept.getConceptId().intValue();
-    	Concept miliaryConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OCULAR);
-    	int miliaryId = miliaryConcept.getConceptId().intValue();
+    	Concept skinConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.TUBERCULODERMA);
+    	int skinId = skinConcept.getConceptId().intValue();
+    	Concept liverConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OF_LIVER);
+    	int liverId = liverConcept.getConceptId().intValue();
+    	
+    	//Other
+    	Concept phcFacilityConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PHC_FACILITY);
+    	int phcFacilityId = phcFacilityConcept.getConceptId().intValue();
+    	Concept tbFacilityConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_FACILITY);
+    	int tbFacilityId = tbFacilityConcept.getConceptId().intValue();
+    	Concept privateSectorFacilityConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PRIVATE_SECTOR_FACILITY);
+    	int privateSectorFacilityId = privateSectorFacilityConcept.getConceptId().intValue();
+    	Concept otherFacilityConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OTHER_MEDICAL_FACILITY);
+    	int otherFacilityId = otherFacilityConcept.getConceptId().intValue();
+    	
+    
+    	Concept phcWorkerConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PHC_WORKER);
+    	int phcWorkerId = phcWorkerConcept.getConceptId().intValue();
+    	Concept tbWorkerConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_SERVICES_WORKER);
+    	int tbWorkerId = tbWorkerConcept.getConceptId().intValue();
+    	Concept contactConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.CONTACT_INVESTIGATION);
+    	int contactId = contactConcept.getConceptId().intValue();
+    	Concept migrantConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.MIGRANT);
+    	int migrantId = migrantConcept.getConceptId().intValue();
+    	Concept yesConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.YES);
+    	int yesId = yesConcept.getConceptId().intValue();
     	
     	Concept pulSite = null;
     	Concept epulSite = null;
@@ -264,6 +320,12 @@ public class Form8Controller {
     	
     	int noResId = Context.getService(MdrtbService.class).getConcept(TbConcepts.NONE).getConceptId().intValue();
     	int unknownId = Context.getService(MdrtbService.class).getConcept(TbConcepts.UNKNOWN).getConceptId().intValue();
+    	
+    	Boolean pregnant = null;
+    	Concept detectedAt = null;
+    	Concept circOf = null;
+    	Concept prof = null;
+    	
     	//table1
     	for(TB03Form tf: tb03List) {
     		ageAtRegistration = -1;
@@ -277,7 +339,7 @@ public class Form8Controller {
     		locationType = null;
     		 plevritis = null;
         	 itLymph = null;
-        	 bacEx = null;
+        	 
         	 fibroCav = null;
         	 cns = null;
         	 osteoArticular = null;
@@ -290,6 +352,39 @@ public class Form8Controller {
         	 hivPositive = null;
         	 pulSite = null;
         	 epulSite = null;
+        	 
+        	 phcFacility = null;
+        	 phcWorker = null;
+        	 tbFacility = null;
+        	 tbServicesWorker = null;
+        	 migrant = null;
+        	 contact = null;
+        	 otherFacility = null;
+        	 privateSectorFacility = null;
+        	 focal = null;
+        	 infiltrative = null;
+        	 disseminated = null;
+        	 cavernous = null;
+        	 cirrhotic = null;
+        	 tbComplex = null;
+        	 tuberculoma = null;
+        	 bronchi = null;
+        	 skin = null;
+        	 liver = null;
+        	 
+        	  phcFacility = null;
+         	 tbFacility = null;
+         	 privateSectorFacility = null;
+         	 otherFacility = null;
+         	 phcWorker = null;
+         	 tbServicesWorker = null;
+         	 contact = null;
+         	 migrant = null;
+        	 pregnant = null;
+        	 
+        	 detectedAt = null;
+        	 circOf = null;
+        	 prof = null;
     		
     		if(tf.getPatient()==null || tf.getPatient().isVoided())
     			continue;
@@ -352,6 +447,38 @@ public class Form8Controller {
      			  if(pulSite!=null && pulSite.getConceptId().intValue() == miliaryId) {
     				   miliary = Boolean.TRUE;
     			   }
+     			  
+     			 if(pulSite!=null && pulSite.getConceptId().intValue() == focalId) {
+  				   focal = Boolean.TRUE;
+     			 }
+     			 
+     			 if(pulSite!=null && pulSite.getConceptId().intValue() == infiltrativeId) {
+    				   infiltrative = Boolean.TRUE;
+       			 }
+     			 
+     			 if(pulSite!=null && pulSite.getConceptId().intValue() == disseminatedId) {
+    				   disseminated = Boolean.TRUE;
+       			 }
+     			 
+     			 if(pulSite!=null && pulSite.getConceptId().intValue() == cavernousId) {
+    				   cavernous = Boolean.TRUE;
+       			 }
+     			 
+     			 if(pulSite!=null && pulSite.getConceptId().intValue() == cirrhoticId) {
+    				   cirrhotic = Boolean.TRUE;
+       			 }
+     			 
+     			 if(pulSite!=null && pulSite.getConceptId().intValue() == primaryComplexId) {
+    				   tbComplex = Boolean.TRUE;
+       			 }
+     			 
+     			 if(pulSite!=null && pulSite.getConceptId().intValue() == tuberculomaId) {
+    				   tuberculoma = Boolean.TRUE;
+       			 }
+     			 
+     			 if(pulSite!=null && pulSite.getConceptId().intValue() == bronchiId) {
+    				   bronchi = Boolean.TRUE;
+       			 }
      		   }
    	    	
      		   else if (q.getConceptId().intValue()==extrapulmonaryConcept.getConceptId().intValue()) {
@@ -391,6 +518,14 @@ public class Form8Controller {
      				 else if(epulSite.getConceptId().intValue() == itLymphId) {
      					 itLymph = Boolean.TRUE;
      				  }
+     				   
+     				 else if(epulSite.getConceptId().intValue() == liverId) {
+     					 liver = Boolean.TRUE;
+     				  }
+     				   
+     				 else if(epulSite.getConceptId().intValue() == skinId) {
+     					 skin = Boolean.TRUE;
+     				  }
 
      			   }
 
@@ -402,9 +537,9 @@ public class Form8Controller {
    	    		}
      	   	}
      	   
-     	   if(pulmonary!=null && !pulmonary) {
+     	  /* if(pulmonary!=null && !pulmonary) {
      		   Concept epLoc = f89.getEpLocation();
-     	   }
+     	   }*/
      	   
      	   bacPositive = MdrtbUtil.isDiagnosticBacPositive(tf);
      	   
@@ -452,22 +587,96 @@ public class Form8Controller {
      		  resistant = null;
      	  }
      	  
+     	  detectedAt = f89.getPlaceOfDetection();
+     	  if(detectedAt!=null) {
+     		  int detId = detectedAt.getConceptId().intValue();
+     		  
+     		  if(detId==phcFacilityId) {
+     			  phcFacility = Boolean.TRUE;
+     			  
+     		  }
+     		  
+     		  else if(detId==tbFacilityId) {
+     			  tbFacility = Boolean.TRUE;
+
+     		  }
+     		  
+     		  else if(detId==privateSectorFacilityId)
+     			  privateSectorFacility = Boolean.TRUE;
+     		  
+     		  else if(detId==otherFacilityId) 
+     			  otherFacility = true;
+
+     		  }
+     	  
+     	  circOf = f89.getCircumstancesOfDetection();
+     	  if(circOf != null) {
+     		  int circId = circOf.getConceptId().intValue();
+     		  
+     		  if(circId == contactId) {
+     			  contact = Boolean.TRUE;
+     		  }
+     		  
+     		  else if(circId==migrantId) {
+     			  migrant = true;
+     		  }
+     	  }
+     	  
+     	  prof = f89.getProfession();
+     	  
+     	  if(prof!=null) {
+     		  int profId = prof.getConceptId().intValue();
+     		  
+     		  if(profId==phcWorkerId)
+     			  phcWorker = Boolean.TRUE;
+     		  
+     		  else if(profId==tbWorkerId)
+     			  tbServicesWorker = Boolean.TRUE;
+     	  }
+     	  
+     	  if(f89.getPregnant()!=null) {
+     		  if(f89.getPregnant().getConceptId().intValue()==yesId) {
+     			  pregnant = Boolean.TRUE;
+     		  }
+     	  }
+     	  
+     	  
+     	  
      	  if(male!=null && male) {
      		   table1.setActiveTBTotalMale(table1.getActiveTBTotalMale() + 1);
      		   
+     		   if(phcFacility!=null && phcFacility) {
+     			   table2.setActivePHCTotal(table2.getActivePHCTotal() + 1);
+     		   }
+     		   
      		  if((pulmonary!=null && pulmonary) || (plevritis!=null && plevritis) || (itLymph!=null && itLymph) ) {
 				   table1.setRespiratoryTBTotalMale(table1.getRespiratoryTBTotalMale() + 1); 
+				   
+				   if(phcFacility!=null && phcFacility) {
+	     			   table2.setRespiratoryPHCTotal(table2.getRespiratoryPHCTotal() + 1);
+	     		   }
 			   }
 			   
 			   if(pulmonary!=null && pulmonary) {
 				   table1.setPulmonaryTBTotalMale(table1.getPulmonaryTBTotalMale() + 1);
+				   if(phcFacility!=null && phcFacility) {
+	     			   table2.setPulmonaryPHCTotal(table2.getPulmonaryPHCTotal() + 1);
+	     		   }
 				        				   
 				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
 					   table1.setBacExTBTotalMale(table1.getBacExTBTotalMale());
+					   
+					   if(phcFacility!=null && phcFacility) {
+		     			   table2.setBacExPHCTotal(table2.getBacExPHCTotal() + 1);
+		     		   }
 				   }
 				   
 				  if(miliary!=null && miliary) {
     				  table1.setMiliaryTBTotalMale(table1.getMiliaryTBTotalMale() + 1);
+    				  
+    				  if(phcFacility!=null && phcFacility) {
+    	     			   table2.setMiliaryPHCTotal(table2.getMiliaryPHCTotal() + 1);
+    	     		   }
     			   }
 			   }
 			   
@@ -477,30 +686,49 @@ public class Form8Controller {
 			  
 			   else if(cns!=null && cns) {
 				  table1.setNervousSystemTBTotalMale(table1.getNervousSystemTBTotalMale() + 1);
+				  
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setNervousSystemPHCTotal(table2.getNervousSystemPHCTotal() + 1);
+	     		   }
 			   }
 			  
 			   else if(osteoArticular!=null && osteoArticular) {
 				  table1.setOtherOrgansTBTotalMale(table1.getOtherOrgansTBTotalMale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setOsteoarticularTBTotalMale(table1.getOsteoarticularTBTotalMale() + 1);
 			   }
 			   
 			   else if(urogenital!=null && urogenital) {
 				  table1.setOtherOrgansTBTotalMale(table1.getOtherOrgansTBTotalMale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setUrogenitalTBTotalMale(table1.getUrogenitalTBTotalMale() + 1);
 			   }
 			   
 			   else if(peripheralLymphNodes!=null && peripheralLymphNodes) {
 				  table1.setOtherOrgansTBTotalMale(table1.getOtherOrgansTBTotalMale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setLymphNodesTBTotalMale(table1.getLymphNodesTBTotalMale() + 1);
 			   }
 			   
 			  else if(abdominal!=null && abdominal) {
 				  table1.setOtherOrgansTBTotalMale(table1.getOtherOrgansTBTotalMale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setAbdominalTBTotalMale(table1.getAbdominalTBTotalMale() + 1);
 			   }
 			   
 			  else if(eye!=null && eye) {
 				  table1.setOtherOrgansTBTotalMale(table1.getOtherOrgansTBTotalMale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setEyeTBTotalMale(table1.getEyeTBTotalMale() + 1);
 			   }
 			   
@@ -1234,21 +1462,40 @@ public class Form8Controller {
      	   
      	   else if(female!=null && female) {
      		  table1.setActiveTBTotalFemale(table1.getActiveTBTotalFemale() + 1);
-     		  
-     		 if((pulmonary!=null && pulmonary) || (plevritis!=null && plevritis) || (itLymph!=null && itLymph) ) {
+    		   
+    		   if(phcFacility!=null && phcFacility) {
+    			   table2.setActivePHCTotal(table2.getActivePHCTotal() + 1);
+    		   }
+    		   
+    		  if((pulmonary!=null && pulmonary) || (plevritis!=null && plevritis) || (itLymph!=null && itLymph) ) {
 				   table1.setRespiratoryTBTotalFemale(table1.getRespiratoryTBTotalFemale() + 1); 
+				   
+				   if(phcFacility!=null && phcFacility) {
+	     			   table2.setRespiratoryPHCTotal(table2.getRespiratoryPHCTotal() + 1);
+	     		   }
 			   }
 			   
 			   if(pulmonary!=null && pulmonary) {
 				   table1.setPulmonaryTBTotalFemale(table1.getPulmonaryTBTotalFemale() + 1);
+				   if(phcFacility!=null && phcFacility) {
+	     			   table2.setPulmonaryPHCTotal(table2.getPulmonaryPHCTotal() + 1);
+	     		   }
 				        				   
 				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
 					   table1.setBacExTBTotalFemale(table1.getBacExTBTotalFemale());
+					   
+					   if(phcFacility!=null && phcFacility) {
+		     			   table2.setBacExPHCTotal(table2.getBacExPHCTotal() + 1);
+		     		   }
 				   }
 				   
 				  if(miliary!=null && miliary) {
-  				  table1.setMiliaryTBTotalFemale(table1.getMiliaryTBTotalFemale() + 1);
-  			   }
+   				  table1.setMiliaryTBTotalFemale(table1.getMiliaryTBTotalFemale() + 1);
+   				  
+   				  if(phcFacility!=null && phcFacility) {
+   	     			   table2.setMiliaryPHCTotal(table2.getMiliaryPHCTotal() + 1);
+   	     		   }
+   			   }
 			   }
 			   
 			   if(fibroCav!=null && fibroCav) {
@@ -1257,30 +1504,49 @@ public class Form8Controller {
 			  
 			   else if(cns!=null && cns) {
 				  table1.setNervousSystemTBTotalFemale(table1.getNervousSystemTBTotalFemale() + 1);
+				  
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setNervousSystemPHCTotal(table2.getNervousSystemPHCTotal() + 1);
+	     		   }
 			   }
 			  
 			   else if(osteoArticular!=null && osteoArticular) {
 				  table1.setOtherOrgansTBTotalFemale(table1.getOtherOrgansTBTotalFemale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setOsteoarticularTBTotalFemale(table1.getOsteoarticularTBTotalFemale() + 1);
 			   }
 			   
 			   else if(urogenital!=null && urogenital) {
 				  table1.setOtherOrgansTBTotalFemale(table1.getOtherOrgansTBTotalFemale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setUrogenitalTBTotalFemale(table1.getUrogenitalTBTotalFemale() + 1);
 			   }
 			   
 			   else if(peripheralLymphNodes!=null && peripheralLymphNodes) {
 				  table1.setOtherOrgansTBTotalFemale(table1.getOtherOrgansTBTotalFemale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setLymphNodesTBTotalFemale(table1.getLymphNodesTBTotalFemale() + 1);
 			   }
 			   
 			  else if(abdominal!=null && abdominal) {
 				  table1.setOtherOrgansTBTotalFemale(table1.getOtherOrgansTBTotalFemale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setAbdominalTBTotalFemale(table1.getAbdominalTBTotalFemale() + 1);
 			   }
 			   
 			  else if(eye!=null && eye) {
 				  table1.setOtherOrgansTBTotalFemale(table1.getOtherOrgansTBTotalFemale() + 1);
+				  if(phcFacility!=null && phcFacility) {
+	     			   table2.setOtherOrgansPHCTotal(table2.getOtherOrgansPHCTotal() + 1);
+	     		   }
 				  table1.setEyeTBTotalFemale(table1.getEyeTBTotalFemale() + 1);
 			   }
 			   
