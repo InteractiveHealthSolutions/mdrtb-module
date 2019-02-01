@@ -664,7 +664,7 @@ public class Form8Controller {
 	     		   }
 				        				   
 				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-					   table1.setBacExTBTotalMale(table1.getBacExTBTotalMale());
+					   table1.setBacExTBTotalMale(table1.getBacExTBTotalMale() + 1);
 					   
 					   if(phcFacility!=null && phcFacility) {
 		     			   table2.setBacExPHCTotal(table2.getBacExPHCTotal() + 1);
@@ -754,7 +754,7 @@ public class Form8Controller {
      				   table1.setPulmonaryTB04Male(table1.getPulmonaryTB04Male() + 1);
      				        				   
      				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-     					   table1.setBacExTB04Male(table1.getBacExTB04Male());
+     					   table1.setBacExTB04Male(table1.getBacExTB04Male() + 1);
      				   }
      				   
      				  if(miliary!=null && miliary) {
@@ -819,7 +819,7 @@ public class Form8Controller {
     				   table1.setPulmonaryTB0514Male(table1.getPulmonaryTB0514Male() + 1);
     				        				   
     				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-    					   table1.setBacExTB0514Male(table1.getBacExTB0514Male());
+    					   table1.setBacExTB0514Male(table1.getBacExTB0514Male() + 1);
     				   }
     				   
     				  if(miliary!=null && miliary) {
@@ -884,7 +884,7 @@ public class Form8Controller {
     				   table1.setPulmonaryTB1517Male(table1.getPulmonaryTB1517Male() + 1);
     				        				   
     				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-    					   table1.setBacExTB1517Male(table1.getBacExTB1517Male());
+    					   table1.setBacExTB1517Male(table1.getBacExTB1517Male() + 1);
     				   }
     				   
     				  if(miliary!=null && miliary) {
@@ -949,7 +949,7 @@ public class Form8Controller {
   				   table1.setPulmonaryTB1819Male(table1.getPulmonaryTB1819Male() + 1);
   				        				   
   				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-  					   table1.setBacExTB1819Male(table1.getBacExTB1819Male());
+  					   table1.setBacExTB1819Male(table1.getBacExTB1819Male() + 1);
   				   }
   				   
   				  if(miliary!=null && miliary) {
@@ -1014,7 +1014,7 @@ public class Form8Controller {
     				  table1.setPulmonaryTB2024Male(table1.getPulmonaryTB2024Male() + 1);
    				        				   
     				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-   					   	table1.setBacExTB2024Male(table1.getBacExTB2024Male());
+   					   	table1.setBacExTB2024Male(table1.getBacExTB2024Male() + 1);
    				   }
    				   
    				 	 if(miliary!=null && miliary) {
@@ -1079,7 +1079,7 @@ public class Form8Controller {
        				  table1.setPulmonaryTB2534Male(table1.getPulmonaryTB2534Male() + 1);
       				        				   
        				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-      					   	table1.setBacExTB2534Male(table1.getBacExTB2534Male());
+      					   	table1.setBacExTB2534Male(table1.getBacExTB2534Male() + 1);
       				   }
       				   
       				 	 if(miliary!=null && miliary) {
@@ -1144,7 +1144,7 @@ public class Form8Controller {
        				  table1.setPulmonaryTB3544Male(table1.getPulmonaryTB3544Male() + 1);
       				        				   
        				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-      					   	table1.setBacExTB3544Male(table1.getBacExTB3544Male());
+      					   	table1.setBacExTB3544Male(table1.getBacExTB3544Male() + 1);
       				   }
       				   
       				 	 if(miliary!=null && miliary) {
@@ -1209,7 +1209,7 @@ public class Form8Controller {
         				  table1.setPulmonaryTB4554Male(table1.getPulmonaryTB4554Male() + 1);
        				        				   
         				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-       					   	table1.setBacExTB4554Male(table1.getBacExTB4554Male());
+       					   	table1.setBacExTB4554Male(table1.getBacExTB4554Male() + 1);
        				   }
        				   
        				 	 if(miliary!=null && miliary) {
@@ -1274,7 +1274,7 @@ public class Form8Controller {
        				  table1.setPulmonaryTB5564Male(table1.getPulmonaryTB5564Male() + 1);
       				        				   
        				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-      					   	table1.setBacExTB5564Male(table1.getBacExTB5564Male());
+      					   	table1.setBacExTB5564Male(table1.getBacExTB5564Male() + 1);
       				   }
       				   
       				 	 if(miliary!=null && miliary) {
@@ -1339,7 +1339,7 @@ public class Form8Controller {
         				  table1.setPulmonaryTB65Male(table1.getPulmonaryTB65Male() + 1);
        				        				   
         				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-       					   	table1.setBacExTB65Male(table1.getBacExTB65Male());
+       					   	table1.setBacExTB65Male(table1.getBacExTB65Male() + 1);
        				   }
        				   
        				 	 if(miliary!=null && miliary) {
@@ -1404,7 +1404,7 @@ public class Form8Controller {
       				  table1.setPulmonaryTBRuralMale(table1.getPulmonaryTBRuralMale() + 1);
      				        				   
       				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-     					   	table1.setBacExTBRuralMale(table1.getBacExTBRuralMale());
+     					   	table1.setBacExTBRuralMale(table1.getBacExTBRuralMale() + 1);
      				   }
      				   
      				 	 if(miliary!=null && miliary) {
@@ -1482,7 +1482,7 @@ public class Form8Controller {
 	     		   }
 				        				   
 				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-					   table1.setBacExTBTotalFemale(table1.getBacExTBTotalFemale());
+					   table1.setBacExTBTotalFemale(table1.getBacExTBTotalFemale() + 1);
 					   
 					   if(phcFacility!=null && phcFacility) {
 		     			   table2.setBacExPHCTotal(table2.getBacExPHCTotal() + 1);
@@ -1572,7 +1572,7 @@ public class Form8Controller {
     				   table1.setPulmonaryTB04Female(table1.getPulmonaryTB04Female() + 1);
     				        				   
     				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-    					   table1.setBacExTB04Female(table1.getBacExTB04Female());
+    					   table1.setBacExTB04Female(table1.getBacExTB04Female() + 1);
     				   }
     				   
     				  if(miliary!=null && miliary) {
@@ -1637,7 +1637,7 @@ public class Form8Controller {
    				   table1.setPulmonaryTB0514Female(table1.getPulmonaryTB0514Female() + 1);
    				        				   
    				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-   					   table1.setBacExTB0514Female(table1.getBacExTB0514Female());
+   					   table1.setBacExTB0514Female(table1.getBacExTB0514Female() + 1);
    				   }
    				   
    				  if(miliary!=null && miliary) {
@@ -1702,7 +1702,7 @@ public class Form8Controller {
    				   table1.setPulmonaryTB1517Female(table1.getPulmonaryTB1517Female() + 1);
    				        				   
    				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-   					   table1.setBacExTB1517Female(table1.getBacExTB1517Female());
+   					   table1.setBacExTB1517Female(table1.getBacExTB1517Female() + 1);
    				   }
    				   
    				  if(miliary!=null && miliary) {
@@ -1767,7 +1767,7 @@ public class Form8Controller {
  				   table1.setPulmonaryTB1819Female(table1.getPulmonaryTB1819Female() + 1);
  				        				   
  				   if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
- 					   table1.setBacExTB1819Female(table1.getBacExTB1819Female());
+ 					   table1.setBacExTB1819Female(table1.getBacExTB1819Female() + 1);
  				   }
  				   
  				  if(miliary!=null && miliary) {
@@ -1832,7 +1832,7 @@ public class Form8Controller {
    				  table1.setPulmonaryTB2024Female(table1.getPulmonaryTB2024Female() + 1);
   				        				   
    				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-  					   	table1.setBacExTB2024Female(table1.getBacExTB2024Female());
+  					   	table1.setBacExTB2024Female(table1.getBacExTB2024Female() + 1);
   				   }
   				   
   				 	 if(miliary!=null && miliary) {
@@ -1897,7 +1897,7 @@ public class Form8Controller {
       				  table1.setPulmonaryTB2534Female(table1.getPulmonaryTB2534Female() + 1);
      				        				   
       				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-     					   	table1.setBacExTB2534Female(table1.getBacExTB2534Female());
+     					   	table1.setBacExTB2534Female(table1.getBacExTB2534Female() + 1);
      				   }
      				   
      				 	 if(miliary!=null && miliary) {
@@ -1962,7 +1962,7 @@ public class Form8Controller {
       				  table1.setPulmonaryTB3544Female(table1.getPulmonaryTB3544Female() + 1);
      				        				   
       				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-     					   	table1.setBacExTB3544Female(table1.getBacExTB3544Female());
+     					   	table1.setBacExTB3544Female(table1.getBacExTB3544Female() + 1);
      				   }
      				   
      				 	 if(miliary!=null && miliary) {
@@ -2027,7 +2027,7 @@ public class Form8Controller {
        				  table1.setPulmonaryTB4554Female(table1.getPulmonaryTB4554Female() + 1);
       				        				   
        				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-      					   	table1.setBacExTB4554Female(table1.getBacExTB4554Female());
+      					   	table1.setBacExTB4554Female(table1.getBacExTB4554Female() + 1);
       				   }
       				   
       				 	 if(miliary!=null && miliary) {
@@ -2092,7 +2092,7 @@ public class Form8Controller {
       				  table1.setPulmonaryTB5564Female(table1.getPulmonaryTB5564Female() + 1);
      				        				   
       				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-     					   	table1.setBacExTB5564Female(table1.getBacExTB5564Female());
+     					   	table1.setBacExTB5564Female(table1.getBacExTB5564Female() + 1);
      				   }
      				   
      				 	 if(miliary!=null && miliary) {
@@ -2157,7 +2157,7 @@ public class Form8Controller {
        				  table1.setPulmonaryTB65Female(table1.getPulmonaryTB65Female() + 1);
       				        				   
        				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-      					   	table1.setBacExTB65Female(table1.getBacExTB65Female());
+      					   	table1.setBacExTB65Female(table1.getBacExTB65Female() + 1);
       				   }
       				   
       				 	 if(miliary!=null && miliary) {
@@ -2222,7 +2222,7 @@ public class Form8Controller {
      				  table1.setPulmonaryTBRuralFemale(table1.getPulmonaryTBRuralFemale() + 1);
     				        				   
      				  if(MdrtbUtil.isDiagnosticBacPositive(tf)) {
-    					   	table1.setBacExTBRuralFemale(table1.getBacExTBRuralFemale());
+    					   	table1.setBacExTBRuralFemale(table1.getBacExTBRuralFemale() + 1);
     				   }
     				   
     				 	 if(miliary!=null && miliary) {
