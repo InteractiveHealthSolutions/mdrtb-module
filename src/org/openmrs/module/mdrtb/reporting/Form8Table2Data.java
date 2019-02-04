@@ -7,13 +7,22 @@ public class Form8Table2Data {
 	private Integer pulmonaryPHCTotal;
 	private Integer bacExPHCTotal;
 	private Integer decayPhasePHCTotal;
+	private Integer decayPhaseTotal;
+	private Integer decayPhase014;
+	private Integer decayPhase1517;
+	private Integer decayPhase1819;
 	private Integer nervousSystemPHCTotal;
 	private Integer otherOrgansPHCTotal;
 	private Integer miliaryPHCTotal;
 	
-	private Integer detectedByTBSpecialistsTotal;
+	private Integer detectedByRoutineCheckups;
+	private Integer detectedBySpecialistsTotal;
 	private Integer detectedByTBDoctors;
 	private Integer detectedByOtherSpecialists;
+	
+	private Integer routine014;
+	private Integer routine1517;
+	private Integer routine1819;
 	
 	private Integer focalTotal;
 	private Integer infiltrativeTotal;
@@ -43,7 +52,10 @@ public class Form8Table2Data {
 	private Integer phcWorkers;
 	private Integer tbServiceWorkers;
 	
-	
+	private Integer relapseCount;
+	private Integer failCount;
+	private Integer ltfuCount;
+	private Integer otherCount;
 	
 	
 	public Form8Table2Data() {
@@ -52,13 +64,22 @@ public class Form8Table2Data {
 		  pulmonaryPHCTotal = 0;
 		  bacExPHCTotal = 0;
 		  decayPhasePHCTotal = 0;
+		  decayPhaseTotal = 0;
+		  decayPhase014 = 0;
+		  decayPhase1517 = 0;
+		  decayPhase1819 = 0;
 		  nervousSystemPHCTotal = 0;
 		  otherOrgansPHCTotal = 0;
 		  miliaryPHCTotal = 0;
 		
-		  detectedByTBSpecialistsTotal = 0;
+		  detectedByRoutineCheckups = 0;
+		  detectedBySpecialistsTotal = 0;
 		  detectedByTBDoctors = 0;
 		  detectedByOtherSpecialists = 0;
+		  
+		  routine014 = 0;
+		  routine1517 = 0;
+		  routine1819 = 0;
 		
 		  focalTotal = 0;
 		  infiltrativeTotal = 0;
@@ -87,6 +108,11 @@ public class Form8Table2Data {
 		  migrants = 0;
 		  phcWorkers = 0;
 		  tbServiceWorkers = 0;
+		  
+		  relapseCount = 0;
+		  failCount = 0;
+		  ltfuCount = 0;
+		  otherCount = 0;
 	}
 	
 	public Integer getActivePHCTotal() {
@@ -119,6 +145,38 @@ public class Form8Table2Data {
 	public void setDecayPhasePHCTotal(Integer decayPhasePHCTotal) {
 		this.decayPhasePHCTotal = decayPhasePHCTotal;
 	}
+	public Integer getDecayPhaseTotal() {
+		return decayPhaseTotal;
+	}
+
+	public void setDecayPhaseTotal(Integer decayPhaseTotal) {
+		this.decayPhaseTotal = decayPhaseTotal;
+	}
+
+	public Integer getDecayPhase014() {
+		return decayPhase014;
+	}
+
+	public void setDecayPhase014(Integer decayPhase014) {
+		this.decayPhase014 = decayPhase014;
+	}
+
+	public Integer getDecayPhase1517() {
+		return decayPhase1517;
+	}
+
+	public void setDecayPhase1517(Integer decayPhase1517) {
+		this.decayPhase1517 = decayPhase1517;
+	}
+
+	public Integer getDecayPhase1819() {
+		return decayPhase1819;
+	}
+
+	public void setDecayPhase1819(Integer decayPhase1819) {
+		this.decayPhase1819 = decayPhase1819;
+	}
+
 	public Integer getNervousSystemPHCTotal() {
 		return nervousSystemPHCTotal;
 	}
@@ -137,11 +195,19 @@ public class Form8Table2Data {
 	public void setMiliaryPHCTotal(Integer miliaryPHCTotal) {
 		this.miliaryPHCTotal = miliaryPHCTotal;
 	}
-	public Integer getDetectedByTBSpecialistsTotal() {
-		return detectedByTBSpecialistsTotal;
+	public Integer getDetectedByRoutineCheckups() {
+		return detectedByRoutineCheckups;
 	}
-	public void setDetectedByTBSpecialistsTotal(Integer detectedByTBSpecialistsTotal) {
-		this.detectedByTBSpecialistsTotal = detectedByTBSpecialistsTotal;
+
+	public void setDetectedByRoutineCheckups(Integer detectedByRoutineCheckups) {
+		this.detectedByRoutineCheckups = detectedByRoutineCheckups;
+	}
+
+	public Integer getDetectedBySpecialistsTotal() {
+		return detectedBySpecialistsTotal;
+	}
+	public void setDetectedBySpecialistsTotal(Integer detectedBySpecialistsTotal) {
+		this.detectedBySpecialistsTotal = detectedBySpecialistsTotal;
 	}
 	public Integer getDetectedByTBDoctors() {
 		return detectedByTBDoctors;
@@ -155,6 +221,31 @@ public class Form8Table2Data {
 	public void setDetectedByOtherSpecialists(Integer detectedByOtherSpecialists) {
 		this.detectedByOtherSpecialists = detectedByOtherSpecialists;
 	}
+	
+	public Integer getRoutine014() {
+		return routine014;
+	}
+
+	public void setRoutine014(Integer routine014) {
+		this.routine014 = routine014;
+	}
+
+	public Integer getRoutine1517() {
+		return routine1517;
+	}
+
+	public void setRoutine1517(Integer routine1517) {
+		this.routine1517 = routine1517;
+	}
+
+	public Integer getRoutine1819() {
+		return routine1819;
+	}
+
+	public void setRoutine1819(Integer routine1819) {
+		this.routine1819 = routine1819;
+	}
+
 	public Integer getFocalTotal() {
 		return focalTotal;
 	}
@@ -310,6 +401,38 @@ public class Form8Table2Data {
 	}
 	public void setTbServiceWorkers(Integer tbServiceWorkers) {
 		this.tbServiceWorkers = tbServiceWorkers;
+	}
+
+	public Integer getRelapseCount() {
+		return relapseCount;
+	}
+
+	public void setRelapseCount(Integer relapseCount) {
+		this.relapseCount = relapseCount;
+	}
+
+	public Integer getFailCount() {
+		return failCount;
+	}
+
+	public void setFailCount(Integer failCount) {
+		this.failCount = failCount;
+	}
+
+	public Integer getLtfuCount() {
+		return ltfuCount;
+	}
+
+	public void setLtfuCount(Integer ltfuCount) {
+		this.ltfuCount = ltfuCount;
+	}
+
+	public Integer getOtherCount() {
+		return otherCount;
+	}
+
+	public void setOtherCount(Integer otherCount) {
+		this.otherCount = otherCount;
 	}
 	
 	

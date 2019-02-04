@@ -6,7 +6,7 @@ public class Form8Table5aData {
 	private Integer respBacOther;
 	
 	private Integer respBacNewVillager;
-	private Integer respBacNewOther;
+	private Integer respBacOtherVillager;
 	
 	public Form8Table5aData() {
 		
@@ -14,7 +14,7 @@ public class Form8Table5aData {
 		respBacOther = 0;
 		
 		respBacNewVillager = 0;
-		respBacNewOther = 0;
+		respBacOtherVillager = 0;
 		
 	}
 	
@@ -36,11 +36,11 @@ public class Form8Table5aData {
 	public void setRespBacNewVillager(Integer respBacNewVillager) {
 		this.respBacNewVillager = respBacNewVillager;
 	}
-	public Integer getRespBacNewOther() {
-		return respBacNewOther;
+	public Integer getRespBacOtherVillager() {
+		return respBacOtherVillager;
 	}
-	public void setRespBacNewOther(Integer respBacNewOther) {
-		this.respBacNewOther = respBacNewOther;
+	public void setRespBacOtherVillager(Integer respBacOtherVillager) {
+		this.respBacOtherVillager = respBacOtherVillager;
 	}
 	
 	

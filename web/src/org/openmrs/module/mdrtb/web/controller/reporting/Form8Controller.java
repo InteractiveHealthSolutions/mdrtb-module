@@ -187,6 +187,8 @@ public class Form8Controller {
     	Boolean male = null;
     	Boolean female = null;
     	
+    	Boolean hospitalised = null;
+    	
     	
     	Form8Table1Data table1 = new Form8Table1Data();
     	Form8Table2Data table2 = new Form8Table2Data();
@@ -241,6 +243,7 @@ public class Form8Controller {
     	Boolean contact = null;
     	Boolean migrant = null;
     	
+    	Boolean decay = null;
     	
     	
     	//PULMONARY
@@ -308,6 +311,8 @@ public class Form8Controller {
     	int migrantId = migrantConcept.getConceptId().intValue();
     	Concept yesConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.YES);
     	int yesId = yesConcept.getConceptId().intValue();
+    	Concept hospConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.HOSPITALIZED);
+    	int hospId = hospConcept.getConceptId().intValue();
     	
     	Concept pulSite = null;
     	Concept epulSite = null;
@@ -315,8 +320,10 @@ public class Form8Controller {
     	
     	
     	
+    	
     	int age = 0;
     	int resId = 0;
+    	
     	
     	int noResId = Context.getService(MdrtbService.class).getConcept(TbConcepts.NONE).getConceptId().intValue();
     	int unknownId = Context.getService(MdrtbService.class).getConcept(TbConcepts.UNKNOWN).getConceptId().intValue();
@@ -372,10 +379,11 @@ public class Form8Controller {
         	 skin = null;
         	 liver = null;
         	 
-        	  phcFacility = null;
+        	 phcFacility = null;
          	 tbFacility = null;
          	 privateSectorFacility = null;
          	 otherFacility = null;
+         	 
          	 phcWorker = null;
          	 tbServicesWorker = null;
          	 contact = null;
@@ -385,14 +393,56 @@ public class Form8Controller {
         	 detectedAt = null;
         	 circOf = null;
         	 prof = null;
+        	 
+        	 decay = null;
+        	 
+        	 hospitalised = null;
     		
     		if(tf.getPatient()==null || tf.getPatient().isVoided())
     			continue;
     		
     		regGroup = tf.getRegistrationGroup();
     		
-    		if(regGroup==null || regGroup.getConceptId().intValue()!=Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId")))
+    		if(regGroup==null || regGroup.getConceptId().intValue()!=Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
+    			
+    			if(regGroup!=null && 
+    					((regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.afterRelapse1.conceptId"))) || 
+    					(regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.afterRelapse2.conceptId")))
+    					)) {
+    					
+    					table2.setRelapseCount(table2.getRelapseCount() + 1);
+    					table3.setGroup2To1(table3.getGroup2To1() + 1);
+    					table3.setRelapse(table3.getRelapse() + 1);
+    			}
+    			
+    			else if(regGroup!=null && 
+    					((regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.afterFailure1.conceptId"))) || 
+    					(regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.afterFailure2.conceptId")))
+    					)) {
+    				
+    					table2.setFailCount(table2.getFailCount() + 1);
+    					table3.setGroup2To1(table3.getGroup2To1() + 1);
+    			}
+    			
+    			else if(regGroup!=null && 
+    					((regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.afterDefault1.conceptId"))) || 
+    					(regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.afterDefault2.conceptId")))
+    					)) {
+    				
+    					table2.setLtfuCount(table2.getLtfuCount() + 1);
+    					table3.setGroup2To1(table3.getGroup2To1() + 1);
+    			}
+    			
+    			else {
+					table2.setOtherCount(table2.getOtherCount() + 1);
+					table3.setGroup2To1(table3.getGroup2To1() + 1);
+    			}
+    			
+    			
     			continue;
+    		
+    			
+    		}
     		
     		ArrayList<Form89> fList = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tf.getPatient(), null, tf.getPatProgId(), null, null, null);
     		
@@ -442,42 +492,52 @@ public class Form8Controller {
      			   pulSite = f89.getPulSite();
      			   if(pulSite!=null && pulSite.getConceptId().intValue() == fibroCavId) {
      				   fibroCav = Boolean.TRUE;
+     				   table2.setFibrousTotal(table2.getFibrousTotal() + 1);
      			   }
      			   
      			  if(pulSite!=null && pulSite.getConceptId().intValue() == miliaryId) {
     				   miliary = Boolean.TRUE;
+    				   table2.setMiliaryTotal(table2.getMiliaryTotal() + 1);
     			   }
      			  
      			 if(pulSite!=null && pulSite.getConceptId().intValue() == focalId) {
-  				   focal = Boolean.TRUE;
+     				 focal = Boolean.TRUE;
+     				 table2.setFocalTotal(table2.getFocalTotal() + 1);
      			 }
      			 
      			 if(pulSite!=null && pulSite.getConceptId().intValue() == infiltrativeId) {
     				   infiltrative = Boolean.TRUE;
+    				   table2.setInfiltrativeTotal(table2.getInfiltrativeTotal() + 1);
        			 }
      			 
      			 if(pulSite!=null && pulSite.getConceptId().intValue() == disseminatedId) {
     				   disseminated = Boolean.TRUE;
+    				   table2.setDisseminatedTotal(table2.getDisseminatedTotal() + 1);
        			 }
      			 
      			 if(pulSite!=null && pulSite.getConceptId().intValue() == cavernousId) {
     				   cavernous = Boolean.TRUE;
+    				   table2.setCavernousTotal(table2.getCavernousTotal() + 1);
        			 }
      			 
      			 if(pulSite!=null && pulSite.getConceptId().intValue() == cirrhoticId) {
     				   cirrhotic = Boolean.TRUE;
+    				   table2.setCirrhoticTotal(table2.getCirrhoticTotal() + 1);
        			 }
      			 
      			 if(pulSite!=null && pulSite.getConceptId().intValue() == primaryComplexId) {
     				   tbComplex = Boolean.TRUE;
+    				   table2.setTbComplexTotal(table2.getTbComplexTotal() + 1);
        			 }
      			 
      			 if(pulSite!=null && pulSite.getConceptId().intValue() == tuberculomaId) {
     				   tuberculoma = Boolean.TRUE;
+    				   table2.setTuberculomaTotal(table2.getTuberculomaTotal() + 1);
        			 }
      			 
      			 if(pulSite!=null && pulSite.getConceptId().intValue() == bronchiId) {
     				   bronchi = Boolean.TRUE;
+    				   table2.setBronchiTotal(table2.getBronchiTotal() + 1);
        			 }
      		   }
    	    	
@@ -489,42 +549,52 @@ public class Form8Controller {
      			   if(epulSite!=null) {
      				   if(epulSite.getConceptId().intValue() == cnsId) {
      					   cns = Boolean.TRUE;
+     					   table2.setNervousSystemTotal(table2.getNervousSystemTotal() + 1);
      				   }
      				   
      				   else if(epulSite.getConceptId().intValue() == osteoArticularId) {
      					   osteoArticular = Boolean.TRUE;
+     					   table2.setOsteoarticularTotal(table2.getOsteoarticularTotal() + 1);
      				   }
      				   
      				   else if(epulSite.getConceptId().intValue() == urogenitalId) {
     					   urogenital = Boolean.TRUE;
+    					   table2.setUrogenitalTotal(table2.getUrogenitalTotal() + 1);
     				   }
      				   
      				  else if(epulSite.getConceptId().intValue() == peripheralLymphNodesId) {
      					  peripheralLymphNodes = Boolean.TRUE;
+     					  table2.setPeripheralLymphNodesTotal(table2.getPeripheralLymphNodesTotal() + 1);
      				  }
      				   
      				  else if(epulSite.getConceptId().intValue() == abdominalId) {
      					 abdominal = Boolean.TRUE;
+     					 table2.setAbdominalTotal(table2.getAbdominalTotal() + 1);
      				  }
      				   
      				  else if(epulSite.getConceptId().intValue() == eyeId) {
      					 eye = Boolean.TRUE;
+     					 table2.setEyeTotal(table2.getEyeTotal() + 1);
      				  }
      				   
      				 else if(epulSite.getConceptId().intValue() == plevId) {
      					 plevritis = Boolean.TRUE;
+     					 table2.setPleurisyTotal(table2.getPleurisyTotal() + 1);
      				  }
      				   
      				 else if(epulSite.getConceptId().intValue() == itLymphId) {
      					 itLymph = Boolean.TRUE;
+     					 table2.setHilarLymphNodesTotal(table2.getHilarLymphNodesTotal() + 1);
      				  }
      				   
      				 else if(epulSite.getConceptId().intValue() == liverId) {
      					 liver = Boolean.TRUE;
+     					 table2.setLiverTotal(table2.getLiverTotal() + 1);
      				  }
      				   
      				 else if(epulSite.getConceptId().intValue() == skinId) {
      					 skin = Boolean.TRUE;
+     					 table2.setSkinTotal(table2.getSkinTotal() + 1);
      				  }
 
      			   }
@@ -591,23 +661,43 @@ public class Form8Controller {
      	  if(detectedAt!=null) {
      		  int detId = detectedAt.getConceptId().intValue();
      		  
+     		  table2.setDetectedByRoutineCheckups(table2.getDetectedByRoutineCheckups() + 1);
+     		  
+     		  if(age>=0 && age < 15) {
+     			  table2.setRoutine014(table2.getRoutine014() + 1);
+     		  }
+     		  
+     		  else  if(age>=15 && age < 18) {
+     			  table2.setRoutine1517(table2.getRoutine1517() + 1);
+     		  }
+     		  
+     		 else  if(age>=18 && age < 20) {
+    			  table2.setRoutine1819(table2.getRoutine1819() + 1);
+    		  }
+     		  
      		  if(detId==phcFacilityId) {
+     			  table2.setDetectedBySpecialistsTotal(table2.getDetectedBySpecialistsTotal() + 1);
      			  phcFacility = Boolean.TRUE;
      			  
      		  }
      		  
      		  else if(detId==tbFacilityId) {
+     			  table2.setDetectedBySpecialistsTotal(table2.getDetectedByTBDoctors() + 1);
      			  tbFacility = Boolean.TRUE;
 
      		  }
      		  
-     		  else if(detId==privateSectorFacilityId)
+     		  else if(detId==privateSectorFacilityId) {
+     			  table2.setDetectedBySpecialistsTotal(table2.getDetectedBySpecialistsTotal() + 1);
      			  privateSectorFacility = Boolean.TRUE;
-     		  
-     		  else if(detId==otherFacilityId) 
-     			  otherFacility = true;
-
      		  }
+     		  
+     		  else if(detId==otherFacilityId) {
+     			 table2.setDetectedByOtherSpecialists(table2.getDetectedByOtherSpecialists() + 1);
+     			  otherFacility = Boolean.TRUE;
+     		  }
+
+     	  }
      	  
      	  circOf = f89.getCircumstancesOfDetection();
      	  if(circOf != null) {
@@ -615,10 +705,12 @@ public class Form8Controller {
      		  
      		  if(circId == contactId) {
      			  contact = Boolean.TRUE;
+     			  table2.setContact(table2.getContact() + 1);
      		  }
      		  
      		  else if(circId==migrantId) {
-     			  migrant = true;
+     			  migrant = Boolean.TRUE;
+     			  table2.setMigrants(table2.getMigrants() + 1);
      		  }
      	  }
      	  
@@ -627,11 +719,15 @@ public class Form8Controller {
      	  if(prof!=null) {
      		  int profId = prof.getConceptId().intValue();
      		  
-     		  if(profId==phcWorkerId)
+     		  if(profId==phcWorkerId) {
      			  phcWorker = Boolean.TRUE;
+     			  table2.setPhcWorkers(table2.getPhcWorkers() + 1);
+     		  }
      		  
-     		  else if(profId==tbWorkerId)
+     		  else if(profId==tbWorkerId) {
      			  tbServicesWorker = Boolean.TRUE;
+     			  table2.setTbServiceWorkers(table2.getTbServiceWorkers() + 1);
+     		  }
      	  }
      	  
      	  if(f89.getPregnant()!=null) {
@@ -640,7 +736,133 @@ public class Form8Controller {
      		  }
      	  }
      	  
+     	  //decay
+     	  if(f89.getPresenceOfDecay()!=null) {
+     		  if(f89.getPresenceOfDecay().getConceptId().intValue()==yesId) {
+     			  
+     			  table2.setDecayPhaseTotal(table2.getDecayPhaseTotal() + 1 );
+     			  
+     			  if(phcFacility!=null && phcFacility) {
+     				 table2.setDecayPhasePHCTotal(table2.getDecayPhasePHCTotal() + 1 );
+     			  }
+     			  
+     			  if(age>=0 && age < 15) {
+     				 table2.setDecayPhase014(table2.getDecayPhase014() + 1 );
+     			  }
+     			  
+     			  else if(age>=15 && age < 18) {
+      				 table2.setDecayPhase1517(table2.getDecayPhase1517() + 1 );
+      			  }
+     			  
+     			 else if(age>=18 && age < 20) {
+      				 table2.setDecayPhase1819(table2.getDecayPhase1819() + 1 );
+      			  }
+     			  
+     			  
+     		  }
+     	  }
      	  
+     	  if((tf.getTreatmentSiteIP()!=null && tf.getTreatmentSiteIP().getConceptId().intValue()==hospId) ||  (tf.getTreatmentSiteCP()!=null && tf.getTreatmentSiteCP().getConceptId().intValue()==hospId)) {
+     		  hospitalised = Boolean.TRUE;
+     		 
+     		  table4.setHospitalised(table4.getHospitalised() + 1);
+     		  table4.setInHospital(table4.getInHospital() + 1);
+     		  
+     		  if(age>=0 && age < 15) {
+     			  table4.setHospitalised014(table4.getHospitalised014() + 1);
+        		  table4.setInHospital(table4.getInHospital() + 1);
+     		  }
+     		  
+     		  else if(age>=15 && age < 18) {
+    			  table4.setHospitalised1517(table4.getHospitalised1517() + 1);
+    			  table4.setInHospital(table4.getInHospital() + 1);
+    		  }
+     		  
+     		 else if(age>=18 && age < 19) {
+     			 table4.setHospitalised1819(table4.getHospitalised1819() + 1);
+     			 table4.setInHospital(table4.getInHospital() + 1);
+     		 }
+     		  
+     		  if(regGroup!=null && regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
+     			  
+     			 if(age>=0 && age < 15) {
+	     			  table4.setFirstNew014(table4.getFirstNew014() + 1);
+	        		 
+	     		  }
+	     		  
+	     		  else if(age>=15 && age < 18) {
+	    			  table4.setFirstNew1517(table4.getFirstNew1517() + 1);
+	    			  
+	    		  }
+	     		  
+	     		 else if(age>=18 && age < 19) {
+	     			 table4.setFirstNew1819(table4.getFirstNew1819() + 1);
+	     			 
+	     		 }
+     			  
+     			  if(bacPositive) {
+     				 if(age>=0 && age < 15) {
+     	     			  table4.setNewBac014(table4.getNewBac014() + 1);
+     	        		 
+     	     		  }
+     	     		  
+     	     		  else if(age>=15 && age < 18) {
+     	    			  table4.setNewBac1517(table4.getNewBac1517() + 1);
+     	    			  
+     	    		  }
+     	     		  
+     	     		 else if(age>=18 && age < 19) {
+     	     			 table4.setNewBac1819(table4.getNewBac1819() + 1);
+     	     			 
+     	     		 }
+     			  }
+     			  
+     			  else {
+     				 if(age>=0 && age < 15) {
+    	     			  table4.setNewOther014(table4.getNewOther014() + 1);
+    	        		 
+    	     		  }
+    	     		  
+    	     		  else if(age>=15 && age < 18) {
+    	    			  table4.setNewOther1517(table4.getNewOther1517() + 1);
+    	    			  
+    	    		  }
+    	     		  
+    	     		 else if(age>=18 && age < 19) {
+    	     			 table4.setNewOther1819(table4.getNewOther1819() + 1);
+    	     			 
+    	     		 }
+     			  }
+     		  }
+     		  
+     		 
+     		  
+     	  }
+     	 
+     	  
+     	  if(bacPositive!=null && bacPositive && pulmonary!=null && pulmonary) {
+     		  
+     		  if(regGroup!=null && regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
+     			  table5a.setRespBacNew(table5a.getRespBacNew() + 1);
+     			  
+     			  if(rural != null && rural) {
+     				 table5a.setRespBacNewVillager(table5a.getRespBacNewVillager() + 1);
+     			  }
+     		  }
+     		  
+     		  else if(regGroup!=null) {
+     			  table5a.setRespBacOther(table5a.getRespBacOther() + 1);
+    			  
+    			  if(rural != null && rural) {
+    				 table5a.setRespBacOtherVillager(table5a.getRespBacOtherVillager() + 1);
+    			  }
+     		  }
+     	  }
+     		 
+     		 
+     	 
+     	  
+     	 
      	  
      	  if(male!=null && male) {
      		   table1.setActiveTBTotalMale(table1.getActiveTBTotalMale() + 1);
@@ -1461,6 +1683,16 @@ public class Form8Controller {
      	   
      	   
      	   else if(female!=null && female) {
+     		   
+     		   if(age >=15 && age <=49) {
+     			   table2.setChildbearing(table2.getChildbearing() + 1);
+     			   
+     			   if(pregnant!=null && pregnant) {
+     				   table2.setPregnant(table2.getPregnant() + 1);
+     			   }
+     			   
+     		   }
+     		   
      		  table1.setActiveTBTotalFemale(table1.getActiveTBTotalFemale() + 1);
     		   
     		   if(phcFacility!=null && phcFacility) {

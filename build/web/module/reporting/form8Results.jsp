@@ -180,20 +180,20 @@ response.setDateHeader ("Expires", -1);
 		</script>
 		
 		<div id="form8" style="font-size:smaller; width:980px;">
-		<style>
+		<!-- <style>
 			th {vertical-align:top; text-align:center;}
 			th, td {font-size:smaller;border: 1px solid #000000}
 			border {border: 1px solid #000000}
 
-		</style>
+		</style> -->
 		
 		
-			<table width="100%" border="0">
-			<!-- <tr>
+			<!-- <table width="100%" border="0">
+			<tr>
 				<td align="left" width="90%" style="font-size:14px; font-weight:bold;border:0px">&nbsp;   
 				</td>
 				<td align="right" width="10%" style="font-size:14px; font-weight:bold;border:0px">Form8</td>
-			</tr> -->
+			</tr>
 			<tr><td style="font-size:14px; font-weight:bold;border:0px">&nbsp;</td><td style="font-size:14px; font-weight:bold;border:0px">&nbsp;</td></tr>
 			<tr>
 				
@@ -201,7 +201,7 @@ response.setDateHeader ("Expires", -1);
 						<spring:message code="mdrtb.form8.title"/>
 				</td>
 				<td width="10%" align="right" style="font-size:14px; font-weight:bold;border:0px;" valign="top" border="0">&nbsp;</td>
-			</tr></table>
+			</tr></table> -->
 			<br/><br/>
 		<%-- <table border="1" width="100%">
 		<tr>
@@ -217,7 +217,71 @@ response.setDateHeader ("Expires", -1);
 		</td>
 		</tr>
 		</table>	 --%>
+		
+		<h3 align="center"><spring:message code="mdrtb.form8.main"/></h3>
+		
+		<table border = "1" cellspacing="0" cellpadding="0" style="width: 100%;" >
+		<tr>
+			<td colspan="8" align="center"><spring:message code="mdrtb.form8.main.codes"/></td>
+		</tr>
+		<tr>
+			<td align="center"><spring:message code="mdrtb.form8.main.column1"/></td>
+			<td align="center"><spring:message code="mdrtb.form8.main.column2"/></td>
+			<td align="center"><spring:message code="mdrtb.form8.main.column3"/></td>
+			<td align="center"><spring:message code="mdrtb.form8.main.column4"/></td>
+			<td align="center"><spring:message code="mdrtb.form8.main.column5"/></td>
+			<td align="center"><spring:message code="mdrtb.form8.main.column6"/></td>
+			<td align="center"><spring:message code="mdrtb.form8.main.column7"/></td>
+			<td align="center"><spring:message code="mdrtb.form8.main.column8"/></td>
+		</tr>
+		<tr>
+			<td align="center">1</td>
+			<td align="center">2</td>
+			<td align="center">3</td>
+			<td align="center">4</td>
+			<td align="center">5</td>
+			<td align="center">6</td>
+			<td align="center">7</td>
+			<td align="center">8</td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		</table>
+		<br/></br>
+		<table style="width: 100%; border: 0px" >
+		<tr>
+			<td>&nbsp;</td>
+			<td align="right"><b><spring:message code="mdrtb.form8.title"/></b></td>
+		<tr>
+		<tr>
+			<td style="width: 50%">&nbsp;</td>
+			<td style="width: 50%"><spring:message code="mdrtb.form8.main.statCommittee"/><br/>
+				<spring:message code="mdrtb.form8.main.repTajikistan"/><br/><br/>
+				<center><b><spring:message code="mdrtb.form8.main.postageAnnual"/></b></center><br/><br/>
+				<spring:message code="mdrtb.form8.main.legal"/></td>
+		</tr>
+		
+		</table>
 		<br/><br/>	
+		
+		<spring:message code="mdrtb.oblast"/> <u>${oName }</u>____ <spring:message code="mdrtb.district"/> <u>${dName }</u>____  <spring:message code="mdrtb.form8.main.city"/> ____________________<br/>
+		<spring:message code="mdrtb.facility"/> <u>${fname }</u>________
+		<spring:message code="mdrtb.form8.main.institutionAddress"/> ____________________________________________________________________________________________________<br/>
+		<spring:message code="mdrtb.form8.main.ownership"/><br/>
+		
+		<br/><br/>	
+		<h4 align="center"><spring:message code="mdrtb.form8.main.sub"/></h4>
+		<h4 align="center"><spring:message code="mdrtb.form8.main.forTheYear" arguments="${year }"/></h4>
+		
+		
 		<h5 align="center"><spring:message code="mdrtb.form8.table1.title"/></h5>		
 		
 		<table  border="1" cellpadding="1" cellspacing="1" style="width: 100%;">
@@ -810,37 +874,42 @@ response.setDateHeader ("Expires", -1);
 		</table>	
 		<br/><br/>
 		
-		<h5 align="center">2.	Patient population</h5>
+		<h5 align="center"><spring:message code="mdrtb.form8.table2.title"/></h5>
 		
 		<table width="100%" border="1">
 		<tr align="center">
-			<td rowspan="3">Title</td>
-			<td rowspan="3">No.</td>
-			<td rowspan="3">ICD-10<br/>Code</td>
-			<td rowspan="3">Registered<br/>at the<br/>of the year</td>
-			<td colspan="5">Registered</td>
-			<td colspan="4">De-registered</td>
-			<td colspan="4">Patients at the end of the year</td>
+			<td rowspan="3"><spring:message code="mdrtb.form8.item"/></td>
+			<td rowspan="3"><spring:message code="mdrtb.form8.number"/></td>
+			<td rowspan="3"><spring:message code="mdrtb.form8.icd"/></td>
+			<td colspan="4"><spring:message code="mdrtb.form8.patientsRegistered"/></td>
+			<td colspan="5"><spring:message code="mdrtb.form8.patientsOnRecord"/></td>
+			<td colspan="4"><spring:message code="mdrtb.form8.patientsDeregistered"/></td>
+			<td colspan="4"><spring:message code="mdrtb.form8.patientsAtEndOfYear"/></td>
 		</tr>
 		<tr align="center">
-			<td rowspan="2">Total</td>
-			<td rowspan="2">including<br/>diagnosed<br/>by PHC<br/>staff</td>
-			<td colspan="3">including:<br/>
-			<td rowspan="2">Total:<br/>
-			<td colspan="3">including:<br/>
-			<td rowspan="2">Total:<br/>
-			<td colspan="3">including:<br/>
+			<td rowspan="2"><spring:message code="mdrtb.form8.total"/>:<br/>
+			<td colspan="3"><spring:message code="mdrtb.form8.including"/>:<br/>
+			<td rowspan="2"><spring:message code="mdrtb.form8.total"/></td>
+			<td rowspan="2"><spring:message code="mdrtb.form8.includingPHCDiagnosed"/>:<br/>
+			<td colspan="3"><spring:message code="mdrtb.form8.including"/>:<br/>
+			<td rowspan="2"><spring:message code="mdrtb.form8.total"/>:<br/>
+			<td colspan="3"><spring:message code="mdrtb.form8.including"/>:<br/>
+			<td rowspan="2"><spring:message code="mdrtb.form8.total"/>:<br/>
+			<td colspan="3"><spring:message code="mdrtb.form8.including"/>:<br/>
 		</tr>
 		<tr align="center">
-			<td>0-14</td>
-			<td>15-17</td>
-			<td>18-19</td>
-			<td>0-14</td>
-			<td>15-17</td>
-			<td>18-19</td>
-			<td>0-14</td>
-			<td>15-17</td>
-			<td>18-19</td>
+			<td>0-14 <spring:message code="mdrtb.form8.years"/></td>
+			<td>15-17 <spring:message code="mdrtb.form8.years"/></td>
+			<td>18-19 <spring:message code="mdrtb.form8.years"/></td>
+			<td>0-14 <spring:message code="mdrtb.form8.years"/></td>
+			<td>15-17 <spring:message code="mdrtb.form8.years"/></td>
+			<td>18-19 <spring:message code="mdrtb.form8.years"/></td>
+			<td>0-14 <spring:message code="mdrtb.form8.years"/></td>
+			<td>15-17 <spring:message code="mdrtb.form8.years"/></td>
+			<td>18-19 <spring:message code="mdrtb.form8.years"/></td>
+			<td>0-14 <spring:message code="mdrtb.form8.years"/></td>
+			<td>15-17 <spring:message code="mdrtb.form8.years"/></td>
+			<td>18-19 <spring:message code="mdrtb.form8.years"/></td>
 		</tr>
 		<tr align="center">
 			<td>A</td>
@@ -860,17 +929,23 @@ response.setDateHeader ("Expires", -1);
 			<td>12</td>
 			<td>13</td>
 			<td>14</td>
+			<td>15</td>
+			<td>16</td>
+			<td>17</td>
 		</tr>
 		<tr align="center">
-			<td align="left"><b>TB cases - total</b></td>
+			<td align="left"><b><spring:message code="mdrtb.form8.activeTotal"/></b></td>
 			<td>01</td>
 			<td>A15-19</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>${table1.activeTBTotalMale + table1.activeTBTotalFemale }</td>
+			<td>${table2.activePHCTotal }</td>
+			<td>${table1.activeTB04Male + table1.activeTB04Female + table1.activeTB0514Male + table1.activeTB0514Female}</td>
+			<td>${table1.activeTB1517Male + table1.activeTB1517Female}</td>
+			<td>${table1.activeTB1819Male + table1.activeTB1819Female}</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -881,16 +956,18 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td align="left"><b>Including<br/></b>Respiratory TB</td>
+			<td align="left"><spring:message code="mdrtb.form8.includingRespiratory"/></td>
 			<td>02</td>
 			<td>A15-16</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>${table1.respiratoryTBTotalMale + table1.respiratoryTBTotalFemale }</td>
+			<td>${table2.respiratoryPHCTotal }</td>
+			<td>${table1.respiratoryTB04Male + table1.respiratoryTB04Female + table1.respiratoryTB0514Male + table1.respiratoryTB0514Female}</td>
+			<td>${table1.respiratoryTB1517Male + table1.respiratoryTB1517Female}</td>
+			<td>${table1.respiratoryTB1819Male + table1.respiratoryTB1819Female}</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -900,15 +977,18 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td>- pulmonary</td>
+			<td><spring:message code="mdrtb.form8.pulmonary"/></td>
 			<td>03</td>
 			<td>A15.0<br/>A15.1-15.3<br/>A16.0-16.2</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>${table1.pulmonaryTBTotalMale + table1.pulmonaryTBTotalFemale }</td>
+			<td>${table2.pulmonaryPHCTotal }</td>
+			<td>${table1.pulmonaryTB04Male + table1.pulmonaryTB04Female + table1.pulmonaryTB0514Male + table1.pulmonaryTB0514Female}</td>
+			<td>${table1.pulmonaryTB1517Male + table1.pulmonaryTB1517Female}</td>
+			<td>${table1.pulmonaryTB1819Male + table1.pulmonaryTB1819Female}</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -919,15 +999,18 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td>- - SS+</td>
+			<td><spring:message code="mdrtb.form8.withBacterioExcretion"/></td>
 			<td>04</td>
 			<td>A15.0-15.1<br/>A15.5-15.9</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>${table1.bacExTBTotalMale + table1.bacExTBTotalFemale }</td>
+			<td>${table2.bacExPHCTotal }</td>
+			<td>${table1.bacExTB04Male + table1.bacExTB04Female + table1.bacExTB0514Male + table1.bacExTB0514Female}</td>
+			<td>${table1.bacExTB1517Male + table1.bacExTB1517Female}</td>
+			<td>${table1.bacExTB1819Male + table1.bacExTB1819Female}</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -938,15 +1021,18 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td>- - in degradation phase</td>
+			<td><spring:message code="mdrtb.form8.inDecayPhase"/></td>
 			<td>05</td>
 			<td>A15.0<br/>A15.1-15.3<br/>A16.0-16.2</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>${table2.decayPhaseTotal }</td>
+			<td>${table2.decayPhasePHCTotal }</td>
+			<td>${table2.decayPhase014 }</td>
+			<td>${table2.decayPhase1517 }</td>
+			<td>${table2.decayPhase1819 }</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -957,15 +1043,18 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td align=left><b>Nervous System</b></td>
+			<td align=left><b><spring:message code="mdrtb.form8.nervousSystem"/></b></td>
 			<td>06</td>
 			<td>A17</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>${table1.nervousSystemTBTotalMale + table1.nervousSystemTBTotalFemale }</td>
+			<td>${table2.nervousSystemPHCTotal }</td>
+			<td>${table1.nervousSystemTB04Male + table1.nervousSystemTB04Female + table1.nervousSystemTB0514Male + table1.nervousSystemTB0514Female}</td>
+			<td>${table1.nervousSystemTB1517Male + table1.nervousSystemTB1517Female}</td>
+			<td>${table1.nervousSystemTB1819Male + table1.nervousSystemTB1819Female}</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -976,15 +1065,18 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td align=left><b>Other Organs</b></td>
+			<td align=left><b><spring:message code="mdrtb.form8.otherOrgans"/></b></td>
 			<td>07</td>
 			<td>A18</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>${table1.otherOrgansTBTotalMale + table1.otherOrgansTBTotalFemale }</td>
+			<td>${table2.otherOrgansPHCTotal }</td>
+			<td>${table1.otherOrgansTB04Male + table1.otherOrgansTB04Female + table1.otherOrgansTB0514Male + table1.otherOrgansTB0514Female}</td>
+			<td>${table1.otherOrgansTB1517Male + table1.otherOrgansTB1517Female}</td>
+			<td>${table1.otherOrgansTB1819Male + table1.otherOrgansTB1819Female}</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -995,15 +1087,18 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td align=left><b>Miliary</b></td>
+			<td align=left><b><spring:message code="mdrtb.form8.miliary"/></b></td>
 			<td>09</td>
 			<td>A19</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>${table1.miliaryTBTotalMale + table1.miliaryTBTotalFemale }</td>
+			<td>${table2.miliaryPHCTotal }</td>
+			<td>${table1.miliaryTB04Male + table1.miliaryTB04Female + table1.miliaryTB0514Male + table1.miliaryTB0514Female}</td>
+			<td>${table1.miliaryTB1517Male + table1.miliaryTB1517Female}</td>
+			<td>${table1.miliaryTB1819Male + table1.miliaryTB1819Female}</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -1015,7 +1110,345 @@ response.setDateHeader ("Expires", -1);
 		</tr>
 		</table>
 		<br/><br/>
+		<spring:message code="mdrtb.form8.t2f1" arguments="${table2.detectedByRoutineCheckups},${table2.routine014},${table2.routine1517},${table2.routine1819 },${table2.detectedBySpecialistsTotal },${table2.detectedByTBDoctors },${table2.detectedByOtherSpecialists }  "/><br/>
+		<spring:message code="mdrtb.form8.t2f2"/><br/>
+		<spring:message code="mdrtb.form8.t2f3" arguments="${table2.focalTotal },${table2.infiltrativeTotal },${table2.disseminatedTotal },${table2.cavernousTotal },${table2.fibrousTotal },${table2.cirrhoticTotal },${table2.tbComplexTotal },${table2.miliaryTotal },${table2.tuberculomaTotal },${table2.bronchiTotal },${table2.pleurisyTotal },${table2.hilarLymphNodesTotal },${table2.osteoarticularTotal },${table2.urogenitalTotal },${table2.peripheralLymphNodesTotal },${table2.abdominalTotal },${table2.skinTotal },${table2.eyeTotal },${table2.liverTotal }"/><br/>
+		<spring:message code="mdrtb.form8.t2f4" arguments="${table2.childbearing },${table2.pregnant },${table2.contact},${table2.migrants },${table2.phcWorkers },${table2.tbServiceWorkers }"/><br/>
+		<spring:message code="mdrtb.form8.t2f5" arguments="${table2.relapseCount },${table2.failCount },${table2.ltfuCount },${table2.otherCount }"/><br/>
+		<br/><br/>
+		<h5 align="center"><spring:message code="mdrtb.form8.table3.title"/> </h5>
 		
+		<table width="100%" border="1">
+		<tr align="center">
+			<td width="75%"><spring:message code="mdrtb.form8.item"/></td>
+			<td><spring:message code="mdrtb.form8.number"/></td>
+			<td><spring:message code="mdrtb.form8.total"/></td>
+		</tr>
+		<tr align="center">
+			<td>A</td>
+			<td>B</td>
+			<td>1</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.group1To2"/></td>
+			<td>01</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.group2To1"/></td>
+			<td>02</td>
+			<td>${table3.group2To1 }</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.relapses"/></td>
+			<td>03</td>
+			<td>${table3.relapse }</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.translateFrom"/></td>
+			<td>04</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.translateTo"/></td>
+			<td>05</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.nonDiagnosis"/></td>
+			<td>06</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.diedOfTB"/></td>
+			<td>07</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.includingActive"/></td>
+			<td>08</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="mdrtb.form8.fromNew"/></td>
+			<td>09</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.diedInHospital"/> </td>
+			<td>10</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.children017"/></td>
+			<td>11</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"> - <spring:message code="mdrtb.form8.childbearing"/> </td>
+			<td>12</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.patientsNotRegistered"/></td>
+			<td>13</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="mdrtb.form8.tbhivCoinfection"/></td>
+			<td>14</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td align="left"><spring:message code="fromOtherDiseases"/></td>
+			<td>15</td>
+			<td>&nbsp;</td>
+		</tr>
+		
+		</table>
+		<br/><br/>
+		
+		<h5 align="center"><spring:message code="mdrtb.form8.table4.title"/></h5>
+		
+		<table width="100%" border="1">
+			<tr align="center">
+			 <td width="60%"><spring:message code="mdrtb.form8.item"/></td>
+			 <td><spring:message code="mdrtb.form8.number"/></td>
+			 <td><spring:message code="mdrtb.form8.total"/></td>
+			 <td>0-14 <spring:message code="mdrtb.form8.years"/></td>
+			 <td>15-17 <spring:message code="mdrtb.form8.years"/></td>
+			 <td>18-19 <spring:message code="mdrtb.form8.years"/></td>
+			</tr>
+			<tr align="center">
+			 <td width="50%">A</td>
+			 <td>B</td>
+			 <td>1</td>
+			 <td>2</td>
+			 <td>3</td>
+			 <td>4</td>
+			</tr>
+			<tr align="center">
+			 <td width="50%" align="left"><spring:message code="mdrtb.form8.activeHospitalized"/></td>
+			 <td>01</td>
+			 <td>${table4.hospitalised }</td>
+			 <td>${table4.hospitalised014 }</td>
+			 <td>${table4.hospitalised1517 }</td>
+			 <td>${table4.hospitalised1819 }</td>
+			</tr>
+			<tr align="center">
+			 <td width="50%" align="left"><spring:message code="mdrtb.form8.including"/>&nbsp;&nbsp;&nbsp;&nbsp;- <spring:message code="mdrtb.form8.inHospital"/> </td>
+			 <td>02</td>
+			<td>${table4.inHospital }</td>
+			 <td>${table4.inHospital014 }</td>
+			 <td>${table4.inHospital1517 }</td>
+			 <td>${table4.inHospital1819 }</td>
+			</tr>
+			<tr align="center">
+			 <td width="50%" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <spring:message code="mdrtb.form8.inSanatorium"/> </td>
+			 <td>03</td>
+			 <td>&nbsp;</td>
+			 <td>&nbsp;</td>
+			 <td>&nbsp;</td>
+			 <td>&nbsp;</td>
+			</tr>
+			<tr align="center">
+			 <td width="50%" align="left"><spring:message code="mdrtb.form8.firstIdentifiedTotal"/></td>
+			 <td>04</td>
+			<td>${table4.firstNew }</td>
+			 <td>${table4.firstNew014 }</td>
+			 <td>${table4.firstNew1517 }</td>
+			 <td>${table4.firstNew1819 }</td>
+			</tr>
+			<tr align="center">
+			 <td width="50%" align="left"><spring:message code="mdrtb.form8.including"/>&nbsp;&nbsp;&nbsp;&nbsp;- <spring:message code="mdrtb.form8.mtbPositive"/> </td>
+			 <td>05</td>
+			 <td>${table4.newBac }</td>
+			 <td>${table4.newBac014 }</td>
+			 <td>${table4.newBac1517 }</td>
+			 <td>${table4.newBac1819 }</td>
+			</tr>
+			<tr align="center">
+			 <td width="50%" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <spring:message code="mdrtb.form8.others"/> </td>
+			 <td>06</td>
+			 <td>${table4.newOther }</td>
+			 <td>${table4.newOther014 }</td>
+			 <td>${table4.newOther1517 }</td>
+			 <td>${table4.newOther1819 }</td>
+			</tr>
+		</table>
+		<br/><br/>
+		<spring:message code="mdrtb.form8.t4f1"/>
+		<br/><br/>
+		<h5 align="center"><spring:message code="mdrtb.form8.table5.title"/><br/><spring:message code="mdrtb.form8.table5a.title"/></h5>
+		
+		<table width="100%" border="1">
+			<tr align="center">
+				<td rowspan="2"><spring:message code="mdrtb.form8.item"/></td>
+				<td rowspan="2"><spring:message code="mdrtb.form8.number"/></td>
+				<td rowspan="2"><spring:message code="mdrtb.form8.atBeginning"/></td>
+				<td colspan="2"><spring:message code="mdrtb.form8.newlyIdentified"/></td>
+				<td rowspan="2"><spring:message code="mdrtb.form8.transferMtb"/></td>
+				<td rowspan="2"><spring:message code="mdrtb.form8.ceasedMtb"/></td>
+				<td rowspan="2"><spring:message code="mdrtb.form8.outOfArea"/></td>
+				<td rowspan="2"><spring:message code="mdrtb.form8.diedTb"/></td>
+				<td rowspan="2"><spring:message code="mdrtb.form8.atEnd"/></td>
+				
+			</tr>
+			<tr align="center">
+				<td><spring:message code="mdrtb.form8.newActive"/></td>
+				<td><spring:message code="mdrtb.form8.repeated"/></td>
+				
+			 
+			</tr>
+			<tr align="center">
+				
+				<td>A</td>
+				<td><br/>
+			 	<td>1</td>
+			 	<td>2</td>
+			 	<td>3</td>
+			 	<td>4</td>
+			 	<td>5</td>
+			 	<td>6</td>
+			 	<td>7</td>
+			 	<td>8</td>
+			 
+			</tr>
+			<tr align="center">
+				
+				<td><spring:message code="mdrtb.form8.totalBacPositiveRespiratory"/></td>
+				<td>01<br/>
+			 	<td>&nbsp;</td>
+			 	<td>${table5a.respBacNew }</td>
+			 	<td>${table5a.respBacOther }</td>
+			 	<td>&nbsp;</td>
+			 	<td>&nbsp;</td>
+			 	<td>&nbsp;</td>
+			 	<td>&nbsp;</td>
+			 	<td>&nbsp;</td>
+			 
+			</tr>
+			<tr align="center">
+				
+				<td>-<spring:message code="mdrtb.form8.includingVillagers"/></td>
+				<td>02<br/>
+			 	<td>&nbsp;</td>
+			 	<td>${table5a.respBacNewVillager }</td>
+			 	<td>${table5a.respBacOtherVillager }</td>
+			 	<td>&nbsp;</td>
+			 	<td>&nbsp;</td>
+			 	<td>&nbsp;</td>
+			 	<td>&nbsp;</td>
+			 	<td>&nbsp;</td>
+			 
+			</tr>
+		</table>
+		<br/><br/>
+		<h5 align="center"><spring:message code="mdrtb.form8.table5b.title"/></h5>
+		
+		<table width="100%", border="1">
+		<tr align="center">
+		<td rowspan="4"><spring:message code="mdrtb.form8.item"/></td>
+		<td rowspan="4"><spring:message code="mdrtb.form8.number"/></td>
+		<td rowspan="4"><spring:message code="mdrtb.form8.atBeginning"/></td>
+		<td colspan="6"><spring:message code="mdrtb.form8.registered"/></td>
+		<td rowspan="4"><spring:message code="mdrtb.form8.removed"/></td>
+		<td rowspan="4"><spring:message code="mdrtb.form8.atEnd"/></td>
+		
+		
+		
+		</tr>
+		<tr align="center">
+			<td rowspan="3">
+				<spring:message code="mdrtb.form8.total"/>
+			</td>
+			<td rowspan="3">
+				<spring:message code="mdrtb.form8.surveyedThisYear"/>
+			</td>
+			<td rowspan="3">
+				<spring:message code="mdrtb.form8.includingPHC"/>
+			</td>
+			<td colspan="3">
+				<spring:message code="mdrtb.form8.gotChemo"/>
+			</td>
+		</tr>
+		<tr align="center">
+			<td colspan="2"><spring:message code="mdrtb.form8.tb"/></td>
+			<td><spring:message code="mdrtb.form8.hiv"/></td>
+		
+		</tr>
+		<tr align=center>
+			<td><spring:message code="mdrtb.form8.total"/></td>
+			<td><spring:message code="mdrtb.form8.includingInPHC"/></td>
+		</tr>
+		<tr align="center">
+				
+				<td>A</td>
+				<td><br/>
+			 	<td>1</td>
+			 	<td>2</td>
+			 	<td>3</td>
+			 	<td>4</td>
+			 	<td>5</td>
+			 	<td>6</td>
+			 	<td>7</td>
+			 	<td>8</td>
+			 	<td>9</td>
+			</tr>
+			<tr align="center">
+				<td align="left"><spring:message code="mdrtb.form8.numberLiving"/></td>
+				<td>01</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr align="center">
+				<td align="left">&nbsp;&nbsp;&nbsp;<spring:message code="mdrtb.form8.including"/> - 0-14 <spring:message code="mdrtb.form8.years"/><br/></td>
+				<td>02</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr align="center">
+				<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 15-17 <spring:message code="mdrtb.form8.years"/></td>
+				<td>03</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr align="center">
+				<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 18-19 <spring:message code="mdrtb.form8.years"/></td>
+				<td>04</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<br/><br/>
 		<center><h5><spring:message code="mdrtb.form8.table6.title"/></h5></center>
 		<table border="1" cellpadding="1" cellspacing="1" style="width: 100%;">
 			<tbody>
