@@ -12,6 +12,7 @@ import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.District;
 import org.openmrs.module.mdrtb.Facility;
+import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
@@ -327,6 +328,7 @@ public class Form8Controller {
     	
     	int noResId = Context.getService(MdrtbService.class).getConcept(TbConcepts.NONE).getConceptId().intValue();
     	int unknownId = Context.getService(MdrtbService.class).getConcept(TbConcepts.UNKNOWN).getConceptId().intValue();
+    	int monoId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MONO).getConceptId().intValue();
     	
     	Boolean pregnant = null;
     	Concept detectedAt = null;
@@ -398,8 +400,11 @@ public class Form8Controller {
         	 
         	 hospitalised = null;
     		
-    		if(tf.getPatient()==null || tf.getPatient().isVoided())
+    		if(tf.getPatient()==null || tf.getPatient().isVoided()) {
+    			System.out.println("patient void - skipping ENC: " + tf.getEncounter().getEncounterId());
+    			
     			continue;
+    		}
     		
     		regGroup = tf.getRegistrationGroup();
     		
@@ -438,7 +443,7 @@ public class Form8Controller {
 					table3.setGroup2To1(table3.getGroup2To1() + 1);
     			}
     			
-    			
+    			System.out.println("patient not new - skipping " + tf.getPatient().getPatientId());
     			continue;
     		
     			
@@ -446,8 +451,10 @@ public class Form8Controller {
     		
     		ArrayList<Form89> fList = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tf.getPatient(), null, tf.getPatProgId(), null, null, null);
     		
-    		if(fList==null || fList.size()!=1)
+    		if(fList==null || fList.size()!=1) {
+    			System.out.println("no f89 - skipping " + tf.getPatient().getPatientId());
     			continue;
+    		}
     		
     		f89 = fList.get(0);
     		
@@ -602,7 +609,8 @@ public class Form8Controller {
      		   }
      		   
      		   else {
-     			   System.out.println("PULMONARY NULL");
+     			   
+     			   System.out.println("PULMONARY NULL: " + tf.getPatient().getPatientId());
      			   pulmonary = null;
    	    		}
      	   	}
@@ -639,7 +647,7 @@ public class Form8Controller {
      	  if(q!=null) {
      		  resId = q.getConceptId().intValue();
      		  
-     		  if(resId!=noResId && resId!=unknownId) {
+     		  if(resId!=noResId && resId!=unknownId && resId!=monoId) {
      			  resistant = Boolean.TRUE;
      		  }
      		  
@@ -2502,17 +2510,14 @@ public class Form8Controller {
     			   	if(hivPositive!=null && hivPositive) {
     				   table1.setTbhivTBRuralFemale(table1.getTbhivTBRuralFemale() + 1);
     			   	}
-   			  
-    			   
     		   }
      	   }
-     	   
-     	   
-    	
 		}
     	
     	
     	//Table 6
+    	 tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year - 1, quarter, month);
+    	
     	for (TB03Form tf : tb03List) {//for (Integer i : idSet) {
     		
     		ageAtRegistration = -1;
