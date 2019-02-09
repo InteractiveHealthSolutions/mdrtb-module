@@ -1185,12 +1185,12 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td align="left"> - <spring:message code="mdrtb.form8.childbearing"/> </td>
+			<td align="left"> - <spring:message code="mdrtb.womenOfChildbearingAge"/> </td>
 			<td>12</td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td align="left"><spring:message code="mdrtb.form8.patientsNotRegistered"/></td>
+			<td align="left"><spring:message code="mdrtb.form8.notRegistered"/></td>
 			<td>13</td>
 			<td>&nbsp;</td>
 		</tr>
@@ -1200,7 +1200,7 @@ response.setDateHeader ("Expires", -1);
 			<td>&nbsp;</td>
 		</tr>
 		<tr align="center">
-			<td align="left"><spring:message code="fromOtherDiseases"/></td>
+			<td align="left"><spring:message code="mdrtb.form8.fromOtherDiseases"/></td>
 			<td>15</td>
 			<td>&nbsp;</td>
 		</tr>

@@ -2147,6 +2147,31 @@ public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
 		}
 			
 		return forms;
+	
+	}
+	
+	public ArrayList<Form89> getForm89FormsForProgram(Patient p, Integer patientProgId) {
+		
+		ArrayList<Form89> forms = new ArrayList<Form89>();
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		System.out.println("TEMP: " + temp.size());
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				forms.add(new Form89(e));
+			}
+				
+		}
+			
+		return forms;
 		
 		
 	}

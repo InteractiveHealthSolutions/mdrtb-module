@@ -263,6 +263,7 @@ public class DOTSDQController {
     	List<DQItem> noTifAfterTransferOut = new ArrayList<DQItem>();
     	List<DQItem> noTofBeforeTransferIn = new ArrayList<DQItem>();
     	List<DQItem> duplicateTB03 = new ArrayList<DQItem>();
+    	List<DQItem> duplicateForm89 = new ArrayList<DQItem>();
     	List<DQItem> unlinkedTB03 = new ArrayList<DQItem>();
     	
     	Boolean errorFlag = Boolean.FALSE;
@@ -304,6 +305,8 @@ public class DOTSDQController {
     	ArrayList<TransferOutForm> allTofs = null;// Context.getService(MdrtbService.class).getTransferOutFormsFilled(locList, year, quarter, month);
     	ArrayList<TransferInForm> allTifs = null;// Context.getService(MdrtbService.class).getTransferInFormsFilled(locList, year, quarter, month);
     	HashMap<Integer, Integer> dupMap = new HashMap<Integer,Integer>();
+    	HashMap<Integer, Integer> f89DupMap = new HashMap<Integer,Integer>();
+    	
     	for (TB03Form  tf : tb03List) {
     		
     		 //INIT
@@ -364,7 +367,7 @@ public class DOTSDQController {
     	    		if(dupList.size() > 1) {
     	    			for(TB03Form form : dupList) {
     	    				if(form.getPatProgId().intValue()==patProgId.intValue()) {
-    	    					dqi.addLink(form.getLink());
+    	    					dqi.addTb03Link(form.getLink());
     	    					found = Boolean.TRUE;
     	    					System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>FOUND:" + tf.getPatProgId());
     	    				}
@@ -381,10 +384,38 @@ public class DOTSDQController {
     	    
     	    else { //UNLINKED TB03
     	    	String link = "";
-    	    	dqi.addLink(link);
+    	    	dqi.addTb03Link(link);
     	    	unlinkedTB03.add(dqi);
     	    	errorFlag = Boolean.TRUE;
     	    }
+    	    
+    	    //duplicate FORM89
+
+    	    
+    	     found = Boolean.FALSE;
+    	 //   HashMap<Integer,Integer> pp = new HashMap<Integer,Integer>();
+    	    if(patProgId!=null && !f89DupMap.containsKey(patProgId)) {
+    	    	List<Form89> formList = Context.getService(MdrtbService.class).getForm89FormsForProgram(patient, patProgId);
+    	    	System.out.println(patProgId + " formsize: " + formList.size());
+    	    	if(formList!=null) {
+    	    		
+    	    		if(formList.size() > 1) {
+    	    			for(Form89 form : formList) {
+    	    					dqi.addForm89Link(form.getLink());
+    	    					found = Boolean.TRUE;
+    	    				
+    	    			}
+    	    		}
+    	    	}
+    	    	
+    	    	if(found) {
+    	    		f89DupMap.put(patProgId, patProgId);
+    	    		errorFlag = Boolean.TRUE;
+    	    		duplicateForm89.add(dqi);
+    	    	}
+    	    }
+    	    
+    	   
     	    
     	    
     	    
@@ -669,6 +700,7 @@ public class DOTSDQController {
     	model.addAttribute("num", num);
     	model.addAttribute("missingTB03", missingTB03);
     	model.addAttribute("duplicateTB03", duplicateTB03);
+    	model.addAttribute("duplicateForm89", duplicateForm89);
     	model.addAttribute("unlinkedTB03", unlinkedTB03);
     	model.addAttribute("missingForm89", noForm89);
     	model.addAttribute("missingAge", missingAge);

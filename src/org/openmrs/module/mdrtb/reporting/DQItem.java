@@ -10,7 +10,8 @@ public class DQItem {
 	private Patient patient;
 	private String dateOfBirth;
 	private String locName;
-	private ArrayList<String> links;
+	private ArrayList<String> tb03Links;
+	private ArrayList<String> form89Links;
 	
 	public String getLocName() {
 		return locName;
@@ -31,29 +32,30 @@ public class DQItem {
 		this.dateOfBirth = dateOfBirth;
 	}
 	
-	public ArrayList<String> getLinks() {
-		return links;
+	public ArrayList<String> getTb03Links() {
+		return tb03Links;
 	}
-	public void setLinks(ArrayList<String> links) {
-		this.links = links;
-	}
-	
-	public String getLink(int i) {
-		return links.get(i);
+	public void setTb03Links(ArrayList<String> tb03Links) {
+		this.tb03Links = tb03Links;
 	}
 	
-	public void setLink(int i, String lnk) {
-		links.set(i, lnk);
+	public String getTb03Link(int i) {
+		return tb03Links.get(i);
 	}
 	
-	public void addLink(String lnk) {
-		links.add(lnk);
+	public void setTb03Link(int i, String lnk) {
+		tb03Links.set(i, lnk);
+	}
+	
+	public void addTb03Link(String lnk) {
+		tb03Links.add(lnk);
 	}
 	
 	public DQItem() {
 		patient = null;
 		dateOfBirth = null;
-		links = new ArrayList<String>();
+		tb03Links = new ArrayList<String>();
+		form89Links = new ArrayList<String>();
 		
 	}
 	
@@ -71,6 +73,25 @@ public class DQItem {
 		}
 		
 		return null;
+	}
+	
+	public ArrayList<String> getForm89Links() {
+		return form89Links;
+	}
+	public void setForm89Links(ArrayList<String> form89Links) {
+		this.form89Links = form89Links;
+	}
+	
+	public String getForm89Link(int i) {
+		return form89Links.get(i);
+	}
+	
+	public void setForm89Link(int i, String lnk) {
+		form89Links.set(i, lnk);
+	}
+	
+	public void addForm89Link(String lnk) {
+		form89Links.add(lnk);
 	}
 	
 }

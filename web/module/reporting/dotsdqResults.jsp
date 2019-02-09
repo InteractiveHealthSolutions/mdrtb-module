@@ -322,6 +322,32 @@ $(document).ready(function(){
 	    <tr><td colspan="4">&nbsp;</td></tr>
 	    
 	    <tr>
+	   		<th class=normal colspan="4"><spring:message code="mdrtb.dq.duplicateForm89" /></th>
+	  	</tr>
+	  	<tr>
+	     	<td><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td><spring:message code="dotsreports.dq.dob" /></td>
+	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
+	     	<td align="center"><spring:message code="mdrtb.dq.links" /></td>
+	  	</tr>
+	  	<c:forEach var="row" items="${duplicateForm89}">
+	    	<tr>
+	        
+	        	<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td>${row.dateOfBirth}</td>
+	         	<td align="center">${row.gender}</td>
+	         	<td>
+	         	<c:forEach var="link" items="${row.form89Links }">
+	         	    <a href="${pageContext.request.contextPath}${link}" target="_blank"><spring:message code="mdrtb.form89" /> </a>&nbsp;
+	         	</c:forEach>
+	         	</td>
+	    	</tr>  
+	   	</c:forEach>
+	   	
+	   	<tr><td colspan="4">&nbsp;</td></tr>
+	    <tr><td colspan="4">&nbsp;</td></tr>
+	    
+	     <tr>
 	   		<th class=normal colspan="4"><spring:message code="mdrtb.dq.duplicateTB03" /></th>
 	  	</tr>
 	  	<tr>
@@ -337,7 +363,7 @@ $(document).ready(function(){
 	        	<td>${row.dateOfBirth}</td>
 	         	<td align="center">${row.gender}</td>
 	         	<td>
-	         	<c:forEach var="link" items="${row.links }">
+	         	<c:forEach var="link" items="${row.tb03Links }">
 	         	    <a href="${pageContext.request.contextPath}${link}" target="_blank"><spring:message code="mdrtb.tb03" /> </a>&nbsp;
 	         	</c:forEach>
 	         	</td>

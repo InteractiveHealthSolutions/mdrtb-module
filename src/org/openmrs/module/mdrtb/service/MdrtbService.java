@@ -713,6 +713,7 @@ public interface MdrtbService extends OpenmrsService {
 	public List<Oblast> getOblasts(int parentId);
 	
 	public ArrayList<TB03Form> getTB03FormsForProgram(Patient p, Integer patientProgId);
+	public ArrayList<Form89> getForm89FormsForProgram(Patient p, Integer patientProgId);
 	
 	public void evict(Object obj);
 	
