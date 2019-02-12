@@ -7059,6 +7059,7 @@ report += "<br/>";
     		temp = null;
     		p = null;
     		i = 0;
+    		
     		for(Form89 tf : tb03s) {
     			
     			
@@ -7071,7 +7072,7 @@ report += "<br/>";
     			
     			if(tb03!=null) {
     				Integer age = tb03.getAgeAtTB03Registration();
-    			
+    		
     			
     			temp = MdrtbUtil.getObsFromEncounter(groupConcept, tf.getEncounter());
     			if(temp!=null && temp.getValueCoded()!=null && temp.getValueCoded().getId().intValue()==q.getId().intValue()) {
@@ -7109,6 +7110,8 @@ report += "<br/>";
     		temp = null;
     		p = null;
     		i = 0;
+    		
+    		
     		for(Form89 tf : tb03s) {
     			
     			if(tf.getPatient()==null || tf.getPatient().isVoided())
@@ -7195,13 +7198,127 @@ report += "<br/>";
 
 		String report = "";
 
-		Concept groupConcept = ms.getConcept(TbConcepts.PTB_SITE);
+		ArrayList<Form89> focalList = new ArrayList<Form89>();
+		ArrayList<Form89> infilList = new ArrayList<Form89>();
+		ArrayList<Form89> disList = new ArrayList<Form89>();
+		ArrayList<Form89> cavList = new ArrayList<Form89>();
+		ArrayList<Form89> fibCavList = new ArrayList<Form89>();
+		ArrayList<Form89> cirrList = new ArrayList<Form89>();
+		ArrayList<Form89> priCompList = new ArrayList<Form89>();
+		ArrayList<Form89> miliaryList = new ArrayList<Form89>();
+		ArrayList<Form89> tuberculomaList = new ArrayList<Form89>();
+		ArrayList<Form89> bronchiList = new ArrayList<Form89>();
 
-		ArrayList<Form89> tb03s = Context.getService(MdrtbService.class)
+		System.out.println("GETTING FORM89 LIST");
+		
+		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
+		
+		
+		/*
+		ArrayList<Form89> f89 = Context.getService(MdrtbService.class)
 				.getForm89FormsFilled(locList, year, quarter, month);
 		
-		Collections.sort(tb03s);
-
+		if(f89!=null)
+			System.out.println("SIZE: " + f89.size());*/
+		/*System.out.println("SORTING FORM89 LIST");
+		Collections.sort(f89);
+		System.out.println("SORTED FORM89 LIST");*/
+		Concept pulSite = null;
+		
+		//PULMONARY
+    	Concept fibroCavConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.FIBROUS_CAVERNOUS);
+    	int fibroCavId = fibroCavConcept.getConceptId().intValue();
+    	Concept miliaryConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.MILIARY);
+    	int miliaryId = miliaryConcept.getConceptId().intValue();
+    	Concept focalConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.FOCAL);
+    	int focalId = focalConcept.getConceptId().intValue();
+    	Concept infiltrativeConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.INFILTRATIVE);
+    	int infiltrativeId = infiltrativeConcept.getConceptId().intValue();
+    	Concept disseminatedConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.DISSEMINATED);
+    	int disseminatedId = disseminatedConcept.getConceptId().intValue();
+    	Concept cavernousConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.CAVERNOUS);
+    	int cavernousId = cavernousConcept.getConceptId().intValue();
+    	Concept cirrhoticConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.CIRRHOTIC);
+    	int cirrhoticId = cirrhoticConcept.getConceptId().intValue();
+    	Concept primaryComplexConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_PRIMARY_COMPLEX);
+    	int primaryComplexId = primaryComplexConcept.getConceptId().intValue();
+    	Concept tuberculomaConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.TUBERCULOMA);
+    	int tuberculomaId = tuberculomaConcept.getConceptId().intValue();
+    	Concept bronchiConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.BRONCHUS);
+    	int bronchiId = bronchiConcept.getConceptId().intValue();
+		
+    	int pulId = 0;
+    	Form89 f89 = null;
+    	
+    	Collections.sort(tb03List);
+    	
+    	
+    	for(TB03Form tb03 : tb03List) {
+    		
+    		ArrayList<Form89> fList = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tb03.getPatient(), null, tb03.getPatProgId(), null, null, null);
+    		
+    		if(fList==null || fList.size()!=1) {
+    			System.out.println("no f89 - skipping " + tb03.getPatient().getPatientId());
+    			continue;
+    		}
+    		
+    		f89 = fList.get(0);
+    		
+    		
+			pulSite = f89.getPulSite();
+			
+			if(pulSite==null)
+				continue;
+			
+			f89.setTB03(tb03);
+			
+			
+			pulId = pulSite.getConceptId().intValue();
+			
+			if(pulId==focalId) {
+				focalList.add(f89);
+			}
+			
+			else if(pulId==infiltrativeId) {
+				infilList.add(f89);
+			}
+			
+			else if(pulId==disseminatedId) {
+				disList.add(f89);
+			}
+			
+			else if(pulId==cavernousId) {
+				cavList.add(f89);
+			}
+			
+			else if(pulId==fibroCavId) {
+				fibCavList.add(f89);
+			}
+			
+			else if(pulId==cirrhoticId) {
+				cirrList.add(f89);
+			}
+			
+			else if(pulId==primaryComplexId) {
+				priCompList.add(f89);
+			}
+			
+			else if(pulId==miliaryId) {
+				miliaryList.add(f89);
+			}
+			
+			else if(pulId==tuberculomaId) {
+				tuberculomaList.add(f89);
+			}
+			
+			else if(pulId==bronchiId) {
+				bronchiList.add(f89);
+			}
+			
+		}
+    	
+    	
+    	
 		// FOCAL
 		Concept q = ms.getConcept(TbConcepts.FOCAL);
 		report += "<h4>" + q.getName().getName() + "</h4>";
@@ -7215,32 +7332,18 @@ report += "<br/>";
 		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
 		report += openTD() + "" + closeTD();
 		report += closeTR();
-
-		Obs temp = null;
 		Person p = null;
-		int i =0;
-		for (Form89 tf : tb03s) {
+		int i=0;
+		for (Form89 tf : focalList) {
 			
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
-			System.out.println(">>>>" + tf.getPatient().getPatientId());
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7248,13 +7351,12 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + focalList.size();
 		report += "<br/>";
 
 		// INFILTRATIVE
@@ -7271,29 +7373,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
-		i =0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		i=0;
+		for (Form89 tf : infilList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7301,13 +7392,12 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + infilList.size();
 		report += "<br/>";
 
 		// DISSEMINATED
@@ -7324,29 +7414,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
-		i = 0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		i=0;
+		for (Form89 tf : disList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7354,13 +7433,12 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + disList.size();
 		report += "<br/>";
 
 		// CAVERNOUS
@@ -7377,29 +7455,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
 		i=0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		for (Form89 tf : cavList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7407,13 +7474,12 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + cavList.size();
 		report += "<br/>";
 
 		// FIBROUS_CAVERNOUS
@@ -7430,29 +7496,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
 		i=0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		for (Form89 tf : fibCavList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7460,13 +7515,12 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + fibCavList.size();
 		report += "<br/>";
 
 		// CIRRHOTIC
@@ -7483,29 +7537,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
-		i = 0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		i=0;
+		for (Form89 tf : cirrList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7513,13 +7556,12 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + cirrList.size();
 		report += "<br/>";
 
 		// TB_PRIMARY_COMPLEX
@@ -7536,29 +7578,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
 		i=0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		for (Form89 tf : priCompList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7566,13 +7597,12 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + priCompList.size();
 		report += "<br/>";
 
 		// MILIARY
@@ -7589,29 +7619,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
-		i = 0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		i=0;
+		for (Form89 tf : miliaryList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7619,13 +7638,12 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + miliaryList.size();
 		report += "<br/>";
 
 		// TUBERCULOMA
@@ -7642,29 +7660,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
-		i = 0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		i=0;
+		for (Form89 tf : tuberculomaList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7672,15 +7679,14 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+		report += getMessage("mdrtb.numberOfRecords") + ": " + tuberculomaList.size();
 		report += "<br/>";
-
+		
 		// BRONCHUS
 		q = ms.getConcept(TbConcepts.BRONCHUS);
 		report += "<h4>" + q.getName().getName() + "</h4>";
@@ -7695,29 +7701,18 @@ report += "<br/>";
 		report += openTD() + "" + closeTD();
 		report += closeTR();
 
-		temp = null;
 		p = null;
-		i = 0;
-		for (Form89 tf : tb03s) {
-			if(tf.getPatient()==null || tf.getPatient().isVoided())
-				continue;
+		i=0;
+		for (Form89 tf : bronchiList) {
+			
 			TB03Form tb03 = null;
-			tf.initTB03(tf.getPatProgId());
+			//tf.initTB03(tf.getPatProgId());
 			tb03 = tf.getTB03();
 			
 			if(tb03!=null) {
-				Integer age = tb03.getAgeAtTB03Registration();
-			
-			
-			temp = MdrtbUtil.getObsFromEncounter(groupConcept,
-					tf.getEncounter());
-			if (temp != null
-					&& temp.getValueCoded() != null
-					&& temp.getValueCoded().getId().intValue() == q.getId()
-							.intValue()) {
 				i++;
-				p = Context.getPersonService().getPerson(
-						tf.getPatient().getId());
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 				report += openTR();
 				report += openTD() + i + closeTD();
 				report += openTD() + getRegistrationNumber(tb03) + closeTD();
@@ -7725,14 +7720,13 @@ report += "<br/>";
 				report += openTD() + age + closeTD();
 				report += openTD() + getPatientLink(tf) + closeTD();
 				report += closeTR();
-			}
 
 			}
 		}
 
 		report += closeTable();
-		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
-		
+		report += getMessage("mdrtb.numberOfRecords") + ": " + bronchiList.size();
+		report += "<br/>";
 
 		model.addAttribute("report", report);
 		return "/module/mdrtb/reporting/patientListsResults";
@@ -7750,8 +7744,579 @@ report += "<br/>";
 			@RequestParam(value = "quarter", required = false) String quarter,
 			@RequestParam(value = "month", required = false) String month,
 			ModelMap model) throws EvaluationException {
-
+		
 		MdrtbService ms = Context.getService(MdrtbService.class);
+
+		String oName = "";
+		if (oblastId != null) {
+			oName = ms.getOblast(oblastId).getName();
+		}
+
+		String dName = "";
+		if (districtId != null) {
+			dName = ms.getDistrict(districtId).getName();
+		}
+
+		String fName = "";
+		if (facilityId != null) {
+			fName = ms.getFacility(facilityId).getName();
+		}
+
+		model.addAttribute("oblast", oName);
+		model.addAttribute("district", dName);
+		model.addAttribute("facility", fName);
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("quarter", quarter);
+
+		/*ArrayList<Location> locList = Context.getService(MdrtbService.class)
+				.getLocationList(oblastId, districtId, facilityId);*/
+		ArrayList<Location> locList = null;
+		if(oblastId.intValue()==186) {
+			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+		}
+		else {
+			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+		}
+		
+		model.addAttribute("listName", getMessage("mdrtb.byExtraPulmonaryLocation"));
+
+		String report = "";
+
+		ArrayList<Form89> plevlList = new ArrayList<Form89>();
+		ArrayList<Form89> ofLymphList = new ArrayList<Form89>();
+		ArrayList<Form89> osteoList = new ArrayList<Form89>();
+		ArrayList<Form89> uroList = new ArrayList<Form89>();
+		ArrayList<Form89> periLymphList = new ArrayList<Form89>();
+		ArrayList<Form89> abdList = new ArrayList<Form89>();
+		ArrayList<Form89> skinList = new ArrayList<Form89>();
+		ArrayList<Form89> eyeList = new ArrayList<Form89>();
+		ArrayList<Form89> cnsList = new ArrayList<Form89>();
+		ArrayList<Form89> liverList = new ArrayList<Form89>();
+
+		System.out.println("GETTING FORM89 LIST");
+		
+		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
+		
+		
+		/*
+		ArrayList<Form89> f89 = Context.getService(MdrtbService.class)
+				.getForm89FormsFilled(locList, year, quarter, month);
+		
+		if(f89!=null)
+			System.out.println("SIZE: " + f89.size());*/
+		/*System.out.println("SORTING FORM89 LIST");
+		Collections.sort(f89);
+		System.out.println("SORTED FORM89 LIST");*/
+		Concept pulSite = null;
+		
+		//PULMONARY
+    	Concept plevConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PLEVRITIS);
+    	int plevId = plevConcept.getConceptId().intValue();
+    	Concept ofLymphConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OF_LYMPH_NODES);
+    	int ofLymphId = ofLymphConcept.getConceptId().intValue();
+    	Concept osteoConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OSTEOARTICULAR);
+    	int osteoId = osteoConcept.getConceptId().intValue();
+    	Concept uroConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.GENITOURINARY);
+    	int uroId = uroConcept.getConceptId().intValue();
+    	Concept periLymphConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OF_PERIPHERAL_LYMPH_NODES);
+    	int periLymphId = periLymphConcept.getConceptId().intValue();
+    	Concept abdConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.ABDOMINAL);
+    	int abdId = abdConcept.getConceptId().intValue();
+    	Concept skinConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.TUBERCULODERMA);
+    	int skinId = skinConcept.getConceptId().intValue();
+    	Concept eyeConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OCULAR);
+    	int eyeId = eyeConcept.getConceptId().intValue();
+    	Concept cnsConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OF_CNS);
+    	int cnsId = cnsConcept.getConceptId().intValue();
+    	Concept liverConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OF_LIVER);
+    	int liverId = liverConcept.getConceptId().intValue();
+		
+    	int pulId = 0;
+    	Form89 f89 = null;
+    	
+    	Collections.sort(tb03List);
+    	
+    	
+    	for(TB03Form tb03 : tb03List) {
+    		
+    		ArrayList<Form89> fList = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tb03.getPatient(), null, tb03.getPatProgId(), null, null, null);
+    		
+    		if(fList==null || fList.size()!=1) {
+    			System.out.println("no f89 - skipping " + tb03.getPatient().getPatientId());
+    			continue;
+    		}
+    		
+    		f89 = fList.get(0);
+    		
+    		
+			pulSite = f89.getEpLocation();
+			
+			if(pulSite==null)
+				continue;
+			
+			f89.setTB03(tb03);
+			
+			
+			pulId = pulSite.getConceptId().intValue();
+			
+			if(pulId==plevId) {
+				plevlList.add(f89);
+			}
+			
+			else if(pulId==ofLymphId) {
+				ofLymphList.add(f89);
+			}
+			
+			else if(pulId==osteoId) {
+				osteoList.add(f89);
+			}
+			
+			else if(pulId==uroId) {
+				uroList.add(f89);
+			}
+			
+			else if(pulId==periLymphId) {
+				periLymphList.add(f89);
+			}
+			
+			else if(pulId==abdId) {
+				abdList.add(f89);
+			}
+			
+			else if(pulId==skinId) {
+				skinList.add(f89);
+			}
+			
+			else if(pulId==eyeId) {
+				eyeList.add(f89);
+			}
+			
+			else if(pulId==cnsId) {
+				cnsList.add(f89);
+			}
+			
+			else if(pulId==liverId) {
+				liverList.add(f89);
+			}
+			
+		}
+    	
+    	
+    	
+		// FOCAL
+		Concept q = ms.getConcept(TbConcepts.PLEVRITIS);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+		Person p = null;
+		int i=0;
+		for (Form89 tf : plevlList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + plevlList.size();
+		report += "<br/>";
+
+		// INFILTRATIVE
+		q = ms.getConcept(TbConcepts.OF_LYMPH_NODES);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : ofLymphList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + ofLymphList.size();
+		report += "<br/>";
+
+		// DISSEMINATED
+		q = ms.getConcept(TbConcepts.OSTEOARTICULAR);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : osteoList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + osteoList.size();
+		report += "<br/>";
+
+		// CAVERNOUS
+		q = ms.getConcept(TbConcepts.GENITOURINARY);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : uroList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + uroList.size();
+		report += "<br/>";
+
+		// FIBROUS_CAVERNOUS
+		q = ms.getConcept(TbConcepts.OF_PERIPHERAL_LYMPH_NODES);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : periLymphList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + periLymphList.size();
+		report += "<br/>";
+
+		// CIRRHOTIC
+		q = ms.getConcept(TbConcepts.ABDOMINAL);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : abdList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + abdList.size();
+		report += "<br/>";
+
+		// TB_PRIMARY_COMPLEX
+		q = ms.getConcept(TbConcepts.TUBERCULODERMA);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : skinList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + skinList.size();
+		report += "<br/>";
+
+		// MILIARY
+		q = ms.getConcept(TbConcepts.OCULAR);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : eyeList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + eyeList.size();
+		report += "<br/>";
+
+		// TUBERCULOMA
+		q = ms.getConcept(TbConcepts.OF_CNS);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : cnsList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + cnsList.size();
+		report += "<br/>";
+		
+		// BRONCHUS
+		q = ms.getConcept(TbConcepts.OF_LIVER);
+		report += "<h4>" + q.getName().getName() + "</h4>";
+		report += openTable();
+		report += openTR();
+		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.registrationNumber")
+				+ closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD(); report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+		report += openTD() + "" + closeTD();
+		report += closeTR();
+
+		p = null;
+		i=0;
+		for (Form89 tf : liverList) {
+			
+			TB03Form tb03 = null;
+			//tf.initTB03(tf.getPatProgId());
+			tb03 = tf.getTB03();
+			
+			if(tb03!=null) {
+				i++;
+				Integer age = tb03.getAgeAtTB03Registration();
+				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+				report += openTR();
+				report += openTD() + i + closeTD();
+				report += openTD() + getRegistrationNumber(tb03) + closeTD();
+				report += renderPerson(p, true);
+				report += openTD() + age + closeTD();
+				report += openTD() + getPatientLink(tf) + closeTD();
+				report += closeTR();
+
+			}
+		}
+
+		report += closeTable();
+		report += getMessage("mdrtb.numberOfRecords") + ": " + liverList.size();
+		report += "<br/>";
+
+		model.addAttribute("report", report);
+		return "/module/mdrtb/reporting/patientListsResults";
+
+		/*MdrtbService ms = Context.getService(MdrtbService.class);
 
 		String oName = "";
 		if (oblastId != null) {
@@ -7777,8 +8342,8 @@ report += "<br/>";
 		model.addAttribute("month", month);
 		model.addAttribute("quarter", quarter);
 
-		/*ArrayList<Location> locList = Context.getService(MdrtbService.class)
-				.getLocationList(oblastId, districtId, facilityId);*/
+		ArrayList<Location> locList = Context.getService(MdrtbService.class)
+				.getLocationList(oblastId, districtId, facilityId);
 		ArrayList<Location> locList = null;
 		if(oblastId.intValue()==186) {
 			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
@@ -7797,13 +8362,13 @@ report += "<br/>";
 		
 		Collections.sort(tb03s);
 		
-		/*
+		
 		 * Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter,
 		 * month);
 		 * 
 		 * Date startDate = (Date)(dateMap.get("startDate")); Date endDate =
 		 * (Date)(dateMap.get("endDate"));
-		 */
+		 
 
 		// PLEVRITIS
 		Concept q = ms.getConcept(TbConcepts.PLEVRITIS);
@@ -8338,7 +8903,9 @@ report += "<br/>";
 		report += closeTable();
 		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
 		model.addAttribute("report", report);
-		return "/module/mdrtb/reporting/patientListsResults";
+		return "/module/mdrtb/reporting/patientListsResults";*/
+		
+		
 
 	}
 	/////// PATIENTS WITH DR-TB
@@ -8947,7 +9514,7 @@ report += "<br/>";
     
     private String getRegistrationNumber(TB03Form form) {
     	String val = "";
-    	PatientIdentifier pi = null;
+    	/*PatientIdentifier pi = null;
     	Integer ppid = null;
     	Concept ppidConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
     	Obs idObs  = MdrtbUtil.getObsFromEncounter(ppidConcept, form.getEncounter());
@@ -8973,7 +9540,8 @@ report += "<br/>";
     		else {
     			val = null;
     		}
-    	}
+    	}*/
+    	val = form.getRegistrationNumber();
     	if(val==null || val.length()==0) {
     		val = getMessage("mdrtb.unassigned");
     	}

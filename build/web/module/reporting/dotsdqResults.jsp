@@ -390,6 +390,26 @@ $(document).ready(function(){
 	    	</tr>  
 	   	</c:forEach>
 	   	
+	   	 <tr><td colspan="4">&nbsp;</td></tr>
+	    <tr><td colspan="4">&nbsp;</td></tr>
+	    <tr>
+	   		<th class=normal colspan="4"><spring:message code="mdrtb.dq.invalidForm89" /></th>
+	  	</tr>
+	  	<tr>
+	     	<td colspan="2"><spring:message code="dotsreports.dq.fullName" /></td>
+	     	<td><spring:message code="dotsreports.dq.dob" /></td>
+	     	<td align="center"><spring:message code="dotsreports.dq.gender" /></td>
+	  	</tr>
+	  	<c:forEach var="row" items="${invalidForm89}">
+	    	<tr>
+	        
+	        	<td colspan="2"><a href="${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form?patientId=${row.patient.id}" target="_blank">${row.patient.personName.familyName}, ${row.patient.personName.givenName}</a></td>
+	        	<td>${row.dateOfBirth}</td>
+	         	<td align="center">${row.gender}</td>
+	    	</tr>  
+	  
+	  	</c:forEach>
+	   	
 	    <tr><td colspan="4">&nbsp;</td></tr>
 	    <tr><td colspan="4">&nbsp;</td></tr>
 	    <tr>

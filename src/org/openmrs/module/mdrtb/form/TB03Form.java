@@ -32,21 +32,24 @@ import org.openmrs.module.mdrtb.specimen.Xpert;
 
 public class TB03Form extends AbstractSimpleForm implements Comparable<TB03Form> {
 
-	
+	private String regNum;
 	
 	public TB03Form() {
 		super();
+		regNum = null;
 		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType("TB03"));		
 		
 	}
 	
 	public TB03Form(Patient patient) {
 		super(patient);
+		regNum = null;
 		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType("TB03"));		
 	}
 	
 	public TB03Form(Encounter encounter) {
 		super(encounter);
+		regNum = null;
 	}
 	
 	public List<SmearForm> getSmears() {
@@ -1061,6 +1064,10 @@ public class TB03Form extends AbstractSimpleForm implements Comparable<TB03Form>
 	
 	
 	public String getRegistrationNumber() {
+		
+		if(regNum!=null) {
+			return regNum;
+		}
 		String val = "";
     	PatientIdentifier pi = null;
     	Integer ppid = null;
@@ -1094,6 +1101,7 @@ public class TB03Form extends AbstractSimpleForm implements Comparable<TB03Form>
     		val = null;// Context.getMessageSourceService().getMessage("mdrtb.unassigned");
     	}
     	
+    	regNum = val;
     	return val;
 	}
 	

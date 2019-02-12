@@ -47,11 +47,11 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 		List<Encounter> encounters = null;
 		EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
 		if (tpp != null) {
-    		encounters = tpp.getTbEncountersDuringProgramObs();
+    		encounters = tpp.getTb03EncountersDuringProgramObs();
     	}
 		
 		if (encounters != null) {
-    		for (Encounter encounter : encounters) {
+    		/*for (Encounter encounter : encounters) {
     			// create a new status item for this encounter
     			
     			// now place the visit in the appropriate "bucket"
@@ -59,13 +59,18 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
     				tb03 = new TB03Form(encounter);
     				break;
     			}
-    		}
+    		}*/
+			tb03 = new TB03Form(encounters.get(0));
 		}
     			
 	}
 	
 	public TB03Form getTB03() {
 		return tb03;
+	}
+	
+	public void setTB03(TB03Form tb03) {
+		this.tb03 = tb03;
 	}
 	
 	

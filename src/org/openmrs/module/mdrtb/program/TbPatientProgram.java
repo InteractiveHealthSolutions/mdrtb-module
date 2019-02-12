@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
@@ -657,5 +659,55 @@ public class TbPatientProgram implements Comparable<TbPatientProgram> {
 		}
 		
 		return form89;
+	}
+	
+	public List<Encounter> getForm89EncountersDuringProgramObs() {
+		
+		if (program.getDateEnrolled() == null) {
+			return null;
+		}
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+		HashSet<EncounterType> eSet = new HashSet<EncounterType>();
+		eSet.add(eType);
+		List<Encounter> encs =  Context.getEncounterService().getEncounters(program.getPatient(), null, null, 
+			null, null, eSet, null, false);
+		
+		ArrayList<Encounter> ret = new ArrayList<Encounter>();
+		
+		Obs temp = null;
+		for(Encounter encounter : encs) {	
+			temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), encounter);
+			if(temp!=null && temp.getValueNumeric()!=null && temp.getValueNumeric().intValue()==getId().intValue())
+				ret.add(encounter);
+		}
+		
+		return ret;
+	}
+	
+	public List<Encounter> getTb03EncountersDuringProgramObs() {
+		
+		if (program.getDateEnrolled() == null) {
+			return null;
+		}
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+		HashSet<EncounterType> eSet = new HashSet<EncounterType>();
+		eSet.add(eType);
+		List<Encounter> encs =  Context.getEncounterService().getEncounters(program.getPatient(), null, null, 
+			null, null, eSet, null, false);
+		if(encs!=null) {
+			System.out.println("TB03: " + encs.size());
+		}
+		ArrayList<Encounter> ret = new ArrayList<Encounter>();
+		
+		Obs temp = null;
+		for(Encounter encounter : encs) {	
+			temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), encounter);
+			if(temp!=null && temp.getValueNumeric()!=null && temp.getValueNumeric().intValue()==getId().intValue())
+				ret.add(encounter);
+		}
+		
+		return ret;
 	}
 }

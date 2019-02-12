@@ -254,6 +254,7 @@ public class DOTSDQController {
     	List<DQItem> missingAge = new ArrayList<DQItem>();
     	List<DQItem> missingPatientGroup = new ArrayList<DQItem>();
     	List<DQItem> noForm89 = new ArrayList<DQItem>();
+    	List<DQItem> invalidForm89 = new ArrayList<DQItem>();
     	List<DQItem> missingDiagnosticTests = new ArrayList<DQItem>();
     	List<DQItem> notStartedTreatment = new ArrayList<DQItem>();
     	List<DQItem> missingOutcomes = new ArrayList<DQItem>();
@@ -396,7 +397,7 @@ public class DOTSDQController {
     	 //   HashMap<Integer,Integer> pp = new HashMap<Integer,Integer>();
     	    if(patProgId!=null && !f89DupMap.containsKey(patProgId)) {
     	    	List<Form89> formList = Context.getService(MdrtbService.class).getForm89FormsForProgram(patient, patProgId);
-    	    	System.out.println(patProgId + " formsize: " + formList.size());
+    	    	
     	    	if(formList!=null) {
     	    		
     	    		if(formList.size() > 1) {
@@ -415,8 +416,20 @@ public class DOTSDQController {
     	    	}
     	    }
     	    
+    	   //Patient not new but has form89
     	   
-    	    
+    	    if(tf.getRegistrationGroup()!=null) {
+    	    	if(tf.getRegistrationGroup().getConceptId().intValue()!=Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
+    	    		List<Form89> formList = Context.getService(MdrtbService.class).getForm89FormsForProgram(patient, patProgId);
+        	    	
+        	    	if(formList!=null && formList.size()!=0) {
+        	    		errorFlag = Boolean.TRUE;
+        	    		invalidForm89.add(dqi);
+        	    	}
+        	    	
+    	    	}	
+    	   
+    	    }
     	    
     	    
     	    
@@ -703,6 +716,7 @@ public class DOTSDQController {
     	model.addAttribute("duplicateForm89", duplicateForm89);
     	model.addAttribute("unlinkedTB03", unlinkedTB03);
     	model.addAttribute("missingForm89", noForm89);
+    	model.addAttribute("invalidForm89", invalidForm89);
     	model.addAttribute("missingAge", missingAge);
     	model.addAttribute("missingPatientGroup", missingPatientGroup);
     	model.addAttribute("missingDiagnosticTests", missingDiagnosticTests);
