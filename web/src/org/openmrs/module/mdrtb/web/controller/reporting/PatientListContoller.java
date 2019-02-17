@@ -6155,7 +6155,7 @@ report += "<br/>";
         		f89 = fList.get(0);
         		
         		
-    			circSite = f89.getCircumstancesOfDetection();
+    			circSite = f89.getPlaceOfDetection();
     			
     			if(circSite==null)
     				continue;
