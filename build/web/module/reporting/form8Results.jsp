@@ -273,7 +273,7 @@ response.setDateHeader ("Expires", -1);
 		<br/><br/>	
 		
 		<spring:message code="mdrtb.oblast"/> <u>${oName }</u>____ <spring:message code="mdrtb.district"/> <u>${dName }</u>____  <spring:message code="mdrtb.form8.main.city"/> ____________________<br/>
-		<spring:message code="mdrtb.facility"/> <u>${fname }</u>________
+		<spring:message code="mdrtb.facility"/> <u>${fName }</u>________
 		<spring:message code="mdrtb.form8.main.institutionAddress"/> ____________________________________________________________________________________________________<br/>
 		<spring:message code="mdrtb.form8.main.ownership"/><br/>
 		

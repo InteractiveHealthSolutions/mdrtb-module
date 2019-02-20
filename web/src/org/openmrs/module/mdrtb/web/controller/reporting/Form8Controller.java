@@ -274,7 +274,7 @@ public class Form8Controller {
     	int plevId = plevConcept.getConceptId().intValue();
     	Concept itLymphConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OF_LYMPH_NODES);
     	int itLymphId = itLymphConcept.getConceptId().intValue();
-    	Concept cnsConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.CNSDL);
+    	Concept cnsConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OF_CNS);
     	int cnsId = cnsConcept.getConceptId().intValue();
     	Concept osteoArticularConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.OSTEOARTICULAR);
     	int osteoArticularId = osteoArticularConcept.getConceptId().intValue();
