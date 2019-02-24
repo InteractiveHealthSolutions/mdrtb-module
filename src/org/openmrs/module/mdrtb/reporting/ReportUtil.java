@@ -381,6 +381,7 @@ public class ReportUtil {
 				// TODO Auto-generated catch block
 				throw new IllegalArgumentException("Please enter either a single quarter (e.g. 3 or a range (e.g. 2-4)");
 			}
+			
 			endMonth = startMonth;
 			
 			if(months.length==2) {
@@ -400,6 +401,19 @@ public class ReportUtil {
 			if(startMonth > endMonth) {
 				throw new IllegalArgumentException("Start month must be less than end month");
 			}
+			
+			startDate = 26;
+			endDate = 25;
+			if(startMonth==1) {
+				startMonth = 12;
+				startYear = year.intValue()-1;
+			}
+
+			else {
+				startMonth = startMonth - 1;
+			}
+			
+			
 		}
 		}
 		Map<String, Date> periodDates = new HashMap<String, Date>();
