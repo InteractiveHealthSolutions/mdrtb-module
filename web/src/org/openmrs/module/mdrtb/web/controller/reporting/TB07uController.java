@@ -229,7 +229,14 @@ public class TB07uController {
 				.getTB03uFormsFilled(locList, year, quarter, month);
 		
 		ArrayList<RegimenForm> regList = Context.getService(MdrtbService.class).getRegimenFormsFilled(locList, year, quarter, month);
-
+		if(regList!=null) {
+			System.out.println("REG LIST: " + regList.size());
+		}
+		
+		
+		else {
+			System.out.println("REG LIST NULL");
+		}
 		TB07uData table1 = new TB07uData();
 		Concept q = null;
 
@@ -708,6 +715,10 @@ public class TB07uController {
 					rf = getLatestRegimenForPatient(tf.getPatient().getPatientId().intValue(),regList, locList, year, quarter, month);
 				}
 				
+				else {
+					System.out.println("REG LIST NULL: " + tf.getPatient().getPatientId().intValue());
+				}
+				
 				if(rf!=null) {
 					regimen = rf.getSldRegimenType();
 					if(regimen!=null) {
@@ -718,7 +729,19 @@ public class TB07uController {
 						else if(regimen.getConceptId().intValue()==standard) {
 							isStandard = Boolean.TRUE;
 						}
+						
+						else {
+							System.out.println("REG OTHER: " + tf.getPatient().getPatientId().intValue());
+						}
 					}
+					
+					else {
+						System.out.println("REG NULL: " + tf.getPatient().getPatientId().intValue());
+					}
+				}
+				
+				else {
+					System.out.println("RF NULL: " + tf.getPatient().getPatientId().intValue());
 				}
 				
 				if (newCase != null && newCase) {
@@ -726,6 +749,15 @@ public class TB07uController {
 					table1.setNewMdr(table1.getNewMdr() + 1);
 					table1.setNewTotal(table1.getNewTotal() + 1);
 					
+					if(isShort!=null && isShort) {
+						table1.setNewShortMdr(table1.getNewShortMdr() + 1);
+						table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+					}
+					
+					else if(isStandard!=null && isStandard) {
+						table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
+						table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setNewMdr04(table1.getNewMdr04() + 1);
@@ -733,18 +765,18 @@ public class TB07uController {
 						table1.setNewTotal04(table1.getNewTotal04() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setNewShortMdr(table1.getNewShortMdr() + 1);
+							//table1.setNewShortMdr(table1.getNewShortMdr() + 1);
 							table1.setNewShortMdr04(table1.getNewShortMdr04() + 1);
 							table1.setTotalShortMdr04(table1.getTotalShortMdr04() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
+							//table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
 							table1.setNewStandardMdr04(table1.getNewStandardMdr04() + 1);
 							table1.setTotalStandardMdr04(table1.getTotalStandardMdr04() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -755,18 +787,18 @@ public class TB07uController {
 						table1.setNewTotal0514(table1.getNewTotal0514() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setNewShortMdr(table1.getNewShortMdr() + 1);
+							//table1.setNewShortMdr(table1.getNewShortMdr() + 1);
 							table1.setNewShortMdr0514(table1.getNewShortMdr0514() + 1);
 							table1.setTotalShortMdr0514(table1.getTotalShortMdr0514() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
+							//table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
 							table1.setNewStandardMdr0514(table1.getNewStandardMdr0514() + 1);
 							table1.setTotalStandardMdr0514(table1.getTotalStandardMdr0514() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -776,18 +808,18 @@ public class TB07uController {
 						table1.setNewTotal1517(table1.getNewTotal1517() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setNewShortMdr(table1.getNewShortMdr() + 1);
+							//table1.setNewShortMdr(table1.getNewShortMdr() + 1);
 							table1.setNewShortMdr1517(table1.getNewShortMdr1517() + 1);
 							table1.setTotalShortMdr1517(table1.getTotalShortMdr1517() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
+							//table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
 							table1.setNewStandardMdr1517(table1.getNewStandardMdr1517() + 1);
 							table1.setTotalStandardMdr1517(table1.getTotalStandardMdr1517() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -797,18 +829,18 @@ public class TB07uController {
 						table1.setNewTotalHiv(table1.getNewTotalHiv() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setNewShortMdr(table1.getNewShortMdr() + 1);
+							//table1.setNewShortMdr(table1.getNewShortMdr() + 1);
 							table1.setNewShortMdrHiv(table1.getNewShortMdrHiv() + 1);
 							table1.setTotalShortMdrHiv(table1.getTotalShortMdrHiv() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
+							//table1.setNewStandardMdr(table1.getNewStandardMdr() + 1);
 							table1.setNewStandardMdrHiv(table1.getNewStandardMdrHiv() + 1);
 							table1.setTotalStandardMdrHiv(table1.getTotalStandardMdrHiv() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 				}
@@ -819,24 +851,35 @@ public class TB07uController {
 					table1.setRelapse1Total(table1.getRelapse1Total() + 1);
 					
 
+					if(isShort!=null && isShort) {
+						table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
+						table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+					}
+					
+					else if(isStandard!=null && isStandard) {
+						table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
+						table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+					}
+					
+
 					if (age > 0 && age <= 4) {
 						table1.setRelapse1Mdr04(table1.getRelapse1Mdr04() + 1);
 						table1.setTotalMdr04(table1.getTotalMdr04() + 1);
 						table1.setRelapse1Total04(table1.getRelapse1Total04() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
+							//table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
 							table1.setRelapse1ShortMdr04(table1.getRelapse1ShortMdr04() + 1);
 							table1.setTotalShortMdr04(table1.getTotalShortMdr04() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
+							//table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
 							table1.setRelapse1StandardMdr04(table1.getRelapse1StandardMdr04() + 1);
 							table1.setTotalStandardMdr04(table1.getTotalStandardMdr04() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -847,18 +890,18 @@ public class TB07uController {
 						table1.setRelapse1Total0514(table1.getRelapse1Total0514() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
+						//	table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
 							table1.setRelapse1ShortMdr0514(table1.getRelapse1ShortMdr0514() + 1);
 							table1.setTotalShortMdr0514(table1.getTotalShortMdr0514() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+						//	table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
+							//table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
 							table1.setRelapse1StandardMdr0514(table1.getRelapse1StandardMdr0514() + 1);
 							table1.setTotalStandardMdr0514(table1.getTotalStandardMdr0514() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -868,18 +911,18 @@ public class TB07uController {
 						table1.setRelapse1Total1517(table1.getRelapse1Total1517() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
+							//table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
 							table1.setRelapse1ShortMdr1517(table1.getRelapse1ShortMdr1517() + 1);
 							table1.setTotalShortMdr1517(table1.getTotalShortMdr1517() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
+							//table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
 							table1.setRelapse1StandardMdr1517(table1.getRelapse1StandardMdr1517() + 1);
 							table1.setTotalStandardMdr1517(table1.getTotalStandardMdr1517() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -889,18 +932,18 @@ public class TB07uController {
 						table1.setRelapse1TotalHiv(table1.getRelapse1TotalHiv() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
+							//table1.setRelapse1ShortMdr(table1.getRelapse1ShortMdr() + 1);
 							table1.setRelapse1ShortMdrHiv(table1.getRelapse1ShortMdrHiv() + 1);
 							table1.setTotalShortMdrHiv(table1.getTotalShortMdrHiv() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
+							//table1.setRelapse1StandardMdr(table1.getRelapse1StandardMdr() + 1);
 							table1.setRelapse1StandardMdrHiv(table1.getRelapse1StandardMdrHiv() + 1);
 							table1.setTotalStandardMdrHiv(table1.getTotalStandardMdrHiv() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 				}
@@ -909,6 +952,17 @@ public class TB07uController {
 
 					table1.setRelapse2Mdr(table1.getRelapse2Mdr() + 1);
 					table1.setRelapse2Total(table1.getRelapse2Total() + 1);
+					
+
+					if(isShort!=null && isShort) {
+						table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
+						table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+					}
+					
+					else if(isStandard!=null && isStandard) {
+						table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
+						table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setRelapse2Mdr04(table1.getRelapse2Mdr04() + 1);
@@ -916,18 +970,18 @@ public class TB07uController {
 						table1.setRelapse2Total04(table1.getRelapse2Total04() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
+							//table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
 							table1.setRelapse2ShortMdr04(table1.getRelapse2ShortMdr04() + 1);
 							table1.setTotalShortMdr04(table1.getTotalShortMdr04() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
+							//table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
 							table1.setRelapse2StandardMdr04(table1.getRelapse2StandardMdr04() + 1);
 							table1.setTotalStandardMdr04(table1.getTotalStandardMdr04() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -938,18 +992,18 @@ public class TB07uController {
 						table1.setRelapse2Total0514(table1.getRelapse2Total0514() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
+							//table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
 							table1.setRelapse2ShortMdr0514(table1.getRelapse2ShortMdr0514() + 1);
 							table1.setTotalShortMdr0514(table1.getTotalShortMdr0514() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
+							//table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
 							table1.setRelapse2StandardMdr0514(table1.getRelapse2StandardMdr0514() + 1);
 							table1.setTotalStandardMdr0514(table1.getTotalStandardMdr0514() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -959,18 +1013,18 @@ public class TB07uController {
 						table1.setRelapse2Total1517(table1.getRelapse2Total1517() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
+						//	table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
 							table1.setRelapse2ShortMdr1517(table1.getRelapse2ShortMdr1517() + 1);
 							table1.setTotalShortMdr1517(table1.getTotalShortMdr1517() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+						//	table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
+							//table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
 							table1.setRelapse2StandardMdr1517(table1.getRelapse2StandardMdr1517() + 1);
 							table1.setTotalStandardMdr1517(table1.getTotalStandardMdr1517() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -980,18 +1034,18 @@ public class TB07uController {
 						table1.setRelapse2TotalHiv(table1.getRelapse2TotalHiv() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
+							//table1.setRelapse2ShortMdr(table1.getRelapse2ShortMdr() + 1);
 							table1.setRelapse2ShortMdrHiv(table1.getRelapse2ShortMdrHiv() + 1);
 							table1.setTotalShortMdrHiv(table1.getTotalShortMdrHiv() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
+							//table1.setRelapse2StandardMdr(table1.getRelapse2StandardMdr() + 1);
 							table1.setRelapse2StandardMdrHiv(table1.getRelapse2StandardMdrHiv() + 1);
 							table1.setTotalStandardMdrHiv(table1.getTotalStandardMdrHiv() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 				}
@@ -1000,6 +1054,17 @@ public class TB07uController {
 
 					table1.setDefault1Mdr(table1.getDefault1Mdr() + 1);
 					table1.setDefault1Total(table1.getDefault1Total() + 1);
+					
+
+					if(isShort!=null && isShort) {
+						table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
+						table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+					}
+					
+					else if(isStandard!=null && isStandard) {
+						table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
+						table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setDefault1Mdr04(table1.getDefault1Mdr04() + 1);
@@ -1007,18 +1072,18 @@ public class TB07uController {
 						table1.setDefault1Total04(table1.getDefault1Total04() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
+							//table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
 							table1.setDefault1ShortMdr04(table1.getDefault1ShortMdr04() + 1);
 							table1.setTotalShortMdr04(table1.getTotalShortMdr04() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
+							//table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
 							table1.setDefault1StandardMdr04(table1.getDefault1StandardMdr04() + 1);
 							table1.setTotalStandardMdr04(table1.getTotalStandardMdr04() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1029,18 +1094,18 @@ public class TB07uController {
 						table1.setDefault1Total0514(table1.getDefault1Total0514() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
+						//	table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
 							table1.setDefault1ShortMdr0514(table1.getDefault1ShortMdr0514() + 1);
 							table1.setTotalShortMdr0514(table1.getTotalShortMdr0514() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
+							//table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
 							table1.setDefault1StandardMdr0514(table1.getDefault1StandardMdr0514() + 1);
 							table1.setTotalStandardMdr0514(table1.getTotalStandardMdr0514() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1051,18 +1116,18 @@ public class TB07uController {
 						table1.setDefault1Total1517(table1.getDefault1Total1517() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
+							//table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
 							table1.setDefault1ShortMdr1517(table1.getDefault1ShortMdr1517() + 1);
 							table1.setTotalShortMdr1517(table1.getTotalShortMdr1517() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
+							//table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
 							table1.setDefault1StandardMdr1517(table1.getDefault1StandardMdr1517() + 1);
 							table1.setTotalStandardMdr1517(table1.getTotalStandardMdr1517() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1073,18 +1138,18 @@ public class TB07uController {
 						table1.setDefault1TotalHiv(table1.getDefault1TotalHiv() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
+							//table1.setDefault1ShortMdr(table1.getDefault1ShortMdr() + 1);
 							table1.setDefault1ShortMdrHiv(table1.getDefault1ShortMdrHiv() + 1);
 							table1.setTotalShortMdrHiv(table1.getTotalShortMdrHiv() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
+							//table1.setDefault1StandardMdr(table1.getDefault1StandardMdr() + 1);
 							table1.setDefault1StandardMdrHiv(table1.getDefault1StandardMdrHiv() + 1);
 							table1.setTotalStandardMdrHiv(table1.getTotalStandardMdrHiv() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1094,6 +1159,17 @@ public class TB07uController {
 
 					table1.setDefault2Mdr(table1.getDefault2Mdr() + 1);
 					table1.setDefault2Total(table1.getDefault2Total() + 1);
+					
+
+					if(isShort!=null && isShort) {
+						table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
+						table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+					}
+					
+					else if(isStandard!=null && isStandard) {
+						table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
+						table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+					}
 
 
 					if (age > 0 && age <= 4) {
@@ -1102,18 +1178,18 @@ public class TB07uController {
 						table1.setDefault2Total04(table1.getDefault2Total04() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
+							//table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
 							table1.setDefault2ShortMdr04(table1.getDefault2ShortMdr04() + 1);
 							table1.setTotalShortMdr04(table1.getTotalShortMdr04() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
+							//table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
 							table1.setDefault2StandardMdr04(table1.getDefault2StandardMdr04() + 1);
 							table1.setTotalStandardMdr04(table1.getTotalStandardMdr04() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 						
 
@@ -1125,18 +1201,18 @@ public class TB07uController {
 						table1.setDefault2Total0514(table1.getDefault2Total0514() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
+							//table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
 							table1.setDefault2ShortMdr0514(table1.getDefault2ShortMdr0514() + 1);
 							table1.setTotalShortMdr0514(table1.getTotalShortMdr0514() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
+							//table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
 							table1.setDefault2StandardMdr0514(table1.getDefault2StandardMdr0514() + 1);
 							table1.setTotalStandardMdr0514(table1.getTotalStandardMdr0514() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1147,18 +1223,18 @@ public class TB07uController {
 						table1.setDefault2Total1517(table1.getDefault2Total1517() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
+							//table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
 							table1.setDefault2ShortMdr1517(table1.getDefault2ShortMdr1517() + 1);
 							table1.setTotalShortMdr1517(table1.getTotalShortMdr1517() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
+							//table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
 							table1.setDefault2StandardMdr1517(table1.getDefault2StandardMdr1517() + 1);
 							table1.setTotalStandardMdr1517(table1.getTotalStandardMdr1517() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1169,18 +1245,18 @@ public class TB07uController {
 						table1.setDefault2TotalHiv(table1.getDefault2TotalHiv() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
+							//table1.setDefault2ShortMdr(table1.getDefault2ShortMdr() + 1);
 							table1.setDefault2ShortMdrHiv(table1.getDefault2ShortMdrHiv() + 1);
 							table1.setTotalShortMdrHiv(table1.getTotalShortMdrHiv() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
+							//table1.setDefault2StandardMdr(table1.getDefault2StandardMdr() + 1);
 							table1.setDefault2StandardMdrHiv(table1.getDefault2StandardMdrHiv() + 1);
 							table1.setTotalStandardMdrHiv(table1.getTotalStandardMdrHiv() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1190,6 +1266,17 @@ public class TB07uController {
 
 					table1.setFailure1Mdr(table1.getFailure1Mdr() + 1);
 					table1.setFailure1Total(table1.getFailure1Total() + 1);
+					
+
+					if(isShort!=null && isShort) {
+						table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
+						table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+					}
+					
+					else if(isStandard!=null && isStandard) {
+						table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
+						table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+					}
 
 
 					if (age > 0 && age <= 4) {
@@ -1198,18 +1285,18 @@ public class TB07uController {
 						table1.setFailure1Total04(table1.getFailure1Total04() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
+							//table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
 							table1.setFailure1ShortMdr04(table1.getFailure1ShortMdr04() + 1);
 							table1.setTotalShortMdr04(table1.getTotalShortMdr04() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
+							//table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
 							table1.setFailure1StandardMdr04(table1.getFailure1StandardMdr04() + 1);
 							table1.setTotalStandardMdr04(table1.getTotalStandardMdr04() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1220,18 +1307,18 @@ public class TB07uController {
 						table1.setFailure1Total0514(table1.getFailure1Total0514() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
+							//table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
 							table1.setFailure1ShortMdr0514(table1.getFailure1ShortMdr0514() + 1);
 							table1.setTotalShortMdr0514(table1.getTotalShortMdr0514() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
+							//table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
 							table1.setFailure1StandardMdr0514(table1.getFailure1StandardMdr0514() + 1);
 							table1.setTotalStandardMdr0514(table1.getTotalStandardMdr0514() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -1241,18 +1328,18 @@ public class TB07uController {
 						table1.setFailure1Total1517(table1.getFailure1Total1517() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
+							//table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
 							table1.setFailure1ShortMdr1517(table1.getFailure1ShortMdr1517() + 1);
 							table1.setTotalShortMdr1517(table1.getTotalShortMdr1517() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
+						//	table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
 							table1.setFailure1StandardMdr1517(table1.getFailure1StandardMdr1517() + 1);
 							table1.setTotalStandardMdr1517(table1.getTotalStandardMdr1517() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+						//	table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -1262,18 +1349,18 @@ public class TB07uController {
 						table1.setFailure1TotalHiv(table1.getFailure1TotalHiv() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
+							//table1.setFailure1ShortMdr(table1.getFailure1ShortMdr() + 1);
 							table1.setFailure1ShortMdrHiv(table1.getFailure1ShortMdrHiv() + 1);
 							table1.setTotalShortMdrHiv(table1.getTotalShortMdrHiv() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
+							//table1.setFailure1StandardMdr(table1.getFailure1StandardMdr() + 1);
 							table1.setFailure1StandardMdrHiv(table1.getFailure1StandardMdrHiv() + 1);
 							table1.setTotalStandardMdrHiv(table1.getTotalStandardMdrHiv() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 				}
@@ -1282,6 +1369,17 @@ public class TB07uController {
 
 					table1.setFailure2Mdr(table1.getFailure2Mdr() + 1);
 					table1.setFailure2Total(table1.getFailure2Total() + 1);
+					
+
+					if(isShort!=null && isShort) {
+						table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
+						table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+					}
+					
+					else if(isStandard!=null && isStandard) {
+						table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
+						table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setFailure2Mdr04(table1.getFailure2Mdr04() + 1);
@@ -1289,18 +1387,18 @@ public class TB07uController {
 						table1.setFailure2Total04(table1.getFailure2Total04() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
+							//table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
 							table1.setFailure2ShortMdr04(table1.getFailure2ShortMdr04() + 1);
 							table1.setTotalShortMdr04(table1.getTotalShortMdr04() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
+							//table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
 							table1.setFailure2StandardMdr04(table1.getFailure2StandardMdr04() + 1);
 							table1.setTotalStandardMdr04(table1.getTotalStandardMdr04() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1311,18 +1409,18 @@ public class TB07uController {
 						table1.setFailure2Total0514(table1.getFailure2Total0514() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
+							//table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
 							table1.setFailure2ShortMdr0514(table1.getFailure2ShortMdr0514() + 1);
 							table1.setTotalShortMdr0514(table1.getTotalShortMdr0514() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
+							//table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
 							table1.setFailure2StandardMdr0514(table1.getFailure2StandardMdr0514() + 1);
 							table1.setTotalStandardMdr0514(table1.getTotalStandardMdr0514() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -1332,18 +1430,18 @@ public class TB07uController {
 						table1.setFailure2Total1517(table1.getFailure2Total1517() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
+							//table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
 							table1.setFailure2ShortMdr1517(table1.getFailure2ShortMdr1517() + 1);
 							table1.setTotalShortMdr1517(table1.getTotalShortMdr1517() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
+							//table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
 							table1.setFailure2StandardMdr1517(table1.getFailure2StandardMdr1517() + 1);
 							table1.setTotalStandardMdr1517(table1.getTotalStandardMdr1517() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -1353,18 +1451,18 @@ public class TB07uController {
 						table1.setFailure2TotalHiv(table1.getFailure2TotalHiv() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
+							//table1.setFailure2ShortMdr(table1.getFailure2ShortMdr() + 1);
 							table1.setFailure2ShortMdrHiv(table1.getFailure2ShortMdrHiv() + 1);
 							table1.setTotalShortMdrHiv(table1.getTotalShortMdrHiv() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
+							//table1.setFailure2StandardMdr(table1.getFailure2StandardMdr() + 1);
 							table1.setFailure2StandardMdrHiv(table1.getFailure2StandardMdrHiv() + 1);
 							table1.setTotalStandardMdrHiv(table1.getTotalStandardMdrHiv() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 				}
@@ -1373,6 +1471,17 @@ public class TB07uController {
 
 					table1.setOtherMdr(table1.getOtherMdr() + 1);
 					table1.setOtherTotal(table1.getOtherTotal() + 1);
+					
+
+					if(isShort!=null && isShort) {
+						table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
+						table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+					}
+					
+					else if(isStandard!=null && isStandard) {
+						table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
+						table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setOtherMdr04(table1.getOtherMdr04() + 1);
@@ -1380,18 +1489,18 @@ public class TB07uController {
 						table1.setOtherTotal04(table1.getOtherTotal04() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
+						//	table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
 							table1.setOtherShortMdr04(table1.getOtherShortMdr04() + 1);
 							table1.setTotalShortMdr04(table1.getTotalShortMdr04() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+						//	table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
+							//table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
 							table1.setOtherStandardMdr04(table1.getOtherStandardMdr04() + 1);
 							table1.setTotalStandardMdr04(table1.getTotalStandardMdr04() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 
 					}
@@ -1402,18 +1511,18 @@ public class TB07uController {
 						table1.setOtherTotal0514(table1.getOtherTotal0514() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
+							//table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
 							table1.setOtherShortMdr0514(table1.getOtherShortMdr0514() + 1);
 							table1.setTotalShortMdr0514(table1.getTotalShortMdr0514() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
+							//table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
 							table1.setOtherStandardMdr0514(table1.getOtherStandardMdr0514() + 1);
 							table1.setTotalStandardMdr0514(table1.getTotalStandardMdr0514() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -1423,18 +1532,18 @@ public class TB07uController {
 						table1.setOtherTotal1517(table1.getOtherTotal1517() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
+							//table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
 							table1.setOtherShortMdr1517(table1.getOtherShortMdr1517() + 1);
 							table1.setTotalShortMdr1517(table1.getTotalShortMdr1517() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
+							//table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
 							table1.setOtherStandardMdr1517(table1.getOtherStandardMdr1517() + 1);
 							table1.setTotalStandardMdr1517(table1.getTotalStandardMdr1517() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 
@@ -1444,18 +1553,18 @@ public class TB07uController {
 						table1.setOtherTotalHiv(table1.getOtherTotalHiv() + 1);
 						
 						if(isShort!=null && isShort) {
-							table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
+							//table1.setOtherShortMdr(table1.getOtherShortMdr() + 1);
 							table1.setOtherShortMdrHiv(table1.getOtherShortMdrHiv() + 1);
 							table1.setTotalShortMdrHiv(table1.getTotalShortMdrHiv() + 1);
-							table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
+							//table1.setTotalShortMdr(table1.getTotalShortMdr() + 1);
 							
 						}
 						
 						else if(isStandard!=null && isStandard) {
-							table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
+							//table1.setOtherStandardMdr(table1.getOtherStandardMdr() + 1);
 							table1.setOtherStandardMdrHiv(table1.getOtherStandardMdrHiv() + 1);
 							table1.setTotalStandardMdrHiv(table1.getTotalStandardMdrHiv() + 1);
-							table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
+							//table1.setTotalStandardMdr(table1.getTotalStandardMdr() + 1);
 						}
 					}
 				}
@@ -1470,6 +1579,10 @@ public class TB07uController {
 					rf = getLatestRegimenForPatient(tf.getPatient().getPatientId().intValue(),regList, locList, year, quarter, month);
 				}
 				
+				else {
+					System.out.println("REG LIST NULL: " + tf.getPatient().getPatientId().intValue());
+				}
+				
 				if(rf!=null) {
 					regimen = rf.getSldRegimenType();
 					if(regimen!=null) {
@@ -1480,13 +1593,36 @@ public class TB07uController {
 						else if(regimen.getConceptId().intValue()==indBdq) {
 							isIndBdq = Boolean.TRUE;
 						}
+						
+						else {
+							System.out.println("REG NOT COUNTED: " + tf.getPatient().getPatientId().intValue());
+						}
 					}
+					
+					else {
+						System.out.println("REG NULL: " + tf.getPatient().getPatientId().intValue());
+					}
+				}
+				
+				else {
+					System.out.println("RF LIST NULL: " + tf.getPatient().getPatientId().intValue());
 				}
 				
 				if (newCase != null && newCase) {
 
 					table1.setNewPreXdr(table1.getNewPreXdr() + 1);
 					table1.setNewTotal(table1.getNewTotal() + 1);
+					
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 					
 
 					if (age > 0 && age <= 4) {
@@ -1495,18 +1631,18 @@ public class TB07uController {
 						table1.setNewTotal04(table1.getNewTotal04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+							//table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
 							table1.setNewIndLzdXdrPreXdr04(table1.getNewIndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+							//table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
 							table1.setNewIndBdqXdrPreXdr04(table1.getNewIndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1517,18 +1653,18 @@ public class TB07uController {
 						table1.setNewTotal0514(table1.getNewTotal0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+							//table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
 							table1.setNewIndLzdXdrPreXdr0514(table1.getNewIndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+							//table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
 							table1.setNewIndBdqXdrPreXdr0514(table1.getNewIndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -1538,18 +1674,18 @@ public class TB07uController {
 						table1.setNewTotal1517(table1.getNewTotal1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+							//table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
 							table1.setNewIndLzdXdrPreXdr1517(table1.getNewIndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+							//table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
 							table1.setNewIndBdqXdrPreXdr1517(table1.getNewIndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -1559,18 +1695,18 @@ public class TB07uController {
 						table1.setNewTotalHiv(table1.getNewTotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+							//table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
 							table1.setNewIndLzdXdrPreXdrHiv(table1.getNewIndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+							//table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
 							table1.setNewIndBdqXdrPreXdrHiv(table1.getNewIndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -1580,6 +1716,16 @@ public class TB07uController {
 					table1.setRelapse1PreXdr(table1.getRelapse1PreXdr() + 1);
 					table1.setRelapse1Total(table1.getRelapse1Total() + 1);
 					
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setRelapse1PreXdr04(table1.getRelapse1PreXdr04() + 1);
@@ -1587,18 +1733,18 @@ public class TB07uController {
 						table1.setRelapse1Total04(table1.getRelapse1Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
 							table1.setRelapse1IndLzdXdrPreXdr04(table1.getRelapse1IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
 							table1.setRelapse1IndBdqXdrPreXdr04(table1.getRelapse1IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1609,18 +1755,18 @@ public class TB07uController {
 						table1.setRelapse1Total0514(table1.getRelapse1Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
 							table1.setRelapse1IndLzdXdrPreXdr0514(table1.getRelapse1IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
 							table1.setRelapse1IndBdqXdrPreXdr0514(table1.getRelapse1IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -1630,18 +1776,18 @@ public class TB07uController {
 						table1.setRelapse1Total1517(table1.getRelapse1Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
 							table1.setRelapse1IndLzdXdrPreXdr1517(table1.getRelapse1IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
 							table1.setRelapse1IndBdqXdrPreXdr1517(table1.getRelapse1IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -1651,18 +1797,18 @@ public class TB07uController {
 						table1.setRelapse1TotalHiv(table1.getRelapse1TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
 							table1.setRelapse1IndLzdXdrPreXdrHiv(table1.getRelapse1IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
 							table1.setRelapse1IndBdqXdrPreXdrHiv(table1.getRelapse1IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -1672,24 +1818,36 @@ public class TB07uController {
 					table1.setRelapse2PreXdr(table1.getRelapse2PreXdr() + 1);
 					table1.setRelapse2Total(table1.getRelapse2Total() + 1);
 
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
+					
+					
 					if (age > 0 && age <= 4) {
 						table1.setRelapse2PreXdr04(table1.getRelapse2PreXdr04() + 1);
 						table1.setTotalPreXdr04(table1.getTotalPreXdr04() + 1);
 						table1.setRelapse2Total04(table1.getRelapse2Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
 							table1.setRelapse2IndLzdXdrPreXdr04(table1.getRelapse2IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
 							table1.setRelapse2IndBdqXdrPreXdr04(table1.getRelapse2IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1700,18 +1858,18 @@ public class TB07uController {
 						table1.setRelapse2Total0514(table1.getRelapse2Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
 							table1.setRelapse2IndLzdXdrPreXdr0514(table1.getRelapse2IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
 							table1.setRelapse2IndBdqXdrPreXdr0514(table1.getRelapse2IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -1721,18 +1879,18 @@ public class TB07uController {
 						table1.setRelapse2Total1517(table1.getRelapse2Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
 							table1.setRelapse2IndLzdXdrPreXdr1517(table1.getRelapse2IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
 							table1.setRelapse2IndBdqXdrPreXdr1517(table1.getRelapse2IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -1742,18 +1900,18 @@ public class TB07uController {
 						table1.setRelapse2TotalHiv(table1.getRelapse2TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
 							table1.setRelapse2IndLzdXdrPreXdrHiv(table1.getRelapse2IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
 							table1.setRelapse2IndBdqXdrPreXdrHiv(table1.getRelapse2IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -1762,6 +1920,17 @@ public class TB07uController {
 
 					table1.setDefault1PreXdr(table1.getDefault1PreXdr() + 1);
 					table1.setDefault1Total(table1.getDefault1Total() + 1);
+					
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setDefault1PreXdr04(table1.getDefault1PreXdr04() + 1);
@@ -1769,18 +1938,18 @@ public class TB07uController {
 						table1.setDefault1Total04(table1.getDefault1Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+							//table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
 							table1.setDefault1IndLzdXdrPreXdr04(table1.getDefault1IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+							//table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
 							table1.setDefault1IndBdqXdrPreXdr04(table1.getDefault1IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 
@@ -1792,18 +1961,18 @@ public class TB07uController {
 						table1.setDefault1Total0514(table1.getDefault1Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+							//table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
 							table1.setDefault1IndLzdXdrPreXdr0514(table1.getDefault1IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+							//table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
 							table1.setDefault1IndBdqXdrPreXdr0514(table1.getDefault1IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1814,18 +1983,18 @@ public class TB07uController {
 						table1.setDefault1Total1517(table1.getDefault1Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+							//table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
 							table1.setDefault1IndLzdXdrPreXdr1517(table1.getDefault1IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+							//table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
 							table1.setDefault1IndBdqXdrPreXdr1517(table1.getDefault1IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1836,18 +2005,18 @@ public class TB07uController {
 						table1.setDefault1TotalHiv(table1.getDefault1TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+							//table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
 							table1.setDefault1IndLzdXdrPreXdrHiv(table1.getDefault1IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+							//table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
 							table1.setDefault1IndBdqXdrPreXdrHiv(table1.getDefault1IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1858,25 +2027,36 @@ public class TB07uController {
 					table1.setDefault2PreXdr(table1.getDefault2PreXdr() + 1);
 					table1.setDefault2Total(table1.getDefault2Total() + 1);
 
-
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
+					
+					
 					if (age > 0 && age <= 4) {
 						table1.setDefault2PreXdr04(table1.getDefault2PreXdr04() + 1);
 						table1.setTotalPreXdr04(table1.getTotalPreXdr04() + 1);
 						table1.setDefault2Total04(table1.getDefault2Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+							//table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
 							table1.setDefault2IndLzdXdrPreXdr04(table1.getDefault2IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+						//	table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
 							table1.setDefault2IndBdqXdrPreXdr04(table1.getDefault2IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+						//	table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 						
@@ -1889,18 +2069,18 @@ public class TB07uController {
 						table1.setDefault2Total0514(table1.getDefault2Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+							//table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
 							table1.setDefault2IndLzdXdrPreXdr0514(table1.getDefault2IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+							//table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
 							table1.setDefault2IndBdqXdrPreXdr0514(table1.getDefault2IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1911,18 +2091,18 @@ public class TB07uController {
 						table1.setDefault2Total1517(table1.getDefault2Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+							//table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
 							table1.setDefault2IndLzdXdrPreXdr1517(table1.getDefault2IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+							//table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
 							table1.setDefault2IndBdqXdrPreXdr1517(table1.getDefault2IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1933,18 +2113,18 @@ public class TB07uController {
 						table1.setDefault2TotalHiv(table1.getDefault2TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+							//table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
 							table1.setDefault2IndLzdXdrPreXdrHiv(table1.getDefault2IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+							//table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
 							table1.setDefault2IndBdqXdrPreXdrHiv(table1.getDefault2IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1955,25 +2135,36 @@ public class TB07uController {
 					table1.setFailure1PreXdr(table1.getFailure1PreXdr() + 1);
 					table1.setFailure1Total(table1.getFailure1Total() + 1);
 
-
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
+					
+					
 					if (age > 0 && age <= 4) {
 						table1.setFailure1PreXdr04(table1.getFailure1PreXdr04() + 1);
 						table1.setTotalPreXdr04(table1.getTotalPreXdr04() + 1);
 						table1.setFailure1Total04(table1.getFailure1Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+							//table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
 							table1.setFailure1IndLzdXdrPreXdr04(table1.getFailure1IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+							//table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
 							table1.setFailure1IndBdqXdrPreXdr04(table1.getFailure1IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -1984,18 +2175,18 @@ public class TB07uController {
 						table1.setFailure1Total0514(table1.getFailure1Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+							//table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
 							table1.setFailure1IndLzdXdrPreXdr0514(table1.getFailure1IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+							//table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
 							table1.setFailure1IndBdqXdrPreXdr0514(table1.getFailure1IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2005,18 +2196,18 @@ public class TB07uController {
 						table1.setFailure1Total1517(table1.getFailure1Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+							//table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
 							table1.setFailure1IndLzdXdrPreXdr1517(table1.getFailure1IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+							//table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
 							table1.setFailure1IndBdqXdrPreXdr1517(table1.getFailure1IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2026,18 +2217,18 @@ public class TB07uController {
 						table1.setFailure1TotalHiv(table1.getFailure1TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+							//table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
 							table1.setFailure1IndLzdXdrPreXdrHiv(table1.getFailure1IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+							//table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
 							table1.setFailure1IndBdqXdrPreXdrHiv(table1.getFailure1IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -2047,24 +2238,36 @@ public class TB07uController {
 					table1.setFailure2PreXdr(table1.getFailure2PreXdr() + 1);
 					table1.setFailure2Total(table1.getFailure2Total() + 1);
 
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
+					
+					
 					if (age > 0 && age <= 4) {
 						table1.setFailure2PreXdr04(table1.getFailure2PreXdr04() + 1);
 						table1.setTotalPreXdr04(table1.getTotalPreXdr04() + 1);
 						table1.setFailure2Total04(table1.getFailure2Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+							//table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
 							table1.setFailure2IndLzdXdrPreXdr04(table1.getFailure2IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+							//table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
 							table1.setFailure2IndBdqXdrPreXdr04(table1.getFailure2IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2075,18 +2278,18 @@ public class TB07uController {
 						table1.setFailure2Total0514(table1.getFailure2Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+							//table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
 							table1.setFailure2IndLzdXdrPreXdr0514(table1.getFailure2IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+							//table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
 							table1.setFailure2IndBdqXdrPreXdr0514(table1.getFailure2IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2097,18 +2300,18 @@ public class TB07uController {
 						table1.setFailure2Total1517(table1.getFailure2Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+							//table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
 							table1.setFailure2IndLzdXdrPreXdr1517(table1.getFailure2IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+							//table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
 							table1.setFailure2IndBdqXdrPreXdr1517(table1.getFailure2IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2119,18 +2322,18 @@ public class TB07uController {
 						table1.setFailure2TotalHiv(table1.getFailure2TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+							//table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
 							table1.setFailure2IndLzdXdrPreXdrHiv(table1.getFailure2IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+							//table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
 							table1.setFailure2IndBdqXdrPreXdrHiv(table1.getFailure2IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2141,24 +2344,36 @@ public class TB07uController {
 					table1.setOtherPreXdr(table1.getOtherPreXdr() + 1);
 					table1.setOtherTotal(table1.getOtherTotal() + 1);
 
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
+					
+					
 					if (age > 0 && age <= 4) {
 						table1.setOtherPreXdr04(table1.getOtherPreXdr04() + 1);
 						table1.setTotalPreXdr04(table1.getTotalPreXdr04() + 1);
 						table1.setOtherTotal04(table1.getOtherTotal04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+							//table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 							table1.setOtherIndLzdXdrPreXdr04(table1.getOtherIndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+							//table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 							table1.setOtherIndBdqXdrPreXdr04(table1.getOtherIndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 
@@ -2170,18 +2385,18 @@ public class TB07uController {
 						table1.setOtherTotal0514(table1.getOtherTotal0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+							//table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 							table1.setOtherIndLzdXdrPreXdr0514(table1.getOtherIndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+							//table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 							table1.setOtherIndBdqXdrPreXdr0514(table1.getOtherIndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2191,18 +2406,18 @@ public class TB07uController {
 						table1.setOtherTotal1517(table1.getOtherTotal1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+							//table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 							table1.setOtherIndLzdXdrPreXdr1517(table1.getOtherIndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+							//table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 							table1.setOtherIndBdqXdrPreXdr1517(table1.getOtherIndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2212,18 +2427,18 @@ public class TB07uController {
 						table1.setOtherTotalHiv(table1.getOtherTotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+							//table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 							table1.setOtherIndLzdXdrPreXdrHiv(table1.getOtherIndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+							//table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 							table1.setOtherIndBdqXdrPreXdrHiv(table1.getOtherIndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -2238,6 +2453,10 @@ public class TB07uController {
 					rf = getLatestRegimenForPatient(tf.getPatient().getPatientId().intValue(),regList, locList, year, quarter, month);
 				}
 				
+				else {
+					System.out.println("REG LIST NULL: " + tf.getPatient().getPatientId().intValue());
+				}
+				
 				if(rf!=null) {
 					regimen = rf.getSldRegimenType();
 					if(regimen!=null) {
@@ -2248,13 +2467,36 @@ public class TB07uController {
 						else if(regimen.getConceptId().intValue()==indBdq) {
 							isIndBdq = Boolean.TRUE;
 						}
+						
+						else {
+							System.out.println("REG OTHER: " + tf.getPatient().getPatientId().intValue());
+						}
 					}
+					
+					else {
+						System.out.println("REG NULL: " + tf.getPatient().getPatientId().intValue());
+					}
+				}
+				
+				else {
+					System.out.println("RF NULL: " + tf.getPatient().getPatientId().intValue());
 				}
 				
 				if (newCase != null && newCase) {
 
 					table1.setNewXdr(table1.getNewXdr() + 1);
 					table1.setNewTotal(table1.getNewTotal() + 1);
+					
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 					
 
 					if (age > 0 && age <= 4) {
@@ -2263,18 +2505,18 @@ public class TB07uController {
 						table1.setNewTotal04(table1.getNewTotal04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+							//table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
 							table1.setNewIndLzdXdrPreXdr04(table1.getNewIndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+							//table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
 							table1.setNewIndBdqXdrPreXdr04(table1.getNewIndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2284,18 +2526,18 @@ public class TB07uController {
 						table1.setNewTotal0514(table1.getNewTotal0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+							//table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
 							table1.setNewIndLzdXdrPreXdr0514(table1.getNewIndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+							//table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
 							table1.setNewIndBdqXdrPreXdr0514(table1.getNewIndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 						
 					}
@@ -2308,18 +2550,18 @@ public class TB07uController {
 						table1.setNewTotal1517(table1.getNewTotal1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+						//	table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
 							table1.setNewIndLzdXdrPreXdr1517(table1.getNewIndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+					//		table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+						//	table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
 							table1.setNewIndBdqXdrPreXdr1517(table1.getNewIndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+						//	table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2329,18 +2571,18 @@ public class TB07uController {
 						table1.setNewTotalHiv(table1.getNewTotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+						//	table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
 							table1.setNewIndLzdXdrPreXdrHiv(table1.getNewIndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+					//		table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+						//	table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
 							table1.setNewIndBdqXdrPreXdrHiv(table1.getNewIndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+						//	table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -2350,6 +2592,16 @@ public class TB07uController {
 					table1.setRelapse1Xdr(table1.getRelapse1Xdr() + 1);
 					table1.setRelapse1Total(table1.getRelapse1Total() + 1);
 					
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setRelapse1Xdr04(table1.getRelapse1Xdr04() + 1);
@@ -2357,18 +2609,18 @@ public class TB07uController {
 						table1.setRelapse1Total04(table1.getRelapse1Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
 							table1.setRelapse1IndLzdXdrPreXdr04(table1.getRelapse1IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
 							table1.setRelapse1IndBdqXdrPreXdr04(table1.getRelapse1IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2379,18 +2631,18 @@ public class TB07uController {
 						table1.setRelapse1Total0514(table1.getRelapse1Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
 							table1.setRelapse1IndLzdXdrPreXdr0514(table1.getRelapse1IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
 							table1.setRelapse1IndBdqXdrPreXdr0514(table1.getRelapse1IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2400,18 +2652,18 @@ public class TB07uController {
 						table1.setRelapse1Total1517(table1.getRelapse1Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
 							table1.setRelapse1IndLzdXdrPreXdr1517(table1.getRelapse1IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
 							table1.setRelapse1IndBdqXdrPreXdr1517(table1.getRelapse1IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2421,18 +2673,18 @@ public class TB07uController {
 						table1.setRelapse1TotalHiv(table1.getRelapse1TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse1IndLzdXdrPreXdr(table1.getRelapse1IndLzdXdrPreXdr() + 1);
 							table1.setRelapse1IndLzdXdrPreXdrHiv(table1.getRelapse1IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse1IndBdqXdrPreXdr(table1.getRelapse1IndBdqXdrPreXdr() + 1);
 							table1.setRelapse1IndBdqXdrPreXdrHiv(table1.getRelapse1IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -2442,24 +2694,36 @@ public class TB07uController {
 					table1.setRelapse2Xdr(table1.getRelapse2Xdr() + 1);
 					table1.setRelapse2Total(table1.getRelapse2Total() + 1);
 
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
+					
+					
 					if (age > 0 && age <= 4) {
 						table1.setRelapse2Xdr04(table1.getRelapse2Xdr04() + 1);
 						table1.setTotalXdr04(table1.getTotalXdr04() + 1);
 						table1.setRelapse2Total04(table1.getRelapse2Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
 							table1.setRelapse2IndLzdXdrPreXdr04(table1.getRelapse2IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
 							table1.setRelapse2IndBdqXdrPreXdr04(table1.getRelapse2IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2470,18 +2734,18 @@ public class TB07uController {
 						table1.setRelapse2Total0514(table1.getRelapse2Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
 							table1.setRelapse2IndLzdXdrPreXdr0514(table1.getRelapse2IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							///table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
 							table1.setRelapse2IndBdqXdrPreXdr0514(table1.getRelapse2IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2491,18 +2755,18 @@ public class TB07uController {
 						table1.setRelapse2Total1517(table1.getRelapse2Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
 							table1.setRelapse2IndLzdXdrPreXdr1517(table1.getRelapse2IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
 							table1.setRelapse2IndBdqXdrPreXdr1517(table1.getRelapse2IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2512,18 +2776,18 @@ public class TB07uController {
 						table1.setRelapse2TotalHiv(table1.getRelapse2TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
+							//table1.setRelapse2IndLzdXdrPreXdr(table1.getRelapse2IndLzdXdrPreXdr() + 1);
 							table1.setRelapse2IndLzdXdrPreXdrHiv(table1.getRelapse2IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
+							//table1.setRelapse2IndBdqXdrPreXdr(table1.getRelapse2IndBdqXdrPreXdr() + 1);
 							table1.setRelapse2IndBdqXdrPreXdrHiv(table1.getRelapse2IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -2533,24 +2797,35 @@ public class TB07uController {
 					table1.setDefault1Xdr(table1.getDefault1Xdr() + 1);
 					table1.setDefault1Total(table1.getDefault1Total() + 1);
 
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
+					
 					if (age > 0 && age <= 4) {
 						table1.setDefault1Xdr04(table1.getDefault1Xdr04() + 1);
 						table1.setTotalXdr04(table1.getTotalXdr04() + 1);
 						table1.setDefault1Total04(table1.getDefault1Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+							//table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
 							table1.setDefault1IndLzdXdrPreXdr04(table1.getDefault1IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+							//table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
 							table1.setDefault1IndBdqXdrPreXdr04(table1.getDefault1IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2561,18 +2836,18 @@ public class TB07uController {
 						table1.setDefault1Total0514(table1.getDefault1Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+							//table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
 							table1.setDefault1IndLzdXdrPreXdr0514(table1.getDefault1IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+							//table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
 							table1.setDefault1IndBdqXdrPreXdr0514(table1.getDefault1IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2583,18 +2858,18 @@ public class TB07uController {
 						table1.setDefault1Total1517(table1.getDefault1Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+							//table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
 							table1.setDefault1IndLzdXdrPreXdr1517(table1.getDefault1IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+							//table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
 							table1.setDefault1IndBdqXdrPreXdr1517(table1.getDefault1IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2605,18 +2880,18 @@ public class TB07uController {
 						table1.setDefault1TotalHiv(table1.getDefault1TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
+							//table1.setDefault1IndLzdXdrPreXdr(table1.getDefault1IndLzdXdrPreXdr() + 1);
 							table1.setDefault1IndLzdXdrPreXdrHiv(table1.getDefault1IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
+							//table1.setDefault1IndBdqXdrPreXdr(table1.getDefault1IndBdqXdrPreXdr() + 1);
 							table1.setDefault1IndBdqXdrPreXdrHiv(table1.getDefault1IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2627,6 +2902,16 @@ public class TB07uController {
 					table1.setDefault2Xdr(table1.getDefault2Xdr() + 1);
 					table1.setDefault2Total(table1.getDefault2Total() + 1);
 
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setDefault2Xdr04(table1.getDefault2Xdr04() + 1);
@@ -2635,18 +2920,18 @@ public class TB07uController {
 
 
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+							//table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
 							table1.setDefault2IndLzdXdrPreXdr04(table1.getDefault2IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+							//table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
 							table1.setDefault2IndBdqXdrPreXdr04(table1.getDefault2IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2657,18 +2942,18 @@ public class TB07uController {
 						table1.setDefault2Total0514(table1.getDefault2Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+							//table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
 							table1.setDefault2IndLzdXdrPreXdr0514(table1.getDefault2IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+							//table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
 							table1.setDefault2IndBdqXdrPreXdr0514(table1.getDefault2IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2680,18 +2965,18 @@ public class TB07uController {
 						
 
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+							//table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
 							table1.setDefault2IndLzdXdrPreXdr1517(table1.getDefault2IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+							//table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
 							table1.setDefault2IndBdqXdrPreXdr1517(table1.getDefault2IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2702,18 +2987,18 @@ public class TB07uController {
 						table1.setDefault2TotalHiv(table1.getDefault2TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
+							//table1.setDefault2IndLzdXdrPreXdr(table1.getDefault2IndLzdXdrPreXdr() + 1);
 							table1.setDefault2IndLzdXdrPreXdrHiv(table1.getDefault2IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
+							//table1.setDefault2IndBdqXdrPreXdr(table1.getDefault2IndBdqXdrPreXdr() + 1);
 							table1.setDefault2IndBdqXdrPreXdrHiv(table1.getDefault2IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2724,6 +3009,16 @@ public class TB07uController {
 					table1.setFailure1Xdr(table1.getFailure1Xdr() + 1);
 					table1.setFailure1Total(table1.getFailure1Total() + 1);
 
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setFailure1Xdr04(table1.getFailure1Xdr04() + 1);
@@ -2731,18 +3026,18 @@ public class TB07uController {
 						table1.setFailure1Total04(table1.getFailure1Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+							//table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
 							table1.setFailure1IndLzdXdrPreXdr04(table1.getFailure1IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+							//table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
 							table1.setFailure1IndBdqXdrPreXdr04(table1.getFailure1IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2753,18 +3048,18 @@ public class TB07uController {
 						table1.setFailure1Total0514(table1.getFailure1Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+							//table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
 							table1.setFailure1IndLzdXdrPreXdr0514(table1.getFailure1IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+						//	table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
 							table1.setFailure1IndBdqXdrPreXdr0514(table1.getFailure1IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2774,18 +3069,18 @@ public class TB07uController {
 						table1.setFailure1Total1517(table1.getFailure1Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+							//table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
 							table1.setFailure1IndLzdXdrPreXdr1517(table1.getFailure1IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+							//table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
 							table1.setFailure1IndBdqXdrPreXdr1517(table1.getFailure1IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2795,18 +3090,18 @@ public class TB07uController {
 						table1.setFailure1TotalHiv(table1.getFailure1TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
+							//table1.setFailure1IndLzdXdrPreXdr(table1.getFailure1IndLzdXdrPreXdr() + 1);
 							table1.setFailure1IndLzdXdrPreXdrHiv(table1.getFailure1IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
+							//table1.setFailure1IndBdqXdrPreXdr(table1.getFailure1IndBdqXdrPreXdr() + 1);
 							table1.setFailure1IndBdqXdrPreXdrHiv(table1.getFailure1IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -2815,6 +3110,17 @@ public class TB07uController {
 
 					table1.setFailure2Xdr(table1.getFailure2Xdr() + 1);
 					table1.setFailure2Total(table1.getFailure2Total() + 1);
+					
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setFailure2Xdr04(table1.getFailure2Xdr04() + 1);
@@ -2822,18 +3128,18 @@ public class TB07uController {
 						table1.setFailure2Total04(table1.getFailure2Total04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+							//table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
 							table1.setFailure2IndLzdXdrPreXdr04(table1.getFailure2IndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+							//table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
 							table1.setFailure2IndBdqXdrPreXdr04(table1.getFailure2IndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2844,18 +3150,18 @@ public class TB07uController {
 						table1.setFailure2Total0514(table1.getFailure2Total0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+							//table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
 							table1.setFailure2IndLzdXdrPreXdr0514(table1.getFailure2IndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+							//table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
 							table1.setFailure2IndBdqXdrPreXdr0514(table1.getFailure2IndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2865,18 +3171,18 @@ public class TB07uController {
 						table1.setFailure2Total1517(table1.getFailure2Total1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+							//table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
 							table1.setFailure2IndLzdXdrPreXdr1517(table1.getFailure2IndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+							//table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
 							table1.setFailure2IndBdqXdrPreXdr1517(table1.getFailure2IndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2886,18 +3192,18 @@ public class TB07uController {
 						table1.setFailure2TotalHiv(table1.getFailure2TotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
+							//table1.setFailure2IndLzdXdrPreXdr(table1.getFailure2IndLzdXdrPreXdr() + 1);
 							table1.setFailure2IndLzdXdrPreXdrHiv(table1.getFailure2IndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
+							//table1.setFailure2IndBdqXdrPreXdr(table1.getFailure2IndBdqXdrPreXdr() + 1);
 							table1.setFailure2IndBdqXdrPreXdrHiv(table1.getFailure2IndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
@@ -2906,6 +3212,17 @@ public class TB07uController {
 
 					table1.setOtherXdr(table1.getOtherXdr() + 1);
 					table1.setOtherTotal(table1.getOtherTotal() + 1);
+					
+					if(isIndLzd!=null && isIndLzd) {
+						table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+						
+					}
+					
+					else if(isIndBdq!=null && isIndBdq) {
+						table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+					}
 
 					if (age > 0 && age <= 4) {
 						table1.setOtherXdr04(table1.getOtherXdr04() + 1);
@@ -2913,18 +3230,18 @@ public class TB07uController {
 						table1.setOtherTotal04(table1.getOtherTotal04() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+							//table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 							table1.setOtherIndLzdXdrPreXdr04(table1.getOtherIndLzdXdrPreXdr04() + 1);
 							table1.setTotalIndLzdXdrPreXdr04(table1.getTotalIndLzdXdrPreXdr04() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+							//table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 							table1.setOtherIndBdqXdrPreXdr04(table1.getOtherIndBdqXdrPreXdr04() + 1);
 							table1.setTotalIndBdqXdrPreXdr04(table1.getTotalIndBdqXdrPreXdr04() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 
 					}
@@ -2935,18 +3252,18 @@ public class TB07uController {
 						table1.setOtherTotal0514(table1.getOtherTotal0514() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+							//table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 							table1.setOtherIndLzdXdrPreXdr0514(table1.getOtherIndLzdXdrPreXdr0514() + 1);
 							table1.setTotalIndLzdXdrPreXdr0514(table1.getTotalIndLzdXdrPreXdr0514() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+							//table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 							table1.setOtherIndBdqXdrPreXdr0514(table1.getOtherIndBdqXdrPreXdr0514() + 1);
 							table1.setTotalIndBdqXdrPreXdr0514(table1.getTotalIndBdqXdrPreXdr0514() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2956,18 +3273,18 @@ public class TB07uController {
 						table1.setOtherTotal1517(table1.getOtherTotal1517() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+							//table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 							table1.setOtherIndLzdXdrPreXdr1517(table1.getOtherIndLzdXdrPreXdr1517() + 1);
 							table1.setTotalIndLzdXdrPreXdr1517(table1.getTotalIndLzdXdrPreXdr1517() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+							//table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 							table1.setOtherIndBdqXdrPreXdr1517(table1.getOtherIndBdqXdrPreXdr1517() + 1);
 							table1.setTotalIndBdqXdrPreXdr1517(table1.getTotalIndBdqXdrPreXdr1517() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 
@@ -2977,18 +3294,18 @@ public class TB07uController {
 						table1.setOtherTotalHiv(table1.getOtherTotalHiv() + 1);
 						
 						if(isIndLzd!=null && isIndLzd) {
-							table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
+							//table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 							table1.setOtherIndLzdXdrPreXdrHiv(table1.getOtherIndLzdXdrPreXdrHiv() + 1);
 							table1.setTotalIndLzdXdrPreXdrHiv(table1.getTotalIndLzdXdrPreXdrHiv() + 1);
-							table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
+							//table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 							
 						}
 						
 						else if(isIndBdq!=null && isIndBdq) {
-							table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
+							//table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 							table1.setOtherIndBdqXdrPreXdrHiv(table1.getOtherIndBdqXdrPreXdrHiv() + 1);
 							table1.setTotalIndBdqXdrPreXdrHiv(table1.getTotalIndBdqXdrPreXdrHiv() + 1);
-							table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
+							//table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 						}
 					}
 				}
