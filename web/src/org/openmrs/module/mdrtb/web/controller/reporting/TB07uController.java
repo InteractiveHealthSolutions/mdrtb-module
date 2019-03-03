@@ -2345,13 +2345,13 @@ public class TB07uController {
 					table1.setOtherTotal(table1.getOtherTotal() + 1);
 
 					if(isIndLzd!=null && isIndLzd) {
-						table1.setNewIndLzdXdrPreXdr(table1.getNewIndLzdXdrPreXdr() + 1);
+						table1.setOtherIndLzdXdrPreXdr(table1.getOtherIndLzdXdrPreXdr() + 1);
 						table1.setTotalIndLzdXdrPreXdr(table1.getTotalIndLzdXdrPreXdr() + 1);
 						
 					}
 					
 					else if(isIndBdq!=null && isIndBdq) {
-						table1.setNewIndBdqXdrPreXdr(table1.getNewIndBdqXdrPreXdr() + 1);
+						table1.setOtherIndBdqXdrPreXdr(table1.getOtherIndBdqXdrPreXdr() + 1);
 						table1.setTotalIndBdqXdrPreXdr(table1.getTotalIndBdqXdrPreXdr() + 1);
 					}
 					
