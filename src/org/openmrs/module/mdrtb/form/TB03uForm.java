@@ -20,11 +20,12 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
+import org.openmrs.module.mdrtb.reporting.TB03Util;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 
 
-public class TB03uForm extends AbstractSimpleForm {
+public class TB03uForm extends AbstractSimpleForm implements Comparable<TB03uForm> {
 	
 	private Integer  tb03Id;
 	
@@ -1407,6 +1408,15 @@ public class TB03uForm extends AbstractSimpleForm {
 		} 
 	}
 		
+	
+	public int compareTo(TB03uForm form) {
+		if(TB03Util.getRegistrationNumber(this)==null)
+			return 1;
+		if(TB03Util.getRegistrationNumber(form)==null)
+			return -1;
+		
+		return TB03Util.getRegistrationNumber(this).compareTo(TB03Util.getRegistrationNumber(form));
+	}
 	
 
 }

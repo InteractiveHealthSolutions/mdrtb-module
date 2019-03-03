@@ -20,6 +20,7 @@ import org.openmrs.module.mdrtb.form.DSTForm;
 import org.openmrs.module.mdrtb.form.Form89;
 import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.RegimenForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
@@ -31,8 +32,10 @@ import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
+import org.openmrs.module.mdrtb.reporting.TB03Util;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.specimen.DstImpl;
 
@@ -9539,10 +9542,10 @@ report += "<br/>";
 	    		}
 	    		
 	    		
-	    		ArrayList<TB03Form> tb03s = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year,quarter,month);
-	    		Collections.sort(tb03s);
+	    		ArrayList<TB03uForm> tb03us = Context.getService(MdrtbService.class).getTB03uFormsFilled(locList, year,quarter,month);
+	    		Collections.sort(tb03us);
 	    		
-	    		model.addAttribute("listName", getMessage("mdrtb.allCasesEnrolled"));
+	    		model.addAttribute("listName", getMessage("mdrtb.drTbPatients"));
 	    		String report = "";
 	    		
 	    		//NEW CASES 
@@ -9570,7 +9573,8 @@ report += "<br/>";
 	    		report += openTD() + getMessage("mdrtb.tb03uDate") + closeTD();
 	    		report += openTD() + getMessage("mdrtb.tb03.treatmentRegimen") + closeTD();
 	    		report += openTD() + getMessage("mdrtb.tb03.treatmentStartDate") + closeTD();
-	    		report += openTD() + getMessage("mdrtb.tb03.changeOfRegimen") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03u.changeOfRegimen") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.treatmentStartDate") + closeTD();
 	    		report += openTD() + getMessage("mdrtb.lists.outcome") + closeTD();
 	    		report += openTD() + getMessage("mdrtb.lists.endOfTreatmentDate") + closeTD();
 	    		report += closeTR();
@@ -9606,96 +9610,33 @@ report += "<br/>";
 	    		report += openTD() + "" + closeTD();
 	    		
 	    		report += closeTR();
-	    		
+	    		TB03Form tf  = null;
+	    		RegimenForm rf = null;
 	    		int i = 0;
 	    		Person p = null;
-	    		for(TB03Form tf : tb03s) {
-	    				if(tf.getPatient()==null || tf.getPatient().isVoided())
+	    		for(TB03uForm tuf : tb03us) {
+	    			tf = null;
+	    			rf = null;
+	    				if(tuf.getPatient()==null || tuf.getPatient().isVoided())
 	    					continue;
+	    				
+	    				//tuf = Context.getService(MdrtbService.class).getTB03uFormForProgram(tf.getPatient(), tf.getPatProgId());
+	    				
+	    				tf = tuf.getTb03();
+	    				
+	    				if(tf==null)
+	    					continue;
+	    				
 	    				i++;
 	    				p = Context.getPersonService().getPerson(tf.getPatient().getId());
 	    				report += openTR();
 	    				report += openTD() + i +  closeTD();
 	    				report += openTD() + getRegistrationNumber(tf) +  closeTD();
-	    				report += openTD() + sdf.format(tf.getEncounterDatetime()) +  closeTD();
-	    				if(tf.getTreatmentStartDate()!=null)
-	    					report += openTD() + sdf.format(tf.getTreatmentStartDate()) +  closeTD();
-	    				else 
-	    					report += openTD() + "" +  closeTD();
-	    				
-	    				if(tf.getTreatmentSiteIP()!=null) {
-	    					report += openTD() + tf.getTreatmentSiteIP().getName().getName() +  closeTD();
-	    				}
-	    				
-	    				else
-	    					report += openTD() + "" +  closeTD();
-	    				
 	    				report += openTD() + p.getFamilyName() + "," + p.getGivenName() + closeTD();
 	    				report += openTD() + getGender(p) + closeTD();
-	    		    	report += openTD() + sdf.format(p.getBirthdate()) + closeTD();
+	    				report += openTD() + sdf.format(p.getBirthdate()) + closeTD();
 	    		    	report += openTD() + tf.getAgeAtTB03Registration() + closeTD();
-	    		    	
-	    		    	
-	    		    	if( tf.getAnatomicalSite()!=null) {
-	    		    		Integer asId = tf.getAnatomicalSite().getConceptId();
-	    		    		if(asId.intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PULMONARY_TB).getConceptId().intValue()) {
-	    		    			report += openTD() + getMessage("mdrtb.lists.pulmonaryShort") + closeTD();
-	    		    		}
-	    		    		
-	    		    		else if (asId.intValue()==Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.EXTRA_PULMONARY_TB).getConceptId().intValue()) {
-	    		    			report += openTD() + getMessage("mdrtb.lists.extrapulmonaryShort") + closeTD();
-	    		    		}
-	    		    		
-	    		    		else {
-	    		    			report += openTD() + "" +  closeTD();
-	    		    		}
-	    		    		//report += openTD() + tf.getAnatomicalSite().getName().getName().charAt(0) + closeTD();
-	    		    	}
-	    		    	
-	    		    	
-	    		    		
-	    		    	else
-	    					report += openTD() + "" +  closeTD();
-	    		    	
-	    		    	if(tf.getRegistrationGroup()!=null)
-	    		    		report += openTD() + tf.getRegistrationGroup().getName().getName() +  closeTD();
-	    		    	else 
-	    		    		report += openTD() + "" +  closeTD();
-	    		    	
-	    		    	//SMEAR
-	    		    	List<SmearForm> smears = tf.getSmears();
-	    		    	if(smears!=null && smears.size()!=0) {
-	    		    		Collections.sort(smears);
-	    		    		
-	    		    		SmearForm ds = smears.get(0);
-	    		    		
-	    		    		if(ds.getSmearResult()!=null) {
-	    		    			
-	    		    			if(ds.getSmearResult().getConceptId().intValue()==ms.getConcept(TbConcepts.NEGATIVE).getConceptId().intValue()) {
-	    		    				report += openTD() + getMessage("mdrtb.negativeShort") + closeTD();
-	    		    			}
-	    		    			
-	    		    			else {
-	    		    				Integer[] concs = MdrtbUtil.getPositiveResultConceptIds();
-	    		    				for (int index = 0; index<concs.length; index++) {
-	    		    					if(concs[index].intValue() == ds.getSmearResult().getConceptId().intValue()) {
-	    		    						report += openTD() + getMessage("mdrtb.positiveShort") + closeTD();
-	    		    						break;
-	    		    					}
-	    		    					
-	    		    				}
-	    		    			}
-	    		    		}
-	    		    		
-	    		    		else {
-	    		    			report += openTD() + "" + closeTD();
-	    		    		}
-	    		    	}
-	    		    	
-	    		    	else {
-			    			report += openTD() + "" + closeTD();
-			    		}
-	    		    	
+	    				
 	    		    	//XPERT
 	    		    	List<XpertForm> xperts = tf.getXperts();
 	    		    	if(xperts!=null && xperts.size()!=0) {
@@ -9783,38 +9724,7 @@ report += "<br/>";
 	    		    			report += openTD() + "" + closeTD();
 	    		    		}
 	    		    		
-	    		    		/*if(ih!=null) {
-	    		    			int concId = ih.getConceptId().intValue();
-	    		    			
-	    		    			if(concId==ms.getConcept(TbConcepts.DETECTED).getConceptId().intValue()) {
-	    		    				res = ms.getConcept(TbConcepts.ISONIAZID).getName().getShortName();
-	    		    			}
-	    		    			
-	    		    			else if(concId==ms.getConcept(TbConcepts.NOT_DETECTED).getConceptId().intValue()) {
-	    		    				sen = ms.getConcept(TbConcepts.ISONIAZID).getName().getShortName();
-	    		    			}
-	    		    		}
-	    		    		
-	    		    		if(rh!=null) {
-	    		    			int concId = rh.getConceptId().intValue();
-	    		    			
-	    		    			if(concId==ms.getConcept(TbConcepts.DETECTED).getConceptId().intValue()) {
-	    		    				if(res.length()==0)
-	    		    					res = ms.getConcept(TbConcepts.RIFAMPICIN).getName().getShortName();
-	    		    				else 
-	    		    					res += "," + ms.getConcept(TbConcepts.RIFAMPICIN).getName().getShortName();
-	    		    			}
-	    		    			
-	    		    			else if(concId==ms.getConcept(TbConcepts.NOT_DETECTED).getConceptId().intValue()) {
-	    		    				if(sen.length()==0)
-	    		    					sen = ms.getConcept(TbConcepts.RIFAMPICIN).getName().getShortName();
-	    		    				else 
-	    		    					sen += "," + ms.getConcept(TbConcepts.RIFAMPICIN).getName().getShortName();
-	    		    			}
-	    		    		}
-	    		    		
-	    		    		report += openTD() + res + closeTD();
-	    		    		report += openTD() + sen + closeTD();*/
+
 	    		    	}
 	    		    	
 	    		    	else {
@@ -9856,44 +9766,6 @@ report += "<br/>";
 	    		    			report += openTD() + "" + closeTD();
 	    		    		}
 	    		    		
-	    		    		/*Concept ih = h.getInjResult();
-	    		    		Concept fh = h.getFqResult();
-	    		    		
-	    		    		String res = "";
-	    		    		String sen = "";
-	    		    		
-	    		    		if(ih!=null) {
-	    		    			int concId = ih.getConceptId().intValue();
-	    		    			
-	    		    			if(concId==ms.getConcept(TbConcepts.DETECTED).getConceptId().intValue()) {
-	    		    				res = getMessage("mdrtb.lists.injShort");
-	    		    			}
-	    		    			
-	    		    			else if(concId==ms.getConcept(TbConcepts.NOT_DETECTED).getConceptId().intValue()) {
-	    		    				sen = getMessage("mdrtb.lists.injShort");
-	    		    			}
-	    		    		}
-	    		    		
-	    		    		if(fh!=null) {
-	    		    			int concId = fh.getConceptId().intValue();
-	    		    			
-	    		    			if(concId==ms.getConcept(TbConcepts.DETECTED).getConceptId().intValue()) {
-	    		    				if(res.length()==0)
-	    		    					res = getMessage("mdrtb.lists.fqShort");
-	    		    				else 
-	    		    					res += "," + getMessage("mdrtb.lists.fqShort");
-	    		    			}
-	    		    			
-	    		    			else if(concId==ms.getConcept(TbConcepts.NOT_DETECTED).getConceptId().intValue()) {
-	    		    				if(sen.length()==0)
-	    		    					sen = getMessage("mdrtb.lists.fqShort");
-	    		    				else 
-	    		    					sen += "," + getMessage("mdrtb.lists.fqShort");
-	    		    			}
-	    		    		}
-	    		    		
-	    		    		report += openTD() + res + closeTD();
-	    		    		report += openTD() + sen + closeTD();*/
 	    		    	}
 	    		    	
 	    		    	else {
@@ -9901,7 +9773,6 @@ report += "<br/>";
 	    		    		report += openTD() + "" + closeTD();
 	    		    		report += openTD() + "" + closeTD();
 	    		    	}
-	    		    	
 	    		    	
 	    		    	//CULTURE
 	    		    	List<CultureForm> cultures = tf.getCultures();
@@ -9979,9 +9850,481 @@ report += "<br/>";
 	    		    		report += openTD() + "" + closeTD();
 	    		    	}
 	    		    	
-	    		    	//OTHER NUMBER
-	    		    	report += openTD() + getReRegistrationNumber(tf) + closeTD();
+	    		    	//////////////////////////////////////
+	    		    	
+	    		    	report += openTD() + TB03Util.getRegistrationNumber(tuf) + closeTD(); 
+	    		    	report += openTD() + sdf.format(tuf.getEncounterDatetime()) +  closeTD();	
+	    		    	
+	    		    	if(tuf.getPatientCategory()!=null)
+	    		    		report += openTD() + tuf.getPatientCategory().getName().getName()  +  closeTD();
+	    		    	else
+	    		    		report += openTD() + "" + closeTD();
+	    		    	
+	    		    	if(tuf.getMdrTreatmentStartDate()!=null)
+	    		    		report += openTD() + sdf.format(tuf.getMdrTreatmentStartDate()) +  closeTD();
+	    		    	else
+	    		    		report += openTD() + "" + closeTD();
+	    		    	
+	    		    	rf = getFirstRegimenChangeForPatient(tuf.getPatient(), tuf.getPatProgId());
+	    		    	
+	    		    	if(rf!=null) {
+	    		    		if(rf.getSldRegimenType()!=null) {
+	    		    			report += openTD() + rf.getSldRegimenType().getName().getName()  +  closeTD();
+	    		    		}
+	    		    		
+	    		    		else {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    		
+	    		    		if(rf.getCouncilDate()!=null) {
+		    		    		report += openTD() + sdf.format(rf.getCouncilDate()) +  closeTD();
+	    		    		}
+	    		    		
+		    		    	else {
+		    		    		report += openTD() + "" + closeTD();
+		    		    	}
+	    		    	}
+	    		    	
+	    		    	else {
+	    		    		report += openTD() + "" + closeTD();
+	    		    		report += openTD() + "" + closeTD();
+	    		    	}
+	    		    	
+	    		    	
+	    		    	if(tuf.getTreatmentOutcome()!=null)
+	    		    		report += openTD() + tuf.getTreatmentOutcome().getName().getName()  +  closeTD();
+	    		    	else
+	    		    		report += openTD() + "" + closeTD();
+	    		    	
+	    		    	if(tuf.getTreatmentOutcomeDate()!=null)
+	    		    		report += openTD() + sdf.format(tuf.getTreatmentOutcomeDate()) +  closeTD();
+	    		    	else
+	    		    		report += openTD() + "" + closeTD();
+	    		    	
+	    		    	
+	    		    	
+	    		    	
+	    		    	report += openTD() + getPatientLink(tf) + closeTD(); 
+	    				report += closeTR();
+	    				
+	    		}
 	    		
+	    				
+	    		report += closeTable();
+	    		report += getMessage("mdrtb.numberOfRecords") + ": " + i;
+	    		model.addAttribute("report",report);
+	    		return "/module/mdrtb/reporting/patientListsResults";
+	    		
+	    
+	    }
+	
+	@RequestMapping("/module/mdrtb/reporting/drTbPatientsNoTreatment")
+	 public  String drTbPatientsNoTreatment(@RequestParam("district") Integer districtId,
+	    		@RequestParam("oblast") Integer oblastId,
+	    		@RequestParam("facility") Integer facilityId,
+	            @RequestParam(value="year", required=true) Integer year,
+	            @RequestParam(value="quarter", required=false) String quarter,
+	            @RequestParam(value="month", required=false) String month,
+	            ModelMap model) throws EvaluationException{
+	    		
+	    	SimpleDateFormat sdf = Context.getDateFormat();
+	    	sdf.setLenient(false);	
+	    	
+	    		MdrtbService ms = Context.getService(MdrtbService.class);
+	    		
+	    		String oName = "";
+	    		if(oblastId!=null) {
+	    			oName = ms.getOblast(oblastId).getName();
+	    		}
+	    		
+	    		String dName = "";
+	    		if(districtId!=null) {
+	    			dName = ms.getDistrict(districtId).getName();
+
+	    		}
+	    		
+	    		String fName = "";
+	    		if(facilityId!=null) {
+	    			fName = ms.getFacility(facilityId).getName();
+
+	    		}
+	    		
+	    		model.addAttribute("oblast", oName);
+	    		model.addAttribute("district", dName);
+	    		model.addAttribute("facility", fName);
+	    		model.addAttribute("year", year);
+	    		model.addAttribute("month", month);
+	    		model.addAttribute("quarter", quarter);
+	    		
+	    		//ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+	    		ArrayList<Location> locList = null;
+	    		if(oblastId.intValue()==186) {
+	    			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+	    		}
+	    		else {
+	    			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+	    		}
+	    		
+	    		
+	    		ArrayList<TB03Form> tb03s = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year,quarter,month);
+	    		Collections.sort(tb03s);
+	    		
+	    		model.addAttribute("listName", getMessage("mdrtb.drTbPatientsNoTreatment"));
+	    		String report = "";
+	    		
+	    		//NEW CASES 
+	    		
+	    		//report += "<h4>" + getMessage("mdrtb.pulmonary") + "</h4>";
+	    		report += openTable();
+	    		report += openTR();
+	    		report += openTD() + getMessage("mdrtb.serialNumber") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.registrationNumber") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.name") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.gender") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.dateOfBirth") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.ageAtRegistration") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.xpert") + closeTD();
+	    		report += "<td align=\"center\" colspan=\"3\">" + getMessage("mdrtb.hain1") + closeTD();
+	    		report += "<td align=\"center\" colspan=\"3\">" + getMessage("mdrtb.hain2") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.culture") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.drugResistance") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.resistantTo") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.sensitiveTo") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.hivStatus") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.outcome") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.endOfTreatmentDate") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.noTxReason") + closeTD();
+	    		/*report += openTD() + getMessage("mdrtb.tb03uRegistrationNumber") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03uDate") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.treatmentRegimen") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.treatmentStartDate") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03u.changeOfRegimen") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.tb03.treatmentStartDate") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.outcome") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.endOfTreatmentDate") + closeTD();*/
+	    		report += closeTR();
+	    		
+	    		report += openTR();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + getMessage("mdrtb.result") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.inhShort") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.rifShort") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.result") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.injectablesShort") + closeTD();
+	    		report += openTD() + getMessage("mdrtb.lists.quinShort") + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		/*report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();
+	    		report += openTD() + "" + closeTD();*/
+	    		
+	    		report += closeTR();
+	    		
+	    		//RegimenForm rf = null;
+	    		
+	    		int noId = Context.getService(MdrtbService.class).getConcept(TbConcepts.NO).getConceptId().intValue();
+	    		int unknownId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.UNKNOWN).getConceptId().intValue();
+	    		int monoId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MONO).getConceptId().intValue();
+	    		
+	    		int i = 0;
+	    		Person p = null;
+	    		Concept resist = null;
+	    		int resistId = 0;
+	    		TB03Form tutf = null;
+	    		Boolean found = false;
+	    		
+	    		for(TB03Form tf : tb03s) {
+	    				resist = null;
+	    				found = false;
+	    				if(tf.getPatient()==null || tf.getPatient().isVoided())
+	    					continue;
+	    				
+	    				resist = tf.getResistanceType();
+	    				
+	    				if(resist!=null) {
+	    					resistId = resist.getConceptId().intValue();
+	    					if(resistId==noId || resistId==unknownId || resistId==monoId) {
+	    						continue;
+	    					}
+	    					
+	    				}
+	    				
+	    				else {
+	    					
+	    					continue;
+	    				}
+	    				
+	    				//find mdrtb program with TB03 same as this form
+	    				List<MdrtbPatientProgram> mdrtbPrograms = Context.getService(MdrtbService.class).getMdrtbPatientPrograms(tf.getPatient());
+	    				if(mdrtbPrograms!=null && mdrtbPrograms.size()!=0) {
+	    					for(MdrtbPatientProgram mpp : mdrtbPrograms) {
+	    						TB03uForm tuf = mpp.getTb03u();
+	    						if(tuf!=null) {
+	    							tutf = tuf.getTb03();
+	    							if(tutf!=null) {
+	    								if(!tutf.getEncounter().isVoided() && (tutf.getEncounter().getEncounterId().intValue() == tf.getEncounter().getEncounterId().intValue())) {
+	    									found = true;
+	    									break;
+	    								}
+
+	    							}
+
+	    						}
+
+	    					}
+	    					
+	    				}
+
+	    				//if program found, skip loop
+	    				if(found==true)
+	    					continue;
+	    				
+	    				i++;
+	    				p = Context.getPersonService().getPerson(tf.getPatient().getId());
+	    				report += openTR();
+	    				report += openTD() + i +  closeTD();
+	    				report += openTD() + getRegistrationNumber(tf) +  closeTD();
+	    				report += openTD() + p.getFamilyName() + "," + p.getGivenName() + closeTD();
+	    				report += openTD() + getGender(p) + closeTD();
+	    				report += openTD() + sdf.format(p.getBirthdate()) + closeTD();
+	    		    	report += openTD() + tf.getAgeAtTB03Registration() + closeTD();
+	    				
+	    		    	//XPERT
+	    		    	List<XpertForm> xperts = tf.getXperts();
+	    		    	if(xperts!=null && xperts.size()!=0) {
+	    		    		Collections.sort(xperts);
+	    		    		
+	    		    		XpertForm dx = xperts.get(0);
+	    		    		Concept mtb = dx.getMtbResult();
+	    		    		Concept res = dx.getRifResult();
+	    		    		
+	    		    		if(mtb==null) {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    		
+	    		    		else {
+	    		    			if(mtb.getConceptId().intValue()==ms.getConcept(TbConcepts.POSITIVE).getConceptId().intValue() || mtb.getConceptId().intValue()==ms.getConcept(TbConcepts.MTB_POSITIVE).getConceptId().intValue()) {
+	    		    				String xr = getMessage("mdrtb.positiveShort");
+	    		    				
+	    		    				if(res!=null) {
+	    		    					int resId = res.getConceptId().intValue();
+	    		    					
+	    		    					if(resId == ms.getConcept(TbConcepts.DETECTED).getConceptId().intValue()) {
+	    		    						xr += "/" + getMessage("mdrtb.resistantShort");
+	    		    						report += openTD() + xr + closeTD();
+	    		    					}
+	    		    					
+	    		    					else if(resId == ms.getConcept(TbConcepts.NOT_DETECTED).getConceptId().intValue()) {
+	    		    						xr += "/" + getMessage("mdrtb.sensitiveShort");
+	    		    						report += openTD() + xr + closeTD();
+	    		    					}
+	    		    					
+	    		    					else {
+	    		    						report += openTD() + xr + closeTD();
+	    		    					}
+	    		    				}
+	    		    				
+	    		    				else {
+	    		    					report += openTD() + xr + closeTD();
+	    		    				}
+	    		    			} 
+	    		    			
+	    		    			else if(mtb.getConceptId().intValue()==ms.getConcept(TbConcepts.MTB_NEGATIVE).getConceptId().intValue()) {
+	    		    				report += openTD() + getMessage("mdrtb.negativeShort") + closeTD();
+	    		    			}
+	    		    			
+	    		    			else {
+	    		    				report += openTD() + "" + closeTD();
+	    		    			}
+	    		    		}
+	    		    		
+	    		    	}
+	    		    	
+	    		    	else {
+	    		    		report += openTD() + "" + closeTD();
+	    		    	}
+	    		    		
+	    		    	//HAIN 1	
+	    		    	List<HAINForm> hains = tf.getHains();
+	    		    	if(hains!=null && hains.size()!=0) {
+	    		    		Collections.sort(hains);
+	    		    		
+	    		    		HAINForm h = hains.get(0);
+	    		    		
+	    		    		Concept ih = h.getInhResult();
+	    		    		Concept rh = h.getRifResult();
+	    		    		Concept res = h.getMtbResult();
+
+	    		    		if(res!=null) {
+	    		    			report += openTD() + res.getName().getName() + closeTD();
+	    		    		}
+	    		    		else {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    		
+	    		    		if(ih!=null) {
+	    		    			report += openTD() + ih.getName().getName() + closeTD();
+	    		    		}
+	    		    		else {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    		
+	    		    		if(rh!=null) {
+	    		    			report += openTD() + rh.getName().getName() + closeTD();
+	    		    		}
+	    		    		else {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    		
+
+	    		    	}
+	    		    	
+	    		    	else {
+	    		    		report += openTD() + "" + closeTD();
+	    		    		report += openTD() + "" + closeTD();
+	    		    		report += openTD() + "" + closeTD();
+	    		    	}
+	    		    	
+	    		    	
+	    		    	//HAIN 2
+	    		    	List<HAIN2Form> hain2s = tf.getHain2s();
+	    		    	if(hain2s!=null && hain2s.size()!=0) {
+	    		    		Collections.sort(hain2s);
+	    		    		
+	    		    		HAIN2Form h = hain2s.get(0);
+	    		    		
+	    		    		Concept ih = h.getInjResult();
+	    		    		Concept fq = h.getFqResult();
+	    		    		Concept res = h.getMtbResult();
+
+	    		    		if(res!=null) {
+	    		    			report += openTD() + res.getName().getName() + closeTD();
+	    		    		}
+	    		    		else {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    		
+	    		    		if(ih!=null) {
+	    		    			report += openTD() + ih.getName().getName() + closeTD();
+	    		    		}
+	    		    		else {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    		
+	    		    		if(fq!=null) {
+	    		    			report += openTD() + fq.getName().getName() + closeTD();
+	    		    		}
+	    		    		else {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    		
+	    		    	}
+	    		    	
+	    		    	else {
+	    		    		report += openTD() + "" + closeTD();
+	    		    		report += openTD() + "" + closeTD();
+	    		    		report += openTD() + "" + closeTD();
+	    		    	}
+	    		    	
+	    		    	//CULTURE
+	    		    	List<CultureForm> cultures = tf.getCultures();
+	    		    	if(cultures!=null && cultures.size()!=0) {
+	    		    		Collections.sort(cultures);
+	    		    		
+	    		    		CultureForm dc = cultures.get(0);
+	    		    		
+	    		    		if(dc.getCultureResult()!=null) {
+	    		    			
+	    		    			if(dc.getCultureResult().getConceptId().intValue()==ms.getConcept(TbConcepts.NEGATIVE).getConceptId().intValue()) {
+	    		    				report += openTD() + getMessage("mdrtb.negativeShort") + closeTD();
+	    		    			}
+	    		    			
+	    		    			else if(dc.getCultureResult().getConceptId().intValue()==ms.getConcept(TbConcepts.CULTURE_GROWTH).getConceptId().intValue()) {
+	    		    				report += openTD() + getMessage("mdrtb.lists.growth") + closeTD();
+	    		    			}
+	    		    			
+	    		    			else {
+	    		    				Integer[] concs = MdrtbUtil.getPositiveResultConceptIds();
+	    		    				for (int index = 0; index<concs.length; index++) {
+	    		    					if(concs[index].intValue() == dc.getCultureResult().getConceptId().intValue()) {
+	    		    						report += openTD() + getMessage("mdrtb.positiveShort") + closeTD();
+	    		    						break;
+	    		    					}
+	    		    					
+	    		    				}
+	    		    			}
+	    		    		}
+	    		    		
+	    		    		else {
+	    		    			report += openTD() + "" + closeTD();
+	    		    		}
+	    		    	}
+	    		    	
+	    		    	else {
+			    			report += openTD() + "" + closeTD();
+			    		}
+	    		    	
+	    		    	//Drug Resistance
+	    		    	if(tf.getResistanceType()!=null) {
+	    		    		report += openTD() + tf.getResistanceType().getName().getName() + closeTD();
+	    		    	}
+	    		    	
+	    		    	else {
+	    		    		report += openTD() + "" + closeTD();
+	    		    	}
+	    		    	
+	    		    	report += openTD() + getResistantDrugs(tf) + closeTD();
+	    		    	report += openTD() + getSensitiveDrugs(tf) + closeTD();
+	    		    	
+	    		    	
+	    		    	
+	    		    	if(tf.getHivStatus()!=null) {
+	    		    		report += openTD() + tf.getHivStatus().getName().getName() + closeTD();
+		    			}
+		    	
+	    		    	else {
+	    		    		report += openTD() + "" + closeTD();
+	    		    	}
+	    		    	
+	    		    	if(tf.getTreatmentOutcome()!=null) {
+	    		    		report += openTD() + tf.getTreatmentOutcome().getName().getName() + closeTD();
+		    			}
+		    	
+	    		    	else {
+	    		    		report += openTD() + "" + closeTD();
+	    		    	}
+	    		    	
+	    		    	if(tf.getTreatmentOutcomeDate()!=null) {
+	    		    		report += openTD() + sdf.format(tf.getTreatmentOutcomeDate()) + closeTD();
+		    			}
+		    	
+	    		    	else {
+	    		    		report += openTD() + "" + closeTD();
+	    		    	}
+	    		    	
+	    		    	//////////////////////////////////////
+	    		    	
+	    		    	report += openTD() + "" + closeTD(); 
+	    		    	
+	    		    	
+	    		    	
+	    		    	
 	    		    	report += openTD() + getPatientLink(tf) + closeTD(); 
 	    				report += closeTR();
 	    				
@@ -10381,6 +10724,24 @@ public String getGender(Person p) {
 	  
 	  return ret;
   }
+  
+  private static RegimenForm getFirstRegimenChangeForPatient(Patient p, Integer patProgId) {
+		
+		int patientId = p.getPatientId().intValue();
+		ArrayList<RegimenForm> forms = Context.getService(MdrtbService.class).getRegimenFormsForProgram(p, patProgId);
+		
+		if(forms==null)
+			return null;
+		
+		if(forms.size()>=2) {
+			return forms.get(1);
+		}
+		
+		return null;
+		
+		
+	}
+
    
    
 }

@@ -169,9 +169,14 @@ $(document).ready(function(){
 		    <td><button onClick="submitForm('dotsPulmonaryCasesByRegisrationGroupAndBacStatus');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
-		    <tr>
+		  <!--   <tr>
 		    <td><spring:message code="mdrtb.mdrXdrPatients" /></td>
 		    <td><button onClick="submitForm('mdrXdrPatients');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr> -->
+		    
+		      <tr>
+		    <td><spring:message code="mdrtb.drTbPatients" /></td>
+		    <td><button onClick="submitForm('drTbPatients');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
 		    <tr>
@@ -179,9 +184,14 @@ $(document).ready(function(){
 		    <td><button onClick="submitForm('mdrSuccessfulTreatmentOutcome');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
-		     <tr>
+		    <!--  <tr>
 		    <td><spring:message code="mdrtb.mdrXdrPatientsNoTreatment" /></td>
 		    <td><button onClick="submitForm('mdrXdrPatientsNoTreatment');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr> -->
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.drTbPatientsNoTreatment" /></td>
+		    <td><button onClick="submitForm('drTbPatientsNoTreatment');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
 		     <tr>
