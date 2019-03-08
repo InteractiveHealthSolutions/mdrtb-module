@@ -524,6 +524,73 @@
 
 </table>
 
+<spring:message code="mdrtb.xperts" text="Xpertz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
+</tr>
+
+<c:forEach var="xpert" items="${tb03u.xperts}">
+<tr>
+<td>${xpert.monthOfTreatment }</td>
+<td>${xpert.resultString}</td>   <%-- mtbResult.displayString }/RIF: ${xpert.rifResult.displayString }</td> --%>
+<td><openmrs:formatDate date="${xpert.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${xpert.location.displayString}</td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?encounterId=${xpert.id}&patientProgramId=${patientProgramId}" target="_blank">${xpert.specimenId}</a></td>
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
+<spring:message code="mdrtb.hains" text="Hainz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
+</tr>
+
+<c:forEach var="hain" items="${tb03u.hains}">
+<tr>
+<td>${hain.monthOfTreatment }</td>
+<td>${hain.mtbResult.displayString }/RIF: ${hain.rifResult.displayString }/ INH: ${hain.inhResult.displayString }</td>
+<td><openmrs:formatDate date="${hain.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${hain.location.displayString}</td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain.form?encounterId=${hain.id}&patientProgramId=${patientProgramId}" target="_blank">${hain.specimenId}</a></td>
+</c:forEach>
+</tr>
+</table>
+
+<br/>
+
+<spring:message code="mdrtb.hain2s" text="Hainz"/>
+<table border="1">
+<tr>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.monthOfTreatment"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
+</tr>
+
+<c:forEach var="hain2" items="${tb03u.hain2s}">
+<tr>
+<td>${hain2.monthOfTreatment }</td>
+<td>${hain2.mtbResult.displayString }/FQ: ${hain2.fqResult.displayString }/ INJ: ${hain2.injResult.displayString }</td>
+<td><openmrs:formatDate date="${hain2.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+<td>${hain2.location.displayString}</td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain2.form?encounterId=${hain2.id}&patientProgramId=${patientProgramId}" target="_blank">${hain2.specimenId}</a></td>
+</c:forEach>
+</tr>
+</table>
+
 <br/>
 
 <table>

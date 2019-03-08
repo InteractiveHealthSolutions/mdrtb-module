@@ -26,9 +26,12 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
+import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TB03uForm;
+import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.reporting.TB03Util;
@@ -474,6 +477,91 @@ public class TB03uController {
     	    		}
     	    	}
     	    	System.out.println("-------");
+    	    }
+    	    
+    	    XpertForm firstXpert = TB03uUtil.getFirstXpertForm(tf);
+    	    if(firstXpert!=null) {
+    	    	if(firstXpert.getMtbResult()!=null)
+    	    		tb03uData.setXpertMTBResult(firstXpert.getMtbResult().getName().getShortName());
+    	    	if(firstXpert.getRifResult()!=null)
+    	    		tb03uData.setXpertRIFResult(firstXpert.getRifResult().getName().getShortName());
+    	    	if(firstXpert.getEncounterDatetime()!=null)
+    	    		tb03uData.setXpertTestDate(sdf.format(firstXpert.getEncounterDatetime()));
+    	    	
+    	    	tb03uData.setXpertTestNumber(firstXpert.getSpecimenId());
+    	    	
+    	    	Location loc = firstXpert.getLocation();
+	    		if(loc!=null) {
+	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+	    				tb03uData.setXpertLab(loc.getRegion());
+	    			}
+	    			
+	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+	    				tb03uData.setXpertLab(loc.getCountyDistrict());
+	    			}
+	    		}
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG XPERT");
+    	    }
+    	    
+    	    HAINForm firstHAIN = TB03uUtil.getFirstHAINForm(tf);
+    	    if(firstHAIN!=null) {
+    	    	if(firstHAIN.getMtbResult()!=null)
+    	    		tb03uData.setHainMTBResult(firstHAIN.getMtbResult().getName().getShortName());
+    	    	if(firstHAIN.getRifResult()!=null)
+    	    		tb03uData.setHainRIFResult(firstHAIN.getRifResult().getName().getShortName());
+    	    	if(firstHAIN.getInhResult()!=null)
+    	    		tb03uData.setHainINHResult(firstHAIN.getInhResult().getName().getShortName());
+    	    	if(firstHAIN.getEncounterDatetime()!=null)
+    	    		tb03uData.setHainTestDate(sdf.format(firstHAIN.getEncounterDatetime()));
+    	    	
+    	    	tb03uData.setHainTestNumber(firstHAIN.getSpecimenId());
+    	    	
+    	    	Location loc = firstHAIN.getLocation();
+	    		if(loc!=null) {
+	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+	    				tb03uData.setHainLab(loc.getRegion());
+	    			}
+	    			
+	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+	    				tb03uData.setHainLab(loc.getCountyDistrict());
+	    			}
+	    		}
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG HAIN");
+    	    }
+    	    
+    	    HAIN2Form firstHAIN2 = TB03uUtil.getFirstHAIN2Form(tf);
+    	    if(firstHAIN2!=null) {
+    	    	if(firstHAIN2.getMtbResult()!=null)
+    	    		tb03uData.setHain2MTBResult(firstHAIN2.getMtbResult().getName().getShortName());
+    	    	if(firstHAIN2.getInjResult()!=null)
+    	    		tb03uData.setHain2InjResult(firstHAIN2.getInjResult().getName().getShortName());
+    	    	if(firstHAIN2.getFqResult()!=null)
+    	    		tb03uData.setHain2FqResult(firstHAIN2.getFqResult().getName().getShortName());
+    	    	if(firstHAIN2.getEncounterDatetime()!=null)
+    	    		tb03uData.setHain2TestDate(sdf.format(firstHAIN2.getEncounterDatetime()));
+    	    	
+    	    	tb03uData.setHain2TestNumber(firstHAIN2.getSpecimenId());
+    	    	
+    	    	Location loc = firstHAIN2.getLocation();
+	    		if(loc!=null) {
+	    			if(loc.getRegion()!=null && loc.getRegion().length()!=0) {
+	    				tb03uData.setHain2Lab(loc.getRegion());
+	    			}
+	    			
+	    			else if(loc.getCountyDistrict()!=null && loc.getCountyDistrict().length()!=0) {
+	    				tb03uData.setHain2Lab(loc.getCountyDistrict());
+	    			}
+	    		}
+    	    }
+    	    
+    	    else {
+    	    	System.out.println("NULL DIAG HAIN2");
     	    }
     	    
     	    //DRUG RESISTANCE

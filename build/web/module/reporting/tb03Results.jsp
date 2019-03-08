@@ -441,6 +441,7 @@ $(document).ready(function(){
 	 <td>${row.hivTestResult }</td>
 	 <td rowspan="2">${row.artStartDate }</td>
 	 <td rowspan="2">${row.cpStartDate }</td>
+	 
 	 <td colspan="3" align="center">${row.diagnosticSmearResult }</td>
 	 <td colspan="3" align="center">${row.xpertMTBResult } ${row.xpertRIFResult } </td>
 	 <td align="center">${row.hainTestDate } </td>

@@ -283,6 +283,9 @@ $(document).ready(function(){
 		 <th class="rotate" rowspan="3"><div><span><spring:message code="mdrtb.tb03.ambulatoryHosp"/></span></div></th>
 		 <th class="normal" rowspan="1" rowspan="2"><spring:message code="mdrtb.tb03.dstSampleCollectionDate"/></th>
 		 <th class="reggroup" colspan="17" rowspan="2"><spring:message code="mdrtb.tb03.dst"/></th>
+		 <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.genexpert"/></th>
+	   	 <th class="normal" colspan="4" ><spring:message code="dotsreports.tb03.hain"/></th>
+	   	 <th class="normal" colspan="4" ><spring:message code="mdrtb.tb03.hain2"/></th>
 		 <th class="normal" rowspan="1"><spring:message code="mdrtb.tb03.drugResistance"/></th>
 	    
 		 <th class="reggroup" rowspan="1" colspan="4"><spring:message code="mdrtb.tb03.tbHivActivities"/></th>
@@ -306,6 +309,12 @@ $(document).ready(function(){
 	     <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.dateOfConfirmation"/></th>
 	   	 <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.treatmentStartDate"/></th>
 	   	 <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.dstResultDate"/></th>
+	   	 <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.xpertResult"/></th>
+	   	   <th class="normal"><spring:message code="dotsreports.tb03.date"/></th>
+	   	   <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
+	   	   <th class="normal"><spring:message code="dotsreports.tb03.date"/></th>
+	   	   <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
+	   	   <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
 	   	 <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.diagnosticMethod"/></th>
 	   	  <th class="normal" rowspan="1" colspan="2"><spring:message code="mdrtb.tb03.hivTest"/></th>
 	   	  <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.artTest"/></th>
@@ -369,6 +378,18 @@ $(document).ready(function(){
 	   	 <th class="dst" rowspan="1"><div>Cfz</div></th>
 	   	 <th class="dst" rowspan="1"><div>Bdq</div></th>
 	   	 <th class="dst" rowspan="1"><div>Dlm</div></th>
+	   	 <th><spring:message code="dotsreports.tb03.date"/></th>
+	   		<th><spring:message code="dotsreports.tb03.testNumber"/></th>
+	   		<th><spring:message code="mdrtb.lab"/></th>
+	   		]
+	   		<th><spring:message code="dotsreports.tb03.testNumber"/></th>
+	   		<th><spring:message code="dotsreports.tb03.hResult"/></th>
+	   		<th><spring:message code="dotsreports.tb03.rResult"/></th>
+	   		<th><spring:message code="mdrtb.lab"/></th>
+	   		<th><spring:message code="mdrtb.tb03.testNumber"/></th>
+	   		<th><spring:message code="mdrtb.tb03.iResult"/></th>
+	   		<th><spring:message code="mdrtb.tb03.fResult"/></th>
+	   		<th><spring:message code="mdrtb.lab"/></th>
 	   	 <th class="normal"><spring:message code="mdrtb.tb03.yesNoDate"/></th>
 	   	 <th class="normal"><spring:message code="mdrtb.tb03.resultPosNeg"/></th>
 	   	<th class="normal"><spring:message code="mdrtb.tb03.smearShort"/></th>
@@ -458,7 +479,11 @@ $(document).ready(function(){
 	 <td rowspan="2" align="center">${ row.dstCfz }</td>
 	 <td rowspan="2" align="center">${ row.dstBdq}</td>
 	 <td rowspan="2"align="center">${ row.dstDlm }</td>
-	  
+	   <td colspan="3" align="center">${row.xpertMTBResult } ${row.xpertRIFResult } </td>
+	 <td align="center">${row.hainTestDate } </td>
+	 <td colspan="3" align="center">${row.hainMTBResult }</td>
+	  <td align="center">${row.hain2TestDate } </td>
+	 <td colspan="3" align="center">${row.hain2MTBResult }</td>
 	  <td rowspan="1">${row.drugResistance }</td>
 	   <td rowspan="2">${row.hivTestDate }</td>
 	   <td rowspan="2">${row.hivTestResult }</td>
@@ -523,6 +548,17 @@ $(document).ready(function(){
 	     <td rowspan="1">${row.mdrConfDate}</td>
 	     <td rowspan="1">${row.tb03uTreatmentStartDate }</td>
 	     <td rowspan="1">${ row.dstResultDate}</td>
+	     <td>${row.xpertTestDate }</td>
+	 	<td>${row.xpertTestNumber }</td>
+	 	<td>${row.xpertLab }</td>
+	 	<td>${row.hainTestNumber }</td>
+	 	<td align="center">${row.hainINHResult }</td>
+	 	<td align="center">${row.hainRIFResult }</td>
+	 	<td>${row.hainLab }</td>
+	 	<td>${row.hain2TestNumber }</td>
+	 	<td align="center">${row.hain2InjResult }</td>
+	 	<td align="center">${row.hain2FqResult }</td>
+	 	<td>${row.hain2Lab }</td>
 	     <td rowspan="1">${ row.diagnosticMethod}</td>
 	     
 	     <td rowspan="1">${row.month0SmearResultDate }</td>

@@ -179,9 +179,14 @@ $(document).ready(function(){
 		    <td><button onClick="submitForm('drTbPatients');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
-		    <tr>
+		    <!-- <tr>
 		    <td><spring:message code="mdrtb.mdrSuccessfulTreatmentOutcome" /></td>
 		    <td><button onClick="submitForm('mdrSuccessfulTreatmentOutcome');"><spring:message code="mdrtb.generate"/></button></td>
+		    </tr> -->
+		    
+		     <tr>
+		    <td><spring:message code="mdrtb.drTbPatientsSuccessfulTreatment" /></td>
+		    <td><button onClick="submitForm('drTbPatientsSuccessfulTreatment');"><spring:message code="mdrtb.generate"/></button></td>
 		    </tr>
 		    
 		    <!--  <tr>

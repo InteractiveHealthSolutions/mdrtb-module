@@ -9,6 +9,7 @@ import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.form.CultureForm;
 import org.openmrs.module.mdrtb.form.DSTForm;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
 import org.openmrs.module.mdrtb.form.HAINForm;
 import org.openmrs.module.mdrtb.form.SmearForm;
 import org.openmrs.module.mdrtb.form.TB03Form;
@@ -19,6 +20,8 @@ import org.openmrs.module.mdrtb.specimen.CultureImpl;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.DstImpl;
 import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.HAIN2;
+import org.openmrs.module.mdrtb.specimen.HAIN2Impl;
 import org.openmrs.module.mdrtb.specimen.HAINImpl;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Culture;
@@ -330,6 +333,88 @@ public class TB03uUtil {
 		
 		return min;
 		
+	}
+	
+	public static Xpert getFirstXpert(TB03uForm tf) {
+		Xpert c = null;
+		List<XpertForm> xperts = tf.getXperts();
+		 {//, startDateCollected, endDateCollected)) {
+			if(xperts!=null && xperts.size() > 0) {
+					c = new XpertImpl(xperts.get(0).getEncounter());
+					
+				}
+		}
+		
+		return c;
+	}
+	
+	public static XpertForm getFirstXpertForm(TB03uForm tf) {
+		XpertForm c = null;
+		List<XpertForm> xperts = tf.getXperts();
+		 {//, startDateCollected, endDateCollected)) {
+			if(xperts!=null && xperts.size() > 0) {
+					c = xperts.get(0);
+					
+				}
+		}
+		
+		return c;
+	}
+	
+	public static HAIN getFirstHAIN(TB03uForm tf) {
+		HAIN c = null;
+		
+		List<HAINForm> hains = tf.getHains();
+		//, startDateCollected, endDateCollected)) {
+			if(hains!=null && hains.size() > 0) {
+					c = new HAINImpl(hains.get(0).getEncounter());
+					
+				}
+	
+		
+		return c;
+	}
+	
+	public static HAINForm getFirstHAINForm(TB03uForm tf) {
+		HAINForm c = null;
+		
+		List<HAINForm> hains = tf.getHains();
+		//, startDateCollected, endDateCollected)) {
+			if(hains!=null && hains.size() > 0) {
+					c = hains.get(0);// new HAINImpl(hains.get(0).getEncounter());
+					
+				}
+	
+		
+		return c;
+	}
+	
+	public static HAIN2 getFirstHAIN2(TB03uForm tf) {
+		HAIN2 c = null;
+		
+		List<HAIN2Form> hains = tf.getHain2s();
+		//, startDateCollected, endDateCollected)) {
+			if(hains!=null && hains.size() > 0) {
+					c = new HAIN2Impl(hains.get(0).getEncounter());
+					
+				}
+	
+		
+		return c;
+	}
+	
+	public static HAIN2Form getFirstHAIN2Form(TB03uForm tf) {
+		HAIN2Form c = null;
+		
+		List<HAIN2Form> hains = tf.getHain2s();
+		//, startDateCollected, endDateCollected)) {
+			if(hains!=null && hains.size() > 0) {
+					c = hains.get(0);// new HAINImpl(hains.get(0).getEncounter());
+					
+				}
+	
+		
+		return c;
 	}
 	
 	
