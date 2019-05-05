@@ -209,12 +209,14 @@ public class RegimenController {
     	//ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
     	
     	ArrayList<Location> locList = null;
-		if(oblastId.intValue()==186) {
-			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
-		}
-		else {
-			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
-		}
+    	if(oblastId!=null) {
+    		if(oblastId.intValue()==186) {
+    			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+    		}
+    		else {
+    			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    		}
+    	}
     	
     	ArrayList<TB03uForm> tb03uList = Context.getService(MdrtbService.class).getTB03uFormsFilledWithTxStartDateDuring(locList, year, quarter, month);
     	

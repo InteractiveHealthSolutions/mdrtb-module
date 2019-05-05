@@ -174,6 +174,11 @@ public class MdrtbDOTSDashboardController {
     	// add the patientId
     	map.put("patientId", program.getPatient().getId());
     	
+    	if(program.getClassificationAccordingToPatientGroups()!=null && program.getClassificationAccordingToPatientGroups().getConcept().getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
+    		map.put("isNew", "new");
+    	}
+    
+    	
     	// now add the status items
 		Map<String,Status> statusMap = new HashMap<String,Status>();
 	

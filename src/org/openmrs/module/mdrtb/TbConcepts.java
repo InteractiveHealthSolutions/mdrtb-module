@@ -380,9 +380,8 @@ public class TbConcepts {
  	
  	public final static String[] NAME_OF_TX_LOCATION = {"NAME OF TX LOCATION"};
  	
- 	
- 	
- 	
+ 	public final static String[] HOSPITAL = {"HOSPITAL"};
+
  	
 }
      

@@ -220,23 +220,47 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	if(oblast != null) { 
     		sql += " and oblast_id=" + oblast; 
 		} 
+    	
+    	else {
+    		sql += " and oblast_id IS NULL";
+    	}
     	if(district != null) { 
     		sql += " and district_id=" + district; 
 		} 
+    	
+    	else {
+    		sql += " and district_id IS NULL";
+    	}
     	
     	if(facility != null) { 
     		sql += " and facility_id=" + facility; 
 		} 
     	
+    	else {
+    		sql += " and facility_id IS NULL";
+    	}
+    	
     	if(year != null) { 
     		sql += " and year=" + year; 
 		} 
+    	
+    	else {
+    		sql += "and year IS NULL";
+    	}
     	if(quarter != null && !quarter.equals(Context.getMessageSourceService().getMessage("mdrtb.annual"))) { 
     		sql += " and quarter='" + quarter + "'"; 
 		} 
+    	
+    	else {
+    		sql += " and quarter IS NULL";
+    	}
     	if(month != null) { 
     		sql += " and month='" + month + "'"; 
 		}
+    	
+    	else {
+    		sql += " and month IS NULL";
+    	}
     	
     	sql += " and report_type= '" + reportType + "'"; 
     	
@@ -289,22 +313,45 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	if(oblast != null) { 
     		sql += " and oblast_id=" + oblast; 
 		} 
+    	
+    	else {
+    		sql += " and oblast_id IS NULL";
+    	}
     	if(district != null) { 
     		sql += " and district_id=" + district; 
 		} 
     	
+    	else {
+    		sql += " and district_id IS NULL";
+    	}
+    	
     	if(facility != null) { 
     		sql += " and facility_id=" + facility; 
 		} 
+    	
+    	else {
+    		sql += " and facility_id IS NULL";
+    	}
     	if(year != null) { 
     		sql += " and year=" + year; 
 		} 
+    	
+    	else {
+    		sql += " and year IS NULL";
+    	}
     	if(quarter != null && !quarter.equals(Context.getMessageSourceService().getMessage("mdrtb.annual"))) { 
     		sql += " and quarter='" + quarter + "'"; 
 		} 
+    	else {
+    		sql += " and quarter IS NULL";
+    	}
     	if(month != null) { 
     		sql += " and month='" + month + "'"; 
 		}
+    	
+    	else {
+    		sql += " and month IS NULL";
+    	}
     	
     	sql += " and report_type='" + reportType + "'";
     	
@@ -322,22 +369,50 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	if(name != null && !name.equals("")) { 
     		sql += " where report_name='" + name + "'"; 
 		} 
-    	if(oblast != null) { 
-    		sql += " and oblast_id=" + oblast; 
+    	if(oblast == null) { 
+    		sql += " and oblast_id IS NULL"; 
 		} 
-    	if(district != null) { 
+    	
+    	else {
+    		sql += " and oblast_id=" + oblast; 
+    	}
+    	
+    	if(district == null) { 
+    		sql += " and district_id IS NULL"; 
+		} 
+    	
+    	else { 
     		sql += " and district_id=" + district; 
 		} 
-    	if(facility != null) { 
+    	
+    	if(facility == null) { 
+    		sql += " and facility_id IS NULL"; 
+		} 
+    	
+    	else {
     		sql += " and facility_id=" + facility; 
 		} 
-    	if(year != null) { 
+    	
+    	if(year == null) { 
+    		sql += " and year IS NULL"; 
+		} 
+    	
+    	else { 
     		sql += " and year=" + year; 
 		} 
-    	if(quarter != null) { 
+    	
+    	if(quarter == null) { 
+    		sql += " and quarter IS NULL"; 
+		} 
+    	else { 
     		sql += " and quarter='" + quarter + "'"; 
 		} 
-    	if(month != null) { 
+    	
+    	if(month == null) { 
+    		sql += " and month IS NULL"; 
+		} 
+    	
+    	else { 
     		sql += " and month='" + month + "'"; 
 		}
     	

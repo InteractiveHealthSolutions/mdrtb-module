@@ -145,12 +145,15 @@ public class Form8Controller {
     	System.out.println("---POST-----");
 
     	ArrayList<Location> locList = null;
-    	if(oblastId.intValue()==186) {
-			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
-		}
-    	else {
-    		locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    	if(oblastId!=null) {
+    		if(oblastId.intValue()==186) {
+    			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+    		}
+    		else {
+    			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    		}
     	}
+    	
 		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
 		System.out.println("list size:" + tb03List.size());
 
@@ -312,7 +315,7 @@ public class Form8Controller {
     	int migrantId = migrantConcept.getConceptId().intValue();
     	Concept yesConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.YES);
     	int yesId = yesConcept.getConceptId().intValue();
-    	Concept hospConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.HOSPITALIZED);
+    	Concept hospConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.HOSPITAL);
     	int hospId = hospConcept.getConceptId().intValue();
     	
     	Concept pulSite = null;
@@ -406,7 +409,142 @@ public class Form8Controller {
     			continue;
     		}
     		
+    		 ageAtRegistration = tf.getAgeAtTB03Registration();
+    		 age = ageAtRegistration.intValue();
+    		 
+    		 bacPositive = MdrtbUtil.isDiagnosticBacPositive(tf);
+    		
     		regGroup = tf.getRegistrationGroup();
+    		
+    		if((tf.getTreatmentSiteIP()!=null && tf.getTreatmentSiteIP().getConceptId().intValue()==hospId) ||  (tf.getTreatmentSiteCP()!=null && tf.getTreatmentSiteCP().getConceptId().intValue()==hospId)) {
+       		  hospitalised = Boolean.TRUE;
+       		 
+       		  table4.setHospitalised(table4.getHospitalised() + 1);
+       		  table4.setInHospital(table4.getInHospital() + 1);
+       		  
+       		  if(age>=0 && age < 15) {
+       			  table4.setHospitalised014(table4.getHospitalised014() + 1);
+          		  table4.setInHospital014(table4.getInHospital014() + 1);
+       		  }
+       		  
+       		  else if(age>=15 && age < 18) {
+      			  table4.setHospitalised1517(table4.getHospitalised1517() + 1);
+      			  table4.setInHospital1517(table4.getInHospital1517() + 1);
+      		  }
+       		  
+       		 else if(age>=18 && age < 19) {
+       			 table4.setHospitalised1819(table4.getHospitalised1819() + 1);
+       			 table4.setInHospital1819(table4.getInHospital1819() + 1);
+       		 }
+       		  
+       		  if(regGroup!=null && regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
+       			 table4.setFirstNew(table4.getFirstNew() + 1); 
+       			  
+       			 if(age>=0 && age < 15) {
+  	     			  table4.setFirstNew014(table4.getFirstNew014() + 1);
+  	        		 
+  	     		  }
+  	     		  
+  	     		  else if(age>=15 && age < 18) {
+  	    			  table4.setFirstNew1517(table4.getFirstNew1517() + 1);
+  	    			  
+  	    		  }
+  	     		  
+  	     		 else if(age>=18 && age < 19) {
+  	     			 table4.setFirstNew1819(table4.getFirstNew1819() + 1);
+  	     			 
+  	     		 }
+       			  
+       			  if(bacPositive) {
+       				 table4.setNewBac(table4.getNewBac() + 1);
+       				  
+       				 if(age>=0 && age < 15) {
+       	     			  table4.setNewBac014(table4.getNewBac014() + 1);
+       	        		 
+       	     		  }
+       	     		  
+       	     		  else if(age>=15 && age < 18) {
+       	    			  table4.setNewBac1517(table4.getNewBac1517() + 1);
+       	    			  
+       	    		  }
+       	     		  
+       	     		 else if(age>=18 && age < 19) {
+       	     			 table4.setNewBac1819(table4.getNewBac1819() + 1);
+       	     			 
+       	     		 }
+       			  }
+       			  
+       			  else {
+       				 table4.setNewOther(table4.getNewOther() + 1);
+       				 if(age>=0 && age < 15) {
+      	     			  table4.setNewOther014(table4.getNewOther014() + 1);
+      	        		 
+      	     		  }
+      	     		  
+      	     		  else if(age>=15 && age < 18) {
+      	    			  table4.setNewOther1517(table4.getNewOther1517() + 1);
+      	    			  
+      	    		  }
+      	     		  
+      	     		 else if(age>=18 && age < 19) {
+      	     			 table4.setNewOther1819(table4.getNewOther1819() + 1);
+      	     			 
+      	     		 }
+       			  }
+       		  }
+       		  
+       		 
+       		  
+       	  }
+    		
+    		ArrayList<Form89> fList = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tf.getPatient(), null, tf.getPatProgId(), null, null, null);
+    		
+    		if(fList!=null && fList.size()==1) {
+    			f89 = fList.get(0);
+    			locationType = f89.getLocationType();
+    			if(locationType!=null && locationType.getConceptId().intValue()==ruralId) {
+    				rural = Boolean.TRUE;
+    			}
+    		
+    			else if(locationType!=null) {
+    				rural  = Boolean.FALSE;
+    			}
+    		}
+    		
+    		else {
+    			rural = null;
+    		}
+    		
+    		Concept q = tf.getAnatomicalSite();
+     	    
+      	   if(q!=null) {
+      		   if(q.getConceptId().intValue()==pulmonaryConcept.getConceptId().intValue()) {
+      			   pulmonary = Boolean.TRUE;
+      		   }
+      		}
+    		
+    		 if(bacPositive!=null && bacPositive && pulmonary!=null && pulmonary) {
+        		  System.out.println("REG:"+ regGroup);
+        		  if(regGroup!=null && regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
+        			  System.out.println("5a - 1");
+        			  table5a.setRespBacNew(table5a.getRespBacNew() + 1);
+        			  
+        			  if(rural != null && rural) {
+        				 table5a.setRespBacNewVillager(table5a.getRespBacNewVillager() + 1);
+        			  }
+        		  }
+        		  
+        		  else if(regGroup!=null) {
+        			  System.out.println("5a - 2");
+        			  table5a.setRespBacOther(table5a.getRespBacOther() + 1);
+       			  
+       			  if(rural != null && rural) {
+       				 table5a.setRespBacOtherVillager(table5a.getRespBacOtherVillager() + 1);
+       			  }
+        		  }
+        	  }
+    		
+    		
     		
     		if(regGroup==null || regGroup.getConceptId().intValue()!=Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
     			
@@ -449,7 +587,7 @@ public class Form8Controller {
     			
     		}
     		
-    		ArrayList<Form89> fList = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tf.getPatient(), null, tf.getPatProgId(), null, null, null);
+    		fList = Context.getService(MdrtbService.class).getForm89FormsFilledForPatientProgram(tf.getPatient(), null, tf.getPatProgId(), null, null, null);
     		
     		if(fList==null || fList.size()!=1) {
     			System.out.println("no f89 - skipping " + tf.getPatient().getPatientId());
@@ -485,11 +623,10 @@ public class Form8Controller {
     			female = null;
     		}
     		
-    		 ageAtRegistration = tf.getAgeAtTB03Registration();
-    		 age = ageAtRegistration.intValue();
+    		
     		  
      	    //get disease site
-     	    Concept q = tf.getAnatomicalSite();
+     	    q = tf.getAnatomicalSite();
      	    
      	   if(q!=null) {
      		   if(q.getConceptId().intValue()==pulmonaryConcept.getConceptId().intValue()) {
@@ -619,7 +756,7 @@ public class Form8Controller {
      		   Concept epLoc = f89.getEpLocation();
      	   }*/
      	   
-     	   bacPositive = MdrtbUtil.isDiagnosticBacPositive(tf);
+     	  
      	   
      	  q = tf.getHivStatus();//Context.getService(MdrtbService.class).getConcept(TbConcepts.RESULT_OF_HIV_TEST);
   	    
@@ -770,102 +907,10 @@ public class Form8Controller {
      		  }
      	  }
      	  
-     	  if((tf.getTreatmentSiteIP()!=null && tf.getTreatmentSiteIP().getConceptId().intValue()==hospId) ||  (tf.getTreatmentSiteCP()!=null && tf.getTreatmentSiteCP().getConceptId().intValue()==hospId)) {
-     		  hospitalised = Boolean.TRUE;
-     		 
-     		  table4.setHospitalised(table4.getHospitalised() + 1);
-     		  table4.setInHospital(table4.getInHospital() + 1);
-     		  
-     		  if(age>=0 && age < 15) {
-     			  table4.setHospitalised014(table4.getHospitalised014() + 1);
-        		  table4.setInHospital(table4.getInHospital() + 1);
-     		  }
-     		  
-     		  else if(age>=15 && age < 18) {
-    			  table4.setHospitalised1517(table4.getHospitalised1517() + 1);
-    			  table4.setInHospital(table4.getInHospital() + 1);
-    		  }
-     		  
-     		 else if(age>=18 && age < 19) {
-     			 table4.setHospitalised1819(table4.getHospitalised1819() + 1);
-     			 table4.setInHospital(table4.getInHospital() + 1);
-     		 }
-     		  
-     		  if(regGroup!=null && regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
-     			  
-     			 if(age>=0 && age < 15) {
-	     			  table4.setFirstNew014(table4.getFirstNew014() + 1);
-	        		 
-	     		  }
-	     		  
-	     		  else if(age>=15 && age < 18) {
-	    			  table4.setFirstNew1517(table4.getFirstNew1517() + 1);
-	    			  
-	    		  }
-	     		  
-	     		 else if(age>=18 && age < 19) {
-	     			 table4.setFirstNew1819(table4.getFirstNew1819() + 1);
-	     			 
-	     		 }
-     			  
-     			  if(bacPositive) {
-     				 if(age>=0 && age < 15) {
-     	     			  table4.setNewBac014(table4.getNewBac014() + 1);
-     	        		 
-     	     		  }
-     	     		  
-     	     		  else if(age>=15 && age < 18) {
-     	    			  table4.setNewBac1517(table4.getNewBac1517() + 1);
-     	    			  
-     	    		  }
-     	     		  
-     	     		 else if(age>=18 && age < 19) {
-     	     			 table4.setNewBac1819(table4.getNewBac1819() + 1);
-     	     			 
-     	     		 }
-     			  }
-     			  
-     			  else {
-     				 if(age>=0 && age < 15) {
-    	     			  table4.setNewOther014(table4.getNewOther014() + 1);
-    	        		 
-    	     		  }
-    	     		  
-    	     		  else if(age>=15 && age < 18) {
-    	    			  table4.setNewOther1517(table4.getNewOther1517() + 1);
-    	    			  
-    	    		  }
-    	     		  
-    	     		 else if(age>=18 && age < 19) {
-    	     			 table4.setNewOther1819(table4.getNewOther1819() + 1);
-    	     			 
-    	     		 }
-     			  }
-     		  }
-     		  
-     		 
-     		  
-     	  }
+     	  
      	 
      	  
-     	  if(bacPositive!=null && bacPositive && pulmonary!=null && pulmonary) {
-     		  
-     		  if(regGroup!=null && regGroup.getConceptId().intValue()==Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.new.conceptId"))) {
-     			  table5a.setRespBacNew(table5a.getRespBacNew() + 1);
-     			  
-     			  if(rural != null && rural) {
-     				 table5a.setRespBacNewVillager(table5a.getRespBacNewVillager() + 1);
-     			  }
-     		  }
-     		  
-     		  else if(regGroup!=null) {
-     			  table5a.setRespBacOther(table5a.getRespBacOther() + 1);
-    			  
-    			  if(rural != null && rural) {
-    				 table5a.setRespBacOtherVillager(table5a.getRespBacOtherVillager() + 1);
-    			  }
-     		  }
-     	  }
+     	 
      		 
      		 
      	 

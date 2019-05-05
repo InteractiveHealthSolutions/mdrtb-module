@@ -216,12 +216,16 @@ public class TB07ReportController {
 //		System.out.println("ST: " + startDate);
 //		System.out.println("ED: " + endDate);
     	ArrayList<Location> locList = null;
-		if(oblastId.intValue()==186) {
-			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
-		}
-		else {
-			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
-		}
+    	
+    	if(oblastId!=null) {
+    		if(oblastId.intValue()==186) {
+    			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+    		}
+    	
+    		else {
+    			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    		}
+    	}
 		//System.out.println(locList.size());
 		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
 		System.out.println("list size:" + tb03List.size());

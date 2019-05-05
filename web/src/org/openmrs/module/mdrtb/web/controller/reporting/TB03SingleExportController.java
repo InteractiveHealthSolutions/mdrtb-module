@@ -240,12 +240,14 @@ public class TB03SingleExportController {
     	//ArrayList<Location> locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
     	
     	ArrayList<Location> locList = null;
-		if(oblastId.intValue()==186) {
-			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
-		}
-		else {
-			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
-		}
+    	if(oblastId!=null) {
+    		if(oblastId.intValue()==186) {
+    			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+    		}
+    		else {
+    			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    		}
+    	}
 		
     	ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
     	

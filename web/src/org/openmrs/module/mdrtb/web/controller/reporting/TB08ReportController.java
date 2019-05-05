@@ -160,11 +160,13 @@ public class TB08ReportController {
 			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
 		*/
     	ArrayList<Location> locList = null;
-    	if(oblastId.intValue()==186) {
-			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
-		}
-    	else {
-    		locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    	if(oblastId!=null) {
+    		if(oblastId.intValue()==186) {
+    			locList = Context.getService(MdrtbService.class).getLocationListForDushanbe(oblastId,districtId,facilityId);
+    		}
+    		else {
+    			locList = Context.getService(MdrtbService.class).getLocationList(oblastId,districtId,facilityId);
+    		}
     	}
 		ArrayList<TB03Form> tb03List = Context.getService(MdrtbService.class).getTB03FormsFilled(locList, year, quarter, month);
 		System.out.println("list size:" + tb03List.size());

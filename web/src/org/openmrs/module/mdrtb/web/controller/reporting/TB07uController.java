@@ -216,6 +216,7 @@ public class TB07uController {
 		rdateSDF.applyPattern("dd.MM.yyyy HH:mm:ss");
 		
 		ArrayList<Location> locList = null;
+		if(oblastId!=null) {
 		if (oblastId.intValue() == 186) {
 			locList = Context.getService(MdrtbService.class)
 					.getLocationListForDushanbe(oblastId, districtId,
@@ -224,7 +225,7 @@ public class TB07uController {
 			locList = Context.getService(MdrtbService.class).getLocationList(
 					oblastId, districtId, facilityId);
 		}
-
+		}
 		ArrayList<TB03uForm> tb03uList = Context.getService(MdrtbService.class)
 				.getTB03uFormsFilled(locList, year, quarter, month);
 		

@@ -444,9 +444,11 @@ ${regimen.displayString}
 		<a href="${pageContext.request.contextPath}${status.visitStatus.followUpVisits.value[fn:length(status.visitStatus.followUpVisits.value) - 1].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.followUpVisits.value[fn:length(status.visitStatus.followUpVisits.value) - 1].displayString}</a>
 	</c:when>
 	<c:otherwise>
-	   <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addFollowUpVisit" text="Add Follow-up Visit"/></a>
-	   </openmrs:hasPrivilege>
+		<c:if test="${! empty isNew}">
+			<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+				<a href="${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addFollowUpVisit" text="Add Follow-up Visit"/></a>
+	  	    </openmrs:hasPrivilege>
+	  	 </c:if>
 	</c:otherwise>
 </c:choose>
 </td></tr>

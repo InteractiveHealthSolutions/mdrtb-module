@@ -314,7 +314,7 @@ $(document).ready(function(){
 	   	   <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
 	   	   <th class="normal"><spring:message code="dotsreports.tb03.date"/></th>
 	   	   <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
-	   	   <th class="normal" colspan="3"><spring:message code="dotsreports.tb03.hainCultureResult"/></th>
+	   	  
 	   	 <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.diagnosticMethod"/></th>
 	   	  <th class="normal" rowspan="1" colspan="2"><spring:message code="mdrtb.tb03.hivTest"/></th>
 	   	  <th class="normal" rowspan="2"><spring:message code="mdrtb.tb03.artTest"/></th>
