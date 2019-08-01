@@ -327,6 +327,18 @@ public class TB03Data implements Comparable <TB03Data>{
 	}
 
 	public String getHainINHResult() {
+		if(hainINHResult != null) {
+			if(hainINHResult.equals("+"))
+				return Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			else if (hainINHResult.equals("-"))
+				return Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			else if (hainINHResult.equals("U"))
+				return Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			else
+				return hainINHResult;
+		}
+		
+		
 		return hainINHResult;
 	}
 
@@ -335,6 +347,19 @@ public class TB03Data implements Comparable <TB03Data>{
 	}
 
 	public String getHainRIFResult() {
+		
+		if(hainRIFResult != null) {
+			if(hainRIFResult.equals("+"))
+				return Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			else if (hainRIFResult.equals("-"))
+				return Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			else if (hainRIFResult.equals("U"))
+				return Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			else
+				return hainRIFResult;
+		}
+		
+		
 		return hainRIFResult;
 	}
 
@@ -820,6 +845,19 @@ public class TB03Data implements Comparable <TB03Data>{
 	}
 
 	public String getHain2InjResult() {
+		if(hain2InjResult != null) {
+			if(hain2InjResult.equals("+"))
+				return Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			else if (hain2InjResult.equals("-"))
+				return Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			else if (hain2InjResult.equals("U"))
+				return Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			else
+				return hain2InjResult;
+		}
+		
+		
+		
 		return hain2InjResult;
 	}
 
@@ -828,6 +866,19 @@ public class TB03Data implements Comparable <TB03Data>{
 	}
 
 	public String getHain2FqResult() {
+		if(hain2FqResult != null) {
+			if(hain2FqResult.equals("+"))
+				return Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			else if (hain2FqResult.equals("-"))
+				return Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			else if (hain2FqResult.equals("U"))
+				return Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			else
+				return hain2FqResult;
+		}
+		
+		
+		
 		return hain2FqResult;
 	}
 
