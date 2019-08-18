@@ -161,6 +161,7 @@
 					<a href="../mdrtb/reporting/tb08.form"><spring:message code="mdrtb.dotsreport08" /></a><br/>
 					<a href="../mdrtb/reporting/tb03.form"><spring:message code="dotsreports.tb03Export" /></a><br/>
 					<a href="../mdrtb/reporting/tb03Single.form"><spring:message code="mdrtb.tb03ExportSingleLine" /></a><br/>
+					<a href="../mdrtb/reporting/form89Single.form"><spring:message code="mdrtb.f89ExportSingleLine" /></a><br/>
 					<a href="../mdrtb/reporting/dotsdq.form"><spring:message code="dotsreports.dq.title" /></a><br/>
 								
 				</td></tr>
@@ -176,6 +177,7 @@
 					<a href="../mdrtb/reporting/tb07u.form"><spring:message code="mdrtb.tb07u" /></a><br/>
 					<a href="../mdrtb/reporting/tb08u.form"><spring:message code="mdrtb.tb08Fast" /></a><br/>
 					<a href="../mdrtb/reporting/tb03u.form"><spring:message code="mdrtb.tb03uExport" /></a><br/>
+					<a href="../mdrtb/reporting/tb03uSingle.form"><spring:message code="mdrtb.tb03uExportSingleLine" /></a><br/>
 					<a href="../mdrtb/reporting/dq.form"><spring:message code="mdrtb.dq.title" /></a><br/>
 					<a href="../mdrtb/reporting/regimen.form"><spring:message code="mdrtb.sldreport" /><br/>
 					<%-- <openmrs:extensionPoint pointId="org.openmrs.mdrtb.linksList.reportLinks" type="html">

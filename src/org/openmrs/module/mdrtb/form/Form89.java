@@ -1383,7 +1383,7 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 			return ret;
 		else {
 			for(SmearForm sf : allSmears) {
-				if(sf.getMonthOfTreatment()==0) {
+				if(sf!=null && sf.getMonthOfTreatment()!= null && sf.getMonthOfTreatment()==0) {
 					ret.add(sf);
 				}
 			}
@@ -1412,7 +1412,7 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 			return ret;
 		else {
 			for(XpertForm sf : allXperts) {
-				if(sf.getMonthOfTreatment()==0) {
+				if(sf!=null && sf.getMonthOfTreatment()!= null && sf.getMonthOfTreatment()==0) {
 					ret.add(sf);
 				}
 			}
@@ -1440,7 +1440,7 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 			return ret;
 		else {
 			for(HAINForm sf : allHains) {
-				if(sf.getMonthOfTreatment()==0) {
+				if(sf!=null && sf.getMonthOfTreatment()!= null && sf.getMonthOfTreatment()==0) {
 					ret.add(sf);
 				}
 			}
@@ -1468,7 +1468,7 @@ public class Form89 extends AbstractSimpleForm  implements Comparable<Form89> {
 			return ret;
 		else {
 			for(HAIN2Form sf : allHains) {
-				if(sf.getMonthOfTreatment()==0) {
+				if(sf!=null && sf.getMonthOfTreatment()!= null && sf.getMonthOfTreatment()==0) {
 					ret.add(sf);
 				}
 			}
