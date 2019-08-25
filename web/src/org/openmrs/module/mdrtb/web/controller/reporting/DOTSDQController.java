@@ -46,6 +46,7 @@ import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.HAIN;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Xpert;
+import org.openmrs.module.programlocation.PatientProgram;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -267,6 +268,7 @@ public class DOTSDQController {
     	List<DQItem> duplicateTB03 = new ArrayList<DQItem>();
     	List<DQItem> duplicateForm89 = new ArrayList<DQItem>();
     	List<DQItem> unlinkedTB03 = new ArrayList<DQItem>();
+    	List<Patient> errList = new ArrayList<Patient>();
     	
     	Boolean errorFlag = Boolean.FALSE;
     	Integer errorCount = 0;
@@ -323,7 +325,7 @@ public class DOTSDQController {
 		
 		Date startDate = (Date)(dateMap.get("startDate"));
 		Date endDate = (Date)(dateMap.get("endDate"));
-    	
+    	Integer countNum = 0;
     	
     	for (TB03Form  tf : tb03List) {
     		
@@ -611,7 +613,11 @@ public class DOTSDQController {
     	    
     	    if(errorFlag) {
     	    	errorCount ++;
+    	    	errList.add(patient);
+    	    	
     	    }
+    	    
+    	    countNum++;
 
     	    
     	}
@@ -620,7 +626,7 @@ public class DOTSDQController {
 	    //get latest transfer out with any of these locations for any patient
 	    //if no transferIn in list entered after that date for patient add error
     	Boolean foundFlag = Boolean.FALSE;
-    	
+
     	for(TransferOutForm tof : tofList) {
     		Location tofLoc = tof.getLocation();
     		Date tofDate = tof.getEncounterDatetime();
@@ -628,6 +634,7 @@ public class DOTSDQController {
     		dqi = new DQItem();
     	    Patient patient = tof.getPatient();//Context.getPatientService().getPatient(i);
     	    
+
     	    if(patient==null || patient.isVoided()) {
     	    	continue;
     	    }
@@ -649,7 +656,11 @@ public class DOTSDQController {
     		
     		if(!foundFlag) {
     			
-    			errorCount++;
+    			if(!errList.contains(patient)) {
+    				errorCount++;
+    				errList.add(patient);
+    			}
+    			
     			noTifAfterTransferOut.add(dqi);
     			
     			
@@ -690,26 +701,47 @@ public class DOTSDQController {
     		
     		if(!foundFlag) {
     			
-    			errorCount++;
+    			if(!errList.contains(patient)) {
+    				errorCount++;
+    				errList.add(patient);
+    			}
+    			
     			noTofBeforeTransferIn.add(dqi);
     			
     			
     		}
+    		
+    		
     	}
     	
     	TbPatientProgram temp = null;
     	
     	List<TbPatientProgram> progList = Context.getService(MdrtbService.class).getAllTbPatientProgramsEnrolledInDateRangeAndLocations(startDate, endDate, locList);
-    	
+    	//Integer countNum = 0;
+    	Boolean matched = Boolean.FALSE;
     	if(progList!=null) {
     		for(TbPatientProgram p : progList) {
-    			
+    			matched = Boolean.FALSE;
     			dqi = new DQItem();
         	    Patient patient = p.getPatient();//Context.getPatientService().getPatient(i);
         	    
         	    if(patient==null || patient.isVoided()) {
         	    	continue;
         	    }
+        	    
+        	    for(TB03Form t3f : tb03List) {
+        	    	Patient tempPat = t3f.getPatient();
+        	    	
+        	    	if(tempPat.getId().intValue()==patient.getId().intValue()) {
+        	    		matched = Boolean.TRUE;
+        	    		break;
+        	    	}
+        	    	
+        	    	
+        	    }
+        	    
+        	    if(!matched)
+        	    	countNum++;
         	    
         	    if(patient.getGender().equals("F") && Context.getLocale().equals("ru")) {
         	    	patient.setGender(Context.getMessageSourceService().getMessage("mdrtb.tb03.gender.female"));
@@ -723,7 +755,11 @@ public class DOTSDQController {
     			if(x==null || x.size()==0) {
     				//errorFlag = Boolean.TRUE;
     				missingTB03.add(dqi);
-    				errorCount++;
+    				
+    				if(!errList.contains(patient)) {
+        				errorCount++;
+        				errList.add(patient);
+        			}
     				
     			
     			}	
@@ -731,7 +767,9 @@ public class DOTSDQController {
     		
     	}
     	
-    	Integer num = tb03List.size();// + tofList.size();
+    	Integer num = countNum;// + tofList.size();
+    	
+    	
     	Integer errorPercentage = null;
     	if(num==0)
     		errorPercentage = 0;

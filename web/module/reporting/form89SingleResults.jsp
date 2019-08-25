@@ -306,6 +306,7 @@ $(document).ready(function(){
 		 <th class="normal" rowspan="2"><spring:message code="mdrtb.form89.prescribedTreatment"/></th>
 		 <th class="normal" rowspan="2"><spring:message code="mdrtb.form89.placeOfCommission"/></th>
 		 <th class="normal" rowspan="2"><spring:message code="mdrtb.form89.nameOfDoctor"/></th>
+		 <th class="normal" rowspan="2">&nbsp;</th>
 
 	  </tr>
 	   <tr>
@@ -421,8 +422,7 @@ $(document).ready(function(){
 	  <td>${row.form89.prescribedTreatment.displayString } </td>
 	  <td>${row.form89.placeOfCommission.displayString } </td>
 	  <td>${row.form89.nameOfDoctor } </td>
-	  
-	
+	  <td><a href="${pageContext.request.contextPath}/module/mdrtb/form/form89.form?patientProgramId=${row.form89.patProgId}&encounterId=${row.form89.encounter.id}"><spring:message code="mdrtb.view"/></a></td>
 	 </tr>
 	 
 	 	

@@ -251,6 +251,10 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     		sql += " and quarter='" + quarter + "'"; 
 		} 
     	
+    	else if(quarter.equals(Context.getMessageSourceService().getMessage("mdrtb.annual"))) {
+    		sql += " and quarter='" + "" + "'"; 
+    	}
+    	
     	else {
     		sql += " and quarter IS NULL";
     	}
@@ -342,6 +346,11 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     	if(quarter != null && !quarter.equals(Context.getMessageSourceService().getMessage("mdrtb.annual"))) { 
     		sql += " and quarter='" + quarter + "'"; 
 		} 
+    	
+    	else if(quarter.equals(Context.getMessageSourceService().getMessage("mdrtb.annual"))) {
+    		sql += " and quarter='" + "" + "'"; 
+    	}
+    	
     	else {
     		sql += " and quarter IS NULL";
     	}

@@ -75,6 +75,9 @@ public class CloseReportChangesController {
 			reportEncounterTypes.add("TB03");
 		
 		reportEncounterTypes.add("Specimen Collection");
+		if(quarter.equals(Context.getMessageSourceService().getMessage("mdrtb.annual"))) {
+			quarter=null;
+		}
 		
 		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
 		

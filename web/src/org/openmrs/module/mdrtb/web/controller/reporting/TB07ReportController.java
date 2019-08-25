@@ -337,6 +337,8 @@ public class TB07ReportController {
     		
     		Patient patient = tf.getPatient();
     	    if(patient==null || patient.isVoided()) {
+    	    	
+    	    	System.out.println("PATIENT NULL/VOID ENC:" + tf.getEncounter().getEncounterId());
     	    	continue;
     	    	
     	    }
@@ -373,7 +375,7 @@ public class TB07ReportController {
     	    }
     	    
     	    else {
-    	    	//System.out.println("NO SITE");
+    	    	System.out.println("NO SITE:" + tf.getPatient().getPatientId());
     	    	continue;
     	    }
     	    
@@ -1872,7 +1874,7 @@ public class TB07ReportController {
     	    }
     	    
     	    else {
-    	    	//System.out.println("NO GROUP");
+    	    	System.out.println("NO GROUP:" + tf.getEncounter().getEncounterId());
     	    	continue;
     	    }
 
