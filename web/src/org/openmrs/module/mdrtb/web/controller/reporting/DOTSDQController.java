@@ -33,6 +33,7 @@ import org.openmrs.module.mdrtb.form.TB03Form;
 import org.openmrs.module.mdrtb.form.TransferInForm;
 import org.openmrs.module.mdrtb.form.TransferOutForm;
 import org.openmrs.module.mdrtb.form.XpertForm;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.reporting.DQItem;
 import org.openmrs.module.mdrtb.reporting.DQUtil;
 import org.openmrs.module.mdrtb.reporting.PDFHelper;
@@ -310,6 +311,20 @@ public class DOTSDQController {
     	HashMap<Integer, Integer> dupMap = new HashMap<Integer,Integer>();
     	HashMap<Integer, Integer> f89DupMap = new HashMap<Integer,Integer>();
     	
+    	
+    	
+    	/*List<Encounter> tb03EncList = Context.getEncounterService().getEncounters(patient, null, startDate, endDate, formList, null, null, false);
+ 	    if(tb03EncList==null || tb03EncList.size() == 0) {
+ 	    	missingTB03.add(dqi);
+ 	    	errorFlag = Boolean.TRUE;
+ 	    }
+    	*/
+    	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+    	
+    	
     	for (TB03Form  tf : tb03List) {
     		
     		 //INIT
@@ -343,11 +358,7 @@ public class DOTSDQController {
     	    
 
     	   /* //Missing TB03
-    	    List<Encounter> tb03EncList = Context.getEncounterService().getEncounters(patient, null, startDate, endDate, formList, null, null, false);
-    	    if(tb03EncList==null || tb03EncList.size() == 0) {
-    	    	missingTB03.add(dqi);
-    	    	errorFlag = Boolean.TRUE;
-    	    }*/
+    	   */
     	    
     	    //Missing Age at Registration
     	    /*Concept q = Context.getService(MdrtbService.class).getConcept(TbConcepts.AGE_AT_DOTS_REGISTRATION);
@@ -684,6 +695,40 @@ public class DOTSDQController {
     			
     			
     		}
+    	}
+    	
+    	TbPatientProgram temp = null;
+    	
+    	List<TbPatientProgram> progList = Context.getService(MdrtbService.class).getAllTbPatientProgramsEnrolledInDateRangeAndLocations(startDate, endDate, locList);
+    	
+    	if(progList!=null) {
+    		for(TbPatientProgram p : progList) {
+    			
+    			dqi = new DQItem();
+        	    Patient patient = p.getPatient();//Context.getPatientService().getPatient(i);
+        	    
+        	    if(patient==null || patient.isVoided()) {
+        	    	continue;
+        	    }
+        	    
+        	    if(patient.getGender().equals("F") && Context.getLocale().equals("ru")) {
+        	    	patient.setGender(Context.getMessageSourceService().getMessage("mdrtb.tb03.gender.female"));
+        	    }
+        	   // patientList.add(patient);
+        	    dqi.setPatient(patient);
+        	    dqi.setDateOfBirth(sdf.format(patient.getBirthdate()));
+    			
+    			ArrayList<TB03Form> x = Context.getService(MdrtbService.class).getTB03FormsForProgram(patient, p.getId());
+    		
+    			if(x==null || x.size()==0) {
+    				//errorFlag = Boolean.TRUE;
+    				missingTB03.add(dqi);
+    				errorCount++;
+    				
+    			
+    			}	
+    		}
+    		
     	}
     	
     	Integer num = tb03List.size();// + tofList.size();
