@@ -301,7 +301,7 @@ $(document).ready(function(){
 	  	</tr>
 	  	<tr><td colspan="4">&nbsp;</td></tr>
 	    <tr><td colspan="4">&nbsp;</td></tr>
-	  	<tr>
+	  	<%-- <tr>
 	   		<th class=normal colspan="4"><spring:message code="dotsreports.dq.missingtb03" /></th>
 	  	</tr>
 	  	<tr>
@@ -319,7 +319,7 @@ $(document).ready(function(){
 	   	</c:forEach>
 	   	
 	   	<tr><td colspan="4">&nbsp;</td></tr>
-	    <tr><td colspan="4">&nbsp;</td></tr>
+	    <tr><td colspan="4">&nbsp;</td></tr> --%>
 	    
 	    <tr>
 	   		<th class=normal colspan="4"><spring:message code="mdrtb.dq.duplicateForm89" /></th>

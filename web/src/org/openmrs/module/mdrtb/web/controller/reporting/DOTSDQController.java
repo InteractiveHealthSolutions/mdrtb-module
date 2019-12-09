@@ -714,7 +714,7 @@ public class DOTSDQController {
     		
     	}
     	
-    	TbPatientProgram temp = null;
+    	/*TbPatientProgram temp = null;
     	
     	List<TbPatientProgram> progList = Context.getService(MdrtbService.class).getAllTbPatientProgramsEnrolledInDateRangeAndLocations(startDate, endDate, locList);
     	//Integer countNum = 0;
@@ -765,7 +765,7 @@ public class DOTSDQController {
     			}	
     		}
     		
-    	}
+    	}*/
     	
     	Integer num = countNum;// + tofList.size();
     	
@@ -796,7 +796,7 @@ public class DOTSDQController {
     	}
     	
     	model.addAttribute("num", num);
-    	model.addAttribute("missingTB03", missingTB03);
+    	//model.addAttribute("missingTB03", missingTB03);
     	model.addAttribute("duplicateTB03", duplicateTB03);
     	model.addAttribute("duplicateForm89", duplicateForm89);
     	model.addAttribute("unlinkedTB03", unlinkedTB03);

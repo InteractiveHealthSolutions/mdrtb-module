@@ -417,7 +417,7 @@ public class MDRDQController {
     	
     	
     	model.addAttribute("num", num);
-    	model.addAttribute("missingTB03", missingTB03);
+    	//model.addAttribute("missingTB03", missingTB03);
     	model.addAttribute("missingAge", missingAge);
     	model.addAttribute("missingPatientGroup", missingPatientGroup);
     	model.addAttribute("missingDST", missingDST);

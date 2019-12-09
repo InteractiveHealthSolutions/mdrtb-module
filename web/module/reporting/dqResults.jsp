@@ -313,7 +313,7 @@ $(document).ready(function(){
 	  </tr>
 	  <tr><td colspan="3">&nbsp;</td></tr>
 	    <tr><td colspan="3">&nbsp;</td></tr>
-	  <tr>
+	 <%--  <tr>
 	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingtb03u" /></th>
 	  </tr>
 	  <tr>
@@ -331,7 +331,7 @@ $(document).ready(function(){
 	   </c:forEach>
 	    <tr><td colspan="3">&nbsp;</td></tr>
 	    <tr><td colspan="3">&nbsp;</td></tr>
-	    <tr>
+	    <tr> --%>
 	   <th class=normal colspan="3"><spring:message code="mdrtb.dq.missingAge" /></th>
 	  </tr>
 	  <tr>

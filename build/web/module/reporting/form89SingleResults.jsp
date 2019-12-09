@@ -422,7 +422,6 @@ $(document).ready(function(){
 	  <td>${row.form89.prescribedTreatment.displayString } </td>
 	  <td>${row.form89.placeOfCommission.displayString } </td>
 	  <td>${row.form89.nameOfDoctor } </td>
-	  <td>${row.form89.nameOfDoctor } </td>
 	  <td><a href="${pageContext.request.contextPath}/module/mdrtb/form/form89.form?patientProgramId=${row.form89.patProgId}&encounterId=${row.form89.encounter.id}"><spring:message code="mdrtb.view"/></a></td>
 	 </tr>
 	 
