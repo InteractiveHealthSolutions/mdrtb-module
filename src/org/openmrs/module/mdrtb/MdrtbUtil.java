@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,12 +29,21 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAddress;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.BlankIdentifierException;
+import org.openmrs.api.IdentifierNotUniqueException;
+import org.openmrs.api.PatientIdentifierException;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.reporting.definition.AgeAtMDRRegistrationCohortDefinition;
 import org.openmrs.module.mdrtb.reporting.ReportUtil;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
+import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
+import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.XpertForm;
 import org.openmrs.module.mdrtb.regimen.Regimen;
 import org.openmrs.module.mdrtb.regimen.RegimenUtils;
 import org.openmrs.module.mdrtb.reporting.data.Cohorts;
@@ -44,6 +54,9 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
+import org.springframework.validation.Errors;
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 
 public class MdrtbUtil {
     
@@ -127,10 +140,13 @@ public class MdrtbUtil {
 	public static Set<EncounterType> getMdrtbEncounterTypes() {
 
 		Set<EncounterType> types = new HashSet<EncounterType>();
-		types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type")));
-    	types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type")));
+		types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type")));
+    	types.add(Context.getEncounterService().getEncounterType("TB03u - XDR"));
     	types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
-   		
+    	types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type")));
+    	types.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type")));
+    	types.add(Context.getEncounterService().getEncounterType("Resistance During Treatment"));
+    	
     	return types;
 	}
 	
@@ -148,6 +164,7 @@ public class MdrtbUtil {
     	positiveResults.add(service.getConcept(MdrtbConcepts.WEAKLY_POSITIVE));
     	positiveResults.add(service.getConcept(MdrtbConcepts.POSITIVE));
     	positiveResults.add(service.getConcept(MdrtbConcepts.SCANTY));
+    	positiveResults.add(service.getConcept(TbConcepts.LOWAFB));
     	
     	return positiveResults;
     }
@@ -704,4 +721,518 @@ public class MdrtbUtil {
 				
 		return result;
 	}
+	
+	public void updateProgramWithPatientIdentifier(Integer patientProgramId, Integer patId) {
+		
+		
+	}
+	
+	public static Cohort getMdrPatientsTJKFacility(String identifier, String name, /*String enrollment,*/ String districtId, String oblastId,String facilityId, List<ProgramWorkflowState> states, Integer minage, Integer maxage, String gender, Integer year, String quarter, String month) {
+		
+		Location location=null;
+		List<Location> locList = null;
+		/*if(districtId!=null)
+		{
+			District district= Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
+		
+			List<Location> locations = Context.getLocationService().getAllLocations(false);// Context.getService(MdrtbService.class).getEnrollmentLocations();//ms = (MdrtbDrugForecastService) Context.getService(MdrtbDrugForecastService.class);
+			for (Location l : locations) {
+				if(MdrtbUtil.areRussianStringsEqual(l.getName(), district.getName()))
+	    		{
+					location=l;
+	    		}
+			}
+		}*/
+		
+		if(facilityId!=null && facilityId.length()!=0) {
+    		//all fields selected
+    		Facility fac = Context.getService(MdrtbService.class).getFacility(Integer.parseInt(facilityId));
+    		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
+    		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
+    		//List<Location> facList = Context.getService(MdrtbService.class).getLocationsFromFacilityName(fac);
+    		location = Context.getService(MdrtbService.class).getLocation(obl.getId(),dist.getId(),fac.getId());
+    		
+    	}
+    	
+    	else if(districtId!=null && districtId.length()!=0) {
+    		//district and oblast selected
+    		District dist = Context.getService(MdrtbService.class).getDistrict(Integer.parseInt(districtId));
+    		
+    		
+    		locList = Context.getService(MdrtbService.class).getLocationsFromDistrictName(dist);
+    		
+    	}
+    	
+    	else if(oblastId!=null && oblastId.length()!=0) {
+    		Oblast obl = Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
+    		locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(obl);
+    	}
+		
+		
+			Cohort cohort = Context.getPatientSetService().getAllPatients();
+			
+			MdrtbService ms = (MdrtbService) Context.getService(MdrtbService.class);
+			
+			Date now = new Date();
+			Program mdrtbProgram = ms.getMdrtbProgram();
+			
+			Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+			
+			Date startDate = (Date)(dateMap.get("startDate"));
+			Date endDate = (Date)(dateMap.get("endDate"));
+			
+			CohortDefinition drtb = Cohorts.getEnrolledInMDRProgramDuring(startDate, endDate);
+			
+			try {
+				Cohort enrollmentCohort = Context.getService(CohortDefinitionService.class).evaluate(drtb, new EvaluationContext());
+				cohort = Cohort.intersect(cohort, enrollmentCohort);
+			}
+			
+			 catch (EvaluationException e) {
+	       	  throw new MdrtbAPIException("Unable to evalute location cohort",e);
+	       }
+			
+			if (StringUtils.isNotBlank(name) || StringUtils.isNotBlank(identifier)) {
+				name = "".equals(name) ? null : name;
+				identifier = "".equals(identifier) ? null : identifier;
+				Cohort nameIdMatches = new Cohort(Context.getPatientService().getPatients(name, identifier, null, false));
+				cohort = Cohort.intersect(cohort, nameIdMatches);
+			}
+			
+			if (states != null) {
+				Cohort inStates = Context.getPatientSetService().getPatientsByProgramAndState(null, states, now, now);
+				cohort = Cohort.intersect(cohort, inStates);
+			}
+			
+			/*Oblast o = null;
+			Facility f = null;
+			if(!oblastId.equals("") && location == null)
+				o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblastId));
+			
+			List<Location> locList = new ArrayList<Location>();
+			if(o != null && location == null)
+				locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+			else if (location != null)
+			{
+				if(facilityId != null && facilityId.length()!=0)
+				{
+					f= Context.getService(MdrtbService.class).getFacility(Integer.parseInt(facilityId));
+					if(f!=null)
+					locList = Context.getService(MdrtbService.class).getLocationsFromFacilityName(f);
+				}
+				else
+				{
+					locList.add(location);
+					List<Facility> fs = Context.getService(MdrtbService.class).getFacilities(Integer.parseInt(districtId));
+					if(fs!=null)
+					{
+						for (Facility f1 : fs) {
+							locList.addAll(Context.getService(MdrtbService.class).getLocationsFromFacilityName(f1));
+						}
+					}
+				}
+			}*/
+			
+			//if facility is selected
+			if(location!=null && locList==null) {
+				locList = new ArrayList<Location>();
+				locList.add(location);
+			}
+			
+			System.out.println("Location>>" + location);
+			if(locList==null) {
+				System.out.println("Location List >>" + null);
+			}
+			
+			else {
+				System.out.println("Location List >>" + locList.size());
+			}
+			
+			CohortDefinition temp = null;
+			CohortDefinition lcd = null;
+			
+			if(locList!=null) {
+			for(Location loc : locList) {
+				temp = Cohorts.getLocationFilter(loc, null,null);
+				if(lcd == null)
+					lcd = temp;
+				
+				else 
+					lcd = ReportUtil.getCompositionCohort("OR", lcd, temp);
+			}
+			}
+			
+			else 
+				lcd = Cohorts.getLocationFilter(location, null,null);
+			
+			Cohort locationCohort;
+	        try {
+	            locationCohort = Context.getService(CohortDefinitionService.class).evaluate(lcd, new EvaluationContext());
+	        }
+	        catch (EvaluationException e) {
+	        	  throw new MdrtbAPIException("Unable to evalute location cohort",e);
+	        }
+			cohort = Cohort.intersect(cohort, locationCohort);
+			
+			if(minage != null || maxage != null) {
+				Cohort ageCohort = new Cohort();
+				AgeAtMDRRegistrationCohortDefinition ageatEnrollmentCohort = new AgeAtMDRRegistrationCohortDefinition();
+				ageatEnrollmentCohort.setMaxAge(maxage);
+				ageatEnrollmentCohort.setMinAge(minage);
+				ageatEnrollmentCohort.setStartDate(startDate);
+				ageatEnrollmentCohort.setEndDate(endDate);
+				
+				;
+				
+				//eval.evaluate(ageatEnrollmentCohort, context)
+				 try {
+					 ageCohort = Context.getService(CohortDefinitionService.class).evaluate(ageatEnrollmentCohort, new EvaluationContext());
+				 }
+				 
+				 catch (EvaluationException e) {
+	           	  throw new MdrtbAPIException("Unable to evalute age cohort",e);
+	           }
+				/*Patient patient = null;
+				Set<Integer> idSet = cohort.getMemberIds();
+				Iterator<Integer> itr = idSet.iterator();
+		    	Integer idCheck = null;
+		   
+		    	PatientService ps = Context.getService(PatientService.class);
+		    	boolean use = false;
+		    	while(itr.hasNext()) {
+		    		use = false;
+		    		idCheck = (Integer)itr.next();
+		    		patient = ps.getPatient(idCheck);
+		    		MdrtbService svc = Context.getService(MdrtbService.class);
+		    		
+		    		MdrtbPatientProgram mpp = svc.getMostRecentMdrtbPatientProgram(patient);
+		    		
+		    		Date tsd = mpp.getDateEnrolled();
+		    		//mpp.getTreatmentStartDateDuringProgram();
+		    		
+		    		
+		    		if(minage != null && maxage !=null ) {
+		    			if(patient.getAge(tsd)>= minage.intValue() && patient.getAge(tsd)<= maxage.intValue() ) {
+		    				use = true;
+		    			}
+		    		}
+		    		
+		    		else if(minage!=null) {
+		    			if(patient.getAge(tsd)>= minage.intValue()) {
+		    				use = true;
+		    			}
+		    			else
+		    				use = false;
+		    				
+		    		}
+		    		
+		    		else if(maxage!=null) {
+		    			if(patient.getAge(tsd)<= maxage.intValue()) {
+		    				use = true;
+		    			}
+		    			else
+		    				use = false;
+		    		} 
+		    		
+		    		if(use) {
+		    			ageCohort.addMember(patient.getPatientId());
+		    		}
+		    		
+		    	}*/
+		    	
+				 cohort = Cohort.intersect(cohort, ageCohort);
+				
+				
+			}
+			
+			if(gender!=null && gender.length()!=0) {
+				Cohort genderCohort = new Cohort();
+				Patient patient = null;
+				Set<Integer> idSet = cohort.getMemberIds();
+				Iterator<Integer> itr = idSet.iterator();
+		    	Integer idCheck = null;
+		   
+		    	PatientService ps = Context.getService(PatientService.class);
+		    	boolean use = false;
+		    	while(itr.hasNext()) {
+		    		use = false;
+		    		idCheck = (Integer)itr.next();
+		    		patient = ps.getPatient(idCheck);
+		    		
+		    		
+		    		if(patient.getGender().equalsIgnoreCase(gender)) {
+		    			genderCohort.addMember(patient.getPatientId());
+		    		}
+		    		
+		    	}
+		    	
+		    	cohort = Cohort.intersect(cohort, genderCohort);
+			}
+			
+			
+			return cohort;
+		}
+	
+	public static Boolean isBacPositive(TB03Form tf) {
+		   Boolean ret = false;
+		   List<SmearForm> smears = tf.getSmears();
+		   
+		   for(SmearForm sf : smears) {
+			   if(MdrtbUtil.getPositiveResultConcepts().contains(sf.getSmearResult())) {
+				   return true;
+			   }
+		   }
+		   
+		   List<CultureForm> cultures = tf.getCultures();
+		   
+		   for(CultureForm cf : cultures) {
+			   if(MdrtbUtil.getPositiveResultConcepts().contains(cf.getCultureResult())) {
+				   return true;
+			   }
+		   }
+		   
+		   List<XpertForm> xperts = tf.getXperts();
+		   Concept positive = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_POSITIVE);
+		   Concept mtbResult = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT);
+		   Concept xpertConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT);
+		   Obs constructObs = null;
+		   Obs resultObs = null;
+		   for(XpertForm xf : xperts) {
+			   resultObs = null;
+			   constructObs = MdrtbUtil.getObsFromEncounter(xpertConstructs, xf.getEncounter());
+			   if(constructObs!=null) {
+				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+					   return true;
+				   }
+			   }
+			   
+			  
+		   }
+		   
+		   List<HAINForm> hains = tf.getHains();
+		  
+		   Concept hainConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT);
+		   constructObs = null;
+		   resultObs = null;
+		   for(HAINForm hf : hains) {
+			   resultObs = null;
+			   constructObs = MdrtbUtil.getObsFromEncounter(hainConstructs, hf.getEncounter());
+			   if(constructObs!=null) {
+				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+					   return true;
+				   }
+			   }
+			   
+			  
+		   }
+		   
+		   return ret;
+	   }
+	
+	
+	public static Boolean isDiagnosticBacPositive(TB03Form tf) {
+		   Boolean ret = false;
+		   List<SmearForm> smears = tf.getSmears();
+		   
+		   for(SmearForm sf : smears) {
+			   if(sf.getMonthOfTreatment()!=null && sf.getMonthOfTreatment().intValue()==0 && MdrtbUtil.getPositiveResultConcepts().contains(sf.getSmearResult())) {
+				   return true;
+			   }
+		   }
+		   
+		   List<CultureForm> cultures = tf.getCultures();
+		   
+		   for(CultureForm cf : cultures) {
+			   if(cf.getMonthOfTreatment()!=null && cf.getMonthOfTreatment().intValue()==0 && MdrtbUtil.getPositiveResultConcepts().contains(cf.getCultureResult())) {
+				   return true;
+			   }
+		   }
+		   
+		   List<XpertForm> xperts = tf.getXperts();
+		   Concept positive = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_POSITIVE);
+		   Concept mtbResult = Context.getService(MdrtbService.class).getConcept(TbConcepts.MTB_RESULT);
+		   Concept xpertConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT);
+		   Obs constructObs = null;
+		   Obs resultObs = null;
+		   for(XpertForm xf : xperts) {
+			   
+			   if(xf.getMonthOfTreatment()!=null && xf.getMonthOfTreatment().intValue()==0) {
+				   resultObs = null;
+				   constructObs = MdrtbUtil.getObsFromEncounter(xpertConstructs, xf.getEncounter());
+				   if(constructObs!=null) {
+					   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+					   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+						   return true;
+					   }
+				   }
+			   }
+		   }
+		   
+		   List<HAINForm> hains = tf.getHains();
+		  
+		   Concept hainConstructs = Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT);
+		   constructObs = null;
+		   resultObs = null;
+		   for(HAINForm hf : hains) {
+			   if(hf.getMonthOfTreatment()!=null && hf.getMonthOfTreatment().intValue()==0) {
+			   
+			   resultObs = null;
+			   constructObs = MdrtbUtil.getObsFromEncounter(hainConstructs, hf.getEncounter());
+			   if(constructObs!=null) {
+				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+					   return true;
+				   }
+			   }
+			 
+			  }
+			  
+		   }
+		   
+		   List<HAIN2Form> hain2s = tf.getHain2s();
+			  
+		   Concept hain2Constructs = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HAIN2_CONSTRUCT);
+		   constructObs = null;
+		   resultObs = null;
+		   for(HAIN2Form hf : hain2s) {
+			   if(hf.getMonthOfTreatment()!=null && hf.getMonthOfTreatment().intValue()==0) {
+			   
+			   resultObs = null;
+			   constructObs = MdrtbUtil.getObsFromEncounter(hain2Constructs, hf.getEncounter());
+			   if(constructObs!=null) {
+				   resultObs = MdrtbUtil.getObsFromObsGroup(mtbResult, constructObs);
+				   if(resultObs!=null && resultObs.getValueCoded()!=null && resultObs.getValueCoded().getId().intValue()==positive.getId().intValue()) {
+					   return true;
+				   }
+			   }
+			 
+			  }
+			  
+		   }
+		   
+		   return ret;
+	   }
+	
+	public static Integer calculateAge(Date fromDate, Date toDate) {
+		Integer ret = null;
+		GregorianCalendar fromCal = new GregorianCalendar();
+		fromCal.setTimeInMillis(fromDate.getTime());
+		/*fromCal.set(GregorianCalendar.HOUR_OF_DAY, 0);
+		fromCal.set(GregorianCalendar.MINUTE, 0);
+		fromCal.set(GregorianCalendar.SECOND, 1);*/
+		GregorianCalendar toCal = new GregorianCalendar();
+		toCal.setTimeInMillis(toDate.getTime());
+		/*fromCal.set(GregorianCalendar.HOUR_OF_DAY, 23);
+		fromCal.set(GregorianCalendar.MINUTE, 59);
+		fromCal.set(GregorianCalendar.SECOND, 59);*/
+		
+		LocalDate fromLocalDate = new LocalDate(fromCal.get(GregorianCalendar.YEAR),  fromCal.get(GregorianCalendar.MONTH)+1, fromCal.get(GregorianCalendar.DATE));
+		LocalDate toLocalDate = new LocalDate(toCal.get(GregorianCalendar.YEAR),  toCal.get(GregorianCalendar.MONTH)+1, toCal.get(GregorianCalendar.DATE));
+		Years age = Years.yearsBetween(fromLocalDate, toLocalDate);
+		ret = age.getYears();
+		
+		
+		return ret;
+	}
+	
+	/*
+	 * Validates a PatientIdentifier.
+	 * 
+	 * @see org.springframework.validation.Validator#validate(java.lang.Object,
+	 *      org.springframework.validation.Errors)
+	 */
+	
+	public static void validateIdentifier(PatientIdentifier pi, Errors errors) throws PatientIdentifierException {
+		
+		// Validate that the identifier is non-null
+		if (pi == null) {
+			errors.reject(Context.getMessageSourceService().getMessage("mdrtb.emptyId"));
+			// BlankIdentifierException("Patient Identifier cannot be null.");
+		}
+		
+		// Only validate if the PatientIdentifier is not voided
+		if (!pi.isVoided()) {
+			
+			// Check is already in use by another patient
+			String id = pi.getIdentifier();
+			System.out.println("VAL_ID:" + id);
+			GregorianCalendar now = new GregorianCalendar();
+			int year = now.get(GregorianCalendar.YEAR);
+			String yearString = "" + year;
+			String firstTwoDigits = yearString.substring(0,2);
+			System.out.println("FTD:" + firstTwoDigits);
+			int centuryYear = Integer.parseInt(firstTwoDigits) * 100;
+			System.out.println("CY:" + centuryYear);
+			int yearFromId = Integer.parseInt(id.substring(2,4)) + centuryYear;
+			System.out.println("YFI:" + yearFromId);
+			
+			if(yearFromId > year) {
+				errors.reject(Context.getMessageSourceService().getMessage("mdrtb.yearInIdInFuture"));
+			}
+			
+			/*if(programStartDate!=null) {
+			{
+				GregorianCalendar stDateCal = new GregorianCalendar();	
+				stDateCal.setTimeInMillis(programStartDate.getTime());
+				int stDateYear = stDateCal.get(GregorianCalendar.YEAR);
+			
+				if(yearFromId != stDateYear) {
+					Context.getMessageSourceService().getMessage("mdrtb.yearInIdMismatch");
+				}
+			}*/
+			
+			
+			
+		
+		}
+	}
+	
+	public static void validateIdentifierString(String id, Errors errors) throws PatientIdentifierException {
+		
+		// Validate that the identifier is non-null
+		if (id==null) {
+			errors.reject(Context.getMessageSourceService().getMessage("mdrtb.emptyId"));
+			// BlankIdentifierException("Patient Identifier cannot be null.");
+		}
+		
+		// Only validate if the PatientIdentifier is not voided
+		else {
+			
+			// Check is already in use by another patient
+			
+			System.out.println("VAL_ID:" + id);
+			GregorianCalendar now = new GregorianCalendar();
+			int year = now.get(GregorianCalendar.YEAR);
+			String yearString = "" + year;
+			String firstTwoDigits = yearString.substring(0,2);
+			System.out.println("FTD:" + firstTwoDigits);
+			int centuryYear = Integer.parseInt(firstTwoDigits) * 100;
+			System.out.println("CY:" + centuryYear);
+			int yearFromId = Integer.parseInt(id.substring(2,4)) + centuryYear;
+			System.out.println("YFI:" + yearFromId);
+			
+			if(yearFromId > year) {
+				errors.reject(Context.getMessageSourceService().getMessage("mdrtb.yearInIdInFuture"));
+			}
+			
+			/*if(programStartDate!=null) {
+			{
+				GregorianCalendar stDateCal = new GregorianCalendar();	
+				stDateCal.setTimeInMillis(programStartDate.getTime());
+				int stDateYear = stDateCal.get(GregorianCalendar.YEAR);
+			
+				if(yearFromId != stDateYear) {
+					Context.getMessageSourceService().getMessage("mdrtb.yearInIdMismatch");
+				}
+			}*/
+			
+			
+			
+		
+		}
+	}
+	
+
 }

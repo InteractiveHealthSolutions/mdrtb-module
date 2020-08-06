@@ -1,7 +1,11 @@
 package org.openmrs.module.mdrtb.specimen;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.openmrs.Concept;
+import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
@@ -317,4 +321,24 @@ public abstract class TestImpl implements Test {
 	    	return TestStatus.UNKNOWN;
 	    }
 	 }
+	 
+	 public String getRealSpecimenId() {
+		 
+		 Encounter enc = this.getObs().getEncounter();
+		 ArrayList<Encounter> encounters = new ArrayList<Encounter>();
+		 encounters.add(enc);
+		 Concept question = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SPECIMEN_ID);
+		 ArrayList<Concept> questions = new ArrayList<Concept>();
+		 questions.add(question);
+				 
+		 List<Obs> obsList = Context.getObsService().getObservations(null, encounters, questions, null, null, null, null, null, null, null, null, false);
+		 
+		 if(obsList==null || obsList.size()==0)
+			 return null;
+		 
+		 Obs obs = obsList.get(0);
+		 String specimenId = obs.getValueText();
+		 
+		 return specimenId;
+	}
 }

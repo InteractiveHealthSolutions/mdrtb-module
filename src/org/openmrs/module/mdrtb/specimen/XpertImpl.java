@@ -93,6 +93,8 @@ public class XpertImpl extends TestImpl implements Xpert {
     	}
 	}
 
+	
+
 	@Override
 	public void setResult(Concept mtbResult) {
 		

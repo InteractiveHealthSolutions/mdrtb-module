@@ -244,7 +244,7 @@
 	</div>
 	
 	<br/>
-	<c:if test="${!empty history.type.suggestions}">
+	<%-- <c:if test="${!empty history.type.suggestions}">
 		<spring:message code="mdrtb.startStandardRegimen" text="Start a standard regimen"/>:
 		<select id="${id}standardRegimenSelector" name="${id}standardRegimenSelector">
 			<option value=""></option>
@@ -254,7 +254,7 @@
 		</select>
 		<input type="button" id="${id}AddStandardRegimen" value="<spring:message code="mdrtb.add" text="Add"/>"/>
 		<br/><b> - <spring:message code="mdrtb.or" text="or"/> - </b><br/>
-	</c:if>
+	</c:if> --%>
 	<spring:message code="mdrtb.startIndividualDrugs" text="Start individual drugs"/>:
 	<select id="${id}individualGenericSelector" name="${id}individualGenericSelector"></select>
 	<select id="${id}individualDrugSelector" name="${id}individualDrugSelector" style="display:none;"></select>

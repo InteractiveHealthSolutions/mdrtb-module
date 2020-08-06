@@ -94,7 +94,7 @@ public class MdrtbHomePageController {
         	}
         	
         	// Load default reporting framework reports
-        	ReportSpecification[] rpts = {new TB07TJK(), new TB08TJK(), new DSTReportTJK()};
+        	ReportSpecification[] rpts = {new TB07TJK(), new DSTReportTJK()};
         	for (ReportSpecification spec : rpts) {
             	reports.put("module/mdrtb/reporting/reports.form?type=" + spec.getClass().getName(), spec.getName());
             }

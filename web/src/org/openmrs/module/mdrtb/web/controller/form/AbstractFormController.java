@@ -13,6 +13,7 @@ import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.propertyeditor.ConceptEditor;
 import org.openmrs.propertyeditor.LocationEditor;
 import org.openmrs.propertyeditor.PersonEditor;
@@ -48,6 +49,11 @@ public class AbstractFormController {
 	@ModelAttribute("program")
 	public MdrtbPatientProgram getPatientProgram(@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId) {
 		return Context.getService(MdrtbService.class).getMdrtbPatientProgram(patientProgramId);
+	}
+	
+	@ModelAttribute("tbProgram")
+	public TbPatientProgram getTbPatientProgram(@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId) {
+		return Context.getService(MdrtbService.class).getTbPatientProgram(patientProgramId);
 	}
 	
 	@ModelAttribute("returnUrl")

@@ -1,10 +1,13 @@
 package org.openmrs.module.mdrtb.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,7 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptSet;
@@ -35,20 +39,47 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 
+import org.openmrs.module.addresshierarchy.AddressHierarchyEntry;
+import org.openmrs.module.addresshierarchy.AddressHierarchyLevel;
+import org.openmrs.module.addresshierarchy.service.AddressHierarchyService;
+import org.openmrs.module.mdrtb.Country;
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.MdrtbConceptMap;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.TbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientProgramComparator;
 import org.openmrs.module.mdrtb.comparator.PersonByNameComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.CultureForm;
+import org.openmrs.module.mdrtb.form.DSTForm;
+import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
+import org.openmrs.module.mdrtb.form.Form89;
+import org.openmrs.module.mdrtb.form.HAIN2Form;
+import org.openmrs.module.mdrtb.form.HAINForm;
+import org.openmrs.module.mdrtb.form.RegimenForm;
+import org.openmrs.module.mdrtb.form.SmearForm;
+import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TB03uForm;
+import org.openmrs.module.mdrtb.form.TransferInForm;
+import org.openmrs.module.mdrtb.form.TransferOutForm;
+import org.openmrs.module.mdrtb.form.XpertForm;
+import org.openmrs.module.mdrtb.form.pv.AEForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
+import org.openmrs.module.mdrtb.reporting.ReportUtil;
+import org.openmrs.module.mdrtb.reporting.data.Cohorts;
 import org.openmrs.module.mdrtb.service.db.MdrtbDAO;
 import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.CultureImpl;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.DstImpl;
 import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.HAIN2;
+import org.openmrs.module.mdrtb.specimen.HAIN2Impl;
 import org.openmrs.module.mdrtb.specimen.HAINImpl;
 import org.openmrs.module.mdrtb.specimen.ScannedLabReport;
 import org.openmrs.module.mdrtb.specimen.Smear;
@@ -57,7 +88,12 @@ import org.openmrs.module.mdrtb.specimen.Specimen;
 import org.openmrs.module.mdrtb.specimen.SpecimenImpl;
 import org.openmrs.module.mdrtb.specimen.Xpert;
 import org.openmrs.module.mdrtb.specimen.XpertImpl;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.evaluation.EvaluationContext;
+import org.openmrs.module.reporting.evaluation.EvaluationException;
+import org.springframework.transaction.annotation.Transactional;
 
 public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService {
 	
@@ -128,8 +164,16 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		return Context.getEncounterService().getEncounters(patient, null, null, null, null, MdrtbUtil.getMdrtbEncounterTypes(), null, false);
 	}
 	
+	public List<Encounter> getTbEncounters(Patient patient) {
+		return Context.getEncounterService().getEncounters(patient, null, null, null, null, TbUtil.getTbEncounterTypes(), null, false);
+	}
+	
 	public List<MdrtbPatientProgram> getAllMdrtbPatientPrograms() {
 		return getAllMdrtbPatientProgramsInDateRange(null, null);
+	}
+	
+	public List<TbPatientProgram> getAllTbPatientPrograms() {
+		return getAllTbPatientProgramsInDateRange(null, null);
 	}
 	
 	public List<MdrtbPatientProgram> getAllMdrtbPatientProgramsInDateRange(Date startDate, Date endDate) {
@@ -158,6 +202,34 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	return mdrtbPrograms;
 	}
 	
+	public List<TbPatientProgram> getAllTbPatientProgramsInDateRange(Date startDate, Date endDate) {
+		// (program must have started before the end date of the period, and must not have ended before the start of the period)
+		List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(null, getTbProgram(), null, endDate, startDate, null, false);
+    	
+		//ADD BY ALI August 13th 2017
+		TbPatientProgram temp = null;
+		//
+		
+	 	// sort the programs so oldest is first and most recent is last
+    	Collections.sort(programs, new PatientProgramComparator());
+    	
+    	List<TbPatientProgram> tbPrograms = new LinkedList<TbPatientProgram>();
+    	
+    	// convert to mdrtb patient programs
+    	for (PatientProgram program : programs) {
+    		//tbPrograms.add(new TbPatientProgram(program));
+    		temp = new TbPatientProgram(program);
+    		PatientIdentifier pid = getPatientProgramIdentifier(temp);
+    		
+    		if(pid!=null) {
+    			temp.setPatientIdentifier(pid);
+    		}
+    		tbPrograms.add(temp);
+    	}
+    	
+    	return tbPrograms;
+	}
+	
 	public List<MdrtbPatientProgram> getMdrtbPatientPrograms(Patient patient) {
     	
     	List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, getMdrtbProgram(), null, null, null, null, false);
@@ -183,10 +255,49 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	
     	return mdrtbPrograms;
     }
+	
+public List<TbPatientProgram> getTbPatientPrograms(Patient patient) {
+    	
+    	List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, getTbProgram(), null, null, null, null, false);
+    	
+    	//ADD BY ALI Aug 13th 2017
+		TbPatientProgram temp = null;
+		//
+    	
+    	// sort the programs so oldest is first and most recent is last
+    	Collections.sort(programs, new PatientProgramComparator());
+    	
+    	List<TbPatientProgram> tbPrograms = new LinkedList<TbPatientProgram>();
+    	
+    	// convert to mdrtb patient programs
+    	for (PatientProgram program : programs) {
+    		//tbPrograms.add(new TbPatientProgram(program));
+    		temp = new TbPatientProgram(program);
+    		PatientIdentifier pid = getPatientProgramIdentifier(temp);
+    		
+    		if(pid!=null) {
+    			temp.setPatientIdentifier(pid);
+    		}
+    		tbPrograms.add(temp);
+    	}
+    	
+    	return tbPrograms;
+    }
 
 	
 	public MdrtbPatientProgram getMostRecentMdrtbPatientProgram(Patient patient) {
     	List<MdrtbPatientProgram> programs = getMdrtbPatientPrograms(patient);
+    	
+    	if (programs.size() > 0) {
+    		return programs.get(programs.size() - 1);
+    	} 
+    	else {
+    		return null;
+    	}
+    }
+	
+	public TbPatientProgram getMostRecentTbPatientProgram(Patient patient) {
+    	List<TbPatientProgram> programs = getTbPatientPrograms(patient);
     	
     	if (programs.size() > 0) {
     		return programs.get(programs.size() - 1);
@@ -210,8 +321,33 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		return programs;
 	}
 	
+
+	public List<TbPatientProgram> getTbPatientProgramsInDateRange(Patient patient, Date startDate, Date endDate) {
+		List<TbPatientProgram> programs = new LinkedList<TbPatientProgram>();
+		
+		for (TbPatientProgram program : getTbPatientPrograms(patient)) {
+			if( (endDate == null || program.getDateEnrolled().before(endDate)) &&
+	    			(program.getDateCompleted() == null || startDate == null || !program.getDateCompleted().before(startDate)) ) {
+	    			programs.add(program);
+	    	}
+		}
+		
+		Collections.sort(programs);
+		return programs;
+	}
+	
 	public MdrtbPatientProgram getMdrtbPatientProgramOnDate(Patient patient, Date date) {
 		for (MdrtbPatientProgram program : getMdrtbPatientPrograms(patient)) {
+			if (program.isDateDuringProgram(date)) {
+				return program;
+			}
+		}
+
+		return null;
+	}
+	
+	public TbPatientProgram getTbPatientProgramOnDate(Patient patient, Date date) {
+		for (TbPatientProgram program : getTbPatientPrograms(patient)) {
 			if (program.isDateDuringProgram(date)) {
 				return program;
 			}
@@ -246,6 +382,91 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		}
 	}
 	
+	public TbPatientProgram getTbPatientProgram(Integer patientProgramId) {
+		if (patientProgramId == null) {
+			throw new MdrtbAPIException("Patient program Id cannot be null.");
+		}
+		else if (patientProgramId == -1) {
+			return null;
+		}
+		else {
+			PatientProgram program = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+			
+			if (program == null || !program.getProgram().equals(getTbProgram())) {
+				throw new MdrtbAPIException(patientProgramId + " does not reference a TB patient program");
+			}
+			
+			else {
+				return new TbPatientProgram(program);
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	public List<TbPatientProgram> getAllTbPatientProgramsEnrolledInDateRange(Date startDate, Date endDate) {
+		// (program must have started before the end date of the period, and must not have ended before the start of the period)
+		List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(null, getTbProgram(), startDate, endDate, null, null, false);
+    	
+	 	// sort the programs so oldest is first and most recent is last
+    	Collections.sort(programs, new PatientProgramComparator());
+    	
+    	List<TbPatientProgram> tbPrograms = new LinkedList<TbPatientProgram>();
+    	
+    	// convert to mdrtb patient programs
+    	for (PatientProgram program : programs) {
+    		tbPrograms.add(new TbPatientProgram(program));
+    	}
+    	
+    	return tbPrograms;
+	}
+	
+	public List<TbPatientProgram> getAllTbPatientProgramsEnrolledInDateRangeAndLocations(Date startDate, Date endDate, ArrayList<Location> locList) {
+		// (program must have started before the end date of the period, and must not have ended before the start of the period)
+		List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(null, getTbProgram(), startDate, endDate, null, null, false);
+    	
+	 	// sort the programs so oldest is first and most recent is last
+    	Collections.sort(programs, new PatientProgramComparator());
+    	
+    	List<TbPatientProgram> tbPrograms = new LinkedList<TbPatientProgram>();
+    	TbPatientProgram temp = null;
+    	// convert to mdrtb patient programs
+    	for (PatientProgram program : programs) {
+    		temp = new TbPatientProgram(program);
+    		
+    		for(Location l: locList) {
+    			if(temp.getLocation()!=null && (temp.getLocation().getLocationId().intValue()==l.getLocationId().intValue())) {
+    				tbPrograms.add(new TbPatientProgram(program));
+    				break;
+    			}
+    		}
+    		
+    	}
+    	
+    	return tbPrograms;
+	}
+	
+	public List<MdrtbPatientProgram> getAllMdrtbPatientProgramsEnrolledInDateRange(Date startDate, Date endDate) {
+		// (program must have started before the end date of the period, and must not have ended before the start of the period)
+		List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(null, getMdrtbProgram(), startDate, endDate, null, null, false);
+    	
+	 	// sort the programs so oldest is first and most recent is last
+    	Collections.sort(programs, new PatientProgramComparator());
+    	
+    	List<MdrtbPatientProgram> tbPrograms = new LinkedList<MdrtbPatientProgram>();
+    	
+    	// convert to mdrtb patient programs
+    	for (PatientProgram program : programs) {
+    		tbPrograms.add(new MdrtbPatientProgram(program));
+    	}
+    	
+    	return tbPrograms;
+	}
+
 	public Specimen createSpecimen(Patient patient) {
 		// return null if the patient is null
 		if(patient == null) {
@@ -274,6 +495,28 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	
 	public List<Specimen> getSpecimens(Patient patient) {
 		return getSpecimens(patient, null, null, null);
+	}
+	
+	public List<Specimen> getSpecimens(Patient patient, Integer programId) {
+		List<Specimen> specimens = new LinkedList<Specimen>();
+		List<Encounter> specimenEncounters = new LinkedList<Encounter>();
+		
+		// create the specific specimen encounter types
+		EncounterType specimenEncounterType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
+		List<EncounterType> specimenEncounterTypes = new LinkedList<EncounterType>();
+		specimenEncounterTypes.add(specimenEncounterType);
+		
+		specimenEncounters = Context.getEncounterService().getEncounters(patient, null, null, null, null, specimenEncounterTypes, null, false);
+		Obs temp = null;
+		for(Encounter encounter : specimenEncounters) {	
+			temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), encounter);
+			if(temp!=null && temp.getValueNumeric()!=null && temp.getValueNumeric().intValue()==programId.intValue())
+				specimens.add(new SpecimenImpl(encounter));
+		}
+		
+		Collections.sort(specimens);
+		return specimens;
+		
 	}
 	
 	public List<Specimen> getSpecimens(Patient patient, Date startDate, Date endDate) {	
@@ -522,6 +765,10 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     public Program getMdrtbProgram() {
     	return Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name"));
     }
+    
+    public Program getTbProgram() {
+    	return Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("dotsreports.program_name"));
+    }
 	
    public Collection<Person> getProviders() {
 		// TODO: this should be customizable, so that other installs can define there own provider lists?
@@ -561,10 +808,10 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	public Collection<Concept> getPossibleDstResults() {
 		List<Concept> results = new LinkedList<Concept>();
 		results.add(this.getConcept(MdrtbConcepts.SUSCEPTIBLE_TO_TB_DRUG));
-		results.add(this.getConcept(MdrtbConcepts.INTERMEDIATE_TO_TB_DRUG));
+		//results.add(this.getConcept(MdrtbConcepts.INTERMEDIATE_TO_TB_DRUG));
 		results.add(this.getConcept(MdrtbConcepts.RESISTANT_TO_TB_DRUG));
-		results.add(this.getConcept(MdrtbConcepts.DST_CONTAMINATED));
-		results.add(this.getConcept(MdrtbConcepts.WAITING_FOR_TEST_RESULTS));
+		//results.add(this.getConcept(MdrtbConcepts.DST_CONTAMINATED));
+		//results.add(this.getConcept(MdrtbConcepts.WAITING_FOR_TEST_RESULTS));
 		
 		return results;
 	}
@@ -618,15 +865,41 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     }
     
     public Set<ProgramWorkflowState> getPossibleMdrtbProgramOutcomes() {
-    	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_TX_OUTCOME));
+    	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_TX_OUTCOME), true);
+    }
+    
+    public Set<ProgramWorkflowState> getPossibleTbProgramOutcomes() {
+    	
+    	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.TB_TX_OUTCOME), false);
+    	
     }
 
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPreviousDrugUse() {
-    	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE));
+    	
+    	Set<ProgramWorkflowState> temp =  getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE), true);
+    	
+    	
+    	return temp;
+    }
+    
+    public Set<ProgramWorkflowState> getPossibleDOTSClassificationsAccordingToPreviousDrugUse() {
+    	
+    	Set<ProgramWorkflowState> temp =  getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.DOTS_CLASSIFICATION_ACCORDING_TO_PREVIOUS_DRUG_USE), false);
+    	
+    	
+    	return temp;
+    }
+    
+    public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPatientGroups() {
+    	
+    	Set<ProgramWorkflowState> temp = getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP), false);
+    	
+    	return temp;
+    	//return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_GROUP));
     }
   
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPreviousTreatment() {
-    	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX));
+    	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX), true);
     }    
     
     public String getColorForConcept(Concept concept) {
@@ -661,12 +934,18 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	 * Utility functions
 	 */
     
-    private Set<ProgramWorkflowState> getPossibleWorkflowStates(Concept workflowConcept) {
+    private Set<ProgramWorkflowState> getPossibleWorkflowStates(Concept workflowConcept, boolean mdrtb) {
     	// get the mdrtb program via the name listed in global properties
-    	Program mdrtbProgram = Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name"));
+    	Program program = null;
+    	
+    	if(mdrtb)
+    		program = Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name"));
+    	
+    	else
+    		program = Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("dotsreports.program_name"));
     	
     	// get the workflow via the concept name
-    	for (ProgramWorkflow workflow : mdrtbProgram.getAllWorkflows()) {
+    	for (ProgramWorkflow workflow : program.getAllWorkflows()) {
     		if (workflow.getConcept().equals(workflowConcept)) {
     			return workflow.getStates(false);
     		}
@@ -717,7 +996,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     }
     
 
-	public List<MdrtbPatientProgram> getAllMdrtbPatientProgramsEnrolledInDateRange(Date startDate, Date endDate) {
+	/*public List<MdrtbPatientProgram> getAllMdrtbPatientProgramsEnrolledInDateRange(Date startDate, Date endDate) {
 		// (program must have started before the end date of the period, and must not have ended before the start of the period)
 		List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(null, getMdrtbProgram(), startDate, endDate, null, null, false);
 		//ADD BY ALI July 2nd 2017
@@ -741,7 +1020,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	}
     	
     	return tbPrograms;
-	}
+	}*/
 	
 	///////////////////////////////////////
 	
@@ -835,6 +1114,14 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		return this.getConcept(MdrtbConcepts.ISONIAZID_RESISTANCE).getAnswers();
 	}
 	
+	public Collection<ConceptAnswer> getPossibleFqResistanceResults() {
+		return this.getConcept(MdrtbConcepts.FQ_RESISTANCE).getAnswers();
+	}
+	
+	public Collection<ConceptAnswer> getPossibleInjResistanceResults() {
+		return this.getConcept(MdrtbConcepts.INJ_RESISTANCE).getAnswers();
+	}
+	
 	public Collection<ConceptAnswer> getPossibleXpertMtbBurdens() {
 		return this.getConcept(MdrtbConcepts.XPERT_MTB_BURDEN).getAnswers();
 	}
@@ -844,20 +1131,15 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		
 		List<Oblast> oblastList = new ArrayList<Oblast>();
 		
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2", true);
-		for (List<Object> temp : result) {
-			Integer id = 0;
-			String name = "";
-	        for (int i = 0; i < temp.size(); i++) {
-	        	Object value = temp.get(i);
-	            if (value != null) {
-	            	
-	            	if(i == 0)
-	            		id = (Integer) value;
-	            	else if (i == 1)
-	            		name = (String) value;
-	            }
-	        }
+		//List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2", true);
+		AddressHierarchyLevel oblastLevel = new AddressHierarchyLevel();
+		oblastLevel.setLevelId(2);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(oblastLevel);
+		
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
 	        oblastList.add(new Oblast(name, id));
 	    }
 		
@@ -867,7 +1149,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	public Oblast getOblast(Integer oblastId){
 		Oblast oblast = null;
 				
-		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2 and address_hierarchy_entry_id = " +  oblastId, true);
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2 and address_hierarchy_entry_id = " +  oblastId, true);
 		for (List<Object> temp : result) {
 			Integer id = 0;
 			String name = "";
@@ -883,10 +1165,22 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	        }
 	        oblast = new Oblast(name, id);
 	        break;
-	    }
+	    }*/
+		if(oblastId==null)
+			return null;
+		
+		AddressHierarchyEntry add = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntry(oblastId.intValue());
+		 
+		if(add!=null) {
+				oblast = new Oblast();
+				oblast.setId(oblastId);
+				oblast.setName(add.getName());
+		
+		}
 
 		return oblast;
 	}
+	
 	
     public List<Location> getLocationsFromOblastName(Oblast oblast){
     	List<Location> locationList = new ArrayList<Location>();
@@ -959,9 +1253,1993 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	
     }
     
+ //ADDED BY ALI Aug 13th 2017
+    
+    public void addIdentifierToProgram(Integer patientIdenifierId, Integer patientProgramId) {
+    
+    	Integer id = null;
+    	
+    	String query = "update patient_program set patient_identifier_id= " + patientIdenifierId + " where patient_program_id=" + patientProgramId + ";";
+    	List<List<Object>> result = Context.getAdministrationService().executeSQL(query, false);
+    	
+    	
+    	
+    }
+    
+    public PatientIdentifier getPatientProgramIdentifier(TbPatientProgram mpp) {
+        
+    	Integer id = null;
+    	
+    	String query = "select patient_identifier_id from patient_program where patient_program_id = " + mpp.getPatientProgram().getPatientProgramId();
+    	List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
+    	
+		for (List<Object> temp : result) {
+			
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            		id = (Integer) value;
+	            	
+	            }
+	        }
+	       
+	    }
+		PatientIdentifier pi =  null;
+		if(id!=null) {
+			
+			pi = getPatientIdentifierById(id);
+		}
+
+    	return pi;
+
+    }
+    
+    public PatientIdentifier getGenPatientProgramIdentifier(PatientProgram pp) {
+        
+    	Integer id = null;
+    	
+    	String query = "select patient_identifier_id from patient_program where patient_program_id = " + pp.getPatientProgramId();
+    	List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
+    	
+		for (List<Object> temp : result) {
+			
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            		id = (Integer) value;
+	            	
+	            }
+	        }
+	       
+	    }
+		PatientIdentifier pi =  null;
+		if(id!=null) {
+			
+			pi = getPatientIdentifierById(id);
+		}
+
+    	return pi;
+
+    }
+    
+    
+    
     ///////////////////////
     
-   
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleIPTreatmentSites() {
+    	return this.getConcept(TbConcepts.TREATMENT_CENTER_FOR_IP).getAnswers();
+    }
     
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleCPTreatmentSites() {
+    	return this.getConcept(TbConcepts.TREATMENT_CENTER_FOR_CP).getAnswers();
+    }
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleRegimens() {
+    	return this.getConcept(TbConcepts.TUBERCULOSIS_PATIENT_CATEGORY).getSortedAnswers(Context.getLocale());
+    }
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleHIVStatuses() {
+    	return this.getConcept(TbConcepts.RESULT_OF_HIV_TEST).getAnswers();
+    }
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleResistanceTypes() {
+    	return this.getConcept(TbConcepts.RESISTANCE_TYPE).getSortedAnswers(Context.getLocale());
+    }
+    
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleConceptAnswers(String [] conceptQuestion) {
+    	return this.getConcept(conceptQuestion).getAnswers();
+    }
+    
+    //ADDED BY ZOHAIB
+    public int countPDFRows() {
+    	return dao.countPDFRows();
+    }
+    public int countPDFColumns() {
+    	return dao.countPDFColumns();
+    }
+    public List<List<Integer>> PDFRows(String reportType) {
+    	return dao.PDFRows(reportType);
+    }
+    public ArrayList<String> PDFColumns() {
+    	return dao.PDFColumns();
+    }
+    /*public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName) {
+    	dao.savePDF(oblast, location, year, quarter, month, reportDate, tableData, reportStatus, reportName);
+    }*/
+   /* public void savePDF(Integer oblast, String location, Integer year, Integer quarter, Integer month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
+    	dao.savePDF(oblast, location, year, quarter, month, reportDate, tableData, reportStatus, reportName, reportType);
+    }*/
+    
+    public void doPDF(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String reportDate, String tableData, boolean reportStatus, String reportName, String reportType) {
+    	System.out.println("Impl -> Saving PDF");
+    	try {
+    		dao.doPDF(oblast, district, facility, year,quarter, month,reportDate, tableData, reportStatus, reportName, reportType);
+    	}
     	
+    	catch(Exception e) {
+    		System.out.println("caught in impl: " + e.getMessage());
+    		e.printStackTrace();
+    	}
+    }
+    
+  /*  public void unlockReport(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date) {
+    	dao.unlockReport(oblast, location, year, quarter, month, name, date);
+    }*/
+    
+    public void unlockReport(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String type) {    	
+    	dao.unlockReport(oblast, district, facility, year, quarter, month, name, date,type);
+    }
+    
+    /*public boolean readReportStatus(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String type) {
+    	return dao.readReportStatus(oblast, location, year, quarter, month, name, type);
+    }*/
+    
+    public boolean readReportStatus(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String type) {
+    	return dao.readReportStatus(oblast, district, facility, year, quarter, month, name, type);
+    }
+    
+   /* public List<String> readTableData(Integer oblast, Integer location, Integer year, Integer quarter, Integer month, String name, String date, String reportType) {
+    	return dao.readTableData(oblast, location, year, quarter, month, name, date, reportType);
+    }*/
+    
+    public List<String> readTableData(Integer oblast, Integer district, Integer facility, Integer year, String quarter, String month, String name, String date, String reportType) {
+    	return dao.readTableData(oblast, district, facility, year, quarter, month, name, date, reportType);
+    }
+    
+    public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames) {
+    	return dao.getEncountersByEncounterTypes(encounterTypeNames);
+    }
+    
+    public List<Encounter> getEncountersByEncounterTypes(List<String> encounterTypeNames, Date startDate, Date endDate, Date closeDate) {
+    	return dao.getEncountersByEncounterTypes(encounterTypeNames, startDate, endDate, closeDate);
+    }
+    /////
+    
+    public List<SmearForm> getSmearForms (Integer patientProgramId) {
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<SmearForm> smears = new ArrayList<SmearForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	//System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.SMEAR_CONSTRUCT), e)!=null) {
+    			//System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				SmearForm sf = new SmearForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				smears.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(smears);
+    	return smears;
+    }
+    
+    public List<CultureForm> getCultureForms (Integer patientProgramId) {
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<CultureForm> cultures = new ArrayList<CultureForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	//System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.CULTURE_CONSTRUCT), e)!=null) {
+    			//System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				CultureForm sf = new CultureForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				cultures.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(cultures);
+    	return cultures;
+    }
+    
+    public List<XpertForm> getXpertForms (Integer patientProgramId) {
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<XpertForm> xperts = new ArrayList<XpertForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	//System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.XPERT_CONSTRUCT), e)!=null) {
+    			//System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				XpertForm sf = new XpertForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				xperts.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(xperts);
+    	return xperts;
+    }
+    
+    public List<HAINForm> getHAINForms (Integer patientProgramId) {
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<HAINForm> hains = new ArrayList<HAINForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	//System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.HAIN_CONSTRUCT), e)!=null) {
+    			//System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				HAINForm sf = new HAINForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				hains.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(hains);
+    	return hains;
+    }
+    
+    public List<HAIN2Form> getHAIN2Forms (Integer patientProgramId) {
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<HAIN2Form> hains = new ArrayList<HAIN2Form>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	//System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HAIN2_CONSTRUCT), e)!=null) {
+    			//System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				HAIN2Form sf = new HAIN2Form(e);
+    				sf.setPatient(tpp.getPatient());
+    				hains.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(hains);
+    	return hains;
+    }
+
+    
+    public List<DSTForm> getDstForms (Integer patientProgramId) {
+    	//TbPatientProgram tpp = getTbPatientProgram(patientProgramId);
+    	PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<DSTForm> dsts = new ArrayList<DSTForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type")));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	//System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.DST_CONSTRUCT), e)!=null) {
+    			//System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				DSTForm sf = new DSTForm(e);
+    				sf.setPatient(tpp.getPatient());
+    				dsts.add(sf);
+    			}
+    		}
+    	}
+    	Collections.sort(dsts);
+    	return dsts;
+    }
+    
+    public List<Encounter> getEncountersWithNoProgramId(EncounterType et, Patient p) {
+    	
+    	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+    	typeList.add(et);
+    	
+    	ArrayList<Encounter> encs = new ArrayList<Encounter>();
+    	List<Encounter> all = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+    	
+    	for(Encounter e : all) {
+    		if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e)==null) {
+    			encs.add(e);
+    		}
+    	}
+
+    	return encs;
+    }
+    
+    public void addProgramIdToEncounter(Integer encounterId, Integer programId) {
+    	PatientProgram pp = Context.getProgramWorkflowService().getPatientProgram(programId);
+    	Encounter e = Context.getEncounterService().getEncounter(encounterId);
+    	Obs idObs = new Obs(pp.getPatient(), Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e.getEncounterDatetime(), e.getLocation());
+    	idObs.setEncounter(e);
+    	idObs.setObsDatetime(e.getEncounterDatetime());
+    	idObs.setLocation(e.getLocation());
+    	idObs.setValueNumeric(programId.doubleValue());
+    	e.addObs(idObs);
+    	Context.getEncounterService().saveEncounter(e);
+    }
+    
+    /////////FOR LOCATIONS
+    @Override
+	public List<District> getDistricts(){
+		
+		List<District> districtList = new ArrayList<District>();
+		
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3", true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        districtList.add(new District(name, id));
+	    }*/
+		
+		AddressHierarchyLevel distLevel = new AddressHierarchyLevel();
+		distLevel.setLevelId(3);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(distLevel);
+		
+		
+		
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			districtList.add(new District(name, id));
+	    }
+		
+		return districtList;
+	}
+    
+    @Override
+   	public List<District> getRegDistricts(){
+   		
+   		List<District> districtList = new ArrayList<District>();
+   		
+   		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3", true);
+   		for (List<Object> temp : result) {
+   			Integer id = 0;
+   			String name = "";
+   	        for (int i = 0; i < temp.size(); i++) {
+   	        	Object value = temp.get(i);
+   	            if (value != null) {
+   	            	
+   	            	if(i == 0)
+   	            		id = (Integer) value;
+   	            	else if (i == 1)
+   	            		name = (String) value;
+   	            }
+   	        }
+   	        districtList.add(new District(name, id));
+   	    }*/
+   		
+   		AddressHierarchyLevel distLevel = new AddressHierarchyLevel();
+   		distLevel.setLevelId(3);
+   		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(distLevel);
+   		
+   		String labIdsProperty = Context.getAdministrationService().getGlobalProperty("mdrtb.lab_entry_ids");
+		String labIds[] = labIdsProperty.split("\\|");
+		HashSet<Integer> labs = new HashSet<Integer>();
+		if(labIds!=null) {
+			 for(int i=0; i<labIds.length; i++) {
+				 if(labIds[i].length()!=0) {
+					 labs.add(Integer.parseInt(labIds[i]));
+				 }
+			 }
+		}
+   		
+   		
+   		for (AddressHierarchyEntry add : list) {
+   			Integer id = add.getId();			
+   			String name = add.getName();
+   			if(!labs.contains(id))
+   				districtList.add(new District(name, id));
+   	    }
+   		
+   		return districtList;
+   	}
+    
+    
+	
+	@Override
+	public List<District> getDistricts(int parentId){
+		
+	
+		
+		List<District> districtList = new ArrayList<District>();
+		
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and parent_id="+parentId, true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        districtList.add(new District(name, id));
+	    }*/
+		
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			districtList.add(new District(name, id));
+	    }
+		
+		return districtList;
+	
+	}
+	
+	@Override
+	public List<District> getRegDistricts(int parentId){
+		
+		
+		
+		List<District> districtList = new ArrayList<District>();
+		
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		String labIdsProperty = Context.getAdministrationService().getGlobalProperty("mdrtb.lab_entry_ids");
+		String labIds[] = labIdsProperty.split("\\|");
+		HashSet<Integer> labs = new HashSet<Integer>();
+		if(labIds!=null) {
+			 for(int i=0; i<labIds.length; i++) {
+				 if(labIds[i].length()!=0) {
+					 labs.add(Integer.parseInt(labIds[i]));
+				 }
+			 }
+		}
+   		
+   		
+   		for (AddressHierarchyEntry add : list) {
+   			Integer id = add.getId();			
+   			String name = add.getName();
+   			if(!labs.contains(id))
+   				districtList.add(new District(name, id));
+   	    }
+		
+		return districtList;
+	
+	}
+	
+	public District getDistrict(Integer districtId){
+		District district = null;
+		
+		if(districtId==null)
+			return null;
+				
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        district = new District(name, id);
+	        break;
+	    }*/
+		
+		AddressHierarchyEntry add = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntry(districtId.intValue());
+		 
+		if(add!=null) {
+			district = new District();
+			district.setId(districtId);
+			district.setName(add.getName());
+		}
+
+		
+
+		return district;
+	}
+	
+	public District getDistrict(String dName){
+		District district = null;
+		
+		if(dName==null)
+			return null;
+		/*String query="Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '"+ dname+"'";
+		System.out.println(query);
+		List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and name = '" +dname+"'", true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        district = new District(name, id);
+	        break;
+	    }*/
+		
+		AddressHierarchyLevel distLevel = new AddressHierarchyLevel();
+		distLevel.setLevelId(3);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevelAndName(distLevel, dName);
+		if(list!=null) {
+			Integer id = list.get(0).getId();
+			String name = list.get(0).getName();
+			
+			return (new District(name, id));
+		}
+		
+		return district;
+	}
+	
+    public List<Location> getLocationsFromDistrictName(District district){
+    	List<Location> locationList = new ArrayList<Location>();
+    	
+    	List<Location> locations = Context.getLocationService().getAllLocations(false);
+    	
+    	for(Location loc : locations){
+    		    		
+    		if(loc.getCountyDistrict() != null){
+	    		if(loc.getCountyDistrict().equals(district.getName()))
+	    			locationList.add(loc);
+    		}
+    	}
+    	return locationList;
+    }
+    
+    
+    public List<Facility> getFacilities(int parentId)
+    {
+    	List<Facility> facilityList = new ArrayList<Facility>();
+		
+	/*	List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and parent_id="+parentId + ";", true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        facilityList.add(new Facility(name, id));
+	    }*/
+    	
+    	List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			facilityList.add(new Facility(name, id));
+	    }
+		
+		return facilityList;
+    }
+    
+    public List<Facility> getRegFacilities(int parentId)
+    {
+    	List<Facility> facilityList = new ArrayList<Facility>();
+    	
+    	List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		
+    	String labIdsProperty = Context.getAdministrationService().getGlobalProperty("mdrtb.lab_entry_ids");
+		String labIds[] = labIdsProperty.split("\\|");
+		HashSet<Integer> labs = new HashSet<Integer>();
+		if(labIds!=null) {
+			 for(int i=0; i<labIds.length; i++) {
+				 if(labIds[i].length()!=0) {
+					 labs.add(Integer.parseInt(labIds[i]));
+				 }
+			 }
+		}
+    	
+    	for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			if(!labs.contains(id))
+				facilityList.add(new Facility(name, id));
+	    }
+		
+		return facilityList;
+    }
+
+    public Facility getFacility(Integer facilityId)
+    {
+    	
+    	if(facilityId==null)
+    		return null;
+    	
+    	Facility facility = null;
+		
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6 and address_hierarchy_entry_id = " +  facilityId + ";", true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        facility = new Facility(name, id);
+	        break;
+	    }*/
+    	
+    	AddressHierarchyEntry add = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntry(facilityId.intValue());
+		 
+		if(add!=null) {
+			facility = new Facility();
+			facility.setId(facilityId);
+			facility.setName(add.getName());
+		
+		}
+
+		
+
+		return facility;
+    }
+    
+    public List<Location> getLocationsFromFacilityName(Facility facility)
+    {
+    	List<Location> locationList = new ArrayList<Location>();
+    	
+    	List<Location> locations = Context.getLocationService().getAllLocations(false);
+    	
+    	for(Location loc : locations){
+    		    		
+    		if(loc.getRegion() != null){
+	    		if(loc.getRegion().equals(facility.getName()))
+	    			locationList.add(loc);
+    		}
+    	}
+    	return locationList;
+    }
+    
+    public Location getLocation(Integer oblastId, Integer districtId, Integer facilityId) {
+    	
+    	if(oblastId==null || districtId==null)
+    		return null;
+    	
+    	Oblast o = getOblast(oblastId);
+    	District d = getDistrict(districtId);
+    	
+    	Facility f = null;
+    	
+    	if(facilityId!=null)
+    		f = getFacility(facilityId);
+    	
+    	Location location = null;
+    	
+    	
+    	List<Location> locations = Context.getLocationService().getAllLocations(false);
+    	
+    	if(f!=null) {
+    		for(Location loc : locations){ 
+    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) && loc.getRegion()!=null && loc.getRegion().equals(f.getName()) ) {
+    				location = loc;
+    				break;
+    			}
+    		}
+    	}
+    	
+    	else {
+    		for(Location loc : locations){ 
+    			/*System.out.println("////////////////");
+    			System.out.println(loc.getStateProvince() + "/" + loc.getCountyDistrict() + "/" + loc.getRegion());
+    			if(loc.getRegion()==null) {
+    				System.out.println("NULL REGION");
+    			}
+    			else {
+    				System.out.println("REGLEN: " + loc.getRegion().length());
+    			}*/
+    			if(loc.getStateProvince()!=null && loc.getStateProvince().equals(o.getName()) && loc.getCountyDistrict()!=null && loc.getCountyDistrict().equals(d.getName()) && (loc.getRegion()==null || loc.getRegion().length()==0) ) {
+    				location = loc;
+    				break;
+    			}
+    		}
+    	}
+    	
+    	return location;
+    }
+
+
+	public List<Facility> getFacilities() {
+
+    	List<Facility> facilityList = new ArrayList<Facility>();
+		
+		/*List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 6", true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        facilityList.add(new Facility(name, id));
+	    }*/
+    	AddressHierarchyLevel facLevel = new AddressHierarchyLevel();
+    	facLevel.setLevelId(6);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(facLevel);
+		
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			facilityList.add(new Facility(name, id));
+	    }
+    	
+		
+		return facilityList;
+	}
+	
+	public List<Facility> getRegFacilities() {
+
+    	List<Facility> facilityList = new ArrayList<Facility>();
+	
+    	AddressHierarchyLevel facLevel = new AddressHierarchyLevel();
+    	facLevel.setLevelId(6);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(facLevel);
+		
+		String labIdsProperty = Context.getAdministrationService().getGlobalProperty("mdrtb.lab_entry_ids");
+		String labIds[] = labIdsProperty.split("\\|");
+		HashSet<Integer> labs = new HashSet<Integer>();
+		if(labIds!=null) {
+			 for(int i=0; i<labIds.length; i++) {
+				 if(labIds[i].length()!=0) {
+					 labs.add(Integer.parseInt(labIds[i]));
+				 }
+			 }
+		}
+    	
+    	for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			if(!labs.contains(id))
+				facilityList.add(new Facility(name, id));
+	    }
+    	
+		
+		return facilityList;
+	}
+    
+	public ArrayList<TB03Form> getTB03FormsFilled(Location location, String oblast, Integer year, String quarter, String month) {
+		
+		ArrayList<TB03Form> forms = new ArrayList<TB03Form>();
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		Oblast o = null;
+		if(!oblast.equals("") && location == null)
+			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+		
+		List<Location> locList = new ArrayList<Location>();
+		if(o != null && location == null)
+			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+		else if (location != null)
+			locList.add(location);
+		List<Encounter> temp = null;
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TB03Form(e));
+			}
+			
+		}
+		
+		return forms;
+		
+		
+	}
+	
+	//////////////
+	
+	public ArrayList<TB03Form> getTB03FormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<TB03Form> forms = new ArrayList<TB03Form>();
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTimeInMillis(endDate.getTime());
+		endCal.add(Calendar.DATE, 1);
+		
+		System.out.println("STR:" + startDate);
+		System.out.println("END:" + endDate);
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		
+		if(locList!=null && locList.size()!=0) {
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new TB03Form(e));
+				}
+			
+			}
+		}
+		
+		else {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TB03Form(e));
+			}
+		}
+		
+		return forms;
+		
+		
+	}
+	
+	public ArrayList<TB03Form> getTB03FormsForProgram(Patient p, Integer patientProgId) {
+		
+		ArrayList<TB03Form> forms = new ArrayList<TB03Form>();
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		System.out.println("TEMP: " + temp.size());
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				forms.add(new TB03Form(e));
+			}
+				
+		}
+			
+		return forms;
+	
+	}
+	
+	public ArrayList<Form89> getForm89FormsForProgram(Patient p, Integer patientProgId) {
+		
+		ArrayList<Form89> forms = new ArrayList<Form89>();
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		System.out.println("TEMP: " + temp.size());
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				forms.add(new Form89(e));
+			}
+				
+		}
+			
+		return forms;
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/////////////
+	
+	
+	public ArrayList<TB03uForm> getTB03uFormsFilled(Location location, String oblast, Integer year, String quarter, String month) {
+		
+		ArrayList<TB03uForm> forms = new ArrayList<TB03uForm>();
+		
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		Oblast o = null;
+		if(!oblast.equals("") && location == null)
+			o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+		
+		List<Location> locList = new ArrayList<Location>();
+		if(o != null && location == null)
+			locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+		else if (location != null)
+			locList.add(location);
+		List<Encounter> temp = null;
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TB03uForm(e));
+			}
+			
+		}
+		
+		return forms;
+		
+		
+	}
+	
+	////////
+public ArrayList<TB03uForm> getTB03uFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<TB03uForm> forms = new ArrayList<TB03uForm>();
+		
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		
+		List<Encounter> temp = null;
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TB03uForm(e));
+			}
+		}
+		
+		else {
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new TB03uForm(e));
+				}
+			}
+			
+		}
+		
+		return forms;
+		
+		
+	}
+//////////////////////////////////
+
+	public ArrayList<TB03uForm> getTB03uFormsFilledWithTxStartDateDuring(ArrayList<Location> locList, Integer year, String quarter, String month) {
+	
+	ArrayList<TB03uForm> forms = new ArrayList<TB03uForm>();
+	
+	
+	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+	Date startDate = (Date)(dateMap.get("startDate"));
+	Date endDate = (Date)(dateMap.get("endDate"));
+	
+	EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+	typeList.add(eType);
+			
+	
+	List<Encounter> temp = null;
+	
+	//CHECK
+	
+	if(locList==null || locList.size()==0) {
+		temp = Context.getEncounterService().getEncounters(null, null, null, null, null, typeList, null, false);
+		for(Encounter e : temp) {	
+			Obs o = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TREATMENT_START_DATE), e);
+			if(o!=null && o.getValueDatetime()!=null && (o.getValueDatetime().equals(startDate) || o.getValueDatetime().after(startDate)) && (o.getValueDatetime().equals(endDate) || o.getValueDatetime().before(endDate))) {
+				forms.add(new TB03uForm(e));
+			}
+		}
+	
+	}
+	
+	else {
+		
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, null, null, null, typeList, null, false);
+			for(Encounter e : temp) {
+				Obs o = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TREATMENT_START_DATE), e);
+				if(o!=null && o.getValueDatetime()!=null && (o.getValueDatetime().equals(startDate) || o.getValueDatetime().after(startDate)) && (o.getValueDatetime().equals(endDate) || o.getValueDatetime().before(endDate))) {
+					forms.add(new TB03uForm(e));
+				}
+			}
+		}
+		
+	}
+	
+	return forms;
+	
+	
+}
+
+public ArrayList<Form89> getForm89FormsFilledForPatientProgram(Patient p, Location location, Integer patProgId, Integer year, String quarter, String month) {
+	
+	ArrayList<Form89> forms = new ArrayList<Form89>();
+
+	Map<String, Date> dateMap = null;
+	
+	if(year!=null && (quarter!=null || month!=null))
+			dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+	Date startDate = null;
+	Date endDate = null;
+	
+	if(dateMap!=null) {
+		startDate = (Date)(dateMap.get("startDate"));
+		endDate = (Date)(dateMap.get("endDate"));
+	}
+		
+	Concept ppid = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+	EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+	typeList.add(eType);
+			
+	List<Encounter> temp = Context.getEncounterService().getEncounters(p, location, startDate, endDate, null, typeList, null, false);
+	if(temp!=null) {
+		for(Encounter e : temp) {
+			Obs ppObs = MdrtbUtil.getObsFromEncounter(ppid, e);
+			if(ppObs!=null) {
+				if(ppObs.getValueNumeric()!=null && (ppObs.getValueNumeric().intValue() == patProgId.intValue())) {
+					forms.add(new Form89(e));
+				}
+				
+			}
+		}
+	}
+	
+	/*public ArrayList<Form89> getForm89FormsFilledForPatientProgram(Patient p, Integer patProgId) {
+		
+		ArrayList<Form89> forms = new ArrayList<Form89>();
+
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		Concept ppid = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		List<Encounter> temp = Context.getEncounterService().getEncounters(p, location, startDate, endDate, null, typeList, null, false);
+		if(temp!=null) {
+			for(Encounter e : temp) {
+				Obs ppObs = MdrtbUtil.getObsFromEncounter(ppid, e);
+				if(ppObs!=null) {
+					if(ppObs.getValueNumeric()!=null && (ppObs.getValueNumeric().intValue() == patProgId.intValue())) {
+						forms.add(new Form89(e));
+					}
+					
+				}
+			}
+		}*/
+	/*Oblast o = null;
+	if(!oblast.equals("") && location == null)
+		o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+	
+	List<Location> locList = new ArrayList<Location>();
+	if(o != null && location == null)
+		locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+	else if (location != null)
+		locList.add(location);
+	List<Encounter> temp = null;*/
+	
+	
+	return forms;
+	
+	
+}
+////////////////
+
+public ArrayList<Form89> getForm89FormsFilled(Location location, String oblast, Integer year, String quarter, String month) {
+	
+	ArrayList<Form89> forms = new ArrayList<Form89>();
+	
+	
+	
+	
+	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+	Date startDate = (Date)(dateMap.get("startDate"));
+	Date endDate = (Date)(dateMap.get("endDate"));
+	
+	EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+	typeList.add(eType);
+			
+	Oblast o = null;
+	if(!oblast.equals("") && location == null)
+		o =  Context.getService(MdrtbService.class).getOblast(Integer.parseInt(oblast));
+	
+	List<Location> locList = new ArrayList<Location>();
+	if(o != null && location == null)
+		locList = Context.getService(MdrtbService.class).getLocationsFromOblastName(o);
+	else if (location != null)
+		locList.add(location);
+	List<Encounter> temp = null;
+	for(Location l: locList) {
+		temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+		for(Encounter e : temp) {
+			forms.add(new Form89(e));
+		}
+		
+	}
+	
+	return forms;
+	
+	
+}
+
+
+///////////////
+	public ArrayList<Form89> getForm89FormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+	
+	ArrayList<Form89> forms = new ArrayList<Form89>();
+	
+	
+	
+	
+	Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+	
+	Date startDate = (Date)(dateMap.get("startDate"));
+	Date endDate = (Date)(dateMap.get("endDate"));
+	
+	EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.follow_up_encounter_type"));
+	ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+	typeList.add(eType);
+			
+	
+	List<Encounter> temp = null;
+	
+	if(locList==null || locList.size()==0) {
+		temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+		for(Encounter e : temp) {
+			forms.add(new Form89(e));
+		}
+	}
+	
+	else {
+		for(Location l: locList) {
+			temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new Form89(e));
+			}
+		}
+		
+	}
+	
+	return forms;
+	
+	
+}
+
+	public ArrayList<TransferOutForm> getTransferOutFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<TransferOutForm> forms = new ArrayList<TransferOutForm>();
+
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		
+		List<Encounter> temp = null;
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TransferOutForm(e));
+			}
+		}
+		
+		else {
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new TransferOutForm(e));
+				}
+			}
+		}
+		
+		return forms;
+		
+		
+	}
+/////////////
+	
+	public ArrayList<TransferInForm> getTransferInFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<TransferInForm> forms = new ArrayList<TransferInForm>();
+
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		
+		List<Encounter> temp = null;
+		
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new TransferInForm(e));
+			}
+		}
+		
+		else {	
+			for(Location l: locList) {
+					temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+					for(Encounter e : temp) {
+						forms.add(new TransferInForm(e));
+					}
+			}
+		}
+		
+		
+		
+		return forms;
+		
+		
+	}
+/////////////
+	
+	public ArrayList<TransferInForm> getTransferInFormsFilledForPatient(Patient p) {
+		
+		ArrayList<TransferInForm> forms = new ArrayList<TransferInForm>();
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_in_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		List<Encounter> temp = null;
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		for(Encounter e: temp) {	
+			forms.add(new TransferInForm(e));
+		}
+			
+		return forms;
+		
+		
+	}
+/////////////
+	
+	public ArrayList<TransferOutForm> getTransferOutFormsFilledForPatient(Patient p) {
+		
+		ArrayList<TransferOutForm> forms = new ArrayList<TransferOutForm>();
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.transfer_out_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+				
+		List<Encounter> temp = null;
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		for(Encounter e: temp) {	
+			forms.add(new TransferOutForm(e));
+		}
+			
+		return forms;
+		
+		
+	}
+/////////////
+	
+	
+
+ public TB03Form getClosestTB03Form(Location location, Date encounterDate, Patient patient) {
+	 TB03Form ret = null;
+	 Integer encounterId = null;
+	 EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+	 String query = "select encounter_id from encounter where location_id=" + location.getId() + " AND encounter_datetime <= '" + encounterDate + "' AND patient_id=" + patient.getId() + " AND encounter_type=" + intakeType.getId() + " AND voided=0 ORDER BY encounter_datetime DESC";
+	 List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
+	 if(result!=null && result.size()>0) {
+		 List<Object> resp = result.get(0);
+		 if(resp!=null) {
+			 encounterId= (Integer)(resp.get(0));
+		 }
+			 
+	 }
+	 
+	 if(encounterId!=null)
+		 ret = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
+	 
+	 return ret;
+ 
+ }
+ 
+ public TB03Form getTB03uForm(Location location, Date encounterDate, Patient patient) {
+	 TB03Form ret = null;
+	 Integer encounterId = null;
+	 EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type"));
+	 String query = "select encounter_id from encounter where location_id=" + location.getId() + " AND encounter_datetime <= '" + encounterDate + "' AND patient_id=" + patient.getId() + " AND encounter_type=" + intakeType.getId() + " ORDER BY encounter_datetime DESC";
+	 List<List<Object>> result = Context.getAdministrationService().executeSQL(query, true);
+	 if(result!=null && result.size()>0) {
+		 List<Object> resp = result.get(0);
+		 if(resp!=null) {
+			 encounterId= (Integer)(resp.get(0));
+		 }
+			 
+	 }
+	 
+	 if(encounterId!=null)
+		 ret = new TB03Form(Context.getEncounterService().getEncounter(encounterId));
+	 
+	 return ret;
+ 
+ }
+ 
+	public HAIN2 createHAIN2(Specimen specimen) {			
+		if (specimen == null) {
+			log.error("Unable to create xpert: specimen is null.");
+			return null;
+		}
+		
+		// add the smear to the specimen
+		return specimen.addHAIN2();
+	}
+	
+	public HAIN2 getHAIN2(Obs obs) {
+		// don't need to do much error checking here because the constructor will handle it
+		return new HAIN2Impl(obs);
+	}
+
+	public HAIN2 getHAIN2(Integer obsId) {
+		return getHAIN2(Context.getObsService().getObs(obsId));
+	}
+	
+	public void saveHAIN2(HAIN2 hain2) {
+		if (hain2 == null) {
+			log.warn("Unable to save hain: hain object is null");
+			return;
+		}
+		
+		// make sure getSmear returns that right type
+		// (i.e., that this service implementation is using the specimen implementation that it expects, which should return a observation)
+	
+		if(!(hain2.getTest() instanceof Obs)) {
+			throw new APIException("Not a valid hain implementation for this service implementation");
+		}
+		
+		// otherwise, go ahead and do the save
+		Context.getObsService().saveObs((Obs) hain2.getTest(), "voided by Mdr-tb module specimen tracking UI");
+		
+	}
+	
+	public List <Location> getCultureLocations() {
+	 ArrayList<Location> ret = new ArrayList<Location>();
+	 HashSet<Integer> locs = new HashSet<Integer>(); 
+	 
+	 String cultureLocIds = Context.getAdministrationService().getGlobalProperty("mdrtb.culturelabs");
+	 if(cultureLocIds==null || cultureLocIds.length()==0) {
+		 return ret;
+	 }
+	 
+	 String[] locIds =  cultureLocIds.split("\\|");
+	 
+	 if(locIds==null || locIds.length==0) {
+		 return ret;
+	 }
+	 
+	 for(int i=0; i<locIds.length; i++) {
+		 if(locIds[i].length()!=0) {
+			 locs.add(Integer.parseInt(locIds[i]));
+		 }
+	 }
+	 
+	 Collection<Location> allLocs = Context.getLocationService().getAllLocations(false);
+	 
+	 for(Location l : allLocs) {
+		 if(locs.contains(l.getId())) {
+			 ret.add(l);
+		 }
+	 }
+	 
+	 
+	 return ret;
+	}
+	
+	public ArrayList<Location> getLocationList(Integer oblastId, Integer districtId, Integer facilityId) {
+		
+		/*
+		if oblast is Dushanbe
+		{
+			if facility is not null, return all facilities with matching name
+			
+			if district is not null return all facilities in that district (normal)
+			
+			if both district and facility are null, normal
+			
+			
+		}
+		
+		
+		*/
+		
+		
+		
+		ArrayList<Location> locList = new ArrayList<Location>();
+    	Location location = null;
+    	System.out.println("_______");
+    	System.out.println(oblastId);
+    	System.out.println(districtId);
+    	System.out.println(facilityId);
+    	System.out.println("_______");
+    	if(oblastId==null && districtId==null && facilityId==null)
+    		return null;
+    	
+    	if(districtId == null) { //means they stopped at oblast
+    		List<District> distList = getDistricts(oblastId);
+    		
+    		for(District d : distList) {
+    			location = getLocation(oblastId, d.getId(), null);
+    			if(location == null) {
+    				List<Facility> facs = getFacilities(d.getId().intValue());
+        			for(Facility f : facs) {
+        				location = getLocation(oblastId,d.getId(),f.getId());
+        				if(location!=null) {
+        					locList.add(location);
+        				}
+        			}
+    			}
+    			
+    			else {
+    				locList.add(location);
+    			}
+    		}
+    	}
+    	
+    	else if(facilityId == null) {//means they stopped at district either a single district or a set of facilities
+    		System.out.println("NULL FAC ID");
+    		location = Context.getService(MdrtbService.class).getLocation(oblastId, districtId, null);
+    		
+    		if(location==null) { // district that has a set of facilities under it
+    			System.out.println("NULL LOC");
+    			List<Facility> facs = Context.getService(MdrtbService.class).getFacilities(districtId.intValue());
+    			if(facs==null) {
+    				System.out.println("NULL FACS");
+    			}
+    			else {
+    				System.out.println("FACS LENGTH=" + facs.size());
+    			}
+    			for(Facility f : facs) {
+    				location = Context.getService(MdrtbService.class).getLocation(oblastId,districtId,f.getId());
+    				if(location!=null) {
+    					locList.add(location);
+    				}
+    			}
+    		}
+    		
+    		else {
+    			System.out.println("NOT NULL LOC:" + location.getLocationId());
+    			locList.add(location);
+    		}
+    	}
+    	
+    	else { //single location
+    		
+    		location = Context.getService(MdrtbService.class).getLocation(oblastId, districtId, facilityId);
+    		System.out.println("SINGLE LOC:" + location.getLocationId());
+    		locList.add(location);
+    	}
+    	
+    	System.out.println("LOCS:" + locList.size());
+    	return locList;
+	}
+	
+	//////////////////////////////
+ /*
+  * List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 3 and address_hierarchy_entry_id = " +  districtId, true);
+		for (List<Object> temp : result) {
+			Integer id = 0;
+			String name = "";
+	        for (int i = 0; i < temp.size(); i++) {
+	        	Object value = temp.get(i);
+	            if (value != null) {
+	            	
+	            	if(i == 0)
+	            		id = (Integer) value;
+	            	else if (i == 1)
+	            		name = (String) value;
+	            }
+	        }
+	        district = new District(name, id);
+	        break;  
+  */
+	public List<Country> getCountries() {
+		ArrayList<Country> ret = new ArrayList<Country>(); 
+		//List<List<Object>> result = Context.getAdministrationService().executeSQL("Select address_hierarchy_entry_id, name from address_hierarchy_entry where level_id = 2", true);
+		AddressHierarchyLevel countryLevel = new AddressHierarchyLevel();
+		countryLevel.setLevelId(1);
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getAddressHierarchyEntriesByLevel(countryLevel);
+				
+		for (AddressHierarchyEntry add : list) {
+				Integer id = add.getId();
+				String name = add.getName();
+					
+			    ret.add(new Country(name, id));
+		}
+		return ret;
+	}
+	
+	public List<Oblast> getOblasts(int parentId) {
+		ArrayList<Oblast> ret = new ArrayList<Oblast>();
+		
+		List<AddressHierarchyEntry> list = Context.getService(AddressHierarchyService.class).getChildAddressHierarchyEntries(parentId);
+		for (AddressHierarchyEntry add : list) {
+			Integer id = add.getId();
+			String name = add.getName();
+			
+			ret.add(new Oblast(name, id));
+	    }
+		
+		return ret;
+	}
+	
+	public void evict(Object obj) {
+		dao.evict(obj);
+	}
+	
+	public TB03uForm getTB03uFormForProgram(Patient p, Integer patientProgId) {
+		
+		TB03uForm form = null;
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				form = new TB03uForm(e);
+				break;
+			}
+				
+		}
+			
+		return form;
+		
+		
+	}
+	
+	public List<DrugResistanceDuringTreatmentForm> getDrdtForms (Integer patientProgramId) {
+		PatientProgram tpp = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
+    	ArrayList<DrugResistanceDuringTreatmentForm> drdts = new ArrayList<DrugResistanceDuringTreatmentForm>();
+    	ArrayList<EncounterType> et = new ArrayList<EncounterType>();
+    	et.add(Context.getEncounterService().getEncounterType("Resistance During Treatment"));
+    	List<Encounter> encs = Context.getEncounterService().getEncounters(tpp.getPatient(), null, null, null, null, et, false);
+    	//System.out.println("Encs: " + encs.size());
+    	for(Encounter e: encs) {
+    		//if(MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HAIN2_CONSTRUCT), e)!=null) {
+    			//System.out.println("found SC");
+    			Obs temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), e);
+    			if(temp!= null && temp.getValueNumeric().intValue() == patientProgramId.intValue()) {
+    				DrugResistanceDuringTreatmentForm drdt = new DrugResistanceDuringTreatmentForm(e);
+    				drdt.setPatient(tpp.getPatient());
+    				drdts.add(drdt);
+    			}
+    		//}
+    	}
+    	Collections.sort(drdts);
+    	return drdts;
+	}
+	
+	public ArrayList<RegimenForm> getRegimenFormsForProgram(Patient p, Integer patientProgId) {
+		
+		ArrayList<RegimenForm> forms = new ArrayList<RegimenForm>();
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		System.out.println("TEMP: " + temp.size());
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				forms.add(new RegimenForm(e));
+			}
+				
+		}
+		Collections.sort(forms);
+		//Collections.reverse(forms);
+		return forms;
+		
+		
+	}
+	
+	public ArrayList<AEForm> getAEFormsForProgram(Patient p, Integer patientProgId) {
+		
+		ArrayList<AEForm> forms = new ArrayList<AEForm>();
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType("Adverse Event");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		Concept idConcept = Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID);
+		temp = Context.getEncounterService().getEncounters(p, null, null, null, null, typeList, null, false);
+		System.out.println("TEMP: " + temp.size());
+		for(Encounter e : temp) {
+			Obs idObs = MdrtbUtil.getObsFromEncounter(idConcept, e);
+			if(idObs!=null && idObs.getValueNumeric()!=null && idObs.getValueNumeric().intValue()==patientProgId.intValue()) {
+				forms.add(new AEForm(e));
+			}
+				
+		}
+		Collections.sort(forms);
+		//Collections.reverse(forms);
+		return forms;
+		
+		
+	}
+	
+	
+	public ArrayList<RegimenForm> getRegimenFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<RegimenForm> forms = new ArrayList<RegimenForm>();
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTimeInMillis(endDate.getTime());
+		endCal.add(Calendar.DATE, 1);
+		
+		System.out.println("STR:" + startDate);
+		System.out.println("END:" + endDate);
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new RegimenForm(e));
+			}
+		}
+		
+		else {
+		
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new RegimenForm(e));
+				}
+			}
+			
+		}
+		
+		Collections.sort(forms);
+		return forms;
+		
+		
+	}
+	
+	
+	public ArrayList<Patient> getAllPatientsWithRegimenForms() {
+		ArrayList<Patient> pList = new ArrayList<Patient>();
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = Context.getEncounterService().getEncounters(null, null, null, null, null, typeList, null, false);
+		
+		for(Encounter e : temp) {
+			if(!pList.contains(e.getPatient())) {
+				pList.add(e.getPatient());
+			}
+		}
+		
+		return pList;
+	}
+	
+	public RegimenForm getPreviousRegimenFormForPatient(Patient p, ArrayList<Location> locList, Date beforeDate) {
+		RegimenForm form = null;
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		List<Encounter> temp = null;
+		ArrayList<RegimenForm> forms = new ArrayList<RegimenForm>();
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(p, null, null, beforeDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new RegimenForm(e));
+			}
+		}
+		
+		else {
+		
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(p, l, null, beforeDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new RegimenForm(e));
+				}
+			}
+			
+		}
+		if(forms!=null && forms.size()!=0) {
+			Collections.sort(forms);
+			return forms.get(forms.size()-1);
+		}
+		
+		else 
+			return null;
+		
+		
+	}
+	
+	////////////
+	
+	public ArrayList<AEForm> getAEFormsFilled(ArrayList<Location> locList, Integer year, String quarter, String month) {
+		
+		ArrayList<AEForm> forms = new ArrayList<AEForm>();
+		
+		Map<String, Date> dateMap = ReportUtil.getPeriodDates(year, quarter, month);
+		
+		Date startDate = (Date)(dateMap.get("startDate"));
+		Date endDate = (Date)(dateMap.get("endDate"));
+		
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTimeInMillis(endDate.getTime());
+		endCal.add(Calendar.DATE, 1);
+		
+		System.out.println("STR:" + startDate);
+		System.out.println("END:" + endDate);
+		
+		
+		EncounterType eType = Context.getEncounterService().getEncounterType("Adverse Event");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		
+		List<Encounter> temp = null;
+		
+		if(locList==null || locList.size()==0) {
+			temp = Context.getEncounterService().getEncounters(null, null, startDate, endDate, null, typeList, null, false);
+			for(Encounter e : temp) {
+				forms.add(new AEForm(e));
+			}
+		}
+		
+		else {
+		
+			for(Location l: locList) {
+				temp = Context.getEncounterService().getEncounters(null, l, startDate, endDate, null, typeList, null, false);
+				for(Encounter e : temp) {
+					forms.add(new AEForm(e));
+				}
+			}
+		}
+		
+		Collections.sort(forms);
+		return forms;
+
+	}
+	
+	public RegimenForm getCurrentRegimenFormForPatient(Patient p, Date beforeDate) {
+		//RegimenForm form = null;
+		EncounterType eType = Context.getEncounterService().getEncounterType("PV Regimen");
+		ArrayList<EncounterType> typeList = new ArrayList<EncounterType>();
+		typeList.add(eType);
+		List<Encounter> temp = null;
+		
+		Date currentDate = null;
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTimeInMillis(beforeDate.getTime());
+		gc.add(gc.DATE, 1);
+		currentDate = gc.getTime();
+		
+		ArrayList<RegimenForm> forms = new ArrayList<RegimenForm>();
+		
+		temp = Context.getEncounterService().getEncounters(p, null, null, currentDate, null, typeList, null, false);
+		for(Encounter e : temp) {
+		 forms.add(new RegimenForm(e));
+		}
+		
+		
+		
+		if(forms!=null && forms.size()!=0) {
+			Collections.sort(forms);
+			return forms.get(forms.size()-1);
+		}
+		
+		else 
+			return null;
+		
+		
+	}
+	
+	public ArrayList<Location> getLocationListForDushanbe(Integer oblastId, Integer districtId, Integer facilityId) {
+		
+
+		ArrayList<Location> locList = new ArrayList<Location>();
+    	Location location = null;
+    	System.out.println("DYU_______");
+    	System.out.println(oblastId);
+    	System.out.println(districtId);
+    	System.out.println(facilityId);
+    	System.out.println("_______");
+    	
+    	if(oblastId==null && districtId==null && facilityId==null)
+    		return null;
+    	
+    	if(districtId == null && facilityId == null) { //means they stopped at oblast ??
+    		List<District> distList = getDistricts(oblastId);
+    		if(distList!=null && distList.size()!=0) {
+    			System.out.println("DIST:" + distList.size());
+    		}
+    		else {
+    			System.out.println("DIST: EMPTY");
+    		}
+    		for(District d : distList) {
+    			location = getLocation(oblastId, d.getId(), null);
+    			if(location == null) {
+    				List<Facility> facs = getFacilities(d.getId().intValue());
+        			for(Facility f : facs) {
+        				location = getLocation(oblastId,d.getId(),f.getId());
+        				if(location!=null) {
+        					locList.add(location);
+        				}
+        			}
+    			}
+    			
+    			else {
+    				locList.add(location);
+    			}
+    		}
+    	}
+    	
+    	else if(facilityId == null) {//means they stopped at district - so fetch all facility data
+    		System.out.println("NULL FAC ID");
+    		location = Context.getService(MdrtbService.class).getLocation(oblastId, districtId, null);
+    		
+    		if(location==null) { // district that has a set of facilities under it
+    			System.out.println("NULL LOC");
+    			List<Facility> facs = Context.getService(MdrtbService.class).getFacilities(districtId.intValue());
+    			if(facs==null) {
+    				System.out.println("NULL FACS");
+    			}
+    			else {
+    				System.out.println("FACS LENGTH=" + facs.size());
+    			}
+    			for(Facility f : facs) {
+    				location = Context.getService(MdrtbService.class).getLocation(oblastId,districtId,f.getId());
+    				if(location!=null) {
+    					locList.add(location);
+    				}
+    			}
+    		}
+    		
+    		else {
+    			System.out.println("NOT NULL LOC:" + location.getLocationId());
+    			locList.add(location);
+    		}
+    	}
+    	
+    	else if (districtId==null) { // they chose a facility so get all facilities with this name
+    		Facility fac = Context.getService(MdrtbService.class).getFacility(facilityId);
+    		if(fac==null)
+    			return null;
+    		
+    		String facName = fac.getName();
+    		List<Location> locs = Context.getLocationService().getAllLocations(false);
+    		for(Location l : locs) {
+    			if(MdrtbUtil.areRussianStringsEqual(l.getName(), facName)) {
+    				locList.add(l);
+    			}
+    		}
+    	}
+    	
+    	System.out.println("LOCS:" + locList.size());
+    	return locList;
+	}
+
+
 }

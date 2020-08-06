@@ -44,5 +44,8 @@ public interface Dst extends Test {
 	public Map<Integer,List<DstResult>> getResultsMap();
 	public DstResult addResult();
 	public void removeResult(DstResult result);
+	public String getResultsString();
+	public String getResistantDrugs();
+	public String getSensitiveDrugs();
 }
 

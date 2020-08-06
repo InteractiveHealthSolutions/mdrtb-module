@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.specimen;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -14,6 +15,7 @@ import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 /**
@@ -46,7 +48,17 @@ public class DstImpl extends TestImpl implements Dst {
 			throw new RuntimeException ("Cannot create culture: encounter can not be null.");
 		}
 		
-		test = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_CONSTRUCT), encounter.getEncounterDatetime(), null);
+		Obs obs = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_CONSTRUCT), encounter);
+		if(obs==null) {
+			test = new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_CONSTRUCT), encounter.getEncounterDatetime(), encounter.getLocation());
+			test.setEncounter(encounter);
+		}
+		
+		else {
+			test = obs;
+		}
+		
+		//System.out.println("<<<<>>>>>" + test.getEncounter().getId() + "," + test.getPatient()+","+test.getConcept()+","+test.getObsDatetime()+","+test.getLocation());
 	}
 	
 	@Override
@@ -58,7 +70,7 @@ public class DstImpl extends TestImpl implements Dst {
 		// create a new obs for the result, set to the proper values
 		Obs resultObs = new Obs(this.test.getPerson(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_RESULT), this.test.getObsDatetime(), this.test.getLocation());
 		resultObs.setEncounter(this.test.getEncounter());
-		
+		System.out.println("DstResult->addResult->" + resultObs.getEncounter()+","+resultObs.getObsDatetime()+resultObs.getLocation() + resultObs.getConcept());
 		// add the result to this obs group
 		this.test.addGroupMember(resultObs);
 		
@@ -127,7 +139,7 @@ public class DstImpl extends TestImpl implements Dst {
 
     public List<DstResult> getResults() {
     	List<DstResult> results = new LinkedList<DstResult>();
-		
+		//System.out.println("getResults:" + test.getId());
 		// iterate through all the obs groups, create dst results from them, and add them to the list
 		if(test.getGroupMembers() != null) {
 			for(Obs obs : test.getGroupMembers()) {
@@ -137,6 +149,7 @@ public class DstImpl extends TestImpl implements Dst {
 				}
 			}
 		}
+		//System.out.println("GR:" + results.size());
 		return results;
     }
     
@@ -150,6 +163,8 @@ public class DstImpl extends TestImpl implements Dst {
     		// string representation of the concentration
     		for(DstResult result : getResults()) {
     			
+    			
+    			if(result.getDrug()!=null) {
     			Integer drug = result.getDrug().getId();
     			
     			// if a result for this drug already exists in the map, attach this result to that list
@@ -163,6 +178,7 @@ public class DstImpl extends TestImpl implements Dst {
     				List<DstResult> drugResults = new LinkedList<DstResult>();
     				drugResults.add(result);
     				resultsMap.put(drug, drugResults);
+    			}
     			}
     			
     			// TODO: remove this when we are sure we don't need it
@@ -318,6 +334,98 @@ public class DstImpl extends TestImpl implements Dst {
 		
 		// now save the value
 		obs.setValueText(organismType);
+    }
+    
+    public String getResultsString() {
+    	String results = "";
+		Map<Integer, List<DstResult>> dstResultsMap = getResultsMap();
+		//System.out.println("MAP SIZE=" + dstResultsMap.size());
+		Collection<Concept> drugs = getPossibleDrugTypes();
+	//	System.out.println("DRUG SIZE=" + drugs.size());
+		
+		for(Concept drug : drugs) {
+			if(dstResultsMap.get(drug.getId())!=null) {
+				
+				for(DstResult result : dstResultsMap.get(drug.getId())) {
+					results += result.getDrug().getDisplayString() + ": " + result.getResult().getShortNameInLocale(Context.getLocale()) + "<br/>";
+				}
+			}
+		}
+		
+		if(results.length()==0) {
+			results = "N/A";
+		}
+		
+		return results;
+	}
+    
+    public String getResistantDrugs() {
+    	//String ret = "";
+    	
+    	String results = "";
+		Map<Integer, List<DstResult>> dstResultsMap = getResultsMap();
+		//System.out.println("MAP SIZE=" + dstResultsMap.size());
+		Collection<Concept> drugs = getPossibleDrugTypes();
+	//	System.out.println("DRUG SIZE=" + drugs.size());
+		
+		for(Concept drug : drugs) {
+			if(dstResultsMap.get(drug.getId())!=null) {
+				
+				for(DstResult result : dstResultsMap.get(drug.getId())) {
+					if(result.getResult().getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.RESISTANT_TO_TB_DRUG).getId().intValue()) {					
+						results += result.getDrug().getName().getShortName() + ",";
+				
+					}
+				}
+			}
+		}
+		
+		if(results.length()==0) {
+			results = "N/A";
+		}
+		else {
+			results = results.substring(0,results.length()-1);
+		}
+    	
+    	
+    	return results;
+    }
+    
+    public String getSensitiveDrugs() {
+
+    	String results = "";
+		Map<Integer, List<DstResult>> dstResultsMap = getResultsMap();
+		//System.out.println("MAP SIZE=" + dstResultsMap.size());
+		Collection<Concept> drugs = getPossibleDrugTypes();
+	//	System.out.println("DRUG SIZE=" + drugs.size());
+		
+		for(Concept drug : drugs) {
+			if(dstResultsMap.get(drug.getId())!=null) {
+				
+				for(DstResult result : dstResultsMap.get(drug.getId())) {
+					if(result.getResult().getId().intValue()==Context.getService(MdrtbService.class).getConcept(TbConcepts.SUSCEPTIBLE_TO_TB_DRUG).getId().intValue()) {					
+						results += result.getDrug().getName().getShortName() + ",";
+				
+					}
+				}
+			}
+		}
+		
+		if(results.length()==0) {
+			results = "N/A";
+		}
+		else {
+			results = results.substring(0,results.length()-1);
+		}
+    	
+    	
+    	return results;
+    }
+    
+    
+
+    public Collection<Concept> getPossibleDrugTypes() {
+    	return Context.getService(MdrtbService.class).getMdrtbDrugs();
     }
     
 }

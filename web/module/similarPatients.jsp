@@ -20,7 +20,7 @@
 	$j(document).ready(function(){
 		// handle clicking on a row
 		$j('.evenRow,.oddRow').click(function () {
-			window.location='${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=' + $j(this).children('input').attr('value');
+			window.location='${pageContext.request.contextPath}/module/mdrtb/dashboard/tbdashboard.form?patientId=' + $j(this).children('input').attr('value');
 		});
 
 		// handle highlighting a row
@@ -88,6 +88,7 @@
 <input type="hidden" name="successURL" value="${successURL}"/>
 <input type="hidden" name="patientId" value="-1"/>
 <input type="hidden" name="skipSimilarCheck" value="1"/>
+<input type="hidden" name="add" value="1" />
 
 <button type="submit"><spring:message code="mdrtb.similarPersonNotOnList"/></button>
 <button type="reset" onclick="history.back()"><spring:message code="mdrtb.back"/></button>

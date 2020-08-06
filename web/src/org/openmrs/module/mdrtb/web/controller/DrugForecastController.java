@@ -5,32 +5,24 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.Drug;
 import org.openmrs.Location;
-import org.openmrs.Patient;
-import org.openmrs.PersonAddress;
-import org.openmrs.api.ConceptService;
-import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
-import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.drugneeds.DrugForecastUtil;
 import org.openmrs.module.mdrtb.drugneeds.PatientSLDMap;
 import org.openmrs.module.mdrtb.reporting.data.Cohorts;
-import org.openmrs.module.mdrtb.reporting.definition.MdrtbTJKPatientDistrictCohortDefinition;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.propertyeditor.ConceptEditor;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.InProgramCohortDefinitionEvaluator;
-import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;

@@ -87,6 +87,10 @@ public class SpecimenGroupImpl implements Specimen {
 		throw new RuntimeException("Illegal attempt to access add or set method of SpecimenGroupImpl. SpecimenGroupImpl should be used for get access only.");
     }
     
+    public HAIN2 addHAIN2() {
+		throw new RuntimeException("Illegal attempt to access add or set method of SpecimenGroupImpl. SpecimenGroupImpl should be used for get access only.");
+    }
+    
     public ScannedLabReport addScannedLabReport() {
     	throw new RuntimeException("Illegal attempt to access add or set method of SpecimenGroupImpl. SpecimenGroupImpl should be used for get access only.");
     }
@@ -185,6 +189,18 @@ public class SpecimenGroupImpl implements Specimen {
     	
     	return hains;
     }
+    
+    public List<HAIN2> getHAIN2s() {
+    	List<HAIN2> hains = new LinkedList<HAIN2>();
+    	
+    	for(Specimen specimen : specimens) {
+    		hains.addAll(specimen.getHAIN2s());
+    	}
+    	
+    	Collections.sort(hains);
+    	
+    	return hains;
+    }
 
     public String getId() {
 	   return this.specimens.get(0).getId();
@@ -250,6 +266,10 @@ public class SpecimenGroupImpl implements Specimen {
     
     public Double getMonthOfTreatment() {
     	return this.specimens.get(0).getMonthOfTreatment();
+    }
+    
+    public Integer getPatProgId() {
+    	return this.specimens.get(0).getPatProgId();
     }
 
     public void removeScannedLabReport(ScannedLabReport report) {

@@ -147,6 +147,24 @@ public class TB03uData implements Comparable <TB03uData> {
 	private String tb03uTreatmentOutcomeDate;
 	private Boolean diedOfTB;
 	
+	private String xpertMTBResult;
+	private String xpertRIFResult;
+	private String xpertTestDate;
+	private String xpertTestNumber;
+	private String xpertLab;
+	private String hainMTBResult;
+	private String hainINHResult;
+	private String hainRIFResult;
+	private String hainTestDate;
+	private String hainTestNumber;
+	private String hainLab;
+	
+	private String hain2MTBResult;
+	private String hain2InjResult;
+	private String hain2FqResult;
+	private String hain2TestDate;
+	private String hain2TestNumber;
+	private String hain2Lab;
 
   
     
@@ -189,32 +207,32 @@ public class TB03uData implements Comparable <TB03uData> {
 	
 
 	public void setTb03uTreatmentOutcome(Integer tb03uTreatmentOutcome) {
-		System.out.println("---->" + tb03uTreatmentOutcome);
-		if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.cured.conceptId")))
+		//System.out.println("---->" + tb03uTreatmentOutcome);
+		if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.cured.conceptId")))
 			this.tb03uTreatmentOutcome = 0;
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txCompleted.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txCompleted.conceptId")))
 			this.tb03uTreatmentOutcome = 1;
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txFailure.conceptId")))
-			this.tb03uTreatmentOutcome = 2;
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.txFailure.conceptId")))
+			this.tb03uTreatmentOutcome = 4;
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.died.conceptId")))
 		{
 			if(diedOfTB)
-				this.tb03uTreatmentOutcome = 3;
+				this.tb03uTreatmentOutcome = 2;
 			else
-				this.tb03uTreatmentOutcome = 4;
+				this.tb03uTreatmentOutcome = 3;
 		}
 			
 		
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.ltfu.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.ltfu.conceptId")))
 			this.tb03uTreatmentOutcome = 5;
 		/*else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.canceled.conceptId")))
 			this.tb03uTreatmentOutcome = 6;
 		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("dotsreports.outcome.sld2.conceptId")))
 			this.tb03uTreatmentOutcome = 7;*/
-		else if(tb03uTreatmentOutcome == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.transferout.conceptId")))
+		else if(tb03uTreatmentOutcome.intValue() == Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.outcome.transferout.conceptId")))
 			this.tb03uTreatmentOutcome = 6;
 		
-		System.out.println("---->" + this.tb03uTreatmentOutcome);
+		//System.out.println("---->" + this.tb03uTreatmentOutcome);
 	}
 
 	
@@ -1740,6 +1758,271 @@ public class TB03uData implements Comparable <TB03uData> {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+
+
+	public String getXpertMTBResult() {
+		return xpertMTBResult;
+	}
+
+
+
+	public void setXpertMTBResult(String xpertMTBResult) {
+		this.xpertMTBResult = xpertMTBResult;
+	}
+
+
+
+	public String getXpertRIFResult() {
+		if(xpertRIFResult != null) {
+			if(xpertRIFResult.equals("+"))
+				return "/" + Context.getMessageSourceService().getMessage("dotsreports.tb03.xpertRifPosShort");
+			else if (xpertRIFResult.equals("-"))
+				return "/" + Context.getMessageSourceService().getMessage("dotsreports.tb03.xpertRifNegShort");
+			else if (xpertRIFResult.equals("U"))
+				return "/" + Context.getMessageSourceService().getMessage("dotsreports.tb03.xpertRifIndShort");
+			else
+				return "/" + xpertRIFResult;
+		}
+		
+		return xpertRIFResult;
+	}
+
+
+
+	public void setXpertRIFResult(String xpertRIFResult) {
+		this.xpertRIFResult = xpertRIFResult;
+	}
+
+
+
+	public String getXpertTestDate() {
+		return xpertTestDate;
+	}
+
+
+
+	public void setXpertTestDate(String xpertTestDate) {
+		this.xpertTestDate = xpertTestDate;
+	}
+
+
+
+	public String getXpertTestNumber() {
+		return xpertTestNumber;
+	}
+
+
+
+	public void setXpertTestNumber(String xpertTestNumber) {
+		this.xpertTestNumber = xpertTestNumber;
+	}
+
+
+
+	public String getXpertLab() {
+		return xpertLab;
+	}
+
+
+
+	public void setXpertLab(String xpertLab) {
+		this.xpertLab = xpertLab;
+	}
+
+
+
+	public String getHainMTBResult() {
+		return hainMTBResult;
+	}
+
+
+
+	public void setHainMTBResult(String hainMTBResult) {
+		this.hainMTBResult = hainMTBResult;
+	}
+
+
+
+	public String getHainINHResult() {
+		if(hainINHResult != null) {
+			if(hainINHResult.equals("+"))
+				return Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			else if (hainINHResult.equals("-"))
+				return Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			else if (hainINHResult.equals("U"))
+				return Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			else
+				return hainINHResult;
+		}
+		
+		
+		return hainINHResult;
+	}
+
+
+
+	public void setHainINHResult(String hainINHResult) {
+		this.hainINHResult = hainINHResult;
+	}
+
+
+
+	public String getHainRIFResult() {
+		if(hainRIFResult != null) {
+			if(hainRIFResult.equals("+"))
+				return Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			else if (hainRIFResult.equals("-"))
+				return Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			else if (hainRIFResult.equals("U"))
+				return Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			else
+				return hainRIFResult;
+		}
+		
+		
+		return hainRIFResult;
+	}
+
+
+
+	public void setHainRIFResult(String hainRIFResult) {
+		this.hainRIFResult = hainRIFResult;
+	}
+
+
+
+	public String getHainTestDate() {
+		return hainTestDate;
+	}
+
+
+
+	public void setHainTestDate(String hainTestDate) {
+		this.hainTestDate = hainTestDate;
+	}
+
+
+
+	public String getHainTestNumber() {
+		return hainTestNumber;
+	}
+
+
+
+	public void setHainTestNumber(String hainTestNumber) {
+		this.hainTestNumber = hainTestNumber;
+	}
+
+
+
+	public String getHainLab() {
+		return hainLab;
+	}
+
+
+
+	public void setHainLab(String hainLab) {
+		this.hainLab = hainLab;
+	}
+
+
+
+	public String getHain2MTBResult() {
+		return hain2MTBResult;
+	}
+
+
+
+	public void setHain2MTBResult(String hain2mtbResult) {
+		hain2MTBResult = hain2mtbResult;
+	}
+
+
+
+	public String getHain2InjResult() {
+		if(hain2InjResult != null) {
+			if(hain2InjResult.equals("+"))
+				return Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			else if (hain2InjResult.equals("-"))
+				return Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			else if (hain2InjResult.equals("U"))
+				return Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			else
+				return hain2InjResult;
+		}
+		
+		
+		
+		return hain2InjResult;
+	}
+
+
+
+	public void setHain2InjResult(String hain2InjResult) {
+		this.hain2InjResult = hain2InjResult;
+	}
+
+
+
+	public String getHain2FqResult() {
+		if(hain2FqResult != null) {
+			if(hain2FqResult.equals("+"))
+				return Context.getMessageSourceService().getMessage("mdrtb.resistantShort");
+			else if (hain2FqResult.equals("-"))
+				return Context.getMessageSourceService().getMessage("mdrtb.sensitiveShort");
+			else if (hain2FqResult.equals("U"))
+				return Context.getMessageSourceService().getMessage("mdrtb.indeterminateShort");
+			else
+				return hain2FqResult;
+		}
+		
+		
+		
+		return hain2FqResult;
+	}
+
+
+
+	public void setHain2FqResult(String hain2FqResult) {
+		this.hain2FqResult = hain2FqResult;
+	}
+
+
+
+	public String getHain2TestDate() {
+		return hain2TestDate;
+	}
+
+
+
+	public void setHain2TestDate(String hain2TestDate) {
+		this.hain2TestDate = hain2TestDate;
+	}
+
+
+
+	public String getHain2TestNumber() {
+		return hain2TestNumber;
+	}
+
+
+
+	public void setHain2TestNumber(String hain2TestNumber) {
+		this.hain2TestNumber = hain2TestNumber;
+	}
+
+
+
+	public String getHain2Lab() {
+		return hain2Lab;
+	}
+
+
+
+	public void setHain2Lab(String hain2Lab) {
+		this.hain2Lab = hain2Lab;
 	}
 
 }

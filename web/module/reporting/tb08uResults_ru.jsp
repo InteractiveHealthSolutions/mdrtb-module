@@ -1,4 +1,6 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+﻿<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%>
+
 <%
 response.setHeader("Cache-Control","no-cache"); 
 response.setHeader("Pragma","no-cache"); 
@@ -9,11 +11,173 @@ response.setDateHeader ("Expires", -1);
 		<title>TB-08u</title>
 	</head>
 	<body>
-		<style>
-			th {vertical-align:middle; text-align:center;}
-			th, td {font-size:smaller;}
-		</style>
-		<div style="font-size:smaller; width:980px;">
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/tableExport.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jquery.base64.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/sprintf.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/jspdf.js"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/moduleResources/mdrtb/tableExport/js/jspdf/libs/base64.js"></script>
+
+		<script type="text/javascript">
+		function printForm() {
+			var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+		    mywindow.document.write('<html><head><title><spring:message code="mdrtb.tb08" text="TB08u"/></title>');
+		    mywindow.document.write('</head><body >');
+		   // mywindow.document.write('<h1><spring:message code="mdrtb.pv.aeForm" text="AE"/></h1>');
+		    mywindow.document.write(document.getElementById("tb08u").innerHTML);
+		    
+		    mywindow.document.write('</body></html>');
+
+		    mywindow.document.close(); // necessary for IE >= 10
+		    mywindow.focus(); // necessary for IE >= 10*/
+
+		    mywindow.print();
+		    mywindow.close();
+
+		    return true;
+		}
+			var tableToExcel = (function() {
+			  var uri = 'data:application/vnd.ms-excel;base64,'
+			    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>TB08u</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
+			    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+			    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+			  return function(table, name) {
+			    if (!table.nodeType) table = document.getElementById(table)
+			    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+			    window.location.href = uri + base64(format(template, ctx))
+			  }
+			})()
+			function savePdf(action, reportName, formPath) {
+				var tableData = (document.getElementById("tb08u")).innerHTML.toString();
+				var oblast = "${oblast}";
+				var district = "${district}";
+				var facility = "${facility}";
+				var year = "${year}";
+				<c:choose>
+				<c:when test="${! empty quarter}">
+					var quarter =  "\"" + ${quarter} + "\"";
+				</c:when>
+				<c:otherwise>
+					var quarter =  "";
+				</c:otherwise>
+				</c:choose>
+				
+				<c:choose>
+				<c:when test="${! empty month}" >
+					var month =  "\"" + ${month} + "\"";
+				</c:when>
+				<c:otherwise>
+					var month =  "";
+				</c:otherwise>
+			    </c:choose>
+				var reportDate = "${reportDate}";
+				
+				var form = document.createElement("FORM");
+
+				form.setAttribute("id", "closeReportForm");
+			    form.setAttribute("name", "closeReportForm");
+			    form.setAttribute("method", "post");
+			    form.setAttribute("action", action);
+			    
+			    document.body.appendChild(form);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "oblast");
+			    input.setAttribute("name", "oblast");
+			    input.setAttribute("value", oblast);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "district");
+			    input.setAttribute("name", "district");
+			    input.setAttribute("value", district);
+			    form.appendChild(input);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "facility");
+			    input.setAttribute("name", "facility");
+			    input.setAttribute("value", facility);
+			    form.appendChild(input);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "year");
+			    input.setAttribute("name", "year");
+			    input.setAttribute("value", year);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "quarter");
+			    input.setAttribute("name", "quarter");
+			    input.setAttribute("value", quarter);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "month");
+			    input.setAttribute("name", "month");
+			    input.setAttribute("value", month);
+			    form.appendChild(input);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "reportDate");
+			    input.setAttribute("name", "reportDate");
+			    input.setAttribute("value", reportDate);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "table");
+			    input.setAttribute("name", "table");
+			    input.setAttribute("value", tableData);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "formPath");
+			    input.setAttribute("name", "formPath");
+			    input.setAttribute("value", formPath);
+			    form.appendChild(input);
+
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "reportName");
+			    input.setAttribute("name", "reportName");
+			    input.setAttribute("value", reportName);
+			    form.appendChild(input);
+			    
+			    var input = document.createElement("INPUT");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("id", "reportType");
+			    input.setAttribute("name", "reportType");
+			    input.setAttribute("value", "MDRTB");
+			    form.appendChild(input);
+			    
+			    form.submit();
+			}
+			$(document).ready(function(){
+				$("#tableToSql").bind("click", function() {
+					if(confirm('<spring:message code="mdrtb.closeReportMessage" />') ) {
+						savePdf("closeReport.form", "TB-08u", "tb08uResults");
+					}
+				});
+				/* $("#tableToPdf").click(function(){
+					savePdf("exportReport.form", "TB-08u", "tb08uResults");
+				}); */
+			});
+		</script>
+
+		<div id="tb08u" style="font-size:smaller; width:980px;">
+			<style>
+				th {vertical-align:middle; text-align:center;}
+				th, td {font-size:smaller;}
+			</style>
 			<table width="100%"><tr>
 				<td width="90%" align="left" style="font-size:14px; font-weight:bold;">
 					Квартальный отчет о результатах лечения больных ЛУ ТБ <br/>
@@ -25,8 +189,8 @@ response.setDateHeader ("Expires", -1);
 			<center>
 			<table width="100%" border="1">
 				<tr>
-				    <td>Наименование учреждения: ________________  <br/>  
-				    Область/район:  ${location}<br/>
+				    <td>Наименование учреждения: <u>&nbsp; ${fName} &nbsp;</u> <br/>  
+				    Область/район:   <u> ${oName}/${dName} </u><br/>
 					ФИО координатора по ТБ:   _________________<br/>
 					
 				</td>
@@ -281,5 +445,20 @@ response.setDateHeader ("Expires", -1);
 				
 			</table>
 		</div>
+		
+		<input type="button" onclick="tableToExcel('tb08u', 'TB08u')" value="<spring:message code='mdrtb.exportToExcelBtn' />" />
+		<!-- <input type="button" id="tableToPdf" name="tableToPdf" value="<spring:message code='mdrtb.exportToPdfBtn' />" /> -->
+		<openmrs:hasPrivilege privilege="Manage Report Closing">
+		<input type="button" id="tableToSql" name="tableToSql" value="<spring:message code='mdrtb.closeReportBtn' />" />
+			<input type="button" onclick="printForm()" value="<spring:message code='mdrtb.print' />" />
+		</openmrs:hasPrivilege>
+		<script> 
+			console.log("${reportStatus}");
+			if("${reportStatus}" === "true") { 
+				document.getElementById("tableToSql").disabled = true; 
+			} else { 
+				document.getElementById("tableToSql").disabled = false; 
+			}
+		</script>
 	</body>
 </html>

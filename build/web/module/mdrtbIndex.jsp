@@ -35,10 +35,10 @@
 <table class="indexTable">
 	<tr>
 		<td width=60% valign='top'>
-			<openmrs:portlet id="mdrtbFindPatient" url="mdrtbFindPatient" parameters="size=full|postURL=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form|showIncludeVoided=false|viewType=shortEdit" moduleId="mdrtb"/>
-			<openmrs:hasPrivilege privilege="Add Patients">
+			<openmrs:portlet id="mdrtbFindPatient" url="mdrtbFindPatient" parameters="size=full|postURL=${pageContext.request.contextPath}/module/mdrtb/program/enrollment.form|showIncludeVoided=false|viewType=shortEdit" moduleId="mdrtb"/>
+			<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
 				<br/><br/>
-				<openmrs:portlet id="mdrtbAddPatient" url="mdrtbAddPatient" parameters="personType=patient|postURL=mdrtbEditPatient.form|successURL=/module/mdrtb/dashboard/dashboard.form|viewType=shortEdit" moduleId="mdrtb" />
+				<openmrs:portlet id="mdrtbAddPatient" url="mdrtbAddPatient" parameters="personType=patient|postURL=mdrtbEditPatient.form|successURL=/module/mdrtb/dashboard/tbdashboard.form|viewType=shortEdit|add=1" moduleId="mdrtb" />
 			</openmrs:hasPrivilege>
 			
 			<openmrs:extensionPoint pointId="org.openmrs.mdrtb.linksList.bottomLeft" type="html">
@@ -92,14 +92,31 @@
 			</openmrs:extensionPoint>
 			
 			<table class="indexInner">
-			
+			    <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+				<tr><td style="background-color:#8FABC7;padding:2px 2px 2px 2px;">
+					<b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">&nbsp;&nbsp;
+						<spring:message code="mdrtb.mergePatients"/>&nbsp;&nbsp;
+					</b>
+				</td></tr>
+				
+				<tr class="${rowClass}"><td>
+					<a href="${pageContext.request.contextPath}/module/mergePatient/search.form">
+						<spring:message code="mdrtb.mergePatients"/>
+					</a>
+					<br/>
+				</td></tr>
+			    </openmrs:hasPrivilege>
 				<tr><td style="background-color:#8FABC7;padding:2px 2px 2px 2px;">
 					<b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">&nbsp;&nbsp;
 						<spring:message code="mdrtb.patientLists"/>&nbsp;&nbsp;
 					</b>
 				</td></tr>
 				<tr class="${rowClass}"><td>
-					<a href="${pageContext.request.contextPath}/module/mdrtb/mdrtbListPatients.form">
+				 	<a href="${pageContext.request.contextPath}/module/mdrtb/reporting/patientLists.form">
+						<spring:message code="mdrtb.patientLists"/>
+					</a>
+					<br/>
+					<%-- <a href="${pageContext.request.contextPath}/module/mdrtb/mdrtbListPatients.form">
 						<spring:message code="mdrtb.viewListPatientPage"/>
 					</a>
 					<br/>
@@ -110,7 +127,7 @@
 					<a href="${pageContext.request.contextPath}/module/dotsreports/dotsListPatients.form">
 						<spring:message code="mdrtb.viewDotsListPatientPage"/>
 					</a>
-					<br/><br/>
+					<br/><br/> --%>
 					<!-- <c:if test="${showCohortBuilder}">
 						<a href="${pageContext.request.contextPath}/cohortBuilder.list">
 							<spring:message code="mdrtb.cohortBuilder" text="Cohort Builder"/>
@@ -135,35 +152,35 @@
 				</td></tr>
 				
 				<tr><td>
+					<a href="../mdrtb/reporting/viewClosedReports.form?type=DOTSTB"><spring:message code="mdrtb.viewClosedReports" /></a><br/>
 					<!-- <a href="drugforecast/simpleUsage.list"><spring:message code="mdrtb.simpleDrugUsage"/></a><br/>
 					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/> -->
-					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS07TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport07" /></a><br/>
-					<a href="../dotsreports/reporting/tb07.form"><spring:message code="mdrtb.dotsreport07Fast" /></a><br/>
-					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS08TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport08" /></a><br/>
-					<a href="../dotsreports/reporting/tb08.form"><spring:message code="mdrtb.dotsreport08Fast" /></a><br/>
-					<a href="../dotsreports/reporting/tb03.form"><spring:message code="dotsreports.tb03Export" /></a><br/>
-					<a href="../dotsreports/reporting/dq.form"><spring:message code="dotsreports.dq.title" /></a><br/>
+					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS07TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport07" /></a><br/> -->
+					<a href="../mdrtb/reporting/tb07.form"><spring:message code="mdrtb.dotsreport07" /></a><br/>
+					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTS08TJKUpdatedTB03"><spring:message code="mdrtb.dotsreport08" /></a><br/> -->
+					<a href="../mdrtb/reporting/tb08.form"><spring:message code="mdrtb.dotsreport08" /></a><br/>
+					<a href="../mdrtb/reporting/tb03.form"><spring:message code="dotsreports.tb03Export" /></a><br/>
+					<a href="../mdrtb/reporting/tb03Single.form"><spring:message code="mdrtb.tb03ExportSingleLine" /></a><br/>
+					<a href="../mdrtb/reporting/form89Single.form"><spring:message code="mdrtb.f89ExportSingleLine" /></a><br/>
+					<a href="../mdrtb/reporting/dotsdq.form"><spring:message code="dotsreports.dq.title" /></a><br/>
 								
 				</td></tr>
 				
-				<c:set var="reportsFound" value="f"/>
+				<!-- <c:set var="reportsFound" value="f"/> -->
 				<tr><td style = "background-color:#8FABC7;padding:2px 2px 2px 2px;">
 					<b class="boxHeaderTwo" nowrap style="padding:0px 0px 0px 0px;">&nbsp;&nbsp;
 						<spring:message code="mdrtb.mdrreports"/>&nbsp;&nbsp;
 					</b>
 				</td></tr>
 				<tr class="${rowClass}"><td>
+					<a href="../mdrtb/reporting/viewClosedReports.form?type=MDRTB"><spring:message code="mdrtb.viewClosedReports" /></a><br/>
+					<a href="../mdrtb/reporting/tb07u.form"><spring:message code="mdrtb.tb07u" /></a><br/>
 					<a href="../mdrtb/reporting/tb08u.form"><spring:message code="mdrtb.tb08Fast" /></a><br/>
-					<c:forEach var="entry" items="${reports}" varStatus="varStatus">
-						<c:set var="reportsFound" value="t"/>
-						<a href="${pageContext.request.contextPath}/${entry.key}">
-							${entry.value}
-						</a><br/>
-					</c:forEach>
-					
 					<a href="../mdrtb/reporting/tb03u.form"><spring:message code="mdrtb.tb03uExport" /></a><br/>
+					<a href="../mdrtb/reporting/tb03uSingle.form"><spring:message code="mdrtb.tb03uExportSingleLine" /></a><br/>
 					<a href="../mdrtb/reporting/dq.form"><spring:message code="mdrtb.dq.title" /></a><br/>
-					<openmrs:extensionPoint pointId="org.openmrs.mdrtb.linksList.reportLinks" type="html">
+					<a href="../mdrtb/reporting/regimen.form"><spring:message code="mdrtb.sldreport" /><br/>
+					<%-- <openmrs:extensionPoint pointId="org.openmrs.mdrtb.linksList.reportLinks" type="html">
 						<openmrs:hasPrivilege privilege="${extension.requiredPrivilege}">
 							<c:forEach items="${extension.links}" var="link">
 								<c:set var="reportsFound" value="t"/>
@@ -175,7 +192,7 @@
 					</openmrs:extensionPoint>
 					<c:if test="${reportsFound == 'f'}">
 						<i> &nbsp; <spring:message code="mdrtb.noReports"/></i><br/>
-					</c:if>
+					</c:if> --%>
 				</td></tr>
 				
 				
@@ -188,10 +205,12 @@
 				
 				<tr><td>
 					<!-- <a href="drugforecast/simpleUsage.list"><spring:message code="mdrtb.simpleDrugUsage"/></a><br/>
-					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/> -->
-					<a href="drugforecast/patientsOnSLD.list"><spring:message code="mdrtb.sldreport" /></a><br/>
-					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.Form8"><spring:message code="mdrtb.dotsreportform08" /></a><br/>
-					<a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTSMDRReport"><spring:message code="mdrtb.dotsmdrreport" /></a><br/>
+					<a href="drugforecast/patientsTakingDrugs.list"><spring:message code="mdrtb.numberofpatientstakingeachdrug" /></a><br/>
+					<a href="drugforecast/patientsOnSLD.list"><spring:message code="mdrtb.sldreport" /></a><br/> -->
+					<a href="../mdrtb/reporting/form8.form"><spring:message code="mdrtb.form8.title" /></a><br/>
+					<a href="../mdrtb/reporting/pv/ae.form"><spring:message code="mdrtb.pv.qtrReportTitle" /></a><br/>
+					<a href="../mdrtb/reporting/pv/aeRegister.form"><spring:message code="mdrtb.pv.register.title" /></a><br/>
+					<!-- <a href="../dotsreports/reporting/reports.form?type=org.openmrs.module.dotsreports.reporting.data.DOTSMDRReport"><spring:message code="mdrtb.dotsmdrreport" /></a><br/> -->
 				</td></tr>
 			
 				

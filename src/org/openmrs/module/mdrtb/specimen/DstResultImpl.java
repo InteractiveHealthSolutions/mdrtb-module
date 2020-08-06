@@ -238,7 +238,7 @@ public class DstResultImpl implements DstResult {
 	/**
 	 * Used by DstImpl to "remove" a result from a DST
 	 */
-	protected void voidResult() {	
+	public void voidResult() {	
 		for(Obs obs : this.dstResult.getGroupMembers()) {
 			obs.setVoided(true);
 			obs.setVoidReason("voided by DstResultImpl class");
@@ -246,6 +246,12 @@ public class DstResultImpl implements DstResult {
 		
 		this.dstResult.setVoided(true);
 		this.dstResult.setVoidReason("voided by DstResultImpl class");
+		
+		/*Obs o  = dstResult.getObsGroup();
+		if(o!=null) {
+			o.setVoided(true);
+			o.setVoidReason("voided by DstResultImpl class");
+		}*/
 	}
 	
     /**

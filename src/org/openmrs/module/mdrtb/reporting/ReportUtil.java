@@ -259,9 +259,9 @@ public class ReportUtil {
 		if(month!=null && month.length()==0)
 			month = null;
 		
-		System.out.println("YEAR:" + year);
+		/*System.out.println("YEAR:" + year);
 		System.out.println("QTR:" + quarter);
-		System.out.println("MONTH:" + month);
+		System.out.println("MONTH:" + month);*/
 		
 		// Validate input and construct start and end months
 		int startMonth =1;
@@ -381,6 +381,7 @@ public class ReportUtil {
 				// TODO Auto-generated catch block
 				throw new IllegalArgumentException("Please enter either a single quarter (e.g. 3 or a range (e.g. 2-4)");
 			}
+			
 			endMonth = startMonth;
 			
 			if(months.length==2) {
@@ -400,6 +401,19 @@ public class ReportUtil {
 			if(startMonth > endMonth) {
 				throw new IllegalArgumentException("Start month must be less than end month");
 			}
+			
+			startDate = 26;
+			endDate = 25;
+			if(startMonth==1) {
+				startMonth = 12;
+				startYear = year.intValue()-1;
+			}
+
+			else {
+				startMonth = startMonth - 1;
+			}
+			
+			
 		}
 		}
 		Map<String, Date> periodDates = new HashMap<String, Date>();
@@ -410,6 +424,12 @@ public class ReportUtil {
 			c.set(Calendar.DATE, startDate);
 		else
 			c.set(Calendar.DATE, 1);
+		
+		c.set(Calendar.HOUR_OF_DAY,0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		
+		
 		periodDates.put("startDate", c.getTime());
 		
 		c.set(Calendar.YEAR, year);
@@ -419,6 +439,10 @@ public class ReportUtil {
 			c.set(Calendar.DATE, endDate);
 		else
 			c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
+		
+		c.set(Calendar.HOUR_OF_DAY,23);
+		c.set(Calendar.MINUTE, 59);
+		c.set(Calendar.SECOND, 59);
 		periodDates.put("endDate", c.getTime());
 		
 		return periodDates;

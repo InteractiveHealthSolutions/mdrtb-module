@@ -42,6 +42,10 @@ public class MdrtbConcepts {
 	public final static String [] MOXIFLOXACIN = {"MOXIFLOXACIN"};
 	public final static String [] AMOXICILLIN_AND_LAVULANIC_ACID = {"AMOXICILLIN AND CLAVULANIC ACID"};
 	public final static String [] THIOACETAZONE = {"THIOACETAZONE"};
+	public final static String [] BEDAQUILINE = {"BEDAQUILINE"};
+	public final static String [] DELAMANID = {"DELAMANID"};
+	public final static String [] LINEZOLID = {"LINEZOLID"};
+	public final static String [] IMIPENEM = {"IMIPENEM"};
 	
 	public final static String [] QUINOLONES = {"QUINOLONES"};
 
@@ -69,6 +73,7 @@ public class MdrtbConcepts {
     //XPERT AND HAIN CONCEPTS
     public final static String [] XPERT_CONSTRUCT = {"TUBERCULOSIS XPERT TEST CONSTRUCT"};
     public final static String [] HAIN_CONSTRUCT = {"TUBERCULOSIS HAIN TEST CONSTRUCT"};
+    public final static String [] HAIN2_CONSTRUCT = {"TUBERCULOSIS HAIN2 TEST CONSTRUCT"};
     public final static String [] MTB_RESULT = {"MTB RESULT"};
     public final static String [] RIFAMPICIN_RESISTANCE = {"RIFAMPICIN RESISTANCE"};
     public final static String [] DETECTED = {"DETECTED"};
@@ -80,6 +85,8 @@ public class MdrtbConcepts {
     public final static String [] XPERT_MEDIUM = {"MEDIUM"};
     public final static String [] XPERT_LOW = {"LOW"};
     public final static String [] ISONIAZID_RESISTANCE = {"ISONIAZID RESISTANCE"};
+    public final static String [] FQ_RESISTANCE = {"FQ RESISTANCE"};
+    public final static String [] INJ_RESISTANCE = {"INJ RESISTANCE"};
     
     
     public final static String [] COLONIES_IN_CONTROL = {"COLONIES IN CONTROL"};
@@ -144,6 +151,8 @@ public class MdrtbConcepts {
     public final static String [] PDR_TB = {"PDR-TB"};
     public final static String [] PRE_XDR_TB = {"PRE-XDR"};
     public final static String [] SUSPECTED_MDR_TB = {"SUSPECTED MULTI-DRUG TUBERCULOSIS"};
+    public final static String [] MONO = {"MONO"};
+    public final static String [] TDR_TB = {"TDR-TB"};
     public final static String [] TB = {"TUBERCULOSIS"};
     
     // Treatment Outcome
@@ -234,5 +243,211 @@ public class MdrtbConcepts {
     
     public final static String [] REGIMEN_2_REG_NUMBER = {"REGIMEN 2 REG NUMBER"};
     
+    public final static String[] PATIENT_PROGRAM_ID = {"PATIENT PROGRAM ID"};
+    
+    public final static String[] MDTRB_CONFIRMATION_DATE = {"DATE OF MDR CONFIRMATION"};
+    
+    public final static String[] MDR_TB_PROGRAM = {"MDR TB PROGRAM"};
+    
+    public final static String[] FUNDING_SOURCE = {"FUNDING SOURCE"};
+    public final static String[] PROJECT_HOPE = {"HOPE"};
+    public final static String[] MSF = {"MSF"};
+    
+    public final static String[] CM_DOSE = {"CM DOSE"};
+    public final static String[] AM_DOSE = {"AM DOSE"};
+    public final static String[] MFX_DOSE = {"MFX DOSE"};
+    public final static String[] LFX_DOSE = {"LFX DOSE"};
+    public final static String[] PTO_DOSE = {"PTO DOSE"};
+    public final static String[] CS_DOSE = {"CS DOSE"};
+    public final static String[] PAS_DOSE = {"PAS DOSE"};
+    public final static String[] Z_DOSE = {"Z DOSE"};
+    public final static String[] E_DOSE = {"E DOSE"};
+    public final static String[] H_DOSE = {"H DOSE"};
+    public final static String[] LZD_DOSE = {"LZD DOSE"};
+    public final static String[] CFZ_DOSE = {"CFZ DOSE"};
+    public final static String[] BDQ_DOSE = {"BDQ DOSE"};
+    public final static String[] DLM_DOSE = {"DLM DOSE"};
+    public final static String[] IMP_DOSE = {"IMP DOSE"};
+    public final static String[] AMX_DOSE = {"AMX DOSE"};
+    public final static String[] HR_DOSE = {"HR DOSE"};
+    public final static String[] HRZE_DOSE = {"HRZE DOSE"};
+    public final static String[] S_DOSE = {"S DOSE"};
+    public final static String[] OTHER_DRUG_1_DOSE = {"OTHER DRUG 1 DOSE"};
+    public final static String[] OTHER_DRUG_1_NAME = {"OTHER DRUG 1 NAME"};
+    public final static String[] OTHER_DRUG_2_DOSE = {"OTHER DRUG 2 DOSE"};
+    
+    public final static String[] SHORT_MDR_REGIMEN = {"SHORT MDR REGIMEN"};
+    public final static String[] STANDARD_MDR_REGIMEN = {"STANDARD MDR REGIMEN"};
+    public final static String[] INDIVIDUAL_WITH_BDQ = {"INDIVIDUAL WITH BDQ"};
+    public final static String[] INDIVIDUAL_WITH_DLM = {"INDIVIDUAL WITH DLM"};
+    public final static String[] INDIVIDUAL_WITH_BDQ_AND_DLM = {"INDIVIDUAL WITH BDQ AND DLM"};
+    public final static String[] INDIVIDUAL_WITH_CFZ_LZD = {"INDIVIDUAL WITH CFZ LZD"};
+    public final static String[] OTHER_MDRTB_REGIMEN = {"OTHER MDRTB REGIMEN"};
+    public final static String[] SLD_TREATMENT_REGIMEN  = {"SLD TREATMENT REGIMEN"};
+    public final static String[] SLD_REGIMEN_TYPE = {"SLD REGIMEN TYPE "}; 
+    
+    public final static String[] ADVERSE_EVENT = {"ADVERSE EVENT"};
+    public final static String[] NAUSEA = {"NAUSEA"};
+    public final static String[] DIARRHOEA  = {"DIARRHOEA"};
+    public final static String[] ARTHALGIA  = {"ARTHALGIA"};
+    public final static String[] DIZZINESS  = {"DIZZINESS"};
+    public final static String[] HEARING_DISTURBANCES  = {"HEARING DISTURBANCES"};
+    public final static String[] HEADACHE  = {"HEADACHE"};
+    public final static String[] SLEEP_DISTURBANCES  = {"SLEEP DISTURBANCES"};
+    public final static String[] ELECTROLYTE_DISTURBANCES  = {"ELECTROLYTE DISTURBANCES"};
+    public final static String[] ABDOMINAL_PAIN  = {"ABDOMINAL PAIN"};
+    public final static String[] ANOREXIA  = {"ANOREXIA"};
+    public final static String[] GASTRITIS  = {"GASTRITIS"};
+    public final static String[] PERIPHERAL_NEUROPATHY  = {"PERIPHERAL NEUROPATHY"};
+    public final static String[] DEPRESSION  = {"DEPRESSION"};
+    public final static String[] TINNITUS  = {"TINNITUS"};
+    public final static String[] ALLERGIC_REACTION  = {"ALLERGIC REACTION "};
+    public final static String[] RASH  = {"RASH"};
+    public final static String[] VISUAL_DISTURBANCES  = {"VISUAL DISTURBANCES"};
+    public final static String[] SEIZURES  = {"SEIZURES"};
+    public final static String[] HYPOTHYROIDISM  = {"HYPOTHYROIDISM"};
+    public final static String[] PSYCHOSIS  = {"PSYCHOSIS"};
+    public final static String[] SUICIDAL_IDEATION  = {"SUICIDAL IDEATION"};
+    public final static String[] HEPATITIS_AE  = {"HEPATITIS AE"};
+    public final static String[] RENAL_FAILURE  = {"RENAL FAILURE"};
+    public final static String[] QT_PROLONGATION  = {"QT PROLONGATION"};
+   
+    public final static String[] LAB_TEST_CONFIRMING_AE  = {"LAB TEST CONFIRMING AE"};
+    public final static String[] CLINICAL_SCREEN  = {"CLINICAL SCREEN"};
+    public final static String[] VISUAL_ACUITY  = {"VISUAL ACUITY"};
+    public final static String[] SIMPLE_HEARING_TEST  = {"SIMPLE HEARING TEST"};
+    public final static String[] AUDIOGRAM  = {"AUDIOGRAM"};
+    public final static String[] NEURO_INVESTIGATION  = {"NEURO INVESTIGATION"};
+    public final static String[] CREATNINE   = {"CREATNINE "};
+    public final static String[] ALT = {"ALT"};
+    public final static String[] AST  = {"AST"};
+    public final static String[] BILIRUBIN   = {"BILIRUBIN "};
+    public final static String[] ALKALINE_PHOSPHATASE  = {"ALKALINE PHOSPHATASE"};
+    public final static String[] YGT   = {"YGT"};
+    public final static String[] ECG  = {"ECG"};
+    public final static String[] LIPASE  = {"LIPASE"};
+    public final static String[] AMYLASE  = {"AMYLASE"};
+    public final static String[] POTASSIUM  = {"POTASSIUM"};
+    public final static String[] MAGNESIUM  = {"MAGNESIUM"};
+    public final static String[] CALCIUM  = {"CALCIUM"};
+    public final static String[] ALBUMIN  = {"ALBUMIN"};
+    public final static String[] CBC  = {"CBC"};
+    public final static String[] BLOOD_GLUCOSE  = {"BLOOD GLUCOSE"};
+    public final static String[] THYROID_TEST  = {"THYROID TEST"};
+    
+   
+    public final static String[] CLINICAL_SCREEN_DONE  = {"CLINICAL SCREEN DONE"};
+    public final static String[] VISUAL_ACUITY_DONE  = {"VISUAL ACUITY DONE"};
+    public final static String[] SIMPLE_HEARING_TEST_DONE  = {"SIMPLE HEARING TEST DONE"};
+    public final static String[] AUDIOGRAM_DONE  = {"AUDIOGRAM DONE"};
+    public final static String[] NEURO_INVESTIGATION_DONE  = {"NEURO INVESTIGATION DONE"};
+    public final static String[] CREATNINE_DONE   = {"CREATNINE DONE"};
+    public final static String[] ALT_DONE = {"ALT DONE"};
+    public final static String[] AST_DONE  = {"AST DONE"};
+    public final static String[] BILIRUBIN_DONE   = {"BILIRUBIN DONE"};
+    public final static String[] ALKALINE_PHOSPHATASE_DONE  = {"ALKALINE PHOSPHATASE DONE"};
+    public final static String[] YGT_DONE   = {"YGT DONE"};
+    public final static String[] ECG_DONE  = {"ECG DONE"};
+    public final static String[] LIPASE_DONE  = {"LIPASE DONE"};
+    public final static String[] AMYLASE_DONE  = {"AMYLASE DONE"};
+    public final static String[] POTASSIUM_DONE  = {"POTASSIUM DONE"};
+    public final static String[] MAGNESIUM_DONE  = {"MAGNESIUM DONE"};
+    public final static String[] CALCIUM_DONE  = {"CALCIUM DONE"};
+    public final static String[] ALBUMIN_DONE  = {"ALBUMIN DONE"};
+    public final static String[] CBC_DONE  = {"CBC DONE"};
+    public final static String[] BLOOD_GLUCOSE_DONE  = {"BLOOD GLUCOSE DONE"};
+    public final static String[] THYROID_TEST_DONE  = {"THYROID TEST DONE"};
+    public final static String[] OTHER_TEST_DONE  = {"OTHER TEST DONE"};
+    
+    public final static String[] AE_REGIMEN  = {"AE REGIMEN"};
+    
+    public final static String[] AE_TYPE  = {"AE TYPE"};
+    public final static String[] SERIOUS   = {"SERIOUS"};
+    public final static String[] OF_SPECIAL_INTEREST  = {"OF SPECIAL INTEREST"};
+    
+    public final static String[] SAE_TYPE   = {"SAE TYPE"};
+    public final static String[] DEATH   = {"DEATH"};
+    public final static String[] HOSPITALIZATION   = {"HOSPITALIZATION "};
+    public final static String[] DISABILITY   = {"DISABILITY"};
+    public final static String[] CONGENITAL_ANOMALY   = {"CONGENITAL ANOMALY"};
+    public final static String[] LIFE_THREATENING_EXPERIENCE  = {"LIFE THREATENING EXPERIENCE"};
+    
+    public final static String[] SPECIAL_INTEREST_EVENT_TYPE  = {"SPECIAL INTEREST EVENT TYPE"};
+    public final static String[] MYELOSUPPRESSION  = {"MYELOSUPPRESSION"};
+    public final static String[] LACTIC_ACIDOSIS  = {"LACTIC ACIDOSIS"};
+    public final static String[] HYPOKALEMIA  = {"HYPOKALEMIA"};
+    public final static String[] PANCREATITIS  = {"PANCREATITIS"};
+    public final static String[] PHOSPHOLIPIDOSIS  = {"PHOSPHOLIPIDOSIS"};
+    
+    
+    
+    public final static String[] YELLOW_CARD_DATE  = {"YELLOW CARD DATE"};
+    
+    public final static String[] SUSPECTED_DRUG = {"SUSPECTED DRUG"};
+    
+    public final static String[] CAUSALITY_ASSESSMENT_RESULT_1  = {"CAUSALITY ASSESSMENT RESULT 1"};
+    public final static String[] CAUSALITY_ASSESSMENT_RESULT_2 = {"CAUSALITY ASSESSMENT RESULT 2"};
+    public final static String[] CAUSALITY_ASSESSMENT_RESULT_3  = {"CAUSALITY ASSESSMENT RESULT 3"};
+    public final static String[] CAUSALITY_DRUG_1  = {"CAUSALITY DRUG 1"};
+    public final static String[] CAUSALITY_DRUG_2 = {"CAUSALITY DRUG 2"};
+    public final static String[] CAUSALITY_DRUG_3  = {"CAUSALITY DRUG 3"};
+    public final static String[] DEFINITE  = {"DEFINITE"};
+    public final static String[] PROBABLE  = {"PROBABLE"};
+    public final static String[] POSSIBLE  = {"POSSIBLE"};
+    public final static String[] SUSPECTED_CA  = {"SUSPECTED CA"};
+    public final static String[] NOT_CLASSIFIED  = {"NOT CLASSIFIED"};
+    
+    public final static String[] AE_ACTION  = {"AE ACTION"};
+    public final static String[] AE_ACTION_2  = {"AE ACTION 2"};
+    public final static String[] AE_ACTION_3  = {"AE ACTION 3"};
+    public final static String[] AE_ACTION_4  = {"AE ACTION 4"};
+    public final static String[] AE_ACTION_5  = {"AE ACTION 5"};
+    public final static String[] DOSE_NOT_CHANGED   = {"DOSE NOT CHANGED"};
+    public final static String[] DOSE_REDUCED  = {"DOSE REDUCED"};
+    public final static String[] DRUG_INTERRUPTED   = {"DRUG INTERRUPTED "};
+    public final static String[] DRUG_WITHDRAWN  = {"DRUG WITHDRAWN"};
+    public final static String[] ANCILLARY_DRUG_GIVEN  = {"ANCILLARY DRUG GIVEN"};
+    public final static String[] ADDITIONAL_EXAMINATION  = {"ADDITIONAL EXAMINATION"};
+    
+    public final static String[] REQUIRES_ANCILLARY_DRUGS = {"REQUIRES ANCILLARY DRUGS"};
+    public final static String[] REQUIRES_DOSE_CHANGE = {"REQUIRES DOSE CHANGE"};
+    
+    public final static String[] AE_OUTCOME  = {"AE OUTCOME"};
+    public final static String[] RESOLVED  = {"RESOLVED"};
+    public final static String[] RESOLVED_WITH_SEQUELAE  = {"RESOLVED WITH SEQUELAE"};
+    public final static String[] FATAL   = {"FATAL "};
+    public final static String[] RESOLVING   = {"RESOLVING"};
+    public final static String[] NOT_RESOLVED   = {"NOT RESOLVED"};
+    
+    public final static String[] AE_OUTCOME_DATE  = {"AE OUTCOME DATE"};
+    
+    
+    public final static String[] DRUG_RECHALLENGE  = {"DRUG RECHALLENGE"};
+    public final static String[] NO_RECHALLENGE  = {"NO RECHALLENGE"};
+    public final static String[] RECURRENCE_OF_EVENT  = {"RECURRENCE OF EVENT"};
+    public final static String[] NO_RECURRENCE   = {"NO RECURRENCE"};
+    public final static String[] UNKNOWN_RESULT  = {"UNKNOWN RESULT"};
+    
+    public final static String[] MEDDRA_CODE  = {"MEDDRA CODE"};
+    public final static String[] SKIN_DISORDER  = {"SKIN DISORDER"};
+    public final static String[] MUSCULOSKELETAL_DISORDER  = {"MUSCULOSKELETAL DISORDER"};
+    public final static String[] NEUROLOGICAL_DISORDER  = {"NEUROLOGICAL DISORDER"};
+    public final static String[] VISION_DISORDER  = {"VISION DISORDER"};
+    public final static String[] HEARING_DISORDER  = {"HEARING DISORDER"};
+    public final static String[] PSYCHIATRIC_DISORDER  = {"PSYCHIATRIC DISORDER"};
+    public final static String[] GASTROINTESTINAL_DISORDER  = {"GASTROINTESTINAL DISORDER"};
+    public final static String[] LIVER_DISORDER  = {"LIVER DISORDER"};
+    public final static String[] METABOLIC_DISORDER  = {"METABOLIC DISORDER"};
+    public final static String[] ENDOCRINE_DISORDER   = {"ENDOCRINE DISORDER "};
+    public final static String[] CARDIAC_DISORDER   = {"CARDIAC DISORDER"};
+    
+    
+    public final static String[] YES = {"YES"};
+    public final static String[] NO = {"NO"};
+    
+    public final static String[] PREGNANT = {"PREGNANT"};
+	
+    
     
 }
+   

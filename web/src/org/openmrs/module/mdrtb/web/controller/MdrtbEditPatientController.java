@@ -3,6 +3,7 @@ package org.openmrs.module.mdrtb.web.controller;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -33,7 +34,11 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.PersonService.ATTR_VIEW_TYPE;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.ModuleFactory;
+import org.openmrs.module.mdrtb.Country;
+import org.openmrs.module.mdrtb.District;
+import org.openmrs.module.mdrtb.Facility;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.Oblast;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.validator.PatientValidator;
@@ -99,7 +104,12 @@ public class MdrtbEditPatientController {
 	
 	@ModelAttribute("locations")
 	public Collection<Location> getPossibleLocations() {
-		return Context.getLocationService().getAllLocations(false);
+		
+		List<Location> list = new ArrayList<Location>();
+		list.add(Context.getLocationService().getLocation(1));
+		return list;
+		
+		//return Context.getLocationService().getAllLocations(false);
 	}
 
 	// checks to see if the "fixedIdentifierLocation" global prop has been specified, which is used to determine if we
@@ -126,6 +136,12 @@ public class MdrtbEditPatientController {
 		
 		return map;
 	}	
+	
+	@ModelAttribute("dotsIdentifier")
+	public PatientIdentifierType getDotsIdentifier() {
+		
+		return Context.getPatientService().getPatientIdentifierTypeByName(Context.getAdministrationService().getGlobalProperty("mdrtb.primaryPatientIdentifierType"));
+	}
 	
 	@SuppressWarnings("unchecked")
     @ModelAttribute("patientIdentifierTypesAutoAssigned")
@@ -215,11 +231,160 @@ public class MdrtbEditPatientController {
 	                             @RequestParam(required = false, value="addBirthdate") Date addBirthdate,
 	                             @RequestParam(required = false, value="addAge") String addAge,
 	                             @RequestParam(required = false, value="addGender") String addGender,
+	                             @RequestParam(required = false, value="add") String add,
+	                             /*@RequestParam(required = false, value="ob") String oblast,
+	                             @RequestParam(required = false, value="c") String country,
+	                             @RequestParam(required = false, value="loc") String district,
+	                             */
 	                             @RequestParam(required = false, value="skipSimilarCheck") Boolean skipSimilarCheck,
 	                             ModelMap map) throws ParseException {
 		
+		System.out.println("Edit:show:add:" + add);
+		
+		/*List<Country> countries;
+		List<Oblast> oblasts;
+        List<Facility> facilities;
+        List<District> districts;
+		
+		 if(country==null)
+	      {
+			 countries = Context.getService(MdrtbService.class).getCountries();
+			 map.addAttribute("countries", countries);*/
+			
+			/*Oblast locOb = null;// = new Oblast();
+			District locDist = null; // = new District();
+			Facility locFac = null;// = new Facility();
+			PatientIdentifier pi = Context.getService(MdrtbService.class)
+					.getPatientIdentifierById(idId);
+			if (pi != null) {
+				prefix = pi.getIdentifier().substring(0, 2);
+				prefix = "(" + prefix + ")";
+				Location idLoc = null;
+				List<Location> locList = Context.getLocationService()
+						.getAllLocations(false);
+				for (Location l : locList) {
+					if (l.getName().trim().endsWith(prefix)) {
+						idLoc = l;
+						break;
+					}
+				}
+
+				if (idLoc != null) {
+					String obName = idLoc.getStateProvince();
+					List<Oblast> obList = Context
+							.getService(MdrtbService.class).getOblasts();
+					for (Oblast o : obList) {
+						if (obName != null && o.getName() != null
+								&& o.getName().equals(obName)) {
+							locOb = o;
+							break;
+						}
+					}
+
+					if (locOb != null && idLoc.getCountyDistrict() != null) {
+						List<District> distList = Context.getService(
+								MdrtbService.class).getDistricts(locOb.getId());
+						for (District d : distList) {
+							if (idLoc.getCountyDistrict().equals(d.getName())) {
+								locDist = d;
+								break;
+							}
+						}
+					}
+
+					if (locDist != null && idLoc.getRegion() != null) {
+						List<Facility> facList = Context.getService(
+								MdrtbService.class).getFacilities(
+								locDist.getId());
+						for (Facility f : facList) {
+							if (idLoc.getRegion().equals(f.getName())) {
+								locFac = f;
+								break;
+							}
+						}
+					}
+
+				}
+			}
+
+			if (locOb != null) {
+				oblasts = new ArrayList<Oblast>();
+				oblasts.add(locOb);
+				map.addAttribute("oblasts", oblasts);
+
+				if (locDist != null) {
+					districts = new ArrayList<District>();
+					districts.add(locDist);
+					map.addAttribute("districts", districts);
+
+					if (locFac != null) {
+						facilities = new ArrayList<Facility>();
+						facilities.add(locFac);
+						map.addAttribute("facilities", facilities);
+					}
+				}
+
+				else {
+					map.addAttribute(
+							"districts",
+							Context.getService(MdrtbService.class).getDistrict(
+									locOb.getId()));
+				}
+			}
+
+			else {
+				oblasts = Context.getService(MdrtbService.class).getOblasts();
+				map.addAttribute("oblasts", oblasts);
+			}
+
+		}*/
+	        	
+	        	
+	        	
+	        
+		 
+		 /*	else if(oblast==null) {
+		 		countries = Context.getService(MdrtbService.class).getCountries();
+		 		map.addAttribute("countrySelected", country);
+		 		oblasts = Context.getService(MdrtbService.class).getOblasts(Integer.parseInt(country));
+		 		
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("countries", countries);
+		 	}
+	        
+	       
+	        else if(district==null)
+	        { 
+	        	countries = Context.getService(MdrtbService.class).getCountries();
+		 		map.addAttribute("countrySelected", country);
+		 		oblasts = Context.getService(MdrtbService.class).getOblasts(Integer.parseInt(country));
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
+	        	map.addAttribute("oblastSelected", oblast);
+	        	
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            map.addAttribute("countries", countries);
+	            
+	        }
+	        else
+	        {
+	        	countries = Context.getService(MdrtbService.class).getCountries();
+		 		map.addAttribute("countrySelected", country);
+		 		oblasts = Context.getService(MdrtbService.class).getOblasts(Integer.parseInt(country));
+	        	districts= Context.getService(MdrtbService.class).getRegDistricts(Integer.parseInt(oblast));
+	        	facilities = Context.getService(MdrtbService.class).getRegFacilities(Integer.parseInt(district));
+	            map.addAttribute("oblastSelected", oblast);
+	           
+	            map.addAttribute("oblasts", oblasts);
+	            map.addAttribute("districts", districts);
+	            map.addAttribute("districtSelected", district);
+	            map.addAttribute("facilities", facilities);
+	            map.addAttribute("countries", countries);
+	        }*/
+		
+		
 		// if we are dealing with a new patient (one with no id, or id=-1) we need to check for similar patients first
-		if ((skipSimilarCheck == null || !skipSimilarCheck) && (patientId == null || patientId == -1)) {
+	/*	if ((skipSimilarCheck == null || !skipSimilarCheck) && (patientId == null || patientId == -1)) {
 			
 			Integer birthYear = null;
 			
@@ -249,6 +414,7 @@ public class MdrtbEditPatientController {
 	                		patientListItem.setIdentifier(((Patient) person).getPatientIdentifier(primaryIdentifier).getIdentifier());
 	                }
 					
+					
 					similarPatients.add(patientListItem);
 				}
 			}
@@ -261,27 +427,47 @@ public class MdrtbEditPatientController {
 				map.put("addBirthdate", addBirthdate);
 				map.put("addAge", addAge);
 				map.put("addGender", addGender);
+				map.put("add", add);
 				
 				return new ModelAndView("/module/mdrtb/similarPatients");
 			}
-		}
+		}*/
+		 	map.put("addName", addName);
+			map.put("addBirthdate", addBirthdate);
+			map.put("addAge", addAge);
+			map.put("addGender", addGender);
+			map.put("add", add);
 		
 		// if no similar patients, show the edit page
-		
+		map.put("add", add);
 		return new ModelAndView("/module/mdrtb/mdrtbEditPatient");
 	}
 
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
 	public ModelAndView submitForm(@ModelAttribute("patient") Patient patient, BindingResult result,
-	                               @RequestParam("identifierValue") String [] identifierValue,
-	                               @RequestParam("identifierId") String [] identifierId, 
+	                               @RequestParam(required = false, value="identifierValue") String [] identifierValue,
+	                               @RequestParam(required = false, value="identifierId") String [] identifierId, 
 	                               @RequestParam(required = false, value = "identifierLocation") Location [] identifierLocation,
-	                               @RequestParam("identifierType") PatientIdentifierType [] identifierType,
+	                               @RequestParam(required = false, value = "identifierType") PatientIdentifierType [] identifierType,
 	                               @RequestParam(required = false, value ="patientProgramId") Integer patientProgramId,
+	                               /*@RequestParam(required = false, value ="givenName") String givenName,
+	                               @RequestParam(required = false, value ="familyName") String familyName,
+	                               @RequestParam(required = false, value="country") Integer countryId,
+	                               @RequestParam(required = false, value="oblast") Integer oblastId,
+	                               @RequestParam(required = true, value="district") Integer district,
+	                               @RequestParam(required = false, value="facility") Integer facilityId,
+	                               @RequestParam(required = false, value="address1") String address1,
+	                               @RequestParam(required = false, value="address2") String address2,
+	                               @RequestParam(required = false, value="otherCountry") String otherCountry,
+	                               @RequestParam(required = false, value="otherOblast") String otherOblast,
+	                               @RequestParam(required = true, value="otherDistrict") String otherdistrict,
+	                               @RequestParam(required = false, value="otherFacility") String otherFacility,*/
 	                               @RequestParam("successURL") String successUrl,
+	                               @RequestParam("add") String add,
 	                               SessionStatus status, ModelMap map) {
 		
+
 		// first, we need to set the patient id to null if it's been set to -1
 		if (patient.getId() != null && patient.getId() == -1) {
 			patient.setId(null);
@@ -298,6 +484,7 @@ public class MdrtbEditPatientController {
 		}
 		
 		// handle patient identifiers
+		if(identifierValue!=null) {
 		for (Integer i=0; i<identifierValue.length; i++) {
 			
 			//  if this identifier is blank and the idgen module is installed, see if we need to auto-generate this identifier
@@ -340,10 +527,15 @@ public class MdrtbEditPatientController {
 			}
 		}
 		
+		}
+	
+		
+		
 		// perform validation
 		validator.validate(patient, result);
 		if (result.hasErrors()) {
 			map.put("errors", result);
+			map.put("add", add);
 			return new ModelAndView("/module/mdrtb/mdrtbEditPatient", map);
 		}
 		
@@ -373,12 +565,28 @@ public class MdrtbEditPatientController {
 				patient.getCauseOfDeath());
 		}
 		
+		Integer idId = null;
+		if(add!=null && add.equals("1"))
+		{
+			ArrayList<Patient> pats = new ArrayList<Patient>();
+			pats.add(patient);
+			idId = Context.getPatientService().getPatientIdentifiers(identifierValue[0], null, null, pats, null).get(0).getId();
+		}
+		
 		// clears the command object from the session
 		status.setComplete();
 		map.clear();
 		
-		String returnUrl = "redirect:" + successUrl + (successUrl.contains("?") ? "&" : "?") + "patientId=" + patient.getId() + 
-			(patientProgramId != null ? "&patientProgramId=" + patientProgramId : "");
+		String returnUrl;
+		
+		if(add==null || add.length()==0) {
+			returnUrl = "redirect:/module/mdrtb/program/enrollment.form?patientId="+patient.getId();
+		}
+		
+		else {
+			returnUrl = "redirect:" + successUrl + (successUrl.contains("?") ? "&" : "?") + "patientId=" + patient.getId() + 
+			(patientProgramId != null ? "&patientProgramId=" + patientProgramId : "") + (idId != null ? "&idId=" + idId : "");
+		}
 
 		return new ModelAndView(returnUrl);
 	}

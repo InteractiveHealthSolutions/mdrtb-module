@@ -12,9 +12,19 @@
 <openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.css" />
 <openmrs:htmlInclude file="/moduleResources/mdrtb/mdrtb.css"/>
 
-<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
-<openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}" parameters="patientProgramId=${patientProgramId}"/>
+<c:if test="${program.patient.voided}">
+<script type="javascript">alert("dead");</script>
+	<div id="patientDashboardVoided" class="retiredMessage">
+		<div><spring:message code="Patient.voidedMessage"/></div>
+	</div>
+</c:if>
 
+
+
+<c:if test="${! empty patientId && patientId != -1}">
+	<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
+	
+</c:if>
 <!-- TODO: clean up above paths so they use dynamic reference -->
 <!-- TODO: add privileges? -->
 
@@ -197,6 +207,40 @@
 	</c:otherwise>
 </c:choose>
 </td>
+</tr>
+
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.transferIn" text="TIN"/>:</td><td> 
+<c:choose>
+	<c:when test="${! empty status.visitStatus.transferInVisits.value}">
+		<a href="${pageContext.request.contextPath}${status.visitStatus.transferInVisits.value[fn:length(status.visitStatus.transferInVisits.value) - 1].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.transferInVisits.value[fn:length(status.visitStatus.transferInVisits.value) - 1].displayString}</a>
+	</c:when>
+	<c:otherwise>
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newTransferInVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addTransferInVisit" text="Add TransferIn Visit"/></a>
+	    </openmrs:hasPrivilege>
+	</c:otherwise>
+</c:choose>
+</td></tr>
+
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.transferOut" text="TOUT"/>:</td><td> 
+<c:choose>
+	<c:when test="${! empty status.visitStatus.transferOutVisits.value}">
+		<a href="${pageContext.request.contextPath}${status.visitStatus.transferOutVisits.value[fn:length(status.visitStatus.transferOutVisits.value) - 1].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}">${status.visitStatus.transferOutVisits.value[fn:length(status.visitStatus.transferOutVisits.value) - 1].displayString}</a>
+	</c:when>
+	<c:otherwise>
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newTransferOutVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}"><spring:message code="mdrtb.addTransferOutVisit" text="Add TransferOut Visit"/></a>
+	    </openmrs:hasPrivilege>
+	</c:otherwise>
+</c:choose>
+</td></tr>
+<%-- <c:if test="${empty status.visitStatus.transferOutVisits.value}">
+<tr><td colspan="2">
+	<button onclick="window.location='${pageContext.request.contextPath}${status.visitStatus.newTransferOutVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}'"><spring:message code="mdrtb.addTransferOutVisit" text="Add TransferOut Visit"/></button>
+</td></tr>
+</c:if> --%>
+
+
 </table>
 
 <br/>
@@ -207,9 +251,14 @@
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>${program.outcome.concept.displayString}</td></tr>
 </c:if>
 </table>
-
-<button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${program.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>
+<table>
+<tr><td>
+<a href="${pageContext.request.contextPath}/module/mdrtb/program/showEditEnroll.form?programId=${program.id}&type=mdr"><spring:message code="mdrtb.editProgram" text="Edit Program"/></a> 
+</td></tr>
+</table>
 </div>
+<%-- <button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${program.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>
+
 
 <!--  EDIT PROGRAM POPUP -->
 <div id="programEditPopup" style="display:none">
@@ -281,13 +330,13 @@
 <button type="reset" id="programDeleteButton"><spring:message code="mdrtb.deleteProgram" text="Delete Program"/></button>
 
 </form>
-</div>
+</div> --%>
 
 <!-- END EDIT PROGRAM POPUP-->
 
 <!-- CLOSE PROGRAM POPUP -->
 
-<div id="programClosePopup" style="display:none">
+<%-- <div id="programClosePopup" style="display:none">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
 <c:if test="${fn:length(programCloseErrors.allErrors) > 0}">
@@ -321,7 +370,7 @@
 <button type="submit"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button> <button type="reset" id="programCloseCancelButton"><spring:message code="mdrtb.cancel" text="Cancel"/></button>
 
 </form>
-</div>
+</div> --%>
 
 <!-- END CLOSE PROGRAM POPUP -->
 
@@ -331,7 +380,7 @@
 
 <!-- TREATMENT STATUS BOX -->
 
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.treatmentStatus" text="Treatment Status"/>: ${status.treatmentStatus.treatmentState.displayString}</b>
+<%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.treatmentStatus" text="Treatment Status"/>: ${status.treatmentStatus.treatmentState.displayString}</b>
 <div class="box" style="margin:0px">
 
 <c:if test="${fn:length(status.treatmentStatus.regimens.value) > 0 }">
@@ -350,35 +399,67 @@ ${regimen.displayString}
 <br/>
 <button onclick="window.location='${pageContext.request.contextPath}/module/mdrtb/regimen/manageDrugOrders.form?patientId=${patientId}&patientProgramId=${patientProgramId}'"><spring:message code="mdrtb.editTreatment" text="Edit Treatment"/></button>
 
-</div>
+</div> --%>
 
 <!-- END TREATMENT STATUS BOX -->
 
 <br/>
 
 <!--  VISIT STATUS BOX -->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.visitStatus" text="Visit Status"/></b>
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.forms" text="Form"/></b>
 <div class="box" style="margin:0px">
 
 <table cellspacing="0" cellpadding="0">
 
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.intake" text="Intake"/>:</td><td>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03uForm" text="TB03uz"/>:</td><td>
 <c:choose> 
 	<c:when test="${! empty status.visitStatus.intakeVisits.value}">
-		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
+		<a href="${pageContext.request.contextPath}${status.visitStatus.intakeVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.intakeVisits.value[0].displayString}</a>
 	</c:when>
 	<c:otherwise>
-		<spring:message code="mdrtb.none" text="None"/>
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></a>
+	    </openmrs:hasPrivilege>
 	</c:otherwise>
 </c:choose>
 </td></tr>
 
-<c:if test="${empty status.visitStatus.intakeVisits.value}">
-<tr><td colspan="2">
-	<button onclick="window.location='${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}'"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></button>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.drdtForm" text="DRDT"/>:</td><td>
+
+	<c:if test="${! empty status.visitStatus.drdtVisits.value}">
+		<a href="${pageContext.request.contextPath}${status.visitStatus.drdtVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.drdtVisits.value[0].displayString}</a><br/>
+	</c:if>
+	
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newDrdtVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addDrdt" text="Add DRDT Visit"/></a>
+	    </openmrs:hasPrivilege>
+	
+
+</td></tr>
+<c:if test="${showtb03uxdr eq 1 }">
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.tb03uXDRForm" text="TB03uxdr"/>:</td><td>
+<c:choose> 
+	<c:when test="${! empty status.visitStatus.followUpVisits.value}">
+		<a href="${pageContext.request.contextPath}${status.visitStatus.followUpVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}">${status.visitStatus.followUpVisits.value[0].displayString}</a>
+	</c:when>
+	<c:otherwise>
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}%26patientId=${patientId}"><spring:message code="mdrtb.addTB03-XDR" text="Add XDR Visit"/></a>
+	    </openmrs:hasPrivilege>
+	</c:otherwise>
+</c:choose>
 </td></tr>
 </c:if>
 
+<%-- <c:if test="${empty status.visitStatus.intakeVisits.value}">
+<tr><td colspan="2">
+	<button onclick="window.location='${pageContext.request.contextPath}${status.visitStatus.newIntakeVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}&patientId=${patientId}'"><spring:message code="mdrtb.addIntakeVisit" text="Add Intake Visit"/></button>
+</td></tr>
+</c:if> --%>
+
+
+
+<%-- 
 
 
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.mostRecentFollowUp" text="Most Recent Follow-up"/>:</td><td> 
@@ -390,7 +471,7 @@ ${regimen.displayString}
 		<spring:message code="mdrtb.none" text="None"/>
 	</c:otherwise>
 </c:choose>
-</td></tr>
+</td></tr> --%>
 
 <!-- 
 <tr><td><spring:message code="mdrtb.mostRecentSpecimenCollection" text="Most Specimen Collection"/>:</td><td> 
@@ -405,7 +486,7 @@ ${regimen.displayString}
 </td></tr>
 -->
 
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.nextScheduledFollowUp" text="Next Scheduled Follow-up"/>:</td><td> 
+<%-- <tr><td style="font-weight:bold"><spring:message code="mdrtb.nextScheduledFollowUp" text="Next Scheduled Follow-up"/>:</td><td> 
 <c:choose>
 	<c:when test="${! empty status.visitStatus.scheduledFollowUpVisits.value}">
 		<a href="${pageContext.request.contextPath}${status.visitStatus.scheduledFollowUpVisits.value[0].link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}">${status.visitStatus.scheduledFollowUpVisits.value[0].displayString}</a>
@@ -418,7 +499,7 @@ ${regimen.displayString}
 
 <tr><td colspan="2">
 	<button onclick="window.location='${pageContext.request.contextPath}${status.visitStatus.newFollowUpVisit.link}&returnUrl=${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form%3FpatientProgramId=${patientProgramId}'"><spring:message code="mdrtb.addFollowUpVisit" text="Add Follow-up Visit"/></button>
-</td></tr>
+</td></tr> --%>
 
 </table>
 
@@ -429,7 +510,7 @@ ${regimen.displayString}
 <br/>
 
 <!--  START HOSPITALIZATIONS STATUS BOX -->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hospitalizations" text="Hospitalizations"/>: 
+<%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hospitalizations" text="Hospitalizations"/>: 
 <c:choose>
 	<c:when test="${program.currentlyHospitalized}">
 		<spring:message code="mdrtb.currentlyHospitalized" text="Currently hospitalized"/>
@@ -480,13 +561,13 @@ ${regimen.displayString}
 <br/>
 <button id="hospitalizationsAddButton"><spring:message code="mdrtb.addHospitalization" text="Add Hospitalization"/></button> 
 
-</div>
+</div> --%>
 
 <!-- END HOSPITALIZATIONS STATUS BOX -->
 
 
 <!--  EDIT HOSPITALIZATIONS POPUP -->
-<div id="hospitalizationsEditPopup">
+<%-- <div id="hospitalizationsEditPopup">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
 <c:if test="${fn:length(hospitalizationErrors.allErrors) > 0}">
@@ -509,7 +590,7 @@ ${regimen.displayString}
 	
 </form>
 </div>
-<!-- END EDIT HOSPITALIZATION POPUP-->
+ --%><!-- END EDIT HOSPITALIZATION POPUP-->
 
 </div>
 
@@ -521,7 +602,7 @@ ${regimen.displayString}
 
 <!-- MDR-TB DIAGNOSIS BOX -->
 
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.mdrtbDiagnosis" text="MDR-TB Diagnosis"/></b>
+<%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.mdrtbDiagnosis" text="MDR-TB Diagnosis"/></b>
 <div class="box" style="margin:0px">
 
 <table cellspacing="0" cellpadding="0">
@@ -531,9 +612,9 @@ ${regimen.displayString}
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.site" text="Site"/>:</td><td>${status.labResultsStatus.anatomicalSite.displayString}</td></tr>
 </table>
 
-<br/>
+<br/> --%>
 
-<table cellspacing="0" cellpadding="0" border="2px" width="100%">
+<%-- <table cellspacing="0" cellpadding="0" border="2px" width="100%">
 <tr>
 <td>&nbsp;</td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></nobr></td>
@@ -609,24 +690,23 @@ ${regimen.displayString}
 <c:if test="${empty status.labResultsStatus.diagnosticSmear.value || empty status.labResultsStatus.diagnosticCulture.value}">
 	<tr><td><button onclick="window.location='${pageContext.request.contextPath}/module/mdrtb/specimen/specimen.form?patientId=${patientId}&patientProgramId=${patientProgramId}'"><spring:message code="mdrtb.addTestResults" text="Add Test Results"/></button></td></tr>
 </c:if>
-
 </div>
+ --%>
+
 
 <!-- END MDR-TB DIAGNOSIS BOX -->
 
-<br/>
-
 <!-- LAB RESULTS STATUS BOX -->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.labResultsStatus" text="Bacteriology Status"/></b>
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.labResults" text="Bacteriology Status"/></b>
 <div class="box" style="margin:0px">
 
 <!--  TODO: get rid of these flags if they aren't being used -->
 
-<table cellspacing="0" cellpadding="0">
+<%-- <table cellspacing="0" cellpadding="0">
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.smearStatus" text="Smear Status"/>:</td><td>${status.labResultsStatus.smearConversion.displayString}</td></tr>
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.culturestatus" text="Culture Status"/>:</td><td>${status.labResultsStatus.cultureConversion.displayString}</td></tr>
 </table>
-
+ --%>
 <br/>
 
 <table cellspacing="0" cellpadding="0" border="2px" width="100%">
@@ -635,9 +715,10 @@ ${regimen.displayString}
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.result"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCollected"/></td>
 <td style="font-weight:bold"><nobr><spring:message code="mdrtb.lab"/></td>
-<td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCompleted"/></td>
+<td style="font-weight:bold"><nobr><spring:message code="mdrtb.specimenId"/></td>
+<!-- <td style="font-weight:bold"><nobr><spring:message code="mdrtb.dateCompleted"/> </td>-->
+<td style="font-weight:bold" colspan="2"><nobr>&nbsp;</nobr></td>
 </tr>
-
 <tr>
 <td style="font-weight:bold"><spring:message code="mdrtb.mostRecentSmear" text="Most Recent Smear"/></td>
 <c:choose>
@@ -645,10 +726,26 @@ ${regimen.displayString}
 		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentSmear.link}">${status.labResultsStatus.mostRecentSmear.value.result.displayString}</mdrtb:a></td>
 		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentSmear.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
 		<td>${status.labResultsStatus.mostRecentSmear.value.lab.displayString}</td>
-		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentSmear.value.resultDate}" format="${_dateFormatDisplay}"/></td>
+		<td>${status.labResultsStatus.mostRecentSmear.value.realSpecimenId}</td>
+		<td>
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}/module/mdrtb/form/smear.form?encounterId=${status.labResultsStatus.mostRecentSmear.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a>
+			</openmrs:hasPrivilege>
+		</td>
+		<td>
+		    <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+		  	 <a href="${pageContext.request.contextPath}/module/mdrtb/form/smear.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		  	</openmrs:hasPrivilege>
+	    </td>
+		  	 
 	</c:when>
 	<c:otherwise>
-		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+	     <td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+	     <td>
+	    <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+		    <a href="${pageContext.request.contextPath}/module/mdrtb/form/smear.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+	     </openmrs:hasPrivilege>
+	     </td>
 	</c:otherwise>
 </c:choose>
 </tr>
@@ -660,15 +757,151 @@ ${regimen.displayString}
 		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentCulture.link}">${status.labResultsStatus.mostRecentCulture.value.result.displayString}</mdrtb:a></td>
 		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentCulture.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
 		<td>${status.labResultsStatus.mostRecentCulture.value.lab.displayString}</td>
-		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentCulture.value.resultDate}" format="${_dateFormatDisplay}"/></td>
+		<td>${status.labResultsStatus.mostRecentCulture.value.realSpecimenId}</td>
+		<%-- <td><openmrs:formatDate date="${status.labResultsStatus.mostRecentCulture.value.resultDate}" format="${_dateFormatDisplay}"/></td> --%>
+		<td>
+		  <openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+		  <a href="${pageContext.request.contextPath}/module/mdrtb/form/culture.form?encounterId=${status.labResultsStatus.mostRecentCulture.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a>
+		  </openmrs:hasPrivilege>
+		  </td>
+		<td>
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+		<a href="${pageContext.request.contextPath}/module/mdrtb/form/culture.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
 	</c:when>
 	<c:otherwise>
 		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td>
+		<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+			<a href="${pageContext.request.contextPath}/module/mdrtb/form/culture.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+	    </openmrs:hasPrivilege>
+	    </td>
+		 
+	</c:otherwise>
+</c:choose>
+</tr>
+
+<tr>
+<td style="font-weight:bold"><spring:message code="mdrtb.mostRecentXpert" text="Most Recent Xpert"/></td>
+<c:choose>
+	<c:when test="${! empty status.labResultsStatus.mostRecentXpert.value}">
+		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentXpert.link}">${status.labResultsStatus.mostRecentXpert.value.result.displayString}</mdrtb:a></td>
+		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentXpert.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
+		<td>${status.labResultsStatus.mostRecentXpert.value.lab.displayString}</td>
+		<td>${status.labResultsStatus.mostRecentXpert.value.realSpecimenId}</td>
+		<%-- <td><openmrs:formatDate date="${status.labResultsStatus.mostRecentXpert.value.resultDate}" format="${_dateFormatDisplay}"/></td> --%>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+		<a href="${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?encounterId=${status.labResultsStatus.mostRecentXpert.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+	</c:when>
+	<c:otherwise>
+		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/xpert.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+	</c:otherwise>
+</c:choose>
+</tr>
+
+<tr>
+<td style="font-weight:bold"><spring:message code="mdrtb.mostRecentHAIN" text="Most Recent HAIN"/></td>
+<c:choose>
+	<c:when test="${! empty status.labResultsStatus.mostRecentHAIN.value}">
+		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentHAIN.link}">${status.labResultsStatus.mostRecentHAIN.value.result.displayString}</mdrtb:a></td>
+		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
+		<td>${status.labResultsStatus.mostRecentHAIN.value.lab.displayString}</td>
+		<td>${status.labResultsStatus.mostRecentHAIN.value.realSpecimenId}</td>
+		<%-- <td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN.value.resultDate}" format="${_dateFormatDisplay}"/></td> --%>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain.form?encounterId=${status.labResultsStatus.mostRecentHAIN.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+	</c:when>
+	<c:otherwise>
+		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+	</c:otherwise>
+</c:choose>
+</tr>
+
+<tr>
+<td style="font-weight:bold"><spring:message code="mdrtb.mostRecentHAIN2" text="Most Recent HAIN2"/></td>
+<c:choose>
+	<c:when test="${! empty status.labResultsStatus.mostRecentHAIN2.value}">
+		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentHAIN2.link}">${status.labResultsStatus.mostRecentHAIN2.value.result.displayString}</mdrtb:a></td>
+		<td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN2.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
+		<td>${status.labResultsStatus.mostRecentHAIN2.value.lab.displayString}</td>
+		<td>${status.labResultsStatus.mostRecentHAIN2.value.realSpecimenId}</td>
+		<%-- <td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN2.value.resultDate}" format="${_dateFormatDisplay}"/></td> --%>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain2.form?encounterId=${status.labResultsStatus.mostRecentHAIN2.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain2.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+	</c:when>
+	<c:otherwise>
+		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/hain2.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
 	</c:otherwise>
 </c:choose>
 </tr>
 </table>
 
+<table cellspacing="0" cellpadding="0" width="100%">
+<tr>
+<td style="font-weight:bold" ><spring:message code="mdrtb.mostRecentDst" text="Most Recent Dst"/></td>
+</tr>
+</table>
+
+<table cellspacing="0" cellpadding="0" border="2px" width="100%">
+<tr>
+
+<c:choose>
+	<c:when test="${! empty status.labResultsStatus.mostRecentDst.value}">
+		<tr>
+		<td><spring:message code="mdrtb.resistant" text="Resistant"/></td>
+		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentDst.link}">${status.labResultsStatus.mostRecentDst.value.resistantDrugs}</mdrtb:a></td>
+		<td rowspan="2"><openmrs:formatDate date="${status.labResultsStatus.mostRecentDst.value.dateCollected}" format="${_dateFormatDisplay}"/></td>
+		<td rowspan="2">${status.labResultsStatus.mostRecentDst.value.lab.displayString}</td>
+		<td rowspan="2">${status.labResultsStatus.mostRecentDst.value.realSpecimenId}</td>
+		<%-- <td><openmrs:formatDate date="${status.labResultsStatus.mostRecentHAIN.value.resultDate}" format="${_dateFormatDisplay}"/></td> --%>
+		<td rowspan="2"><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/dst.form?encounterId=${status.labResultsStatus.mostRecentDst.value.specimenId}&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.edit" text="Editz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+		<td rowspan="2"><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/dst.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+		</tr>
+		<tr>
+		<td><spring:message code="mdrtb.sensitive" text="Sensitive"/>
+		<td><mdrtb:a href="${pageContext.request.contextPath}${status.labResultsStatus.mostRecentDst.link}">${status.labResultsStatus.mostRecentDst.value.sensitiveDrugs}</mdrtb:a></td>
+		</tr>
+	</c:when>
+	<c:otherwise>
+		
+		<td colspan="4" align="center"><spring:message code="mdrtb.none" text="None"/></td>
+		<td><openmrs:hasPrivilege privilege="Edit DOTS-MDR Data"><a href="${pageContext.request.contextPath}/module/mdrtb/form/dst.form?encounterId=-1&patientProgramId=${program.id}" target="_blank"><spring:message code="mdrtb.add" text="Addz"/></a>
+		</openmrs:hasPrivilege>
+		</td>
+	</c:otherwise>
+</c:choose>
+</tr>
+
+<%-- <tr><td style="font-weight:bold"><spring:message code="mdrtb.resistanceProfile" text="Resistance Profile"/>:</td><td colspan="4">${status.labResultsStatus.drugResistanceProfile.displayString}</td></tr> --%>
+</table>
+<%-- 
 <br/>
 <button onclick="window.location='${pageContext.request.contextPath}/module/mdrtb/specimen/specimen.form?patientId=${patientId}&patientProgramId=${patientProgramId}'"><spring:message code="mdrtb.addTestResults" text="Add Test Results"/></button>
 <br/>
@@ -682,14 +915,14 @@ ${regimen.displayString}
 </c:forEach>
 </table>
 </c:if>
-</div>
+ --%></div>
 
 <!-- END LAB RESULTS STATUS BOX -->
 
 <br/>
 
 <!-- HIV STATUS BOX -->
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hivStatus" text="HIV Status"/>: ${status.hivStatus.hivStatus.displayString}</b>
+<%-- <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hivStatus" text="HIV Status"/>: ${status.hivStatus.hivStatus.displayString}</b>
 <div class="box" style="margin:0px">
 
 <table cellspacing cellpadding="0">
@@ -699,12 +932,104 @@ ${regimen.displayString}
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.mostRecentCd4Count" text="Most Recent CD4 Count"/>:</td><td>${status.hivStatus.mostRecentCd4Count.displayString}</td></tr>
 </table>
 
-</div>
+</div> --%>
 <!-- END HIV STATUS BOX -->
+<c:if test="${! empty unlinkedlabs || ! empty unlinkedtb03us }">
+<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.Unlinked Forms" text="Unlinked Forms"/>
+</b>
 
+<div class="box" style="margin:0px;">
+<c:if test="${! empty unlinkedtb03us}">
+  <table>
+  <tr>
+  	<td><spring:message code="mdrtb.formType" text="FormType"/></td>
+  	<td><spring:message code="mdrtb.date" text="Datez"/></td>
+  	<td><spring:message code="mdrtb.location" text="Location"/></td>
+  	<td>&nbsp;</td>
+  </tr>
+<c:forEach var="form" items="${unlinkedtb03us}">
+ <tr>
+ <td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.tb03u" text="TB03U"/></a></td>
+ <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+ <td>${form.location}</td>
+ <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterMdrtb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
+ </tr>
+  
+</c:forEach>
+
+
+</table>
+</c:if>
+<c:if test="${! empty unlinkedlabs}">
+  <table>
+  <tr>
+  	<td><spring:message code="mdrtb.formType" text="FormType"/></td>
+  	<td><spring:message code="mdrtb.date" text="Datez"/></td>
+  	<td><spring:message code="mdrtb.location" text="Location"/></td>
+  	<td>&nbsp;</td>
+  </tr>
+<c:forEach var="form" items="${unlinkedlabs}">
+ <tr>
+  <c:choose>
+  <c:when test="${form.form.id eq xpertFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.xpert" text="XpertForm"/></a></td>
+   </c:when>
+   <c:when test="${form.form.id eq smearFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.smear" text="BacterioscopyForm"/></a></td>
+   </c:when>
+   <c:when test="${form.form.id eq cultureFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.culture" text="CultureForm"/></a></td>
+   </c:when>
+   <c:when test="${form.form.id eq hainFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.hain" text="HainForm"/></a></td>
+   </c:when>
+   <c:when test="${form.form.id eq dstFormId}" >
+ 	<td><a href="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${form.id}" target="_blank"><spring:message code="mdrtb.dst" text="DstForm"/></a></td>
+   </c:when>
+   <c:otherwise>
+ 	<td><spring:message code="mdrtb.lab" text="labForm"/></td>
+   </c:otherwise>
+ </c:choose>
+ <td><openmrs:formatDate date="${form.encounterDatetime}" format="${_dateFormatDisplay}"/></td>
+ <td>${form.location}</td>
+ <td><a href="${pageContext.request.contextPath}/module/mdrtb/program/addEncounterMdrtb.form?encounterId=${form.id}&patientProgramId=${program.id}"><spring:message code="mdrtb.linkToProgram" text="AddToProgram"/></a>
+ </tr>
+  
+</c:forEach>
+
+
+</table>
+</c:if>
+</div>
+</openmrs:hasPrivilege>
+</c:if>
+
+
+
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.pv.regimens" text="Regimens"/>
+</b>
+
+<div class="box" style="margin:0px;">
+<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+<a href="${pageContext.request.contextPath}/module/mdrtb/regimen/regimenView.form?patientProgramId=${program.id}&patientId=${patientId}"><spring:message code="mdrtb.pv.regimens" text="Manage Regimen"/></a>
+</openmrs:hasPrivilege>
 </div>
 
-<!-- END OF RIGHT COLUMN -->
+
+
+
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.pv.pv" text="AE"/>
+</b>
+
+<div class="box" style="margin:0px;">
+<openmrs:hasPrivilege privilege="Edit DOTS-MDR Data">
+<a href="${pageContext.request.contextPath}/module/mdrtb/pv/aeView.form?patientProgramId=${program.id}&patientId=${patientId}"><spring:message code="mdrtb.pv.manageAE" text="Manage AE"/></a>
+</openmrs:hasPrivilege>
+</div>
+
+
+</div>
 
 </div> <!-- end of page div -->
 

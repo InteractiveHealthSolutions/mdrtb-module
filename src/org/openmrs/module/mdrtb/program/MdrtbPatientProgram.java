@@ -1,5 +1,6 @@
 package org.openmrs.module.mdrtb.program;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.ListIterator;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -20,8 +22,13 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.TbConcepts;
+import org.openmrs.module.mdrtb.TbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientStateComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.TB03Form;
+import org.openmrs.module.mdrtb.form.TB03uForm;
+import org.openmrs.module.mdrtb.form.TB03uXDRForm;
 import org.openmrs.module.mdrtb.regimen.Regimen;
 import org.openmrs.module.mdrtb.regimen.RegimenUtils;
 import org.openmrs.module.mdrtb.service.MdrtbService;
@@ -283,6 +290,15 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 			(!isMostRecentProgram() ?  program.getDateCompleted(): new Date()));
     }
 	
+	public List<Specimen> getSpecimensDuringProgramObs() {
+		
+		if (program.getId() == null) {
+			return null;
+		}
+		
+		return Context.getService(MdrtbService.class).getSpecimens(program.getPatient(), program.getId());
+    }
+	
 	public List<Regimen> getMdrtbRegimensDuringProgram() {
 		
 		if (program.getDateEnrolled() == null) {
@@ -301,6 +317,27 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 		
 		return Context.getEncounterService().getEncounters(program.getPatient(), null, getPreviousProgramDateCompleted(), 
 			(!isMostRecentProgram() ?  program.getDateCompleted(): new Date()), null, MdrtbUtil.getMdrtbEncounterTypes(), null, false);
+	}
+	
+	public List<Encounter> getMdrtbEncountersDuringProgramObs() {
+		
+		if (program.getDateEnrolled() == null) {
+			return null;
+		}
+		
+		List<Encounter> encs =  Context.getEncounterService().getEncounters(program.getPatient(), null, null, 
+			null, null, MdrtbUtil.getMdrtbEncounterTypes(), null, false);
+		
+		ArrayList<Encounter> ret = new ArrayList<Encounter>();
+		
+		Obs temp = null;
+		for(Encounter encounter : encs) {	
+			temp = MdrtbUtil.getObsFromEncounter(Context.getService(MdrtbService.class).getConcept(TbConcepts.PATIENT_PROGRAM_ID), encounter);
+			if(temp!=null && temp.getValueNumeric()!=null && temp.getValueNumeric().intValue()==getId().intValue())
+				ret.add(encounter);
+		}
+		
+		return ret;
 	}
 	
 	public Concept getCurrentAnatomicalSiteDuringProgram() {
@@ -376,6 +413,13 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 	 * Implementation of comparable method
 	 */
 	public int compareTo(MdrtbPatientProgram programToCompare) {
+		
+		if(this.getDateEnrolled()==null)
+			return 1;
+		
+		else if(programToCompare.getDateEnrolled()==null)
+			return 0;
+		
 		return this.getDateEnrolled().compareTo(programToCompare.getDateEnrolled());
 	}
 	
@@ -527,5 +571,51 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 
 	public void setPatientIdentifier(PatientIdentifier patientIdentifier) {
 		this.patientIdentifier = patientIdentifier;
+	}
+	
+	public TB03uForm getTb03u() {
+		TB03uForm tb03u = null;
+		List<Encounter> encounters = null;
+		EncounterType intakeType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		
+    	encounters = getMdrtbEncountersDuringProgramObs();
+    
+		
+		if (encounters != null) {
+    		for (Encounter encounter : encounters) {
+    			// create a new status item for this encounter
+    			
+    			// now place the visit in the appropriate "bucket"
+    			if (encounter.getEncounterType().equals(intakeType)) {
+    				tb03u = new TB03uForm(encounter);
+    				break;
+    			}
+    		}
+		}
+		
+		return tb03u;
+	}
+	
+	public TB03uXDRForm getTb03uXDR() {
+		TB03uXDRForm tb03ux = null;
+		List<Encounter> encounters = null;
+		EncounterType intakeType = Context.getEncounterService().getEncounterType("TB03u - XDR");
+		
+    	encounters = getMdrtbEncountersDuringProgramObs();
+    
+		
+		if (encounters != null) {
+    		for (Encounter encounter : encounters) {
+    			// create a new status item for this encounter
+    			
+    			// now place the visit in the appropriate "bucket"
+    			if (encounter.getEncounterType().equals(intakeType)) {
+    				tb03ux = new TB03uXDRForm(encounter);
+    				break;
+    			}
+    		}
+		}
+		
+		return tb03ux;
 	}
 }

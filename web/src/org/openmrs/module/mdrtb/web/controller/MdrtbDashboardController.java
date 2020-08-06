@@ -11,7 +11,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientState;
 import org.openmrs.ProgramWorkflowState;
@@ -19,7 +22,10 @@ import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
+import org.openmrs.module.mdrtb.TbConcepts;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
+import org.openmrs.module.mdrtb.form.TB03uXDRForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgramHospitalizationValidator;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgramValidator;
@@ -106,8 +112,16 @@ public class MdrtbDashboardController {
 	@ModelAttribute("program")
 	public MdrtbPatientProgram getMdrtbPatientProgram(@RequestParam(required = false, value = "patientProgramId") Integer patientProgramId,
 	                                                  @RequestParam(required = false, value = "patientId") Integer patientId) {
+		
+		System.out.println("MdrtbEditPatient:getMdrtbPatientProgram");
 		// if there is no patient program selected, we want to show the most recent program
-    	if (patientProgramId == null || patientProgramId == -1) {
+    	if(patientId==null || patientId==-1) {
+    		System.out.println("returning null");
+    		return null;
+    		
+    	}
+		
+		if (patientProgramId == null || patientProgramId == -1) {
 			Patient patient = Context.getPatientService().getPatient(patientId);
 			
 			if (patient == null) {
@@ -146,13 +160,17 @@ public class MdrtbDashboardController {
     @RequestMapping("/module/mdrtb/dashboard/dashboard.form")
 	public ModelAndView showStatus(@ModelAttribute("program") MdrtbPatientProgram program,
 	                               @RequestParam(required = false, value = "patientId") Integer patientId,
+	                               @RequestParam(required = false, value = "patientProgramId") Integer patientProgramId,
+	                               @RequestParam(required = false, value = "idId") Integer idId,
 	                               ModelMap map) {
-
+    /*	System.out.println("MdrtbDashboard:showStatus");
+    	System.out.println("program:" + program);
     	if (program == null) {
     		// if the patient has no program, redirect to the enroll-in-program
     		map.clear();
-    		return new ModelAndView("redirect:/module/mdrtb/program/showEnroll.form?patientId=" + patientId); 
-    	}
+    		System.out.println("null program");
+    		return new ModelAndView("redirect:/module/mdrtb/program/enrollment.form?patientId=" + patientId + (idId != null ? "&idId=" + idId : "")); 
+    	}*/
 
     	// add the patient program ID
     	map.put("patientProgramId", program.getId());
@@ -184,6 +202,77 @@ public class MdrtbDashboardController {
     	// add any flags
 		addFlags(statusMap, map);
 		
+		EncounterType tb03uType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.mdrtbIntake_encounter_type"));
+		List<Encounter> tb03uList = Context.getService(MdrtbService.class).getEncountersWithNoProgramId(tb03uType, program.getPatient());
+		map.put("unlinkedtb03us", tb03uList);
+		
+		EncounterType labType = Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.specimen_collection_encounter_type"));
+		List<Encounter> labList = Context.getService(MdrtbService.class).getEncountersWithNoProgramId(labType, program.getPatient());
+		map.put("unlinkedlabs", labList);
+		
+		Integer xpertFormId = -1; 
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.xpert.formId")!=null) {
+			xpertFormId = Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.xpert.formId"));
+		}
+		
+		Integer smearFormId = -1; 
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.smear.formId")!=null) {
+			smearFormId = Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.smear.formId"));
+		}
+		
+		Integer cultureFormId = -1;
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.culture.formId")!=null) {
+			cultureFormId = Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.culture.formId"));
+		}
+		
+		Integer hainFormId = -1;
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.hain.formId")!=null){
+			hainFormId =Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.hain.formId"));
+		}
+		
+		Integer dstFormId = -1; 
+		if(Context.getAdministrationService().getGlobalProperty("mdrtb.dst.formId")!=null){
+			dstFormId = Integer.parseInt(Context.getAdministrationService().getGlobalProperty("mdrtb.dst.formId"));
+		}
+		
+		map.put("xpertFormId",xpertFormId);
+		map.put("smearFormId",smearFormId);
+		map.put("cultureFormId",cultureFormId);
+		map.put("hainFormId",hainFormId);
+		map.put("dstFormId",dstFormId);
+		
+		Integer showTb03uXDR  = 0;
+
+		if(program.getTb03uXDR()==null)
+		{
+			int preXdrId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.PRE_XDR_TB).getId().intValue();
+			int xdrId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XDR_TB).getId().intValue();
+			int tdrId = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TDR_TB).getId().intValue();
+			Concept resDuringTx = Context.getService(MdrtbService.class).getConcept(TbConcepts.DRUG_RESISTANCE_DURING_TX);
+			List<DrugResistanceDuringTreatmentForm> drdts = Context.getService(MdrtbService.class).getDrdtForms(program.getId());
+			if(drdts!=null && drdts.size()!=0) {
+				for(DrugResistanceDuringTreatmentForm drdt : drdts) {
+					Obs temp = MdrtbUtil.getObsFromEncounter(resDuringTx, drdt.getEncounter());
+					if(temp!=null) {
+						int cid = temp.getValueCoded().getId().intValue();
+						
+						if(cid==preXdrId || cid==xdrId || cid==tdrId) {
+							showTb03uXDR = 1;
+							break;
+						}
+					}
+				}
+			}
+			
+			else showTb03uXDR = 0;
+		}
+		
+		else {
+			showTb03uXDR=1;
+		}
+		
+		
+		map.addAttribute("showtb03uxdr", showTb03uXDR);
 		return new ModelAndView("/module/mdrtb/dashboard/dashboard", map);
 
 	}
@@ -203,7 +292,7 @@ public class MdrtbDashboardController {
 		if (errors.hasErrors()) {	
 			map.put("programEditErrors", errors);
 			// call the show status method to redisplay the page with errors
-			return showStatus(program, null, map);
+			return showStatus(program, null, null, null, map);
 		}
 		   
 		// save the actual update
@@ -238,7 +327,7 @@ public class MdrtbDashboardController {
 		if (errors.hasErrors()) {	
 			map.put("programCloseErrors", errors);
 			// call the show status method to redisplay the page with errors
-			return showStatus(program, null, map);
+			return showStatus(program, null, null, null, map);
 		}
 		   
 		// save the actual update
@@ -288,7 +377,7 @@ public class MdrtbDashboardController {
 			map.put("dischargeDate", dischargeDate);
 			map.put("hospitalizationStateId", (hospitalizationState != null ? hospitalizationState.getId() : ""));
 			// call the show status method to redisplay the page with errors
-			return showStatus(program, null, map);
+			return showStatus(program, null, null, null,map);
 		}  
 
 		// save the actual update
@@ -321,7 +410,6 @@ public class MdrtbDashboardController {
 		
 	}
 	
-    
 	@SuppressWarnings("unchecked")
     private void addFlags(Map<String,Status> statusMap, ModelMap map) {
 		
@@ -336,5 +424,18 @@ public class MdrtbDashboardController {
 		
 		map.put("flags", flags);
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+    @RequestMapping(value = "/module/mdrtb/program/addEncounterMdrtb.form", method = RequestMethod.GET)
+	public ModelAndView processAddEncounter(@ModelAttribute("program") MdrtbPatientProgram program, BindingResult errors,
+											@RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
+											@RequestParam(required = true, value = "encounterId") Integer encounterId,
+	                                      SessionStatus status, HttpServletRequest request, ModelMap map) {
+		  
+		Context.getService(MdrtbService.class).addProgramIdToEncounter(encounterId, patientProgramId);
+			
+		return new ModelAndView("redirect:/module/mdrtb/dashboard/dashboard.form?patientId=" + Context.getProgramWorkflowService().getPatientProgram(patientProgramId).getPatient().getId() + "&patientProgramId=" + patientProgramId);
+			
 	}
 }

@@ -14,13 +14,16 @@ import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.MdrtbConstants.TbClassification;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.form.DrugResistanceDuringTreatmentForm;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
+import org.openmrs.module.mdrtb.program.TbPatientProgram;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 import org.openmrs.module.mdrtb.specimen.Bacteriology;
 import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.Dst;
 import org.openmrs.module.mdrtb.specimen.DstResult;
 import org.openmrs.module.mdrtb.specimen.HAIN;
+import org.openmrs.module.mdrtb.specimen.HAIN2;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Specimen;
 import org.openmrs.module.mdrtb.specimen.Test;
@@ -40,13 +43,68 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public Status calculateTb(TbPatientProgram tbProgram) {
+		
+		// create the Status
+		LabResultsStatus status = new LabResultsStatus(tbProgram);
+		
+		// get the specimens for this patient program, because these will be used for multiple calculations
+		List<Specimen> specimens = tbProgram.getSpecimensDuringProgramObs();
+		
+		// just create an empty list of specimens if no specimens during the program
+		if (specimens == null) {
+			specimens = new LinkedList<Specimen>();
+		}
+		
+		// get the control smear and diagnostic culture
+		//findDiagnosticSmearAndCulture(specimens, status);
+		//findDiagnosticTests(specimens, status);
+		
+		
+		
+		// determine any pending lab results
+		findPendingLabResults(specimens, status);
+		
+		// determine the resistance profile
+		StatusItem resistanceProfile = calculateResistanceProfile(specimens);
+		status.addItem("drugResistanceProfile", resistanceProfile);
+		
+		// now use the resistance profile to determine the mdr-tb classification
+		status.addItem("tbClassification", calculateTbClassication((List<Concept>) resistanceProfile.getValue()));
+		
+		// we want to to reverse the order of the specimens here so that first=most recent
+		// NOTE: the find most recent smear/culture and the calculate conversions methods
+		// both rely on the specimens being in reverse order
+		Collections.reverse(specimens);
+		
+		// find the most recent smear and culture
+		findMostRecentSmear(specimens, status);
+		findMostRecentCulture(specimens, status);
+		findMostRecentXpert(specimens, status);
+		findMostRecentHAIN(specimens, status);
+		findMostRecentHAIN2(specimens, status);
+		findMostRecentDst(specimens, status);
+		
+		// calculate whether or not the culture has been converted
+		status.addItem("smearConversion", calculateConversion(specimens, "smear"));
+		status.addItem("cultureConversion", calculateConversion(specimens, "culture"));
+		
+		// figure out the anatomical site, if know
+		status.addItem("anatomicalSite", findAnatomicalSiteTb(tbProgram));
+		
+		
+		return status;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
 	public Status calculate(MdrtbPatientProgram mdrtbProgram) {
 		
 		// create the Status
 		LabResultsStatus status = new LabResultsStatus(mdrtbProgram);
 		
 		// get the specimens for this patient program, because these will be used for multiple calculations
-		List<Specimen> specimens = mdrtbProgram.getSpecimensDuringProgram();
+		List<Specimen> specimens = mdrtbProgram.getSpecimensDuringProgramObs();
 		
 		// just create an empty list of specimens if no specimens during the program
 		if (specimens == null) {
@@ -79,6 +137,8 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		findMostRecentCulture(specimens, status);
 		findMostRecentXpert(specimens, status);
 		findMostRecentHAIN(specimens, status);
+		findMostRecentHAIN2(specimens, status);
+		findMostRecentDst(specimens, status);
 		
 		// calculate whether or not the culture has been converted
 		status.addItem("smearConversion", calculateConversion(specimens, "smear"));
@@ -105,6 +165,36 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 	 */
 	
 	private StatusItem calculateResistanceProfile(List<Specimen> specimens) {
+		StatusItem resistanceProfile = new StatusItem();
+		
+		List<Concept> drugs = new LinkedList<Concept>();
+		
+		Concept resistant = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESISTANT_TO_TB_DRUG);
+		
+		if(specimens != null) {
+			for (Specimen specimen : specimens) {
+				for (Dst dst : specimen.getDsts()) {
+					for (DstResult result : dst.getResults()) {
+						if (resistant.equals(result.getResult())) {
+							if (!drugs.contains(result.getDrug())) {
+								drugs.add(result.getDrug());
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// sort the drugs in the standard order
+		drugs = MdrtbUtil.sortMdrtbDrugs(drugs);
+		
+		resistanceProfile.setValue(drugs);
+		resistanceProfile.setDisplayString(renderer.renderDrugResistanceProfile(drugs));
+		
+		return resistanceProfile;
+	}
+	
+	private StatusItem calculateMostRecentResistanceProfile(List<Specimen> specimens) {
 		StatusItem resistanceProfile = new StatusItem();
 		
 		List<Concept> drugs = new LinkedList<Concept>();
@@ -301,6 +391,15 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		return anatomicalSite;
 	}
 	
+	private StatusItem findAnatomicalSiteTb(TbPatientProgram program) {
+		StatusItem anatomicalSite = new StatusItem();
+		
+		anatomicalSite.setValue(program.getCurrentAnatomicalSiteDuringProgram());
+		anatomicalSite.setDisplayString(renderer.renderAnatomicalSite(anatomicalSite));
+		
+		return anatomicalSite;
+	}
+	
 	private void findPendingLabResults(List<Specimen> specimens, LabResultsStatus status) {
 		StatusItem pendingLabResults = new StatusItem();
 		
@@ -321,7 +420,7 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		}
 		
 		pendingLabResults.setValue(tests);
-		renderer.renderPendingLabResults(pendingLabResults, status);
+		//renderer.renderPendingLabResults(pendingLabResults, status);
 		
 		status.addItem("pendingLabResults", pendingLabResults);
 	}
@@ -426,6 +525,57 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 
     }
     
+    private void findMostRecentHAIN2(List<Specimen> specimens, LabResultsStatus status) {
+    	StatusItem mostRecentCompletedHAIN2 = new StatusItem();
+	
+    	HAIN2 hain2 = findFirstCompletedHAIN2InList(specimens);
+		mostRecentCompletedHAIN2.setValue(hain2);
+		renderer.renderHAIN2(mostRecentCompletedHAIN2, status);
+		
+		status.addItem("mostRecentHAIN2", mostRecentCompletedHAIN2);
+		
+		/**
+		if (smear == null) {
+			mostRecentCompletedSmear.addFlag(renderer.createNoSmearsFlag());
+		}
+		*/
+
+    }
+    
+    private void findMostRecentDst(List<Specimen> specimens, LabResultsStatus status) {
+    	StatusItem mostRecentCompletedDst = new StatusItem();
+	
+    	Dst dst = findFirstCompletedDstnList(specimens);
+		mostRecentCompletedDst.setValue(dst);
+		renderer.renderDst(mostRecentCompletedDst, status);
+		
+		status.addItem("mostRecentDst", mostRecentCompletedDst);
+		
+		/**
+		if (smear == null) {
+			mostRecentCompletedSmear.addFlag(renderer.createNoSmearsFlag());
+		}
+		*/
+
+    }
+    
+    /*private void findMostRecentDrdt(List<DrugResistanceDuringTreatmentForm> forms, LabResultsStatus status) {
+    	StatusItem mostRecentCompletedDrdt = new StatusItem();
+	
+    	DrugResistanceDuringTreatmentForm drdtf = findFirstDrugResistanceDuringTreatmentInList(forms);
+    	mostRecentCompletedDrdt.setValue(drdtf);
+		renderer.renderDst(mostRecentCompletedDrdt, status);
+		
+		status.addItem("mostRecentCompletedDrdt", mostRecentCompletedDrdt);
+		
+		*//**
+		if (smear == null) {
+			mostRecentCompletedSmear.addFlag(renderer.createNoSmearsFlag());
+		}
+		*//*
+
+    }*/
+    
 	private Smear findFirstCompletedSmearInList(List<Specimen> specimens) {
 
 		if (specimens == null) {
@@ -518,5 +668,50 @@ public class LabResultsStatusCalculator implements StatusCalculator {
 		return null;
 	}
 	
+	private HAIN2 findFirstCompletedHAIN2InList(List<Specimen> specimens) {
+		
+		if (specimens == null) {
+			return null;
+		}
+		
+		for (Specimen specimen : specimens) {
+			List<HAIN2> hains = specimen.getHAIN2s();
+			
+			if (hains!= null && !hains.isEmpty()) {
+				Collections.reverse(hains);
+				for (HAIN2 hain : hains) {
+					if (hain.getResult() != null) {
+						return hain;
+					}
+				}
+			}
+		}
+		
+		// if we've got to here, there is no completed hain for this patient
+		return null;
+	}
 	
+	private Dst findFirstCompletedDstnList(List<Specimen> specimens) {
+		
+		if (specimens == null) {
+			return null;
+		}
+		
+		for (Specimen specimen : specimens) {
+			List<Dst> dsts = specimen.getDsts();
+			
+			if (dsts!= null && !dsts.isEmpty()) {
+				Collections.reverse(dsts);
+				for (Dst dst : dsts) {
+					if (dst.getResults() != null) {
+						System.out.println("MOST RECENT DST: " + dst.getId());
+						return dst;
+					}
+				}
+			}
+		}
+		
+		// if we've got to here, there is no completed Dst for this patient
+		return null;
+	}	
 }
